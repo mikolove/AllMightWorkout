@@ -1,0 +1,86 @@
+import dependencies.AnnotationProcessing
+import dependencies.SupportDependencies
+import dependencies.Versions
+import dependencies.Application
+import dependencies.Dependencies
+import dependencies.Java
+import dependencies.AndroidTestDependencies
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+
+    compileSdkVersion  Versions.compilesdk
+
+    defaultConfig {
+        applicationId Application.id
+        minSdkVersion Versions.minsdk
+        targetSdkVersion Versions.targetsdk
+        multiDexEnabled true
+        versionCode Application.version_code
+        versionName Application.version_name
+
+        testInstrumentationRunner AndroidTestDependencies.instrumentation_runner
+    }
+
+    compileOptions {
+        sourceCompatibility = Java.java_version
+        targetCompatibility = Java.java_version
+    }
+
+    kotlinOptions {
+        jvmTarget = Java.java_version
+    }
+
+    /*buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }*/
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    //Kotlin
+    implementation Dependencies.kotlin_standard_library
+    implementation Dependencies.kotlin_reflect
+    implementation Dependencies.ktx
+
+    //dependencies
+    implementation platform(Dependencies.firebase_bom)
+    implementation Dependencies.firebase_analytics_bom
+    implementation Dependencies.firebase_crashlytics_bom
+    implementation Dependencies.firebase_firestore_bom
+    implementation Dependencies.firebase_auth_bom
+
+    implementation Dependencies.kotlin_coroutines
+    implementation Dependencies.kotlin_coroutines_android
+    implementation Dependencies.kotlin_coroutines_play_services
+
+    //Support
+    implementation SupportDependencies.appcompat
+    implementation SupportDependencies.constraintlayout
+    implementation SupportDependencies.material_design
+    implementation SupportDependencies.swipe_refresh_layout
+
+    //Di
+    implementation Dependencies.hilt
+    kapt AnnotationProcessing.hilt_compiler
+
+    //Multidex
+    implementation Dependencies.multidex
+}
