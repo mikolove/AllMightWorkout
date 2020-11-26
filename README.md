@@ -4,7 +4,7 @@ Android Workout personal application learning Clean Architecture from course at 
 
 App feature content :
 
-  - Clean architecture
+  - Clean architecture paired with Model View Intent pattern
   - Android Jetpack component
   - Cache : room 
   - Network : firestore
