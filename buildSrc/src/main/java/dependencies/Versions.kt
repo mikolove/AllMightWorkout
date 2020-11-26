@@ -1,11 +1,11 @@
 package dependencies
 
 object Versions {
-    val gradle = "4.1.0"
+    val gradle = "4.1.1"
     val compilesdk = 30
     val minsdk = 16
     val targetsdk = 30
-    val kotlin = "1.4.0"
+    val kotlin = "1.4.20"
     val ktx = "1.3.1"
     val hilt = "2.28-alpha"
     val nav_components = "2.3.0"
@@ -29,7 +29,7 @@ object Versions {
     val mockk_version = "1.9.2"
     val test_runner = "1.2.0"
     val test_core = "1.2.0"
-    val coroutines_version = "1.3.0"
+    val coroutines_version = "1.4.1"
     val coroutines_play_services = "1.3.2"
     val lifecycle_version = "2.3.0-alpha07"
     val retrofit2_version = "2.9.0"

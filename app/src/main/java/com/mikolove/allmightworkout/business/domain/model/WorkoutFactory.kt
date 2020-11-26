@@ -10,21 +10,18 @@ import kotlin.collections.ArrayList
 class WorkoutFactory
 @Inject
 constructor( private val dateUtil: DateUtil ,
-             private val exerciseFactory: ExerciseFactory,
-             private val bodyGroupFactory: BodyGroupFactory){
+             private val exerciseFactory: ExerciseFactory){
 
     fun createWorkout(
-        idWorkout : Long? ,
+        idWorkout : String? ,
         name : String?,
         exercises : List<Exercise>?,
-        bodyGroups: List<BodyGroup>?,
-        isActive : Boolean?
+        isActive : Boolean? = true
     ) : Workout {
         return Workout(
-            idWorkout = idWorkout ?: 0L,
+            idWorkout = idWorkout ?: UUID.randomUUID().toString(),
             name = name ?: "New workout",
-            exercises = exercises ?: null,
-            bodyGroups = bodyGroups ?: null,
+            exercises = exercises ,
             isActive = isActive ?: true,
             created_at = dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
@@ -39,10 +36,9 @@ constructor( private val dateUtil: DateUtil ,
         for(i in 0 until numberOfWorkout){
             listOfWorkout.add(
                 createWorkout(
-                    idWorkout = i.toLong(),
+                    idWorkout = UUID.randomUUID().toString(),
                     name = UUID.randomUUID().toString(),
                     exercises = exerciseFactory.createExerciseList(2),
-                    bodyGroups = bodyGroupFactory.getListOfBodyGroup(3),
                     isActive = true
                 )
             )

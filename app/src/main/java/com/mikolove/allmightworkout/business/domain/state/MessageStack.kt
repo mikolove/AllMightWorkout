@@ -3,7 +3,7 @@ package com.mikolove.allmightworkout.business.domain.state
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mikolove.allmightworkout.util.printLogD
-import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.parcelize.IgnoredOnParcel
 import java.lang.IndexOutOfBoundsException
 
 const val MESSAGE_STACK_BUNDLE_KEY = "com.mikolove.allmightworkout.business.domain.state.util.MessageStack"

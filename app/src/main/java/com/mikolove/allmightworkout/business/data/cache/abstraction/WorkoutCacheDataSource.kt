@@ -7,17 +7,13 @@ interface WorkoutCacheDataSource {
 
     suspend fun insertWorkout(workout: Workout) : Long
 
-    suspend fun updateWorkout(workout : Workout) : Int
+    suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean) : Int
 
-    suspend fun removeWorkout(id :Long) : Int
+    suspend fun removeWorkout(primaryKey :String) : Int
 
-    suspend fun addExercises(exercises : List<Exercise>) : LongArray
+    suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int) : List<Workout>
 
-    suspend fun removeExercises(exercises: List<Exercise>) : Int
+    suspend fun getWorkoutById(primaryKey : String) : Workout?
 
-    suspend fun getWorkout(query : String, filterAndOrder : String, page : Int) : List<Workout>
-
-    suspend fun getWorkoutById(primaryKey : Long) : Workout?
-
-    suspend fun getWorkoutTotalNumber() : Int
+    suspend fun getTotalWorkout() : Int
 }

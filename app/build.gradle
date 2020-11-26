@@ -1,5 +1,6 @@
 import dependencies.AnnotationProcessing
 import dependencies.SupportDependencies
+import dependencies.TestDependencies
 import dependencies.Versions
 import dependencies.Application
 import dependencies.Dependencies
@@ -10,7 +11,7 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
+apply plugin : 'kotlin-parcelize'
 
 apply plugin: 'kotlin-kapt'
 
@@ -19,6 +20,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
+
 
 android {
 
@@ -44,6 +46,15 @@ android {
         jvmTarget = Java.java_version
     }
 
+    sourceSets {
+        test.resources.srcDirs += 'src/test/res'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
     /*buildTypes {
         release {
             minifyEnabled false
@@ -66,7 +77,10 @@ dependencies {
     implementation Dependencies.firebase_crashlytics_bom
     implementation Dependencies.firebase_firestore_bom
     implementation Dependencies.firebase_auth_bom
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofit_gson
 
+    //Coroutines
     implementation Dependencies.kotlin_coroutines
     implementation Dependencies.kotlin_coroutines_android
     implementation Dependencies.kotlin_coroutines_play_services
@@ -77,10 +91,23 @@ dependencies {
     implementation SupportDependencies.material_design
     implementation SupportDependencies.swipe_refresh_layout
 
+    //UnitTest
+    testImplementation TestDependencies.mockk
+    testImplementation TestDependencies.jupiter_api
+    testImplementation TestDependencies.jupiter_params
+    testImplementation TestDependencies.junit4
+    testRuntimeOnly TestDependencies.jupiter_engine
+
+
     //Di
     implementation Dependencies.hilt
     kapt AnnotationProcessing.hilt_compiler
 
     //Multidex
     implementation Dependencies.multidex
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

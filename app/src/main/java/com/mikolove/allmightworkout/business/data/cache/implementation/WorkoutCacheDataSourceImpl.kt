@@ -1,25 +1,34 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
-/*
+import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
+import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutDaoService
+import javax.inject.Inject
+import javax.inject.Singleton
+
 @Singleton
 class WorkoutCacheDataSourceImpl
 @Inject
 constructor(
     private val workoutDaoService : WorkoutDaoService
-) : WorkoutCacheDataSource{
+) : WorkoutCacheDataSource {
     override suspend fun insertWorkout(workout: Workout): Long = workoutDaoService.insertWorkout(workout)
 
-    override suspend fun updateWorkout(workout: Workout): Int = workoutDaoService.updateWorkout(workout)
+    override suspend fun updateWorkout(primaryKey: String, name : String , isActive : Boolean): Int = workoutDaoService.updateWorkout(primaryKey ,name, isActive)
 
-    override suspend fun removeWorkout(id: Long): Int = workoutDaoService.removeWorkout(id)
+    override suspend fun removeWorkout(primaryKey: String): Int = workoutDaoService.removeWorkout(primaryKey)
 
-    override suspend fun addExercises(exercises: List<Exercise>): LongArray = workoutDaoService.addExercises(exercises)
+    override suspend fun getWorkouts(query: String, filterAndOrder: String, page: Int): List<Workout> {
 
-    override suspend fun removeExercises(exercises: List<Exercise>): Int = workoutDaoService.removeExercises(exercises)
+        return workoutDaoService.returnOrderedQuery(
+            query,
+            filterAndOrder,
+            page
+        )
+    }
 
-    override suspend fun getWorkout(query: String, filterAndOrder: String, page: Int): List<Workout> = workoutDaoService.getWorkout(query,filterAndOrder,page)
+    override suspend fun getWorkoutById(primaryKey: String): Workout? = workoutDaoService.getWorkoutById(primaryKey)
 
-    override suspend fun getWorkoutById(primaryKey: Long): Workout? = workoutDaoService.getWorkoutById(primaryKey)
-
-    override suspend fun getWorkoutTotalNumber(): Int = workoutDaoService.getWorkoutTotalNumber()
-}*/
+    override suspend fun getTotalWorkout(): Int = workoutDaoService.getTotalWorkout()
+}

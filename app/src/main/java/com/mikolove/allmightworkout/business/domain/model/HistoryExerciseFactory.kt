@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.domain.model
 
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
@@ -8,14 +9,10 @@ import kotlin.collections.ArrayList
 @Singleton
 class HistoryExerciseFactory
 @Inject
-constructor( private val dateUtil: DateUtil,
-             private val exerciseFactory: ExerciseFactory,
-             private val exerciseSetFactory: ExerciseSetFactory,
-             private val bodyPartFactory: BodyPartFactory,
-             private val historyExerciseSetFactory: HistoryExerciseSetFactory){
+constructor( private val historyExerciseSetFactory: HistoryExerciseSetFactory){
 
-    fun createHistoryExercise(
-        idHistoryExercise : Long?,
+    fun createHistoryExerciseFromExercise(
+        idHistoryExercise : String?,
         exercise : Exercise
     ) : HistoryExercise {
 
@@ -23,39 +20,42 @@ constructor( private val dateUtil: DateUtil,
         val listOfHistoryExerciseSet = ArrayList<HistoryExerciseSet>()
         for( i in 1..exercise.sets.size){
             listOfHistoryExerciseSet.add(
-                historyExerciseSetFactory.createHistoryExerciseSet(
-                    idHistoryExerciseSet = i.toLong(),
-                    exerciseSet = exercise.sets[i]
+                historyExerciseSetFactory.createHistoryExerciseSetFromExerciseSet(
+                                                    idHistoryExerciseSet = null,
+                                                    exerciseSet = exercise.sets[i]
                 )
             )
         }
 
         return HistoryExercise(
-            idHistoryExercise = idHistoryExercise ?: 0L,
-            exercise = exercise,
-            sets = listOfHistoryExerciseSet,
-            created_at = dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            idHistoryExercise = idHistoryExercise ?: UUID.randomUUID().toString(),
+            name = exercise.name,
+            bodyPart = exercise.bodyPart.name,
+            workoutType = exercise.bodyPart.workoutType.name,
+            historySets = listOfHistoryExerciseSet,
+            created_at = exercise.created_at,
+            updated_at = exercise.updated_at
         )
     }
 
-    //For testing purpose
-    fun createExerciseList(numberOfExercise : Int) : List<HistoryExercise>{
-        val listOfHistoryExercise = ArrayList<HistoryExercise>()
-        for(i in 1..numberOfExercise){
-            listOfHistoryExercise.add(
-                createHistoryExercise(
-                    idHistoryExercise = i.toLong(),
-                    exercise = exerciseFactory.createExercise(
-                        idExercise = i.toLong(),
-                        name = null,
-                        sets = exerciseSetFactory.createListOfExerciseSet(4),
-                        bodyPart = bodyPartFactory.getBodyPart(),
-                        isActive = true)
-                )
-            )
-        }
-        return listOfHistoryExercise
+    fun createHistoryExercise(
+        idHistoryExercise: String,
+        name : String,
+        bodyPart: String,
+        workoutType : String,
+        historySets : List<HistoryExerciseSet>,
+        created_at : String,
+        updated_at : String
+    ) : HistoryExercise{
+        
+        return HistoryExercise(
+            idHistoryExercise = idHistoryExercise,
+            name = name,
+            bodyPart = bodyPart,
+            workoutType = workoutType,
+            historySets = historySets,
+            created_at = created_at,
+            updated_at = updated_at)
     }
 
 }

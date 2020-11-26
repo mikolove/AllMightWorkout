@@ -1,23 +1,31 @@
 package com.mikolove.allmightworkout.business.domain.model
 
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 @Singleton
 class ExerciseSetFactory
 @Inject
 constructor(private val dateUtil: DateUtil) {
 
-    fun createExerciseSet(idExerciseSet : Long? ,
+    fun createExerciseSet(idExerciseSet : String? ,
                   reps : Int?,
-                  weight : Int? ,
+                  weight : Int?,
+                  time : Int?,
+                  restTime : Int?,
+                  isWeightSet : Boolean?,
     ) : ExerciseSet{
 
         return ExerciseSet(
-            idExerciseSet = idExerciseSet ?: 0L,
+            idExerciseSet = idExerciseSet ?: UUID.randomUUID().toString(),
             reps = reps ?: 8,
             weight = weight ?: 0,
+            time = time ?: 0,
+            restTime = restTime ?: 45,
+            isWeightSet = isWeightSet ?: true,
             created_at = dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp())
     }
@@ -29,9 +37,12 @@ constructor(private val dateUtil: DateUtil) {
 
         for(i in 1..numberOfSet){
             listOfExerciseSet.add(createExerciseSet(
-                idExerciseSet = i.toLong(),
-                reps = 8,
-                weight = 0
+                idExerciseSet = UUID.randomUUID().toString(),
+                reps = null,
+                weight = null,
+                time = null,
+                restTime = null,
+                isWeightSet = null
             ))
         }
 

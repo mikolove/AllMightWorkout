@@ -1,29 +1,45 @@
 package com.mikolove.allmightworkout.business.domain.model
 
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.random.Random
+import kotlin.collections.ArrayList
+
 
 @Singleton
 class BodyPartFactory
 @Inject
-constructor()
+constructor(private val workoutTypeFactory: WorkoutTypeFactory)
 {
-    //For testing purpose
-    fun getBodyPart() : BodyPart{
-        return BodyPart.values()[Random.nextInt(BodyGroup.values().size)]
+
+    fun createBodyPart(
+        idBodyPart : Long?,
+        name : String?,
+        workoutType : WorkoutType
+    ) : BodyPart {
+        return BodyPart(
+            idBodyPart = idBodyPart ?: 0L,
+            name = name ?: "New bodyPart",
+            workoutType = workoutType
+        )
     }
 
     //For testing purpose
-    fun getListOfBodyPart(numberOfBodyPart : Int) : List<BodyPart>{
-
+    fun getListOfBodyPart(numberOfBodyPart : Int, workoutType: WorkoutType? = null) : List<BodyPart>{
         val listOfBodyPart : ArrayList<BodyPart> = ArrayList()
         for (i in 0 until numberOfBodyPart){
             listOfBodyPart.add(
-                getBodyPart()
+                createBodyPart(
+                    i.toLong(),
+                    UUID.randomUUID().toString(),
+                    workoutType = workoutType ?: workoutTypeFactory.createWorkoutType(
+                        UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString()
+                    ))
             )
         }
 
         return listOfBodyPart
     }
+
 }

@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.domain.model
 
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
@@ -11,32 +12,41 @@ class HistoryExerciseSetFactory
 @Inject
 constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: ExerciseSetFactory){
 
-    fun  createHistoryExerciseSet(
-        idHistoryExerciseSet : Long?,
+    fun  createHistoryExerciseSetFromExerciseSet(
+        idHistoryExerciseSet : String?,
         exerciseSet : ExerciseSet
     ) :  HistoryExerciseSet {
         return HistoryExerciseSet(
-            idHistoryExerciseSet = idHistoryExerciseSet ?: 0L,
-            exerciseSet = exerciseSet,
-            created_at = dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            idHistoryExerciseSet = idHistoryExerciseSet ?: UUID.randomUUID().toString(),
+            reps = exerciseSet.reps,
+            weight = exerciseSet.weight,
+            time = exerciseSet.time,
+            restTime = exerciseSet.restTime,
+            isWeightSet = exerciseSet.isWeightSet,
+            created_at = exerciseSet.created_at,
+            updated_at = exerciseSet.updated_at
         )
     }
 
-    //For testing purpose
-    fun createListOfHistoryExerciseSet( numberOfHistoryExerciseSet : Int) : List<HistoryExerciseSet>{
-
-        val listOfHistoryExerciseSet : ArrayList<HistoryExerciseSet> = ArrayList()
-
-        for(i in 1..numberOfHistoryExerciseSet){
-            listOfHistoryExerciseSet.add(
-                createHistoryExerciseSet(
-                    idHistoryExerciseSet = i.toLong(),
-                    exerciseSet = exerciseSetFactory.createExerciseSet(idExerciseSet = i.toLong(), weight = 0, reps = 4)
-                )
-            )
-        }
-        return listOfHistoryExerciseSet
+    fun  createHistoryExerciseSet(
+        idHistoryExerciseSet : String,
+        reps: Int ,
+        weight: Int ,
+        time : Int,
+        restTime : Int,
+        isWeightSet : Boolean,
+        created_at: String,
+        updated_at: String
+    ) :  HistoryExerciseSet {
+        return HistoryExerciseSet(
+            idHistoryExerciseSet = idHistoryExerciseSet ,
+            reps = reps,
+            weight = weight,
+            time = time,
+            restTime = restTime,
+            isWeightSet = isWeightSet,
+            created_at = created_at,
+            updated_at = updated_at
+        )
     }
-
 }

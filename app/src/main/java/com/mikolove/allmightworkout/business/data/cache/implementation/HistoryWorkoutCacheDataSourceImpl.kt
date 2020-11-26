@@ -1,6 +1,11 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
-/*
+import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
+import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryWorkoutDaoService
+import javax.inject.Inject
+import javax.inject.Singleton
+
 @Singleton
 class HistoryWorkoutCacheDataSourceImpl
 @Inject
@@ -9,13 +14,16 @@ constructor(private val historyWorkoutDaoService : HistoryWorkoutDaoService)
 
     override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): Long = historyWorkoutDaoService.insertHistoryWorkout(historyWorkout)
 
-    override suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout): Int = historyWorkoutDaoService.updateHistoryWorkout(historyWorkout)
-
-    override suspend fun getHistoryWorkout(
+    override suspend fun getHistoryWorkouts(
         query: String,
         filterAndOrder: String,
         page: Int
-    ): List<HistoryWorkout> = historyWorkoutDaoService.getHistoryWorkout(query,filterAndOrder,page)
+    ): List<HistoryWorkout> {
+        //To implement
+        return listOf()
+    }
 
-    override suspend fun getHistoryWorkoutById(primareyKey: Long): HistoryWorkout? = historyWorkoutDaoService.getHistoryWorkoutById(primareyKey)
-}*/
+    override suspend fun getHistoryWorkoutById(workoutId: String): HistoryWorkout? = historyWorkoutDaoService.getHistoryWorkoutById(workoutId)
+
+    override suspend fun getTotalHistoryWorkout(): Int = historyWorkoutDaoService.getTotalHistoryWorkout()
+}

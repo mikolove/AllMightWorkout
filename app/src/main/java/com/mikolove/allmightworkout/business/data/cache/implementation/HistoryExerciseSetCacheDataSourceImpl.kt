@@ -1,6 +1,11 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
-/*
+import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
+import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
+import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryExerciseSetDaoService
+import javax.inject.Inject
+import javax.inject.Singleton
+
 @Singleton
 class HistoryExerciseSetCacheDataSourceImpl
 @Inject
@@ -9,13 +14,7 @@ constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoServ
 
     override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet): Long = historyExerciseSetDaoService.insertHistoryExerciseSet(historyExerciseSet)
 
-    override suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet): Int = historyExerciseSetDaoService.updateHistoryExerciseSet(historyExerciseSet)
+    override suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet> = historyExerciseSetDaoService.getHistoryExerciseSetsByHistoryExercise(idHistoryExercise)
 
-    override suspend fun getHistoryExerciseSet(
-        query: String,
-        filterAndOrder: String,
-        page: Int
-    ): List<HistoryExerciseSet> = historyExerciseSetDaoService.getHistoryExerciseSet(query,filterAndOrder,page)
-
-    override suspend fun getHistoryExerciseSetById(primareyKey: Long): HistoryExerciseSet? = historyExerciseSetDaoService.getHistoryExerciseSetById(primareyKey)
-}*/
+    override suspend fun getTotalHistoryExerciseSet(): Int = historyExerciseSetDaoService.getTotalHistoryExerciseSet()
+}

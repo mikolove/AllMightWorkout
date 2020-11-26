@@ -6,11 +6,8 @@ interface HistoryExerciseSetCacheDataSource {
 
     suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet) : Long
 
-    suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet) : Int
+    suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise : String) : List<HistoryExerciseSet>
 
-    suspend fun getHistoryExerciseSet(query : String, filterAndOrder : String, page : Int) : List<HistoryExerciseSet>
-
-    suspend fun getHistoryExerciseSetById(primareyKey : Long) : HistoryExerciseSet?
-
+    suspend fun getTotalHistoryExerciseSet() : Int
 
 }

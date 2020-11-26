@@ -6,9 +6,9 @@ interface HistoryWorkoutCacheDataSource {
 
     suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout) : Long
 
-    suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout) : Int
+    suspend fun getHistoryWorkouts(query : String, filterAndOrder : String, page : Int) : List<HistoryWorkout>
 
-    suspend fun getHistoryWorkout(query : String, filterAndOrder : String, page : Int) : List<HistoryWorkout>
+    suspend fun getHistoryWorkoutById(workoutId : String) : HistoryWorkout?
 
-    suspend fun getHistoryWorkoutById(primaryKey : Long) : HistoryWorkout?
+    suspend fun getTotalHistoryWorkout() : Int
 }

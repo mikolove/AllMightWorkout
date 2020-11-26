@@ -9,17 +9,19 @@ import kotlin.collections.ArrayList
 @Singleton
 class ExerciseFactory
 @Inject
-constructor( private val dateUtil: DateUtil, private val exerciseSetFactory: ExerciseSetFactory){
+constructor( private val dateUtil: DateUtil,
+             private val exerciseSetFactory: ExerciseSetFactory,
+            private val bodyPartFactory: BodyPartFactory){
 
     fun createExercise(
-        idExercise : Long?,
+        idExercise : String?,
         name : String?,
         sets : List<ExerciseSet>?,
         bodyPart: BodyPart,
-        isActive : Boolean? ,
+        isActive : Boolean? = true,
     ) : Exercise {
         return Exercise(
-            idExercise = idExercise ?: 0L,
+            idExercise = idExercise ?: UUID.randomUUID().toString(),
             name = name ?: "New exercise",
             sets =  sets ?: ArrayList(),
             bodyPart = bodyPart,
@@ -30,15 +32,15 @@ constructor( private val dateUtil: DateUtil, private val exerciseSetFactory: Exe
     }
 
     //For testing purpose
-    fun createExerciseList(numberOfExercise : Int) : List<Exercise>{
+    fun createExerciseList(numberOfExercise : Int, bodyPart : BodyPart? = null) : List<Exercise>{
         val listOfExercise = ArrayList<Exercise>()
         for(i in 1..numberOfExercise){
             listOfExercise.add(
                 createExercise(
-                    idExercise = i.toLong(),
+                    idExercise = UUID.randomUUID().toString(),
                     name = UUID.randomUUID().toString(),
                     sets = exerciseSetFactory.createListOfExerciseSet(4),
-                    bodyPart = BodyPart.BICEPS,
+                    bodyPart = bodyPart ?: bodyPartFactory.getListOfBodyPart(1)[0],
                     isActive = true
                 )
             )

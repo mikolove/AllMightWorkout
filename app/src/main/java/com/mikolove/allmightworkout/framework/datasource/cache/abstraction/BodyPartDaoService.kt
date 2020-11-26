@@ -1,0 +1,35 @@
+package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
+
+import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.allmightworkout.framework.datasource.database.BODYPART_PAGINATION_PAGE_SIZE
+
+interface BodyPartDaoService {
+
+    suspend fun insertBodyPart(bodyParts: List<BodyPart>) : Long
+
+    suspend fun removeBodyPart() : Int
+
+    suspend fun getBodyParts() : List<BodyPart>
+
+    suspend fun getBodyPartById(primaryKey: String) : BodyPart?
+
+    suspend fun getTotalBodyParts(idBodyGroup : String) : Int
+
+    suspend fun getBodyPartOrderByNameDESC(
+        query: String,
+        page: Int,
+        pageSize: Int = BODYPART_PAGINATION_PAGE_SIZE
+    ): List<BodyPart>
+
+    suspend fun getBodyPartOrderByNameASC(
+        query: String,
+        page: Int,
+        pageSize: Int = BODYPART_PAGINATION_PAGE_SIZE
+    ): List<BodyPart>
+
+    suspend fun returnOrderedQuery(
+        query: String,
+        filterAndOrder: String,
+        page: Int
+    ): List<BodyPart>
+}
