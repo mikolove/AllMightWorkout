@@ -15,21 +15,17 @@ constructor(private val exerciseDaoService : ExerciseDaoService)
 
     override suspend fun insertExercise(exercise: Exercise): Long = exerciseDaoService.insertExercise(exercise)
 
-    override suspend fun updateExercise(primaryKey: String, exercise: Exercise): Int = exerciseDaoService.updateExercise(primaryKey,exercise)
+    override suspend fun updateExercise(primaryKey: String, name: String, idBodyPart: String, isActive: Boolean, exerciseType: String): Int =
+        exerciseDaoService.updateExercise(primaryKey,name,idBodyPart,isActive,exerciseType)
 
     override suspend fun removeExerciseById(primaryKey: String): Int = exerciseDaoService.removeExerciseById(primaryKey)
-
-    override suspend fun addSets(sets: List<ExerciseSet>): LongArray = exerciseDaoService.addSets(sets)
-
-    override suspend fun removeSets(sets: List<ExerciseSet>): Int = exerciseDaoService.removeSets(sets)
 
     override suspend fun getExercises(
         query: String,
         filterAndOrder: String,
         page: Int
     ): List<Exercise> {
-        //TODO implement search
-        return listOf()
+        return exerciseDaoService.returnOrderedQuery(query,filterAndOrder,page)
     }
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? = exerciseDaoService.getExerciseById(primaryKey)

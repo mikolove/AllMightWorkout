@@ -19,11 +19,11 @@ constructor(private val historyWorkoutDaoService : HistoryWorkoutDaoService)
         filterAndOrder: String,
         page: Int
     ): List<HistoryWorkout> {
-        //To implement
-        return listOf()
+
+        return historyWorkoutDaoService.returnOrderedQuery(query, filterAndOrder, page)
     }
 
-    override suspend fun getHistoryWorkoutById(workoutId: String): HistoryWorkout? = historyWorkoutDaoService.getHistoryWorkoutById(workoutId)
+    override suspend fun getHistoryWorkoutById(historyWorkoutId: String): HistoryWorkout? = historyWorkoutDaoService.getHistoryWorkoutById(historyWorkoutId)
 
     override suspend fun getTotalHistoryWorkout(): Int = historyWorkoutDaoService.getTotalHistoryWorkout()
 }

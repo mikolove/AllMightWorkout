@@ -22,7 +22,6 @@ constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: Exer
             weight = exerciseSet.weight,
             time = exerciseSet.time,
             restTime = exerciseSet.restTime,
-            isWeightSet = exerciseSet.isWeightSet,
             created_at = exerciseSet.created_at,
             updated_at = exerciseSet.updated_at
         )
@@ -34,7 +33,6 @@ constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: Exer
         weight: Int ,
         time : Int,
         restTime : Int,
-        isWeightSet : Boolean,
         created_at: String,
         updated_at: String
     ) :  HistoryExerciseSet {
@@ -44,7 +42,6 @@ constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: Exer
             weight = weight,
             time = time,
             restTime = restTime,
-            isWeightSet = isWeightSet,
             created_at = created_at,
             updated_at = updated_at
         )

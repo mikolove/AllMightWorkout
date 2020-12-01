@@ -8,7 +8,7 @@ interface ExerciseDaoService {
 
     suspend fun insertExercise(exercise: Exercise) : Long
 
-    suspend fun updateExercise(primaryKey: String, exercise: Exercise) : Int
+    suspend fun updateExercise( primaryKey: String, name: String, idBodyPart: String, isActive: Boolean, exerciseType: String) : Int
 
     suspend fun removeExerciseById(primaryKey :String) : Int
 

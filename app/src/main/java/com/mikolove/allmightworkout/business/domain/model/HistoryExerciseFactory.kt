@@ -33,6 +33,7 @@ constructor( private val historyExerciseSetFactory: HistoryExerciseSetFactory){
             bodyPart = exercise.bodyPart.name,
             workoutType = exercise.bodyPart.workoutType.name,
             historySets = listOfHistoryExerciseSet,
+            exerciseType = exercise.exerciseType,
             created_at = exercise.created_at,
             updated_at = exercise.updated_at
         )
@@ -43,6 +44,7 @@ constructor( private val historyExerciseSetFactory: HistoryExerciseSetFactory){
         name : String,
         bodyPart: String,
         workoutType : String,
+        exerciseType : String,
         historySets : List<HistoryExerciseSet>,
         created_at : String,
         updated_at : String
@@ -54,6 +56,7 @@ constructor( private val historyExerciseSetFactory: HistoryExerciseSetFactory){
             bodyPart = bodyPart,
             workoutType = workoutType,
             historySets = historySets,
+            exerciseType = ExerciseType.valueOf(exerciseType),
             created_at = created_at,
             updated_at = updated_at)
     }

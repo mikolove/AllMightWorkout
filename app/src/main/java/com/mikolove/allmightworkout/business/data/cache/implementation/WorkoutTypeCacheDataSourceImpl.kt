@@ -20,8 +20,7 @@ constructor( private val workoutTypeDaoService : WorkoutTypeDaoService) : Workou
         filterAndOrder: String,
         page: Int
     ): List<WorkoutType> {
-        //TODO implement
-        return listOf()
+       return workoutTypeDaoService.returnOrderedQuery(query, filterAndOrder, page)
     }
 
     override suspend fun getWorkoutTypeById(primaryKey: String): WorkoutType? = workoutTypeDaoService. getWorkoutTypeById(primaryKey)

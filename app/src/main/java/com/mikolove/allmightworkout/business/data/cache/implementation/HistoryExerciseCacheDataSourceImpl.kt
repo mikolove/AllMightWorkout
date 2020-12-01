@@ -19,8 +19,7 @@ constructor(private val historyExerciseDaoService : HistoryExerciseDaoService)
         filterAndOrder: String,
         page: Int
     ): List<HistoryExercise> {
-        //TODO implement
-        return listOf()
+       return historyExerciseDaoService.returnOrderedQuery(query, filterAndOrder, page)
     }
     override suspend fun getHistoryExerciseById(primaryKey: String): HistoryExercise? = historyExerciseDaoService.getHistoryExerciseById(primaryKey)
 

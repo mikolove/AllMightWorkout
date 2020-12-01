@@ -18,6 +18,7 @@ constructor( private val dateUtil: DateUtil,
         name : String?,
         sets : List<ExerciseSet>?,
         bodyPart: BodyPart,
+        exerciseType : ExerciseType,
         isActive : Boolean? = true,
     ) : Exercise {
         return Exercise(
@@ -25,6 +26,7 @@ constructor( private val dateUtil: DateUtil,
             name = name ?: "New exercise",
             sets =  sets ?: ArrayList(),
             bodyPart = bodyPart,
+            exerciseType = exerciseType,
             isActive = isActive ?: true,
             created_at = dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
@@ -41,6 +43,7 @@ constructor( private val dateUtil: DateUtil,
                     name = UUID.randomUUID().toString(),
                     sets = exerciseSetFactory.createListOfExerciseSet(4),
                     bodyPart = bodyPart ?: bodyPartFactory.getListOfBodyPart(1)[0],
+                    exerciseType = ExerciseType.REP_EXERCISE,
                     isActive = true
                 )
             )

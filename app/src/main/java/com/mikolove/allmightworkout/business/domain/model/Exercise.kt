@@ -8,6 +8,8 @@ data class Exercise(
     var name: String,
     var sets: List<ExerciseSet>,
     var bodyPart: BodyPart,
+    var exerciseType : ExerciseType,
     var isActive: Boolean,
     var created_at: String,
     var updated_at: String) : Parcelable
+
