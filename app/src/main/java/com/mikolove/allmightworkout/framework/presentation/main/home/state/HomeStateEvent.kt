@@ -1,7 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.main.home.state
 
+import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class HomeStateEvent : StateEvent{
 
@@ -78,6 +80,17 @@ sealed class HomeStateEvent : StateEvent{
         override fun eventName(): String = "GetWorkoutByIdEvent"
 
         override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
+    class RemoveMultipleWorkoutsEvent(
+        workouts : ArrayList<Workout>
+    ) : HomeStateEvent(){
+        override fun errorInfo(): String = "Error deleting workouts."
+
+        override fun eventName(): String = "RemoveMultipleWorkoutsEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+
     }
 
     class CreateStateMessageEvent(

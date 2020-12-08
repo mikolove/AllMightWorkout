@@ -1,0 +1,22 @@
+[
+  {
+    "idBodyPart": "idBodyPart1",
+    "name": "Upper chest"
+  },
+  {
+    "idBodyPart": "idBodyPart2",
+    "name": "Lower chest"
+  },
+  {
+  "idBodyPart": "idBodyPart3",
+  "name": "Middle chest"
+  },
+  {
+  "idBodyPart": "idBodyPart4",
+  "name": "Biceps"
+  },
+  {
+  "idBodyPart": "idBodyPart5",
+  "name": "Triceps"
+  }
+]

@@ -24,12 +24,12 @@ sealed class ManageWorkoutStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class RemoveWorkoutsEvent(
-        listWorkouts : ArrayList<Workout>
+    class RemoveWorkoutEvent(
+        workout : Workout
     ) : ManageWorkoutStateEvent(){
-        override fun errorInfo(): String = "Error deleting workouts."
+        override fun errorInfo(): String = "Error deleting workout."
 
-        override fun eventName(): String = "RemoveWorkoutsEvent"
+        override fun eventName(): String = "RemoveWorkoutEvent"
 
         override fun shouldDisplayProgressBar(): Boolean = false
 

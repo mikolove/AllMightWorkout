@@ -29,7 +29,8 @@ class InsertWorkout(
         val newWorkout = workoutFactory.createWorkout(
             idWorkout = idWorkout?: UUID.randomUUID().toString(),
             name = name,
-            exercises = null
+            exercises = null,
+            created_at = null
         )
 
         val cacheResult = safeCacheCall(IO){

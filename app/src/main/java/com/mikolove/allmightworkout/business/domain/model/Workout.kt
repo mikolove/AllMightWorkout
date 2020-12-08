@@ -10,4 +10,19 @@ data class Workout(
     var isActive: Boolean,
     var created_at: String,
     var updated_at: String
-) : Parcelable
+) : Parcelable{
+
+    override fun equals(other: Any?): Boolean {
+        if(this === other) return true
+        if(javaClass != other?.javaClass) return false
+
+        other as Workout
+
+        if(idWorkout != other.idWorkout) return false
+        if(name != other.name) return false
+        if(isActive != other.isActive) return false
+        if(created_at != other.created_at) return false
+
+        return true
+    }
+}

@@ -11,17 +11,16 @@ class BodyPartCacheDataSourceImpl
 @Inject
 constructor( private val bodyPartDaoService : BodyPartDaoService) : BodyPartCacheDataSource {
 
-    override suspend fun insertBodyPart(bodyParts: List<BodyPart>): Long = bodyPartDaoService.insertBodyPart(bodyParts)
+    override suspend fun insertBodyPart(bodyParts: BodyPart): Long = bodyPartDaoService.insertBodyPart(bodyParts)
 
-    override suspend fun removeBodyPart(): Int = bodyPartDaoService.removeBodyPart()
+    override suspend fun removeBodyPart(primaryKey: String): Int = bodyPartDaoService.removeBodyPart(primaryKey)
 
     override suspend fun getBodyParts(
         query: String,
         filterAndOrder: String,
         page: Int
     ): List<BodyPart>  {
-        //TODO implement
-        return listOf()
+        return bodyPartDaoService.returnOrderedQuery(query,filterAndOrder,page)
     }
 
     override suspend fun getBodyPartById(primaryKey: String): BodyPart? = bodyPartDaoService.getBodyPartById(primaryKey)

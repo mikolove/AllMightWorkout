@@ -11,9 +11,9 @@ class WorkoutTypeCacheDataSourceImpl
 @Inject
 constructor( private val workoutTypeDaoService : WorkoutTypeDaoService) : WorkoutTypeCacheDataSource{
 
-    override suspend fun insertWorkoutTypes(workoutTypes: List<WorkoutType>): Long = workoutTypeDaoService.insertWorkoutTypes(workoutTypes)
+    override suspend fun insertWorkoutType(workoutType: WorkoutType): Long = workoutTypeDaoService.insertWorkoutType(workoutType)
 
-    override suspend fun removeWorkoutTypes(): Int = workoutTypeDaoService.removeWorkoutTypes()
+    override suspend fun removeWorkoutType(primaryKey: String): Int = workoutTypeDaoService.removeWorkoutType(primaryKey)
 
     override suspend fun getWorkoutTypes(
         query: String,

@@ -12,7 +12,7 @@ class ExerciseSetCacheDataSourceImpl
 constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
     : ExerciseSetCacheDataSource {
 
-    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, exerciseId : String ): Long = exerciseSetDaoService.insertExerciseSet(exerciseSet, exerciseId)
+    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet): Long = exerciseSetDaoService.insertExerciseSet(exerciseSet)
 
     override suspend fun updateExerciseSet(
         primaryKey: String,
@@ -23,9 +23,5 @@ constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
     ): Int = exerciseSetDaoService.updateExerciseSet(primaryKey,reps,weight,time,restTime)
 
     override suspend fun removeExerciseSetById(primaryKey: String): Int = exerciseSetDaoService.removeExerciseSetById(primaryKey)
-
-    override suspend fun getExerciseSetsByExerciseId(idExercise: String): List<ExerciseSet> = exerciseSetDaoService.getExerciseSetsByExerciseId(idExercise)
-
-    override suspend fun getTotalExerciseSet(): Int = exerciseSetDaoService.getTotalExerciseSet()
 
 }

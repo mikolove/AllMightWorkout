@@ -1,0 +1,42 @@
+[
+  {
+    "idExercise": "idExercise1",
+    "name": "Developper althere haut pec",
+    "exerciseType" : "REP_EXERCISE",
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
+  },
+  {
+    "idExercise": "idExercise2",
+    "name": "Dips",
+    "exerciseType" : "REP_EXERCISE",
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
+  },
+  {
+    "idExercise": "idExercise3",
+    "name": "Developper coucher",
+    "exerciseType" : "REP_EXERCISE",
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
+  },
+  {
+    "idExercise": "idExercise4",
+    "name": "Biceps sur banc",
+    "exerciseType" : "REP_EXERCISE",
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
+  },
+  {
+    "idExercise": "idExercise5",
+    "name": "Triceps sur banc",
+    "exerciseType" : "REP_EXERCISE",
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
+  }
+]

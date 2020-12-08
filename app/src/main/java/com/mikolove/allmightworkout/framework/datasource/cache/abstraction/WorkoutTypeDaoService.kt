@@ -5,9 +5,9 @@ import com.mikolove.allmightworkout.framework.datasource.database.WORKOUTTYPE_PA
 
 interface WorkoutTypeDaoService {
 
-    suspend fun insertWorkoutTypes(workoutTypes: List<WorkoutType>) : Long
+    suspend fun insertWorkoutType(workoutTypes: WorkoutType) : Long
 
-    suspend fun removeWorkoutTypes() : Int
+    suspend fun removeWorkoutType(primaryKey: String) : Int
 
     suspend fun getWorkoutTypeById(primaryKey: String) : WorkoutType?
 

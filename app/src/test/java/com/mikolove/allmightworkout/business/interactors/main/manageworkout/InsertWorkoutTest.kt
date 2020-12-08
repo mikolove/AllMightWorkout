@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.main.manageworkout
 
 import com.mikolove.allmightworkout.business.data.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
@@ -7,11 +7,9 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCache
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout.Companion.INSERT_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.InsertWorkoutEvent
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -27,8 +25,8 @@ Test cases:
 1. insertWorkout_success_confirmNetworkAndCacheUpdated()
     a) insert a new workout
     b) listen for INSERT_WORKOUT_SUCCESS emission from flow
-    c) confirm cache was updated with new note
-    d) confirm network was updated with new note
+    c) confirm cache was updated with new workout
+    d) confirm network was updated with new workout
 2. insertWorkout_fail_confirmNetworkAndCacheUnchanged()
     a) insert a new workout
     b) force a failure (return -1 from db operation)
@@ -75,7 +73,8 @@ class InsertWorkoutTest {
         val newWorkout = workoutFactory.createWorkout(
             idWorkout = null,
             name = UUID.randomUUID().toString(),
-            exercises = null
+            exercises = null,
+            created_at = null
         )
 
         insertWorkout.insertWorkout(
@@ -107,7 +106,8 @@ class InsertWorkoutTest {
          val newWorkout = workoutFactory.createWorkout(
              idWorkout = FORCE_GENERAL_FAILURE,
              name = UUID.randomUUID().toString(),
-             exercises = null
+             exercises = null,
+             created_at = null
          )
 
          insertWorkout.insertWorkout(
@@ -139,7 +139,8 @@ class InsertWorkoutTest {
         val newWorkout = workoutFactory.createWorkout(
             idWorkout = FORCE_NEW_WORKOUT_EXCEPTION,
             name = UUID.randomUUID().toString(),
-            exercises = null
+            exercises = null,
+            created_at = null
         )
 
         insertWorkout.insertWorkout(

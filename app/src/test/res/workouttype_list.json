@@ -1,0 +1,14 @@
+[
+  {
+    "idWorkoutType": "idWorkoutType1",
+    "name": "Chest"
+  },
+  {
+    "idWorkoutType": "idWorkoutType2",
+    "name": "Arms"
+  },
+  {
+    "idWorkoutType": "idWorkoutType3",
+    "name": "Abs"
+  }
+]

@@ -16,14 +16,15 @@ constructor( private val dateUtil: DateUtil ,
         idWorkout : String? ,
         name : String?,
         exercises : List<Exercise>?,
-        isActive : Boolean? = true
+        isActive : Boolean? = true,
+        created_at : String?
     ) : Workout {
         return Workout(
             idWorkout = idWorkout ?: UUID.randomUUID().toString(),
             name = name ?: "New workout",
             exercises = exercises ,
             isActive = isActive ?: true,
-            created_at = dateUtil.getCurrentTimestamp(),
+            created_at = created_at?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )
     }
@@ -39,7 +40,8 @@ constructor( private val dateUtil: DateUtil ,
                     idWorkout = UUID.randomUUID().toString(),
                     name = UUID.randomUUID().toString(),
                     exercises = exerciseFactory.createExerciseList(2),
-                    isActive = true
+                    isActive = true,
+                    created_at = dateUtil.getCurrentTimestamp()
                 )
             )
         }

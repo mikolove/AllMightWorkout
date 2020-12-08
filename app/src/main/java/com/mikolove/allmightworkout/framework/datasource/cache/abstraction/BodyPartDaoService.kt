@@ -5,9 +5,9 @@ import com.mikolove.allmightworkout.framework.datasource.database.BODYPART_PAGIN
 
 interface BodyPartDaoService {
 
-    suspend fun insertBodyPart(bodyParts: List<BodyPart>) : Long
+    suspend fun insertBodyPart(bodyPart: BodyPart) : Long
 
-    suspend fun removeBodyPart() : Int
+    suspend fun removeBodyPart(primaryKey: String) : Int
 
     suspend fun getBodyParts() : List<BodyPart>
 

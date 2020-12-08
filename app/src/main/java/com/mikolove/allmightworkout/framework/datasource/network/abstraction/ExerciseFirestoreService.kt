@@ -11,11 +11,9 @@ interface ExerciseFirestoreService {
 
     suspend fun removeExerciseById(primaryKey :String)
 
-    suspend fun addSets(sets : List<ExerciseSet>)
-
-    suspend fun removeSets(sets : List<ExerciseSet>)
-
     suspend fun getExercises() : List<Exercise>
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
+
+    suspend fun getTotalExercises() : Int
 }

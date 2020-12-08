@@ -13,12 +13,12 @@ constructor(private val workoutTypeFactory: WorkoutTypeFactory)
 {
 
     fun createBodyPart(
-        idBodyPart : Long?,
+        idBodyPart : String?,
         name : String?,
         workoutType : WorkoutType
     ) : BodyPart {
         return BodyPart(
-            idBodyPart = idBodyPart ?: 0L,
+            idBodyPart = idBodyPart ?: "",
             name = name ?: "New bodyPart",
             workoutType = workoutType
         )
@@ -30,7 +30,7 @@ constructor(private val workoutTypeFactory: WorkoutTypeFactory)
         for (i in 0 until numberOfBodyPart){
             listOfBodyPart.add(
                 createBodyPart(
-                    i.toLong(),
+                    i.toString(),
                     UUID.randomUUID().toString(),
                     workoutType = workoutType ?: workoutTypeFactory.createWorkoutType(
                         UUID.randomUUID().toString(),

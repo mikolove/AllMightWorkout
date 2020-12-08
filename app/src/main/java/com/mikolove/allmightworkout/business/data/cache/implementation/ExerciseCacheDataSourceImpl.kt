@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseDaoService
@@ -15,8 +16,8 @@ constructor(private val exerciseDaoService : ExerciseDaoService)
 
     override suspend fun insertExercise(exercise: Exercise): Long = exerciseDaoService.insertExercise(exercise)
 
-    override suspend fun updateExercise(primaryKey: String, name: String, idBodyPart: String, isActive: Boolean, exerciseType: String): Int =
-        exerciseDaoService.updateExercise(primaryKey,name,idBodyPart,isActive,exerciseType)
+    override suspend fun updateExercise(primaryKey: String, name: String, bodyPart: BodyPart, isActive: Boolean, exerciseType: String): Int =
+        exerciseDaoService.updateExercise(primaryKey,name,bodyPart,isActive,exerciseType)
 
     override suspend fun removeExerciseById(primaryKey: String): Int = exerciseDaoService.removeExerciseById(primaryKey)
 

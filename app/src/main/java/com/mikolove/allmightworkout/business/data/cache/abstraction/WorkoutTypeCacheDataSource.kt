@@ -4,9 +4,9 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 
 interface WorkoutTypeCacheDataSource {
 
-    suspend fun insertWorkoutTypes(workoutTypes: List<WorkoutType>) : Long
+    suspend fun insertWorkoutType(workoutType: WorkoutType) : Long
 
-    suspend fun removeWorkoutTypes() : Int
+    suspend fun removeWorkoutType(primaryKey: String) : Int
 
     suspend fun getWorkoutTypes(query : String, filterAndOrder : String, page : Int) : List<WorkoutType>
 

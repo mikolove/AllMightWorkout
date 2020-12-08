@@ -12,8 +12,6 @@ const val FORCE_UPDATE_WORKOUT_EXCEPTION = "FORCE_UPDATE_WORKOUT_EXCEPTION"
 const val FORCE_DELETE_WORKOUT_EXCEPTION = "FORCE_DELETE_WORKOUT_EXCEPTION"
 const val FORCE_DELETES_WORKOUT_EXCEPTION = "FORCE_DELETES_WORKOUT_EXCEPTION"
 const val FORCE_SEARCH_WORKOUTS_EXCEPTION = "FORCE_SEARCH_WORKOUTS_EXCEPTION"
-const val FORCE_ADD_WORKOUT_EXERCISES_EXCEPTION = "FORCE_ADD_WORKOUT_EXERCISES_EXCEPTION"
-const val FORCE_REMOVE_WORKOUT_EXERCISES_EXCEPTION = "FORCE_REMOVE_WORKOUT_EXERCISES_EXCEPTION"
 
 class FakeWorkoutCacheDataSourceImpl
 constructor(
@@ -26,10 +24,10 @@ constructor(
             throw Exception("Something went wrong inserting the workout.")
         }
         if(workout.idWorkout.equals(FORCE_GENERAL_FAILURE)){
-            return -1 // fail de bete
+            return -1 // fail
         }
         workoutsData.put(workout.idWorkout, workout)
-        return 1 // success de bete
+        return 1 // success
     }
 
     override suspend fun updateWorkout(
@@ -59,7 +57,7 @@ constructor(
             throw Exception("Something went wrong deleting the workout.")
         }
         else if(primaryKey.equals(FORCE_DELETES_WORKOUT_EXCEPTION)){
-            throw Exception("Something went wrong deleting the workout.")
+            throw Exception("Something went wrong deleting workouts.")
         }
         return workoutsData.remove(primaryKey)?.let {
             1 // return 1 for success
@@ -94,25 +92,5 @@ constructor(
         return workoutsData.size
     }
 
-    /*override suspend fun addExercises(primaryKey: String, exercises: List<Exercise>): LongArray {
-        if(primaryKey.equals(FORCE_ADD_WORKOUT_EXERCISES_EXCEPTION)){
-            throw Exception("Something went wrong adding exercises to workout.")
-        }
-        return workoutsData[primaryKey]?.let{
-            it.exercises = null
-            it.exercises = exercises
 
-            LongArray(exercises.size){ i -> i+1.toLong()}
-        }?: LongArray(0)
-    }
-
-    override suspend fun removeExercises(primaryKey: String, exercises: List<Exercise>): Int {
-        if (primaryKey.equals(FORCE_REMOVE_WORKOUT_EXERCISES_EXCEPTION)) {
-            throw Exception("Something went wrong deleting exercises to workout.")
-        }
-        return workoutsData[primaryKey]?.let {
-            it.exercises = null
-            1
-        }?: -1
-    }*/
 }

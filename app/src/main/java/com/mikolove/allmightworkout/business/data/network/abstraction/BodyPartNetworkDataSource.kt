@@ -4,6 +4,5 @@ import com.mikolove.allmightworkout.business.domain.model.BodyPart
 
 interface BodyPartNetworkDataSource {
 
-    suspend fun getBodyParts(name : String) : List<BodyPart>
-
+    suspend fun getBodyParts() : List<BodyPart>
 }

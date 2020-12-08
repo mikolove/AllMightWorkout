@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
+import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.database.EXERCISE_PAGINATION_PAGE_SIZE
@@ -8,7 +9,7 @@ interface ExerciseDaoService {
 
     suspend fun insertExercise(exercise: Exercise) : Long
 
-    suspend fun updateExercise( primaryKey: String, name: String, idBodyPart: String, isActive: Boolean, exerciseType: String) : Int
+    suspend fun updateExercise( primaryKey: String, name: String, bodyPart: BodyPart, isActive: Boolean, exerciseType: String) : Int
 
     suspend fun removeExerciseById(primaryKey :String) : Int
 

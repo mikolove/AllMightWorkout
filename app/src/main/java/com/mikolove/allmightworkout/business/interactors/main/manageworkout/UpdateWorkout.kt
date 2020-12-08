@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
+
 class UpdateWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
@@ -63,7 +64,7 @@ class UpdateWorkout(
 
         emit(response)
 
-        updateNetwork(response?.stateMessage?.response?.toString(), workout)
+        updateNetwork(response?.stateMessage?.response?.message, workout)
 
     }
 
