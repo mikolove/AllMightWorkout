@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.home.state
 
+import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
@@ -92,6 +93,18 @@ sealed class HomeStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
 
     }
+
+    class RemoveMultipleExercisesEvent(
+        exercises : ArrayList<Exercise>
+    ) : HomeStateEvent(){
+        override fun errorInfo(): String = "Error deleting exercises."
+
+        override fun eventName(): String = "RemoveMultipleExercisesEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+
+    }
+
 
     class CreateStateMessageEvent(
         val stateMessage: StateMessage

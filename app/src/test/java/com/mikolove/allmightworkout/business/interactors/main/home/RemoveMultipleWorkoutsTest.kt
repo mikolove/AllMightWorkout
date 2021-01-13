@@ -174,7 +174,7 @@ class RemoveMultipleWorkoutsTest {
         val workoutsInCache = workoutCacheDataSource.getWorkouts("","",1)
         for(workout in workoutsInCache){
             validWorkouts.add(workout)
-            if( (validWorkouts.size) > 4 )
+            if( validWorkouts.size > 4 )
                 break
         }
 
