@@ -9,11 +9,13 @@ interface BodyPartDaoService {
 
     suspend fun removeBodyPart(primaryKey: String) : Int
 
-    suspend fun getBodyParts() : List<BodyPart>
+    suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>?
 
     suspend fun getBodyPartById(primaryKey: String) : BodyPart?
 
     suspend fun getTotalBodyParts(idBodyGroup : String) : Int
+
+    suspend fun getBodyParts() : List<BodyPart>
 
     suspend fun getBodyPartOrderByNameDESC(
         query: String,

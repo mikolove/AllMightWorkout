@@ -13,15 +13,19 @@ interface ExerciseDaoService {
 
     suspend fun removeExerciseById(primaryKey :String) : Int
 
-    suspend fun addSets(sets : List<ExerciseSet>) : LongArray
-
-    suspend fun removeSets(sets : List<ExerciseSet>) : Int
-
     suspend fun getExerciseById(primaryKey: String) : Exercise?
 
-    suspend fun getExercises() : List<Exercise>
-
     suspend fun getTotalExercises() : Int
+
+    suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>?
+
+    suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long
+
+    suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
+    
+    suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int
+
+    suspend fun getExercises() : List<Exercise>
 
     suspend fun getExercisesOrderByDateDESC(
         query: String,

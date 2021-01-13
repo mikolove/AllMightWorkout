@@ -9,7 +9,4 @@ interface ExerciseSetNetworkDataSource {
     suspend fun updateExerciseSet(primaryKey: String, exerciseSet: ExerciseSet)
 
     suspend fun removeExerciseSetById(primaryKey :String)
-
-    suspend fun getExerciseSetByExerciseId(primaryKey: String) : List<ExerciseSet>
-
 }

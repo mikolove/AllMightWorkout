@@ -32,4 +32,12 @@ constructor(private val exerciseDaoService : ExerciseDaoService)
     override suspend fun getExerciseById(primaryKey: String): Exercise? = exerciseDaoService.getExerciseById(primaryKey)
 
     override suspend fun getTotalExercises(): Int = exerciseDaoService.getTotalExercises()
+
+    override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? = exerciseDaoService.getExercisesByWorkout(idWorkout)
+
+    override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long = exerciseDaoService.addExerciseToWorkout(idWorkout, idExercise)
+
+    override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int = exerciseDaoService.removeExerciseFromWorkout(idWorkout, idExercise)
+
+    override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int = exerciseDaoService.isExerciseInWorkout(idWorkout,idExercise)
 }

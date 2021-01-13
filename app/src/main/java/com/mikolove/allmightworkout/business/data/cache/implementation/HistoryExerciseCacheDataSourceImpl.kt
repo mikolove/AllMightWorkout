@@ -14,13 +14,8 @@ constructor(private val historyExerciseDaoService : HistoryExerciseDaoService)
 
     override suspend fun insertHistoryExercise(historyExercise: HistoryExercise): Long = historyExerciseDaoService.insertHistoryExercise(historyExercise)
 
-    override suspend fun getHistoryExercises(
-        query: String,
-        filterAndOrder: String,
-        page: Int
-    ): List<HistoryExercise> {
-       return historyExerciseDaoService.returnOrderedQuery(query, filterAndOrder, page)
-    }
+    override suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExercise>? = historyExerciseDaoService.getHistoryExercisesByHistoryWorkout(idHistoryWorkout)
+
     override suspend fun getHistoryExerciseById(primaryKey: String): HistoryExercise? = historyExerciseDaoService.getHistoryExerciseById(primaryKey)
 
     override suspend fun getTotalHistoryExercise(): Int = historyExerciseDaoService.getTotalHistoryExercise()

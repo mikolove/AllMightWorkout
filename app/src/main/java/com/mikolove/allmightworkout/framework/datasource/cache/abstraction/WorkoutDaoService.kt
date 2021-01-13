@@ -12,12 +12,11 @@ interface WorkoutDaoService {
 
     suspend fun removeWorkout(id :String) : Int
 
-
-    suspend fun getWorkout() : List<Workout>
-
     suspend fun getWorkoutById(primaryKey : String) : Workout?
 
     suspend fun getTotalWorkout() : Int
+
+    suspend fun getWorkout() : List<Workout>
 
     suspend fun getWorkoutOrderByDateDESC(
         query: String,

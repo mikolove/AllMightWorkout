@@ -4,6 +4,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCach
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.EXERCISE_PAGINATION_PAGE_SIZE
 
@@ -16,8 +17,10 @@ const val FORCE_SEARCH_EXERCISES_EXCEPTION = "FORCE_SEARCH_EXERCISES_EXCEPTION"
 
 class FakeExerciseCacheDataSourceImpl(
     private val exercisesData: HashMap<String, Exercise>,
+    private val workoutsData : HashMap<String, Workout>,
     private val dateUtil: DateUtil
 ): ExerciseCacheDataSource {
+
 
     override suspend fun insertExercise(exercise: Exercise): Long {
         if(exercise.idExercise.equals(FORCE_NEW_EXERCISE_EXCEPTION)){
@@ -98,5 +101,48 @@ class FakeExerciseCacheDataSourceImpl(
 
     override suspend fun getTotalExercises(): Int {
         return exercisesData.size
+    }
+
+    override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? {
+        return workoutsData[idWorkout]?.exercises
+    }
+
+    override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long {
+        return workoutsData[idWorkout]?.let {  workout ->
+
+            val newListOfExercise : ArrayList<Exercise> = ArrayList()
+
+            workout.exercises?.let { listExercise ->
+                newListOfExercise.addAll(listExercise)
+            }
+
+            exercisesData[idExercise]?.let {
+                newListOfExercise.add(it)
+            }
+            workout.exercises = newListOfExercise
+
+            1
+        }?: -1
+    }
+
+    override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int {
+        return workoutsData[idWorkout]?.let {  workout ->
+
+            workout.exercises?.let { listExercise ->
+
+                val newListOfExercise : ArrayList<Exercise> = ArrayList()
+
+                newListOfExercise.addAll(listExercise)
+                newListOfExercise.remove(exercisesData[idExercise])
+
+                workout.exercises = newListOfExercise
+            }
+            1
+        }?: -1
+
+    }
+
+    override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int {
+        return if (workoutsData[idWorkout]?.exercises?.contains(exercisesData[idExercise]) == true) 1 else -1
     }
 }

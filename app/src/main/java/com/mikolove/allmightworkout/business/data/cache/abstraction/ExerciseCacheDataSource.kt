@@ -16,5 +16,13 @@ interface ExerciseCacheDataSource {
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
 
+    suspend fun getExercisesByWorkout( idWorkout : String ) : List<Exercise>?
+
+    suspend fun addExerciseToWorkout( idWorkout: String , idExercise: String) : Long
+
+    suspend fun removeExerciseFromWorkout( idWorkout: String , idExercise: String) : Int
+
+    suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
+
     suspend fun getTotalExercises() : Int
 }

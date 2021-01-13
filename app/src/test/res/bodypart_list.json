@@ -1,22 +1,47 @@
 [
   {
     "idBodyPart": "idBodyPart1",
-    "name": "Upper chest"
+    "name": "Upper chest",
+    "workoutType" :
+    {
+      "idWorkoutType": "idWorkoutType1",
+      "name": "Chest"
+    }
   },
   {
     "idBodyPart": "idBodyPart2",
-    "name": "Lower chest"
+    "name": "Lower chest",
+    "workoutType" :
+    {
+      "idWorkoutType": "idWorkoutType1",
+      "name": "Chest"
+    }
   },
   {
-  "idBodyPart": "idBodyPart3",
-  "name": "Middle chest"
+    "idBodyPart": "idBodyPart3",
+    "name": "Middle chest",
+    "workoutType" :
+    {
+      "idWorkoutType": "idWorkoutType1",
+      "name": "Chest"
+    }
   },
   {
-  "idBodyPart": "idBodyPart4",
-  "name": "Biceps"
+    "idBodyPart": "idBodyPart4",
+    "name": "Biceps",
+    "workoutType" :
+    {
+      "idWorkoutType": "idWorkoutType2",
+      "name": "Arms"
+    }
   },
   {
-  "idBodyPart": "idBodyPart5",
-  "name": "Triceps"
+    "idBodyPart": "idBodyPart5",
+    "name": "Triceps",
+    "workoutType" :
+    {
+      "idWorkoutType": "idWorkoutType2",
+      "name": "Arms"
+    }
   }
 ]

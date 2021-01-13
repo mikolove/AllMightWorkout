@@ -7,9 +7,7 @@ import com.mikolove.allmightworkout.business.domain.state.StateEvent
 sealed class ManageExerciseStateEvent : StateEvent{
 
     class InsertExerciseEvent(
-        name : String,
-        bodyPart : BodyPart,
-        exerciseType : ExerciseType
+        name : String
     ) : ManageExerciseStateEvent(){
         override fun errorInfo(): String = "Error inserting new exercise."
 

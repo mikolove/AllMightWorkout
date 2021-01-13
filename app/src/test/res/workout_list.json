@@ -2,71 +2,526 @@
   {
     "idWorkout": "idWorkout1",
     "name": "Chest training",
+    "exercises" : [
+      {
+        "idExercise": "idExercise1",
+        "name": "Developper althere haut pec",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet1",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet2",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet3",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+          {
+            "idBodyPart": "idBodyPart1",
+            "name": "Upper chest",
+            "workoutType" :
+              {
+                "idWorkoutType": "idWorkoutType1",
+                "name": "Chest"
+              }
+          }
+        ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      },
+      {
+        "idExercise": "idExercise2",
+        "name": "Dips",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet4",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet5",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet6",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+          {
+            "idBodyPart": "idBodyPart2",
+            "name": "Lower chest",
+            "workoutType" :
+              {
+                "idWorkoutType": "idWorkoutType1",
+                "name": "Chest"
+              }
+          }
+        ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      }
+    ],
     "isActive" : true,
     "updated_at": "2019-04-14 08:41:22",
     "created_at": "2019-04-14 07:05:11"
   },
   {
     "idWorkout": "idWorkout2",
-    "name": "Arm training",
+    "name": "Chest training 2",
+    "exercises" : [
+      {
+        "idExercise": "idExercise1",
+        "name": "Developper althere haut pec",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet1",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet2",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet3",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart1",
+          "name": "Upper chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      },
+      {
+        "idExercise": "idExercise2",
+        "name": "Dips",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet4",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet5",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet6",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart2",
+          "name": "Lower chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      }
+    ],
     "isActive" : true,
-    "updated_at": "2019-04-17 11:05:24",
-    "created_at": "2019-04-15 04:44:57"
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
   },
   {
     "idWorkout": "idWorkout3",
-    "name": "Shoulder training",
+    "name": "Chest training 3",
+    "exercises" : [
+      {
+        "idExercise": "idExercise1",
+        "name": "Developper althere haut pec",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet1",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet2",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet3",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart1",
+          "name": "Upper chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      },
+      {
+        "idExercise": "idExercise2",
+        "name": "Dips",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet4",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet5",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet6",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart2",
+          "name": "Lower chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      }
+    ],
     "isActive" : true,
-    "updated_at": "2019-02-01 01:55:53",
-    "created_at": "2019-01-24 12:19:35"
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
   },
   {
     "idWorkout": "idWorkout4",
-    "name": "Legs training",
+    "name": "Chest training 4",
+    "exercises" : [
+      {
+        "idExercise": "idExercise1",
+        "name": "Developper althere haut pec",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet1",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet2",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet3",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart1",
+          "name": "Upper chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      },
+      {
+        "idExercise": "idExercise2",
+        "name": "Dips",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet4",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet5",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet6",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart2",
+          "name": "Lower chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      }
+    ],
     "isActive" : true,
-    "updated_at": "2019-12-14 03:05:16",
-    "created_at": "2019-12-13 07:05:17"
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
   },
   {
     "idWorkout": "idWorkout5",
-    "name": "Abs training",
+    "name": "Chest training 5",
+    "exercises" : [
+      {
+        "idExercise": "idExercise1",
+        "name": "Developper althere haut pec",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet1",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet2",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet3",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart1",
+          "name": "Upper chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      },
+      {
+        "idExercise": "idExercise2",
+        "name": "Dips",
+        "sets" : [
+          {
+            "idExerciseSet": "idExerciseSet4",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet5",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          },
+          {
+            "idExerciseSet": "idExerciseSet6",
+            "reps": 8,
+            "weight" : 10,
+            "time" : 0,
+            "restTime" : 45,
+            "updated_at": "2019-04-14 08:41:22",
+            "created_at": "2019-04-14 07:05:11"
+          }
+        ],
+        "bodyPart" :
+        {
+          "idBodyPart": "idBodyPart2",
+          "name": "Lower chest",
+          "workoutType" :
+          {
+            "idWorkoutType": "idWorkoutType1",
+            "name": "Chest"
+          }
+        }
+      ,
+        "exerciseType" : "REP_EXERCISE",
+        "isActive" : true,
+        "updated_at": "2019-04-14 08:41:22",
+        "created_at": "2019-04-14 07:05:11"
+      }
+    ],
     "isActive" : true,
-    "updated_at": "2019-11-14 06:12:44",
-    "created_at": "2019-10-14 02:47:13"
-  },
-  {
-    "idWorkout": "idWorkout6",
-    "name": "Back training",
-    "isActive" : true,
-    "updated_at": "2019-05-19 11:34:16",
-    "created_at": "2019-04-25 05:16:36"
-  },
-  {
-    "idWorkout": "idWorkout7",
-    "name": "Hiit training",
-    "isActive" : true,
-    "updated_at": "2019-10-01 12:22:46",
-    "created_at": "2019-09-19 09:36:57"
-  },
-  {
-    "idWorkout": "idWorkout8",
-    "name": "Delts training",
-    "isActive" : true,
-    "updated_at": "2019-06-12 12:58:55",
-    "created_at": "2019-03-19 08:49:41"
-  },
-  {
-    "idWorkout": "idWorkout9",
-    "name": "Chest 2 training",
-    "isActive" : true,
-    "updated_at": "2019-03-11 12:58:55",
-    "created_at": "2019-01-15 11:49:41"
-  },
-  {
-    "idWorkout": "idWorkout10",
-    "name": "Abs 2 training",
-    "isActive" : true,
-    "updated_at": "2019-05-04 09:44:55",
-    "created_at": "2019-01-15 10:11:41"
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
   }
 ]

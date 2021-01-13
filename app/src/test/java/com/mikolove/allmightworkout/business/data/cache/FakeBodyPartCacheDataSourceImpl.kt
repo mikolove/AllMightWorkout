@@ -68,4 +68,13 @@ constructor(
     override suspend fun getTotalBodyParts(idWorkoutType: String): Int {
         return bodyPartsData.size
     }
+
+    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? {
+        var listOfBodyPartByIdWorkoutType : ArrayList<BodyPart> = ArrayList()
+        for( bodyPart in bodyPartsData.values){
+            if(idWorkoutType.equals(bodyPart.workoutType.idWorkoutType))
+                listOfBodyPartByIdWorkoutType.add(bodyPart)
+        }
+        return listOfBodyPartByIdWorkoutType
+    }
 }

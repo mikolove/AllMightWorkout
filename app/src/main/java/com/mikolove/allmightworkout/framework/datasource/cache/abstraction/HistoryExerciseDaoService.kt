@@ -7,41 +7,10 @@ interface HistoryExerciseDaoService {
 
     suspend fun insertHistoryExercise(historyExercise: HistoryExercise) : Long
 
-    suspend fun updateHistoryExercise(historyExercise: HistoryExercise) : Int
-
-    suspend fun getHistoryExercises() : List<HistoryExercise>
+    suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExercise>?
 
     suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExercise?
 
     suspend fun getTotalHistoryExercise() : Int
 
-    suspend fun getHistoryExerciseOrderByDateDESC(
-        query: String,
-        page: Int,
-        pageSize: Int = HISTORY_EXERCISE_PAGINATION_PAGE_SIZE
-    ): List<HistoryExercise>
-
-    suspend fun getHistoryExerciseOrderByDateASC(
-        query: String,
-        page: Int,
-        pageSize: Int = HISTORY_EXERCISE_PAGINATION_PAGE_SIZE
-    ): List<HistoryExercise>
-
-    suspend fun getHistoryExerciseOrderByNameDESC(
-        query: String,
-        page: Int,
-        pageSize: Int = HISTORY_EXERCISE_PAGINATION_PAGE_SIZE
-    ): List<HistoryExercise>
-
-    suspend fun getHistoryExerciseOrderByNameASC(
-        query: String,
-        page: Int,
-        pageSize: Int = HISTORY_EXERCISE_PAGINATION_PAGE_SIZE
-    ): List<HistoryExercise>
-
-    suspend fun returnOrderedQuery(
-        query: String,
-        filterAndOrder: String,
-        page: Int
-    ): List<HistoryExercise>
 }

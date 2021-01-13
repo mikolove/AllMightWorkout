@@ -10,6 +10,8 @@ interface BodyPartCacheDataSource {
 
     suspend fun getBodyParts(query : String, filterAndOrder : String, page : Int) : List<BodyPart>
 
+    suspend fun getBodyPartsByWorkoutType( idWorkoutType: String ) : List<BodyPart>?
+
     suspend fun getBodyPartById(primaryKey: String) : BodyPart?
 
     suspend fun getTotalBodyParts(idWorkoutType : String) : Int

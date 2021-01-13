@@ -9,7 +9,6 @@ const val FORCE_NEW_EXERCISESET_EXCEPTION = "FORCE_NEW_EXERCISESET_EXCEPTION"
 const val FORCE_NEW_EXERCISESETS_EXCEPTION = "FORCE_NEW_EXERCISESETS_EXCEPTION"
 const val FORCE_UPDATE_EXERCISESET_EXCEPTION = "FORCE_UPDATE_EXERCISESET_EXCEPTION"
 const val FORCE_DELETE_EXERCISESET_EXCEPTION = "FORCE_DELETE_EXERCISESET_EXCEPTION"
-const val FORCE_SEARCH_EXERCISESETS_EXCEPTION = "FORCE_SEARCH_EXERCISESET_EXCEPTION"
 
 class FakeExerciseSetCacheDataSourceImpl(
     private val exerciseSetDatas : HashMap<String,ExerciseSet>,
@@ -67,7 +66,5 @@ class FakeExerciseSetCacheDataSourceImpl(
         }?: -1
     }
 
-    override suspend fun getTotalExerciseSet(): Int {
-        TODO("Not yet implemented")
-    }
+
 }

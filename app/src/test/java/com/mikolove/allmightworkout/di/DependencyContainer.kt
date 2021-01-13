@@ -92,8 +92,11 @@ class DependencyContainer {
         )
 
         exerciseCacheDataSource = FakeExerciseCacheDataSourceImpl(
-            exercisesData =exerciseDataFactory.produceHashMapOfT(
+            exercisesData = exerciseDataFactory.produceHashMapOfT(
                 exerciseDataFactory.produceListOfT(Exercise::class.java)
+            ),
+            workoutsData = workoutDataFactory.produceHashMapOfT(
+                workoutDataFactory.produceListOfT(Workout::class.java)
             ),
             dateUtil = dateUtil
         )
