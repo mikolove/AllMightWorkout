@@ -12,16 +12,22 @@ class ExerciseSetCacheDataSourceImpl
 constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
     : ExerciseSetCacheDataSource {
 
-    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet): Long = exerciseSetDaoService.insertExerciseSet(exerciseSet)
+    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String): Long = exerciseSetDaoService.insertExerciseSet(exerciseSet,idExercise)
 
     override suspend fun updateExerciseSet(
         primaryKey: String,
         reps: Int,
         weight: Int,
         time: Int,
-        restTime: Int
-    ): Int = exerciseSetDaoService.updateExerciseSet(primaryKey,reps,weight,time,restTime)
+        restTime: Int,
+        idExercise: String
+    ): Int = exerciseSetDaoService.updateExerciseSet(primaryKey,reps,weight,time,restTime, idExercise)
 
-    override suspend fun removeExerciseSetById(primaryKey: String): Int = exerciseSetDaoService.removeExerciseSetById(primaryKey)
+    override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String): Int = exerciseSetDaoService.removeExerciseSetById(primaryKey,idExercise)
+
+    override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? = exerciseSetDaoService.getExerciseSetById(primaryKey,idExercise)
+
+    override suspend fun getExerciseSetByIdExercise(idExercise : String): List<ExerciseSet>? = exerciseSetDaoService.getExerciseSetByIdExercise(idExercise)
+
 
 }

@@ -4,10 +4,14 @@ import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 
 interface ExerciseSetCacheDataSource {
 
-    suspend fun insertExerciseSet(exerciseSet: ExerciseSet) : Long
+    suspend fun getExerciseSetById(primaryKey: String, idExercise: String) : ExerciseSet?
 
-    suspend fun updateExerciseSet(primaryKey : String, reps: Int ,weight: Int ,time : Int,restTime : Int) : Int
+    suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSet>?
 
-    suspend fun removeExerciseSetById(primaryKey :String) : Int
+    suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String) : Long
+
+    suspend fun updateExerciseSet(primaryKey : String, reps: Int ,weight: Int ,time : Int,restTime : Int, idExercise: String) : Int
+
+    suspend fun removeExerciseSetById(primaryKey :String, idExercise: String) : Int
 
 }

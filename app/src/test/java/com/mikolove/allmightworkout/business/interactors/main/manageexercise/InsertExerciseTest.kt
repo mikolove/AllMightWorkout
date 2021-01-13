@@ -88,7 +88,8 @@ class InsertExerciseTest {
             name = UUID.randomUUID().toString(),
             sets = null,
             bodyPart = bodyPart!!,
-            exerciseType = exerciseType
+            exerciseType = exerciseType,
+            created_at = null
         )
 
         insertExercise.insertExercise(
@@ -133,7 +134,8 @@ class InsertExerciseTest {
             name = UUID.randomUUID().toString(),
             sets = null,
             bodyPart = bodyPart!!,
-            exerciseType = exerciseType
+            exerciseType = exerciseType,
+            created_at = null
         )
 
         insertExercise.insertExercise(
@@ -177,7 +179,8 @@ class InsertExerciseTest {
             name = UUID.randomUUID().toString(),
             sets = null,
             bodyPart = bodyPart!!,
-            exerciseType = exerciseType
+            exerciseType = exerciseType,
+            created_at = null
         )
 
         insertExercise.insertExercise(
@@ -188,7 +191,6 @@ class InsertExerciseTest {
             stateEvent = InsertExerciseEvent(name = newExercise.name)
         ).collect(object : FlowCollector<DataState<ManageExerciseViewState>?>{
             override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
-                print(                    value?.stateMessage?.response?.message)
                 assert(
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN)  ?: false

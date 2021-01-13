@@ -18,7 +18,7 @@ class RemoveMultipleWorkouts(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource
 ) {
 
-    // set true if an error occurs when deleting any of the notes from cache
+    // set true if an error occurs when deleting any of the workouts from cache
     private var onDeleteError: Boolean = false
 
     fun removeMultipleWorkouts(

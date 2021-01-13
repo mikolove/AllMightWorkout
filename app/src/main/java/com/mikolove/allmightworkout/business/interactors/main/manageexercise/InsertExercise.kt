@@ -36,7 +36,8 @@ class InsertExercise(
             name = name,
             sets = null,
             bodyPart = bodyPart,
-            exerciseType = exerciseType
+            exerciseType = exerciseType,
+            created_at = null
         )
 
         val cacheResult = safeCacheCall(IO){

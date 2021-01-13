@@ -7,6 +7,7 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.WORKOUT_PAGINATION_PAGE_SIZE
 
 const val FORCE_GENERAL_FAILURE = "FORCE_GENERAL_FAILURE"
+
 const val FORCE_NEW_WORKOUT_EXCEPTION = "FORCE_NEW_WORKOUT_EXCEPTION"
 const val FORCE_UPDATE_WORKOUT_EXCEPTION = "FORCE_UPDATE_WORKOUT_EXCEPTION"
 const val FORCE_DELETE_WORKOUT_EXCEPTION = "FORCE_DELETE_WORKOUT_EXCEPTION"

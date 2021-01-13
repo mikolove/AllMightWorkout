@@ -73,7 +73,7 @@ class UpdateWorkoutTest {
 
         //Get random workout
         val randomWorkout = workoutCacheDataSource.getWorkouts("","",1).get(0)
-
+        print(randomWorkout)
         //Change workout values
         val updatedWorkout = workoutFactory.createWorkout(
             idWorkout = randomWorkout.idWorkout,

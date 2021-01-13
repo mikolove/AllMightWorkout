@@ -1,22 +1,10 @@
 package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.*
-import com.mikolove.allmightworkout.business.data.cache.FakeBodyPartCacheDataSourceImpl
-import com.mikolove.allmightworkout.business.data.cache.FakeExerciseCacheDataSourceImpl
-import com.mikolove.allmightworkout.business.data.cache.FakeWorkoutCacheDataSourceImpl
-import com.mikolove.allmightworkout.business.data.cache.FakeWorkoutTypeCacheDataSourceImpl
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.FakeBodyPartNetworkDataSourceImpl
-import com.mikolove.allmightworkout.business.data.network.FakeExerciseNetworkDataSourceImpl
-import com.mikolove.allmightworkout.business.data.network.FakeWorkoutNetworkDataSourceImpl
-import com.mikolove.allmightworkout.business.data.network.FakeWorkoutTypeNetworkDataSourceImpl
-import com.mikolove.allmightworkout.business.data.network.abstraction.BodyPartNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutTypeNetworkDataSource
+import com.mikolove.allmightworkout.business.data.cache.*
+import com.mikolove.allmightworkout.business.data.cache.abstraction.*
+import com.mikolove.allmightworkout.business.data.network.*
+import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.model.WorkoutExercise
@@ -50,7 +38,8 @@ class DependencyContainer {
     lateinit var workoutTypeFactory: WorkoutTypeFactory
     lateinit var workoutTypeDataFactory: WorkoutTypeDataFactory
 
-
+    lateinit var exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
+    lateinit var exerciseSetCacheDataSource: ExerciseSetCacheDataSource
     lateinit var exerciseSetFactory: ExerciseSetFactory
     lateinit var exerciseSetDataFactory: ExerciseSetDataFactory
 
@@ -103,6 +92,19 @@ class DependencyContainer {
 
         exerciseNetworkDataSource = FakeExerciseNetworkDataSourceImpl(
             exercisesData = exerciseDataFactory.produceHashMapOfT(
+                exerciseDataFactory.produceListOfT(Exercise::class.java)
+            )
+        )
+
+        exerciseSetCacheDataSource = FakeExerciseSetCacheDataSourceImpl(
+            exerciseDatas = exerciseDataFactory.produceHashMapOfT(
+                exerciseDataFactory.produceListOfT(Exercise::class.java)
+            ),
+            dateUtil = dateUtil
+        )
+
+        exerciseSetNetworkDataSource = FakeExerciseSetNetworkDataSourceImpl(
+            exerciseDatas = exerciseDataFactory.produceHashMapOfT(
                 exerciseDataFactory.produceListOfT(Exercise::class.java)
             )
         )

@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import kotlinx.coroutines.processNextEventInCurrentThread
@@ -11,11 +12,11 @@ const val FORCE_UPDATE_EXERCISESET_EXCEPTION = "FORCE_UPDATE_EXERCISESET_EXCEPTI
 const val FORCE_DELETE_EXERCISESET_EXCEPTION = "FORCE_DELETE_EXERCISESET_EXCEPTION"
 
 class FakeExerciseSetCacheDataSourceImpl(
-    private val exerciseSetDatas : HashMap<String,ExerciseSet>,
+    private val exerciseDatas : HashMap<String, Exercise>,
     private val dateUtil: DateUtil
 ) : ExerciseSetCacheDataSource{
 
-    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet): Long {
+    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet,idExercise: String): Long {
         if(exerciseSet.idExerciseSet.equals(FORCE_NEW_EXERCISESET_EXCEPTION)){
             throw Exception("Something went wrong inserting exercise Set")
         }
@@ -25,7 +26,18 @@ class FakeExerciseSetCacheDataSourceImpl(
         if(exerciseSet.idExerciseSet.equals(FORCE_GENERAL_FAILURE)){
             return -1
         }
-        exerciseSetDatas.put(exerciseSet.idExerciseSet,exerciseSet)
+
+
+        val listExerciseSet : ArrayList<ExerciseSet> = ArrayList()
+        exerciseDatas[idExercise]?.sets?.let{ list ->
+            for( set in list){
+                listExerciseSet.add(set)
+            }
+        }
+
+        listExerciseSet.add(exerciseSet)
+        exerciseDatas[idExercise]?.sets = listExerciseSet
+
         return 1
     }
 
@@ -34,37 +46,79 @@ class FakeExerciseSetCacheDataSourceImpl(
         reps: Int,
         weight: Int,
         time: Int,
-        restTime: Int
+        restTime: Int,
+        idExercise: String
     ): Int {
+
         if(primaryKey.equals(FORCE_UPDATE_EXERCISESET_EXCEPTION)){
             throw Exception("Something went wrong updating exercise Set")
         }
 
+        //Get Set for create date
+        var exerciseSet :ExerciseSet? = null
+        exerciseDatas[idExercise]?.sets?.let {
+            for(set in it){
+                if(set.idExerciseSet == primaryKey) {
+                    exerciseSet = set
+                    break
+                }
+            }
+        }
+
+        //Update it
         val updatedExerciseSet = ExerciseSet(
             idExerciseSet = primaryKey,
             reps = reps,
             weight = weight,
             time = time,
             restTime = restTime,
-            created_at = exerciseSetDatas.get(primaryKey)?.created_at ?: dateUtil.getCurrentTimestamp(),
+            created_at = exerciseSet?.created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )
 
-        return exerciseSetDatas.get(primaryKey)?.let {
-            exerciseSetDatas.put(primaryKey,updatedExerciseSet)
+        //Change list
+        val listExerciseSet : ArrayList<ExerciseSet> = ArrayList()
+        return exerciseDatas[idExercise]?.sets?.let{ list ->
+            for( set in list){
+                if( set.idExerciseSet == primaryKey)
+                    listExerciseSet.add(updatedExerciseSet)
+                else
+                    listExerciseSet.add(set)
+            }
+            exerciseDatas[idExercise]?.sets = listExerciseSet
             1
         }?: -1
     }
 
-    override suspend fun removeExerciseSetById(primaryKey: String): Int {
+    override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String): Int {
         if(primaryKey.equals(FORCE_DELETE_EXERCISESET_EXCEPTION)){
             throw Exception("Something went wrong deleting exercise Set")
         }
 
-        return exerciseSetDatas.remove(primaryKey)?.let {
+        val listExerciseSet : ArrayList<ExerciseSet> = ArrayList()
+        return exerciseDatas[idExercise]?.sets?.let{ list ->
+            for( set in list){
+                if( set.idExerciseSet != primaryKey)
+                    listExerciseSet.add(set)
+            }
+            exerciseDatas[idExercise]?.sets = listExerciseSet
             1
         }?: -1
+
     }
 
+    override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {
+        var exerciseSet : ExerciseSet? = null
+        exerciseDatas[idExercise]?.sets?.let { list ->
+            for(set in list){
+                if(set.idExerciseSet == primaryKey)
+                    exerciseSet = set
+            }
+        }
+        return exerciseSet
+    }
 
+    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
+        return exerciseDatas[idExercise]?.sets
+    }
 }

@@ -1,8 +1,11 @@
 package com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class ManageExerciseStateEvent : StateEvent{
 
@@ -24,7 +27,7 @@ sealed class ManageExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class RemoveExerciseByIdEvent(): ManageExerciseStateEvent(){
+    class RemoveExerciseEvent(exercise : Exercise): ManageExerciseStateEvent(){
         override fun errorInfo(): String = "Error deleting exercise."
 
         override fun eventName(): String = "RemoveExerciseByIdEvent"
@@ -32,7 +35,7 @@ sealed class ManageExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class InsertExerciseSetEvent(exerciseId : String): ManageExerciseStateEvent(){
+    class InsertExerciseSetEvent(exerciseSetId : String): ManageExerciseStateEvent(){
         override fun errorInfo(): String = "Error adding exercise set."
 
         override fun eventName(): String = "InsertExerciseSetEvent"
