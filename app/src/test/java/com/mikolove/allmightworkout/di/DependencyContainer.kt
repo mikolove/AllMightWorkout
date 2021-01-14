@@ -90,6 +90,9 @@ class DependencyContainer {
         )
 
         exerciseNetworkDataSource = FakeExerciseNetworkDataSourceImpl(
+            workoutsData = workoutDataFactory.produceHashMapOfT(
+                workoutDataFactory.produceListOfT(Workout::class.java)
+            ),
             exercisesData = exerciseDataFactory.produceHashMapOfT(
                 exerciseDataFactory.produceListOfT(Exercise::class.java)
             )

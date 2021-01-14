@@ -5,13 +5,16 @@ import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseDaoService
+import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutExerciseDaoService
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ExerciseCacheDataSourceImpl
 @Inject
-constructor(private val exerciseDaoService : ExerciseDaoService)
+constructor(
+    private val exerciseDaoService : ExerciseDaoService,
+    private val workoutExerciseDaoService : WorkoutExerciseDaoService)
     : ExerciseCacheDataSource {
 
     override suspend fun insertExercise(exercise: Exercise): Long = exerciseDaoService.insertExercise(exercise)
@@ -35,9 +38,9 @@ constructor(private val exerciseDaoService : ExerciseDaoService)
 
     override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? = exerciseDaoService.getExercisesByWorkout(idWorkout)
 
-    override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long = exerciseDaoService.addExerciseToWorkout(idWorkout, idExercise)
+    override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long = workoutExerciseDaoService.addExerciseToWorkout(idWorkout, idExercise)
 
-    override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int = exerciseDaoService.removeExerciseFromWorkout(idWorkout, idExercise)
+    override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int = workoutExerciseDaoService.removeExerciseFromWorkout(idWorkout, idExercise)
 
-    override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int = exerciseDaoService.isExerciseInWorkout(idWorkout,idExercise)
+    override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int = workoutExerciseDaoService.isExerciseInWorkout(idWorkout,idExercise)
 }

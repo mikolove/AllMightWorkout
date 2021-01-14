@@ -17,4 +17,12 @@ interface ExerciseNetworkDataSource {
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
 
+    suspend fun getExercisesByWorkout( idWorkout : String ) : List<Exercise>?
+
+    suspend fun addExerciseToWorkout( idWorkout: String , idExercise: String)
+
+    suspend fun removeExerciseFromWorkout( idWorkout: String , idExercise: String)
+
+    suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
+
 }

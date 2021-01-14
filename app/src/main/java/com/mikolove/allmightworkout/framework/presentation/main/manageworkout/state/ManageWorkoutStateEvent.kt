@@ -36,7 +36,8 @@ sealed class ManageWorkoutStateEvent : StateEvent{
     }
 
     class AddExerciseToWorkoutEvent(
-        exerciseId : String
+        exerciseId : String,
+        workoutId : String
     ) : ManageWorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error adding exercise to workout."
@@ -47,7 +48,8 @@ sealed class ManageWorkoutStateEvent : StateEvent{
     }
 
     class RemoveExerciseFromWorkoutEvent(
-        exerciseId: String
+        exerciseId: String,
+        workoutId: String
     ) : ManageWorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error removing exercise for the specified workout."

@@ -14,6 +14,9 @@ const val FORCE_UPDATE_EXERCISE_EXCEPTION = "FORCE_UPDATE_EXERCISE_EXCEPTION"
 const val FORCE_DELETE_EXERCISE_EXCEPTION = "FORCE_DELETE_EXERCISE_EXCEPTION"
 const val FORCE_DELETES_EXERCISE_EXCEPTION = "FORCE_DELETES_EXERCISE_EXCEPTION"
 const val FORCE_SEARCH_EXERCISES_EXCEPTION = "FORCE_SEARCH_EXERCISES_EXCEPTION"
+const val FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION = "FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION"
+const val FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION = "FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION"
+
 
 class FakeExerciseCacheDataSourceImpl(
     private val exercisesData: HashMap<String, Exercise>,
@@ -108,14 +111,19 @@ class FakeExerciseCacheDataSourceImpl(
     }
 
     override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String): Long {
+        if(idExercise.equals(FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION)){
+            throw Exception("Something went wrong adding exercise to workout.")
+        }
+        if(idExercise.equals(FORCE_GENERAL_FAILURE)){
+            return -1 // fail
+        }
+
         return workoutsData[idWorkout]?.let {  workout ->
 
             val newListOfExercise : ArrayList<Exercise> = ArrayList()
-
             workout.exercises?.let { listExercise ->
                 newListOfExercise.addAll(listExercise)
             }
-
             exercisesData[idExercise]?.let {
                 newListOfExercise.add(it)
             }
@@ -126,6 +134,12 @@ class FakeExerciseCacheDataSourceImpl(
     }
 
     override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String): Int {
+        if(idExercise.equals(FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION)){
+            throw Exception("Something went wrong removing exercise from workout.")
+        }
+        if(idExercise.equals(FORCE_GENERAL_FAILURE)){
+            return -1 // fail
+        }
         return workoutsData[idWorkout]?.let {  workout ->
 
             workout.exercises?.let { listExercise ->
@@ -143,6 +157,10 @@ class FakeExerciseCacheDataSourceImpl(
     }
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int {
-        return if (workoutsData[idWorkout]?.exercises?.contains(exercisesData[idExercise]) == true) 1 else -1
+        val exercise = workoutsData[idWorkout]?.exercises?.find {
+            it.idExercise == idExercise
+        }
+
+        return if(exercise !=null) 1 else 0
     }
 }
