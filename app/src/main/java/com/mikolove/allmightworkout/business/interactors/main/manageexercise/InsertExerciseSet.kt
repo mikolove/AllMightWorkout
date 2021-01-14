@@ -36,7 +36,8 @@ class InsertExerciseSet(
             reps = reps,
             weight = weight,
             time = time,
-            restTime = restTime
+            restTime = restTime,
+            created_at = null
         )
 
         val cacheResult = safeCacheCall(IO){

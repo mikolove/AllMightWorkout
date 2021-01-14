@@ -14,4 +14,5 @@ interface ExerciseSetNetworkDataSource {
 
     suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSet>?
 
+    suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int
 }

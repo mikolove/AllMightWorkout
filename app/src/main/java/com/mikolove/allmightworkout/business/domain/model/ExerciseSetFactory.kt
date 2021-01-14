@@ -15,7 +15,8 @@ constructor(private val dateUtil: DateUtil) {
                   reps : Int?,
                   weight : Int?,
                   time : Int?,
-                  restTime : Int?
+                  restTime : Int?,
+                  created_at : String?
     ) : ExerciseSet{
 
         return ExerciseSet(
@@ -24,7 +25,7 @@ constructor(private val dateUtil: DateUtil) {
             weight = weight ?: 0,
             time = time ?: 0,
             restTime = restTime ?: 45,
-            created_at = dateUtil.getCurrentTimestamp(),
+            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp())
     }
 
@@ -39,7 +40,8 @@ constructor(private val dateUtil: DateUtil) {
                 reps = null,
                 weight = null,
                 time = null,
-                restTime = null
+                restTime = null,
+                created_at = null
             ))
         }
 

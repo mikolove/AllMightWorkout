@@ -5,7 +5,7 @@ object Versions {
     val compilesdk = 30
     val minsdk = 16
     val targetsdk = 30
-    val kotlin = "1.4.20"
+    val kotlin = "1.4.21"
     val ktx = "1.3.1"
     val hilt = "2.28-alpha"
     val nav_components = "2.3.0"

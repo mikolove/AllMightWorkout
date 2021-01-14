@@ -75,7 +75,8 @@ class InsertExerciseSetTest {
             reps = null,
             weight = null,
             time = null,
-            restTime = null
+            restTime = null,
+            created_at = null
         )
 
         insertExerciseSet.insertExerciseSet(
@@ -117,7 +118,8 @@ class InsertExerciseSetTest {
             reps = null,
             weight = null,
             time = null,
-            restTime = null
+            restTime = null,
+            created_at = null
         )
 
         insertExerciseSet.insertExerciseSet(
@@ -159,7 +161,8 @@ class InsertExerciseSetTest {
             reps = null,
             weight = null,
             time = null,
-            restTime = null
+            restTime = null,
+            created_at = null
         )
 
         insertExerciseSet.insertExerciseSet(

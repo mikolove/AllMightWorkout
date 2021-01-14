@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/chooseWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.ChooseWorkoutFragment"
+        android:label="ChooseWorkoutFragment" >
+        <action
+            android:id="@+id/action_chooseWorkoutFragment_to_manageWorkoutFragment"
+            app:destination="@id/manageWorkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageworkout.ManageWorkoutFragment"
+        android:label="ManageWorkoutFragment" >
+        <action
+            android:id="@+id/action_manageWorkoutFragment_to_addExerciseToWorkoutFragment"
+            app:destination="@id/addExerciseToWorkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseExerciseFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.ChooseExerciseFragment"
+        android:label="ChooseExerciseFragment" >
+        <action
+            android:id="@+id/action_chooseExerciseFragment_to_manageExerciseFragment"
+            app:destination="@id/manageExerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageExerciseFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageexercise.ManageExerciseFragment"
+        android:label="ManageExerciseFragment" />
+    <fragment
+        android:id="@+id/workoutHistoryFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.history.WorkoutHistoryFragment"
+        android:label="WorkoutHistoryFragment" >
+        <action
+            android:id="@+id/action_workoutHistoryFragment_to_workoutHistoryDetailFragment"
+            app:destination="@id/workoutHistoryDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workoutHistoryDetailFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.history.WorkoutHistoryDetailFragment"
+        android:label="WorkoutHistoryDetailFragment" />
+    <fragment
+        android:id="@+id/addExerciseToWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageworkout.AddExerciseToWorkoutFragment"
+        android:label="AddExerciseToWorkoutFragment" />
+    <fragment
+        android:id="@+id/loadWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.LoadWorkoutFragment"
+        android:label="LoadWorkoutFragment" >
+        <action
+            android:id="@+id/action_loadWorkoutFragment_to_workoutInProgressFragment"
+            app:destination="@id/workoutInProgressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workoutInProgressFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutInProgressFragment"
+        android:label="WorkoutInProgressFragment" >
+        <action
+            android:id="@+id/action_workoutInProgressFragment_to_exerciseInProgressFragment"
+            app:destination="@id/exerciseInProgressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseInProgressFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.ExerciseInProgressFragment"
+        android:label="ExerciseInProgressFragment" />
+</navigation>

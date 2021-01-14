@@ -22,4 +22,8 @@ constructor(private val exerciseSetFirestoreService : ExerciseSetFirestoreServic
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? = exerciseSetFirestoreService.getExerciseSetById(primaryKey,idExercise)
 
     override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? = exerciseSetFirestoreService.getExerciseSetByIdExercise(idExercise)
+
+    override suspend fun getTotalExercisesSetByExercise(
+        idExercise: String
+    ): Int = exerciseSetFirestoreService.getTotalExercisesSetByExercise(idExercise)
 }

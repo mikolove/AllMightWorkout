@@ -43,6 +43,16 @@ sealed class ManageExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
+
+    class UpdateExerciseSetEvent(): ManageExerciseStateEvent(){
+        override fun errorInfo(): String = "Error updating exercise set."
+
+        override fun eventName(): String = "UpdateExerciseSetEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
+
     class RemoveExerciseSetEvent(exerciseId : String) : ManageExerciseStateEvent(){
         override fun errorInfo(): String = "Error removing exercise set."
 

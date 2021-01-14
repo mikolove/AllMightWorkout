@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.network.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.model.WorkoutExercise
 import com.mikolove.allmightworkout.util.isUnitTest
 import java.text.SimpleDateFormat
 import java.util.*

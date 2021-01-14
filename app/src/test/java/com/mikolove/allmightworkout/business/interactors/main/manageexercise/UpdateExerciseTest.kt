@@ -42,7 +42,7 @@ Test cases:
 
 
 @InternalCoroutinesApi
-class UpdateWorkoutTest {
+class UpdateExerciseTest {
 
     private val updateExercise : UpdateExercise
 

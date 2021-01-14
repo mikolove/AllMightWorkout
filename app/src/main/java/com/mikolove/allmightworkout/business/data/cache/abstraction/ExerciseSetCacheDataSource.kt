@@ -14,4 +14,5 @@ interface ExerciseSetCacheDataSource {
 
     suspend fun removeExerciseSetById(primaryKey :String, idExercise: String) : Int
 
+    suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int
 }

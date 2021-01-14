@@ -29,5 +29,7 @@ constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
 
     override suspend fun getExerciseSetByIdExercise(idExercise : String): List<ExerciseSet>? = exerciseSetDaoService.getExerciseSetByIdExercise(idExercise)
 
-
+    override suspend fun getTotalExercisesSetByExercise(
+        idExercise: String
+    ): Int = exerciseSetDaoService.getTotalExercisesSetByExercise(idExercise)
 }

@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetC
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import kotlinx.coroutines.processNextEventInCurrentThread
 
 const val FORCE_NEW_EXERCISESET_EXCEPTION = "FORCE_NEW_EXERCISESET_EXCEPTION"
 const val FORCE_NEW_EXERCISESETS_EXCEPTION = "FORCE_NEW_EXERCISESETS_EXCEPTION"
@@ -61,6 +60,8 @@ class FakeExerciseSetCacheDataSourceImpl(
                 if(set.idExerciseSet == primaryKey) {
                     exerciseSet = set
                     break
+                }else{
+                    return -1
                 }
             }
         }
@@ -102,7 +103,9 @@ class FakeExerciseSetCacheDataSourceImpl(
                     listExerciseSet.add(set)
             }
             exerciseDatas[idExercise]?.sets = listExerciseSet
-            1
+
+            if(listExerciseSet.size < list.size) 1 else -1
+
         }?: -1
 
     }
@@ -121,4 +124,13 @@ class FakeExerciseSetCacheDataSourceImpl(
     override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
         return exerciseDatas[idExercise]?.sets
     }
+
+    override suspend fun getTotalExercisesSetByExercise(
+        idExercise: String
+    ): Int {
+       return exerciseDatas[idExercise]?.sets?.let {
+            it.size
+        }?:-1
+    }
+
 }

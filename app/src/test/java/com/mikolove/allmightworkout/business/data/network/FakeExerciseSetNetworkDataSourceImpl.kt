@@ -65,4 +65,13 @@ class FakeExerciseSetNetworkDataSourceImpl(
     override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
         return exerciseDatas[idExercise]?.sets
     }
+
+    override suspend fun getTotalExercisesSetByExercise(
+        idExercise: String
+    ): Int {
+        return exerciseDatas[idExercise]?.sets?.let {
+            it.size
+        }?:-1
+    }
+
 }
