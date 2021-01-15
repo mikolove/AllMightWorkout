@@ -65,16 +65,20 @@ constructor(
         return bodyPartsData[primaryKey]
     }
 
-    override suspend fun getTotalBodyParts(idWorkoutType: String): Int {
+    override suspend fun getTotalBodyPartsByWorkoutType(idWorkoutType: String): Int {
+        return bodyPartsData.values.filter {
+                bodyPart ->
+                    bodyPart.workoutType.idWorkoutType == idWorkoutType
+            }.size
+    }
+
+    override suspend fun getTotalBodyParts(): Int {
         return bodyPartsData.size
     }
 
     override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? {
-        var listOfBodyPartByIdWorkoutType : ArrayList<BodyPart> = ArrayList()
-        for( bodyPart in bodyPartsData.values){
-            if(idWorkoutType.equals(bodyPart.workoutType.idWorkoutType))
-                listOfBodyPartByIdWorkoutType.add(bodyPart)
+        return bodyPartsData.values.filter { bodyPart ->
+            bodyPart.workoutType.idWorkoutType == idWorkoutType
         }
-        return listOfBodyPartByIdWorkoutType
     }
 }

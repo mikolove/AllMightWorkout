@@ -25,7 +25,9 @@ constructor( private val bodyPartDaoService : BodyPartDaoService) : BodyPartCach
 
     override suspend fun getBodyPartById(primaryKey: String): BodyPart? = bodyPartDaoService.getBodyPartById(primaryKey)
 
-    override suspend fun getTotalBodyParts(idWorkoutType : String): Int = bodyPartDaoService.getTotalBodyParts(idWorkoutType)
+    override suspend fun getTotalBodyPartsByWorkoutType(idWorkoutType: String): Int = bodyPartDaoService.getTotalBodyPartsByWorkoutType(idWorkoutType)
+
+    override suspend fun getTotalBodyParts(): Int = bodyPartDaoService.getTotalBodyParts()
 
     override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? = bodyPartDaoService.getBodyPartsByWorkoutType(idWorkoutType)
 }

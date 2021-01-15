@@ -1,55 +1,53 @@
 package com.mikolove.allmightworkout.business.interactors.main.home
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetTotalExercises(
-    private val exerciseCacheDataSource: ExerciseCacheDataSource
-){
+class GetTotalBodyParts(
+    private val bodyPartCacheDataSource: BodyPartCacheDataSource
+) {
 
-    fun getTotalExercises(
-        stateEvent: StateEvent
-    ) : Flow<DataState<HomeViewState>?> = flow {
+    fun getTotalBodyParts(
+        stateEvent : StateEvent
+    ): Flow<DataState<HomeViewState>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
-            exerciseCacheDataSource.getTotalExercises()
+            bodyPartCacheDataSource.getTotalBodyParts()
         }
 
-        val response = object : CacheResponseHandler<HomeViewState,Int>(
-            response =cacheResult,
-            stateEvent = GetTotalExercisesEvent()
+        val response = object : CacheResponseHandler<HomeViewState, Int>(
+            response = cacheResult,
+            stateEvent = stateEvent
         ){
             override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
                 val viewState = HomeViewState(
-                    numExercisesInCache = resultObj
+                    numBodyParts = resultObj
                 )
 
                 return DataState.data(
                     response = Response(
-                        message = GET_TOTAL_EXERCISES_SUCCESS,
+                        message = GET_TOTAL_BODYPART_SUCCESS,
                         uiComponentType = UIComponentType.None(),
                         messageType = MessageType.Success()
                     ),
                     data = viewState,
                     stateEvent = stateEvent
                 )
-            }
 
+            }
         }.getResult()
 
         emit(response)
     }
 
     companion object{
-        val GET_TOTAL_EXERCISES_SUCCESS = "Successfully retrieved the number of exercises from the cache."
-        val GET_TOTAL_EXERCISES_FAILED = "Failed to retrieved the number of exercises from the cache."
+        val GET_TOTAL_BODYPART_SUCCESS = "Successfully retrieved the number of bodyparts from the cache."
+        val GET_TOTAL_BODYPART_FAILED = "Failed to retrieved the number of bodyparts from the cache."
     }
 }

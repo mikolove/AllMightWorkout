@@ -62,6 +62,22 @@ sealed class HomeStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = true
     }
 
+    class GetTotalBodyPartsEvent(): HomeStateEvent(){
+        override fun errorInfo(): String = "Error retrieving total bodyparts"
+
+        override fun eventName(): String = "GetTotalBodyPartsEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
+    class GetTotalBodyPartsByWorkoutTypeEvent(): HomeStateEvent(){
+        override fun errorInfo(): String = "Error retrieving total bodyparts by workoutType"
+
+        override fun eventName(): String = "GetTotalBodyPartsByWorkoutTypeEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
 
     class GetTotalExercisesEvent(
         val clearLayoutManagerState: Boolean = true
@@ -104,6 +120,7 @@ sealed class HomeStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
 
     }
+
 
 
     class CreateStateMessageEvent(

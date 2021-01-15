@@ -13,6 +13,7 @@ const val FORCE_UPDATE_WORKOUT_EXCEPTION = "FORCE_UPDATE_WORKOUT_EXCEPTION"
 const val FORCE_DELETE_WORKOUT_EXCEPTION = "FORCE_DELETE_WORKOUT_EXCEPTION"
 const val FORCE_DELETES_WORKOUT_EXCEPTION = "FORCE_DELETES_WORKOUT_EXCEPTION"
 const val FORCE_SEARCH_WORKOUTS_EXCEPTION = "FORCE_SEARCH_WORKOUTS_EXCEPTION"
+const val FORCE_GET_WORKOUT_BY_ID_EXCEPTION = "FORCE_GET_WORKOUT_BY_ID_EXCEPTION"
 
 class FakeWorkoutCacheDataSourceImpl
 constructor(
@@ -86,6 +87,9 @@ constructor(
     }
 
     override suspend fun getWorkoutById(primaryKey: String): Workout? {
+        if(primaryKey.equals(FORCE_GET_WORKOUT_BY_ID_EXCEPTION)){
+            throw Exception("Something went wrong retrieving workout by id.")
+        }
         return workoutsData[primaryKey]
     }
 

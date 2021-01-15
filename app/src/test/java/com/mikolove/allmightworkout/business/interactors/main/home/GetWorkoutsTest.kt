@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
 
 /*
 Test cases:
-1. blankQuery_success_confirmNWorkoutsRetrieved()
+1. blankQuery_success_confirmWorkoutsRetrieved()
     a) query with some default search options
     b) listen for GET_WORKOUTS_SUCCESS emitted from flow
     c) confirm workouts were retrieved
@@ -30,12 +30,12 @@ Test cases:
     a) query with something that will yield no results
     b) listen for GET_WORKOUTS_NO_MATCHING_RESULTS emitted from flow
     c) confirm nothing was retrieved
-    d) confirm there is notes in the cache
+    d) confirm there is workouts in the cache
 3. searchWorkouts_fail_confirmNoResults()
     a) force an exception to be thrown
     b) listen for CACHE_ERROR_UNKNOWN emitted from flow
     c) confirm nothing was retrieved
-    d) confirm there is notes in the cache
+    d) confirm there is workouts in the cache
  */
 @InternalCoroutinesApi
 class GetWorkoutsTest {
@@ -151,7 +151,6 @@ class GetWorkoutsTest {
                 value?.data?.listWorkouts?.let { list ->
                     results = ArrayList(list)
                 }
-                println("results: ${results}")
             }
         })
 

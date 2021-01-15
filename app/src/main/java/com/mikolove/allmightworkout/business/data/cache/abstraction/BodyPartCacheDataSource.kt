@@ -14,6 +14,8 @@ interface BodyPartCacheDataSource {
 
     suspend fun getBodyPartById(primaryKey: String) : BodyPart?
 
-    suspend fun getTotalBodyParts(idWorkoutType : String) : Int
+    suspend fun getTotalBodyParts() : Int
+
+    suspend fun getTotalBodyPartsByWorkoutType(idWorkoutType: String) : Int
 }
 

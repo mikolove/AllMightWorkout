@@ -523,5 +523,14 @@
     "isActive" : true,
     "updated_at": "2019-04-14 08:41:22",
     "created_at": "2019-04-14 07:05:11"
+  },
+  {
+    "idWorkout": "idWorkout6",
+    "name": "Workout with no exercises",
+    "exercises" : [
+    ],
+    "isActive" : true,
+    "updated_at": "2019-04-14 08:41:22",
+    "created_at": "2019-04-14 07:05:11"
   }
 ]
