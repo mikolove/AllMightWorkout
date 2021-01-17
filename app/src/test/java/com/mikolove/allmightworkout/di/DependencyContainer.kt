@@ -42,6 +42,20 @@ class DependencyContainer {
     lateinit var exerciseSetFactory: ExerciseSetFactory
     lateinit var exerciseSetDataFactory: ExerciseSetDataFactory
 
+    lateinit var historyWorkoutNetworkDataSource: HistoryWorkoutNetworkDataSource
+    lateinit var historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource
+    lateinit var historyWorkoutFactory: HistoryWorkoutFactory
+    lateinit var historyWorkoutDataFactory: HistoryWorkoutDataFactory
+
+    lateinit var historyExerciseNetworkDataSource: HistoryExerciseNetworkDataSource
+    lateinit var historyExerciseCacheDataSource: HistoryExerciseCacheDataSource
+    lateinit var historyExerciseFactory: HistoryExerciseFactory
+    lateinit var historyExerciseDataFactory : HistoryExerciseDataFactory
+
+    lateinit var historyExerciseSetNetworkDataSource: HistoryExerciseSetNetworkDataSource
+    lateinit var historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource
+    lateinit var historyExerciseSetFactory: HistoryExerciseSetFactory
+    lateinit var historyExerciseSetDataFactory: HistoryExerciseSetDataFactory
 
     init {
         isUnitTest = true // for Logger.kt
@@ -56,16 +70,26 @@ class DependencyContainer {
             exerciseSetDataFactory = ExerciseSetDataFactory(testClassLoader = classLoader,filename = "exerciseset_list")
             bodyPartDataFactory = BodyPartDataFactory(testClassLoader = classLoader, filename = "bodypart_list")
             workoutTypeDataFactory = WorkoutTypeDataFactory(testClassLoader = classLoader,filename = "workouttype_list")
-
+            historyWorkoutDataFactory = HistoryWorkoutDataFactory(testClassLoader = classLoader,filename = "historyworkout_list")
+            historyExerciseDataFactory = HistoryExerciseDataFactory(testClassLoader = classLoader,filename = "historyexercise_list")
+            historyExerciseSetDataFactory = HistoryExerciseSetDataFactory(testClassLoader = classLoader,filename = "historyexerciseset_list")
         }
 
         workoutTypeFactory = WorkoutTypeFactory()
+
         bodyPartFactory = BodyPartFactory(workoutTypeFactory)
 
         exerciseSetFactory = ExerciseSetFactory(dateUtil)
+
         exerciseFactory = ExerciseFactory(dateUtil,exerciseSetFactory,bodyPartFactory)
 
         workoutFactory = WorkoutFactory(dateUtil,exerciseFactory)
+
+        historyExerciseSetFactory = HistoryExerciseSetFactory(dateUtil)
+
+        historyExerciseFactory = HistoryExerciseFactory(dateUtil,historyExerciseSetFactory)
+
+        historyWorkoutFactory =HistoryWorkoutFactory(dateUtil,historyExerciseFactory)
 
         workoutNetworkDataSource = FakeWorkoutNetworkDataSourceImpl(
             workoutsData = workoutDataFactory.produceHashMapOfT(
@@ -134,5 +158,32 @@ class DependencyContainer {
                 workoutTypeDataFactory.produceListOfT(WorkoutType::class.java)
             )
         )
+
+        historyWorkoutCacheDataSource = FakeHistoryWorkoutCacheDataSourceImpl(
+            historyWorkoutsData = historyWorkoutDataFactory.produceHashMapOfT(
+                historyWorkoutDataFactory.produceListOfT(HistoryWorkout::class.java)
+            ),
+            dateUtil = dateUtil
+        )
+
+        historyExerciseCacheDataSource = FakeHistoryExerciseCacheDataSourceImpl(
+            historyWorkoutCacheDataSource =historyWorkoutDataFactory.produceHashMapOfT(
+                historyWorkoutDataFactory.produceListOfT(HistoryWorkout::class.java)
+            ),
+            historyExercisesData = historyExerciseDataFactory.produceHashMapOfT(
+                historyExerciseDataFactory.produceListOfT(HistoryExercise::class.java)
+            ),
+            dateUtil = dateUtil
+        )
+
+        historyExerciseSetCacheDataSource = FakeHistoryExerciseSetCacheDataSourceImpl(
+            historyExercisesData = historyExerciseDataFactory.produceHashMapOfT(
+                historyExerciseDataFactory.produceListOfT(HistoryExercise::class.java)
+            ),
+            historyExerciseSetsData = historyExerciseSetDataFactory.produceHashMapOfT(
+                historyExerciseSetDataFactory.produceListOfT(HistoryExerciseSet::class.java)
+            )
+        )
+
     }
 }

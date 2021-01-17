@@ -30,12 +30,12 @@ Test cases:
     a) query with something that will yield no results
     b) listen for GET_BODYPARTS_NO_MATCHING_RESULTS emitted from flow
     c) confirm nothing was retrieved
-    d) confirm there is notes in the cache
+    d) confirm there is bodyparts in the cache
 3. searchWorkouts_fail_confirmNoResults()
     a) force an exception to be thrown
     b) listen for CACHE_ERROR_UNKNOWN emitted from flow
     c) confirm nothing was retrieved
-    d) confirm there is notes in the cache
+    d) confirm there is bodyparts in the cache
  */
 @InternalCoroutinesApi
 class GetBodyPartsTest {
@@ -46,13 +46,11 @@ class GetBodyPartsTest {
     //Dependencies
     private val dependencyContainer : DependencyContainer
     private val bodyPartCacheDataSource : BodyPartCacheDataSource
-    private val bodyPartFactory : BodyPartFactory
 
     init {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
-        bodyPartFactory = dependencyContainer.bodyPartFactory
         getBodyParts = GetBodyParts(
             bodyPartCacheDataSource
         )

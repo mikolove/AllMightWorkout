@@ -7,6 +7,8 @@ interface HistoryWorkoutDaoService {
 
     suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout) : Long
 
+    suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout) : Int
+
     suspend fun getHistoryWorkoutById(primaryKey : String) : HistoryWorkout?
 
     suspend fun getTotalHistoryWorkout() : Int

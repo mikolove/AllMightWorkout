@@ -10,11 +10,12 @@ import kotlin.collections.ArrayList
 @Singleton
 class HistoryExerciseSetFactory
 @Inject
-constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: ExerciseSetFactory){
+constructor(private val dateUtil: DateUtil){
 
     fun  createHistoryExerciseSetFromExerciseSet(
         idHistoryExerciseSet : String?,
-        exerciseSet : ExerciseSet
+        exerciseSet : ExerciseSet,
+        created_at: String?
     ) :  HistoryExerciseSet {
         return HistoryExerciseSet(
             idHistoryExerciseSet = idHistoryExerciseSet ?: UUID.randomUUID().toString(),
@@ -22,8 +23,8 @@ constructor(private val dateUtil: DateUtil, private val exerciseSetFactory: Exer
             weight = exerciseSet.weight,
             time = exerciseSet.time,
             restTime = exerciseSet.restTime,
-            created_at = exerciseSet.created_at,
-            updated_at = exerciseSet.updated_at
+            created_at = created_at?: dateUtil.getCurrentTimestamp(),
+            updated_at = dateUtil.getCurrentTimestamp()
         )
     }
 

@@ -9,12 +9,14 @@ import kotlin.collections.ArrayList
 @Singleton
 class HistoryWorkoutFactory
 @Inject
-constructor(private val historyExerciseFactory: HistoryExerciseFactory) {
+constructor(private val dateUtil: DateUtil,
+            private val historyExerciseFactory: HistoryExerciseFactory) {
 
 
     fun createHistoryWorkoutFromWorkout(
         idHistoryWorkout : String?,
-        workout: Workout)
+        workout: Workout,
+        created_at : String?)
     : HistoryWorkout{
 
         val listOfHistoryExercise = ArrayList<HistoryExercise>()
@@ -22,8 +24,9 @@ constructor(private val historyExerciseFactory: HistoryExerciseFactory) {
             for( i in 1..listOfExercise.size){
                 listOfHistoryExercise.add(
                     historyExerciseFactory.createHistoryExerciseFromExercise(
-                                            idHistoryExercise = null,
-                                            exercise = listOfExercise[i])
+                        idHistoryExercise = null,
+                        exercise = listOfExercise[i],
+                        created_at = null)
                 )
             }
         }
@@ -32,8 +35,8 @@ constructor(private val historyExerciseFactory: HistoryExerciseFactory) {
             idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
             name = workout.name,
             historyExercises = listOfHistoryExercise,
-            created_at = workout.created_at,
-            updated_at = workout.updated_at)
+            created_at = created_at?: dateUtil.getCurrentTimestamp(),
+            updated_at = dateUtil.getCurrentTimestamp())
     }
 
 }

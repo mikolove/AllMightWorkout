@@ -14,7 +14,7 @@ constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoServ
 
     override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet): Long = historyExerciseSetDaoService.insertHistoryExerciseSet(historyExerciseSet)
 
-    override suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet> = historyExerciseSetDaoService.getHistoryExerciseSetsByHistoryExercise(idHistoryExercise)
+    override suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet>? = historyExerciseSetDaoService.getHistoryExerciseSetsByHistoryExercise(idHistoryExercise)
 
     override suspend fun getTotalHistoryExerciseSet(): Int = historyExerciseSetDaoService.getTotalHistoryExerciseSet()
 }
