@@ -5,15 +5,12 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_WORKOUT_BY_ID_
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -21,14 +18,14 @@ import org.junit.jupiter.api.Test
 
 /*
 Test cases:
-1. getWorkoutById_success_confirmWorkoutRetrieved()
+1. getWorkoutByValidId_success_confirmWorkoutRetrieved()
     a) search for workout with specific id
     b) listen for GET_WORKOUT_BY_ID_SUCCESS emitted from flow
     c) confirm workout was retrieved
     d) confirm workout in cache match with workout that was retrieved
-2. getWorkoutById_success_confirmNoResults()
+2. getWorkoutByInvalidId_success_confirmNoResults()
     a) search for workout with specific id
-    b) listen for CacheErros.CACHE_DATA_NULL emitted from flow
+    b) listen for CacheErrors.CACHE_DATA_NULL emitted from flow
     c) confirm nothing was retrieved
 3. getWorkoutById_fail_confirmNoResults()
     a) force an exception to be thrown
@@ -55,7 +52,7 @@ class GetWorkoutByIdTest {
     }
 
     @Test
-    fun getWorkoutById_success_confirmWorkoutRetrieved() = runBlocking {
+    fun getWorkoutByValidId_success_confirmWorkoutRetrieved() = runBlocking {
 
         //Workout id
         val idWorkout = "idWorkout1"
@@ -88,7 +85,7 @@ class GetWorkoutByIdTest {
     }
 
     @Test
-    fun getWorkoutById_success_confirmNoResults() = runBlocking {
+    fun getWorkoutByInvalidId_success_confirmNoResults() = runBlocking {
 
         //Workout id invalid
         val idWorkout = "invalidWorkoutId"

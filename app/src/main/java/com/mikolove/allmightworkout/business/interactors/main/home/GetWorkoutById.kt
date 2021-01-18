@@ -23,33 +23,20 @@ class GetWorkoutById(
             workoutCacheDataSource.getWorkoutById(idWorkout)
         }
 
-        val response = object : CacheResponseHandler<HomeViewState, Workout?>(
+        val response = object : CacheResponseHandler<HomeViewState, Workout>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Workout?): DataState<HomeViewState>? {
+            override suspend fun handleSuccess(resultObj: Workout): DataState<HomeViewState>? {
 
-                if(resultObj != null){
-                    return DataState.data(
-                        response = Response(
-                            message = GET_WORKOUT_BY_ID_SUCCESS,
-                            uiComponentType = UIComponentType.None(),
-                            messageType = MessageType.Success()
-                            ),
-                        data = HomeViewState(workoutSelected = resultObj),
-                        stateEvent = stateEvent)
-
-                }else{
-
-                    return DataState.data(
-                        response = Response(
-                            message = GET_WORKOUT_BY_ID_FAILED,
-                            uiComponentType = UIComponentType.None(),
-                            messageType = MessageType.Error()
+                return DataState.data(
+                    response = Response(
+                        message = GET_WORKOUT_BY_ID_SUCCESS,
+                        uiComponentType = UIComponentType.None(),
+                        messageType = MessageType.Success()
                         ),
-                        data = null,
-                        stateEvent = stateEvent)
-                }
+                    data = HomeViewState(workoutSelected = resultObj),
+                    stateEvent = stateEvent)
             }
         }.getResult()
 
@@ -58,7 +45,6 @@ class GetWorkoutById(
 
     companion object{
         val GET_WORKOUT_BY_ID_SUCCESS = "Successfully retrieved workout by id."
-        val GET_WORKOUT_BY_ID_FAILED = "No workout found for the specified id."
     }
 
 }
