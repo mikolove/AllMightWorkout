@@ -167,7 +167,7 @@ class DependencyContainer {
         )
 
         historyExerciseCacheDataSource = FakeHistoryExerciseCacheDataSourceImpl(
-            historyWorkoutCacheDataSource =historyWorkoutDataFactory.produceHashMapOfT(
+            historyWorkoutsData =historyWorkoutDataFactory.produceHashMapOfT(
                 historyWorkoutDataFactory.produceListOfT(HistoryWorkout::class.java)
             ),
             historyExercisesData = historyExerciseDataFactory.produceHashMapOfT(

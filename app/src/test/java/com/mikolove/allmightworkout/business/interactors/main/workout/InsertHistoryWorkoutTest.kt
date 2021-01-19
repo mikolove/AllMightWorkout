@@ -26,7 +26,7 @@ Test cases:
 1. insertHistoryWorkout_success_confirmCacheUpdated()
     a) insert a new history workout
     b) listen for INSERT_HISTORY_WORKOUT_SUCCESS emission from flow
-    c) confirm cache was updated with new workout
+    c) confirm cache was updated with new history workout
 2. insertHistoryWorkout_failed_confirmCacheUnchanged()
     a) insert a new history workout
     b) force a failure (return -1 from db operation)

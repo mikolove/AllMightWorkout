@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class HistoryExercise(
+data class HistoryExercise(
     var idHistoryExercise : String,
     var name : String,
     var bodyPart : String,

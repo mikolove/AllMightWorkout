@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.business.interactors.main.workout
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
@@ -50,7 +49,7 @@ class InsertHistoryWorkout(
                             uiComponentType = UIComponentType.None(),
                             messageType = MessageType.Success()
                         ),
-                        data = WorkoutViewState(historyWorkout = historyWorkout),
+                        data = WorkoutViewState(lastHistoryWorkoutInserted = historyWorkout),
                         stateEvent = stateEvent
                     )
                 }else{

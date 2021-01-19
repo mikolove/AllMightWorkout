@@ -1,47 +1,45 @@
 package com.mikolove.allmightworkout.business.interactors.main.workout
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseFactory
+import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.*
 
-class InsertHistoryExercise(
-    private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
-    private val historyExerciseFactory: HistoryExerciseFactory
+class InsertHistoryExerciseSet(
+    private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
+    private val historyExerciseSetFactory: HistoryExerciseSetFactory
 ) {
 
-    fun insertHistoryExercise(
-        idHistoryExercise : String?,
-        name : String,
-        bodyPart : String,
-        workoutType : String,
-        exerciseType : String,
+    fun insertHistoryExerciseSet(
+        idHistoryExerciseSet : String?,
+        reps : Int,
+        weight : Int,
+        time : Int,
+        restTime : Int,
         started_at : String,
         ended_at : String,
         stateEvent : StateEvent
     ): Flow<DataState<WorkoutViewState>?> = flow {
 
-        //Create history exercise
-        val historyExercise = historyExerciseFactory.createHistoryExercise(
-            idHistoryExercise = idHistoryExercise ?: UUID.randomUUID().toString(),
-            name = name,
-            bodyPart = bodyPart,
-            workoutType = workoutType,
-            exerciseType = exerciseType,
-            historySets = null,
+        //Create history exerciseSet
+        val historyExerciseSet = historyExerciseSetFactory.createHistoryExerciseSet(
+            idHistoryExerciseSet = idHistoryExerciseSet ?: UUID.randomUUID().toString(),
+            reps =reps,
+            weight= weight,
+            time = time,
+            restTime = restTime,
             started_at = started_at,
             ended_at = ended_at,
-            created_at = null
-        )
+            created_at = null)
 
-        val cacheResult = safeCacheCall(IO){
-            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise)
+        val cacheResult = safeCacheCall(Dispatchers.IO){
+            historyExerciseSetCacheDataSource.insertHistoryExerciseSet(historyExerciseSet)
         }
 
         val response = object : CacheResponseHandler<WorkoutViewState, Long>(
@@ -52,17 +50,17 @@ class InsertHistoryExercise(
                 return if(resultObj >0){
                     DataState.data(
                         response = Response(
-                            message = INSERT_HISTORY_EXERCISE_SUCCESS,
+                            message = INSERT_HISTORY_EXERCISE_SET_SUCCESS,
                             uiComponentType = UIComponentType.None(),
                             messageType = MessageType.Success()
                         ),
-                        data = WorkoutViewState(lastHistoryExerciseInserted = historyExercise),
+                        data = WorkoutViewState(lastHistoryExerciseSetInserted = historyExerciseSet),
                         stateEvent = stateEvent
                     )
                 }else{
                     DataState.data(
                         response = Response(
-                            message = INSERT_HISTORY_EXERCISE_FAILED,
+                            message = INSERT_HISTORY_EXERCISE_SET_FAILED,
                             uiComponentType = UIComponentType.None(),
                             messageType = MessageType.Error()
                         ),
@@ -77,7 +75,8 @@ class InsertHistoryExercise(
     }
 
     companion object{
-        const val INSERT_HISTORY_EXERCISE_SUCCESS = "Successfully inserted history exercise."
-        const val INSERT_HISTORY_EXERCISE_FAILED  = "Failed inserting history exercise."
+        const val INSERT_HISTORY_EXERCISE_SET_SUCCESS = "Successfully inserted history exercise set."
+        const val INSERT_HISTORY_EXERCISE_SET_FAILED  = "Failed inserting history exercise set."
     }
+
 }

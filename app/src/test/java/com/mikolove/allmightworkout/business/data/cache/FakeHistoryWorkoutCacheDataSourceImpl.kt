@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
 
 const val FORCE_NEW_HISTORY_WORKOUT_EXCEPTION = "FORCE_NEW_HISTORY_WORKOUT_EXCEPTION"
-const val FORCE_UPDATE_HISTORY_WORKOUT_EXCEPTION = "FORCE_UPDATE_HISTORY_WORKOUT_EXCEPTION"
 const val FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION = "FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION"
 const val FORCE_GET_HISTORY_WORKOUT_BY_ID_EXCEPTION = "FORCE_GET_HISTORY_WORKOUT_BY_ID_EXCEPTION"
 
@@ -25,27 +24,6 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
         }
         historyWorkoutsData.put(historyWorkout.idHistoryWorkout, historyWorkout)
         return 1 // success
-    }
-
-    override suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout): Int {
-        if(historyWorkout.idHistoryWorkout.equals(FORCE_UPDATE_HISTORY_WORKOUT_EXCEPTION)){
-            throw Exception("Something went wrong updating the history workout.")
-        }
-        val updatedHistoryWorkout = HistoryWorkout(
-            idHistoryWorkout = historyWorkout.idHistoryWorkout,
-            name = historyWorkout.name,
-            historyExercises = historyWorkout.historyExercises,
-            started_at = historyWorkout.started_at,
-            ended_at = historyWorkout.ended_at,
-            created_at = historyWorkout.created_at,
-            updated_at = dateUtil.getCurrentTimestamp()
-
-        )
-
-        return historyWorkoutsData.get(historyWorkout.idHistoryWorkout)?.let {
-            historyWorkoutsData.put(historyWorkout.idHistoryWorkout, updatedHistoryWorkout)
-            1 // success
-        }?: -1 // nothing to update
     }
 
     override suspend fun getHistoryWorkouts(

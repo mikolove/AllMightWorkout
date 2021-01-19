@@ -13,4 +13,13 @@ data class ExerciseSet(
     var ended_at: String?,
     var created_at : String,
     var updated_at : String,
-) : Parcelable
+) : Parcelable{
+
+    fun start(date : String){
+        started_at = date
+    }
+
+    fun stop(date : String){
+        ended_at = date
+    }
+}

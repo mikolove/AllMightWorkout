@@ -27,6 +27,10 @@ constructor(
         return historyExercisesData[idHistoryExercise]?.historySets
     }
 
+    override suspend fun getHistoryExerciseSetById(idHistoryExerciseSet: String): HistoryExerciseSet? {
+        return historyExerciseSetsData[idHistoryExerciseSet]
+    }
+
     override suspend fun getTotalHistoryExerciseSet(): Int {
         return historyExerciseSetsData.size
     }
