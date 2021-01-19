@@ -9,6 +9,8 @@ data class ExerciseSet(
     var weight: Int ,
     var time : Int,
     var restTime : Int,
+    var started_at: String?,
+    var ended_at: String?,
     var created_at : String,
     var updated_at : String,
 ) : Parcelable

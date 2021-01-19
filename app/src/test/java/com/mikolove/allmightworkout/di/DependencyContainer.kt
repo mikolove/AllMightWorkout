@@ -87,9 +87,9 @@ class DependencyContainer {
 
         historyExerciseSetFactory = HistoryExerciseSetFactory(dateUtil)
 
-        historyExerciseFactory = HistoryExerciseFactory(dateUtil,historyExerciseSetFactory)
+        historyExerciseFactory = HistoryExerciseFactory(dateUtil)
 
-        historyWorkoutFactory =HistoryWorkoutFactory(dateUtil,historyExerciseFactory)
+        historyWorkoutFactory =HistoryWorkoutFactory(dateUtil)
 
         workoutNetworkDataSource = FakeWorkoutNetworkDataSourceImpl(
             workoutsData = workoutDataFactory.produceHashMapOfT(

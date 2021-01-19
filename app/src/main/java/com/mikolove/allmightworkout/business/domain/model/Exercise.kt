@@ -10,6 +10,8 @@ data class Exercise(
     var bodyPart: BodyPart,
     var exerciseType : ExerciseType,
     var isActive: Boolean,
+    var started_at: String?,
+    var ended_at: String?,
     var created_at: String,
     var updated_at: String) : Parcelable
 

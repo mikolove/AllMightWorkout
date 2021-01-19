@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 class WorkoutViewState(
     var workout: Workout? = null,
     var historyWorkout: HistoryWorkout? = null,
-    var historyExercise: ArrayList<HistoryExercise>? = null,
+    var historyExercises: ArrayList<HistoryExercise>? = null,
     var layoutManagerState: Parcelable? = null
 ) : Parcelable, ViewState {
 }

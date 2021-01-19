@@ -73,6 +73,8 @@ class FakeExerciseSetCacheDataSourceImpl(
             weight = weight,
             time = time,
             restTime = restTime,
+            started_at = null,
+            ended_at = null,
             created_at = exerciseSet?.created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )

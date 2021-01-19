@@ -29,28 +29,10 @@ constructor( private val dateUtil: DateUtil,
             bodyPart = bodyPart,
             exerciseType = exerciseType,
             isActive = isActive ?: true,
+            started_at = null,
+            ended_at = null,
             created_at = created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )
     }
-
-    //For testing purpose
-    fun createExerciseList(numberOfExercise : Int, bodyPart : BodyPart? = null) : List<Exercise>{
-        val listOfExercise = ArrayList<Exercise>()
-        for(i in 1..numberOfExercise){
-            listOfExercise.add(
-                createExercise(
-                    idExercise = UUID.randomUUID().toString(),
-                    name = UUID.randomUUID().toString(),
-                    sets = exerciseSetFactory.createListOfExerciseSet(4),
-                    bodyPart = bodyPart ?: bodyPartFactory.getListOfBodyPart(1)[0],
-                    exerciseType = ExerciseType.REP_EXERCISE,
-                    isActive = true,
-                    created_at = null
-                )
-            )
-        }
-        return listOfExercise
-    }
-
 }

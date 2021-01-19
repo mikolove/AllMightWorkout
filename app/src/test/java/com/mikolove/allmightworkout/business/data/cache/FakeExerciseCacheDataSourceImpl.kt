@@ -55,6 +55,8 @@ class FakeExerciseCacheDataSourceImpl(
             sets = listOf(),
             isActive = isActive,
             exerciseType = ExerciseType.valueOf(exerciseType),
+            started_at = null,
+            ended_at = null,
             created_at = exercisesData[primaryKey]?.created_at?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )

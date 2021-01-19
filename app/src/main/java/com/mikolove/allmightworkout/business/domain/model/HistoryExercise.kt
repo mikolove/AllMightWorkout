@@ -9,8 +9,10 @@ class HistoryExercise(
     var name : String,
     var bodyPart : String,
     var workoutType : String,
-    var exerciseType: ExerciseType,
-    var historySets: List<HistoryExerciseSet>,
+    var exerciseType: String,
+    var historySets: List<HistoryExerciseSet>?,
+    var started_at : String,
+    var ended_at : String,
     var created_at: String,
     var updated_at: String
 ) : Parcelable

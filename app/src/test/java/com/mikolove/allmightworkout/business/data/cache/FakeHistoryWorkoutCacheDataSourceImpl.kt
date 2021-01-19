@@ -35,6 +35,8 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
             idHistoryWorkout = historyWorkout.idHistoryWorkout,
             name = historyWorkout.name,
             historyExercises = historyWorkout.historyExercises,
+            started_at = historyWorkout.started_at,
+            ended_at = historyWorkout.ended_at,
             created_at = historyWorkout.created_at,
             updated_at = dateUtil.getCurrentTimestamp()
 

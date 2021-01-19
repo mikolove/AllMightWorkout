@@ -7,7 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class HistoryWorkout(
     var idHistoryWorkout: String,
     var name : String,
-    internal var historyExercises: List<HistoryExercise>?,
+    var historyExercises: List<HistoryExercise>?,
+    var started_at : String,
+    var ended_at : String,
     var created_at: String,
     var updated_at: String
 ) : Parcelable

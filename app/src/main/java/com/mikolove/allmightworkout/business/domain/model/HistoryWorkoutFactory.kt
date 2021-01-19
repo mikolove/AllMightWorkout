@@ -9,33 +9,23 @@ import kotlin.collections.ArrayList
 @Singleton
 class HistoryWorkoutFactory
 @Inject
-constructor(private val dateUtil: DateUtil,
-            private val historyExerciseFactory: HistoryExerciseFactory) {
+constructor(private val dateUtil: DateUtil) {
 
-
-    fun createHistoryWorkoutFromWorkout(
-        idHistoryWorkout : String?,
-        workout: Workout,
-        created_at : String?)
-    : HistoryWorkout{
-
-        val listOfHistoryExercise = ArrayList<HistoryExercise>()
-        workout.exercises?.let { listOfExercise ->
-            for( i in 1..listOfExercise.size){
-                listOfHistoryExercise.add(
-                    historyExerciseFactory.createHistoryExerciseFromExercise(
-                        idHistoryExercise = null,
-                        exercise = listOfExercise[i],
-                        created_at = null)
-                )
-            }
-        }
-
+    fun createHistoryWorkout(
+        idHistoryWorkout: String?,
+        name: String?,
+        historyExercises : List<HistoryExercise>?,
+        started_at : String?,
+        ended_at : String?,
+        created_at: String?
+    ): HistoryWorkout{
         return HistoryWorkout(
             idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
-            name = workout.name,
-            historyExercises = listOfHistoryExercise,
-            created_at = created_at?: dateUtil.getCurrentTimestamp(),
+            name = name ?: "New history workout",
+            historyExercises = historyExercises ?: null,
+            started_at = started_at ?: dateUtil.getCurrentTimestamp(),
+            ended_at = ended_at ?: dateUtil.getCurrentTimestamp(),
+            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp())
     }
 

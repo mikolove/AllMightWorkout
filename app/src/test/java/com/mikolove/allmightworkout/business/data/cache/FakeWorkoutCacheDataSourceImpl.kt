@@ -45,6 +45,8 @@ constructor(
             name = name,
             exercises = null,
             isActive = isActive,
+            started_at = null,
+            ended_at = null,
             created_at = workoutsData.get(primaryKey)?.created_at?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )

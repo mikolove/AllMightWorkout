@@ -8,6 +8,8 @@ data class Workout(
     var name: String,
     var exercises: List<Exercise>?,
     var isActive: Boolean,
+    var started_at: String?,
+    var ended_at: String?,
     var created_at: String,
     var updated_at: String
 ) : Parcelable{
@@ -25,4 +27,13 @@ data class Workout(
 
         return true
     }
+
+    fun start(date : String){
+        started_at = date
+    }
+
+    fun stop(date : String){
+        ended_at = date
+    }
+
 }

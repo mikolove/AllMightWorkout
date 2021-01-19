@@ -24,27 +24,11 @@ constructor( private val dateUtil: DateUtil ,
             name = name ?: "New workout",
             exercises = exercises ,
             isActive = isActive ?: true,
+            started_at = null,
+            ended_at = null,
             created_at = created_at?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
         )
-    }
-
-    //For testing purpose
-    fun createListOfWorkout( numberOfWorkout : Int){
-
-        val listOfWorkout : ArrayList<Workout> = ArrayList()
-
-        for(i in 0 until numberOfWorkout){
-            listOfWorkout.add(
-                createWorkout(
-                    idWorkout = UUID.randomUUID().toString(),
-                    name = UUID.randomUUID().toString(),
-                    exercises = exerciseFactory.createExerciseList(2),
-                    isActive = true,
-                    created_at = dateUtil.getCurrentTimestamp()
-                )
-            )
-        }
     }
 
 }

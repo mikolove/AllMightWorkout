@@ -12,39 +12,26 @@ class HistoryExerciseSetFactory
 @Inject
 constructor(private val dateUtil: DateUtil){
 
-    fun  createHistoryExerciseSetFromExerciseSet(
+    fun  createHistoryExerciseSet(
         idHistoryExerciseSet : String?,
-        exerciseSet : ExerciseSet,
+        reps: Int? ,
+        weight: Int? ,
+        time : Int?,
+        restTime : Int?,
+        started_at: String?,
+        ended_at: String?,
         created_at: String?
     ) :  HistoryExerciseSet {
         return HistoryExerciseSet(
             idHistoryExerciseSet = idHistoryExerciseSet ?: UUID.randomUUID().toString(),
-            reps = exerciseSet.reps,
-            weight = exerciseSet.weight,
-            time = exerciseSet.time,
-            restTime = exerciseSet.restTime,
-            created_at = created_at?: dateUtil.getCurrentTimestamp(),
+            reps = reps ?: 0,
+            weight = weight ?: 0,
+            time = time ?: 0,
+            restTime = restTime ?: 0,
+            started_at = started_at ?: dateUtil.getCurrentTimestamp(),
+            ended_at = ended_at ?: dateUtil.getCurrentTimestamp(),
+            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()
-        )
-    }
-
-    fun  createHistoryExerciseSet(
-        idHistoryExerciseSet : String,
-        reps: Int ,
-        weight: Int ,
-        time : Int,
-        restTime : Int,
-        created_at: String,
-        updated_at: String
-    ) :  HistoryExerciseSet {
-        return HistoryExerciseSet(
-            idHistoryExerciseSet = idHistoryExerciseSet ,
-            reps = reps,
-            weight = weight,
-            time = time,
-            restTime = restTime,
-            created_at = created_at,
-            updated_at = updated_at
         )
     }
 }

@@ -37,6 +37,8 @@ constructor(
             exerciseType = historyExercise.exerciseType,
             historySets = historyExercise.historySets,
             created_at = historyExercise.created_at,
+            started_at = historyExercise.started_at,
+            ended_at = historyExercise.ended_at,
             updated_at = dateUtil.getCurrentTimestamp())
 
         return historyExercisesData.get(historyExercise.idHistoryExercise)?.let {

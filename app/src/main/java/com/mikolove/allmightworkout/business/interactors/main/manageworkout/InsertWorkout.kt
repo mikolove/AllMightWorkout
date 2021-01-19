@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.*
 
-class InsertWorkout(
+class
+InsertWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val workoutFactory: WorkoutFactory
