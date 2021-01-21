@@ -11,6 +11,6 @@ class BodyPartNetworkDataSourceImpl
 @Inject
 constructor(private val bodyPartFirestoreService : BodyPartFirestoreService) : BodyPartNetworkDataSource{
 
-    override suspend fun getBodyParts(): List<BodyPart>  = bodyPartFirestoreService.getBodyParts()
+    override suspend fun getAllBodyParts(): List<BodyPart> = bodyPartFirestoreService.getBodyParts()
 
 }

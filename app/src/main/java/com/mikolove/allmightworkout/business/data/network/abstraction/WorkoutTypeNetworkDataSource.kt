@@ -4,6 +4,6 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 
 interface   WorkoutTypeNetworkDataSource {
 
-    suspend fun getWorkoutTypes() : List<WorkoutType>
+    suspend fun getAllWorkoutTypes(): List<WorkoutType>
 
 }

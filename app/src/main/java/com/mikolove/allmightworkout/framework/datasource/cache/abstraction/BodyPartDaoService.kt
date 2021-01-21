@@ -7,6 +7,8 @@ interface BodyPartDaoService {
 
     suspend fun insertBodyPart(bodyPart: BodyPart) : Long
 
+    suspend fun updateBodyPart(idBodyPart: String, name: String): Int
+
     suspend fun removeBodyPart(primaryKey: String) : Int
 
     suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>?

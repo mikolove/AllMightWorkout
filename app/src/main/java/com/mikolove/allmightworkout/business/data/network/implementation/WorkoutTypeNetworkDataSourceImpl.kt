@@ -11,5 +11,5 @@ class WorkoutTypeNetworkDataSourceImpl
 @Inject
 constructor(private val workoutTypeFirestoreService : WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource{
 
-    override suspend fun getWorkoutTypes(): List<WorkoutType>  = workoutTypeFirestoreService.getWorkoutTypes()
+    override suspend fun getAllWorkoutTypes(): List<WorkoutType> = workoutTypeFirestoreService.getWorkoutTypes()
 }

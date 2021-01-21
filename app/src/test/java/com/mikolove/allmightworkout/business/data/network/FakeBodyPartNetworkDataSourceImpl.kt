@@ -7,7 +7,7 @@ class FakeBodyPartNetworkDataSourceImpl(
     private val bodyPartsData : HashMap<String, BodyPart>
 ) : BodyPartNetworkDataSource{
 
-    override suspend fun getBodyParts(): List<BodyPart> {
+    override suspend fun getAllBodyParts(): List<BodyPart> {
         return ArrayList<BodyPart>(bodyPartsData.values)
     }
 }

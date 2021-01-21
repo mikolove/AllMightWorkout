@@ -6,5 +6,4 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class BodyPart(
     var idBodyPart: String,
-    var name: String,
-    var workoutType: WorkoutType) : Parcelable
+    var name: String) : Parcelable

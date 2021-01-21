@@ -12,25 +12,14 @@ constructor()
 {
     fun createWorkoutType(
         idWorkoutType : String?,
-        name : String?
+        name : String?,
+        bodyParts : List<BodyPart>?
     ) : WorkoutType {
         return WorkoutType(
             idWorkoutType = idWorkoutType ?: UUID.randomUUID().toString(),
-            name = name ?: "New bodyGroup"
+            name = name ?: "New bodyGroup",
+            bodyParts = bodyParts ?: ArrayList()
         )
     }
-    //For testing purpose
-    fun getListOfWorkoutType(numberOfBodyGroup : Int) : List<WorkoutType>{
 
-        val listOfWorkoutType : ArrayList<WorkoutType> = ArrayList()
-        for (i in 0 until numberOfBodyGroup){
-            listOfWorkoutType.add(
-                createWorkoutType(
-                    UUID.randomUUID().toString(),
-                    UUID.randomUUID().toString())
-            )
-        }
-
-        return listOfWorkoutType
-    }
 }

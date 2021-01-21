@@ -2,28 +2,45 @@ package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.database.BODYPART_PAGINATION_PAGE_SIZE
 
 
 const val FORCE_NEW_BODYPART_EXCEPTION = "FORCE_NEW_BODYPART_EXCEPTION"
+const val FORCE_UPDATE_BODYPART_EXCEPTION = "FORCE_UPDATE_BODYPART_EXCEPTION"
 const val FORCE_DELETE_BODYPART_EXCEPTION = "FORCE_DELETE_BODYPART_EXCEPTION"
 const val FORCE_DELETES_BODYPART_EXCEPTION = "FORCE_DELETES_BODYPART_EXCEPTION"
 const val FORCE_SEARCH_BODYPART_EXCEPTION = "FORCE_SEARCH_BODYPART_EXCEPTION"
 
 class FakeBodyPartCacheDataSourceImpl
 constructor(
+    private val workoutTypesData : HashMap<String, WorkoutType>,
     private val bodyPartsData : HashMap<String, BodyPart>
 ) : BodyPartCacheDataSource{
 
-    override suspend fun insertBodyPart(bodyPart: BodyPart): Long {
+    override suspend fun insertBodyPart(bodyPart: BodyPart, idWorkoutType: String): Long {
         if(bodyPart.idBodyPart.equals(FORCE_NEW_BODYPART_EXCEPTION)){
             throw Exception("Something went wrong inserting bodypart.")
         }
         if(bodyPart.idBodyPart.equals(FORCE_GENERAL_FAILURE)){
             return -1
         }
-        bodyPartsData.put(bodyPart.idBodyPart,bodyPart)
+        bodyPartsData.put(bodyPart.idBodyPart, bodyPart)
         return 1
+    }
+
+    override suspend fun updateBodyPart(idBodyPart: String, name: String): Int {
+        if(idBodyPart.equals(FORCE_UPDATE_BODYPART_EXCEPTION)){
+            throw Exception("Something went wrong updating bodypart.")
+        }
+        val updatedBodyPart = BodyPart(
+            idBodyPart = idBodyPart,
+            name = name
+        )
+        return bodyPartsData.get(idBodyPart)?.let {
+            bodyPartsData.put(idBodyPart,updatedBodyPart)
+            1
+        }?:-1
     }
 
     override suspend fun removeBodyPart(primaryKey: String): Int {
@@ -66,10 +83,7 @@ constructor(
     }
 
     override suspend fun getTotalBodyPartsByWorkoutType(idWorkoutType: String): Int {
-        return bodyPartsData.values.filter {
-                bodyPart ->
-                    bodyPart.workoutType.idWorkoutType == idWorkoutType
-            }.size
+        return workoutTypesData[idWorkoutType]?.bodyParts?.size ?:0
     }
 
     override suspend fun getTotalBodyParts(): Int {
@@ -77,8 +91,7 @@ constructor(
     }
 
     override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? {
-        return bodyPartsData.values.filter { bodyPart ->
-            bodyPart.workoutType.idWorkoutType == idWorkoutType
-        }
+        return workoutTypesData[idWorkoutType]?.bodyParts ?: ArrayList()
     }
+
 }

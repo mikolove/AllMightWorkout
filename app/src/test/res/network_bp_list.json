@@ -18,5 +18,21 @@
   {
     "idBodyPart": "idBodyPart5",
     "name": "Triceps"
+  },
+  {
+    "idBodyPart": "idBodyPart4",
+    "name": "Biceps"
+  },
+  {
+    "idBodyPart": "idBodyPart5",
+    "name": "Triceps"
+  },
+  {
+    "idBodyPart": "idBodyPart6",
+    "name": "Delt 1"
+  },
+  {
+    "idBodyPart": "idBodyPart7",
+    "name": "Delt 2"
   }
 ]

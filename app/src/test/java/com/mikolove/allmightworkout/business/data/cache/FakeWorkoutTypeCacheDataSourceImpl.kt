@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
 
 const val FORCE_NEW_WORKOUTTYPE_EXCEPTION = "FORCE_NEW_WORKOUTTYPE_EXCEPTION"
+const val FORCE_UPDATE_WORKOUTTYPE_EXCEPTION = "FORCE_UPDATE_WORKOUTTYPE_EXCEPTION"
 const val FORCE_DELETE_WORKOUTTYPE_EXCEPTION = "FORCE_DELETE_WORKOUTTYPE_EXCEPTION"
 const val FORCE_DELETES_WORKOUTTYPE_EXCEPTION = "FORCE_DELETES_WORKOUTTYPE_EXCEPTION"
 const val FORCE_SEARCH_WORKOUTTYPE_EXCEPTION = "FORCE_SEARCH_WORKOUTTYPE_EXCEPTION"
@@ -23,6 +24,22 @@ class FakeWorkoutTypeCacheDataSourceImpl(
         }
         workoutTypeDatas.put(workoutType.idWorkoutType,workoutType)
         return 1
+    }
+
+    override suspend fun updateWorkoutType(idWorkoutType: String, name: String): Int {
+            if(idWorkoutType.equals(FORCE_UPDATE_WORKOUTTYPE_EXCEPTION)){
+                throw Exception("Something went wrong updating workoutType.")
+            }
+            val updatedWorkoutType = WorkoutType(
+                idWorkoutType = idWorkoutType,
+                name = name,
+                bodyParts = null
+            )
+            return workoutTypeDatas.get(idWorkoutType)?.let {
+                workoutTypeDatas.put(idWorkoutType,updatedWorkoutType)
+                1
+            }?:-1
+
     }
 
     override suspend fun removeWorkoutType(primaryKey: String): Int {
@@ -65,5 +82,22 @@ class FakeWorkoutTypeCacheDataSourceImpl(
 
     override suspend fun getTotalWorkoutTypes(): Int {
         return workoutTypeDatas.size
+    }
+
+    override suspend fun getAllWorkoutTypes(): List<WorkoutType>? {
+        return ArrayList(workoutTypeDatas.values)
+    }
+
+    override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String): WorkoutType? {
+        var workoutType : WorkoutType? = null
+        for(wT in workoutTypeDatas.values){
+            wT.bodyParts?.let {
+                for( bP in it){
+                    if(bP.idBodyPart == idBodyPart)
+                        workoutType = wT
+                }
+            }
+        }
+        return workoutType
     }
 }

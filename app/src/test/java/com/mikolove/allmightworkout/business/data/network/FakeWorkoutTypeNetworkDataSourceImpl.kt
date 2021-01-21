@@ -7,7 +7,7 @@ class FakeWorkoutTypeNetworkDataSourceImpl(
     private val workoutTypeDatas : HashMap<String,WorkoutType>
 ) : WorkoutTypeNetworkDataSource{
 
-    override suspend fun getWorkoutTypes(): List<WorkoutType> {
+    override suspend fun getAllWorkoutTypes(): List<WorkoutType> {
         return ArrayList<WorkoutType>(workoutTypeDatas.values)
     }
 }

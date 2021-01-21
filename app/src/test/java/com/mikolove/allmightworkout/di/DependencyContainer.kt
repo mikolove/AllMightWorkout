@@ -36,6 +36,7 @@ class DependencyContainer {
     lateinit var workoutTypeNetworkDataSource: WorkoutTypeNetworkDataSource
     lateinit var workoutTypeFactory: WorkoutTypeFactory
     lateinit var workoutTypeDataFactory: WorkoutTypeDataFactory
+    lateinit var workoutNetworkTypeDataFactory: WorkoutTypeDataFactory
 
     lateinit var exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
     lateinit var exerciseSetCacheDataSource: ExerciseSetCacheDataSource
@@ -70,6 +71,7 @@ class DependencyContainer {
             exerciseSetDataFactory = ExerciseSetDataFactory(testClassLoader = classLoader,filename = "exerciseset_list")
             bodyPartDataFactory = BodyPartDataFactory(testClassLoader = classLoader, filename = "bodypart_list")
             workoutTypeDataFactory = WorkoutTypeDataFactory(testClassLoader = classLoader,filename = "workouttype_list")
+            workoutNetworkTypeDataFactory = WorkoutTypeDataFactory(testClassLoader = classLoader,filename = "network_wt_list")
             historyWorkoutDataFactory = HistoryWorkoutDataFactory(testClassLoader = classLoader,filename = "historyworkout_list")
             historyExerciseDataFactory = HistoryExerciseDataFactory(testClassLoader = classLoader,filename = "historyexercise_list")
             historyExerciseSetDataFactory = HistoryExerciseSetDataFactory(testClassLoader = classLoader,filename = "historyexerciseset_list")
@@ -77,7 +79,7 @@ class DependencyContainer {
 
         workoutTypeFactory = WorkoutTypeFactory()
 
-        bodyPartFactory = BodyPartFactory(workoutTypeFactory)
+        bodyPartFactory = BodyPartFactory()
 
         exerciseSetFactory = ExerciseSetFactory(dateUtil)
 
@@ -136,6 +138,9 @@ class DependencyContainer {
         )
 
         bodyPartCacheDataSource = FakeBodyPartCacheDataSourceImpl(
+            workoutTypesData = workoutTypeDataFactory.produceHashMapOfT(
+                workoutTypeDataFactory.produceListOfT(WorkoutType::class.java)
+            ),
             bodyPartsData = bodyPartDataFactory.produceHashMapOfT(
                 bodyPartDataFactory.produceListOfT(BodyPart::class.java)
             )
@@ -154,8 +159,8 @@ class DependencyContainer {
         )
 
         workoutTypeNetworkDataSource = FakeWorkoutTypeNetworkDataSourceImpl(
-            workoutTypeDatas = workoutTypeDataFactory.produceHashMapOfT(
-                workoutTypeDataFactory.produceListOfT(WorkoutType::class.java)
+            workoutTypeDatas = workoutNetworkTypeDataFactory.produceHashMapOfT(
+                workoutNetworkTypeDataFactory.produceListOfT(WorkoutType::class.java)
             )
         )
 

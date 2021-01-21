@@ -5,7 +5,7 @@
     "bodyParts" : [
       {
         "idBodyPart": "idBodyPart1",
-        "name": "Upper chest"
+        "name": "Upper Better chest"
       },
       {
         "idBodyPart": "idBodyPart2",
@@ -33,7 +33,30 @@
   },
   {
     "idWorkoutType": "idWorkoutType3",
-    "name": "Abs",
-    "bodyParts" : []
+    "name": "Abs Abs",
+    "bodyParts" : [
+      {
+        "idBodyPart": "idBodyPart6",
+        "name": "Abs 1"
+      },
+      {
+        "idBodyPart": "idBodyPart7",
+        "name": "Abs 2"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "idWorkoutType4",
+    "name": "Delt",
+    "bodyParts" : [
+      {
+        "idBodyPart": "idBodyPart8",
+        "name": "Delt 1"
+      },
+      {
+        "idBodyPart": "idBodyPart9",
+        "name": "Delt 2"
+      }
+    ]
   }
 ]

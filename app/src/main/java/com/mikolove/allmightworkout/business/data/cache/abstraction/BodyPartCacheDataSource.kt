@@ -4,7 +4,9 @@ import com.mikolove.allmightworkout.business.domain.model.BodyPart
 
 interface BodyPartCacheDataSource {
 
-    suspend fun insertBodyPart(bodyParts: BodyPart) : Long
+    suspend fun insertBodyPart(bodyParts: BodyPart, idWorkoutType: String) : Long
+
+    suspend fun updateBodyPart(idBodyPart: String, name: String) : Int
 
     suspend fun removeBodyPart(primaryKey: String) : Int
 

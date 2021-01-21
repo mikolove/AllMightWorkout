@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_EXERCISE_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_FAILED
@@ -50,6 +51,7 @@ class InsertHistoryExerciseTest {
     private val dependencyContainer : DependencyContainer
     private val historyExerciseCacheDataSource : HistoryExerciseCacheDataSource
     private val exerciseCacheDataSource : ExerciseCacheDataSource
+    private val workoutTypeCacheDataSource : WorkoutTypeCacheDataSource
     private val historyExerciseFactory : HistoryExerciseFactory
 
     init{
@@ -57,6 +59,7 @@ class InsertHistoryExerciseTest {
         dependencyContainer.build()
 
         historyExerciseCacheDataSource = dependencyContainer.historyExerciseCacheDataSource
+        workoutTypeCacheDataSource = dependencyContainer.workoutTypeCacheDataSource
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         historyExerciseFactory = dependencyContainer.historyExerciseFactory
         insertHistoryExercise =InsertHistoryExercise(
@@ -70,6 +73,8 @@ class InsertHistoryExerciseTest {
 
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
+
         exercise.start(dependencyContainer.dateUtil.getCurrentTimestamp())
         delay(1000)
         exercise.stop(dependencyContainer.dateUtil.getCurrentTimestamp())
@@ -80,7 +85,7 @@ class InsertHistoryExerciseTest {
             idHistoryExercise = UUID.randomUUID().toString(),
             name = exercise.name,
             bodyPart = exercise.bodyPart.name,
-            workoutType = exercise.bodyPart.workoutType.name,
+            workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
             started_at = exercise.started_at,
@@ -117,13 +122,14 @@ class InsertHistoryExerciseTest {
 
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
 
         //Create history workout
         val historyExercise = historyExerciseFactory.createHistoryExercise(
             idHistoryExercise = FORCE_GENERAL_FAILURE,
             name = exercise.name,
             bodyPart = exercise.bodyPart.name,
-            workoutType = exercise.bodyPart.workoutType.name,
+            workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
             started_at = exercise.started_at,
@@ -159,13 +165,14 @@ class InsertHistoryExerciseTest {
     fun throwException_checkGenericError_confirmCacheUnchanged() = runBlocking {
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
 
         //Create history workout
         val historyExercise = historyExerciseFactory.createHistoryExercise(
             idHistoryExercise = FORCE_NEW_HISTORY_EXERCISE_EXCEPTION,
             name = exercise.name,
             bodyPart = exercise.bodyPart.name,
-            workoutType = exercise.bodyPart.workoutType.name,
+            workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
             started_at = exercise.started_at,
