@@ -4,6 +4,13 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorko
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 const val FORCE_NEW_HISTORY_WORKOUT_EXCEPTION = "FORCE_NEW_HISTORY_WORKOUT_EXCEPTION"
 const val FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION = "FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION"
@@ -24,6 +31,28 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
         }
         historyWorkoutsData.put(historyWorkout.idHistoryWorkout, historyWorkout)
         return 1 // success
+    }
+
+    override suspend fun getLastHistoryWorkout(): HistoryWorkout? {
+
+        var lastHistoryWorkout : HistoryWorkout? = null
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
+
+        for( historyWorkout in historyWorkoutsData.values){
+
+            if( lastHistoryWorkout == null){
+                lastHistoryWorkout = historyWorkout
+            }
+
+            val hUpdated_at = LocalDate.parse(historyWorkout.updated_at,dateTimeFormatter)
+            val lastHUpdated_at = LocalDate.parse(lastHistoryWorkout?.updated_at,dateTimeFormatter)
+
+            if(hUpdated_at.isAfter(lastHUpdated_at)){
+                lastHistoryWorkout = historyWorkout
+            }
+        }
+
+        return lastHistoryWorkout
     }
 
     override suspend fun getHistoryWorkouts(

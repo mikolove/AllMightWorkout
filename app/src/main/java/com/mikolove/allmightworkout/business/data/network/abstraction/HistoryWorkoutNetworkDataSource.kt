@@ -6,9 +6,9 @@ interface HistoryWorkoutNetworkDataSource {
 
     suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout)
 
-    suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout)
+    suspend fun getLastHistoryWorkout() : HistoryWorkout?
 
-    suspend fun getHistoryWorkout() : List<HistoryWorkout>
+    suspend fun getHistoryWorkout(): List<HistoryWorkout>?
 
     suspend fun getHistoryWorkoutById(primaryKey : Long) : HistoryWorkout?
 }

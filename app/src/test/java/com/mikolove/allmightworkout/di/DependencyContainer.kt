@@ -14,7 +14,7 @@ import kotlin.collections.HashMap
 
 class DependencyContainer {
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
     val dateUtil = DateUtil(dateFormat)
 
     lateinit var workoutNetworkDataSource: WorkoutNetworkDataSource
@@ -165,6 +165,14 @@ class DependencyContainer {
         )
 
         historyWorkoutCacheDataSource = FakeHistoryWorkoutCacheDataSourceImpl(
+            historyWorkoutsData = historyWorkoutDataFactory.produceHashMapOfT(
+                historyWorkoutDataFactory.produceListOfT(HistoryWorkout::class.java)
+            ),
+            dateUtil = dateUtil
+        )
+
+
+        historyWorkoutNetworkDataSource = FakeHistoryWorkoutNetworkDataSourceImpl(
             historyWorkoutsData = historyWorkoutDataFactory.produceHashMapOfT(
                 historyWorkoutDataFactory.produceListOfT(HistoryWorkout::class.java)
             ),

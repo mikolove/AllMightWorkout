@@ -14,9 +14,9 @@ constructor(private val historyWorkoutFirestoreService : HistoryWorkoutFirestore
 
     override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout) = historyWorkoutFirestoreService.insertHistoryWorkout(historyWorkout)
 
-    override suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout)  = historyWorkoutFirestoreService.updateHistoryWorkout(historyWorkout)
+    override suspend fun getLastHistoryWorkout(): HistoryWorkout? = historyWorkoutFirestoreService.getLastHistoryWorkout()
 
-    override suspend fun getHistoryWorkout(): List<HistoryWorkout> = historyWorkoutFirestoreService.getHistoryWorkout()
+    override suspend fun getHistoryWorkout(): List<HistoryWorkout>? = historyWorkoutFirestoreService.getHistoryWorkout()
 
     override suspend fun getHistoryWorkoutById(primaryKey: Long): HistoryWorkout? = historyWorkoutFirestoreService.getHistoryWorkoutById(primaryKey)
 }

@@ -1,7 +1,7 @@
 [
   {
     "idHistoryWorkout": "idHistoryWorkout1",
-    "name": "Chest training",
+    "name": "Chest training 1",
     "historyExercises" : [
       {
         "idHistoryExercise": "idHistoryExercise1",
@@ -87,7 +87,7 @@
   },
   {
     "idHistoryWorkout": "idHistoryWorkout2",
-    "name": "Chest training",
+    "name": "Chest training 2",
     "historyExercises" : [
       {
         "idHistoryExercise": "idHistoryExercise3",
@@ -168,7 +168,7 @@
         "created_at": "2019-04-14 07:05:11"
       }
     ],
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updated_at": "2019-04-15 08:41:22",
+    "created_at": "2019-04-15 07:05:11"
   }
 ]
