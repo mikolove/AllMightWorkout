@@ -18,8 +18,8 @@ class FakeHistoryWorkoutNetworkDataSourceImpl(
         historyWorkoutsData.put(historyWorkout.idHistoryWorkout,historyWorkout)
     }
 
-    override suspend fun getLastHistoryWorkout(): HistoryWorkout? {
-        var lastHistoryWorkout : HistoryWorkout? = null
+    override suspend fun getLastHistoryWorkouts(): List<HistoryWorkout>? {
+        /*var lastHistoryWorkout : HistoryWorkout? = null
         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
 
         for( historyWorkout in historyWorkoutsData.values){
@@ -34,16 +34,16 @@ class FakeHistoryWorkoutNetworkDataSourceImpl(
             if(hUpdated_at.isAfter(lastHUpdated_at)){
                 lastHistoryWorkout = historyWorkout
             }
-        }
+        }*/
 
-        return lastHistoryWorkout
+        return ArrayList(historyWorkoutsData.values)
     }
 
     override suspend fun getHistoryWorkout(): List<HistoryWorkout>? {
         return ArrayList(historyWorkoutsData.values)
     }
 
-    override suspend fun getHistoryWorkoutById(primaryKey: Long): HistoryWorkout? {
+    override suspend fun getHistoryWorkoutById(primaryKey: String): HistoryWorkout? {
         return historyWorkoutsData[primaryKey]
     }
 }

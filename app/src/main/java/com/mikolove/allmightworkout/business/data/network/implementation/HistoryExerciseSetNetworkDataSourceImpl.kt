@@ -12,7 +12,7 @@ class HistoryExerciseSetNetworkDataSourceImpl
 @Inject
 constructor(private val historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource{
 
-    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet) = historyExerciseSetFirestoreService.insertHistoryExerciseSet(historyExerciseSet)
+    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String) = historyExerciseSetFirestoreService.insertHistoryExerciseSet(historyExerciseSet,historyExerciseId)
 
     override suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet)  = historyExerciseSetFirestoreService.updateHistoryExerciseSet(historyExerciseSet)
 

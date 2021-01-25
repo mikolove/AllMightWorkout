@@ -4,7 +4,7 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 
 interface HistoryExerciseSetFirestoreService {
 
-    suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet)
+    suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String)
 
     suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet)
 

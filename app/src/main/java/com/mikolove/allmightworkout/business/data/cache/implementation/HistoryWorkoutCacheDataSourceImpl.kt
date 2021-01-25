@@ -14,7 +14,7 @@ constructor(private val historyWorkoutDaoService : HistoryWorkoutDaoService)
 
     override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): Long = historyWorkoutDaoService.insertHistoryWorkout(historyWorkout)
 
-    override suspend fun getLastHistoryWorkout(): HistoryWorkout? = historyWorkoutDaoService.getLastHistoryWorkout()
+    override suspend fun getLastHistoryWorkouts(): List<HistoryWorkout>? = historyWorkoutDaoService.getLastHistoryWorkout()
 
     override suspend fun getHistoryWorkouts(
         query: String,

@@ -17,14 +17,15 @@ class InsertHistoryExerciseSet(
 ) {
 
     fun insertHistoryExerciseSet(
-        idHistoryExerciseSet : String?,
-        reps : Int,
-        weight : Int,
-        time : Int,
-        restTime : Int,
-        started_at : String,
-        ended_at : String,
-        stateEvent : StateEvent
+        idHistoryExerciseSet: String?,
+        reps: Int,
+        weight: Int,
+        time: Int,
+        restTime: Int,
+        started_at: String,
+        ended_at: String,
+        historyExerciseId: String,
+        stateEvent: StateEvent
     ): Flow<DataState<WorkoutViewState>?> = flow {
 
         //Create history exerciseSet
@@ -39,7 +40,7 @@ class InsertHistoryExerciseSet(
             created_at = null)
 
         val cacheResult = safeCacheCall(Dispatchers.IO){
-            historyExerciseSetCacheDataSource.insertHistoryExerciseSet(historyExerciseSet)
+            historyExerciseSetCacheDataSource.insertHistoryExerciseSet(historyExerciseSet,historyExerciseId)
         }
 
         val response = object : CacheResponseHandler<WorkoutViewState, Long>(

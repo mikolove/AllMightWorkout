@@ -12,7 +12,7 @@ class HistoryExerciseSetCacheDataSourceImpl
 constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoService)
     : HistoryExerciseSetCacheDataSource {
 
-    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet): Long = historyExerciseSetDaoService.insertHistoryExerciseSet(historyExerciseSet)
+    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String): Long = historyExerciseSetDaoService.insertHistoryExerciseSet(historyExerciseSet,historyExerciseId)
 
     override suspend fun getHistoryExerciseSetById(idHistoryExerciseSet: String): HistoryExerciseSet? = historyExerciseSetDaoService.getHistoryExerciseSetById(idHistoryExerciseSet)
 

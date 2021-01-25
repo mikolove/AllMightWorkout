@@ -4,8 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorko
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -33,9 +31,9 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
         return 1 // success
     }
 
-    override suspend fun getLastHistoryWorkout(): HistoryWorkout? {
+    override suspend fun getLastHistoryWorkouts(): List<HistoryWorkout>? {
 
-        var lastHistoryWorkout : HistoryWorkout? = null
+  /*      var lastHistoryWorkout : HistoryWorkout? = null
         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
 
         for( historyWorkout in historyWorkoutsData.values){
@@ -51,8 +49,8 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
                 lastHistoryWorkout = historyWorkout
             }
         }
-
-        return lastHistoryWorkout
+*/
+        return ArrayList(historyWorkoutsData.values)
     }
 
     override suspend fun getHistoryWorkouts(

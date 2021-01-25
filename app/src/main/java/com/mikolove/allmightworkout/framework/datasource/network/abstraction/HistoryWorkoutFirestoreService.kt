@@ -8,9 +8,9 @@ interface HistoryWorkoutFirestoreService {
 
     suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout)
 
-    suspend fun getLastHistoryWorkout() : HistoryWorkout?
+    suspend fun getLastHistoryWorkout() : List<HistoryWorkout>?
 
     suspend fun getHistoryWorkout() : List<HistoryWorkout>
 
-    suspend fun getHistoryWorkoutById(primaryKey : Long) : HistoryWorkout?
+    suspend fun getHistoryWorkoutById(primaryKey: String) : HistoryWorkout?
 }

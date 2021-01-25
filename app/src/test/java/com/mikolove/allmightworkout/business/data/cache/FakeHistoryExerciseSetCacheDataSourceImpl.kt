@@ -12,7 +12,10 @@ constructor(
     private val historyExerciseSetsData: HashMap<String,HistoryExerciseSet>
 ) : HistoryExerciseSetCacheDataSource{
 
-    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet): Long {
+    override suspend fun insertHistoryExerciseSet(
+        historyExerciseSet: HistoryExerciseSet,
+        historyExerciseId: String
+    ): Long {
         if(historyExerciseSet.idHistoryExerciseSet.equals(FORCE_NEW_HISTORY_EXERCISE_SET_EXCEPTION)){
             throw Exception("Something went wrong inserting the history exercise.")
         }

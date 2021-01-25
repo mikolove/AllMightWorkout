@@ -3,22 +3,47 @@ package com.mikolove.allmightworkout.business.interactors.main.home
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
+import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.*
+import kotlin.collections.ArrayList
 
+/*
+1. insertCachedHistoryWorkoutsIntoNetwork()
+    a) insert a bunch of new history workouts into the cache
+    b) perform the sync
+    c) check to see that those were inserted into the network
+2. insertNetworkHistoryWorkoutsIntoCache()
+    a) insert a bunch of new history workouts into the network
+    b) perform the sync
+    c) check to see that those were inserted into the cache
+ */
 @InternalCoroutinesApi
 class SyncHistoryTest {
+
+    //System in test
+    private val syncHistory : SyncHistory
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
 
-    //private val historyWorkoutNetworkDataSource : HistoryWorkoutNetworkDataSource
+    private val historyWorkoutNetworkDataSource : HistoryWorkoutNetworkDataSource
     private val historyWorkoutCacheDataSource : HistoryWorkoutCacheDataSource
     private val historyExerciseCacheDataSource : HistoryExerciseCacheDataSource
     private val historyExerciseSetCacheDataSource : HistoryExerciseSetCacheDataSource
 
+    private val historyWorkoutFactory : HistoryWorkoutFactory
+    private val historyExerciseFactory : HistoryExerciseFactory
+    private val historyExerciseSetFactory : HistoryExerciseSetFactory
+
+    private val newHistoryWorkouts : ArrayList<HistoryWorkout> = ArrayList()
 
     init{
         dependencyContainer = DependencyContainer()
@@ -27,16 +52,96 @@ class SyncHistoryTest {
         historyWorkoutCacheDataSource = dependencyContainer.historyWorkoutCacheDataSource
         historyExerciseCacheDataSource = dependencyContainer.historyExerciseCacheDataSource
         historyExerciseSetCacheDataSource = dependencyContainer.historyExerciseSetCacheDataSource
-        //historyWorkoutNetworkDataSource = dependencyContainer.historyWorkoutNetworkDataSource
+        historyWorkoutNetworkDataSource = dependencyContainer.historyWorkoutNetworkDataSource
+
+        historyWorkoutFactory = dependencyContainer.historyWorkoutFactory
+        historyExerciseFactory = dependencyContainer.historyExerciseFactory
+        historyExerciseSetFactory = dependencyContainer.historyExerciseSetFactory
+
+
+        syncHistory =SyncHistory(
+            historyWorkoutCacheDataSource,
+            historyExerciseCacheDataSource,
+            historyExerciseSetCacheDataSource,
+            historyWorkoutNetworkDataSource
+        )
+
+        //Create additional data
+        (1..3).forEach {
+            val historySets = listOf(
+                historyExerciseSetFactory.createHistoryExerciseSet(
+                    idHistoryExerciseSet = UUID.randomUUID().toString(),
+                    reps = null,
+                    weight = null,
+                    time = null,
+                    restTime = null,
+                    started_at = null,
+                    ended_at = null,
+                    created_at = null))
+
+            val newHistoryExercises = listOf(
+                historyExerciseFactory.createHistoryExercise(
+                    idHistoryExercise = UUID.randomUUID().toString(),
+                    null,
+                    bodyPart = null,
+                    workoutType = null,
+                    exerciseType = null,
+                    historySets = historySets,
+                    started_at = null,
+                    ended_at = null,
+                    created_at = null))
+
+            val newHistoryWorkout = historyWorkoutFactory.createHistoryWorkout(
+                idHistoryWorkout = UUID.randomUUID().toString(),
+                name =null,
+                historyExercises = newHistoryExercises,
+                started_at = null,
+                ended_at = null,
+                created_at = null
+            )
+            newHistoryWorkouts.add(newHistoryWorkout)
+        }
     }
+
 
 
     @Test
-    fun test() = runBlocking {
+    fun insertCachedHistoryWorkoutsIntoNetwork() = runBlocking {
 
-        val history = historyWorkoutCacheDataSource.getLastHistoryWorkout()
+        assertTrue{ newHistoryWorkouts.size > 0}
 
-        println(history)
+        //Insert into cache
+        for(hW in newHistoryWorkouts){
+            historyWorkoutCacheDataSource.insertHistoryWorkout(hW)
+        }
+
+        //Sync
+        syncHistory.syncHistory()
+
+        //Check if network updated
+        for(hw in newHistoryWorkouts){
+            val networkHistory = historyWorkoutNetworkDataSource.getHistoryWorkoutById(hw.idHistoryWorkout)
+            assertTrue{ networkHistory != null}
+        }
     }
 
+    @Test
+    fun insertNetworkHistoryWorkoutsIntoCache() = runBlocking {
+
+        assertTrue{ newHistoryWorkouts.size > 0}
+
+        //Insert into network
+        for(hW in newHistoryWorkouts){
+            historyWorkoutNetworkDataSource.insertHistoryWorkout(hW)
+        }
+
+        //Sync
+        syncHistory.syncHistory()
+
+        //Check if cache updated
+        for(hw in newHistoryWorkouts){
+            val networkHistory = historyWorkoutCacheDataSource.getHistoryWorkoutById(hw.idHistoryWorkout)
+            assertTrue{ networkHistory != null}
+        }
+    }
 }
