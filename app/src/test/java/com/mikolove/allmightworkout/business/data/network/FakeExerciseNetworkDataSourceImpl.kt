@@ -3,10 +3,12 @@ package com.mikolove.allmightworkout.business.data.network
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.interactors.main.home.SyncDeletedExercises
 
 class FakeExerciseNetworkDataSourceImpl(
     private val workoutsData : HashMap<String, Workout>,
-    private val exercisesData : HashMap<String, Exercise>
+    private val exercisesData : HashMap<String, Exercise>,
+    private val deletedExercises: HashMap<String,Exercise>
 ) : ExerciseNetworkDataSource {
 
     override suspend fun insertExercise(exercise: Exercise) {
@@ -75,5 +77,20 @@ class FakeExerciseNetworkDataSourceImpl(
 
     override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? {
         return workoutsData[idWorkout]?.exercises
+    }
+
+
+    override suspend fun getDeletedExercises(): List<Exercise> {
+        return ArrayList(deletedExercises.values)
+    }
+
+    override suspend fun insertDeletedExercise(exercise: Exercise) {
+        deletedExercises.put(exercise.idExercise,exercise)
+    }
+
+    override suspend fun insertDeletedExercises(exercises: List<Exercise>) {
+        exercises.forEach { exercise ->
+            deletedExercises.put(exercise.idExercise,exercise)
+        }
     }
 }

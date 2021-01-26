@@ -66,6 +66,10 @@ class RemoveWorkout<ViewState>(
             safeApiCall(IO){
                 workoutNetworkDataSource.removeWorkout(deletedWorkout.idWorkout)
             }
+
+            safeApiCall(IO){
+                workoutNetworkDataSource.insertDeleteWorkout(deletedWorkout)
+            }
         }
     }
 

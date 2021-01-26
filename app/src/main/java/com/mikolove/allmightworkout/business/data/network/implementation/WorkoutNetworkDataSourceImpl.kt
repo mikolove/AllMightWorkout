@@ -28,4 +28,10 @@ constructor(private val workoutFirestoreService : WorkoutFirestoreService) : Wor
     override suspend fun getWorkoutById(primaryKey: String): Workout?  = workoutFirestoreService.getWorkoutById(primaryKey)
 
     override suspend fun getWorkoutTotalNumber(): Int = workoutFirestoreService.getWorkoutTotalNumber()
+
+    override suspend fun getDeletedWorkouts(): List<Workout> = workoutFirestoreService.getDeletedWorkouts()
+
+    override suspend fun insertDeleteWorkout(workout: Workout) = workoutFirestoreService.insertDeleteWorkout(workout)
+
+    override suspend fun insertDeleteWorkouts(workouts: List<Workout>) = workoutFirestoreService.insertDeleteWorkouts(workouts)
 }

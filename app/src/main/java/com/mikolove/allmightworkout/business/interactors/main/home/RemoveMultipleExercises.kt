@@ -9,6 +9,7 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -29,7 +30,7 @@ class RemoveMultipleExercises(
 
         for(exercise in exercises){
 
-            val cacheResult = safeCacheCall(Dispatchers.IO) {
+            val cacheResult = safeCacheCall(IO) {
                 exerciseCacheDataSource.removeExerciseById(exercise.idExercise)
             }
 
@@ -82,8 +83,12 @@ class RemoveMultipleExercises(
 
     private suspend fun updateNetwork(successfulDeletes: ArrayList<Exercise>){
         for (exercise in successfulDeletes){
-            safeApiCall(Dispatchers.IO){
+            safeApiCall(IO){
                 exerciseNetworkDataSource.removeExerciseById(exercise.idExercise)
+            }
+
+            safeApiCall(IO){
+                exerciseNetworkDataSource.insertDeletedExercises(successfulDeletes)
             }
         }
     }

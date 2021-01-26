@@ -85,6 +85,10 @@ class RemoveMultipleWorkouts(
             safeApiCall(IO){
                 workoutNetworkDataSource.removeWorkout(workout.idWorkout)
             }
+
+            safeApiCall(IO){
+                workoutNetworkDataSource.insertDeleteWorkouts(successfulDeletes)
+            }
         }
     }
 

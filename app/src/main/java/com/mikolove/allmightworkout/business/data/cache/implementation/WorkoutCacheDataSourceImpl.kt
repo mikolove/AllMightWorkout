@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutDaoService
 import javax.inject.Inject
@@ -27,6 +26,8 @@ constructor(
             page
         )
     }
+
+    override suspend fun removeWorkouts(workouts: List<Workout>): Int = workoutDaoService.removeWorkouts(workouts)
 
     override suspend fun getWorkoutById(primaryKey: String): Workout? = workoutDaoService.getWorkoutById(primaryKey)
 

@@ -67,6 +67,10 @@ class RemoveExercise<ViewState>(
            safeApiCall(IO){
                exerciseNetworkDataSource.removeExerciseById(deletedExercise.idExercise)
            }
+
+            safeApiCall(IO){
+                exerciseNetworkDataSource.insertExercise(deletedExercise)
+            }
         }
     }
     companion object{

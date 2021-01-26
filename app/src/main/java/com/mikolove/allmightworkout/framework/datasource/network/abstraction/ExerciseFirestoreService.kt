@@ -25,4 +25,9 @@ interface ExerciseFirestoreService {
 
     suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
 
+    suspend fun getDeletedExercises() : List<Exercise>
+
+    suspend fun insertDeletedExercise(exercise: Exercise)
+
+    suspend fun insertDeletedExercises(exercises: List<Exercise>)
 }

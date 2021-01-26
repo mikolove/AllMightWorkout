@@ -165,4 +165,14 @@ class FakeExerciseCacheDataSourceImpl(
 
         return if(exercise !=null) 1 else 0
     }
+
+    override suspend fun removeExercises(exercises: List<Exercise>): Int {
+        exercises.let { listExercise ->
+            for(exercise in listExercise){
+                exercisesData.remove(exercise.idExercise)
+            }
+            return exercises.size
+        }
+        return -1
+    }
 }

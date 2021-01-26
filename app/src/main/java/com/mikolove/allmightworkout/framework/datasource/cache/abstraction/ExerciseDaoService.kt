@@ -19,6 +19,7 @@ interface ExerciseDaoService {
 
     suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>?
 
+    suspend fun removeExercises(exercise: List<Exercise>)  : Int
 
     suspend fun getExercises() : List<Exercise>
 

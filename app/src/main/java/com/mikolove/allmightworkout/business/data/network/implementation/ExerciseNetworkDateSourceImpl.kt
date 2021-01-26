@@ -32,4 +32,10 @@ constructor( private val exerciseFirestoreService : ExerciseFirestoreService)
     override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String) = exerciseFirestoreService.removeExerciseFromWorkout(idWorkout,idExercise)
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int = exerciseFirestoreService.isExerciseInWorkout(idWorkout,idExercise)
+
+    override suspend fun getDeletedExercises(): List<Exercise> = exerciseFirestoreService.getDeletedExercises()
+
+    override suspend fun insertDeletedExercise(exercise: Exercise) = exerciseFirestoreService.insertDeletedExercise(exercise)
+
+    override suspend fun insertDeletedExercises(exercises: List<Exercise>) = exerciseFirestoreService.insertDeletedExercises(exercises)
 }

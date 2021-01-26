@@ -96,7 +96,8 @@ class DependencyContainer {
         workoutNetworkDataSource = FakeWorkoutNetworkDataSourceImpl(
             workoutsData = workoutDataFactory.produceHashMapOfT(
                 workoutDataFactory.produceListOfT(Workout::class.java)
-            )
+            ),
+            deletedWorkouts = HashMap()
         )
         workoutCacheDataSource = FakeWorkoutCacheDataSourceImpl(
             workoutsData = workoutDataFactory.produceHashMapOfT(
@@ -121,7 +122,8 @@ class DependencyContainer {
             ),
             exercisesData = exerciseDataFactory.produceHashMapOfT(
                 exerciseDataFactory.produceListOfT(Exercise::class.java)
-            )
+            ),
+            deletedExercises = HashMap()
         )
 
         exerciseSetCacheDataSource = FakeExerciseSetCacheDataSourceImpl(

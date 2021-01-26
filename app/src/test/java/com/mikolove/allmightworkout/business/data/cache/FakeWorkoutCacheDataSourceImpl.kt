@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.database.WORKOUT_PAGINATION_PAGE_SIZE
@@ -99,5 +98,14 @@ constructor(
         return workoutsData.size
     }
 
+    override suspend fun removeWorkouts(workouts: List<Workout>): Int {
 
+        workouts.let { listWorkout ->
+            for(workout in listWorkout){
+                workoutsData.remove(workout.idWorkout)
+            }
+            return workouts.size
+        }
+        return -1
+    }
 }

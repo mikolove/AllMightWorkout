@@ -21,4 +21,10 @@ interface WorkoutNetworkDataSource {
 
     suspend fun getWorkoutTotalNumber() : Int
 
+    suspend fun insertDeleteWorkout(workout: Workout)
+
+    suspend fun insertDeleteWorkouts(workouts: List<Workout>)
+
+    suspend fun getDeletedWorkouts() : List<Workout>
+
 }

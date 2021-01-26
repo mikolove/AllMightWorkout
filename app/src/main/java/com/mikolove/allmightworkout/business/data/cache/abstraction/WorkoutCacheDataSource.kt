@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.business.data.cache.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 
 interface WorkoutCacheDataSource {
@@ -9,7 +8,9 @@ interface WorkoutCacheDataSource {
 
     suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean) : Int
 
-    suspend fun removeWorkout(primaryKey :String) : Int
+    suspend fun removeWorkout(primaryKey:String) : Int
+
+    suspend fun removeWorkouts(workouts : List<Workout>) : Int
 
     suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int) : List<Workout>
 

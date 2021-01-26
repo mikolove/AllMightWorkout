@@ -12,6 +12,8 @@ interface WorkoutDaoService {
 
     suspend fun removeWorkout(id :String) : Int
 
+    suspend fun removeWorkouts(workouts : List<Workout>) : Int
+
     suspend fun getWorkoutById(primaryKey : String) : Workout?
 
     suspend fun getTotalWorkout() : Int
