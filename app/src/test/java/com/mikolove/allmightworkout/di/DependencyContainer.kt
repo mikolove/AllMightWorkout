@@ -106,13 +106,27 @@ class DependencyContainer {
             dateUtil = dateUtil
         )
 
+        /*  Specific shared base */
+        //TODO : Fix this one and function linked in FakeDataSource UpdateExercise will not take sets with them due to ROOM unknown specifics
+        /************************************************************************/
+
+        var cacheData = exerciseDataFactory.produceHashMapOfT(
+            exerciseDataFactory.produceListOfT(Exercise::class.java)
+        )
+        var networkData = exerciseDataFactory.produceHashMapOfT(
+            exerciseDataFactory.produceListOfT(Exercise::class.java)
+        )
+
         exerciseCacheDataSource = FakeExerciseCacheDataSourceImpl(
-            exercisesData = exerciseDataFactory.produceHashMapOfT(
-                exerciseDataFactory.produceListOfT(Exercise::class.java)
-            ),
+            exercisesData = cacheData,
             workoutsData = workoutDataFactory.produceHashMapOfT(
                 workoutDataFactory.produceListOfT(Workout::class.java)
             ),
+            dateUtil = dateUtil
+        )
+
+        exerciseSetCacheDataSource = FakeExerciseSetCacheDataSourceImpl(
+            exerciseDatas = cacheData,
             dateUtil = dateUtil
         )
 
@@ -120,24 +134,15 @@ class DependencyContainer {
             workoutsData = workoutDataFactory.produceHashMapOfT(
                 workoutDataFactory.produceListOfT(Workout::class.java)
             ),
-            exercisesData = exerciseDataFactory.produceHashMapOfT(
-                exerciseDataFactory.produceListOfT(Exercise::class.java)
-            ),
+            networkData,
             deletedExercises = HashMap()
         )
 
-        exerciseSetCacheDataSource = FakeExerciseSetCacheDataSourceImpl(
-            exerciseDatas = exerciseDataFactory.produceHashMapOfT(
-                exerciseDataFactory.produceListOfT(Exercise::class.java)
-            ),
-            dateUtil = dateUtil
-        )
-
         exerciseSetNetworkDataSource = FakeExerciseSetNetworkDataSourceImpl(
-            exerciseDatas = exerciseDataFactory.produceHashMapOfT(
-                exerciseDataFactory.produceListOfT(Exercise::class.java)
-            )
+            exerciseDatas = networkData,
+            deletedExerciseSets = HashMap()
         )
+        /************************************************************************/
 
         bodyPartCacheDataSource = FakeBodyPartCacheDataSourceImpl(
             workoutTypesData = workoutTypeDataFactory.produceHashMapOfT(

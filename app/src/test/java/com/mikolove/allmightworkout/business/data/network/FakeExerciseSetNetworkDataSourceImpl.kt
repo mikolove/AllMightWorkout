@@ -3,9 +3,11 @@ package com.mikolove.allmightworkout.business.data.network
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.allmightworkout.util.printLogD
 
 class FakeExerciseSetNetworkDataSourceImpl(
-    private val exerciseDatas : HashMap<String, Exercise>
+    private val exerciseDatas : HashMap<String, Exercise>,
+    private val deletedExerciseSets : HashMap<String, ExerciseSet>
 ) : ExerciseSetNetworkDataSource{
 
     override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String) {
@@ -74,4 +76,11 @@ class FakeExerciseSetNetworkDataSourceImpl(
         }?:-1
     }
 
+    override suspend fun insertDeletedExerciseSet(exerciseSet: ExerciseSet) {
+        deletedExerciseSets.put(exerciseSet.idExerciseSet,exerciseSet)
+    }
+
+    override suspend fun getDeletedExerciseSets(): List<ExerciseSet> {
+        return ArrayList(deletedExerciseSets.values)
+    }
 }

@@ -87,10 +87,12 @@ class RemoveExerciseTest {
 
         //Check exercise deleted from cache
         val cacheRemoveExercise = exerciseCacheDataSource.getExerciseById(removedExercise.idExercise)
+        println(cacheRemoveExercise)
         assertTrue { cacheRemoveExercise == null}
 
         //Check exercise deleted from network
         val networkRemoveExercise = exerciseNetworkDataSource.getExerciseById(removedExercise.idExercise)
+        println(networkRemoveExercise)
         assertTrue { networkRemoveExercise == null}
 
     }

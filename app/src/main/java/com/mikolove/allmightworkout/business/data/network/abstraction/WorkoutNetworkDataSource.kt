@@ -15,7 +15,7 @@ interface WorkoutNetworkDataSource {
 
     suspend fun removeExercises(exercises: List<Exercise>)
 
-    suspend fun getWorkout() : List<Workout>
+    suspend fun getWorkouts() : List<Workout>
 
     suspend fun getWorkoutById(primaryKey : String) : Workout?
 

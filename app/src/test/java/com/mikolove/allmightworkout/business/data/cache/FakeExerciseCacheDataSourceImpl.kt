@@ -175,4 +175,8 @@ class FakeExerciseCacheDataSourceImpl(
         }
         return -1
     }
+
+    override suspend fun getAllExercises(): List<Exercise> {
+        return ArrayList(exercisesData.values)
+    }
 }

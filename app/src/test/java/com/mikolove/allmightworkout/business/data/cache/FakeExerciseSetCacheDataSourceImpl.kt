@@ -11,7 +11,7 @@ const val FORCE_UPDATE_EXERCISESET_EXCEPTION = "FORCE_UPDATE_EXERCISESET_EXCEPTI
 const val FORCE_DELETE_EXERCISESET_EXCEPTION = "FORCE_DELETE_EXERCISESET_EXCEPTION"
 
 class FakeExerciseSetCacheDataSourceImpl(
-    private val exerciseDatas : HashMap<String, Exercise>,
+    private val exerciseDatas: HashMap<String, Exercise>,
     private val dateUtil: DateUtil
 ) : ExerciseSetCacheDataSource{
 
@@ -135,4 +135,18 @@ class FakeExerciseSetCacheDataSourceImpl(
         }?:-1
     }
 
+    override suspend fun removeExerciseSets(exerciseSetsToRemove: List<ExerciseSet>): Int {
+
+        val listOfSetNotRemoved = ArrayList<ExerciseSet>()
+        exerciseDatas.values?.forEach{ exercise ->
+
+            exercise.sets.forEach{ exerciseSet ->
+                if(!exerciseSetsToRemove.contains(exerciseSet))
+                    listOfSetNotRemoved.add(exerciseSet)
+            }
+            exercise.sets = listOfSetNotRemoved
+        }
+
+        return exerciseSetsToRemove.size
+    }
 }

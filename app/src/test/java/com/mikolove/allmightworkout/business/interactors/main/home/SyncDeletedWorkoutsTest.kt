@@ -43,7 +43,7 @@ class SyncDeletedWorkoutsTest {
     fun deleteNetworkWorkouts_confirmCacheSync() = runBlocking {
 
         //Generate delete
-        val networkWorkout = workoutNetworkDataSource.getWorkout()
+        val networkWorkout = workoutNetworkDataSource.getWorkouts()
         val workoutToDelete : ArrayList<Workout> = ArrayList()
         for( wk in networkWorkout) {
             workoutToDelete.add(wk)

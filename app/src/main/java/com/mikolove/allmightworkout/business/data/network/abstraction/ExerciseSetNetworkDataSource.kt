@@ -15,4 +15,8 @@ interface ExerciseSetNetworkDataSource {
     suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSet>?
 
     suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int
+
+    suspend fun insertDeletedExerciseSet(exerciseSet: ExerciseSet)
+
+    suspend fun getDeletedExerciseSets() : List<ExerciseSet>
 }

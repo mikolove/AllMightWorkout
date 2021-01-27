@@ -32,6 +32,8 @@ constructor(
         return exerciseDaoService.returnOrderedQuery(query,filterAndOrder,page)
     }
 
+    override suspend fun getAllExercises(): List<Exercise> = exerciseDaoService.getAllExercises()
+
     override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseDaoService.removeExercises(exercises)
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? = exerciseDaoService.getExerciseById(primaryKey)

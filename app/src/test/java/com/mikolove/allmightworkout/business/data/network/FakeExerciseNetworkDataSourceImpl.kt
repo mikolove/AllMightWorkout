@@ -4,6 +4,7 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNe
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.interactors.main.home.SyncDeletedExercises
+import com.mikolove.allmightworkout.util.printLogD
 
 class FakeExerciseNetworkDataSourceImpl(
     private val workoutsData : HashMap<String, Workout>,

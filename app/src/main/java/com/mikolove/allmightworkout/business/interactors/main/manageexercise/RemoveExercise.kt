@@ -69,7 +69,7 @@ class RemoveExercise<ViewState>(
            }
 
             safeApiCall(IO){
-                exerciseNetworkDataSource.insertExercise(deletedExercise)
+                exerciseNetworkDataSource.insertDeletedExercise(deletedExercise)
             }
         }
     }

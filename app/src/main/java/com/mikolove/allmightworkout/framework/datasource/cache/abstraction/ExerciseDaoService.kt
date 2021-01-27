@@ -15,6 +15,8 @@ interface ExerciseDaoService {
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
 
+    suspend fun getAllExercises() : List<Exercise>
+
     suspend fun getTotalExercises() : Int
 
     suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>?

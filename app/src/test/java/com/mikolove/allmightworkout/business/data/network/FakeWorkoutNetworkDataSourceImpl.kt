@@ -29,7 +29,7 @@ class FakeWorkoutNetworkDataSourceImpl constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getWorkout(): List<Workout> {
+    override suspend fun getWorkouts(): List<Workout> {
       return ArrayList<Workout>(workoutsData.values)
     }
 

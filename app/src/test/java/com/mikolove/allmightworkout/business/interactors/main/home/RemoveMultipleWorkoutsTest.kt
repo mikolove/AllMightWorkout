@@ -109,7 +109,7 @@ class RemoveMultipleWorkoutsTest {
         }
 
         //Confirm workouts wre deleted from network
-        val doWorkoutsExistInNetwork = workoutNetworkDataSource.getWorkout().containsAll(randomWorkouts)
+        val doWorkoutsExistInNetwork = workoutNetworkDataSource.getWorkouts().containsAll(randomWorkouts)
         assertFalse { doWorkoutsExistInNetwork }
     }
 
@@ -151,7 +151,7 @@ class RemoveMultipleWorkoutsTest {
         })
 
         //Confirm only valid workouts are deleted from network
-        var networkWorkouts = workoutNetworkDataSource.getWorkout()
+        var networkWorkouts = workoutNetworkDataSource.getWorkouts()
         assertFalse { networkWorkouts.containsAll(validWorkouts)}
 
         //Confirm only valid workouts are deleted from cache
@@ -200,7 +200,7 @@ class RemoveMultipleWorkoutsTest {
         })
 
         //Confirm only valid workouts are deleted from network
-        var networkWorkouts = workoutNetworkDataSource.getWorkout()
+        var networkWorkouts = workoutNetworkDataSource.getWorkouts()
         assertFalse { networkWorkouts.containsAll(validWorkouts)}
 
         //Confirm only valid workouts are deleted from cache

@@ -23,6 +23,8 @@ constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
         idExercise: String
     ): Int = exerciseSetDaoService.updateExerciseSet(primaryKey,reps,weight,time,restTime, idExercise)
 
+    override suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>): Int = exerciseSetDaoService.removeExerciseSets(exerciseSets)
+
     override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String): Int = exerciseSetDaoService.removeExerciseSetById(primaryKey,idExercise)
 
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? = exerciseSetDaoService.getExerciseSetById(primaryKey,idExercise)
