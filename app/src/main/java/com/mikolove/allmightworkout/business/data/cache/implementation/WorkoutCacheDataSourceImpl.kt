@@ -27,6 +27,8 @@ constructor(
         )
     }
 
+    override suspend fun getAllWorkouts(): List<Workout> = workoutDaoService.getAllWorkouts()
+
     override suspend fun removeWorkouts(workouts: List<Workout>): Int = workoutDaoService.removeWorkouts(workouts)
 
     override suspend fun getWorkoutById(primaryKey: String): Workout? = workoutDaoService.getWorkoutById(primaryKey)

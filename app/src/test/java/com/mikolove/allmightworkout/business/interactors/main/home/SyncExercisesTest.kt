@@ -19,7 +19,7 @@ In all those case check Exercise and Exercise Set
 1. insertCachedExercisesIntoNetwork()
     a) insert a bunch of new exercises into the cache
     b) perform the sync
-    c) check to see that those notes were inserted into the network
+    c) check to see that those exercises were inserted into the network
 2. insertNetworkExercisesIntoCache()
     a) insert a bunch of new exercises into the network
     b) perform the sync

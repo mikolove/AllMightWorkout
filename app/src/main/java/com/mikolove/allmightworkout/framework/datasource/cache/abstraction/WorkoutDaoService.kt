@@ -18,6 +18,8 @@ interface WorkoutDaoService {
 
     suspend fun getTotalWorkout() : Int
 
+    suspend fun getAllWorkouts() : List<Workout>
+
     suspend fun getWorkout() : List<Workout>
 
     suspend fun getWorkoutOrderByDateDESC(
