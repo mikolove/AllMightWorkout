@@ -3,7 +3,7 @@ package com.mikolove.allmightworkout.business.data.cache
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.datasource.database.WORKOUT_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_PAGINATION_PAGE_SIZE
 
 const val FORCE_GENERAL_FAILURE = "FORCE_GENERAL_FAILURE"
 

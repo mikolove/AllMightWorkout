@@ -100,6 +100,10 @@ dependencies {
     testImplementation TestDependencies.junit4
     testRuntimeOnly TestDependencies.jupiter_engine
 
+    //Room
+    implementation Dependencies.room_runtime
+    implementation Dependencies.room_ktx
+    kapt AnnotationProcessing.room_compiler
 
     //Di
     implementation Dependencies.hilt

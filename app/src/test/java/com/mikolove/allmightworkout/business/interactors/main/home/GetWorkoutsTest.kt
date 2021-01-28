@@ -9,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkouts.Companion.GET_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.datasource.database.WORKOUT_ORDER_BY_ASC_DATE_UPDATED
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_BY_ASC_DATE_UPDATED
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi

@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.framework.datasource.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
 
 interface HistoryWorkoutDaoService {
 

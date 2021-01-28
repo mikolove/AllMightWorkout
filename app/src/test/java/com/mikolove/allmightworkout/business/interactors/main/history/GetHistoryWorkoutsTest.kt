@@ -8,7 +8,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.datasource.database.HISTORY_WORKOUT_ORDER_BY_ASC_NAME
+import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.InternalCoroutinesApi

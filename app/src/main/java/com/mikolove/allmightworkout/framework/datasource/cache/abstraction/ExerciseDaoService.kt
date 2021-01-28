@@ -2,8 +2,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.framework.datasource.database.EXERCISE_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_PAGINATION_PAGE_SIZE
 
 interface ExerciseDaoService {
 

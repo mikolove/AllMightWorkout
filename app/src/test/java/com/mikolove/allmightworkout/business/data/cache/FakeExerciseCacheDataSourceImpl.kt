@@ -6,7 +6,7 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.datasource.database.EXERCISE_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_PAGINATION_PAGE_SIZE
 
 
 const val FORCE_NEW_EXERCISE_EXCEPTION = "FORCE_NEW_EXERCISE_EXCEPTION"

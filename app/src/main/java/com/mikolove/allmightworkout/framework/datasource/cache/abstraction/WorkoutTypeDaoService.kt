@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.framework.datasource.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
 
 interface WorkoutTypeDaoService {
 

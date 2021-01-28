@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.datasource.database
+package com.mikolove.allmightworkout.framework.datasource.cache.database
 
 const val WORKOUT_ORDER_ASC: String = ""
 const val WORKOUT_ORDER_DESC: String = "-"

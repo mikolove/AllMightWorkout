@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.framework.datasource.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
 
 const val FORCE_NEW_WORKOUTTYPE_EXCEPTION = "FORCE_NEW_WORKOUTTYPE_EXCEPTION"
 const val FORCE_UPDATE_WORKOUTTYPE_EXCEPTION = "FORCE_UPDATE_WORKOUTTYPE_EXCEPTION"

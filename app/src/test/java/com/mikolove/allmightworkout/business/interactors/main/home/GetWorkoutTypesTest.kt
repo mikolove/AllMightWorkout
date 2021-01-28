@@ -8,7 +8,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.datasource.database.WORKOUTTYPE_ORDER_BY_ASC_NAME
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
