@@ -27,6 +27,7 @@ data class BodyPartCacheEntity(
 
     ){}
 
+/*
 data class BodyPartWithWorkoutTypeCacheEntity(
 
     @Embedded
@@ -37,4 +38,4 @@ data class BodyPartWithWorkoutTypeCacheEntity(
         entityColumn = "id_workout_type"
     )
     val workoutTypeCacheEntity : WorkoutTypeCacheEntity
-)
+)*/

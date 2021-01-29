@@ -29,7 +29,7 @@ data class HistoryWorkoutCacheEntity(
 
 ) {}
 
-data class HistoryWorkoutWithHistoryExerciseCacheEntity(
+data class HistoryWorkoutWithExercisesCacheEntity(
 
     @Embedded
     val historyWorkoutCacheEntity : HistoryWorkoutCacheEntity,
@@ -38,5 +38,5 @@ data class HistoryWorkoutWithHistoryExerciseCacheEntity(
         parentColumn = "id_history_workout",
         entityColumn = "fk_id_history_workout"
     )
-    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithHistoryExerciseSetCacheEntity>
+    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithSetsCacheEntity>
 ){}

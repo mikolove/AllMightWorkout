@@ -46,7 +46,7 @@ data class ExerciseWithSetsCacheEntity(
         parentColumn = "fk_id_body_part",
         entityColumn = "id_body_part"
     )
-    val bodyPartCacheEntity : BodyPartWithWorkoutTypeCacheEntity,
+    val bodyPartCacheEntity : BodyPartCacheEntity,
 
     @Relation(
         parentColumn = "id_exercise",
@@ -54,6 +54,7 @@ data class ExerciseWithSetsCacheEntity(
     val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>
 )
 
+/*
 data class ExerciseWithWorkoutsCacheEntity(
 
     @Embedded
@@ -63,7 +64,7 @@ data class ExerciseWithWorkoutsCacheEntity(
         parentColumn = "fk_id_body_part",
         entityColumn = "id_body_part"
     )
-    val bodyPartCacheEntity : BodyPartWithWorkoutTypeCacheEntity,
+    val bodyPartCacheEntity : BodyPartCacheEntity,
 
     @Relation(
         parentColumn = "id_exercise",
@@ -77,3 +78,4 @@ data class ExerciseWithWorkoutsCacheEntity(
     )
     val listOfWorkoutsCacheEntity : List<WorkoutCacheEntity>
 )
+*/

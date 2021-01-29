@@ -6,7 +6,7 @@ interface EntityMapper<Entity, DomainModel> {
 
     fun mapToEntity(domainModel : DomainModel) : Entity
 
-    fun entityListToDomainList(entities : List<Entity>) : List<DomainModel>
+    fun entityListToDomainList(entities: List<Entity>): List<DomainModel>
 
-    fun domainListToEntityList(domains : List<DomainModel>) : List<Entity>
+    fun domainListToEntityList(domains: List<DomainModel>): List<Entity>
 }

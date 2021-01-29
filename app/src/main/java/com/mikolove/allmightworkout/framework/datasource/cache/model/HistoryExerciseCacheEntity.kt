@@ -49,7 +49,7 @@ data class HistoryExerciseCacheEntity(
 
 ) {}
 
-data class HistoryExerciseWithHistoryExerciseSetCacheEntity(
+data class HistoryExerciseWithSetsCacheEntity(
 
     @Embedded
     val historyExerciseCacheEntity : HistoryExerciseCacheEntity,
