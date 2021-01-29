@@ -7,7 +7,7 @@ data class Exercise(
     var idExercise: String,
     var name: String,
     var sets: List<ExerciseSet>,
-    var bodyPart: BodyPart,
+    var bodyPart: BodyPart?,
     var exerciseType : ExerciseType,
     var isActive: Boolean,
     var started_at: String?,

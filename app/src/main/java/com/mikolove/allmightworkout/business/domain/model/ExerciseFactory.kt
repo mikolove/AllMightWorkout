@@ -14,13 +14,13 @@ constructor( private val dateUtil: DateUtil,
             private val bodyPartFactory: BodyPartFactory){
 
     fun createExercise(
-        idExercise : String?,
-        name : String?,
-        sets : List<ExerciseSet>?,
-        bodyPart: BodyPart,
-        exerciseType : ExerciseType,
-        isActive : Boolean? = true,
-        created_at : String?
+        idExercise: String?,
+        name: String?,
+        sets: List<ExerciseSet>?,
+        bodyPart: BodyPart?,
+        exerciseType: ExerciseType,
+        isActive: Boolean? = true,
+        created_at: String?
     ) : Exercise {
         return Exercise(
             idExercise = idExercise ?: UUID.randomUUID().toString(),

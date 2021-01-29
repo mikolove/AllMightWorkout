@@ -39,7 +39,7 @@ class FakeExerciseCacheDataSourceImpl(
     override suspend fun updateExercise(
         primaryKey: String,
         name: String,
-        bodyPart: BodyPart,
+        bodyPart: BodyPart?,
         isActive: Boolean,
         exerciseType: String
     ): Int {

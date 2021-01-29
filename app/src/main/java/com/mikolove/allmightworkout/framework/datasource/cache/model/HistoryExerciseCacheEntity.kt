@@ -21,7 +21,7 @@ data class HistoryExerciseCacheEntity(
     var idHistoryExercise : String,
 
     @ColumnInfo(name = "fk_id_history_workout")
-    var idHistoryWorkout : String,
+    var idHistoryWorkout : String?,
 
     @ColumnInfo(name = "name")
     var name : String,
@@ -57,6 +57,6 @@ data class HistoryExerciseWithHistoryExerciseSetCacheEntity(
     @Relation(
         parentColumn = "id_history_exercise",
         entityColumn = "fk_id_history_exercise")
-    val historyExerciseSetsCacheEntity : List<HistoryExerciseSetCacheEntity>
+    val listOfHistoryExerciseSetsCacheEntity : List<HistoryExerciseSetCacheEntity>
 )
 

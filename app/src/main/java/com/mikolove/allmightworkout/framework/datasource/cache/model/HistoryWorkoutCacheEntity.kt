@@ -1,8 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
@@ -30,3 +28,15 @@ data class HistoryWorkoutCacheEntity(
     var updated_at : Date,
 
 ) {}
+
+data class HistoryWorkoutWithHistoryExerciseCacheEntity(
+
+    @Embedded
+    val historyWorkoutCacheEntity : HistoryWorkoutCacheEntity,
+
+    @Relation(
+        parentColumn = "id_history_workout",
+        entityColumn = "fk_id_history_workout"
+    )
+    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithHistoryExerciseSetCacheEntity>
+){}

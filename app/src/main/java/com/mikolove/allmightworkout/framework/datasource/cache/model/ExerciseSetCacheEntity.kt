@@ -24,7 +24,7 @@ data class ExerciseSetCacheEntity(
     var idExerciseSet : String,
 
     @ColumnInfo(name = "fk_id_exercise")
-    var idExercise : Int,
+    var idExercise : String?,
 
     @ColumnInfo(name = "reps")
     var reps : Int,
@@ -32,7 +32,7 @@ data class ExerciseSetCacheEntity(
     @ColumnInfo(name = "weight")
     var weight : Int,
 
-    @ColumnInfo(name = "time")
+    @ColumnInfo(name = "duration")
     var time : Int,
 
     @ColumnInfo(name = "rest_time")

@@ -13,7 +13,7 @@ interface WorkoutTypeDaoService {
 
     suspend fun getAllWorkoutTypes(): List<WorkoutType>?
 
-    suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String) : WorkoutType?
+    suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?) : WorkoutType?
 
     suspend fun getWorkoutTypeById(primaryKey: String) : WorkoutType?
 

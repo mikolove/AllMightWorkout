@@ -23,7 +23,7 @@ data class ExerciseCacheEntity (
     var name : String,
 
     @ColumnInfo(name = "fk_id_body_part")
-    var idBodyPart : String,
+    var idBodyPart : String?,
 
     @ColumnInfo(name = "exercise_type")
     var exerciseType : String,
@@ -49,8 +49,8 @@ data class ExerciseWithSetsCacheEntity(
     val bodyPartCacheEntity : BodyPartWithWorkoutTypeCacheEntity,
 
     @Relation(
-        parentColumn = "fk_id_exercise_set",
-        entityColumn = "id_exercise_set")
+        parentColumn = "id_exercise",
+        entityColumn = "fk_id_exercise")
     val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>
 )
 
@@ -67,8 +67,13 @@ data class ExerciseWithWorkoutsCacheEntity(
 
     @Relation(
         parentColumn = "id_exercise",
+        entityColumn = "fk_id_exercise")
+    val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>,
+
+    @Relation(
+        parentColumn = "id_exercise",
         entityColumn = "id_exercise",
         associateBy = Junction(WorkoutExerciseCacheEntity::class)
     )
-    val workoutsCacheEntity : List<WorkoutCacheEntity>
+    val listOfWorkoutsCacheEntity : List<WorkoutCacheEntity>
 )

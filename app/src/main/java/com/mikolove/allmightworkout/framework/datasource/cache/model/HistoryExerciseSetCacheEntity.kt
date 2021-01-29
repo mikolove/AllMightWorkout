@@ -24,7 +24,7 @@ data class HistoryExerciseSetCacheEntity(
     var idHistoryExerciseSet : String,
 
     @ColumnInfo(name = "fk_id_history_exercise")
-    var idHistoryExercise : String,
+    var idHistoryExercise : String?,
 
     @ColumnInfo(name = "reps")
     var reps : Int,
@@ -32,8 +32,8 @@ data class HistoryExerciseSetCacheEntity(
     @ColumnInfo(name = "weight")
     var weight : Int,
 
-    @ColumnInfo(name = "set_time")
-    var setTime : Int,
+    @ColumnInfo(name = "duration")
+    var time : Int,
 
     @ColumnInfo(name = "rest_time")
     var restTime : Int,

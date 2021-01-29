@@ -73,7 +73,7 @@ class InsertHistoryExerciseTest {
 
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
-        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart?.idBodyPart)
 
         exercise.start(dependencyContainer.dateUtil.getCurrentTimestamp())
         delay(1000)
@@ -84,7 +84,7 @@ class InsertHistoryExerciseTest {
         val historyExercise = historyExerciseFactory.createHistoryExercise(
             idHistoryExercise = UUID.randomUUID().toString(),
             name = exercise.name,
-            bodyPart = exercise.bodyPart.name,
+            bodyPart = exercise.bodyPart?.name,
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
@@ -122,13 +122,13 @@ class InsertHistoryExerciseTest {
 
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
-        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart?.idBodyPart)
 
         //Create history workout
         val historyExercise = historyExerciseFactory.createHistoryExercise(
             idHistoryExercise = FORCE_GENERAL_FAILURE,
             name = exercise.name,
-            bodyPart = exercise.bodyPart.name,
+            bodyPart = exercise.bodyPart?.name,
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
@@ -165,13 +165,13 @@ class InsertHistoryExerciseTest {
     fun throwException_checkGenericError_confirmCacheUnchanged() = runBlocking {
         //Get exercise for insertion
         val exercise = exerciseCacheDataSource.getExerciseById("idExercise1")!!
-        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart.idBodyPart)
+        val workoutType = workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(exercise.bodyPart?.idBodyPart)
 
         //Create history workout
         val historyExercise = historyExerciseFactory.createHistoryExercise(
             idHistoryExercise = FORCE_NEW_HISTORY_EXERCISE_EXCEPTION,
             name = exercise.name,
-            bodyPart = exercise.bodyPart.name,
+            bodyPart = exercise.bodyPart?.name,
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,

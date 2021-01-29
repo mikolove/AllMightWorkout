@@ -13,7 +13,7 @@ constructor( private val dateFormat : SimpleDateFormat){
 
     fun removeTimeFromDateString(sd: String): String{
         return sd.substring(0, sd.indexOf(" "))
-    }
+}
 
     fun convertFirebaseTimestampToStringData(timestamp: Timestamp): String{
         return dateFormat.format(timestamp.toDate())
