@@ -8,19 +8,19 @@ data class Exercise(
     var name: String,
     var sets: List<ExerciseSet>,
     var bodyPart: BodyPart?,
-    var exerciseType : ExerciseType,
+    var exerciseType: ExerciseType,
     var isActive: Boolean,
-    var started_at: String?,
-    var ended_at: String?,
-    var created_at: String,
-    var updated_at: String) : Parcelable{
+    var startedAt: String?,
+    var endedAt: String?,
+    var createdAt: String,
+    var updatedAt: String) : Parcelable{
 
     fun start(date : String){
-        started_at = date
+        startedAt = date
     }
 
     fun stop(date : String){
-        ended_at = date
+        endedAt = date
     }
 }
 

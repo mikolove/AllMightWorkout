@@ -9,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkouts.Companion.GET_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_BY_ASC_DATE_UPDATED
+import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_BY_ASC_DATE_CREATED
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -67,7 +67,7 @@ class GetWorkoutsTest {
 
         getWorkouts.getWorkouts(
             query = query,
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetWorkoutsEvent()
         ).collect( object : FlowCollector<DataState<HomeViewState>?>{
@@ -90,7 +90,7 @@ class GetWorkoutsTest {
         // Confirm workouts in cache match with workout retrieved
         val workoutInCache = workoutCacheDataSource.getWorkouts(
             query = query,
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1
         )
 
@@ -105,7 +105,7 @@ class GetWorkoutsTest {
         var results: ArrayList<Workout>? = null
         getWorkouts.getWorkouts(
             query = query,
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetWorkoutsEvent()
         ).collect(object: FlowCollector<DataState<HomeViewState>?>{
@@ -126,7 +126,7 @@ class GetWorkoutsTest {
         // confirm there is notes in the cache
         val workoutInCache = workoutCacheDataSource.getWorkouts(
             query = "",
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1
         )
         assertTrue { workoutInCache.size > 0}
@@ -139,7 +139,7 @@ class GetWorkoutsTest {
         var results: ArrayList<Workout>? = null
         getWorkouts.getWorkouts(
             query = query,
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetWorkoutsEvent()
         ).collect(object: FlowCollector<DataState<HomeViewState>?>{
@@ -160,7 +160,7 @@ class GetWorkoutsTest {
         // confirm there is notes in the cache
         val workoutsInCache = workoutCacheDataSource.getWorkouts(
             query = "",
-            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1
         )
         assertTrue { workoutsInCache.size > 0}

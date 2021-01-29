@@ -29,10 +29,10 @@ constructor( private val dateUtil: DateUtil,
             bodyPart = bodyPart,
             exerciseType = exerciseType,
             isActive = isActive ?: true,
-            started_at = null,
-            ended_at = null,
-            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            startedAt = null,
+            endedAt = null,
+            createdAt = created_at ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
     }
 }

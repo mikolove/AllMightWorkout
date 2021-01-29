@@ -10,22 +10,22 @@ data class HistoryWorkoutCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_history_workout")
-    var idHistoryWorkout : String,
+    var idHistoryWorkout: String,
 
     @ColumnInfo(name = "name")
-    var name : String,
+    var name: String,
 
     @ColumnInfo(name ="started_at")
-    var started_at : Date,
+    var startedAt: Date,
 
     @ColumnInfo(name ="ended_at")
-    var ended_at : Date,
+    var endedAt: Date,
 
     @ColumnInfo(name ="created_at")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name ="updated_at")
-    var updated_at : Date,
+    var updatedAt: Date,
 
 ) {}
 

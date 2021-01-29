@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
 @Singleton
 class HistoryWorkoutFactory
@@ -23,10 +22,10 @@ constructor(private val dateUtil: DateUtil) {
             idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
             name = name ?: "New history workout",
             historyExercises = historyExercises ?: null,
-            started_at = started_at ?: dateUtil.getCurrentTimestamp(),
-            ended_at = ended_at ?: dateUtil.getCurrentTimestamp(),
-            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp())
+            startedAt = started_at ?: dateUtil.getCurrentTimestamp(),
+            endedAt = ended_at ?: dateUtil.getCurrentTimestamp(),
+            createdAt = created_at ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp())
     }
 
 }

@@ -7,7 +7,7 @@ interface WorkoutDaoService {
 
     suspend fun insertWorkout(workout: Workout) : Long
 
-    suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean) : Int
+    suspend fun updateWorkout(primaryKey: String, name : String, updatedAt : String, isActive : Boolean) : Int
 
     suspend fun removeWorkout(id :String) : Int
 
@@ -17,29 +17,27 @@ interface WorkoutDaoService {
 
     suspend fun getTotalWorkout() : Int
 
-    suspend fun getAllWorkouts() : List<Workout>
+    suspend fun getWorkouts() : List<Workout>
 
-    suspend fun getWorkout() : List<Workout>
-
-    suspend fun getWorkoutOrderByDateDESC(
+    suspend fun getWorkoutsOrderByDateDESC(
         query: String,
         page: Int,
         pageSize: Int = WORKOUT_PAGINATION_PAGE_SIZE
     ): List<Workout>
 
-    suspend fun getWorkoutOrderByDateASC(
+    suspend fun getWorkoutsOrderByDateASC(
         query: String,
         page: Int,
         pageSize: Int = WORKOUT_PAGINATION_PAGE_SIZE
     ): List<Workout>
 
-    suspend fun getWorkoutOrderByNameDESC(
+    suspend fun getWorkoutsOrderByNameDESC(
         query: String,
         page: Int,
         pageSize: Int = WORKOUT_PAGINATION_PAGE_SIZE
     ): List<Workout>
 
-    suspend fun getWorkoutOrderByNameASC(
+    suspend fun getWorkoutsOrderByNameASC(
         query: String,
         page: Int,
         pageSize: Int = WORKOUT_PAGINATION_PAGE_SIZE

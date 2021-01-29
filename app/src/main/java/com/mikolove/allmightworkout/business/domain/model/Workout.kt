@@ -8,10 +8,10 @@ data class Workout(
     var name: String,
     var exercises: List<Exercise>?,
     var isActive: Boolean,
-    var started_at: String?,
-    var ended_at: String?,
-    var created_at: String,
-    var updated_at: String
+    var startedAt: String?,
+    var endedAt: String?,
+    var createdAt: String,
+    var updatedAt: String
 ) : Parcelable{
 
     override fun equals(other: Any?): Boolean {
@@ -23,17 +23,17 @@ data class Workout(
         if(idWorkout != other.idWorkout) return false
         if(name != other.name) return false
         if(isActive != other.isActive) return false
-        if(created_at != other.created_at) return false
+        if(createdAt != other.createdAt) return false
 
         return true
     }
 
     fun start(date : String){
-        started_at = date
+        startedAt = date
     }
 
     fun stop(date : String){
-        ended_at = date
+        endedAt = date
     }
 
 }

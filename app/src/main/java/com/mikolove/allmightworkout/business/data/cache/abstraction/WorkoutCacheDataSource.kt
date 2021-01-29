@@ -6,13 +6,16 @@ interface WorkoutCacheDataSource {
 
     suspend fun insertWorkout(workout: Workout) : Long
 
-    suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean) : Int
+    suspend fun updateWorkout(
+        primaryKey: String,
+        name: String,
+        isActive: Boolean,
+        updatedAt: String
+    ) : Int
 
     suspend fun removeWorkout(primaryKey:String) : Int
 
     suspend fun removeWorkouts(workouts : List<Workout>) : Int
-
-    suspend fun getAllWorkouts() : List<Workout>
 
     suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int) : List<Workout>
 

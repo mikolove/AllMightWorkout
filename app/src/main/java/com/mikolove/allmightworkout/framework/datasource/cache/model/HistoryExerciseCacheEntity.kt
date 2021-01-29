@@ -18,34 +18,34 @@ data class HistoryExerciseCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_history_exercise")
-    var idHistoryExercise : String,
+    var idHistoryExercise: String,
 
     @ColumnInfo(name = "fk_id_history_workout")
-    var idHistoryWorkout : String?,
+    var idHistoryWorkout: String?,
 
     @ColumnInfo(name = "name")
-    var name : String,
+    var name: String,
 
     @ColumnInfo(name = "body_part")
-    var bodyPart : String,
+    var bodyPart: String,
 
     @ColumnInfo(name = "workout_type")
-    var workoutType : String,
+    var workoutType: String,
 
     @ColumnInfo(name = "exercise_type")
-    var exerciseType : String,
+    var exerciseType: String,
 
     @ColumnInfo(name ="started_at")
-    var started_at : Date,
+    var startedAt: Date,
 
     @ColumnInfo(name = "ended_at")
-    var ended_at : Date,
+    var endedAt: Date,
 
     @ColumnInfo(name = "created_at")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name = "updated_at")
-    var updated_at : Date
+    var updatedAt: Date
 
 ) {}
 

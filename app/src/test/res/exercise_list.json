@@ -9,8 +9,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet2",
@@ -18,8 +18,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet3",
@@ -27,8 +27,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       }
     ],
     "bodyPart" :
@@ -44,8 +44,8 @@
   ,
     "exerciseType" : "REP_EXERCISE",
     "isActive" : true,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idExercise": "idExercise2",
@@ -57,8 +57,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet5",
@@ -66,8 +66,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet6",
@@ -75,8 +75,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       }
     ],
     "bodyPart" :
@@ -92,8 +92,8 @@
   ,
     "exerciseType" : "REP_EXERCISE",
     "isActive" : true,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idExercise": "idExercise3",
@@ -105,8 +105,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet8",
@@ -114,8 +114,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet9",
@@ -123,8 +123,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       }
     ],
     "bodyPart" :
@@ -140,8 +140,8 @@
   ,
     "exerciseType" : "REP_EXERCISE",
     "isActive" : true,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idExercise": "idExercise4",
@@ -153,8 +153,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet11",
@@ -162,8 +162,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet12",
@@ -171,8 +171,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       }
     ],
     "bodyPart" :
@@ -188,8 +188,8 @@
   ,
     "exerciseType" : "REP_EXERCISE",
     "isActive" : true,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idExercise": "idExercise5",
@@ -201,8 +201,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet14",
@@ -210,8 +210,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       },
       {
         "idExerciseSet": "idExerciseSet15",
@@ -219,8 +219,8 @@
         "weight" : 10,
         "time" : 0,
         "restTime" : 45,
-        "updated_at": "2019-04-14 08:41:22",
-        "created_at": "2019-04-14 07:05:11"
+        "updatedAt": "2019-04-14 08:41:22",
+        "createdAt": "2019-04-14 07:05:11"
       }
     ],
     "bodyPart" :
@@ -236,7 +236,7 @@
   ,
     "exerciseType" : "REP_EXERCISE",
     "isActive" : true,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   }
 ]

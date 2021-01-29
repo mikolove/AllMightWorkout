@@ -21,34 +21,34 @@ data class HistoryExerciseSetCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_history_exercise_set")
-    var idHistoryExerciseSet : String,
+    var idHistoryExerciseSet: String,
 
     @ColumnInfo(name = "fk_id_history_exercise")
-    var idHistoryExercise : String?,
+    var idHistoryExercise: String?,
 
     @ColumnInfo(name = "reps")
-    var reps : Int,
+    var reps: Int,
 
     @ColumnInfo(name = "weight")
-    var weight : Int,
+    var weight: Int,
 
     @ColumnInfo(name = "duration")
-    var time : Int,
+    var time: Int,
 
     @ColumnInfo(name = "rest_time")
-    var restTime : Int,
+    var restTime: Int,
 
     @ColumnInfo(name = "started_at")
-    var started_at : Date,
+    var startedAt: Date,
 
     @ColumnInfo(name ="ended_at")
-    var ended_at : Date,
+    var endedAt: Date,
 
     @ColumnInfo(name = "created_at")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name = "updated_at")
-    var updated_at : Date
+    var updatedAt: Date
 
     ) {
 }

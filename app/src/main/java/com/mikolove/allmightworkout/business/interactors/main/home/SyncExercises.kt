@@ -43,7 +43,7 @@ class SyncExercises(
     private suspend fun getCachedExercises() : List<Exercise>{
 
         val cacheResult = safeCacheCall(IO){
-            exerciseCacheDataSource.getAllExercises()
+            exerciseCacheDataSource.getExercises("","",1)
         }
 
         val response = object : CacheResponseHandler<List<Exercise>,List<Exercise>>(
@@ -146,8 +146,8 @@ class SyncExercises(
 
     private suspend fun updateExerciseIfNeeded(networkExercise : Exercise, cacheExercise : Exercise){
 
-        val networkUpdatedAt = dateFormat.parse(networkExercise.updated_at)
-        val cacheUpdatedAt = dateFormat.parse(cacheExercise.updated_at)
+        val networkUpdatedAt = dateFormat.parse(networkExercise.updatedAt)
+        val cacheUpdatedAt = dateFormat.parse(cacheExercise.updatedAt)
 
         //If network has newest data
         if(networkUpdatedAt != cacheUpdatedAt) {
@@ -161,7 +161,9 @@ class SyncExercises(
                     networkExercise.name,
                     networkExercise.bodyPart,
                     networkExercise.isActive,
-                    networkExercise.exerciseType.name)
+                    networkExercise.exerciseType.name,
+                    networkExercise.updatedAt
+                )
 
             }
             //If cache has newest data
@@ -177,8 +179,8 @@ class SyncExercises(
 
     private suspend fun updateExerciseSetIfNeeded(networkExerciseSet : ExerciseSet, cacheExerciseSet: ExerciseSet, idExercise : String) {
 
-        val networkUpdatedAt = dateFormat.parse(networkExerciseSet.updated_at)
-        val cacheUpdatedAt = dateFormat.parse(cacheExerciseSet.updated_at)
+        val networkUpdatedAt = dateFormat.parse(networkExerciseSet.updatedAt)
+        val cacheUpdatedAt = dateFormat.parse(cacheExerciseSet.updatedAt)
 
         if(networkUpdatedAt != cacheUpdatedAt) {
             printLogD("SyncExercises", "Try to update exercise set")
@@ -195,6 +197,7 @@ class SyncExercises(
                     networkExerciseSet.weight,
                     networkExerciseSet.time,
                     networkExerciseSet.restTime,
+                    networkExerciseSet.updatedAt,
                     idExercise
                 )
             }

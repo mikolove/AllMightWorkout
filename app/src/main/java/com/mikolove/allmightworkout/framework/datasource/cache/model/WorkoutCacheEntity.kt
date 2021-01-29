@@ -8,19 +8,19 @@ data class WorkoutCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_workout")
-    var idWorkout : String,
+    var idWorkout: String,
 
     @ColumnInfo(name = "name")
-    var name : String,
+    var name: String,
 
     @ColumnInfo(name = "is_active")
-    var isActive : Boolean,
+    var isActive: Boolean,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updated_at : Date
+    var updatedAt: Date
 ){}
 
 data class WorkoutWithExercisesCacheEntity(

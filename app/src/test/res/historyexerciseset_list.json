@@ -5,8 +5,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet2",
@@ -14,8 +14,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet3",
@@ -23,8 +23,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet4",
@@ -32,8 +32,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet5",
@@ -41,8 +41,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet6",
@@ -50,8 +50,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet7",
@@ -59,8 +59,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet8",
@@ -68,8 +68,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet9",
@@ -77,8 +77,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet10",
@@ -86,8 +86,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet11",
@@ -95,8 +95,8 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   },
   {
     "idHistoryExerciseSet": "idHistoryExerciseSet12",
@@ -104,7 +104,7 @@
     "weight" : 10,
     "time" : 0,
     "restTime" : 45,
-    "updated_at": "2019-04-14 08:41:22",
-    "created_at": "2019-04-14 07:05:11"
+    "updatedAt": "2019-04-14 08:41:22",
+    "createdAt": "2019-04-14 07:05:11"
   }
 ]

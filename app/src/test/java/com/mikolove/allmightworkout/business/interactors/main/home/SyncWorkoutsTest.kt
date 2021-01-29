@@ -128,13 +128,14 @@ class SyncWorkoutsTest {
             name = "new new",
             exercises = cachedWorkout?.exercises,
             isActive = false,
-            created_at = cachedWorkout?.created_at
+            created_at = cachedWorkout?.createdAt
         )
 
         workoutCacheDataSource.updateWorkout(
             updatedWorkout.idWorkout,
             updatedWorkout.name,
-            updatedWorkout.isActive
+            updatedWorkout.isActive,
+            updatedWorkout.updatedAt
         )
 
         //Sync
@@ -144,7 +145,7 @@ class SyncWorkoutsTest {
         val networkWorkout = workoutNetworkDataSource.getWorkoutById("idWorkout1")
         assertTrue { updatedWorkout.name == networkWorkout?.name}
         assertTrue { updatedWorkout.isActive == networkWorkout?.isActive}
-        assertTrue { updatedWorkout.updated_at == networkWorkout?.updated_at}
+        assertTrue { updatedWorkout.updatedAt == networkWorkout?.updatedAt }
     }
 
     @Test
@@ -157,7 +158,7 @@ class SyncWorkoutsTest {
             name = "new new new",
             exercises = networkWorkout?.exercises,
             isActive = false,
-            created_at = networkWorkout?.created_at
+            created_at = networkWorkout?.createdAt
         )
 
         workoutNetworkDataSource.updateWorkout(
@@ -172,7 +173,7 @@ class SyncWorkoutsTest {
         val cacheWorkout = workoutCacheDataSource.getWorkoutById("idWorkout1")
         assertTrue { updatedWorkout.name == cacheWorkout?.name}
         assertTrue { updatedWorkout.isActive == cacheWorkout?.isActive}
-        assertTrue { updatedWorkout.updated_at == cacheWorkout?.updated_at}
+        assertTrue { updatedWorkout.updatedAt == cacheWorkout?.updatedAt }
 
     }
 

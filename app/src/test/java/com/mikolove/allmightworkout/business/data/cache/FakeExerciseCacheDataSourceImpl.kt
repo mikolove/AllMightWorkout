@@ -41,7 +41,8 @@ class FakeExerciseCacheDataSourceImpl(
         name: String,
         bodyPart: BodyPart?,
         isActive: Boolean,
-        exerciseType: String
+        exerciseType: String,
+        updatedAt: String
     ): Int {
 
         if(primaryKey.equals(FORCE_UPDATE_EXERCISE_EXCEPTION)){
@@ -55,10 +56,10 @@ class FakeExerciseCacheDataSourceImpl(
             sets = listOf(),
             isActive = isActive,
             exerciseType = ExerciseType.valueOf(exerciseType),
-            started_at = null,
-            ended_at = null,
-            created_at = exercisesData[primaryKey]?.created_at?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            startedAt = null,
+            endedAt = null,
+            createdAt = exercisesData[primaryKey]?.createdAt ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
 
         return exercisesData[primaryKey]?.let {
@@ -176,7 +177,4 @@ class FakeExerciseCacheDataSourceImpl(
         return -1
     }
 
-    override suspend fun getAllExercises(): List<Exercise> {
-        return ArrayList(exercisesData.values)
-    }
 }

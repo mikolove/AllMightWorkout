@@ -9,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.home.GetExercises.Companion.GET_EXERCISES_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.home.GetExercises.Companion.GET_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_UPDATED
+import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_CREATED
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -65,7 +65,7 @@ class GetExercisesTest {
 
         getExercises.getExercises(
             query = query,
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
         ).collect(object: FlowCollector<DataState<HomeViewState>?> {
@@ -86,7 +86,7 @@ class GetExercisesTest {
         // Confirm workouts in cache match with workout retrieved
         val exercisesInCache = exerciseCacheDataSource.getExercises(
             query = query,
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1)
 
         Assertions.assertTrue(results?.containsAll(exercisesInCache) == true)
@@ -101,7 +101,7 @@ class GetExercisesTest {
 
         getExercises.getExercises(
             query = query,
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
         ).collect(object: FlowCollector<DataState<HomeViewState>?> {
@@ -122,7 +122,7 @@ class GetExercisesTest {
         // confirm there is notes in the cache
         val exercisesInCache = exerciseCacheDataSource.getExercises(
             query = "",
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1)
         Assertions.assertTrue { exercisesInCache.size > 0}
     }
@@ -134,7 +134,7 @@ class GetExercisesTest {
         var results: ArrayList<Exercise>? = null
         getExercises.getExercises(
             query = query,
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
         ).collect(object: FlowCollector<DataState<HomeViewState>?> {
@@ -155,7 +155,7 @@ class GetExercisesTest {
         // confirm there is notes in the cache
         val exercisesInCache = exerciseCacheDataSource.getExercises(
             query = "",
-            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_UPDATED,
+            filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1)
         Assertions.assertTrue { exercisesInCache.size > 0}
     }

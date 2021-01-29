@@ -1,22 +1,18 @@
 package com.mikolove.allmightworkout.business.interactors.main.manageworkout
 
 import com.mikolove.allmightworkout.business.data.cache.CacheErrors
-import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.UpdateWorkoutEvent
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -80,7 +76,7 @@ class UpdateWorkoutTest {
             name = "new name",
             exercises = null,
             isActive = false,
-            created_at = randomWorkout.created_at
+            created_at = randomWorkout.createdAt
         )
 
         //Launch update process

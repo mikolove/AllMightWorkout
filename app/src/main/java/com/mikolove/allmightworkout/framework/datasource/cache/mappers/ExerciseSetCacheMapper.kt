@@ -18,10 +18,10 @@ constructor(
             weight = entity.weight,
             time = entity.time,
             restTime = entity.restTime,
-            started_at = null,
-            ended_at = null,
-            created_at = roomDateUtil.convertDateToStringDate(entity.created_at),
-            updated_at = roomDateUtil.convertDateToStringDate(entity.updated_at)
+            startedAt = null,
+            endedAt = null,
+            createdAt = roomDateUtil.convertDateToStringDate(entity.createdAt),
+            updatedAt = roomDateUtil.convertDateToStringDate(entity.updatedAt)
         )
     }
 
@@ -33,8 +33,8 @@ constructor(
             weight = domainModel.weight,
             time = domainModel.time,
             restTime = domainModel.restTime,
-            created_at = roomDateUtil.convertStringDateToDate(domainModel.created_at),
-            updated_at = roomDateUtil.convertStringDateToDate(domainModel.updated_at)
+            createdAt = roomDateUtil.convertStringDateToDate(domainModel.createdAt),
+            updatedAt = roomDateUtil.convertStringDateToDate(domainModel.updatedAt)
         )
     }
 

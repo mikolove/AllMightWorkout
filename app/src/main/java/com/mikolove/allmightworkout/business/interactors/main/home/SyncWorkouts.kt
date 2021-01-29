@@ -37,7 +37,7 @@ class SyncWorkouts(
     suspend fun getCachedWorkouts() : List<Workout>{
 
         val cacheResult = safeCacheCall(IO){
-            workoutCacheDataSource.getAllWorkouts()
+            workoutCacheDataSource.getWorkouts("","",1)
         }
 
         val response = object :CacheResponseHandler<List<Workout>,List<Workout>>(
@@ -113,8 +113,8 @@ class SyncWorkouts(
 
     private suspend fun updateWorkoutIfNeeded(networkWorkout : Workout, cacheWorkout : Workout){
 
-        val networkUpdatedAt = dateFormat.parse(networkWorkout.updated_at)
-        val cacheUpdatedAt = dateFormat.parse(cacheWorkout.updated_at)
+        val networkUpdatedAt = dateFormat.parse(networkWorkout.updatedAt)
+        val cacheUpdatedAt = dateFormat.parse(cacheWorkout.updatedAt)
 
         //If network has newest data
         if(networkUpdatedAt != cacheUpdatedAt) {
@@ -126,7 +126,8 @@ class SyncWorkouts(
                 workoutCacheDataSource.updateWorkout(
                     networkWorkout.idWorkout,
                     networkWorkout.name,
-                    networkWorkout.isActive
+                    networkWorkout.isActive,
+                    networkWorkout.updatedAt
                 )
 
             }

@@ -46,6 +46,7 @@ class FakeExerciseSetCacheDataSourceImpl(
         weight: Int,
         time: Int,
         restTime: Int,
+        updatedAt: String,
         idExercise: String
     ): Int {
 
@@ -73,10 +74,10 @@ class FakeExerciseSetCacheDataSourceImpl(
             weight = weight,
             time = time,
             restTime = restTime,
-            started_at = null,
-            ended_at = null,
-            created_at = exerciseSet?.created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            startedAt = null,
+            endedAt = null,
+            createdAt = exerciseSet?.createdAt ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
 
         //Change list

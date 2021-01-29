@@ -29,10 +29,10 @@ constructor(private val dateUtil: DateUtil){
             workoutType = workoutType?: "New workouttype",
             historySets = historySets ?: null,
             exerciseType = exerciseType ?: "New history exercise",
-            started_at = started_at ?: dateUtil.getCurrentTimestamp(),
-            ended_at = ended_at ?: dateUtil.getCurrentTimestamp(),
-            created_at = created_at?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp())
+            startedAt = started_at ?: dateUtil.getCurrentTimestamp(),
+            endedAt = ended_at ?: dateUtil.getCurrentTimestamp(),
+            createdAt = created_at?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp())
     }
 
 }

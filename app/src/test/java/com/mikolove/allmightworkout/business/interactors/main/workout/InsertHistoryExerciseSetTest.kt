@@ -81,8 +81,8 @@ class InsertHistoryExerciseSetTest {
             weight = exerciseSet.weight,
             time = exerciseSet.time,
             restTime = exerciseSet.time,
-            started_at = exerciseSet.started_at,
-            ended_at = exerciseSet.ended_at,
+            started_at = exerciseSet.startedAt,
+            ended_at = exerciseSet.endedAt,
             created_at = null
         )
 
@@ -93,8 +93,8 @@ class InsertHistoryExerciseSetTest {
             weight = historyExerciseSet.weight,
             time = historyExerciseSet.time,
             restTime = historyExerciseSet.restTime,
-            started_at = historyExerciseSet.started_at,
-            ended_at = historyExerciseSet.ended_at,
+            started_at = historyExerciseSet.startedAt,
+            ended_at = historyExerciseSet.endedAt,
             historyExerciseId = "idExercise1",
             stateEvent = InsertHistoryExerciseSetEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
@@ -126,8 +126,8 @@ class InsertHistoryExerciseSetTest {
             weight = exerciseSet.weight,
             time = exerciseSet.time,
             restTime = exerciseSet.time,
-            started_at = exerciseSet.started_at,
-            ended_at = exerciseSet.ended_at,
+            started_at = exerciseSet.startedAt,
+            ended_at = exerciseSet.endedAt,
             created_at = null
         )
 
@@ -138,8 +138,8 @@ class InsertHistoryExerciseSetTest {
             weight = historyExerciseSet.weight,
             time = historyExerciseSet.time,
             restTime = historyExerciseSet.restTime,
-            started_at = historyExerciseSet.started_at,
-            ended_at = historyExerciseSet.ended_at,
+            started_at = historyExerciseSet.startedAt,
+            ended_at = historyExerciseSet.endedAt,
             stateEvent = InsertHistoryExerciseSetEvent(),
             historyExerciseId = "idExercise1"
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
@@ -172,8 +172,8 @@ class InsertHistoryExerciseSetTest {
             weight = exerciseSet.weight,
             time = exerciseSet.time,
             restTime = exerciseSet.time,
-            started_at = exerciseSet.started_at,
-            ended_at = exerciseSet.ended_at,
+            started_at = exerciseSet.startedAt,
+            ended_at = exerciseSet.endedAt,
             created_at = null
         )
 
@@ -184,8 +184,8 @@ class InsertHistoryExerciseSetTest {
             weight = historyExerciseSet.weight,
             time = historyExerciseSet.time,
             restTime = historyExerciseSet.restTime,
-            started_at = historyExerciseSet.started_at,
-            ended_at = historyExerciseSet.ended_at,
+            started_at = historyExerciseSet.startedAt,
+            ended_at = historyExerciseSet.endedAt,
             stateEvent = InsertHistoryExerciseSetEvent(),
             historyExerciseId = "idExercise1"
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{

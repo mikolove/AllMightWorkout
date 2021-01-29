@@ -27,7 +27,8 @@ class UpdateWorkout(
             workoutCacheDataSource.updateWorkout(
                 workout.idWorkout,
                 workout.name,
-                workout.isActive
+                workout.isActive,
+                workout.updatedAt
             )
         }
 

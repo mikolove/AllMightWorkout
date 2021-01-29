@@ -10,7 +10,7 @@ interface ExerciseSetCacheDataSource {
 
     suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String) : Long
 
-    suspend fun updateExerciseSet(primaryKey : String, reps: Int ,weight: Int ,time : Int,restTime : Int, idExercise: String) : Int
+    suspend fun updateExerciseSet(primaryKey : String, reps: Int ,weight: Int ,time : Int,restTime : Int, updatedAt : String, idExercise: String) : Int
 
     suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>) : Int
 

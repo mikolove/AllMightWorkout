@@ -80,16 +80,16 @@ class InsertHistoryWorkoutTest {
             idHistoryWorkout = UUID.randomUUID().toString(),
             name = workout.name,
             historyExercises = null,
-            started_at = workout.started_at,
-            ended_at = workout.ended_at,
+            started_at = workout.startedAt,
+            ended_at = workout.endedAt,
             created_at = null)
 
         //Insert history workout
         insertHistoryWorkout.insertHistoryWorkout(
             idHistoryWorkout = historyWorkout.idHistoryWorkout,
             name = historyWorkout.name,
-            started_at = historyWorkout.started_at,
-            ended_at = historyWorkout.ended_at,
+            started_at = historyWorkout.startedAt,
+            ended_at = historyWorkout.endedAt,
             stateEvent = InsertHistoryWorkoutEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -116,16 +116,16 @@ class InsertHistoryWorkoutTest {
             idHistoryWorkout = FORCE_GENERAL_FAILURE,
             name = workout.name,
             historyExercises = null,
-            started_at = workout.started_at,
-            ended_at = workout.ended_at,
+            started_at = workout.startedAt,
+            ended_at = workout.endedAt,
             created_at = null)
 
         //Insert history workout
         insertHistoryWorkout.insertHistoryWorkout(
             idHistoryWorkout = historyWorkout.idHistoryWorkout,
             name = historyWorkout.name,
-            started_at = historyWorkout.started_at,
-            ended_at = historyWorkout.ended_at,
+            started_at = historyWorkout.startedAt,
+            ended_at = historyWorkout.endedAt,
             stateEvent = InsertHistoryWorkoutEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -152,16 +152,16 @@ class InsertHistoryWorkoutTest {
             idHistoryWorkout = FORCE_NEW_HISTORY_WORKOUT_EXCEPTION,
             name = workout.name,
             historyExercises = null,
-            started_at = workout.started_at,
-            ended_at = workout.ended_at,
+            started_at = workout.startedAt,
+            ended_at = workout.endedAt,
             created_at = null)
 
         //Insert history workout
         insertHistoryWorkout.insertHistoryWorkout(
             idHistoryWorkout = historyWorkout.idHistoryWorkout,
             name = historyWorkout.name,
-            started_at = historyWorkout.started_at,
-            ended_at = historyWorkout.ended_at,
+            started_at = historyWorkout.startedAt,
+            ended_at = historyWorkout.endedAt,
             stateEvent = InsertHistoryWorkoutEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
             override suspend fun emit(value: DataState<WorkoutViewState>?) {

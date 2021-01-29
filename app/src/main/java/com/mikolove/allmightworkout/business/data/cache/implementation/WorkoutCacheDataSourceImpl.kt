@@ -14,7 +14,12 @@ constructor(
 ) : WorkoutCacheDataSource {
     override suspend fun insertWorkout(workout: Workout): Long = workoutDaoService.insertWorkout(workout)
 
-    override suspend fun updateWorkout(primaryKey: String, name : String , isActive : Boolean): Int = workoutDaoService.updateWorkout(primaryKey ,name, isActive)
+    override suspend fun updateWorkout(
+        primaryKey: String,
+        name: String,
+        isActive: Boolean,
+        updatedAt: String
+    ): Int = workoutDaoService.updateWorkout(primaryKey ,name, updatedAt, isActive)
 
     override suspend fun removeWorkout(primaryKey: String): Int = workoutDaoService.removeWorkout(primaryKey)
 
@@ -26,8 +31,6 @@ constructor(
             page
         )
     }
-
-    override suspend fun getAllWorkouts(): List<Workout> = workoutDaoService.getAllWorkouts()
 
     override suspend fun removeWorkouts(workouts: List<Workout>): Int = workoutDaoService.removeWorkouts(workouts)
 

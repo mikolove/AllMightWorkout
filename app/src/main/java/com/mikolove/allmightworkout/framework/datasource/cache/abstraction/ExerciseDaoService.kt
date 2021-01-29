@@ -8,13 +8,18 @@ interface ExerciseDaoService {
 
     suspend fun insertExercise(exercise: Exercise) : Long
 
-    suspend fun updateExercise(primaryKey: String, name: String, bodyPart: BodyPart?, isActive: Boolean, exerciseType: String) : Int
+    suspend fun updateExercise(
+        primaryKey: String,
+        name: String,
+        bodyPart: BodyPart?,
+        isActive: Boolean,
+        exerciseType: String,
+        updatedAt: String
+    ) : Int
 
     suspend fun removeExerciseById(primaryKey :String) : Int
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
-
-    suspend fun getAllExercises() : List<Exercise>
 
     suspend fun getTotalExercises() : Int
 

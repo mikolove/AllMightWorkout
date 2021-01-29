@@ -18,10 +18,10 @@ constructor(
             name = entity.name,
             exercises = null,
             isActive = entity.isActive,
-            started_at = null,
-            ended_at = null,
-            created_at = roomDateUtil.convertDateToStringDate(entity.created_at),
-            updated_at = roomDateUtil.convertDateToStringDate(entity.updated_at)
+            startedAt = null,
+            endedAt = null,
+            createdAt = roomDateUtil.convertDateToStringDate(entity.createdAt),
+            updatedAt = roomDateUtil.convertDateToStringDate(entity.updatedAt)
         )
     }
 
@@ -30,8 +30,8 @@ constructor(
             idWorkout = domainModel.idWorkout,
             name = domainModel.name,
             isActive = domainModel.isActive,
-            created_at = roomDateUtil.convertStringDateToDate(domainModel.created_at),
-            updated_at = roomDateUtil.convertStringDateToDate(domainModel.updated_at)
+            createdAt = roomDateUtil.convertStringDateToDate(domainModel.createdAt),
+            updatedAt = roomDateUtil.convertStringDateToDate(domainModel.updatedAt)
         )
     }
 

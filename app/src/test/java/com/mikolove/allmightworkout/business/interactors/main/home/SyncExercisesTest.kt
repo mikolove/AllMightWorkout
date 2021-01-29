@@ -190,7 +190,7 @@ class SyncExercisesTest {
             weight = 42,
             time = 42,
             restTime = 42,
-            created_at = cachedExerciseSet1?.created_at
+            created_at = cachedExerciseSet1?.createdAt
         )
         val updatedExercise = exerciseFactory.createExercise(
             idExercise = cachedExercise1?.idExercise,
@@ -199,7 +199,7 @@ class SyncExercisesTest {
             bodyPart = cachedExercise1?.bodyPart,
             exerciseType = cachedExercise1?.exerciseType,
             isActive = false,
-            created_at = cachedExercise1.created_at
+            created_at = cachedExercise1.createdAt
         )
 
         //Update cache for two element
@@ -208,7 +208,8 @@ class SyncExercisesTest {
             name = updatedExercise.name,
             bodyPart = updatedExercise.bodyPart,
             isActive = updatedExercise.isActive,
-            exerciseType = updatedExercise.exerciseType.name
+            exerciseType = updatedExercise.exerciseType.name,
+            updatedAt = updatedExercise.updatedAt
         )
         exerciseSetCacheDataSource.updateExerciseSet(
             primaryKey = updatedExerciseSet.idExerciseSet,
@@ -216,6 +217,7 @@ class SyncExercisesTest {
             weight = updatedExerciseSet.weight,
             time = updatedExerciseSet.time,
             restTime = updatedExerciseSet.restTime,
+            updatedAt = updatedExerciseSet.updatedAt,
             idExercise = "idExercise1"
         )
 
@@ -232,8 +234,8 @@ class SyncExercisesTest {
         assertTrue { networkExercise?.name == updatedExercise.name }
         assertTrue { networkExercise?.bodyPart == updatedExercise.bodyPart }
         assertTrue { networkExercise?.exerciseType == updatedExercise.exerciseType}
-        assertTrue { networkExercise?.created_at == updatedExercise.created_at }
-        assertTrue { networkExercise?.updated_at == updatedExercise.updated_at }
+        assertTrue { networkExercise?.createdAt == updatedExercise.createdAt }
+        assertTrue { networkExercise?.updatedAt == updatedExercise.updatedAt }
 
         /*
         TODO : This check is invalid due to HashMap fake data structure BUT it should work will need to fix this
@@ -255,7 +257,7 @@ class SyncExercisesTest {
             weight = 42,
             time = 42,
             restTime = 42,
-            created_at = networkExerciseSet?.created_at
+            created_at = networkExerciseSet?.createdAt
         )
         val updatedExercise = exerciseFactory.createExercise(
             idExercise = networkExercise?.idExercise,
@@ -264,7 +266,7 @@ class SyncExercisesTest {
             bodyPart = networkExercise?.bodyPart,
             exerciseType = networkExercise?.exerciseType,
             isActive = false,
-            created_at = networkExercise.created_at
+            created_at = networkExercise.createdAt
         )
 
         //Update cache for two element
@@ -287,8 +289,8 @@ class SyncExercisesTest {
         assertTrue { cacheExercise?.name == updatedExercise.name }
         assertTrue { cacheExercise?.bodyPart == updatedExercise.bodyPart }
         assertTrue { cacheExercise?.exerciseType == updatedExercise.exerciseType}
-        assertTrue { cacheExercise?.created_at == updatedExercise.created_at }
-        assertTrue { cacheExercise?.updated_at == updatedExercise.updated_at }
+        assertTrue { cacheExercise?.createdAt == updatedExercise.createdAt }
+        assertTrue { cacheExercise?.updatedAt == updatedExercise.updatedAt }
 
         /*
        TODO : Sets cannot be checked due to implementation meaning in ROOM. Need test on DAO with insert and relation

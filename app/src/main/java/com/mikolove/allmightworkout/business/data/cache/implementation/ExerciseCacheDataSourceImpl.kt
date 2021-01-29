@@ -18,8 +18,15 @@ constructor(
 
     override suspend fun insertExercise(exercise: Exercise): Long = exerciseDaoService.insertExercise(exercise)
 
-    override suspend fun updateExercise(primaryKey: String, name: String, bodyPart: BodyPart?, isActive: Boolean, exerciseType: String): Int =
-        exerciseDaoService.updateExercise(primaryKey,name,bodyPart,isActive,exerciseType)
+    override suspend fun updateExercise(
+        primaryKey: String,
+        name: String,
+        bodyPart: BodyPart?,
+        isActive: Boolean,
+        exerciseType: String,
+        updatedAt: String
+    ): Int =
+        exerciseDaoService.updateExercise(primaryKey, name, bodyPart, isActive, exerciseType,updatedAt)
 
     override suspend fun removeExerciseById(primaryKey: String): Int = exerciseDaoService.removeExerciseById(primaryKey)
 
@@ -30,8 +37,6 @@ constructor(
     ): List<Exercise> {
         return exerciseDaoService.returnOrderedQuery(query,filterAndOrder,page)
     }
-
-    override suspend fun getAllExercises(): List<Exercise> = exerciseDaoService.getAllExercises()
 
     override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseDaoService.removeExercises(exercises)
 

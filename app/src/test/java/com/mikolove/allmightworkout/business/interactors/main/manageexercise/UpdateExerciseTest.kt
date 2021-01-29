@@ -84,7 +84,7 @@ class UpdateExerciseTest {
             bodyPart = updateBodyPart!!,
             exerciseType = ExerciseType.TIME_EXERCISE,
             isActive = false,
-            created_at = randomExercise.created_at
+            created_at = randomExercise.createdAt
         )
 
         //Update it
@@ -129,7 +129,7 @@ class UpdateExerciseTest {
             bodyPart = updateBodyPart!!,
             exerciseType = ExerciseType.TIME_EXERCISE,
             isActive = false,
-            created_at = randomExercise.created_at
+            created_at = randomExercise.createdAt
         )
 
         //Update it
@@ -173,7 +173,7 @@ class UpdateExerciseTest {
             bodyPart = updateBodyPart!!,
             exerciseType = ExerciseType.TIME_EXERCISE,
             isActive = false,
-            created_at = randomExercise.created_at
+            created_at = randomExercise.createdAt
         )
 
         //Update it

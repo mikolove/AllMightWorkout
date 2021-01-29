@@ -20,10 +20,10 @@ constructor(
             workoutType = entity.workoutType,
             exerciseType = entity.exerciseType,
             historySets = listOf(),
-            started_at = roomDateUtil.convertDateToStringDate(entity.started_at),
-            ended_at = roomDateUtil.convertDateToStringDate(entity.ended_at),
-            created_at = roomDateUtil.convertDateToStringDate(entity.created_at),
-            updated_at = roomDateUtil.convertDateToStringDate(entity.updated_at)
+            startedAt = roomDateUtil.convertDateToStringDate(entity.startedAt),
+            endedAt = roomDateUtil.convertDateToStringDate(entity.endedAt),
+            createdAt = roomDateUtil.convertDateToStringDate(entity.createdAt),
+            updatedAt = roomDateUtil.convertDateToStringDate(entity.updatedAt)
         )
     }
 
@@ -35,10 +35,10 @@ constructor(
             bodyPart = domainModel.bodyPart,
             workoutType = domainModel.workoutType,
             exerciseType = domainModel.exerciseType,
-            started_at = roomDateUtil.convertStringDateToDate(domainModel.started_at),
-            ended_at = roomDateUtil.convertStringDateToDate(domainModel.ended_at),
-            created_at = roomDateUtil.convertStringDateToDate(domainModel.created_at),
-            updated_at = roomDateUtil.convertStringDateToDate(domainModel.updated_at)
+            startedAt = roomDateUtil.convertStringDateToDate(domainModel.startedAt),
+            endedAt = roomDateUtil.convertStringDateToDate(domainModel.endedAt),
+            createdAt = roomDateUtil.convertStringDateToDate(domainModel.createdAt),
+            updatedAt = roomDateUtil.convertStringDateToDate(domainModel.updatedAt)
 
         )
     }

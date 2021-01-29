@@ -20,10 +20,6 @@ constructor(
     private val dateUtil: DateUtil
 ): WorkoutCacheDataSource{
 
-    override suspend fun getAllWorkouts(): List<Workout> {
-        return ArrayList(workoutsData.values)
-    }
-
     override suspend fun insertWorkout(workout: Workout): Long {
         if(workout.idWorkout.equals(FORCE_NEW_WORKOUT_EXCEPTION)){
             throw Exception("Something went wrong inserting the workout.")
@@ -37,8 +33,9 @@ constructor(
 
     override suspend fun updateWorkout(
         primaryKey: String,
-        name : String,
-        isActive : Boolean
+        name: String,
+        isActive: Boolean,
+        updatedAt: String
     ): Int {
         if(primaryKey.equals(FORCE_UPDATE_WORKOUT_EXCEPTION)){
             throw Exception("Something went wrong updating the workout.")
@@ -48,10 +45,10 @@ constructor(
             name = name,
             exercises = null,
             isActive = isActive,
-            started_at = null,
-            ended_at = null,
-            created_at = workoutsData.get(primaryKey)?.created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = dateUtil.getCurrentTimestamp()
+            startedAt = null,
+            endedAt = null,
+            createdAt = workoutsData.get(primaryKey)?.createdAt ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
         return workoutsData.get(primaryKey)?.let {
             workoutsData.put(primaryKey, updatedWorkout)

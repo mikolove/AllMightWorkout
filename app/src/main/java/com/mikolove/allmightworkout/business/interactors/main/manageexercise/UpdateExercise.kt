@@ -28,7 +28,8 @@ class UpdateExercise(
                 name = exercise.name,
                 bodyPart = exercise.bodyPart,
                 isActive = exercise.isActive,
-                exerciseType = exercise.exerciseType.type
+                exerciseType = exercise.exerciseType.type,
+                updatedAt = exercise.updatedAt
             )
         }
 

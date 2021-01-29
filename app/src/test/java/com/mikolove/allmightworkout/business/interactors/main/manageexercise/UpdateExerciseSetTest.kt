@@ -19,7 +19,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import java.util.*
 
 /*
 Test cases:
@@ -84,7 +83,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
-            created_at = randomExerciseSet.created_at
+            created_at = randomExerciseSet.createdAt
         )
 
         //Upddate it
@@ -127,7 +126,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
-            created_at = randomExerciseSet.created_at
+            created_at = randomExerciseSet.createdAt
         )
 
         //Upddate it should failed
@@ -170,7 +169,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
-            created_at = randomExerciseSet.created_at
+            created_at = randomExerciseSet.createdAt
         )
 
         //Upddate it should failed

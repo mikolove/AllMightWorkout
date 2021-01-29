@@ -13,29 +13,29 @@ import java.util.*
         )
     )
 )
-data class ExerciseCacheEntity (
+data class ExerciseCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_exercise")
-    var idExercise : String,
+    var idExercise: String,
 
     @ColumnInfo(name = "name")
-    var name : String,
+    var name: String,
 
     @ColumnInfo(name = "fk_id_body_part")
-    var idBodyPart : String?,
+    var idBodyPart: String?,
 
     @ColumnInfo(name = "exercise_type")
-    var exerciseType : String,
+    var exerciseType: String,
 
     @ColumnInfo(name = "is_active")
-    var isActive : Boolean,
+    var isActive: Boolean,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updated_at : Date
+    var updatedAt: Date
 ){}
 
 data class ExerciseWithSetsCacheEntity(

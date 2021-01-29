@@ -21,26 +21,26 @@ data class ExerciseSetCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id_exercise_set")
-    var idExerciseSet : String,
+    var idExerciseSet: String,
 
     @ColumnInfo(name = "fk_id_exercise")
-    var idExercise : String?,
+    var idExercise: String?,
 
     @ColumnInfo(name = "reps")
-    var reps : Int,
+    var reps: Int,
 
     @ColumnInfo(name = "weight")
-    var weight : Int,
+    var weight: Int,
 
     @ColumnInfo(name = "duration")
-    var time : Int,
+    var time: Int,
 
     @ColumnInfo(name = "rest_time")
-    var restTime : Int,
+    var restTime: Int,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var created_at : Date,
+    var createdAt: Date,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updated_at : Date
+    var updatedAt: Date
 ){}

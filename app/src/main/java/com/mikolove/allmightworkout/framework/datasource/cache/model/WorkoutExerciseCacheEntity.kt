@@ -24,11 +24,11 @@ import java.util.*
 data class WorkoutExerciseCacheEntity(
 
     @ColumnInfo(name = "id_workout")
-    var idWorkout : String,
+    var idWorkout: String,
 
     @ColumnInfo(name = "id_exercise")
-    var idExercise : String,
+    var idExercise: String,
 
     @ColumnInfo(name = "created_at")
-    var created_at : Date
+    var createdAt: Date
 ) {}
