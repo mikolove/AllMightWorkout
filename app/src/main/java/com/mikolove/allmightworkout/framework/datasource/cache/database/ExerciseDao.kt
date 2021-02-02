@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseWithSetsCacheEntity
+import java.util.*
 
 
 const val EXERCISE_ORDER_ASC: String = ""
@@ -41,7 +42,7 @@ interface ExerciseDao{
         idBodyPart: String?,
         isActive: Boolean,
         exerciseType: String,
-        updatedAt: String
+        updatedAt: Date
     ) : Int
 
     @Query("DELETE FROM exercises WHERE id_exercise = :primaryKey")

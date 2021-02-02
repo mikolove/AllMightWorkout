@@ -15,8 +15,6 @@ constructor( private val workoutTypeDaoService : WorkoutTypeDaoService) : Workou
 
     override suspend fun updateWorkoutType(idWorkoutType: String, name: String): Int = workoutTypeDaoService.updateWorkoutType(idWorkoutType,name)
 
-    override suspend fun getAllWorkoutTypes(): List<WorkoutType>? = workoutTypeDaoService.getAllWorkoutTypes()
-
     override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?): WorkoutType? = workoutTypeDaoService.getWorkoutTypeBydBodyPartId(idBodyPart)
 
     override suspend fun removeWorkoutType(primaryKey: String): Int = workoutTypeDaoService.removeWorkoutType(primaryKey)

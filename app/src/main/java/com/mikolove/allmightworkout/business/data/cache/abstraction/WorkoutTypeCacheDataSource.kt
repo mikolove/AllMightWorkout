@@ -10,8 +10,6 @@ interface WorkoutTypeCacheDataSource {
 
     suspend fun removeWorkoutType(primaryKey: String) : Int
 
-    suspend fun getAllWorkoutTypes() : List<WorkoutType>?
-
     suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?) : WorkoutType?
 
     suspend fun getWorkoutTypes(query : String, filterAndOrder : String, page : Int) : List<WorkoutType>

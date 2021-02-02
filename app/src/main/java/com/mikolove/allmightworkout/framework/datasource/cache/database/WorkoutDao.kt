@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutWithExercisesCacheEntity
+import java.util.*
 
 const val WORKOUT_ORDER_ASC: String = ""
 const val WORKOUT_ORDER_DESC: String = "-"
@@ -32,7 +33,7 @@ interface WorkoutDao {
         updated_at= :updatedAt
         WHERE id_workout = :primaryKey
     """)
-    suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean, updatedAt : String) : Int
+    suspend fun updateWorkout(primaryKey: String, name : String, isActive : Boolean, updatedAt : Date) : Int
 
     @Query("DELETE FROM workouts WHERE id_workout = :id")
     suspend fun removeWorkout(id : String): Int

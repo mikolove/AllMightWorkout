@@ -1,0 +1,70 @@
+package com.mikolove.allmightworkout.framework.datasource.cache.implementation
+
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseSetDaoService
+import com.mikolove.allmightworkout.framework.datasource.cache.database.ExerciseSetDao
+import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseSetCacheMapper
+import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class ExerciseSetDaoServiceImpl
+@Inject
+constructor(
+    private val exerciseSetDao: ExerciseSetDao,
+    private val exerciseSetCacheMapper: ExerciseSetCacheMapper,
+    private val roomDateUtil: RoomDateUtil
+) : ExerciseSetDaoService{
+
+    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String): Long {
+        val exerciseSetCacheEntity = exerciseSetCacheMapper.mapToEntity(exerciseSet)
+        exerciseSetCacheEntity.idExercise = idExercise
+        return exerciseSetDao.insertExerciseSet(exerciseSetCacheEntity)
+    }
+
+    override suspend fun updateExerciseSet(
+        primaryKey: String,
+        reps: Int,
+        weight: Int,
+        time: Int,
+        restTime: Int,
+        updatedAt: String,
+        idExercise: String
+    ): Int {
+        return exerciseSetDao.updateExerciseSet(
+            primaryKey = primaryKey,
+            reps = reps,
+            weight = weight,
+            time = time,
+            restTime = restTime,
+            updatedAt = roomDateUtil.convertStringDateToDate(updatedAt),
+            idExercise = idExercise
+        )
+    }
+
+    override suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>): Int {
+        val ids = exerciseSets.mapIndexed{ index,exerciseSets -> exerciseSets.idExerciseSet }
+        return exerciseSetDao.removeExerciseSets(ids)
+    }
+
+    override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String): Int {
+        return exerciseSetDao.removeExerciseSetById(primaryKey,idExercise)
+    }
+
+    override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {
+        return exerciseSetDao.getExerciseSetById(primaryKey,idExercise)?.let {
+            exerciseSetCacheMapper.mapFromEntity(it)
+        }
+    }
+
+    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
+        return exerciseSetDao.getExerciseSetByIdExercise(idExercise)?.let {
+            exerciseSetCacheMapper.entityListToDomainList(it)
+        }
+    }
+
+    override suspend fun getTotalExercisesSetByExercise(idExercise: String): Int {
+        return exerciseSetDao.getTotalExercisesSetByExercise(idExercise)
+    }
+}

@@ -12,6 +12,7 @@ import com.mikolove.allmightworkout.framework.presentation.main.history.state.Hi
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -59,6 +60,7 @@ class GetHistoryWorkoutDetailTest {
         val idHistoryWorkout = "idHistoryWorkout1"
         var historyWorkoutRetrieved : HistoryWorkout? = null
 
+        /*
         getHistoryWorkoutDetail.getHistoryWorkoutDetail(
             idHistoryWorkout,
             stateEvent = GetHistoryWorkoutDetailEvent()
@@ -72,7 +74,20 @@ class GetHistoryWorkoutDetailTest {
 
                 historyWorkoutRetrieved = value?.data?.historyWorkoutDetail ?: null
             }
-        })
+        })*/
+
+        //Test
+        getHistoryWorkoutDetail.getHistoryWorkoutDetail(
+            idHistoryWorkout,
+            stateEvent = GetHistoryWorkoutDetailEvent()
+        ).collect {
+            assertEquals(
+                it?.stateMessage?.response?.message,
+                GET_HISTORY_WORKOUT_DETAIL_SUCCESS
+            )
+
+            historyWorkoutRetrieved = it?.data?.historyWorkoutDetail ?: null
+        }
 
         assertTrue { historyWorkoutRetrieved != null}
 

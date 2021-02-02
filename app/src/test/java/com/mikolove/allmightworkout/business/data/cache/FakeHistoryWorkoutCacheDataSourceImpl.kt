@@ -28,28 +28,6 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
         return 1 // success
     }
 
-    override suspend fun getLastHistoryWorkouts(): List<HistoryWorkout>? {
-
-  /*      var lastHistoryWorkout : HistoryWorkout? = null
-        val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
-
-        for( historyWorkout in historyWorkoutsData.values){
-
-            if( lastHistoryWorkout == null){
-                lastHistoryWorkout = historyWorkout
-            }
-
-            val hUpdated_at = LocalDate.parse(historyWorkout.updated_at,dateTimeFormatter)
-            val lastHUpdated_at = LocalDate.parse(lastHistoryWorkout?.updated_at,dateTimeFormatter)
-
-            if(hUpdated_at.isAfter(lastHUpdated_at)){
-                lastHistoryWorkout = historyWorkout
-            }
-        }
-*/
-        return ArrayList(historyWorkoutsData.values)
-    }
-
     override suspend fun getHistoryWorkouts(
         query: String,
         filterAndOrder: String,

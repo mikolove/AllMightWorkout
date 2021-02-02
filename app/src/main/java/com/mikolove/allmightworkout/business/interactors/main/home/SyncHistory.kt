@@ -106,7 +106,7 @@ class SyncHistory(
     private suspend fun getLastCachedHistoryWorkouts(): List<HistoryWorkout> {
 
         val cacheResult = safeCacheCall(IO){
-            historyWorkoutCacheDataSource.getLastHistoryWorkouts()
+            historyWorkoutCacheDataSource.getHistoryWorkouts("","",1)
         }
 
         val response = object : CacheResponseHandler<List<HistoryWorkout>, List<HistoryWorkout>>(

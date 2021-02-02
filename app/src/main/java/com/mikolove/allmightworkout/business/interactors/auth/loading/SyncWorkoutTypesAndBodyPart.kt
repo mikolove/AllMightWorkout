@@ -39,7 +39,7 @@ class SyncWorkoutTypesAndBodyPart(
     suspend fun getCachedWorkoutTypes() : List<WorkoutType>{
 
         val cacheResult = safeCacheCall(IO){
-            workoutTypeCacheDataSource.getAllWorkoutTypes()
+            workoutTypeCacheDataSource.getWorkoutTypes("","",1)
         }
 
         val response = object : CacheResponseHandler<List<WorkoutType>, List<WorkoutType>>(

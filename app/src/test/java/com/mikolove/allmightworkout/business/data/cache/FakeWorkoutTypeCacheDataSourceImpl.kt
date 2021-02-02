@@ -84,10 +84,6 @@ class FakeWorkoutTypeCacheDataSourceImpl(
         return workoutTypeDatas.size
     }
 
-    override suspend fun getAllWorkoutTypes(): List<WorkoutType>? {
-        return ArrayList(workoutTypeDatas.values)
-    }
-
     override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?): WorkoutType? {
         var workoutType : WorkoutType? = null
         for(wT in workoutTypeDatas.values){

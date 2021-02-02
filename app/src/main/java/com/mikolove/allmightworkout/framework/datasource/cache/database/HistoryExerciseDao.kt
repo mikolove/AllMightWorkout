@@ -1,13 +1,24 @@
 package com.mikolove.allmightEXERCISE.framework.datasource.database
 
-const val HISTORY_EXERCISE_ORDER_ASC: String = ""
-const val HISTORY_EXERCISE_ORDER_DESC: String = "-"
-const val HISTORY_EXERCISE_FILTER_NAME = "name"
-const val HISTORY_EXERCISE_FILTER_DATE_CREATED = "createdAt"
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseCacheEntity
+import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseWithSetsCacheEntity
 
-const val HISTORY_EXERCISE_ORDER_BY_ASC_DATE_UPDATED = HISTORY_EXERCISE_ORDER_ASC + HISTORY_EXERCISE_FILTER_DATE_CREATED
-const val HISTORY_EXERCISE_ORDER_BY_DESC_DATE_UPDATED = HISTORY_EXERCISE_ORDER_DESC + HISTORY_EXERCISE_FILTER_DATE_CREATED
-const val HISTORY_EXERCISE_ORDER_BY_ASC_NAME = HISTORY_EXERCISE_ORDER_ASC + HISTORY_EXERCISE_FILTER_NAME
-const val HISTORY_EXERCISE_ORDER_BY_DESC_NAME = HISTORY_EXERCISE_ORDER_DESC + HISTORY_EXERCISE_FILTER_NAME
+@Dao
+interface HistoryExerciseDao {
 
-const val HISTORY_EXERCISE_PAGINATION_PAGE_SIZE = 30
+    @Insert
+    suspend fun insertHistoryExercise(historyExercise: HistoryExerciseCacheEntity) : Long
+
+    @Query("SELECT * FROM history_exercises WHERE fk_id_history_workout = :idHistoryWorkout")
+    suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExerciseWithSetsCacheEntity>?
+
+    @Query("SELECT * FROM history_exercises WHERE id_history_exercise = :primaryKey")
+    suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExerciseWithSetsCacheEntity?
+
+    @Query("SELECT count(*) FROM history_exercises")
+    suspend fun getTotalHistoryExercise() : Int
+
+}

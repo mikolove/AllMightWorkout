@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseSetCacheEntity
+import java.util.*
 
 @Dao
 interface ExerciseSetDao{
@@ -21,7 +22,7 @@ interface ExerciseSetDao{
         updated_at= :updatedAt
         WHERE id_exercise_set = :primaryKey AND fk_id_exercise = :idExercise
     """)
-    suspend fun updateExerciseSet( primaryKey: String, reps: Int, weight: Int, time: Int, restTime: Int,  updatedAt : String, idExercise: String) : Int
+    suspend fun updateExerciseSet(primaryKey: String, reps: Int, weight: Int, time: Int, restTime: Int, updatedAt : Date, idExercise: String) : Int
 
     @Query("DELETE FROM exercise_sets WHERE id_exercise_set IN (:primaryKeys)")
     suspend fun removeExerciseSets(primaryKeys: List<String>) : Int
