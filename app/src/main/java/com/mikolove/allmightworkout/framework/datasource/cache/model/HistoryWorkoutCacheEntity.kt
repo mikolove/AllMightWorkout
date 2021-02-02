@@ -4,7 +4,8 @@ import androidx.room.*
 import java.util.*
 
 @Entity(
-    tableName = "history_workouts"
+    tableName = "history_workouts",
+    indices = [Index("id_history_workout")]
 )
 data class HistoryWorkoutCacheEntity(
 
@@ -35,6 +36,7 @@ data class HistoryWorkoutWithExercisesCacheEntity(
     val historyWorkoutCacheEntity : HistoryWorkoutCacheEntity,
 
     @Relation(
+        entity = HistoryExerciseCacheEntity::class,
         parentColumn = "id_history_workout",
         entityColumn = "fk_id_history_workout"
     )

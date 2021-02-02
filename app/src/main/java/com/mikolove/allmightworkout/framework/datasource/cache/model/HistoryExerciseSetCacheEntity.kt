@@ -1,13 +1,11 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
     tableName = "history_exercise_sets",
+    indices = [Index("id_history_exercise_set")],
     foreignKeys = arrayOf(
         ForeignKey(
             entity = HistoryExerciseCacheEntity::class,

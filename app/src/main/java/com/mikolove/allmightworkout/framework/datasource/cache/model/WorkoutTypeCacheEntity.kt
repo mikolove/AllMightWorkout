@@ -3,7 +3,8 @@ package com.mikolove.allmightworkout.framework.datasource.cache.model
 import androidx.room.*
 
 @Entity(
-    tableName = "workout_types"
+    tableName = "workout_types",
+    indices = [Index("id_workout_type")]
 )
 data class WorkoutTypeCacheEntity(
 

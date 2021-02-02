@@ -5,6 +5,7 @@ import java.util.*
 
 @Entity(
     tableName = "exercises",
+    indices = [Index("id_exercise")],
     foreignKeys = arrayOf(
         ForeignKey(
             entity = BodyPartCacheEntity::class,
@@ -43,12 +44,14 @@ data class ExerciseWithSetsCacheEntity(
     val exerciseCacheEntity : ExerciseCacheEntity,
 
     @Relation(
+        entity = BodyPartCacheEntity::class,
         parentColumn = "fk_id_body_part",
         entityColumn = "id_body_part"
     )
     val bodyPartCacheEntity : BodyPartCacheEntity,
 
     @Relation(
+        entity = ExerciseSetCacheEntity::class,
         parentColumn = "id_exercise",
         entityColumn = "fk_id_exercise")
     val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>

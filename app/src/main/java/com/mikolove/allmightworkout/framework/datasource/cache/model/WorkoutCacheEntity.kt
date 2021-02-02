@@ -3,7 +3,9 @@ package com.mikolove.allmightworkout.framework.datasource.cache.model
 import androidx.room.*
 import java.util.*
 
-@Entity(tableName = "workouts")
+@Entity(
+    tableName = "workouts",
+    indices = [Index("id_workout")])
 data class WorkoutCacheEntity(
 
     @PrimaryKey(autoGenerate = false)
@@ -29,8 +31,9 @@ data class WorkoutWithExercisesCacheEntity(
     val workoutCacheEntity: WorkoutCacheEntity,
 
     @Relation(
+        entity = ExerciseCacheEntity::class,
         parentColumn = "id_workout",
-        entityColumn = "id_workout",
+        entityColumn = "id_exercise",
         associateBy = Junction(WorkoutExerciseCacheEntity::class)
     )
     val listOfExerciseCacheEntity : List<ExerciseWithSetsCacheEntity>

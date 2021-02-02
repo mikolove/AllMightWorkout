@@ -4,6 +4,7 @@ import androidx.room.*
 
 @Entity(
     tableName = "body_parts",
+    indices = [Index("id_body_part")],
     foreignKeys = arrayOf(
         ForeignKey(
             entity = WorkoutTypeCacheEntity::class,
