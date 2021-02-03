@@ -34,19 +34,4 @@ constructor(
         )
     }
 
-    override fun entityListToDomainList(entities: List<HistoryWorkoutCacheEntity>): List<HistoryWorkout> {
-        val list : ArrayList<HistoryWorkout> = ArrayList()
-        for(entity in entities){
-            list.add(mapFromEntity(entity))
-        }
-        return list
-    }
-
-    override fun domainListToEntityList(domains: List<HistoryWorkout>): List<HistoryWorkoutCacheEntity> {
-        val entities : ArrayList<HistoryWorkoutCacheEntity> = ArrayList()
-        for(historyWorkout in domains){
-            entities.add(mapToEntity(historyWorkout))
-        }
-        return entities
-    }
 }

@@ -72,7 +72,7 @@ class UpdateWorkout(
     private suspend fun updateNetwork(response: String?, workout: Workout){
         if(response.equals(UPDATE_WORKOUT_SUCCESS)){
             safeApiCall(IO){
-                workoutNetworkDataSource.updateWorkout(workout.idWorkout,workout)
+                workoutNetworkDataSource.updateWorkout(workout)
             }
         }
 

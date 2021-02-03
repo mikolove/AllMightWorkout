@@ -135,7 +135,6 @@ class SyncWorkouts(
             if(networkUpdatedAt.before(cacheUpdatedAt)) {
                 printLogD("SyncWorkouts","Workout in network updated ${cacheWorkout.idWorkout}")
                 workoutNetworkDataSource.updateWorkout(
-                    cacheWorkout.idWorkout,
                     cacheWorkout
                 )
             }

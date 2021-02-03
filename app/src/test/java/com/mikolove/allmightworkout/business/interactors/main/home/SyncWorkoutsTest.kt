@@ -162,7 +162,6 @@ class SyncWorkoutsTest {
         )
 
         workoutNetworkDataSource.updateWorkout(
-            updatedWorkout.idWorkout,
             updatedWorkout
         )
 

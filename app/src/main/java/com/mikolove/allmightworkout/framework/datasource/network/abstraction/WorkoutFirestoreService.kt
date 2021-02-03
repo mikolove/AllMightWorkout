@@ -7,13 +7,9 @@ interface WorkoutFirestoreService{
 
     suspend fun insertWorkout(workout: Workout)
 
-    suspend fun updateWorkout(primaryKey: String, workout : Workout)
+    suspend fun updateWorkout(workout: Workout)
 
     suspend fun removeWorkout(id :String)
-
-    suspend fun addExercises(exercises : List<Exercise>)
-
-    suspend fun removeExercises(exercises: List<Exercise>)
 
     suspend fun getWorkouts() : List<Workout>
 

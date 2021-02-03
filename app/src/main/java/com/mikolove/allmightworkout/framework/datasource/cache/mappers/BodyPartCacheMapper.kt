@@ -24,19 +24,4 @@ constructor() : EntityMapper<BodyPartCacheEntity,BodyPart>{
         )
     }
 
-    override fun entityListToDomainList(entities: List<BodyPartCacheEntity>): List<BodyPart> {
-        val list : ArrayList<BodyPart> = ArrayList()
-        for(entity in entities){
-            list.add(mapFromEntity(entity))
-        }
-        return list
-    }
-
-    override fun domainListToEntityList(domains: List<BodyPart>): List<BodyPartCacheEntity> {
-        val entities : ArrayList<BodyPartCacheEntity> = ArrayList()
-        for(bodyPart in domains){
-            entities.add(mapToEntity(bodyPart))
-        }
-        return entities
-    }
 }
