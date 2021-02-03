@@ -5,9 +5,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WorkoutE
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutExerciseDaoServiceImpl
-@Inject
 constructor(
     private val workoutExerciseDao: WorkoutExerciseDao
 ) : WorkoutExerciseDaoService{

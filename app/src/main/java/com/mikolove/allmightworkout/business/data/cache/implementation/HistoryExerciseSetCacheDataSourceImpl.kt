@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.Histo
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryExerciseSetCacheDataSourceImpl
-@Inject
 constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoService)
     : HistoryExerciseSetCacheDataSource {
 

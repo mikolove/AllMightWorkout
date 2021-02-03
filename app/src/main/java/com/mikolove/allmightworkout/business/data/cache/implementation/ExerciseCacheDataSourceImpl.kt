@@ -8,9 +8,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.Worko
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class ExerciseCacheDataSourceImpl
-@Inject
 constructor(
     private val exerciseDaoService : ExerciseDaoService,
     private val workoutExerciseDaoService : WorkoutExerciseDaoService)

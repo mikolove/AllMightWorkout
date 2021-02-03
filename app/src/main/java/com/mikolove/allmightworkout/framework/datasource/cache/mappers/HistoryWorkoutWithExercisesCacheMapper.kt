@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWork
 import javax.inject.Inject
 
 class HistoryWorkoutWithExercisesCacheMapper
-@Inject
 constructor(
     private val historyWorkoutCacheMapper: HistoryWorkoutCacheMapper,
     private val historyExerciseWithSetsCacheMapper: HistoryExerciseWithSetsCacheMapper

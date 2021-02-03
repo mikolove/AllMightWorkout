@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutType
 import javax.inject.Inject
 
 class WorkoutTypeWithBodyPartCacheMapper
-@Inject
 constructor(
     private val workoutTypeCacheMapper: WorkoutTypeCacheMapper,
     private val bodyPartCacheMapper : BodyPartCacheMapper

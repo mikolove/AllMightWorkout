@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import javax.inject.Inject
 
 class HistoryExerciseCacheMapper
-@Inject
 constructor(
     private val roomDateUtil: RoomDateUtil
 ) : EntityMapper<HistoryExerciseCacheEntity, HistoryExercise>{

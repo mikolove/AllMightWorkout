@@ -7,7 +7,7 @@ object Versions {
     val targetsdk = 30
     val kotlin = "1.4.21"
     val ktx = "1.3.1"
-    val hilt = "2.28-alpha"
+    val hilt = "2.31.2-alpha"
     val nav_components = "2.3.0"
     val material_dialogs = "3.3.0"
     val room = "2.2.5"

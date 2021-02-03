@@ -1,16 +1,14 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightEXERCISE.framework.datasource.database.HistoryExerciseDao
 import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryExerciseDaoService
+import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryExerciseDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseWithSetsCacheMapper
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryExerciseDaoServiceImpl
-@Inject
 constructor(
     private val historyExerciseDao : HistoryExerciseDao,
     private val historyExerciseCacheMapper : HistoryExerciseCacheMapper,

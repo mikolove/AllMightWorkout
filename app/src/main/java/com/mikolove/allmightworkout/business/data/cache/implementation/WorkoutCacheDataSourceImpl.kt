@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.Worko
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutCacheDataSourceImpl
-@Inject
 constructor(
     private val workoutDaoService : WorkoutDaoService
 ) : WorkoutCacheDataSource {

@@ -9,9 +9,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutTy
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutTypeDaoServiceImpl
-@Inject
 constructor(
     private val workoutTypeDao : WorkoutTypeDao,
     private val workoutTypeCacheMapper: WorkoutTypeCacheMapper,

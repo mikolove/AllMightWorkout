@@ -8,8 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class WorkoutFactory
 @Inject
-constructor( private val dateUtil: DateUtil ,
-             private val exerciseFactory: ExerciseFactory){
+constructor(private val dateUtil: DateUtil){
 
     fun createWorkout(
         idWorkout : String? ,

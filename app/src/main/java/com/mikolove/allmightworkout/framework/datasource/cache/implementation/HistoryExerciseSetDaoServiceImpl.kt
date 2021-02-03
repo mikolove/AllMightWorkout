@@ -7,9 +7,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryEx
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryExerciseSetDaoServiceImpl
-@Inject
 constructor(
     private val historyExerciseSetDao : HistoryExerciseSetDao,
     private val historyExerciseSetCacheMapper: HistoryExerciseSetCacheMapper

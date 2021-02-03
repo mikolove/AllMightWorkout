@@ -6,9 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@Singleton
 class RoomDateUtil
-@Inject
 constructor( private val dateFormat : SimpleDateFormat) {
 
     fun convertDateToStringDate(date : Date) : String{

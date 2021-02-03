@@ -8,9 +8,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.mappers.BodyPartC
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class BodyPartDaoServiceImpl
-@Inject
 constructor(
     private val bodyPartDao : BodyPartDao,
     private val bodyPartCacheMapper: BodyPartCacheMapper

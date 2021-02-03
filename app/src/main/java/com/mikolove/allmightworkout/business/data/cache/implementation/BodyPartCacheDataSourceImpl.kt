@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyP
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class BodyPartCacheDataSourceImpl
-@Inject
 constructor( private val bodyPartDaoService : BodyPartDaoService) : BodyPartCacheDataSource {
 
     override suspend fun insertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartDaoService.insertBodyPart(bodyParts)

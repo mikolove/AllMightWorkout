@@ -11,9 +11,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class ExerciseDaoServiceImpl
-@Inject
 constructor(
     private val exerciseDao : ExerciseDao,
     private val exerciseCacheMapper: ExerciseCacheMapper,

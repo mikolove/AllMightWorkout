@@ -83,9 +83,9 @@ class DependencyContainer {
 
         exerciseSetFactory = ExerciseSetFactory(dateUtil)
 
-        exerciseFactory = ExerciseFactory(dateUtil,exerciseSetFactory,bodyPartFactory)
+        exerciseFactory = ExerciseFactory(dateUtil)
 
-        workoutFactory = WorkoutFactory(dateUtil,exerciseFactory)
+        workoutFactory = WorkoutFactory(dateUtil)
 
         historyExerciseSetFactory = HistoryExerciseSetFactory(dateUtil)
 

@@ -9,9 +9,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryWo
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryWorkoutDaoServiceImpl
-@Inject
 constructor(
     private val historyWorkoutDao : HistoryWorkoutDao,
     private val historyWorkoutCacheMapper: HistoryWorkoutCacheMapper,

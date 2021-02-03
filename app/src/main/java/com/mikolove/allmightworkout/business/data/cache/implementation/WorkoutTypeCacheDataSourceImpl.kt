@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.Worko
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutTypeCacheDataSourceImpl
-@Inject
 constructor( private val workoutTypeDaoService : WorkoutTypeDaoService) : WorkoutTypeCacheDataSource{
 
     override suspend fun insertWorkoutType(workoutType: WorkoutType): Long = workoutTypeDaoService.insertWorkoutType(workoutType)

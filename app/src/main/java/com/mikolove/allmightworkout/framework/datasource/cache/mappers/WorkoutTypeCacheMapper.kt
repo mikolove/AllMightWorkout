@@ -3,14 +3,10 @@ package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import javax.inject.Inject
 
 class WorkoutTypeCacheMapper
-@Inject
-constructor(
-    private val roomDateUtil: RoomDateUtil
-): EntityMapper<WorkoutTypeCacheEntity,WorkoutType>{
+constructor() : EntityMapper<WorkoutTypeCacheEntity,WorkoutType>{
 
     override fun mapFromEntity(entity: WorkoutTypeCacheEntity): WorkoutType {
         return WorkoutType(

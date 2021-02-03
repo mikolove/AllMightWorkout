@@ -9,9 +9,7 @@ import kotlin.collections.ArrayList
 @Singleton
 class ExerciseFactory
 @Inject
-constructor( private val dateUtil: DateUtil,
-             private val exerciseSetFactory: ExerciseSetFactory,
-            private val bodyPartFactory: BodyPartFactory){
+constructor(private val dateUtil: DateUtil){
 
     fun createExercise(
         idExercise: String?,

@@ -1,4 +1,4 @@
-package com.mikolove.allmightEXERCISE.framework.datasource.database
+package com.mikolove.allmightworkout.framework.datasource.cache.database
 
 import androidx.room.Dao
 import androidx.room.Insert

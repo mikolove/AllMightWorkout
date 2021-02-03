@@ -10,9 +10,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutDaoServiceImpl
-@Inject
 constructor(
     private val workoutDao: WorkoutDao,
     private val workoutCacheMapper : WorkoutCacheMapper,
