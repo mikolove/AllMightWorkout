@@ -9,6 +9,7 @@ object Dependencies {
     val kotlin_coroutines_play_services = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutines_play_services}"
     val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
+    val fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragment_version}"
     val navigation_runtime = "androidx.navigation:navigation-runtime:${Versions.nav_components}"
     val navigation_ui = "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
     val navigation_dynamic = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.nav_components}"
@@ -33,4 +34,7 @@ object Dependencies {
     val retrofit_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2_version}"
     val markdown_processor = "com.yydcdut:markdown-processor:${Versions.markdown_processor}"
     val multidex = "androidx.multidex:multidex:${Versions.multidex_version}"
+
+
+
 }

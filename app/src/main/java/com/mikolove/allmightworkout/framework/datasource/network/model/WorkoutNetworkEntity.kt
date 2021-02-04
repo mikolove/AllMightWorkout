@@ -9,4 +9,14 @@ data class WorkoutNetworkEntity (
     var isActive: Boolean,
     var createdAt: Timestamp,
     var updatedAt: Timestamp){
+
+    constructor() : this(
+        "",
+        "",
+        listOf(),
+        true,
+        Timestamp.now(),
+        Timestamp.now()
+    )
+
 }

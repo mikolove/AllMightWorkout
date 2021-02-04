@@ -1,0 +1,53 @@
+package com.mikolove.allmightworkout.di
+
+import android.content.Context
+import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object TestModule {
+
+    @Singleton
+    @Provides
+    fun provideAllMightDatabase(@ApplicationContext context: Context) : AllMightWorkoutDatabase {
+        return Room
+            .inMemoryDatabaseBuilder(
+                context,
+                AllMightWorkoutDatabase::class.java,
+            )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirestoreSettings() : FirebaseFirestoreSettings {
+        return FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(false)
+            .build()
+    }
+    @Singleton
+    @Provides
+    fun provideFirebaseFirestore(settings: FirebaseFirestoreSettings) : FirebaseFirestore {
+        val firestore = FirebaseFirestore.getInstance()
+            firestore.firestoreSettings = settings
+            firestore.useEmulator("10.0.2.2", 8080)
+        return firestore
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth() : FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+}

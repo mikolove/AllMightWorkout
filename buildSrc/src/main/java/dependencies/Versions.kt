@@ -8,6 +8,7 @@ object Versions {
     val kotlin = "1.4.21"
     val ktx = "1.3.1"
     val hilt = "2.31.2-alpha"
+    val hilt_testing = "2.28-alpha"
     val nav_components = "2.3.0"
     val material_dialogs = "3.3.0"
     val room = "2.2.5"
@@ -35,9 +36,9 @@ object Versions {
     val retrofit2_version = "2.9.0"
     val markdown_processor = "0.1.3"
     val junit_jupiter_version = "5.7.0"
-    val junit_4_version = "4.12"
-    val fragment_version = "1.2.5"
+    val junit_4_version = "4.13"
+    val fragment_version = "1.3.0-alpha08"
     val androidx_test_ext = "1.1.2"
     val multidex_version = "2.0.1"
-
+    //val fragment_test = "1.3.0-alpha06"
 }
