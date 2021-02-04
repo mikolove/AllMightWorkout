@@ -77,7 +77,7 @@ class UpdateExerciseSet(
     private suspend fun updateNetwork(response: String?, exerciseSet: ExerciseSet, idExercise: String){
         if(response.equals(UPDATE_EXERCISE_SET_SUCCESS)){
             safeApiCall(IO){
-                exerciseSetNetworkDataSource.updateExerciseSet(exerciseSet.idExerciseSet,exerciseSet,idExercise)
+                exerciseSetNetworkDataSource.updateExerciseSet(exerciseSet, idExercise)
             }
         }
     }

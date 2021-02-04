@@ -5,8 +5,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.Histo
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryExerciseDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseWithSetsCacheMapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryExerciseDaoServiceImpl
 constructor(
@@ -15,8 +13,13 @@ constructor(
     private val historyExerciseWithSetsCacheMapper: HistoryExerciseWithSetsCacheMapper
 ) : HistoryExerciseDaoService{
 
-    override suspend fun insertHistoryExercise(historyExercise: HistoryExercise): Long {
-        return historyExerciseDao.insertHistoryExercise(historyExerciseCacheMapper.mapToEntity(historyExercise))
+    override suspend fun insertHistoryExercise(
+        historyExercise: HistoryExercise,
+        idHistoryWorkout: String
+    ): Long {
+        val historyExerciseCacheEntity = historyExerciseCacheMapper.mapToEntity(historyExercise)
+        historyExerciseCacheEntity.idHistoryWorkout = idHistoryWorkout
+        return historyExerciseDao.insertHistoryExercise(historyExerciseCacheEntity)
     }
 
     override suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExercise>? {

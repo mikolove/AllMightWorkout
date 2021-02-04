@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.Wor
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class WorkoutTypeNetworkDataSourceImpl
-@Inject
 constructor(private val workoutTypeFirestoreService : WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource{
 
     override suspend fun getAllWorkoutTypes(): List<WorkoutType> = workoutTypeFirestoreService.getWorkoutTypes()

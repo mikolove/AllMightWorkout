@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.cache.implementation.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.implementation.*
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.*
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -94,38 +94,38 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutCacheMapper(roomDateUtil: RoomDateUtil) : WorkoutCacheMapper{
-        return WorkoutCacheMapper(roomDateUtil)
+    fun provideWorkoutCacheMapper(dateUtil: DateUtil) : WorkoutCacheMapper{
+        return WorkoutCacheMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseCacheMapper(roomDateUtil: RoomDateUtil) : ExerciseCacheMapper {
-        return ExerciseCacheMapper(roomDateUtil)
+    fun provideExerciseCacheMapper(dateUtil: DateUtil) : ExerciseCacheMapper {
+        return ExerciseCacheMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseSetCacheMapper(roomDateUtil: RoomDateUtil) : ExerciseSetCacheMapper {
-        return ExerciseSetCacheMapper(roomDateUtil)
+    fun provideExerciseSetCacheMapper(dateUtil: DateUtil) : ExerciseSetCacheMapper {
+        return ExerciseSetCacheMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutCacheMapper(roomDateUtil: RoomDateUtil) : HistoryWorkoutCacheMapper {
-        return HistoryWorkoutCacheMapper(roomDateUtil)
+    fun provideHistoryWorkoutCacheMapper(dateUtil: DateUtil) : HistoryWorkoutCacheMapper {
+        return HistoryWorkoutCacheMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseCacheMapper(roomDateUtil: RoomDateUtil) : HistoryExerciseCacheMapper {
-        return HistoryExerciseCacheMapper(roomDateUtil)
+    fun provideHistoryExerciseCacheMapper(dateUtil: DateUtil) : HistoryExerciseCacheMapper {
+        return HistoryExerciseCacheMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetCacheMapper(roomDateUtil: RoomDateUtil) : HistoryExerciseSetCacheMapper {
-        return HistoryExerciseSetCacheMapper(roomDateUtil)
+    fun provideHistoryExerciseSetCacheMapper(dateUtil: DateUtil) : HistoryExerciseSetCacheMapper {
+        return HistoryExerciseSetCacheMapper(dateUtil)
     }
 
     @Singleton
@@ -165,8 +165,8 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutDaoService(workoutDao : WorkoutDao,workoutCacheMapper: WorkoutCacheMapper, workoutWithExercisesCacheMapper: WorkoutWithExercisesCacheMapper, roomDateUtil: RoomDateUtil) : WorkoutDaoService{
-        return WorkoutDaoServiceImpl(workoutDao,workoutCacheMapper,workoutWithExercisesCacheMapper,roomDateUtil)
+    fun provideWorkoutDaoService(workoutDao : WorkoutDao,workoutCacheMapper: WorkoutCacheMapper, workoutWithExercisesCacheMapper: WorkoutWithExercisesCacheMapper, dateUtil: DateUtil) : WorkoutDaoService{
+        return WorkoutDaoServiceImpl(workoutDao,workoutCacheMapper,workoutWithExercisesCacheMapper,dateUtil)
     }
 
     @Singleton
@@ -183,8 +183,8 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideExerciseDaoService(exerciseDao : ExerciseDao, exerciseCacheMapper: ExerciseCacheMapper, exerciseWithSetsCacheMapper: ExerciseWithSetsCacheMapper, roomDateUtil: RoomDateUtil) : ExerciseDaoService{
-        return ExerciseDaoServiceImpl(exerciseDao, exerciseCacheMapper, exerciseWithSetsCacheMapper, roomDateUtil)
+    fun provideExerciseDaoService(exerciseDao : ExerciseDao, exerciseCacheMapper: ExerciseCacheMapper, exerciseWithSetsCacheMapper: ExerciseWithSetsCacheMapper, dateUtil: DateUtil) : ExerciseDaoService{
+        return ExerciseDaoServiceImpl(exerciseDao, exerciseCacheMapper, exerciseWithSetsCacheMapper, dateUtil )
     }
     @Singleton
     @Provides
@@ -194,8 +194,8 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideExerciseSetDaoService(exerciseSetDao : ExerciseSetDao, exerciseSetCacheMapper : ExerciseSetCacheMapper , roomDateUtil: RoomDateUtil) : ExerciseSetDaoService{
-        return ExerciseSetDaoServiceImpl(exerciseSetDao, exerciseSetCacheMapper, roomDateUtil)
+    fun provideExerciseSetDaoService(exerciseSetDao : ExerciseSetDao, exerciseSetCacheMapper : ExerciseSetCacheMapper , dateUtil: DateUtil) : ExerciseSetDaoService{
+        return ExerciseSetDaoServiceImpl(exerciseSetDao, exerciseSetCacheMapper, dateUtil)
     }
 
     @Singleton

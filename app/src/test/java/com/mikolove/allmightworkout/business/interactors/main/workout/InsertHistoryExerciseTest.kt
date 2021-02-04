@@ -102,6 +102,7 @@ class InsertHistoryExerciseTest {
             exerciseType = historyExercise.exerciseType,
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
+            idHistoryWorkout = UUID.randomUUID().toString(),
             stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -146,6 +147,7 @@ class InsertHistoryExerciseTest {
             exerciseType = historyExercise.exerciseType,
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
+            idHistoryWorkout = UUID.randomUUID().toString(),
             stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -189,6 +191,7 @@ class InsertHistoryExerciseTest {
             exerciseType = historyExercise.exerciseType,
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
+            idHistoryWorkout = UUID.randomUUID().toString(),
             stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {

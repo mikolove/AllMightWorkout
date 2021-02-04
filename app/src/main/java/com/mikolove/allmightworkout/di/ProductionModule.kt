@@ -2,6 +2,8 @@ package com.mikolove.allmightworkout.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import dagger.Module
 import dagger.Provides
@@ -26,5 +28,16 @@ object ProductionModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideFirebaseFirestore() : FirebaseFirestore{
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth() : FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
 
 }

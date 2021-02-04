@@ -24,6 +24,7 @@ class InsertHistoryExercise(
         exerciseType : String,
         started_at : String,
         ended_at : String,
+        idHistoryWorkout : String,
         stateEvent : StateEvent
     ): Flow<DataState<WorkoutViewState>?> = flow {
 
@@ -41,7 +42,7 @@ class InsertHistoryExercise(
         )
 
         val cacheResult = safeCacheCall(IO){
-            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise)
+            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise,idHistoryWorkout)
         }
 
         val response = object : CacheResponseHandler<WorkoutViewState, Long>(

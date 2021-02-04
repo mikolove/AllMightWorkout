@@ -6,7 +6,7 @@ interface ExerciseSetNetworkDataSource {
 
     suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise : String)
 
-    suspend fun updateExerciseSet(primaryKey: String, exerciseSet: ExerciseSet, idExercise: String)
+    suspend fun updateExerciseSet(exerciseSet: ExerciseSet, idExercise: String)
 
     suspend fun removeExerciseSetById(primaryKey :String, idExercise: String)
 

@@ -1,21 +1,19 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
 import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WorkoutDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutWithExercisesCacheMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class WorkoutDaoServiceImpl
 constructor(
     private val workoutDao: WorkoutDao,
     private val workoutCacheMapper : WorkoutCacheMapper,
     private val workoutWithExercisesCacheMapper: WorkoutWithExercisesCacheMapper,
-    private val roomDateUtil: RoomDateUtil
+    private val dateUtil: DateUtil
 ) : WorkoutDaoService{
 
     override suspend fun insertWorkout(workout: Workout): Long {
@@ -31,7 +29,7 @@ constructor(
         return workoutDao.updateWorkout(
             primaryKey = primaryKey,
             name = name,
-            updatedAt = roomDateUtil.convertStringDateToDate(updatedAt),
+            updatedAt = dateUtil.convertStringDateToDate(updatedAt),
             isActive = isActive
         )
     }

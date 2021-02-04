@@ -2,15 +2,15 @@ package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import javax.inject.Inject
 
 class ExerciseCacheMapper
 @Inject
 constructor(
-    private val roomDateUtil: RoomDateUtil
+    private val dateUtil: DateUtil
 ) : EntityMapper<ExerciseCacheEntity,Exercise>{
 
     override fun mapFromEntity(entity: ExerciseCacheEntity): Exercise {
@@ -23,8 +23,8 @@ constructor(
             isActive = entity.isActive,
             startedAt = null,
             endedAt = null,
-            createdAt = roomDateUtil.convertDateToStringDate(entity.createdAt),
-            updatedAt = roomDateUtil.convertDateToStringDate(entity.updatedAt)
+            createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
+            updatedAt = dateUtil.convertDateToStringDate(entity.updatedAt)
         )
     }
 
@@ -35,8 +35,8 @@ constructor(
             idBodyPart = domainModel.bodyPart?.idBodyPart,
             exerciseType = domainModel.exerciseType.name,
             isActive = domainModel.isActive,
-            createdAt = roomDateUtil.convertStringDateToDate(domainModel.createdAt),
-            updatedAt = roomDateUtil.convertStringDateToDate(domainModel.updatedAt)
+            createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
+            updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
         )
     }
 

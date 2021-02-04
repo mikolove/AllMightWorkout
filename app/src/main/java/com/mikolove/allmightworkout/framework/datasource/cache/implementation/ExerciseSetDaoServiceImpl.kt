@@ -1,18 +1,16 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseSetDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.ExerciseSetDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseSetCacheMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class ExerciseSetDaoServiceImpl
 constructor(
     private val exerciseSetDao: ExerciseSetDao,
     private val exerciseSetCacheMapper: ExerciseSetCacheMapper,
-    private val roomDateUtil: RoomDateUtil
+    private val dateUtil: DateUtil
 ) : ExerciseSetDaoService{
 
     override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String): Long {
@@ -36,7 +34,7 @@ constructor(
             weight = weight,
             time = time,
             restTime = restTime,
-            updatedAt = roomDateUtil.convertStringDateToDate(updatedAt),
+            updatedAt = dateUtil.convertStringDateToDate(updatedAt),
             idExercise = idExercise
         )
     }

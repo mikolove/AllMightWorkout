@@ -4,7 +4,7 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
 
 interface HistoryExerciseCacheDataSource {
 
-    suspend fun insertHistoryExercise(historyExercise: HistoryExercise) : Long
+    suspend fun insertHistoryExercise(historyExercise: HistoryExercise, idHistoryWorkout: String) : Long
 
     suspend fun getHistoryExercisesByHistoryWorkout( idHistoryWorkout: String) : List<HistoryExercise>?
 

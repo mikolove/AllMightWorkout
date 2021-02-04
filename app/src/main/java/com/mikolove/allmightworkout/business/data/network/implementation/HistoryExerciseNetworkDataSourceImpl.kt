@@ -6,16 +6,17 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.His
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryExerciseNetworkDataSourceImpl
-@Inject
 constructor(private val historyExerciseFirestoreService : HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource{
 
-    override suspend fun insertHistoryExercise(historyExercise: HistoryExercise) = historyExerciseFirestoreService.insertHistoryExercise(historyExercise)
+    override suspend fun insertHistoryExercise(
+        historyExercise: HistoryExercise,
+        idHistoryWorkout: String
+    ) = historyExerciseFirestoreService.insertHistoryExercise(historyExercise,idHistoryWorkout)
 
-    override suspend fun updateHistoryExercise(historyExercise: HistoryExercise) = historyExerciseFirestoreService.updateHistoryExercise(historyExercise)
+    override suspend fun getHistoryExercisesByHistoryWorkoutId(workoutId: String): List<HistoryExercise> = historyExerciseFirestoreService.getHistoryExerciseByHistoryWorkoutId(workoutId)
 
-    override suspend fun getHistoryExercisesByHistoryWorkoutId(workoutId : Long): List<HistoryExercise> = historyExerciseFirestoreService.getHistoryExerciseByHistoryWorkoutId(workoutId)
-
-    override suspend fun getHistoryExerciseById(primaryKey: Long): HistoryExercise? = historyExerciseFirestoreService.getHistoryExerciseById(primaryKey)
+    override suspend fun getHistoryExerciseById(primaryKey: String, idHistoryWorkout: String): HistoryExercise? = historyExerciseFirestoreService.getHistoryExerciseById(
+        primaryKey,idHistoryWorkout
+    )
 }

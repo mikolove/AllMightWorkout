@@ -1,7 +1,7 @@
 package dependencies
 
 object Versions {
-    val gradle = "4.1.1"
+    val gradle = "4.1.2"
     val compilesdk = 30
     val minsdk = 16
     val targetsdk = 30
@@ -38,7 +38,6 @@ object Versions {
     val junit_4_version = "4.12"
     val fragment_version = "1.2.5"
     val androidx_test_ext = "1.1.2"
-    val fabric_version = "1.31.2"
     val multidex_version = "2.0.1"
 
 }

@@ -4,10 +4,15 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 
 interface HistoryExerciseSetNetworkDataSource {
 
-    suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String)
+    suspend fun insertHistoryExerciseSet(
+        historyExerciseSet: HistoryExerciseSet,
+        historyExerciseId: String,
+        historyWorkoutId: String
+    )
 
-    suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet)
-
-    suspend fun getHistoryExerciseSetsByHistoryExerciseId(idHistoryExerciseId : Long) : List<HistoryExerciseSet>
+    suspend fun getHistoryExerciseSetsByHistoryExerciseId(
+        idHistoryExerciseId: String,
+        idHistoryWorkout: String
+    ) : List<HistoryExerciseSet>
 
 }

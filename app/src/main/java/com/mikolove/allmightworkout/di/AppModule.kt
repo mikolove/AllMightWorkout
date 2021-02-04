@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.di
 import android.content.SharedPreferences
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,13 +28,6 @@ object AppModule {
     fun provideDateUtil(dateFormat: SimpleDateFormat) : DateUtil{
         return DateUtil(dateFormat)
     }
-
-    @Singleton
-    @Provides
-    fun provideRomDateUtil(dateFormat: SimpleDateFormat) : RoomDateUtil{
-        return RoomDateUtil(dateFormat)
-    }
-
 
     @Singleton
     @Provides

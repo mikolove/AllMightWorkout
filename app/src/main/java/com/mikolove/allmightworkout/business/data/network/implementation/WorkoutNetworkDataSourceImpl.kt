@@ -7,9 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@Singleton
 class WorkoutNetworkDataSourceImpl
-@Inject
 constructor(private val workoutFirestoreService : WorkoutFirestoreService) : WorkoutNetworkDataSource{
 
     override suspend fun insertWorkout(workout: Workout) = workoutFirestoreService.insertWorkout(workout)

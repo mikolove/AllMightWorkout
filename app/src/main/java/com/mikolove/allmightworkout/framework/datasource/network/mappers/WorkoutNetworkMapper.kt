@@ -36,19 +36,4 @@ constructor(private val dateUtil: DateUtil)
         )
     }
 
-    override fun entityListToDomainList(entities: List<WorkoutNetworkEntity>): List<Workout> {
-        val list : ArrayList<Workout> = ArrayList()
-        for(entity in entities){
-            list.add(mapFromEntity(entity))
-        }
-        return list
-    }
-
-    override fun domainListToEntityList(domains: List<Workout>): List<WorkoutNetworkEntity> {
-        val entities : ArrayList<WorkoutNetworkEntity> = ArrayList()
-        for(workout in domains){
-            entities.add(mapToEntity(workout))
-        }
-        return entities
-    }
 }

@@ -7,14 +7,24 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.His
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class HistoryExerciseSetNetworkDataSourceImpl
-@Inject
 constructor(private val historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource{
 
-    override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String) = historyExerciseSetFirestoreService.insertHistoryExerciseSet(historyExerciseSet,historyExerciseId)
+    override suspend fun insertHistoryExerciseSet(
+        historyExerciseSet: HistoryExerciseSet,
+        historyExerciseId: String,
+        historyWorkoutId: String
+    ) = historyExerciseSetFirestoreService.insertHistoryExerciseSet(
+        historyExerciseSet,
+        historyExerciseId,
+        historyWorkoutId
+    )
 
-    override suspend fun updateHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet)  = historyExerciseSetFirestoreService.updateHistoryExerciseSet(historyExerciseSet)
-
-    override suspend fun getHistoryExerciseSetsByHistoryExerciseId(idHistoryExerciseId: Long): List<HistoryExerciseSet> = historyExerciseSetFirestoreService.getHistoryExerciseSetsByHistoryExerciseId(idHistoryExerciseId)
+    override suspend fun getHistoryExerciseSetsByHistoryExerciseId(
+        idHistoryExerciseId: String,
+        idHistoryWorkout: String
+    ): List<HistoryExerciseSet> = historyExerciseSetFirestoreService.getHistoryExerciseSetsByHistoryExerciseId(
+        idHistoryExerciseId,
+        idHistoryWorkout
+    )
 }

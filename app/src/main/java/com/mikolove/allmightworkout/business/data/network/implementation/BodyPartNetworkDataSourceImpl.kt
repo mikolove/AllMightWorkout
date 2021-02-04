@@ -6,9 +6,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.Bod
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class BodyPartNetworkDataSourceImpl
-@Inject
 constructor(private val bodyPartFirestoreService : BodyPartFirestoreService) : BodyPartNetworkDataSource{
 
     override suspend fun getAllBodyParts(): List<BodyPart> = bodyPartFirestoreService.getBodyParts()

@@ -170,7 +170,6 @@ class SyncExercises(
             if(networkUpdatedAt.before(cacheUpdatedAt)) {
                 printLogD("SyncExercises", "Exercises in network updated ${cacheExercise.idExercise}")
                 exerciseNetworkDataSource.updateExercise(
-                    cacheExercise.idExercise,
                     cacheExercise
                 )
             }
@@ -208,7 +207,6 @@ class SyncExercises(
                     "Exercise set in network updated ${cacheExerciseSet.idExerciseSet}"
                 )
                 exerciseSetNetworkDataSource.updateExerciseSet(
-                    cacheExerciseSet.idExerciseSet,
                     cacheExerciseSet,
                     idExercise
                 )

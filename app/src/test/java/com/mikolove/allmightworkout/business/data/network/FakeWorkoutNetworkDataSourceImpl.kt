@@ -13,7 +13,7 @@ class FakeWorkoutNetworkDataSourceImpl constructor(
     }
 
     override suspend fun updateWorkout(workout: Workout) {
-        workoutsData[primaryKey] = workout
+        workoutsData[workout.idWorkout] = workout
     }
 
     override suspend fun removeWorkout(primaryKey: String) {

@@ -90,7 +90,7 @@ class SyncHistory(
         //Insert History Exercises
         historyWorkout.historyExercises?.forEach { historyExercise ->
 
-            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise)
+            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise,historyWorkout.idHistoryWorkout)
 
             //Insert History Exercise Sets
             historyExercise.historySets?.forEach{ historyExerciseSet ->

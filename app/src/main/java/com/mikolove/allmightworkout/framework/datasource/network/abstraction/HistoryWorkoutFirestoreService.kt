@@ -6,8 +6,6 @@ interface HistoryWorkoutFirestoreService {
 
     suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout)
 
-    suspend fun updateHistoryWorkout(historyWorkout: HistoryWorkout)
-
     suspend fun getLastHistoryWorkout() : List<HistoryWorkout>?
 
     suspend fun getHistoryWorkout() : List<HistoryWorkout>

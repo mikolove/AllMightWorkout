@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.network.implementation
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutFirestoreService
@@ -12,12 +13,13 @@ import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreC
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_WORKOUTS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.WORKOUTS_COLLECTION
+import com.mikolove.allmightworkout.util.cLog
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 
 class WorkoutFirestoreServiceImpl
 constructor(
-    //private val firebaseAuth : FirebaseAuth
+    private val firebaseAuth : FirebaseAuth,
     private val firestore : FirebaseFirestore,
     private val workoutNetworkMapper: WorkoutNetworkMapper,
     private val exerciseNetworkMapper: ExerciseNetworkMapper
@@ -32,6 +34,10 @@ constructor(
             .collection(WORKOUTS_COLLECTION)
             .document(entity.idWorkout)
             .set(entity)
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -47,6 +53,10 @@ constructor(
                 "isActive", entity.isActive,
                 "updatedAt", entity.updatedAt
             )
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -57,6 +67,10 @@ constructor(
             .collection(WORKOUTS_COLLECTION)
             .document(id)
             .delete()
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -68,6 +82,10 @@ constructor(
              .document(FIRESTORE_USER_ID)
              .collection(WORKOUTS_COLLECTION)
              .get()
+             .addOnFailureListener {
+                 // send error reports to Firebase Crashlytics
+                 cLog(it.message)
+             }
              .await().toObjects(WorkoutNetworkEntity::class.java)
 
         //Get All exercises
@@ -76,6 +94,10 @@ constructor(
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .get()
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await().toObjects(ExerciseNetworkEntity::class.java)
 
         //Match exercises into workouts
@@ -110,6 +132,10 @@ constructor(
             .collection(WORKOUTS_COLLECTION)
             .document(primaryKey)
             .get()
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await().toObject(WorkoutNetworkEntity::class.java)
 
         return workoutNetworkEntity?.let { wkNetworkEntity ->
@@ -120,6 +146,10 @@ constructor(
                 .document(FIRESTORE_USER_ID)
                 .collection(EXERCISES_COLLECTION)
                 .get()
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
                 .await().toObjects(ExerciseNetworkEntity::class.java)
 
             //Filter exercises in workout
@@ -148,6 +178,10 @@ constructor(
             .addOnSuccessListener { document ->
                 totalWorkout = document.size()
             }
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await()
 
         return totalWorkout
@@ -159,6 +193,10 @@ constructor(
             .document(FIRESTORE_USER_ID)
             .collection(REMOVED_WORKOUTS_COLLECTION)
             .get()
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await().toObjects(WorkoutNetworkEntity::class.java)?.let {
                 workoutNetworkMapper.entityListToDomainList(it)
             }
@@ -172,6 +210,10 @@ constructor(
             .collection(REMOVED_WORKOUTS_COLLECTION)
             .document(entity.idWorkout)
             .set(entity)
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
             .await()
     }
 
@@ -191,6 +233,11 @@ constructor(
                 val documentRef = collectionRef.document(workout.idWorkout)
                 batch.set(documentRef, workoutNetworkMapper.mapToEntity(workout))
             }
-        }.await()
+        }
+        .addOnFailureListener {
+            // send error reports to Firebase Crashlytics
+            cLog(it.message)
+        }
+        .await()
     }
 }

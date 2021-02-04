@@ -4,12 +4,10 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
 
 interface HistoryExerciseFirestoreService {
 
-    suspend fun insertHistoryExercise(historyExercise: HistoryExercise)
+    suspend fun insertHistoryExercise(historyExercise: HistoryExercise, idHistoryWorkout: String)
 
-    suspend fun updateHistoryExercise(historyExercise: HistoryExercise)
+    suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId: String) : List<HistoryExercise>
 
-    suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId : Long) : List<HistoryExercise>
-
-    suspend fun getHistoryExerciseById(primaryKey : Long) : HistoryExercise?
+    suspend fun getHistoryExerciseById(primaryKey: String, idHistoryWorkout: String) : HistoryExercise?
 
 }

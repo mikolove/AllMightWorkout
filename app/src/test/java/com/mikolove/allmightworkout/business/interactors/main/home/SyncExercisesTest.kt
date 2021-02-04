@@ -271,11 +271,9 @@ class SyncExercisesTest {
 
         //Update cache for two element
         exerciseNetworkDataSource.updateExercise(
-            updatedExercise.idExercise,
             updatedExercise
         )
         exerciseSetNetworkDataSource.updateExerciseSet(
-            updatedExerciseSet.idExerciseSet,
             updatedExerciseSet,
             "idExercise1"
         )

@@ -19,20 +19,4 @@ class BodyPartNetworkMapper : EntityMapper<BodyPartNetworkEntity,BodyPart>{
             name = domainModel.name
         )
     }
-
-    override fun entityListToDomainList(entities: List<BodyPartNetworkEntity>): List<BodyPart> {
-        val list : ArrayList<BodyPart> = ArrayList()
-        for(entity in entities){
-            list.add(mapFromEntity(entity))
-        }
-        return list
-    }
-
-    override fun domainListToEntityList(domains: List<BodyPart>): List<BodyPartNetworkEntity> {
-        val entities : ArrayList<BodyPartNetworkEntity> = ArrayList()
-        for(bodyPart in domains){
-            entities.add(mapToEntity(bodyPart))
-        }
-        return entities
-    }
 }

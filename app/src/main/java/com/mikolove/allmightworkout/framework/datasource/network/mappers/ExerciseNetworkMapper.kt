@@ -49,20 +49,4 @@ constructor(
         )
 
     }
-
-    override fun entityListToDomainList(entities: List<ExerciseNetworkEntity>): List<Exercise> {
-        val list : ArrayList<Exercise> = ArrayList()
-        for(entity in entities){
-            list.add(mapFromEntity(entity))
-        }
-        return list
-    }
-
-    override fun domainListToEntityList(domains: List<Exercise>): List<ExerciseNetworkEntity> {
-        val entities : ArrayList<ExerciseNetworkEntity> = ArrayList()
-        for(exercise in domains){
-            entities.add(mapToEntity(exercise))
-        }
-        return entities
-    }
 }

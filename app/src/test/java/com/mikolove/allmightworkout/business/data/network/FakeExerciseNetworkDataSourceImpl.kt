@@ -3,8 +3,6 @@ package com.mikolove.allmightworkout.business.data.network
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.interactors.main.home.SyncDeletedExercises
-import com.mikolove.allmightworkout.util.printLogD
 
 class FakeExerciseNetworkDataSourceImpl(
     private val workoutsData : HashMap<String, Workout>,
@@ -16,8 +14,8 @@ class FakeExerciseNetworkDataSourceImpl(
         exercisesData.put(exercise.idExercise,exercise)
     }
 
-    override suspend fun updateExercise(primaryKey: String, exercise: Exercise) {
-        exercisesData[primaryKey] = exercise
+    override suspend fun updateExercise(exercise: Exercise) {
+        exercisesData[exercise.idExercise] = exercise
     }
 
     override suspend fun removeExerciseById(primaryKey: String) {

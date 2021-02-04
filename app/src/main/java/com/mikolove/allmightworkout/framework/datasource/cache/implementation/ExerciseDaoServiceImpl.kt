@@ -2,21 +2,19 @@ package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.ExerciseDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseWithSetsCacheMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.util.RoomDateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class ExerciseDaoServiceImpl
 constructor(
     private val exerciseDao : ExerciseDao,
     private val exerciseCacheMapper: ExerciseCacheMapper,
     private val exerciseWithSetCacheMapper: ExerciseWithSetsCacheMapper,
-    private val roomDateUtil: RoomDateUtil
+    private val dateUtil: DateUtil
 ) : ExerciseDaoService{
 
     override suspend fun insertExercise(exercise: Exercise): Long {
@@ -37,7 +35,7 @@ constructor(
             idBodyPart = bodyPart?.idBodyPart,
             isActive = isActive,
             exerciseType  = exerciseType,
-            updatedAt = roomDateUtil.convertStringDateToDate(updatedAt)
+            updatedAt = dateUtil.convertStringDateToDate(updatedAt)
         )
     }
 

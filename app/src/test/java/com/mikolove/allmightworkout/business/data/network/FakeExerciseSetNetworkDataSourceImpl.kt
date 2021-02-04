@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.business.data.network
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.util.printLogD
 
 class FakeExerciseSetNetworkDataSourceImpl(
     private val exerciseDatas : HashMap<String, Exercise>,
@@ -24,14 +23,13 @@ class FakeExerciseSetNetworkDataSourceImpl(
     }
 
     override suspend fun updateExerciseSet(
-        primaryKey: String,
         exerciseSet: ExerciseSet,
         idExercise: String
     ) {
         val listExerciseSet : ArrayList<ExerciseSet> = ArrayList()
         exerciseDatas[idExercise]?.sets?.let{ list ->
             for( set in list){
-                if( set.idExerciseSet == primaryKey)
+                if( set.idExerciseSet == exerciseSet.idExerciseSet)
                     listExerciseSet.add(exerciseSet)
                 else
                     listExerciseSet.add(set)

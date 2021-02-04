@@ -14,7 +14,10 @@ constructor(
     private val dateUtil: DateUtil
 ): HistoryExerciseCacheDataSource {
 
-    override suspend fun insertHistoryExercise(historyExercise: HistoryExercise): Long {
+    override suspend fun insertHistoryExercise(
+        historyExercise: HistoryExercise,
+        idHistoryWorkout: String
+    ): Long {
         if(historyExercise.idHistoryExercise.equals(FORCE_NEW_HISTORY_EXERCISE_EXCEPTION)){
             throw Exception("Something went wrong inserting the history exercise.")
         }
