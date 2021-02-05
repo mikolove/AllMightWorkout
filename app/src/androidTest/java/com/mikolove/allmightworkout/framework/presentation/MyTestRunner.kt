@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework
+package com.mikolove.allmightworkout.framework.presentation
 
 import android.app.Application
 import android.content.Context

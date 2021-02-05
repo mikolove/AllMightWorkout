@@ -11,11 +11,10 @@ constructor(private val dateUtil: DateUtil)
     : EntityMapper<WorkoutNetworkEntity,Workout>{
 
     override fun mapFromEntity(entity: WorkoutNetworkEntity): Workout {
-        val exercises =  listOf<Exercise>()
         return Workout(
             idWorkout = entity.idWorkout,
             name = entity.name,
-            exercises = exercises,
+            exercises = null,
             isActive = entity.isActive,
             startedAt = null,
             endedAt = null,
@@ -25,11 +24,11 @@ constructor(private val dateUtil: DateUtil)
     }
 
     override fun mapToEntity(domainModel: Workout): WorkoutNetworkEntity {
-        val exerciseIds = domainModel.exercises?.mapIndexed{index,exercise -> exercise.idExercise} ?: ArrayList()
+        //val exerciseIds = domainModel.exercises?.mapIndexed{index,exercise -> exercise.idExercise} ?: ArrayList()
         return WorkoutNetworkEntity(
             idWorkout = domainModel.idWorkout,
             name = domainModel.name,
-            exerciseIds = exerciseIds,
+            exerciseIds = null,
             isActive = domainModel.isActive,
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)

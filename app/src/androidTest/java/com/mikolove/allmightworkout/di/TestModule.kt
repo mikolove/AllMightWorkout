@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import com.mikolove.allmightworkout.framework.datasource.data.WorkoutTypeDataFactory
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,15 +36,18 @@ object TestModule {
     @Provides
     fun provideFirestoreSettings() : FirebaseFirestoreSettings {
         return FirebaseFirestoreSettings.Builder()
+            .setHost("10.0.2.2:8080")
+            .setSslEnabled(false)
             .setPersistenceEnabled(false)
             .build()
     }
+
     @Singleton
     @Provides
     fun provideFirebaseFirestore(settings: FirebaseFirestoreSettings) : FirebaseFirestore {
+
         val firestore = FirebaseFirestore.getInstance()
-            firestore.firestoreSettings = settings
-            firestore.useEmulator("10.0.2.2", 8080)
+        firestore.firestoreSettings = settings
         return firestore
     }
 

@@ -17,9 +17,11 @@ import dagger.hilt.android.testing.UninstallModules
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import javax.inject.Inject
+
 
 @UninstallModules(ProductionModule::class)
 @HiltAndroidTest
@@ -60,7 +62,7 @@ class WorkoutTypeFirestoreServiceTest : BaseTest() {
 
     }
 
-    //Confirm By Search
+    //Confirm By Search - load from json debug.assets
     @Test
     fun getWorkoutTypes_CBS() = runBlocking{
 

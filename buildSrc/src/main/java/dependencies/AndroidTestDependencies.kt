@@ -17,5 +17,5 @@ object AndroidTestDependencies{
 
     val hilt_testing = "com.google.dagger:hilt-android-testing:${Versions.hilt_testing}"
 
-    val instrumentation_runner = "com.mikolove.allmightworkout.framework.MyTestRunner"
+    val instrumentation_runner = "com.mikolove.allmightworkout.framework.presentation.MyTestRunner"
 }

@@ -35,7 +35,6 @@ constructor(
             .document(entity.idWorkout)
             .set(entity)
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await()
@@ -54,7 +53,6 @@ constructor(
                 "updatedAt", entity.updatedAt
             )
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await()
@@ -68,7 +66,6 @@ constructor(
             .document(id)
             .delete()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await()
@@ -83,22 +80,22 @@ constructor(
              .collection(WORKOUTS_COLLECTION)
              .get()
              .addOnFailureListener {
-                 // send error reports to Firebase Crashlytics
                  cLog(it.message)
              }
              .await().toObjects(WorkoutNetworkEntity::class.java)
 
         //Get All exercises
-        val exerciseNetworkEntities = firestore
+        val exercisesList = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObjects(ExerciseNetworkEntity::class.java)
+            .await().toObjects(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.entityListToDomainList(it)
+            }
 
         //Match exercises into workouts
         val workouts : ArrayList<Workout> = ArrayList()
@@ -108,15 +105,12 @@ constructor(
             val workout = workoutNetworkMapper.mapFromEntity(workoutEntity)
 
             //Filter exercises in workout
-            val exercises = exerciseNetworkMapper.entityListToDomainList(
-
-                exerciseNetworkEntities.filter { exerciseNetworkEntity
-                -> workoutEntity.exerciseIds.contains(exerciseNetworkEntity.idExercise)
-                }
-            )
+            val workoutExerciseList = workoutEntity.exerciseIds?.let { exerciseIds ->
+                exercisesList.filter { exerciseIds.contains(it.idExercise) }
+            } ?: ArrayList()
 
             //Build workout
-            workout.exercises = exercises
+            workout.exercises = workoutExerciseList
             workouts.add(workout)
         }
 
@@ -126,19 +120,18 @@ constructor(
     override suspend fun getWorkoutById(primaryKey: String): Workout? {
 
         //Get specific workout
-        val workoutNetworkEntity = firestore
+        val entity = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(primaryKey)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await().toObject(WorkoutNetworkEntity::class.java)
 
-        return workoutNetworkEntity?.let { wkNetworkEntity ->
+        return entity?.let { workoutkNetworkEntity ->
 
             //Get All exercises
             val exerciseNetworkEntities = firestore
@@ -147,22 +140,20 @@ constructor(
                 .collection(EXERCISES_COLLECTION)
                 .get()
                 .addOnFailureListener {
-                    // send error reports to Firebase Crashlytics
                     cLog(it.message)
                 }
-                .await().toObjects(ExerciseNetworkEntity::class.java)
+                .await().toObjects(ExerciseNetworkEntity::class.java)?.let {
+                    exerciseNetworkMapper.entityListToDomainList(it)
+                }
 
             //Filter exercises in workout
-            val exercises = exerciseNetworkMapper.entityListToDomainList(
-
-                exerciseNetworkEntities.filter { exerciseNetworkEntity
-                    -> wkNetworkEntity.exerciseIds.contains(exerciseNetworkEntity.idExercise)
-                }
-            )
+            val workoutExerciseList = workoutkNetworkEntity.exerciseIds?.let { exerciseIds ->
+                exerciseNetworkEntities.filter { exerciseIds.contains(it.idExercise) }
+            } ?: ArrayList()
 
             //Build workout
-            val workout = workoutNetworkMapper.mapFromEntity(wkNetworkEntity)
-            workout.exercises = exercises
+            val workout = workoutNetworkMapper.mapFromEntity(workoutkNetworkEntity)
+            workout.exercises = workoutExerciseList
             workout
         }
 

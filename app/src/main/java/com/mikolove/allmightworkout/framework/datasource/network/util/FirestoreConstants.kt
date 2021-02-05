@@ -3,8 +3,8 @@ package com.mikolove.allmightworkout.framework.datasource.network.util
 object FirestoreConstants {
 
     const val USERS_COLLECTION = "users"
-    const val BODYPART_COLLECTION = "body_part"
-    const val WORKOUT_TYPE_COLLECTION = "workout_type"
+    const val BODYPART_COLLECTION = "body_parts"
+    const val WORKOUT_TYPE_COLLECTION = "workout_types"
     const val WORKOUTS_COLLECTION = "workouts"
     const val EXERCISES_COLLECTION = "exercises"
     const val EXERCISE_SETS_COLLECTION = "exercise_sets"
