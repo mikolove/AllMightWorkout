@@ -1,10 +1,15 @@
 package com.mikolove.allmightworkout.framework.datasource.network.model
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.google.firebase.firestore.DocumentId
 
 data class WorkoutTypeNetworkEntity(
+    @DocumentId
     var idWorkoutType : String,
-    var name : String,
-    var bodyParts : List<BodyPartNetworkEntity>?
+    var name : String
 ) {
+
+    constructor() : this(
+        "",
+        ""
+    )
 }

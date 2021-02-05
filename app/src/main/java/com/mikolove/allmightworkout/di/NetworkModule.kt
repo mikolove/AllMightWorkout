@@ -30,8 +30,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeNetworkMapper(bodyPartNetworkMapper:BodyPartNetworkMapper) : WorkoutTypeNetworkMapper{
-        return WorkoutTypeNetworkMapper(bodyPartNetworkMapper)
+    fun provideWorkoutTypeNetworkMapper() : WorkoutTypeNetworkMapper{
+        return WorkoutTypeNetworkMapper()
     }
 
     @Singleton
@@ -94,8 +94,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper) : WorkoutTypeFirestoreService{
-        return WorkoutTypeFirestoreServiceImpl(firebaseAuth,firestore,workoutTypeNetworkMapper)
+    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper, bodyPartNetworkMapper: BodyPartNetworkMapper) : WorkoutTypeFirestoreService{
+        return WorkoutTypeFirestoreServiceImpl(firebaseAuth,firestore,workoutTypeNetworkMapper,bodyPartNetworkMapper)
     }
 
     @Singleton

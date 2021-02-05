@@ -1,0 +1,136 @@
+[
+  {
+    "idWorkoutType": "abs",
+    "name": "abs",
+    "bodyParts" : [
+      {
+        "idBodyPart": "abs_lower",
+        "name": "lower abs"
+      },
+      {
+        "idBodyPart": "abs_upper",
+        "name": "upper abs"
+      },
+      {
+        "idBodyPart": "core",
+        "name": "core"
+      },
+      {
+        "idBodyPart": "oblique",
+        "name": "oblique"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "arms",
+    "name": "arms",
+    "bodyParts" : [
+      {
+        "idBodyPart": "biceps",
+        "name": "biceps"
+      },
+      {
+        "idBodyPart": "forearm",
+        "name": "forearm"
+      },
+      {
+        "idBodyPart": "triceps",
+        "name": "triceps"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "back",
+    "name": "back",
+    "bodyParts" : [
+      {
+        "idBodyPart": "back_lower",
+        "name": "lower back"
+      },
+      {
+        "idBodyPart": "back_upper",
+        "name": "upper back"
+      },
+      {
+        "idBodyPart": "lats",
+        "name": "lats"
+      },
+      {
+        "idBodyPart": "traps",
+        "name": "traps"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "chest",
+    "name": "chest",
+    "bodyParts" : [
+      {
+        "idBodyPart": "chest_lower",
+        "name": "lower_chest"
+      },
+      {
+        "idBodyPart": "chest_middle",
+        "name": "middle chest"
+      },
+      {
+        "idBodyPart": "chest_upper",
+        "name": "upper chest"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "delts",
+    "name": "delts",
+    "bodyParts" : [
+      {
+        "idBodyPart": "delt_back",
+        "name": "back delt"
+      },
+      {
+        "idBodyPart": "delt_front",
+        "name": "front delt"
+      },
+      {
+        "idBodyPart": "delt_side",
+        "name": "side delt"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "hiit",
+    "name": "cardio hiit",
+    "bodyParts" : [
+      {
+        "idBodyPart": "burpees",
+        "name": "burpees"
+      },
+      {
+        "idBodyPart": "mountain_climber",
+        "name": "mountain climber"
+      },
+      {
+        "idBodyPart": "rower",
+        "name": "rower"
+      },
+      {
+        "idBodyPart": "thrusters",
+        "name": "thrusters"
+      }
+    ]
+  },
+  {
+    "idWorkoutType": "legs",
+    "name": "legs",
+    "bodyParts" : [
+      {
+        "idBodyPart": "glutes",
+        "name": "glutes"
+      },
+      {
+        "idBodyPart": "hamstring",
+        "name": "hamstring"
+      }
+    ]
+  }
+]
