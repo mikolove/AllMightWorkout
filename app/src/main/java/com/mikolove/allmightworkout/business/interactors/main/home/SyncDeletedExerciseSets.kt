@@ -11,10 +11,12 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers
 
+//TODO : don't call it FireStore has changed
 class SyncDeletedExerciseSets(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
+/*
 
     suspend fun syncDeletedExerciseSets(){
 
@@ -57,5 +59,6 @@ class SyncDeletedExerciseSets(
             }
         }.getResult()
     }
+*/
 
 }

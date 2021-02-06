@@ -1,10 +1,14 @@
 package com.mikolove.allmightworkout.framework.datasource.network.implementation
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseSetFirestoreService
+import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseSetNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
@@ -18,6 +22,7 @@ class ExerciseSetFirestoreServiceImpl
 constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firestore : FirebaseFirestore,
+    private val exerciseNetworkMapper : ExerciseNetworkMapper,
     private val exerciseSetNetworkMapper: ExerciseSetNetworkMapper
 ) : ExerciseSetFirestoreService{
 
@@ -30,9 +35,7 @@ constructor(
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
-            .document(entity.idExerciseSet)
-            .set(entity)
+            .update("sets" , FieldValue.arrayUnion(entity))
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
@@ -44,100 +47,155 @@ constructor(
         exerciseSet: ExerciseSet,
         idExercise: String
     ) {
-        val entity = exerciseSetNetworkMapper.mapToEntity(exerciseSet)
 
-        firestore
+        val exercise = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
-            .document(entity.idExerciseSet)
-            .update(
-                "reps",entity.reps,
-                "weight",entity.weight,
-                "time",entity.time,
-                "restTime",entity.restTime,
-                "updateAd",entity.updatedAt
-            )
+            .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await()
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
+            }
+
+        exercise?.let {
+
+            //Update sets
+            var listOfSets : ArrayList<ExerciseSet> = ArrayList()
+            for(networkSet in exercise.sets){
+                if(networkSet.idExerciseSet == exerciseSet.idExerciseSet )
+                    listOfSets.add(exerciseSet)
+                else
+                    listOfSets.add(networkSet)
+            }
+            it.sets = listOfSets
+
+            //Update entity
+            val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(FIRESTORE_USER_ID)
+                .collection(EXERCISES_COLLECTION)
+                .document(idExercise)
+                .set(updatedEntity)
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+        }
+
     }
 
     override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String) {
-        firestore
+
+        val exercise = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
-            .document(primaryKey)
-            .delete()
+            .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await()
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
+            }
+
+        exercise?.let {
+
+            //Remove set
+            var listOfSets : ArrayList<ExerciseSet> = ArrayList()
+            for(networkSet in exercise.sets){
+                if(networkSet.idExerciseSet != primaryKey )
+                    listOfSets.add(networkSet)
+            }
+            it.sets = listOfSets
+
+            //Update entity
+            val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(FIRESTORE_USER_ID)
+                .collection(EXERCISES_COLLECTION)
+                .document(idExercise)
+                .set(updatedEntity)
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {
-        return firestore
+        var exerciseSet : ExerciseSet? = null
+        val exercise = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
-            .document(primaryKey)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObject(ExerciseSetNetworkEntity::class.java)?.let {
-                exerciseSetNetworkMapper.mapFromEntity(it)
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
             }
+
+        exercise?.let {
+            exerciseSet = it.sets.find { set ->
+                set.idExerciseSet == primaryKey
+            }
+        }
+        return exerciseSet
     }
 
     override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
-        return firestore
+        var exerciseSets : List<ExerciseSet>? = null
+        val exercise = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObjects(ExerciseSetNetworkEntity::class.java)?.let {
-                exerciseSetNetworkMapper.entityListToDomainList(it)
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
             }
+
+        exercise?.sets?.let {
+            exerciseSets = it
+        }
+        return exerciseSets
     }
 
     override suspend fun getTotalExercisesSetByExercise(idExercise: String): Int {
         var totalExerciseSet : Int = 0
-        firestore
+        var exerciseSets : List<ExerciseSet>? = null
+        val exercise = firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
-            .collection(EXERCISE_SETS_COLLECTION)
             .get()
-            .addOnSuccessListener { document ->
-                totalExerciseSet = document.size()
-            }
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await()
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
+            }
+
+        exercise?.sets?.let {
+            totalExerciseSet = it.size
+        }
         return totalExerciseSet
     }
 
+    //TODO : Change this
     override suspend fun insertDeletedExerciseSet(exerciseSet: ExerciseSet) {
         val entity = exerciseSetNetworkMapper.mapToEntity(exerciseSet)
         firestore
@@ -153,6 +211,7 @@ constructor(
             .await()
     }
 
+    //TODO : Change this
     override suspend fun getDeletedExerciseSets(): List<ExerciseSet> {
         return firestore
             .collection(USERS_COLLECTION)

@@ -6,14 +6,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
+import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.model.WorkoutNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISES_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.WORKOUTS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 
@@ -22,29 +26,21 @@ constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val exerciseNetworkMapper: ExerciseNetworkMapper,
-) : ExerciseFirestoreService{
+    private val exerciseSetNetworkMapper: ExerciseSetNetworkMapper,
+
+    ) : ExerciseFirestoreService{
 
     override suspend fun insertExercise(exercise: Exercise) {
 
         val entity = exerciseNetworkMapper.mapToEntity(exercise)
-        val exerciseEntity = hashMapOf(
-            "idExercise" to entity.idExercise,
-            "name" to entity.name,
-            "bodyPart" to entity.bodyPart,
-            "exerciseType" to entity.exerciseType,
-            "isActive" to entity.isActive,
-            "createdAt" to entity.createdAt,
-            "updatedAt" to entity.updatedAt
-        )
 
         firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(entity.idExercise)
-            .set(exerciseEntity)
+            .set(entity)
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await()
@@ -95,7 +91,6 @@ constructor(
             .collection(EXERCISES_COLLECTION)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await().toObjects(ExerciseNetworkEntity::class.java)?.let {
@@ -104,6 +99,8 @@ constructor(
     }
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? {
+
+        //Get exercise
         return firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
@@ -111,7 +108,6 @@ constructor(
             .document(primaryKey)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await().toObject(ExerciseNetworkEntity::class.java)?.let {
@@ -169,13 +165,12 @@ constructor(
     }
 
     override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String) {
-        val listExercise = listOf(idExercise)
         firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
-            .update("exerciseIds",FieldValue.arrayUnion(listExercise))
+            .update("exerciseIds",FieldValue.arrayUnion(idExercise))
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
@@ -184,13 +179,13 @@ constructor(
     }
 
     override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String) {
-        val listExercise = listOf(idExercise)
+
         firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
-            .update("exerciseIds",FieldValue.arrayRemove(listExercise))
+            .update("exerciseIds",FieldValue.arrayRemove(idExercise))
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
@@ -199,23 +194,24 @@ constructor(
     }
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int {
-        var isExerciseInWorkout : Int = 0
+        var isExerciseInWorkout  = 0
 
         firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
-            .whereEqualTo("idWorkout",idWorkout)
-            .whereArrayContains("exerciseIds",idExercise)
+            .document(idWorkout)
             .get()
-            .addOnSuccessListener { document ->
-                isExerciseInWorkout = document.size()
-            }
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await()
+            .await().toObject(WorkoutNetworkEntity::class.java)?.let { workoutNetworkEntity ->
+                workoutNetworkEntity.exerciseIds?.let {
+                    if(idExercise in it)
+                        isExerciseInWorkout = 1
+                }
+            }
 
         return isExerciseInWorkout
     }

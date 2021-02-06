@@ -42,14 +42,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideExerciseSetNetworkMappedr(dateUtil: DateUtil) : ExerciseSetNetworkMapper{
+    fun provideExerciseSetNetworkMapper(dateUtil: DateUtil) : ExerciseSetNetworkMapper{
         return ExerciseSetNetworkMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseNetworkMapper(dateUtil: DateUtil, bodyPartNetworkMapper: BodyPartNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper) : ExerciseNetworkMapper{
-        return ExerciseNetworkMapper(dateUtil, bodyPartNetworkMapper ,exerciseSetNetworkMapper )
+    fun provideBodyPartExerciseNetworkMapper() : BodyPartExerciseNetworkMapper{
+        return BodyPartExerciseNetworkMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideExerciseNetworkMapper(dateUtil: DateUtil, bodyPartExerciseNetworkMapper: BodyPartExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper) : ExerciseNetworkMapper{
+        return ExerciseNetworkMapper(dateUtil, bodyPartExerciseNetworkMapper,exerciseSetNetworkMapper )
     }
 
     @Singleton
@@ -82,14 +88,16 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper ) : ExerciseFirestoreService{
-        return ExerciseFirestoreServiceImpl(firebaseAuth,firestore, exerciseNetworkMapper)
+    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseFirestoreService{
+        return ExerciseFirestoreServiceImpl(firebaseAuth,firestore, exerciseNetworkMapper,exerciseSetNetworkMapper)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseSetFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseSetFirestoreService {
-        return ExerciseSetFirestoreServiceImpl(firebaseAuth,firestore,exerciseSetNetworkMapper)
+    fun provideExerciseSetFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore,
+                                            exerciseNetworkMapper: ExerciseNetworkMapper,
+                                            exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseSetFirestoreService {
+        return ExerciseSetFirestoreServiceImpl(firebaseAuth,firestore,exerciseNetworkMapper,exerciseSetNetworkMapper)
     }
 
     @Singleton

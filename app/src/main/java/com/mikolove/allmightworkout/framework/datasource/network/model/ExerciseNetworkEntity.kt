@@ -7,8 +7,8 @@ data class ExerciseNetworkEntity(
     @DocumentId
     var idExercise: String,
     var name: String,
-    var sets: List<ExerciseSetNetworkEntity>,
-    var bodyPart: BodyPartNetworkEntity?,
+    var sets: List<ExerciseSetNetworkEntity>?,
+    var bodyPart: BodyPartExerciseNetworkEntity?,
     var exerciseType: String,
     @field:JvmField
     var isActive: Boolean,

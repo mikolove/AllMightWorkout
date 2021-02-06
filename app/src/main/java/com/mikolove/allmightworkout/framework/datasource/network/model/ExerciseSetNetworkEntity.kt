@@ -11,4 +11,14 @@ data class ExerciseSetNetworkEntity(
     var createdAt: Timestamp,
     var updatedAt: Timestamp,
 ) {
+
+    constructor() : this(
+        "",
+        0,
+        0,
+        0,
+        0,
+        Timestamp.now(),
+        Timestamp.now()
+    )
 }

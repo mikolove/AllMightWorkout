@@ -67,9 +67,11 @@ class RemoveExerciseSet(
             safeApiCall(IO){
                 exerciseSetNetworkDataSource.removeExerciseSetById(exerciseSet.idExerciseSet,idExercise)
             }
+            //TODO : Need to delete this maybe
+            /*
             safeApiCall(IO){
                 exerciseSetNetworkDataSource.insertDeletedExerciseSet(exerciseSet)
-            }
+            }*/
         }
     }
     companion object{

@@ -9,14 +9,14 @@ import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseN
 class ExerciseNetworkMapper
 constructor(
     private val dateUtil: DateUtil,
-    private val bodyPartNetworkMapper : BodyPartNetworkMapper,
-    private val exerciseSetNetworkMapper : ExerciseSetNetworkMapper
+    private val bodyPartExerciseNetworkMapper : BodyPartExerciseNetworkMapper,
+    private val exerciseSetNetworkMapper: ExerciseSetNetworkMapper
 ) : EntityMapper<ExerciseNetworkEntity,Exercise>{
 
     override fun mapFromEntity(entity: ExerciseNetworkEntity): Exercise {
 
-        val bodyPart = entity.bodyPart?.let { bodyPartNetworkMapper.mapFromEntity(it) } ?: null
-        val sets = exerciseSetNetworkMapper.entityListToDomainList(entity.sets)
+        val sets     = entity.sets?.let { exerciseSetNetworkMapper.entityListToDomainList(it) } ?: listOf()
+        val bodyPart = entity.bodyPart?.let { bodyPartExerciseNetworkMapper.mapFromEntity(it) } ?: null
 
         return Exercise(
             idExercise = entity.idExercise,
@@ -34,14 +34,13 @@ constructor(
 
     override fun mapToEntity(domainModel: Exercise): ExerciseNetworkEntity {
 
-        val bodyPart = domainModel.bodyPart?.let { bodyPartNetworkMapper.mapToEntity(it) }
-        val sets = exerciseSetNetworkMapper.domainListToEntityList(domainModel.sets)
-
+        val sets = domainModel.sets?.let { exerciseSetNetworkMapper.domainListToEntityList(it) } ?: listOf()
+        val bodyPart = domainModel.bodyPart?.let { bodyPartExerciseNetworkMapper.mapToEntity(it) }
         return ExerciseNetworkEntity(
             idExercise = domainModel.idExercise,
             name = domainModel.name,
-            sets = sets,
             bodyPart = bodyPart,
+            sets = sets,
             exerciseType = domainModel.exerciseType.name,
             isActive = domainModel.isActive,
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),

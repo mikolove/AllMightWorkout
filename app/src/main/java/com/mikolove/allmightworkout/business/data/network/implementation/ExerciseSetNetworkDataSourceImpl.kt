@@ -27,7 +27,8 @@ constructor(
 
     override suspend fun getTotalExercisesSetByExercise(idExercise: String): Int = exerciseSetFirestoreService.getTotalExercisesSetByExercise(idExercise)
 
+    //TODO : Delete this at a moment firestore structure changed
     override suspend fun insertDeletedExerciseSet(exerciseSet: ExerciseSet) = exerciseSetFirestoreService.insertDeletedExerciseSet(exerciseSet)
-
+    //TODO : Delete this at a moment firestore structure changed
     override suspend fun getDeletedExerciseSets(): List<ExerciseSet> = exerciseSetFirestoreService.getDeletedExerciseSets()
 }
