@@ -2,6 +2,7 @@ package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.auth.loading.SyncWorkoutTypesAndBodyPart
 import com.mikolove.allmightworkout.business.interactors.main.home.*
 import dagger.Module
@@ -94,6 +95,24 @@ object SyncModule {
             workoutNetworkDataSource = workoutNetworkDataSource,
             exerciseCacheDataSource = exerciseCacheDataSource,
             exerciseNetworkDataSource = exerciseNetworkDataSource
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSyncWorkoutExercises(
+        workoutCacheDataSource : WorkoutCacheDataSource,
+        workoutNetworkDataSource: WorkoutNetworkDataSource,
+        exerciseCacheDataSource: ExerciseCacheDataSource,
+        exerciseNetworkDataSource: ExerciseNetworkDataSource,
+        dateUtil: DateUtil
+    ) : SyncWorkoutExercises {
+        return SyncWorkoutExercises(
+            workoutCacheDataSource = workoutCacheDataSource,
+            workoutNetworkDataSource = workoutNetworkDataSource,
+            exerciseCacheDataSource = exerciseCacheDataSource,
+            exerciseNetworkDataSource = exerciseNetworkDataSource,
+            dateUtil = dateUtil
         )
     }
 

@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 
 /*
 Test cases:
-In all those case check Workout and Workout/Exercise link
+In all those case check Workout
 1. insertCachedWorkoutsIntoNetwork()
     a) insert a bunch of new workout into the cache
     b) perform the sync

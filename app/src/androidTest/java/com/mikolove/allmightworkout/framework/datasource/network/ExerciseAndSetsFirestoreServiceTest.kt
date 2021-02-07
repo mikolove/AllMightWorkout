@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseFirestoreService
@@ -49,6 +50,7 @@ Test cases:
 10. l_isExerciseInWorkout_CBS
 11. m_removeExerciseFromWorkout_CBS
 12. n_getExercises
+13. o_insertDeletedExerciseSet_CBS
  */
 
 @UninstallModules(ProductionModule::class)
@@ -92,6 +94,9 @@ class ExerciseAndSetsFirestoreServiceTest : BaseTest() {
     @Inject
     lateinit var exerciseSetNetworkMapper : ExerciseSetNetworkMapper
 
+    @Inject
+    lateinit var dateUtil: DateUtil
+
     override fun injectTest() {
         hiltRule.inject()
     }
@@ -127,7 +132,8 @@ class ExerciseAndSetsFirestoreServiceTest : BaseTest() {
             firebaseAuth = firebaseAuth,
             firestore = firestore,
             workoutNetworkMapper = workoutNetworkMapper,
-            exerciseNetworkMapper = exerciseNetworkMapper
+            exerciseNetworkMapper = exerciseNetworkMapper,
+            dateUtil = dateUtil
         )
     }
 
@@ -453,6 +459,26 @@ class ExerciseAndSetsFirestoreServiceTest : BaseTest() {
         val totalExercises = exerciseFirestoreService.getTotalExercises()
 
         assertTrue { exercises.size == totalExercises }
+    }
+
+    @Test
+    fun o_insertDeletedExerciseSet_CBS() = runBlocking {
+
+        //Create a workout
+        val exercise = createExercise()
+        exercise.sets = createSets()
+
+        //Insert it
+        exerciseFirestoreService.insertExercise(exercise)
+
+        //Insert set into deleted
+
+        exerciseSetFirestoreService.insertDeletedExerciseSet(exercise.sets[0])
+
+        //CBS
+        val searchResult = exerciseSetFirestoreService.getDeletedExerciseSets()
+        
+        assertTrue {  searchResult.contains(exercise.sets[0]) }
     }
 
     private fun createWorkout() : Workout{

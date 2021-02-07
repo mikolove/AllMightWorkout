@@ -17,6 +17,7 @@ constructor(
             name = entity.name,
             exercises = null,
             isActive = entity.isActive,
+            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt?.let { dateUtil.convertDateToStringDate(it) },
             startedAt = null,
             endedAt = null,
             createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
@@ -29,6 +30,7 @@ constructor(
             idWorkout = domainModel.idWorkout,
             name = domainModel.name,
             isActive = domainModel.isActive,
+            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt?.let{ dateUtil.convertStringDateToDate(it)},
             createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
         )

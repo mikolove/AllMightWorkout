@@ -2,18 +2,24 @@ package com.mikolove.allmightworkout.business.interactors.main.manageworkout
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class AddExerciseToWorkout(
+    private val workoutCacheDataSource : WorkoutCacheDataSource,
+    private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
-    private val exerciseNetworkDataSource: ExerciseNetworkDataSource
+    private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
+    private val dateUtil: DateUtil
 ) {
 
     fun addExerciseToWorkout(
@@ -22,61 +28,111 @@ class AddExerciseToWorkout(
         stateEvent : StateEvent
     ) : Flow<DataState<ManageWorkoutViewState>?> = flow {
 
-        val cacheResult = safeCacheCall(IO){
-           exerciseCacheDataSource.addExerciseToWorkout(idWorkout,idExercise)
+        //Update exerciseIds
+        val updatedExerciseIdsDate = dateUtil.getCurrentTimestamp()
+        val isExerciseIdsUpdated = updateExerciseIdsUpdatedAt(idWorkout, updatedExerciseIdsDate )
+
+        //If it fails stop the process
+        if(isExerciseIdsUpdated == 0){
+
+            val response = DataState.data(
+                response = Response(
+                    message = RemoveExerciseFromWorkout.REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED,
+                    uiComponentType = UIComponentType.Toast(),
+                    messageType = MessageType.Error()
+                ),
+                data = null,
+                stateEvent = stateEvent
+            ) as DataState<ManageWorkoutViewState>?
+
+            emit(response)
+
+        //If not continue
+        }else{
+
+            val cacheResult = safeCacheCall(IO){
+                exerciseCacheDataSource.addExerciseToWorkout(idWorkout,idExercise)
+            }
+
+            val response = object : CacheResponseHandler<ManageWorkoutViewState, Long>(
+                response = cacheResult,
+                stateEvent = stateEvent
+            ){
+                override suspend fun handleSuccess(resultObj: Long): DataState<ManageWorkoutViewState>? {
+
+                    return if(resultObj>0){
+
+                        val viewState = ManageWorkoutViewState(lastWorkoutExerciseState = true)
+                        DataState.data(
+                            response = Response(
+                                message = INSERT_WORKOUT_EXERCISE_SUCCESS,
+                                uiComponentType = UIComponentType.Toast(),
+                                messageType = MessageType.Success()
+                            ),
+                            data = viewState,
+                            stateEvent = stateEvent
+                        )
+
+                    }else{
+
+                        val viewState = ManageWorkoutViewState(lastWorkoutExerciseState = false)
+                        DataState.data(
+                            response = Response(
+                                message = INSERT_WORKOUT_EXERCISE_FAILED,
+                                uiComponentType = UIComponentType.Toast(),
+                                messageType = MessageType.Error()
+                            ),
+                            data = viewState,
+                            stateEvent = stateEvent
+                        )
+
+                    }
+                }
+            }.getResult()
+
+            emit(response)
+
+            updateNetwork(response?.stateMessage?.response?.message,idWorkout,idExercise,updatedExerciseIdsDate)
         }
 
-        val response = object : CacheResponseHandler<ManageWorkoutViewState, Long>(
+    }
+
+    private suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, dateUpdated: String) : Int{
+
+        val cacheResult = safeCacheCall(IO){
+            workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout, dateUpdated)
+        }
+
+        val cacheResponse = object : CacheResponseHandler<Int,Int>(
             response = cacheResult,
-            stateEvent = stateEvent
+            stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<ManageWorkoutViewState>? {
-
-                return if(resultObj>0){
-
-                    val viewState = ManageWorkoutViewState(lastWorkoutExerciseState = true)
-                    DataState.data(
-                        response = Response(
-                            message = INSERT_WORKOUT_EXERCISE_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = viewState,
-                        stateEvent = stateEvent
-                    )
-
-                }else{
-
-                    val viewState = ManageWorkoutViewState(lastWorkoutExerciseState = false)
-                    DataState.data(
-                        response = Response(
-                            message = INSERT_WORKOUT_EXERCISE_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = viewState,
-                        stateEvent = stateEvent
-                    )
-
-                }
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+                return DataState.data(
+                    response = null,
+                    data = resultObj,
+                    stateEvent = null
+                )
             }
         }.getResult()
 
-        emit(response)
-
-        updateNetwork(response?.stateMessage?.response?.message,idWorkout,idExercise)
+        return cacheResponse?.data ?: 0
     }
 
-    private suspend fun updateNetwork(message : String? , idWorkout: String, idExercise: String){
+    private suspend fun updateNetwork(message : String? , idWorkout: String, idExercise: String, dateUpdated : String){
         if(message.equals(INSERT_WORKOUT_EXERCISE_SUCCESS)){
             safeApiCall(IO){
                 exerciseNetworkDataSource.addExerciseToWorkout(idWorkout,idExercise)
+            }
+            safeApiCall(IO){
+                workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,dateUpdated)
             }
         }
     }
 
     companion object{
         val INSERT_WORKOUT_EXERCISE_SUCCESS  = "Successfully inserted added exercise to workout."
+        val INSERT_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."
         val INSERT_WORKOUT_EXERCISE_FAILED  = "Failed adding exercise to workout."
     }
 

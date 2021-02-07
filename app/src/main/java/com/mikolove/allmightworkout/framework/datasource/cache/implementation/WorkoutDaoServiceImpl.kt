@@ -49,6 +49,19 @@ constructor(
         }
     }
 
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? {
+        return workoutDao.getExerciseIdsUpdate(idWorkout)?.let {
+            dateUtil.convertDateToStringDate(it)
+        }
+    }
+
+    override suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?): Int {
+        return workoutDao.updateExerciseIdsUpdatedAt(
+            idWorkout,
+            exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
+        )
+    }
+
     override suspend fun getTotalWorkout(): Int {
         return workoutDao.getTotalWorkout()
     }

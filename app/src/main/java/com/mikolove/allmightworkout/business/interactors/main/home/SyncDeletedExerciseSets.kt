@@ -16,7 +16,7 @@ class SyncDeletedExerciseSets(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
-/*
+
 
     suspend fun syncDeletedExerciseSets(){
 
@@ -59,6 +59,6 @@ class SyncDeletedExerciseSets(
             }
         }.getResult()
     }
-*/
+
 
 }

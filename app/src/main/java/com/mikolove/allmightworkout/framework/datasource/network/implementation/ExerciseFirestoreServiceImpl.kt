@@ -119,19 +119,17 @@ constructor(
 
         //Get workout it contains exercise list
         var exercises : ArrayList<Exercise> = ArrayList()
-        /*firestore
+        firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .get()
             .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
             .await().toObject(WorkoutNetworkEntity::class.java)?.let { workoutNetworkEntity ->
-                for(idExercise in workoutNetworkEntity.exerciseIds){
-
+                workoutNetworkEntity.exerciseIds?.forEach {  idExercise ->
                     firestore
                         .collection(USERS_COLLECTION)
                         .document(FIRESTORE_USER_ID)
@@ -142,7 +140,7 @@ constructor(
                             exercises.add(exerciseNetworkMapper.mapFromEntity(it))
                         }
                 }
-            }*/
+            }
         return exercises
     }
 

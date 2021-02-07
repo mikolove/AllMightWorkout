@@ -3,8 +3,6 @@ package com.mikolove.allmightworkout.business.data.cache.implementation
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutDaoService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class WorkoutCacheDataSourceImpl
 constructor(
@@ -20,6 +18,13 @@ constructor(
     ): Int = workoutDaoService.updateWorkout(primaryKey ,name, updatedAt, isActive)
 
     override suspend fun removeWorkout(primaryKey: String): Int = workoutDaoService.removeWorkout(primaryKey)
+
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? = workoutDaoService.getExerciseIdsUpdate(idWorkout)
+
+    override suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?): Int  = workoutDaoService.updateExerciseIdsUpdatedAt(
+        idWorkout,
+        exerciseIdsUpdatedAt
+    )
 
     override suspend fun getWorkouts(query: String, filterAndOrder: String, page: Int): List<Workout> {
 

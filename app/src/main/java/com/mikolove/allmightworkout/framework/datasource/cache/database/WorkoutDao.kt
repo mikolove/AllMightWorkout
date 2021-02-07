@@ -50,6 +50,14 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts")
     suspend fun getWorkouts() : List<WorkoutWithExercisesCacheEntity>
 
+
+    @Query("SELECT exercise_ids_updated_at FROM workouts WHERE id_workout = :idWorkout")
+    suspend fun getExerciseIdsUpdate(idWorkout : String) : Date
+
+    @Query("UPDATE workouts SET exercise_ids_updated_at = :exerciseIdsUpdatedAt WHERE id_workout = :idWorkout")
+    suspend fun updateExerciseIdsUpdatedAt(idWorkout : String, exerciseIdsUpdatedAt: Date?) : Int
+
+
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'

@@ -18,18 +18,19 @@ constructor(private val dateUtil: DateUtil)
             isActive = entity.isActive,
             startedAt = null,
             endedAt = null,
+            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt?.let { dateUtil.convertFirebaseTimestampToStringData(it) },
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
             updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt)
         )
     }
 
     override fun mapToEntity(domainModel: Workout): WorkoutNetworkEntity {
-        //val exerciseIds = domainModel.exercises?.mapIndexed{index,exercise -> exercise.idExercise} ?: ArrayList()
         return WorkoutNetworkEntity(
             idWorkout = domainModel.idWorkout,
             name = domainModel.name,
             exerciseIds = null,
             isActive = domainModel.isActive,
+            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToFirebaseTimestamp(it) },
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
         )

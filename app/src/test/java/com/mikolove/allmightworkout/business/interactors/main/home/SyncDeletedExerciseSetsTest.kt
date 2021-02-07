@@ -42,7 +42,7 @@ class SyncDeletedExerciseSetsTest {
     }
 
 
-  /*  @Test
+    @Test
     fun deleteNetworkExerciseSets_confirmCacheSync() = runBlocking {
 
         //Generate delete
@@ -73,6 +73,6 @@ class SyncDeletedExerciseSetsTest {
             val cachedExerciseSet = exerciseSetCacheDataSource.getExerciseSetById(exerciseSet.idExerciseSet,key)
             Assertions.assertTrue { cachedExerciseSet == null}
         }
-    }*/
+    }
 
 }

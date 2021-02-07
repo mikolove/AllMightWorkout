@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutFirestoreService
@@ -11,6 +12,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Exercis
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_LOGIN
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_PASSWORD
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
@@ -34,6 +36,7 @@ Test cases:
 4. d_getWorkout
 5. e_insertDeleteWorkout_CBS
 6. f_insertDeleteWorkouts_CBS
+7. g_updateExerciseIdsUpdatedAt_CBS
  */
 
 @UninstallModules(ProductionModule::class)
@@ -65,6 +68,8 @@ class WorkoutFirestoreServiceTest : BaseTest() {
     @Inject
     lateinit var exerciseNetworkMapper : ExerciseNetworkMapper
 
+    @Inject
+    lateinit var dateUtil : DateUtil
 
     override  fun injectTest() {
         hiltRule.inject()
@@ -87,7 +92,8 @@ class WorkoutFirestoreServiceTest : BaseTest() {
             firebaseAuth = firebaseAuth,
             firestore = firestore,
             workoutNetworkMapper = workoutNetworkMapper,
-            exerciseNetworkMapper = exerciseNetworkMapper
+            exerciseNetworkMapper = exerciseNetworkMapper,
+            dateUtil = dateUtil
         )
     }
 
@@ -218,6 +224,42 @@ class WorkoutFirestoreServiceTest : BaseTest() {
         assertTrue { searchResult.containsAll(listOfWorkouts) }
     }
 
+    @Test
+    fun g_updateExerciseIdsUpdatedAt_CBS() = runBlocking {
 
+        val workouts = workoutFirestoreService.getWorkouts()
+
+        if (workouts.isNotEmpty()) {
+
+            val workout = workouts.get(0)
+
+            //Not null assert
+            val updatedAt = dateUtil.getCurrentTimestamp()
+
+            workoutFirestoreService.updateExerciseIdsUpdatedAt(workout.idWorkout, updatedAt)
+
+            val dateUpdated = workoutFirestoreService.getExerciseIdsUpdate(workout.idWorkout)
+
+            assertEquals(dateUpdated,updatedAt)
+
+            val searResult = workoutFirestoreService.getWorkoutById(workout.idWorkout)
+
+            assertEquals(searResult?.exerciseIdsUpdatedAt,updatedAt)
+
+            //Null assert
+            val updatedAtNull = null
+
+            workoutFirestoreService.updateExerciseIdsUpdatedAt(workout.idWorkout, updatedAtNull)
+
+            val dateUpdatedNull = workoutFirestoreService.getExerciseIdsUpdate(workout.idWorkout)
+
+            printLogD("date",dateUpdatedNull.toString())
+            assertEquals(dateUpdatedNull,null)
+
+            val searResultNull = workoutFirestoreService.getWorkoutById(workout.idWorkout)
+            assertEquals(searResultNull?.exerciseIdsUpdatedAt,null)
+        }
+
+    }
 
 }

@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutNetworkMapper
@@ -22,7 +23,8 @@ constructor(
     private val firebaseAuth : FirebaseAuth,
     private val firestore : FirebaseFirestore,
     private val workoutNetworkMapper: WorkoutNetworkMapper,
-    private val exerciseNetworkMapper: ExerciseNetworkMapper
+    private val exerciseNetworkMapper: ExerciseNetworkMapper,
+    private val dateUtil: DateUtil
 ) : WorkoutFirestoreService{
 
     override suspend fun insertWorkout(workout: Workout) {
@@ -65,6 +67,41 @@ constructor(
             .collection(WORKOUTS_COLLECTION)
             .document(id)
             .delete()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await()
+    }
+
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? {
+        var exerciseIdsUpdatedAt :String? = null
+
+        firestore
+            .collection(USERS_COLLECTION)
+            .document(FIRESTORE_USER_ID)
+            .collection(WORKOUTS_COLLECTION)
+            .document(idWorkout)
+            .get()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await().toObject(WorkoutNetworkEntity::class.java)?.exerciseIdsUpdatedAt?.let {
+                exerciseIdsUpdatedAt = dateUtil.convertFirebaseTimestampToStringData(it)
+            }
+
+        return exerciseIdsUpdatedAt
+    }
+
+    override suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?) {
+        val entityDate = exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToFirebaseTimestamp(it)}
+        firestore
+            .collection(USERS_COLLECTION)
+            .document(FIRESTORE_USER_ID)
+            .collection(WORKOUTS_COLLECTION)
+            .document(idWorkout)
+            .update(
+                "exerciseIdsUpdatedAt", entityDate
+            )
             .addOnFailureListener {
                 cLog(it.message)
             }

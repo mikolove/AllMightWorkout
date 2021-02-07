@@ -17,6 +17,10 @@ interface WorkoutCacheDataSource {
 
     suspend fun removeWorkouts(workouts : List<Workout>) : Int
 
+    suspend fun getExerciseIdsUpdate(idWorkout : String) : String?
+
+    suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?) : Int
+
     suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int) : List<Workout>
 
     suspend fun getWorkoutById(primaryKey : String) : Workout?

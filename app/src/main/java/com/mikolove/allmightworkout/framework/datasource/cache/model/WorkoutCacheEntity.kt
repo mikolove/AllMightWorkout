@@ -18,6 +18,9 @@ data class WorkoutCacheEntity(
     @ColumnInfo(name = "is_active")
     var isActive: Boolean,
 
+    @ColumnInfo(name = "exercise_ids_updated_at")
+    var exerciseIdsUpdatedAt: Date?,
+
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt: Date,
 

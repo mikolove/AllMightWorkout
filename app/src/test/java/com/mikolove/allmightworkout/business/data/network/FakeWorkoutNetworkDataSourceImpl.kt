@@ -20,6 +20,31 @@ class FakeWorkoutNetworkDataSourceImpl constructor(
         workoutsData.remove(primaryKey)
     }
 
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? {
+        return workoutsData[idWorkout]?.exerciseIdsUpdatedAt ?:""
+    }
+
+    override suspend fun updateExerciseIdsUpdatedAt(
+        idWorkout: String,
+        exerciseIdsUpdatedAt: String?
+    ) {
+        workoutsData.get(idWorkout)?.let { workout ->
+            val updatedWorkout = Workout(
+                idWorkout = workout.idWorkout,
+                name = workout.name,
+                exercises = null,
+                isActive = workout.isActive,
+                startedAt = null,
+                endedAt = null,
+                exerciseIdsUpdatedAt = exerciseIdsUpdatedAt,
+                createdAt = workoutsData.get(idWorkout)?.createdAt ?: "",
+                updatedAt = workoutsData.get(idWorkout)?.updatedAt ?: ""
+            )
+            workoutsData.put(idWorkout, updatedWorkout)
+             // success
+        }
+    }
+
     override suspend fun getWorkouts(): List<Workout> {
       return ArrayList<Workout>(workoutsData.values)
     }

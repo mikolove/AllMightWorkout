@@ -9,6 +9,7 @@ const val FORCE_GENERAL_FAILURE = "FORCE_GENERAL_FAILURE"
 
 const val FORCE_NEW_WORKOUT_EXCEPTION = "FORCE_NEW_WORKOUT_EXCEPTION"
 const val FORCE_UPDATE_WORKOUT_EXCEPTION = "FORCE_UPDATE_WORKOUT_EXCEPTION"
+const val FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION = "FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION"
 const val FORCE_DELETE_WORKOUT_EXCEPTION = "FORCE_DELETE_WORKOUT_EXCEPTION"
 const val FORCE_DELETES_WORKOUT_EXCEPTION = "FORCE_DELETES_WORKOUT_EXCEPTION"
 const val FORCE_SEARCH_WORKOUTS_EXCEPTION = "FORCE_SEARCH_WORKOUTS_EXCEPTION"
@@ -47,6 +48,7 @@ constructor(
             isActive = isActive,
             startedAt = null,
             endedAt = null,
+            exerciseIdsUpdatedAt = null,
             createdAt = workoutsData.get(primaryKey)?.createdAt ?: dateUtil.getCurrentTimestamp(),
             updatedAt = dateUtil.getCurrentTimestamp()
         )
@@ -66,6 +68,35 @@ constructor(
         return workoutsData.remove(primaryKey)?.let {
             1 // return 1 for success
         }?: - 1 // -1 for failure
+    }
+
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? {
+        return workoutsData[idWorkout]?.exerciseIdsUpdatedAt ?:""
+    }
+
+    override suspend fun updateExerciseIdsUpdatedAt(
+        idWorkout: String,
+        exerciseIdsUpdatedAt: String?
+    ): Int {
+
+        if(idWorkout.equals(FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION)){
+            throw Exception("Something went wrong updating exerciseIds date.")
+        }
+        return workoutsData.get(idWorkout)?.let { workout ->
+            val updatedWorkout = Workout(
+                idWorkout = workout.idWorkout,
+                name = workout.name,
+                exercises = null,
+                isActive = workout.isActive,
+                startedAt = null,
+                endedAt = null,
+                exerciseIdsUpdatedAt = exerciseIdsUpdatedAt,
+                createdAt = workoutsData.get(idWorkout)?.createdAt ?: dateUtil.getCurrentTimestamp(),
+                updatedAt = workoutsData.get(idWorkout)?.updatedAt ?: dateUtil.getCurrentTimestamp()
+            )
+            workoutsData.put(idWorkout, updatedWorkout)
+            1 // success
+        }?: 0
     }
 
     override suspend fun getWorkouts(

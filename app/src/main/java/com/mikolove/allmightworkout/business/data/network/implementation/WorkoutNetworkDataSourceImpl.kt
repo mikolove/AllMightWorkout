@@ -3,8 +3,6 @@ package com.mikolove.allmightworkout.business.data.network.implementation
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutFirestoreService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 class WorkoutNetworkDataSourceImpl
@@ -15,6 +13,10 @@ constructor(private val workoutFirestoreService : WorkoutFirestoreService) : Wor
     override suspend fun updateWorkout(workout: Workout) = workoutFirestoreService.updateWorkout(workout)
 
     override suspend fun removeWorkout(primaryKey: String)  = workoutFirestoreService.removeWorkout(primaryKey)
+
+    override suspend fun getExerciseIdsUpdate(idWorkout: String): String? = workoutFirestoreService.getExerciseIdsUpdate(idWorkout)
+
+    override suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?)= workoutFirestoreService.updateExerciseIdsUpdatedAt(idWorkout,exerciseIdsUpdatedAt)
 
     override suspend fun getWorkouts(): List<Workout>  = workoutFirestoreService.getWorkouts()
 

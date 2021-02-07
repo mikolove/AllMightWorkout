@@ -8,6 +8,7 @@ data class Workout(
     var name: String,
     var exercises: List<Exercise>?,
     var isActive: Boolean,
+    var exerciseIdsUpdatedAt : String?,
     var startedAt: String?,
     var endedAt: String?,
     var createdAt: String,

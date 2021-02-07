@@ -24,6 +24,7 @@ constructor(private val dateUtil: DateUtil){
             isActive = isActive ?: true,
             startedAt = null,
             endedAt = null,
+            exerciseIdsUpdatedAt = null,
             createdAt = created_at?: dateUtil.getCurrentTimestamp(),
             updatedAt = dateUtil.getCurrentTimestamp()
         )

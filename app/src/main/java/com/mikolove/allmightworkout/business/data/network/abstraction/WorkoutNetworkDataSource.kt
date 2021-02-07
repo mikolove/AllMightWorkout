@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.business.data.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 
 interface WorkoutNetworkDataSource {
@@ -10,6 +9,10 @@ interface WorkoutNetworkDataSource {
     suspend fun updateWorkout(workout: Workout)
 
     suspend fun removeWorkout(primaryKey :String)
+
+    suspend fun getExerciseIdsUpdate(idWorkout : String) : String?
+
+    suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?)
 
     suspend fun getWorkouts() : List<Workout>
 

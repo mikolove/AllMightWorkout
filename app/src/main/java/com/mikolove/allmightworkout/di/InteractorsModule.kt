@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNe
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
@@ -75,13 +76,14 @@ object InteractorsModule {
         workoutCacheDataSource: WorkoutCacheDataSource,
         workoutNetworkDataSource: WorkoutNetworkDataSource,
         exerciseCacheDataSource: ExerciseCacheDataSource,
-        exerciseNetworkDataSource: ExerciseNetworkDataSource
+        exerciseNetworkDataSource: ExerciseNetworkDataSource,
+        dateUtil : DateUtil
     ) : ManageWorkoutListInteractors {
 
         return ManageWorkoutListInteractors(
-            addExerciseToWorkout = AddExerciseToWorkout(exerciseCacheDataSource,exerciseNetworkDataSource),
+            addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
-            removeExerciseFromWorkout = RemoveExerciseFromWorkout(exerciseCacheDataSource,exerciseNetworkDataSource),
+            removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
             updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource)
         )
