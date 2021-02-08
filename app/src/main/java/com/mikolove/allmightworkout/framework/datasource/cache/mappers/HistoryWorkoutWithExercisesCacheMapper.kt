@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutWithExercisesCacheEntity
-import javax.inject.Inject
 
 class HistoryWorkoutWithExercisesCacheMapper
 constructor(

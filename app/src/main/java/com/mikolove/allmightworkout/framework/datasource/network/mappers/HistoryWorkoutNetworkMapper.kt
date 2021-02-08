@@ -7,17 +7,14 @@ import com.mikolove.allmightworkout.framework.datasource.network.model.HistoryWo
 
 class HistoryWorkoutNetworkMapper
 constructor(
-    private val dateUtil: DateUtil,
-    private val historyExerciseNetworkMapper : HistoryExerciseNetworkMapper
-) : EntityMapper<HistoryWorkoutNetworkEntity,HistoryWorkout>{
+    private val dateUtil: DateUtil) : EntityMapper<HistoryWorkoutNetworkEntity,HistoryWorkout>{
 
     override fun mapFromEntity(entity: HistoryWorkoutNetworkEntity): HistoryWorkout {
 
-        val historyExercises = entity.historyExercises?.let { historyExerciseNetworkMapper.entityListToDomainList(it) }
         return HistoryWorkout(
             idHistoryWorkout = entity.idHistoryWorkout,
             name = entity.name,
-            historyExercises = historyExercises,
+            historyExercises = null,
             startedAt = dateUtil.convertFirebaseTimestampToStringData(entity.startedAt),
             endedAt = dateUtil.convertFirebaseTimestampToStringData(entity.endedAt),
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
@@ -26,12 +23,9 @@ constructor(
     }
 
     override fun mapToEntity(domainModel: HistoryWorkout): HistoryWorkoutNetworkEntity {
-
-        val historyExercises = domainModel.historyExercises?.let { historyExerciseNetworkMapper.domainListToEntityList(it) }
         return HistoryWorkoutNetworkEntity(
             idHistoryWorkout = domainModel.idHistoryWorkout,
             name = domainModel.name,
-            historyExercises = historyExercises,
             startedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.startedAt),
             endedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.endedAt),
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),

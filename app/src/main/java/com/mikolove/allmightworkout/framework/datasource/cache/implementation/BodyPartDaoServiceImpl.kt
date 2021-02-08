@@ -5,8 +5,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyP
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BodyPartDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.BodyPartCacheMapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class BodyPartDaoServiceImpl
 constructor(

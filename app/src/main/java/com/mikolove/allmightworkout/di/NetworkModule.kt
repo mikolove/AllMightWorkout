@@ -66,14 +66,14 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseNetworkMapper(dateUtil: DateUtil, historyExerciseSetNetworkMapper : HistoryExerciseSetNetworkMapper) : HistoryExerciseNetworkMapper{
-        return HistoryExerciseNetworkMapper(dateUtil,historyExerciseSetNetworkMapper )
+    fun provideHistoryExerciseNetworkMapper(dateUtil: DateUtil) : HistoryExerciseNetworkMapper{
+        return HistoryExerciseNetworkMapper(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryWorkout(dateUtil: DateUtil, historyExerciseNetworkMapper : HistoryExerciseNetworkMapper) : HistoryWorkoutNetworkMapper{
-        return HistoryWorkoutNetworkMapper(dateUtil,historyExerciseNetworkMapper)
+    fun provideHistoryWorkout(dateUtil: DateUtil) : HistoryWorkoutNetworkMapper{
+        return HistoryWorkoutNetworkMapper(dateUtil)
     }
 
     /*
@@ -108,14 +108,18 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutFirestoreService(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,historyWorkoutNetworkMapper: HistoryWorkoutNetworkMapper,dateUtil : DateUtil) : HistoryWorkoutFirestoreService {
-        return HistoryWorkoutFirestoreServiceImpl(firebaseAuth,firestore,historyWorkoutNetworkMapper,dateUtil)
+    fun provideHistoryWorkoutFirestoreService(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,
+                                              historyWorkoutNetworkMapper: HistoryWorkoutNetworkMapper,
+                                              historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,
+                                              historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper,
+                                              dateUtil : DateUtil) : HistoryWorkoutFirestoreService {
+        return HistoryWorkoutFirestoreServiceImpl(firebaseAuth,firestore,historyWorkoutNetworkMapper,historyExerciseNetworkMapper,historyExerciseSetNetworkMapper,dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, historyExerciseNetworkMapper: HistoryExerciseNetworkMapper) : HistoryExerciseFirestoreService{
-        return HistoryExerciseFirestoreServiceImpl(firebaseAuth,firestore,historyExerciseNetworkMapper)
+    fun provideHistoryExerciseFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper) : HistoryExerciseFirestoreService{
+        return HistoryExerciseFirestoreServiceImpl(firebaseAuth,firestore,historyExerciseNetworkMapper,historyExerciseSetNetworkMapper)
     }
 
     @Singleton

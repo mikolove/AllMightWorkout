@@ -6,8 +6,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryW
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryWorkoutCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryWorkoutWithExercisesCacheMapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryWorkoutDaoServiceImpl
 constructor(

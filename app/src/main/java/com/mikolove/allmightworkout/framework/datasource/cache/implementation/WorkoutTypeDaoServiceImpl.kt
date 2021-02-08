@@ -6,8 +6,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WorkoutT
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutTypeCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutTypeWithBodyPartCacheMapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class WorkoutTypeDaoServiceImpl
 constructor(

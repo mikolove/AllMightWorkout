@@ -9,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import java.util.*
 

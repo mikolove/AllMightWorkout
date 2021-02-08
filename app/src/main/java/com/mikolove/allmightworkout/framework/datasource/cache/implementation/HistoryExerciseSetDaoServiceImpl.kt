@@ -4,8 +4,6 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryExerciseSetDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryExerciseSetDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseSetCacheMapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryExerciseSetDaoServiceImpl
 constructor(

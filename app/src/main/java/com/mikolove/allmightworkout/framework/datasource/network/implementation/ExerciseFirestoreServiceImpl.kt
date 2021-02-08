@@ -8,16 +8,13 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.Exe
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
-import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.model.WorkoutNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISES_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.WORKOUTS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
-import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 

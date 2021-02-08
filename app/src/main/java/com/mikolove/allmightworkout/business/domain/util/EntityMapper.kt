@@ -7,7 +7,7 @@ interface EntityMapper<Entity, DomainModel> {
 
     fun mapToEntity(domainModel : DomainModel) : Entity
 
-    fun entityListToDomainList(entities: List<Entity>): List<DomainModel>{
+    fun entityListToDomainList(entities: List<Entity>): List<DomainModel> {
         val domains : ArrayList<DomainModel> = ArrayList()
         for(entity in entities){
             domains.add(mapFromEntity(entity))

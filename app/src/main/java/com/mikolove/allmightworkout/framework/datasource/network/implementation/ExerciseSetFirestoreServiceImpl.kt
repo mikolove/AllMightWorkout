@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseSetFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
@@ -12,7 +11,6 @@ import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseN
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog

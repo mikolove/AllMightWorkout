@@ -3,11 +3,15 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
+import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryExerciseFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.HistoryExerciseNetworkEntity
+import com.mikolove.allmightworkout.framework.datasource.network.model.HistoryExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.HISTORY_EXERCISES_COLLECTION
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.HISTORY_EXERCISES_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.HISTORY_WORKOUTS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
@@ -17,8 +21,10 @@ class HistoryExerciseFirestoreServiceImpl
 constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firestore : FirebaseFirestore,
-    private val historyExerciseNetworkMapper: HistoryExerciseNetworkMapper
-) : HistoryExerciseFirestoreService{
+    private val historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,
+    private val historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper,
+
+    ) : HistoryExerciseFirestoreService{
 
     override suspend fun insertHistoryExercise(
         historyExercise: HistoryExercise,
@@ -27,7 +33,6 @@ constructor(
         val entity = historyExerciseNetworkMapper.mapToEntity(historyExercise)
 
         val historyExerciseEntity = hashMapOf(
-            "idHistoryExercise" to entity.idHistoryExercise,
             "name" to entity.name,
             "bodyPart" to entity.bodyPart,
             "workoutType" to entity.workoutType,
@@ -44,7 +49,7 @@ constructor(
             .document(idHistoryWorkout)
             .collection(HISTORY_EXERCISES_COLLECTION)
             .document(entity.idHistoryExercise)
-            .set(historyExercise)
+            .set(historyExerciseEntity)
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
@@ -53,7 +58,7 @@ constructor(
     }
 
     override suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId: String): List<HistoryExercise> {
-        return firestore
+        val historyExercises =  firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(HISTORY_WORKOUTS_COLLECTION)
@@ -66,10 +71,41 @@ constructor(
             .await().toObjects(HistoryExerciseNetworkEntity::class.java)?.let {
                 historyExerciseNetworkMapper.entityListToDomainList(it)
             }
+
+        historyExercises?.let { listOfHistoryExercise ->
+
+            listOfHistoryExercise.forEach { historyExercise ->
+
+                val sets  : List<HistoryExerciseSet> = firestore
+                    .collection(USERS_COLLECTION)
+                    .document(FIRESTORE_USER_ID)
+                    .collection(HISTORY_WORKOUTS_COLLECTION)
+                    .document(workoutId)
+                    .collection(HISTORY_EXERCISES_COLLECTION)
+                    .document(historyExercise.idHistoryExercise)
+                    .collection(HISTORY_EXERCISES_SETS_COLLECTION)
+                    .get()
+                    .addOnFailureListener{
+                        cLog(it.message)
+                    }
+                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java)?.let {
+                        historyExerciseSetNetworkMapper.entityListToDomainList(it)
+                    }
+
+                if(sets.isNullOrEmpty()){
+                    historyExercise.historySets = null
+                }else{
+                    historyExercise.historySets = sets
+                }
+            }
+        }
+
+        return historyExercises
     }
 
     override suspend fun getHistoryExerciseById(primaryKey: String, idHistoryWorkout: String): HistoryExercise? {
-        return firestore
+
+        val historyExercise =  firestore
             .collection(USERS_COLLECTION)
             .document(FIRESTORE_USER_ID)
             .collection(HISTORY_WORKOUTS_COLLECTION)
@@ -83,5 +119,35 @@ constructor(
             .await().toObject(HistoryExerciseNetworkEntity::class.java)?.let {
                 historyExerciseNetworkMapper.mapFromEntity(it)
             }
+
+        historyExercise?.let { hExercise ->
+
+                val sets = firestore
+                    .collection(USERS_COLLECTION)
+                    .document(FIRESTORE_USER_ID)
+                    .collection(HISTORY_WORKOUTS_COLLECTION)
+                    .document(idHistoryWorkout)
+                    .collection(HISTORY_EXERCISES_COLLECTION)
+                    .document(hExercise.idHistoryExercise)
+                    .collection(HISTORY_EXERCISES_SETS_COLLECTION)
+                    .get()
+                    .addOnFailureListener{
+                        cLog(it.message)
+                    }
+                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java)?.let {
+                        historyExerciseSetNetworkMapper.entityListToDomainList(it)
+                    }
+
+
+            if(sets.isNullOrEmpty()){
+                historyExercise.historySets = null
+            }else{
+                historyExercise.historySets = sets
+            }
+
+        }
+
+        return historyExercise
+
     }
 }
