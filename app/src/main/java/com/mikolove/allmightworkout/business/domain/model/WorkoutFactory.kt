@@ -20,7 +20,7 @@ constructor(private val dateUtil: DateUtil){
         return Workout(
             idWorkout = idWorkout ?: UUID.randomUUID().toString(),
             name = name ?: "New workout",
-            exercises = exercises ,
+            exercises = exercises ?: null,
             isActive = isActive ?: true,
             startedAt = null,
             endedAt = null,

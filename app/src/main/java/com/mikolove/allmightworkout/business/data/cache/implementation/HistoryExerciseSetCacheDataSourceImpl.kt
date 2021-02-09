@@ -3,8 +3,6 @@ package com.mikolove.allmightworkout.business.data.cache.implementation
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryExerciseSetDaoService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryExerciseSetCacheDataSourceImpl
 constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoService)
@@ -16,5 +14,5 @@ constructor(private val historyExerciseSetDaoService : HistoryExerciseSetDaoServ
 
     override suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet>? = historyExerciseSetDaoService.getHistoryExerciseSetsByHistoryExercise(idHistoryExercise)
 
-    override suspend fun getTotalHistoryExerciseSet(): Int = historyExerciseSetDaoService.getTotalHistoryExerciseSet()
+    override suspend fun getTotalHistoryExerciseSet(idHistoryExercise: String): Int = historyExerciseSetDaoService.getTotalHistoryExerciseSet(idHistoryExercise)
 }

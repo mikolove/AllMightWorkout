@@ -17,7 +17,7 @@ interface HistoryExerciseSetDao{
     @Query("SELECT * FROM history_exercise_sets WHERE fk_id_history_exercise = :idHistoryExercise")
     suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise : String) : List<HistoryExerciseSetCacheEntity>
 
-    @Query("SELECT count(*) FROM history_exercise_sets")
-    suspend fun getTotalHistoryExerciseSet() : Int
+    @Query("SELECT count(*) FROM history_exercise_sets WHERE fk_id_history_exercise =:idHistoryExercise")
+    suspend fun getTotalHistoryExerciseSet(idHistoryExercise: String): Int
 
 }

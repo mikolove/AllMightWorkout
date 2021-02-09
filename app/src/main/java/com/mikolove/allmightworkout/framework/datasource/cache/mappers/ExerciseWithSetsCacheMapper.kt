@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseWithSetsCacheEntity
 
@@ -14,8 +15,13 @@ constructor(
     override fun mapFromEntity(entity: ExerciseWithSetsCacheEntity): Exercise {
 
         var exercise = exerciseCacheMapper.mapFromEntity(entity.exerciseCacheEntity)
-        var bodyPart = bodyPartCacheMapper.mapFromEntity(entity.bodyPartCacheEntity)
-        var listOfSets = exerciseSetCacheMapper.entityListToDomainList(entity.listOfExerciseSetCacheEntity)
+        var bodyPart = entity.bodyPartCacheEntity?.let { bodyPartCacheMapper.mapFromEntity(it) }
+        var listOfSets : List<ExerciseSet>?
+        if(!entity.listOfExerciseSetCacheEntity.isNullOrEmpty()){
+            listOfSets = entity.listOfExerciseSetCacheEntity?.let { exerciseSetCacheMapper.entityListToDomainList(it) }
+        }else{
+            listOfSets = listOf()
+        }
 
         exercise.bodyPart = bodyPart
         exercise.sets = listOfSets

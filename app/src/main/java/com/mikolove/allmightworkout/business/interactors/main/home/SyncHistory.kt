@@ -64,16 +64,16 @@ class SyncHistory(
 
         //If network log exist in cache just remove from arrayList
         //If not insert it
-        val job = launch {
+        //val job = launch {
             for(historyWorkout in networkHistoryWorkouts){
                 historyWorkoutCacheDataSource.getHistoryWorkoutById(historyWorkout.idHistoryWorkout)?.let { cachedHistoryWorkout ->
                     cachedHistoryWorkouts.remove(cachedHistoryWorkout)
                 }?: insertHistoryWorkoutToCache(historyWorkout)
             }
-        }
+        //}
 
         //Wait for it to be done
-        job.join()
+        //job.join()
 
         //Update network if needed with missing cache datas
         for(cachedHistoryWorkout in cachedHistoryWorkouts){

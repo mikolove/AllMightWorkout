@@ -55,7 +55,14 @@ interface ExerciseDao{
     suspend fun getTotalExercises() : Int
 
     @Query("""
-        SELECT * 
+        SELECT 
+            exercises.id_exercise,
+            exercises.name,
+            exercises.fk_id_body_part,
+            exercises.exercise_type,
+            exercises.is_active,
+            exercises.created_at,
+            exercises.updated_at
         FROM exercises, workouts, workouts_exercises 
         WHERE exercises.id_exercise = workouts_exercises.id_exercise
         AND workouts_exercises.id_workout = workouts.id_workout
@@ -132,7 +139,10 @@ suspend fun ExerciseDao.returnOrderedQuery(
             )
         }
         else -> {
-            return getExercises()
+            return getExercisesOrderByDateDESC(
+                query = query,
+                page = page
+            )
         }
     }
 }

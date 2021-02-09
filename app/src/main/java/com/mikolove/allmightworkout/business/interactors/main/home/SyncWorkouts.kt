@@ -78,7 +78,7 @@ class SyncWorkouts(
 
         val networkWorkouts = apiResponse?.data ?: ArrayList()
 
-        val job = launch {
+        //val job = launch {
             //Compare workout in network with cache and proceed update if needed
             for(networkWorkout in networkWorkouts){
 
@@ -95,9 +95,9 @@ class SyncWorkouts(
 
                 }?: insertWorkoutInCache(networkWorkout)
             }
-        }
+        //}
 
-        job.join()
+        //job.join()
 
         //if workout from network not found in cache insert it in network
         for(notFoundWorkout in cachedWorkouts){

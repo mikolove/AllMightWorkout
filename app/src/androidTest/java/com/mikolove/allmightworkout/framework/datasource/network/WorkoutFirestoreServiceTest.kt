@@ -86,7 +86,7 @@ class WorkoutFirestoreServiceTest : BaseTest() {
     fun setup(){
 
         injectTest()
-        signIn()
+        //signIn()
 
         workoutFirestoreService = WorkoutFirestoreServiceImpl(
             firebaseAuth = firebaseAuth,

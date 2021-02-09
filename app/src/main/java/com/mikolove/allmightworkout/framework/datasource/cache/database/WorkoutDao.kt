@@ -118,6 +118,9 @@ suspend fun WorkoutDao.returnOrderedQuery(
                 page = page
             )
         }
-        else -> return getWorkouts()
+        else -> return getWorkoutsOrderByDateDESC(
+            query = query,
+            page = page
+        )
     }
 }

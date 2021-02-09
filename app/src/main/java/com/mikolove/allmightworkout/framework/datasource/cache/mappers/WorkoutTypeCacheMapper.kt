@@ -11,7 +11,7 @@ constructor() : EntityMapper<WorkoutTypeCacheEntity,WorkoutType>{
         return WorkoutType(
             idWorkoutType = entity.idWorkoutType,
             name = entity.name,
-            bodyParts = listOf()
+            bodyParts = null
         )
     }
 

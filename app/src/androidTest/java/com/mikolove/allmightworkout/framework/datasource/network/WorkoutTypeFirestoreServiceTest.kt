@@ -50,7 +50,7 @@ class WorkoutTypeFirestoreServiceTest : BaseTest() {
     fun init(){
 
         injectTest()
-        signIn()
+        //signIn()
         insertWorkoutTypesData()
 
         workoutTypeFirestoreService = WorkoutTypeFirestoreServiceImpl(

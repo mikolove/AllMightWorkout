@@ -28,7 +28,7 @@ object TestModule {
                 context,
                 AllMightWorkoutDatabase::class.java,
             )
-            .fallbackToDestructiveMigration()
+            //.fallbackToDestructiveMigration()
             .build()
     }
 

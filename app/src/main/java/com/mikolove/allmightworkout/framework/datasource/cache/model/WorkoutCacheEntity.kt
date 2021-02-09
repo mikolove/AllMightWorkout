@@ -39,5 +39,5 @@ data class WorkoutWithExercisesCacheEntity(
         entityColumn = "id_exercise",
         associateBy = Junction(WorkoutExerciseCacheEntity::class)
     )
-    val listOfExerciseCacheEntity : List<ExerciseWithSetsCacheEntity>
+    val listOfExerciseCacheEntity : List<ExerciseWithSetsCacheEntity>?
 )

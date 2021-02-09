@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
+import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutWithExercisesCacheEntity
@@ -12,21 +13,21 @@ constructor(
 
     override fun mapFromEntity(entity: HistoryWorkoutWithExercisesCacheEntity): HistoryWorkout {
         val historyWorkout = historyWorkoutCacheMapper.mapFromEntity(entity.historyWorkoutCacheEntity)
-        val historyExercises = historyExerciseWithSetsCacheMapper.entityListToDomainList(entity.listOfHistoryExercisesCacheEntity)
+        val historyExercises : List<HistoryExercise>?
+        if(!entity.listOfHistoryExercisesCacheEntity.isNullOrEmpty()){
+            historyExercises = entity.listOfHistoryExercisesCacheEntity?.let {
+                historyExerciseWithSetsCacheMapper.entityListToDomainList(it)
+                }
+        }else{
+            historyExercises = null
+        }
+
 
         historyWorkout.historyExercises = historyExercises
         return historyWorkout
     }
 
     override fun mapToEntity(domainModel: HistoryWorkout): HistoryWorkoutWithExercisesCacheEntity {
-        TODO("Not yet implemented")
-    }
-
-    override fun entityListToDomainList(entities: List<HistoryWorkoutWithExercisesCacheEntity>): List<HistoryWorkout> {
-        TODO("Not yet implemented")
-    }
-
-    override fun domainListToEntityList(domains: List<HistoryWorkout>): List<HistoryWorkoutWithExercisesCacheEntity> {
         TODO("Not yet implemented")
     }
 }

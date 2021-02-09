@@ -7,4 +7,25 @@ data class WorkoutType(
     var idWorkoutType: String,
     var name: String,
     var bodyParts : List<BodyPart>?
-) : Parcelable
+) : Parcelable{
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as WorkoutType
+
+        if (idWorkoutType != other.idWorkoutType) return false
+        if (name != other.name) return false
+        if (bodyParts != other.bodyParts) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = idWorkoutType.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (bodyParts?.hashCode() ?: 0)
+        return result
+    }
+}

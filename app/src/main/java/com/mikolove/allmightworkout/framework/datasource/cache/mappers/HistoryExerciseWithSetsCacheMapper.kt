@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
+import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseWithSetsCacheEntity
 
@@ -13,7 +14,14 @@ constructor(
     override fun mapFromEntity(entity: HistoryExerciseWithSetsCacheEntity): HistoryExercise {
 
         var historyExercise = historyExerciseCacheMapper.mapFromEntity(entity.historyExerciseCacheEntity)
-        var listOfHistoryExerciseSets = historyExerciseSetCacheMapper.entityListToDomainList(entity.listOfHistoryExerciseSetsCacheEntity)
+        var listOfHistoryExerciseSets : List<HistoryExerciseSet>?
+        if(!entity.listOfHistoryExerciseSetsCacheEntity.isNullOrEmpty()) {
+                listOfHistoryExerciseSets = entity.listOfHistoryExerciseSetsCacheEntity?.let {
+                    historyExerciseSetCacheMapper.entityListToDomainList(it)
+                }
+        }else{
+            listOfHistoryExerciseSets = null
+        }
 
         historyExercise.historySets = listOfHistoryExerciseSets
         return historyExercise

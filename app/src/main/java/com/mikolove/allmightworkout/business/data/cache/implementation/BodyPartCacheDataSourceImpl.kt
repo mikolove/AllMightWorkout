@@ -3,13 +3,13 @@ package com.mikolove.allmightworkout.business.data.cache.implementation
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyPartDaoService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class BodyPartCacheDataSourceImpl
 constructor( private val bodyPartDaoService : BodyPartDaoService) : BodyPartCacheDataSource {
 
-    override suspend fun insertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartDaoService.insertBodyPart(bodyParts)
+    override suspend fun insertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartDaoService.insertBodyPart(
+        bodyParts,idWorkoutType
+    )
 
     override suspend fun removeBodyPart(primaryKey: String): Int = bodyPartDaoService.removeBodyPart(primaryKey)
 

@@ -14,7 +14,7 @@ constructor(
         return HistoryWorkout(
             idHistoryWorkout = entity.idHistoryWorkout,
             name = entity.name,
-            historyExercises = listOf(),
+            historyExercises = null,
             startedAt = dateUtil.convertDateToStringDate(entity.startedAt),
             endedAt = dateUtil.convertDateToStringDate(entity.endedAt),
             createdAt = dateUtil.convertDateToStringDate(entity.createdAt),

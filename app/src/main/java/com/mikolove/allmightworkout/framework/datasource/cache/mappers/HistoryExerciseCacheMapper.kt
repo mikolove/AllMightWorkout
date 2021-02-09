@@ -17,7 +17,7 @@ constructor(
             bodyPart = entity.bodyPart,
             workoutType = entity.workoutType,
             exerciseType = entity.exerciseType,
-            historySets = listOf(),
+            historySets = null,
             startedAt = dateUtil.convertDateToStringDate(entity.startedAt),
             endedAt = dateUtil.convertDateToStringDate(entity.endedAt),
             createdAt = dateUtil.convertDateToStringDate(entity.createdAt),

@@ -10,5 +10,5 @@ interface HistoryExerciseSetDaoService {
 
     suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise : String) : List<HistoryExerciseSet>
 
-    suspend fun getTotalHistoryExerciseSet() : Int
+    suspend fun getTotalHistoryExerciseSet(idHistoryExercise: String): Int
 }

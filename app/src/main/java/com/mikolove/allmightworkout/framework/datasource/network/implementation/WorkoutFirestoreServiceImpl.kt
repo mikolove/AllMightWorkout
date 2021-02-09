@@ -144,7 +144,7 @@ constructor(
             //Filter exercises in workout
             val workoutExerciseList = workoutEntity.exerciseIds?.let { exerciseIds ->
                 exercisesList.filter { exerciseIds.contains(it.idExercise) }
-            } ?: ArrayList()
+            } ?: null
 
             //Build workout
             workout.exercises = workoutExerciseList
@@ -186,7 +186,7 @@ constructor(
             //Filter exercises in workout
             val workoutExerciseList = workoutkNetworkEntity.exerciseIds?.let { exerciseIds ->
                 exerciseNetworkEntities.filter { exerciseIds.contains(it.idExercise) }
-            } ?: ArrayList()
+            } ?: null
 
             //Build workout
             val workout = workoutNetworkMapper.mapFromEntity(workoutkNetworkEntity)

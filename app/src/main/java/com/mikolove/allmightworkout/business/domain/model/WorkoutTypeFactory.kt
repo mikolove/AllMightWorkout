@@ -18,7 +18,7 @@ constructor()
         return WorkoutType(
             idWorkoutType = idWorkoutType ?: UUID.randomUUID().toString(),
             name = name ?: "New bodyGroup",
-            bodyParts = bodyParts ?: ArrayList()
+            bodyParts = bodyParts ?: null
         )
     }
 

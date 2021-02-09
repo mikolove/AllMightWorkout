@@ -5,7 +5,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART
 
 interface BodyPartDaoService {
 
-    suspend fun insertBodyPart(bodyPart: BodyPart) : Long
+    suspend fun insertBodyPart(bodyPart: BodyPart, idWorkoutType: String) : Long
 
     suspend fun updateBodyPart(idBodyPart: String, name: String): Int
 

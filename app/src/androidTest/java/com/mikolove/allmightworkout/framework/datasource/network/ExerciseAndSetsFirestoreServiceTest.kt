@@ -112,7 +112,7 @@ class ExerciseAndSetsFirestoreServiceTest : BaseTest() {
     fun setup(){
 
         injectTest()
-        signIn()
+        //signIn()
 
         exerciseFirestoreService = ExerciseFirestoreServiceImpl(
             firebaseAuth = firebaseAuth,

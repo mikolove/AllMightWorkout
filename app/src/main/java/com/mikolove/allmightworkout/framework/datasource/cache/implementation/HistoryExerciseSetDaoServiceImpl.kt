@@ -32,7 +32,7 @@ constructor(
         )
     }
 
-    override suspend fun getTotalHistoryExerciseSet(): Int {
-        return historyExerciseSetDao.getTotalHistoryExerciseSet()
+    override suspend fun getTotalHistoryExerciseSet(idHistoryExercise: String): Int {
+        return historyExerciseSetDao.getTotalHistoryExerciseSet(idHistoryExercise)
     }
 }

@@ -40,5 +40,5 @@ data class HistoryWorkoutWithExercisesCacheEntity(
         parentColumn = "id_history_workout",
         entityColumn = "fk_id_history_workout"
     )
-    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithSetsCacheEntity>
+    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithSetsCacheEntity>?
 ){}

@@ -90,7 +90,7 @@ class SyncExercises(
         //For each exercises in network
         // if exist update it if needed
         // if not insert it
-        val job = launch {
+        //val job = launch {
             for(networkExercise in networkExercises){
 
                 //It exist try update it
@@ -119,10 +119,10 @@ class SyncExercises(
                     //If not exist insert it
                 }?: insertExerciseToCache(networkExercise)
             }
-        }
+        //}
 
         //wait for it to complete
-        job.join()
+        //job.join()
 
         //Insert exercise in cache not found in network
         for(cachedExerciseNotFound in cachedExercises){

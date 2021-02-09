@@ -26,5 +26,5 @@ data class WorkoutTypeWithBodyPartCacheEntity(
         parentColumn = "id_workout_type",
         entityColumn = "fk_id_workout_type"
     )
-    val listOfBodyPartCacheEntity: List<BodyPartCacheEntity>
+    val listOfBodyPartCacheEntity: List<BodyPartCacheEntity>?
 )

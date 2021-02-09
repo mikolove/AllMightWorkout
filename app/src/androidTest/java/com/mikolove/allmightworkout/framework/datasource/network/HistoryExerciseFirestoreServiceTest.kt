@@ -91,7 +91,7 @@ class HistoryExerciseFirestoreServiceTest : BaseTest(){
     fun init() {
 
         injectTest()
-        signIn()
+        //signIn()
 
         historyWorkoutFirestoreService = HistoryWorkoutFirestoreServiceImpl(
             firebaseAuth,
