@@ -49,7 +49,6 @@ data class Workout(
         if (startedAt != other.startedAt) return false
         if (endedAt != other.endedAt) return false
         if (createdAt != other.createdAt) return false
-        if (updatedAt != other.updatedAt) return false
 
         return true
     }

@@ -26,7 +26,6 @@ data class HistoryWorkout(
         if (startedAt != other.startedAt) return false
         if (endedAt != other.endedAt) return false
         if (createdAt != other.createdAt) return false
-        if (updatedAt != other.updatedAt) return false
 
         return true
     }
@@ -38,7 +37,6 @@ data class HistoryWorkout(
         result = 31 * result + startedAt.hashCode()
         result = 31 * result + endedAt.hashCode()
         result = 31 * result + createdAt.hashCode()
-        result = 31 * result + updatedAt.hashCode()
         return result
     }
 }
