@@ -6,16 +6,17 @@ Done :
 
     - Domain model
     - Interactors / test
+    - Dao implementation / test
+    - Hilt implementation / test
+    - Firestore Implementation / test
 
 In progress :
 
-    - Dao implementation / test
-    - Hilt implementation
+    - Automated test via script
+    - Android Framework Part ( View / etc )
 
 To Do :
 
-    - Firestore Implementation
-    - Android Framework Part ( View / etc )
     - Auth system v2
 
 # AllMightWorkout
