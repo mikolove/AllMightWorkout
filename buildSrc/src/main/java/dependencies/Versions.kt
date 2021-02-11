@@ -5,8 +5,8 @@ object Versions {
     val compilesdk = 30
     val minsdk = 16
     val targetsdk = 30
-    val kotlin = "1.4.21"
-    val ktx = "1.3.1"
+    val kotlin = "1.4.30"
+    val ktx = "1.3.2"
     val hilt = "2.31.2-alpha"
     val hilt_testing = "2.31.2-alpha"
     val hilt_jetpack = "1.0.0-alpha03"
@@ -19,7 +19,7 @@ object Versions {
     val play_core = "1.8.0"
     val play_services = "4.3.4"
     val build_firebase_crashlytics = "2.3.0"
-    val leak_canary = "2.4"
+    val leak_canary = "2.6"
     val swipe_refresh_layout = "1.1.0-alpha03"
     val firebase_firestore = "21.6.0"
     val firebase_analytics = "17.5.0"
@@ -31,7 +31,7 @@ object Versions {
     val mockk_version = "1.9.2"
     val test_runner = "1.2.0"
     val test_core = "1.2.0"
-    val coroutines_version = "1.4.1"
+    val coroutines_version = "1.4.2"
     val coroutines_play_services = "1.3.2"
     val lifecycle_version = "2.3.0-alpha07"
     val retrofit2_version = "2.9.0"

@@ -5,6 +5,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import leakcanary.LeakCanary
 
 
 @FlowPreview
@@ -15,7 +16,6 @@ open class BaseApplication : MultiDexApplication(){
 
     override fun onCreate() {
         super.onCreate()
-
     }
 
 

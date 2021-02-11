@@ -90,8 +90,16 @@ dependencies {
     implementation SupportDependencies.constraintlayout
     implementation SupportDependencies.material_design
     implementation SupportDependencies.swipe_refresh_layout
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+
+    //Lifecycle
+    implementation Dependencies.lifecycle_runtime
+    implementation Dependencies.lifecycle_viewmodel
+    implementation Dependencies.lifecycle_livedata
+
+    //Navigation component
+    implementation Dependencies.navigation_fragment
+    implementation Dependencies.navigation_ui
+    implementation Dependencies.navigation_dynamic
 
     //Fragment
     implementation Dependencies.fragment_ktx
@@ -106,14 +114,11 @@ dependencies {
     implementation Dependencies.hilt
     kapt AnnotationProcessing.hilt_compiler
 
-    //implementation Dependencies.hilt_lifecycle_viewmodel deprecated use HiltViewModel
     implementation Dependencies.hilt_jetpack_navigation
     implementation Dependencies.hilt_workmanager
 
     //Multidex
     implementation Dependencies.multidex
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Test
     testImplementation TestDependencies.mockk
@@ -158,6 +163,7 @@ dependencies {
     //debugImplementation AndroidTestDependencies.fragment_testing
     //androidTestImplementation AndroidTestDependencies.text_core_ktx
 
+    debugImplementation Dependencies.leak_canary
 }
 
 kapt {

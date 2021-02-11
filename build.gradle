@@ -15,7 +15,6 @@ buildscript {
         classpath Build.firebase_crashlytics
         classpath Build.kotlin_gradle_plugin
         classpath Build.build_hilt
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 
 }

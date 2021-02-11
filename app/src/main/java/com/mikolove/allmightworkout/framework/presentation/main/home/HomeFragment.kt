@@ -27,7 +27,7 @@ constructor(): BaseFragment(R.layout.fragment_home)
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-    private lateinit var fragmentCollectionAdapter : FragmentCollectionAdapter
+    private var fragmentCollectionAdapter : FragmentCollectionAdapter? = null
 
     val viewModel : HomeViewModel by activityViewModels()
 
@@ -44,6 +44,10 @@ constructor(): BaseFragment(R.layout.fragment_home)
             }.attach()
         }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentCollectionAdapter = null
+    }
 }
 
 class FragmentCollectionAdapter(fragment : Fragment) : FragmentStateAdapter(fragment) {
