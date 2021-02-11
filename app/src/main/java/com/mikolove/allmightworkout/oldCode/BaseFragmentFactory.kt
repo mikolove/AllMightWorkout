@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.common
+package com.mikolove.allmightworkout.oldCode
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory

@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.di
+package com.mikolove.allmightworkout.oldCode
 
 import androidx.lifecycle.ViewModelProvider
 import com.mikolove.allmightworkout.business.domain.util.DateUtil

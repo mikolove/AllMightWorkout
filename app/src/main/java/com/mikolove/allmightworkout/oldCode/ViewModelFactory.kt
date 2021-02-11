@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.common
+package com.mikolove.allmightworkout.oldCode
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
