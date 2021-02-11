@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class HomeStateEvent : StateEvent{
 
@@ -70,7 +69,7 @@ sealed class HomeStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class GetTotalBodyPartsByWorkoutTypeEvent(): HomeStateEvent(){
+    class GetTotalBodyPartsByWorkoutTypeEvent(val idWorkoutType: String) : HomeStateEvent(){
         override fun errorInfo(): String = "Error retrieving total bodyparts by workoutType"
 
         override fun eventName(): String = "GetTotalBodyPartsByWorkoutTypeEvent"
@@ -90,6 +89,7 @@ sealed class HomeStateEvent : StateEvent{
     }
 
     class GetWorkoutByIdEvent(
+        val idWorkout: String,
         val clearLayoutManagerState: Boolean = true
     ) : HomeStateEvent(){
         override fun errorInfo(): String = "Error retrieving workout by id workout."
@@ -100,7 +100,7 @@ sealed class HomeStateEvent : StateEvent{
     }
 
     class RemoveMultipleWorkoutsEvent(
-        workouts : ArrayList<Workout>
+        val workouts : ArrayList<Workout>
     ) : HomeStateEvent(){
         override fun errorInfo(): String = "Error deleting workouts."
 
@@ -111,7 +111,7 @@ sealed class HomeStateEvent : StateEvent{
     }
 
     class RemoveMultipleExercisesEvent(
-        exercises : ArrayList<Exercise>
+        val exercises : ArrayList<Exercise>
     ) : HomeStateEvent(){
         override fun errorInfo(): String = "Error deleting exercises."
 

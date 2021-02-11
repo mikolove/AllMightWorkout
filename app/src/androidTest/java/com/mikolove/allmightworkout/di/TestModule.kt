@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -8,16 +9,20 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import com.mikolove.allmightworkout.framework.datasource.data.WorkoutTypeDataFactory
+import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [ProductionModule::class])
 object TestModule {
 
     @Singleton
@@ -68,5 +73,14 @@ object TestModule {
             workoutTypeFactory = workoutTypeFactory
         )
 
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences {
+        return context.getSharedPreferences(
+            PreferenceKeys.WORKOUT_LIST_PREFERENCES,
+            Context.MODE_PRIVATE
+        )
     }
 }

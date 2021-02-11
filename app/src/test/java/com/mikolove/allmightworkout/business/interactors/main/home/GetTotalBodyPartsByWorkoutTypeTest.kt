@@ -47,7 +47,7 @@ class GetTotalBodyPartsByWorkoutTypeTest {
 
         getTotalBodyPartsByWorkoutType.getTotalBodyPartsByWorkoutType(
             idWorkoutType = idWorkoutType,
-            stateEvent = GetTotalBodyPartsByWorkoutTypeEvent()
+            stateEvent = GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType)
         ).collect( object : FlowCollector<DataState<HomeViewState>?> {
             override suspend fun emit(value: DataState<HomeViewState>?) {
                 Assertions.assertEquals(
@@ -55,7 +55,7 @@ class GetTotalBodyPartsByWorkoutTypeTest {
                     GET_TOTAL_BODYPART_BY_WORKOUTTYPE_SUCCESS
                 )
 
-                totalBodyParts = value?.data?.numBodyPartsByWorkoutType ?:0
+                totalBodyParts = value?.data?.totalBodyPartsByWorkoutType ?:0
             }
         })
 

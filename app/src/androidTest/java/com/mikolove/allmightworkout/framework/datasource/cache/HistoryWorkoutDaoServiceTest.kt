@@ -38,7 +38,6 @@ import kotlin.test.assertTrue
 9. i_getHistoryWorkoutByName_CBS
 
  */
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class HistoryWorkoutDaoServiceTest : BaseTest(){

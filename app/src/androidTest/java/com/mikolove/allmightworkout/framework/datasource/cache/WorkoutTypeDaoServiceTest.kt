@@ -37,7 +37,6 @@ import kotlin.test.assertTrue
 
  */
 
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class WorkoutTypeDaoServiceTest : BaseTest(){

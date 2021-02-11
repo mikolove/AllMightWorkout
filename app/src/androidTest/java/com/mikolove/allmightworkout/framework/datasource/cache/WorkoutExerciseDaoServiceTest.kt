@@ -26,7 +26,6 @@ import kotlin.test.assertEquals
 2. b_addExerciseToWorkout_CBS
 3. removeExerciseFromWorkout
  */
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class WorkoutExerciseDaoServiceTest : BaseTest(){

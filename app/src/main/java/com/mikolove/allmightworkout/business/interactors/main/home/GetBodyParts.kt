@@ -52,7 +52,7 @@ class GetBodyParts(
                         uiComponentType = uiComponentType,
                         messageType =  MessageType.Success()
                     ),
-                    data = HomeViewState(listbodyParts = ArrayList(resultObj)),
+                    data = HomeViewState(listBodyParts = ArrayList(resultObj)),
                     stateEvent = stateEvent
                 )
             }

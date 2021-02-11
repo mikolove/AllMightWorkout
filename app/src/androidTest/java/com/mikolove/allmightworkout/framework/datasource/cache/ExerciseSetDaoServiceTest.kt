@@ -33,7 +33,6 @@ import kotlin.test.assertTrue
 7. g_getTotalExercisesSetByExercise_CBS
 
  */
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ExerciseSetDaoServiceTest : BaseTest(){

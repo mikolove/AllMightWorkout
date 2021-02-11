@@ -23,7 +23,6 @@ import org.junit.Test
 import javax.inject.Inject
 
 
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 class WorkoutTypeFirestoreServiceTest : BaseTest() {
 

@@ -39,7 +39,6 @@ Test cases:
 7. g_updateExerciseIdsUpdatedAt_CBS
  */
 
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class WorkoutFirestoreServiceTest : BaseTest() {

@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.framework.presentation.main.common
+package com.mikolove.allmightworkout.framework.presentation.common
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,4 +20,9 @@ constructor(
     ): View? {
         return inflater.inflate(layoutRes, container, false)
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
 }

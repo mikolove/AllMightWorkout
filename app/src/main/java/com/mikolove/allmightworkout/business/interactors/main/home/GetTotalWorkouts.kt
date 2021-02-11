@@ -28,7 +28,7 @@ class GetTotalWorkouts(
             override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
 
                 val viewState = HomeViewState(
-                    numWorkoutInCache = resultObj
+                    totalWorkouts = resultObj
                 )
 
                 return DataState.data(

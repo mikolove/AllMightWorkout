@@ -27,7 +27,7 @@ class GetTotalBodyParts(
         ){
             override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
                 val viewState = HomeViewState(
-                    numBodyParts = resultObj
+                    totalBodyParts = resultObj
                 )
 
                 return DataState.data(

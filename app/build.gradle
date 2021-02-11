@@ -102,8 +102,13 @@ dependencies {
     kapt AnnotationProcessing.room_compiler
 
     //Di
+    //Versions are different for hilt and jetpack tools
     implementation Dependencies.hilt
     kapt AnnotationProcessing.hilt_compiler
+
+    //implementation Dependencies.hilt_lifecycle_viewmodel deprecated use HiltViewModel
+    implementation Dependencies.hilt_jetpack_navigation
+    implementation Dependencies.hilt_workmanager
 
     //Multidex
     implementation Dependencies.multidex

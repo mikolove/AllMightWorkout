@@ -37,7 +37,6 @@ Test cases:
 
  */
 
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class HistoryExerciseFirestoreServiceTest : BaseTest(){

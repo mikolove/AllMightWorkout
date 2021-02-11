@@ -53,7 +53,6 @@ Test cases:
 13. o_insertDeletedExerciseSet_CBS
  */
 
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ExerciseAndSetsFirestoreServiceTest : BaseTest() {

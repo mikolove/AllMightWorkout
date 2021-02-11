@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCache
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -56,7 +55,7 @@ class GetTotalWorkoutsTest {
                     GetTotalWorkouts.GET_TOTAL_WORKOUT_SUCCESS
                 )
 
-                totalWorkouts = value?.data?.numWorkoutInCache ?:0
+                totalWorkouts = value?.data?.totalWorkouts ?:0
             }
         })
 

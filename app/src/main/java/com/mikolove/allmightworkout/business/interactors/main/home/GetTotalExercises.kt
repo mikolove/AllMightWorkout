@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.Dispatchers.IO
@@ -29,7 +28,7 @@ class GetTotalExercises(
         ){
             override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
                 val viewState = HomeViewState(
-                    numExercisesInCache = resultObj
+                    totalExercises = resultObj
                 )
 
                 return DataState.data(

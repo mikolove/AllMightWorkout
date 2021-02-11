@@ -41,7 +41,6 @@ import kotlin.test.assertTrue
 15. o_getExercisesOrderByTitleDESC
 
  */
-@UninstallModules(ProductionModule::class)
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ExerciseDaoServiceTest : BaseTest(){

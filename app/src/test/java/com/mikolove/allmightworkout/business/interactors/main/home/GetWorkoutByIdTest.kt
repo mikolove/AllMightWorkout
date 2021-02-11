@@ -61,7 +61,7 @@ class GetWorkoutByIdTest {
         //Search it
         getWorkoutById.getWorkoutById(
             idWorkout = idWorkout,
-            stateEvent = GetWorkoutByIdEvent()
+            stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
 
             override suspend fun emit(value: DataState<HomeViewState>?) {
@@ -94,7 +94,7 @@ class GetWorkoutByIdTest {
         //Search it
         getWorkoutById.getWorkoutById(
             idWorkout = idWorkout,
-            stateEvent = GetWorkoutByIdEvent()
+            stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
 
             override suspend fun emit(value: DataState<HomeViewState>?) {
@@ -126,7 +126,7 @@ class GetWorkoutByIdTest {
         //Search it
         getWorkoutById.getWorkoutById(
             idWorkout = idWorkout,
-            stateEvent = GetWorkoutByIdEvent()
+            stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
 
             override suspend fun emit(value: DataState<HomeViewState>?) {

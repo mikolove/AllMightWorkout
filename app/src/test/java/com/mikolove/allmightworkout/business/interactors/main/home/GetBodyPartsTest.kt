@@ -77,7 +77,7 @@ class GetBodyPartsTest {
                     GET_BODYPARTS_SUCCESS
                 )
 
-                value?.data?.listbodyParts?.let { list ->
+                value?.data?.listBodyParts?.let { list ->
                     results = ArrayList(list)
                 }
             }
@@ -114,7 +114,7 @@ class GetBodyPartsTest {
                     GET_BODYPARTS_NO_MATCHING_RESULTS
                 )
 
-                value?.data?.listbodyParts?.let { list ->
+                value?.data?.listBodyParts?.let { list ->
                     results = ArrayList(list)
                 }
             }
@@ -148,7 +148,7 @@ class GetBodyPartsTest {
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
-                value?.data?.listbodyParts?.let { list ->
+                value?.data?.listBodyParts?.let { list ->
                     results = ArrayList(list)
                 }
             }

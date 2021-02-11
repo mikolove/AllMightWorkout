@@ -54,7 +54,7 @@ class GetTotalBodyPartsTest {
                     GET_TOTAL_BODYPART_SUCCESS
                 )
 
-                totalBodyParts = value?.data?.numBodyParts ?:0
+                totalBodyParts = value?.data?.totalBodyParts ?:0
             }
         })
 

@@ -53,7 +53,7 @@ class GetTotalExercisesTest {
                     GET_TOTAL_EXERCISES_SUCCESS
                 )
 
-                totalExercises = value?.data?.numExercisesInCache ?:0
+                totalExercises = value?.data?.totalExercises ?:0
             }
         })
 
