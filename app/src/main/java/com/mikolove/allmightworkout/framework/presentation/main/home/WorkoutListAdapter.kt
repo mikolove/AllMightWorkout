@@ -40,10 +40,9 @@ class WorkoutListAdapter(
         //TODO : CREATE XML
         return WorkoutViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.support_simple_spinner_dropdown_item,
+                R.layout.item_workout,
                 parent,
-                false
-            ),
+                false),
             interaction,
             lifecycleOwner,
             selectedWorkouts,

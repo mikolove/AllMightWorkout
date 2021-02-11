@@ -30,9 +30,12 @@ android {
         applicationId Application.id
         minSdkVersion Versions.minsdk
         targetSdkVersion Versions.targetsdk
-        multiDexEnabled true
+
         versionCode Application.version_code
         versionName Application.version_name
+
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
 
         testInstrumentationRunner AndroidTestDependencies.instrumentation_runner
     }
@@ -71,7 +74,7 @@ dependencies {
     implementation Dependencies.kotlin_reflect
     implementation Dependencies.ktx
 
-    //dependencies
+    //firebase retrofit
     implementation platform(Dependencies.firebase_bom)
     implementation Dependencies.firebase_analytics_bom
     implementation Dependencies.firebase_crashlytics_bom
@@ -127,8 +130,6 @@ dependencies {
     testImplementation TestDependencies.junit4
     testRuntimeOnly TestDependencies.jupiter_engine
 
-    androidTestImplementation AndroidTestDependencies.kotlin_test
-
 
     /*
     Fix error
@@ -140,6 +141,7 @@ dependencies {
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
 
+    androidTestImplementation AndroidTestDependencies.kotlin_test
     androidTestImplementation AndroidTestDependencies.espresso_core
     androidTestImplementation AndroidTestDependencies.espresso_contrib
     androidTestImplementation AndroidTestDependencies.idling_resource

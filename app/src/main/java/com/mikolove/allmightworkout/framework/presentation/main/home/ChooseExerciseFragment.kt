@@ -10,7 +10,7 @@ import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseExerciseFragment(): BaseFragment(R.layout.fragment_base){
+class ChooseExerciseFragment(): BaseFragment(R.layout.fragment_choose_exercise){
 
     val viewModel : HomeViewModel by activityViewModels()
 

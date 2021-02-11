@@ -40,10 +40,9 @@ class ExerciseListAdapter(
 
         return ExerciseViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.support_simple_spinner_dropdown_item,
+                R.layout.item_exercise,
                 parent,
-                false
-            ),
+                false),
             interaction,
             lifecycleOwner,
             selectedExercises,

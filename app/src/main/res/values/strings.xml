@@ -1,3 +1,24 @@
 <resources>
+
     <string name="app_name">All Might Workout</string>
+
+    <!-- Home Fragment -->
+    <string name="fragment_home_tab_layout_history">History</string>
+    <string name="fragment_home_tab_layout_workout">Workouts</string>
+    <string name="fragment_home_tab_layout_exercise">ExerciseS</string>
+
+    <!-- History Fragment -->
+    <string name="fragment_history_title">History</string>
+
+    <!-- ChooseWorkout Fragment -->
+    <string name="fragment_choose_workout_title">Workouts</string>
+    <string name="fragment_choose_workout_add_content_description">Add Workout</string>
+
+    <!-- ChooseExercise Fragment -->
+    <string name="fragment_choose_exercise_title">Exercises</string>
+    <string name="fragment_choose_exercise_add_content_description">Add Exercise</string>
+
+    <!-- Item workout -->
+    <string name="item_workout_text_exercises">Exercises</string>
+    <string name="item_workout_text_created_at">Created at</string>
 </resources>
