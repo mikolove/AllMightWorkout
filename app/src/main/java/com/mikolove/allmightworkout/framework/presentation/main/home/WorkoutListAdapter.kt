@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.databinding.ItemWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.changeColor
 import com.mikolove.allmightworkout.util.printLogD
 
@@ -37,12 +37,9 @@ class WorkoutListAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        //TODO : CREATE XML
+
         return WorkoutViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_workout,
-                parent,
-                false),
+            LayoutInflater.from(parent.context).inflate(R.layout.item_workout, parent, false),
             interaction,
             lifecycleOwner,
             selectedWorkouts,
@@ -83,6 +80,8 @@ class WorkoutListAdapter(
         //Maybe change place for this
         private val COLOR_UNSELECTED = R.color.design_default_color_background
         private val COLOR_SELECTED   = R.color.colorPrimary
+        private val binding =  ItemWorkoutBinding.bind(itemView)
+
 
         fun bind(item: Workout) = with(itemView) {
 
@@ -97,7 +96,9 @@ class WorkoutListAdapter(
             }
 
             //Bind values
-            //TODO : BIND VALUES
+            binding.itemWorkoutTextName.text = item.name
+            binding.itemWorkoutTextExercises.text = item.exercises?.size.toString() ?: "0"
+            binding.itemWorkoutTextCreatedAt.text = item.createdAt
 
             //Its seems to never crash and be efficient. Author mitch tabian
             //This is use to change the color of selected item
@@ -116,7 +117,9 @@ class WorkoutListAdapter(
 
             })
         }
+
     }
+
 
     interface Interaction {
         fun onItemSelected(position: Int, item: Workout)

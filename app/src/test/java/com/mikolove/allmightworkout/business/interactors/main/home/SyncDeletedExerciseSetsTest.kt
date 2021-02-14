@@ -2,8 +2,8 @@ package com.mikolove.allmightworkout.business.interactors.main.home
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExerciseSets
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions

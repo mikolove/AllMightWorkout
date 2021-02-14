@@ -6,19 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".framework.presentation.main.MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/main_fragment_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Widget.MaterialComponents.Toolbar">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/main_progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
+        app:layout_constraintStart_toStartOf="@+id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        android:visibility="invisible"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_progress_bar"
+        app:navGraph="@navigation/navigation">
+
+
     </androidx.fragment.app.FragmentContainerView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--android:name="com.mikolove.allmightworkout.framework.presentation.common.BaseNavHostFragment"-->

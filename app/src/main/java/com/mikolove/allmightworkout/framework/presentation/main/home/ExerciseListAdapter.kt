@@ -12,6 +12,7 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.databinding.ItemExerciseBinding
 import com.mikolove.allmightworkout.framework.presentation.common.changeColor
 import com.mikolove.allmightworkout.util.printLogD
 
@@ -83,6 +84,7 @@ class ExerciseListAdapter(
         //Maybe change place for this
         private val COLOR_UNSELECTED = R.color.design_default_color_background
         private val COLOR_SELECTED   = R.color.colorPrimary
+        private val binding = ItemExerciseBinding.bind(itemView)
 
         fun bind(item: Exercise) = with(itemView) {
             //Add clicklisteners
@@ -96,10 +98,12 @@ class ExerciseListAdapter(
             }
 
             //Bind values
-            //TODO : BIND VALUES
+            binding.itemExerciseTextName.text = item.name
+            binding.itemExerciseTextBodyPart.text = item.bodyPart?.name
+            binding.itemExerciseTextExerciseType.text = item.exerciseType.name
+            binding.itemExerciseTextSets.text = item.sets?.size.toString()
+            binding.itemExerciseTextCreatedAt.text = item.createdAt
 
-            //Its seems to never crash and be efficient. Author mitch tabian
-            //This is use to change the color of selected item
             selectedExercises.observe(lifecycleOwner, { exercises ->
 
                 if(!exercises.isNullOrEmpty()){

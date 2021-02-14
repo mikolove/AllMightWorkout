@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
@@ -11,7 +11,6 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /*

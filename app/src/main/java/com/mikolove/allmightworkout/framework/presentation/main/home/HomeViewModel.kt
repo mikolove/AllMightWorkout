@@ -221,18 +221,16 @@ constructor(
         TRIGGER STATE EVENTS - FUNCTIONS
     *********************************************************************/
 
-    fun firstLoad(){
-        //Clean them and load them all
-        reloadWorkoutTypes()
-        reloadBodyParts()
-        reloadWorkouts()
-        reloadExercises()
-    }
-
     fun reloadWorkouts(){
+        setWorkoutQueryExhausted(false)
         setQueryWorkouts("")
         clearListWorkouts()
         loadWorkouts()
+    }
+
+    fun refreshWorkoutSearchQuery(){
+        setWorkoutQueryExhausted(false)
+        setStateEvent(GetWorkoutsEvent(false))
     }
 
     fun reloadExercises(){
@@ -376,26 +374,6 @@ constructor(
             ?: return 1
     }
 
-/*    fun getFilterTrainingWorkouts(): String {
-        return getCurrentViewStateOrNew().load_workout_list_filter
-            ?: WORKOUT_FILTER_NAME
-    }
-
-    fun getOrderTrainingWorkouts(): String {
-        return getCurrentViewStateOrNew().load_workout_list_order
-            ?: WORKOUT_ORDER_BY_ASC_NAME
-    }
-
-    fun getSearchQueryTrainingWorkouts(): String {
-        return getCurrentViewStateOrNew().searchQueryTrainingWorkouts
-            ?: return ""
-    }
-
-    private fun getPageTrainingWorkouts(): Int{
-        return getCurrentViewStateOrNew().pageTrainingWorkouts
-            ?: return 1
-    }*/
-
 
     /********************************************************************
         GETTERS - VIEWSTATE AND OTHER
@@ -404,16 +382,16 @@ constructor(
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
     fun getLayoutManagerState(): Parcelable? {
-        return getCurrentViewStateOrNew().layoutManagerState
+        return getCurrentViewStateOrNew().workoutLayoutManagerState
     }
 
     fun getWorkouts() = getCurrentViewStateOrNew().listWorkouts
 
     fun getExercises() = getCurrentViewStateOrNew().listExercises
 
-    fun getTotalWorkouts()  = getCurrentViewStateOrNew().totalWorkouts
+    fun getTotalWorkouts()  = getCurrentViewStateOrNew().totalWorkouts ?: 0
 
-    fun getTotalExercises() = getCurrentViewStateOrNew().totalExercises
+    fun getTotalExercises() = getCurrentViewStateOrNew().totalExercises ?: 0
 
     fun getTotalBodyParts() = getCurrentViewStateOrNew().totalBodyParts
 
@@ -423,9 +401,29 @@ constructor(
 
     fun getWorkoutSelected() = getCurrentViewStateOrNew().workoutSelected
 
+    fun getWorkoutsListSize() = getCurrentViewStateOrNew().listWorkouts?.size?: 0
+
+    fun isWorkoutsPaginationExhausted() = getWorkoutsListSize() >= getTotalWorkouts()
+
+    fun getExercisesListSize() = getCurrentViewStateOrNew().listExercises?.size?: 0
+
+    fun isExercisesPaginationExhausted() = getExercisesListSize() >= getTotalExercises()
+
     /********************************************************************
         SETTERS - VIEWSTATE AND OTHER
     *********************************************************************/
+
+    fun setWorkoutsLayoutManagerState(layoutManagerState: Parcelable){
+        val update = getCurrentViewStateOrNew()
+        update.workoutLayoutManagerState = layoutManagerState
+        setViewState(update)
+    }
+
+    fun setExercisesLayoutManagerState(layoutManagerState: Parcelable){
+        val update = getCurrentViewStateOrNew()
+        update.exerciseLayoutManagerState = layoutManagerState
+        setViewState(update)
+    }
 
     fun setWorkoutListFilter(filter : String?) {
         filter?.let {
@@ -435,12 +433,24 @@ constructor(
         }
     }
 
+    fun setWorkoutOrder(order: String?){
+        val update = getCurrentViewStateOrNew()
+        update.workout_list_order = order
+        setViewState(update)
+    }
+
     fun setExerciseListFilter(filter : String?){
         filter?.let {
             val update = getCurrentViewStateOrNew()
             update.exercise_list_filter = filter
             setViewState(update)
         }
+    }
+
+    fun setExerciseOrder(order: String?){
+        val update = getCurrentViewStateOrNew()
+        update.exercise_list_order = order
+        setViewState(update)
     }
 
     private fun setListWorkouts(workouts: ArrayList<Workout>){
@@ -497,7 +507,7 @@ constructor(
         setViewState(update)
     }
 
-    private fun setQueryWorkouts(string : String?){
+    fun setQueryWorkouts(string : String?){
         val update = getCurrentViewStateOrNew()
         update.searchQueryWorkouts = string
         setViewState(update)
@@ -532,16 +542,16 @@ constructor(
     fun addOrRemoveWorkoutFromSelectedList(workout: Workout)
             = workoutListInteractionManager.addOrRemoveItemFromSelectedList(workout)
 
-    fun isNoteSelected(workout: Workout): Boolean
+    fun isWorkoutSelected(workout: Workout): Boolean
             = workoutListInteractionManager.isItemSelected(workout)
 
-    fun clearSelectedNotes() = workoutListInteractionManager.clearSelectedItems()
+    fun clearSelectedWorkouts() = workoutListInteractionManager.clearSelectedItems()
 
     private fun removeSelectedWorkoutsFromList(){
         val update = getCurrentViewStateOrNew()
         update.listWorkouts?.removeAll(getSelectedWorkouts())
         setViewState(update)
-        clearSelectedNotes()
+        clearSelectedWorkouts()
     }
 
     fun deleteWorkouts(){
@@ -590,7 +600,7 @@ constructor(
         val update = getCurrentViewStateOrNew()
         update.listExercises?.removeAll(getSelectedExercises())
         setViewState(update)
-        clearSelectedNotes()
+        clearSelectedWorkouts()
     }
 
     fun deleteExercises(){
@@ -614,10 +624,43 @@ constructor(
     }
 
 
+    /********************************************************************
+        PageManagement
+     *********************************************************************/
 
+    fun nextPageWorkouts(){
+        if(!isWorkoutsQueryExhausted()){
+            printLogD("NoteListViewModel", "attempting to load workout next page...")
+            clearWorkoutLayoutManagerState()
+            incrementPageWorkoutsNumber()
+            setStateEvent(GetWorkoutsEvent())
+        }
+    }
 
+    fun isWorkoutsQueryExhausted(): Boolean{
+        printLogD("HomeViewModel",
+            "is workouts query exhausted? ${getCurrentViewStateOrNew().isWorkoutsQueryExhausted?: true}")
+        return getCurrentViewStateOrNew().isWorkoutsQueryExhausted?: true
+    }
 
+    fun setWorkoutQueryExhausted(isExhausted : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.isWorkoutsQueryExhausted = isExhausted
+        setViewState(update)
+    }
 
+    fun clearWorkoutLayoutManagerState(){
+        val update = getCurrentViewStateOrNew()
+        update.workoutLayoutManagerState = null
+        setViewState(update)
+    }
+
+    private fun incrementPageWorkoutsNumber(){
+        val update = getCurrentViewStateOrNew()
+        val page = update.copy().pageWorkouts ?: 1
+        update.pageWorkouts = page.plus(1)
+        setViewState(update)
+    }
 
 
 

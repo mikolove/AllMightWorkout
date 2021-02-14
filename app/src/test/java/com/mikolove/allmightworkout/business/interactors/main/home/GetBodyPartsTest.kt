@@ -5,8 +5,9 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_BODYPART_EX
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.home.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.home.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts
+import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS
+import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*

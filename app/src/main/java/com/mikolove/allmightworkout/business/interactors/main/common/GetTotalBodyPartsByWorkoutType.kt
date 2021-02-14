@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource

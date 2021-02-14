@@ -1,33 +1,35 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers
 
-class SyncDeletedWorkouts(
-    private val workoutCacheDataSource: WorkoutCacheDataSource,
-    private val workoutNetworkDataSource: WorkoutNetworkDataSource
+//TODO : don't call it FireStore has changed
+class SyncDeletedExerciseSets(
+    private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
+    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    suspend fun syncDeletedWorkouts(){
 
-        //Get all deletedWorkouts from network
+    suspend fun syncDeletedExerciseSets(){
+
+        //Get all deletedExercises from network
         val apiResult = safeApiCall(Dispatchers.IO){
-            workoutNetworkDataSource.getDeletedWorkouts()
+            exerciseSetNetworkDataSource.getDeletedExerciseSets()
         }
 
-        val response = object : ApiResponseHandler<List<Workout>, List<Workout>>(
+        val response = object : ApiResponseHandler<List<ExerciseSet>, List<ExerciseSet>>(
             response = apiResult,
             stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>>? {
+            override suspend fun handleSuccess(resultObj: List<ExerciseSet>): DataState<List<ExerciseSet>>? {
                 return DataState.data(
                     response = null,
                     data = resultObj,
@@ -36,11 +38,11 @@ class SyncDeletedWorkouts(
             }
         }.getResult()
 
-        val deletedWorkoutsFromNetwork = response?.data ?: ArrayList()
+        val deletedExercisesFromNetwork = response?.data ?: ArrayList()
 
         //Delete them from cache
         val cacheResult = safeCacheCall(Dispatchers.IO){
-            workoutCacheDataSource.removeWorkouts(deletedWorkoutsFromNetwork)
+            exerciseSetCacheDataSource.removeExerciseSets(deletedExercisesFromNetwork)
         }
 
         object : CacheResponseHandler<Int, Int>(
@@ -48,7 +50,7 @@ class SyncDeletedWorkouts(
             stateEvent = null
         ){
             override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
-                printLogD("SyncDeletedWorkouts","workouts deleted : ${resultObj}")
+                printLogD("SyncDeletedExerciseSets","exercise sets deleted : ${resultObj}")
                 return DataState.data(
                     response = null,
                     data = resultObj,
@@ -57,5 +59,6 @@ class SyncDeletedWorkouts(
             }
         }.getResult()
     }
+
 
 }

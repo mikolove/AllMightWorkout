@@ -26,15 +26,12 @@ data class HomeViewState(
     //Search option
     var searchQueryWorkouts: String? = null,
     var pageWorkouts: Int? = null,
-    var isQueryExhaustedWorkouts: Boolean? = null,
+    var isWorkoutsQueryExhausted: Boolean? = null,
+
     var searchQueryExercises: String? = null,
     var pageExercises: Int? = null,
-    var isQueryExhaustedExercises: Boolean? = null,
-/*
-    var searchQueryTrainingWorkouts: String? = null,
-    var pageTrainingWorkouts: Int? = null,
-    var isQueryExhaustedTrainingWorkouts: Boolean? = null,
-*/
+    var isExercisesQueryExhausted: Boolean? = null,
+
 
     //Load and store filters for each list
     var workout_list_filter: String? = null,
@@ -45,7 +42,8 @@ data class HomeViewState(
     var load_workout_list_filter: String? = null,
 
     //clean UI
-    var layoutManagerState: Parcelable? = null,
+    var workoutLayoutManagerState: Parcelable? = null,
+    var exerciseLayoutManagerState: Parcelable? = null,
 
     //Total elements in cache for each list - maybe undeeded
     var totalExercises: Int? = null,

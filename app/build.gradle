@@ -58,6 +58,12 @@ android {
             useJUnitPlatform()
         }
     }
+
+    //Replaces Kotlin synthetics
+    buildFeatures {
+        viewBinding true
+    }
+
     /*buildTypes {
         release {
             minifyEnabled false
@@ -111,6 +117,10 @@ dependencies {
     implementation Dependencies.room_runtime
     implementation Dependencies.room_ktx
     kapt AnnotationProcessing.room_compiler
+
+    //Material dialog
+    implementation Dependencies.material_dialogs
+    implementation Dependencies.material_dialogs_input
 
     //Di
     //Versions are different for hilt and jetpack tools

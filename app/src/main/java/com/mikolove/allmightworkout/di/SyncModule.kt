@@ -4,7 +4,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.auth.loading.SyncWorkoutTypesAndBodyPart
-import com.mikolove.allmightworkout.business.interactors.main.home.*
+import com.mikolove.allmightworkout.business.interactors.sync.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +35,7 @@ object SyncModule {
     fun provideSyncDeletedExercises(
         exerciseCacheDataSource: ExerciseCacheDataSource,
         exerciseNetworkDataSource: ExerciseNetworkDataSource
-    ) : SyncDeletedExercises{
+    ) : SyncDeletedExercises {
         return SyncDeletedExercises(
             exerciseCacheDataSource = exerciseCacheDataSource,
             exerciseNetworkDataSource = exerciseNetworkDataSource
@@ -47,7 +47,7 @@ object SyncModule {
     fun provideSyncDeletedExercisesSets(
         exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
         exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
-    ) : SyncDeletedExerciseSets{
+    ) : SyncDeletedExerciseSets {
         return SyncDeletedExerciseSets(
             exerciseSetCacheDataSource = exerciseSetCacheDataSource,
             exerciseSetNetworkDataSource = exerciseSetNetworkDataSource
@@ -59,7 +59,7 @@ object SyncModule {
     fun provideSyncDeletedWorkouts(
         workoutCacheDataSource : WorkoutCacheDataSource,
         workoutNetworkDataSource: WorkoutNetworkDataSource
-    ) : SyncDeletedWorkouts{
+    ) : SyncDeletedWorkouts {
         return SyncDeletedWorkouts(
             workoutCacheDataSource = workoutCacheDataSource,
             workoutNetworkDataSource = workoutNetworkDataSource
@@ -73,7 +73,7 @@ object SyncModule {
         exerciseNetworkDataSource: ExerciseNetworkDataSource,
         exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
         exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
-    ) : SyncExercises{
+    ) : SyncExercises {
         return SyncExercises(
             exerciseCacheDataSource = exerciseCacheDataSource,
             exerciseNetworkDataSource = exerciseNetworkDataSource,

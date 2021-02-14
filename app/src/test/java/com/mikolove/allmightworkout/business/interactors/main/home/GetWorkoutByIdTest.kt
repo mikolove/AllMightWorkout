@@ -5,7 +5,8 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_WORKOUT_BY_ID_
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.home.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
+import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState

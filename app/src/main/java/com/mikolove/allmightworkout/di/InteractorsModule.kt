@@ -6,6 +6,7 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSe
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.common.*
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
@@ -81,6 +82,7 @@ object InteractorsModule {
     ) : ManageWorkoutListInteractors {
 
         return ManageWorkoutListInteractors(
+            getWorkoutById = GetWorkoutById(workoutCacheDataSource),
             addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
             removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),

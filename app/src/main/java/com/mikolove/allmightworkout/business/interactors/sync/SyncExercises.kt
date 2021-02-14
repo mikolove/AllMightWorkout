@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
@@ -13,7 +13,6 @@ import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 

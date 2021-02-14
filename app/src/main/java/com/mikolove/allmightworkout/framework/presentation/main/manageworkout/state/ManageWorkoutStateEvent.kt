@@ -3,8 +3,22 @@ package com.mikolove.allmightworkout.framework.presentation.main.manageworkout.s
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
+import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 
 sealed class ManageWorkoutStateEvent : StateEvent{
+
+
+    class GetWorkoutByIdEvent(
+        val idWorkout: String,
+        val clearLayoutManagerState: Boolean = true
+    ) : ManageWorkoutStateEvent(){
+        override fun errorInfo(): String = "Error retrieving workout by id workout."
+
+        override fun eventName(): String = "GetWorkoutByIdEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
 
     class InsertWorkoutEvent(
         name: String

@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.business.interactors.main.home
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedWorkouts
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue

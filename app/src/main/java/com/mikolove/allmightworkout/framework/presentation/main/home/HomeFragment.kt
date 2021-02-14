@@ -3,46 +3,76 @@ package com.mikolove.allmightworkout.framework.presentation.main.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.*
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.mikolove.allmightworkout.R
+import com.mikolove.allmightworkout.databinding.FragmentHomeBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryFragment
+import com.mikolove.allmightworkout.util.printLogD
+import dagger.hilt.android.ActivityRetainedLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
+
+const val HOME_LIST_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.home.state"
 
 @AndroidEntryPoint
 class HomeFragment
 constructor(): BaseFragment(R.layout.fragment_home)
 {
 
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
-    private var fragmentCollectionAdapter : FragmentCollectionAdapter? = null
+    //private var viewPager: ViewPager2? = null
+    //private var tabLayout: TabLayout? = null
+    //private var fragmentCollectionAdapter : FragmentCollectionAdapter? = null
+    private var binding : FragmentHomeBinding? = null
+    //private var tabLayoutMediator : TabLayoutMediator? = null
 
     val viewModel : HomeViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            fragmentCollectionAdapter = FragmentCollectionAdapter(this)
-            viewPager = view.findViewById(R.id.fragment_home_view_pager)
-            tabLayout = view.findViewById(R.id.fragment_home_tab_layout)
-            viewPager.adapter = fragmentCollectionAdapter
+        binding = FragmentHomeBinding.bind(view)
+        binding?.let {
 
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            it.fragmentHomeViewPager.adapter = FragmentCollectionAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
+
+            TabLayoutMediator(it.fragmentHomeTabLayout,it.fragmentHomeViewPager) { tab, position ->
                 tab.text = getTitle(position)
                 tab.setIcon(getIcon(position))
             }.attach()
+
+
         }
+        //val tabLayout = view.findViewById<TabLayout>(R.id.fragment_home_tab_layout)
+
+        //val viewpager = view.findViewById<ViewPager2>(R.id.fragment_home_view_pager)
+
+    }
+
 
     override fun onDestroyView() {
+
+        printLogD("HomeFragment","OnDestroyView")
+        /*tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+        */
+        val viewpager = binding?.fragmentHomeViewPager
+
+        viewpager?.let {
+            printLogD("HomeFragment","Clear adapter")
+            it.adapter = null
+        }
+
+        binding = null
+      /*  fragmentCollectionAdapter = null
+        binding = null*/
         super.onDestroyView()
-        fragmentCollectionAdapter = null
-    }
+     }
 
     fun getIcon(position : Int) : Int{
         return when(position){
@@ -60,7 +90,8 @@ constructor(): BaseFragment(R.layout.fragment_home)
     }
 }
 
-class FragmentCollectionAdapter(fragment : Fragment) : FragmentStateAdapter(fragment) {
+//TODO : giving an array of fragment add them in homeFragment clearthem in destroy maybe it could avoid leaks
+class FragmentCollectionAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
         return 3
@@ -74,4 +105,6 @@ class FragmentCollectionAdapter(fragment : Fragment) : FragmentStateAdapter(frag
             else -> { throw Exception("Exception getting Fragment")}
         }
     }
+
+
 }

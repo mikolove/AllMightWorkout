@@ -15,7 +15,7 @@ object Versions {
     val room = "2.2.5"
     val appcompat = "1.2.0"
     val constraintlayout = "2.0.0"
-    val material_design = "1.2.1"
+    val material_design = "1.3.0"
     val play_core = "1.8.0"
     val play_services = "4.3.4"
     val build_firebase_crashlytics = "2.3.0"

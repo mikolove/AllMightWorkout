@@ -5,12 +5,11 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerc
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
+import com.mikolove.allmightworkout.business.interactors.sync.SyncHistory
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.collections.ArrayList
@@ -59,7 +58,7 @@ class SyncHistoryTest {
         historyExerciseSetFactory = dependencyContainer.historyExerciseSetFactory
 
 
-        syncHistory =SyncHistory(
+        syncHistory = SyncHistory(
             historyWorkoutCacheDataSource,
             historyExerciseCacheDataSource,
             historyExerciseSetCacheDataSource,
