@@ -21,7 +21,7 @@ sealed class ManageWorkoutStateEvent : StateEvent{
 
 
     class InsertWorkoutEvent(
-        name: String
+        val name: String
     ) : ManageWorkoutStateEvent(){
         override fun errorInfo(): String = "Error inserting new workout."
 
@@ -38,9 +38,7 @@ sealed class ManageWorkoutStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class RemoveWorkoutEvent(
-        workout : Workout
-    ) : ManageWorkoutStateEvent(){
+    class RemoveWorkoutEvent() : ManageWorkoutStateEvent(){
         override fun errorInfo(): String = "Error deleting workout."
 
         override fun eventName(): String = "RemoveWorkoutEvent"

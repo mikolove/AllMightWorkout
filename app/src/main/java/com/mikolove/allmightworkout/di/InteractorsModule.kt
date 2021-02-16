@@ -17,6 +17,7 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.InsertHist
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertHistoryExerciseSet
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertHistoryWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutListInteractors
+import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

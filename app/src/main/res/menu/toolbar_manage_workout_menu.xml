@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toolbar_manage_workout_delete"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/menu_delete"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolbar_manage_workout_validate"
+        android:icon="@drawable/ic_baseline_check_24"
+        android:title="@string/menu_validate"
+        app:showAsAction="ifRoom" />
+
+</menu>

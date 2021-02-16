@@ -69,7 +69,7 @@ class RemoveWorkoutTest {
         //Remove it
         removeWorkout.removeWorkout(
             workout = removedWorkout,
-            stateEvent = RemoveWorkoutEvent(removedWorkout)
+            stateEvent = RemoveWorkoutEvent()
         ).collect(object :FlowCollector<DataState<ManageWorkoutViewState>?>{
 
             override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
@@ -109,7 +109,7 @@ class RemoveWorkoutTest {
          //Remove it
          removeWorkout.removeWorkout(
              workout = workoutToDelete,
-             stateEvent = RemoveWorkoutEvent(workoutToDelete)
+             stateEvent = RemoveWorkoutEvent()
          ).collect(object :FlowCollector<DataState<ManageWorkoutViewState>?>{
 
              override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
@@ -149,7 +149,7 @@ class RemoveWorkoutTest {
 
         removeWorkout.removeWorkout(
             workout = workoutToDelete,
-            stateEvent = RemoveWorkoutEvent(workoutToDelete)
+            stateEvent = RemoveWorkoutEvent()
         ).collect(object :FlowCollector<DataState<ManageWorkoutViewState>?>{
 
             override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {

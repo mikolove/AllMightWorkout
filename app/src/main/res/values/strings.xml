@@ -5,7 +5,8 @@
 
     <!-- Menu words -->
     <string name="menu_filter">Filter</string>
-
+    <string name="menu_validate">Validate</string>
+    <string name="menu_delete">Delete</string>
 
     <!-- Global words -->
     <string name="text_error">Error</string>
@@ -36,6 +37,14 @@
     <!-- ChooseExercise Fragment -->
     <string name="fragment_choose_exercise_title">Exercises</string>
     <string name="fragment_choose_exercise_add_content_description">Add Exercise</string>
+
+
+    <!-- ManageWorkout Fragment -->
+    <string name="fragment_manage_workout_text_title">Manage workout</string>
+    <string name="fragment_manage_workout_text_name">Workout name</string>
+    <string name="fragment_manage_workout_text_is_active">Is active</string>
+    <string name="fragment_manage_workout_text_exercises">List of exercises in :</string>
+    <string name="fragment_manage_workout_text_manage_exercises">Manage exercises</string>
 
     <!-- Item workout -->
     <string name="item_workout_text_exercises">Exercises</string>

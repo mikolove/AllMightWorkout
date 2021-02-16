@@ -60,7 +60,7 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById(
+        getWorkoutById.getWorkoutById<HomeViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
@@ -93,7 +93,7 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById(
+        getWorkoutById.getWorkoutById<HomeViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
@@ -125,7 +125,7 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById(
+        getWorkoutById.getWorkoutById<HomeViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
         ).collect( object  : FlowCollector<DataState<HomeViewState>?>{

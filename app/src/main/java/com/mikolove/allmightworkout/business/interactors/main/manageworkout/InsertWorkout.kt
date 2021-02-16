@@ -45,7 +45,7 @@ InsertWorkout(
             override suspend fun handleSuccess(resultObj: Long): DataState<ManageWorkoutViewState>? {
                 return if (resultObj > 0) {
 
-                    val viewState = ManageWorkoutViewState(newWorkout = newWorkout)
+                    val viewState = ManageWorkoutViewState(workout = newWorkout)
                     DataState.data(
                         response = Response(
                             message = INSERT_WORKOUT_SUCCESS,
