@@ -64,7 +64,7 @@ class GetBodyPartsTest {
         var results : ArrayList<BodyPart>? = null
 
         //Get bodyparts
-        getBodyParts.getBodyParts(
+        getBodyParts.getBodyParts<HomeViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,
@@ -101,7 +101,7 @@ class GetBodyPartsTest {
         var results : ArrayList<BodyPart>? = null
 
         //Get bodyparts
-        getBodyParts.getBodyParts(
+        getBodyParts.getBodyParts<HomeViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,
@@ -137,7 +137,7 @@ class GetBodyPartsTest {
         var query = FORCE_SEARCH_BODYPART_EXCEPTION
         var results : ArrayList<BodyPart>? = null
 
-        getBodyParts.getBodyParts(
+        getBodyParts.getBodyParts<HomeViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,

@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetBodyParts(
-    private val bodyPartCacheDataSource: BodyPartCacheDataSource
+     val bodyPartCacheDataSource: BodyPartCacheDataSource
 ) {
 
-    fun getBodyParts(
+    inline fun <reified ViewState> getBodyParts(
         query : String,
         filterAndOrder : String,
         page : Int,
         stateEvent : StateEvent
-    ) : Flow<DataState<HomeViewState>?> = flow{
+    ) : Flow<DataState<ViewState>?> = flow{
 
         var updatedPage = page
         if(page <= 0) updatedPage = 1
@@ -32,11 +32,11 @@ class GetBodyParts(
             )
         }
 
-        val response = object : CacheResponseHandler<HomeViewState, List<BodyPart>>(
+        val response = object : CacheResponseHandler<ViewState, List<BodyPart>>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: List<BodyPart>): DataState<HomeViewState>? {
+            override suspend fun handleSuccess(resultObj: List<BodyPart>): DataState<ViewState>? {
 
                 var message : String? = GET_BODYPARTS_SUCCESS
                 var uiComponentType : UIComponentType = UIComponentType.None()
@@ -46,13 +46,18 @@ class GetBodyParts(
                     uiComponentType = UIComponentType.Toast()
                 }
 
+                val viewState = when(ViewState::class){
+                    HomeViewState::class -> HomeViewState(listBodyParts = ArrayList(resultObj))
+                    else -> null
+                }
+
                 return DataState.data(
                     response = Response(
                         message = message,
                         uiComponentType = uiComponentType,
                         messageType =  MessageType.Success()
                     ),
-                    data = HomeViewState(listBodyParts = ArrayList(resultObj)),
+                    data = viewState as ViewState,
                     stateEvent = stateEvent
                 )
             }

@@ -10,25 +10,30 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetTotalBodyParts(
-    private val bodyPartCacheDataSource: BodyPartCacheDataSource
+    val bodyPartCacheDataSource: BodyPartCacheDataSource
 ) {
 
-    fun getTotalBodyParts(
+    inline fun <reified ViewState> getTotalBodyParts(
         stateEvent : StateEvent
-    ): Flow<DataState<HomeViewState>?> = flow {
+    ): Flow<DataState<ViewState>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
             bodyPartCacheDataSource.getTotalBodyParts()
         }
 
-        val response = object : CacheResponseHandler<HomeViewState, Int>(
+        val response = object : CacheResponseHandler<ViewState, Int>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
-                val viewState = HomeViewState(
-                    totalBodyParts = resultObj
-                )
+            override suspend fun handleSuccess(resultObj: Int): DataState<ViewState>? {
+
+
+                val viewState = when(ViewState::class) {
+                    HomeViewState::class -> HomeViewState(
+                        totalBodyParts = resultObj
+                    )
+                    else -> null
+                }
 
                 return DataState.data(
                     response = Response(
@@ -36,7 +41,7 @@ class GetTotalBodyParts(
                         uiComponentType = UIComponentType.None(),
                         messageType = MessageType.Success()
                     ),
-                    data = viewState,
+                    data = viewState as ViewState,
                     stateEvent = stateEvent
                 )
 

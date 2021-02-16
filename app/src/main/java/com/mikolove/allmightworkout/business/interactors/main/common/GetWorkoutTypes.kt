@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetWorkoutTypes(
-    private val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
+    val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
 ) {
 
-    fun getWorkoutTypes(
+    inline fun <reified ViewState>  getWorkoutTypes(
         query : String,
         filterAndOrder : String,
         page : Int,
         stateEvent : StateEvent
-    ): Flow<DataState<HomeViewState>?> = flow {
+    ): Flow<DataState<ViewState>?> = flow {
 
         var updatedPage = page
         if(page <= 0) updatedPage = 1
@@ -32,11 +32,11 @@ class GetWorkoutTypes(
             )
         }
 
-        val response = object : CacheResponseHandler<HomeViewState, List<WorkoutType>>(
+        val response = object : CacheResponseHandler<ViewState, List<WorkoutType>>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<HomeViewState>? {
+            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<ViewState>? {
 
                 var message : String? = GET_WORKOUTTYPES_SUCCESS
                 var uiComponentType : UIComponentType = UIComponentType.None()
@@ -46,13 +46,18 @@ class GetWorkoutTypes(
                     uiComponentType = UIComponentType.Toast()
                 }
 
+                val viewState = when(ViewState::class){
+                    HomeViewState::class -> HomeViewState(listWorkoutTypes = ArrayList(resultObj))
+                    else -> null
+                }
+
                 return DataState.data(
                     response = Response(
                         message = message,
                         uiComponentType = uiComponentType,
                         messageType =  MessageType.Success()
                     ),
-                    data = HomeViewState(listWorkoutTypes = ArrayList(resultObj)),
+                    data = viewState as ViewState,
                     stateEvent = stateEvent
                 )
             }

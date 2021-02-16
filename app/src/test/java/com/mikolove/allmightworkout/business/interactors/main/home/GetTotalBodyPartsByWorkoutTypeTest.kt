@@ -46,7 +46,7 @@ class GetTotalBodyPartsByWorkoutTypeTest {
         var totalBodyParts = 0
         val idWorkoutType = "idWorkoutType1"
 
-        getTotalBodyPartsByWorkoutType.getTotalBodyPartsByWorkoutType(
+        getTotalBodyPartsByWorkoutType.getTotalBodyPartsByWorkoutType<HomeViewState>(
             idWorkoutType = idWorkoutType,
             stateEvent = GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType)
         ).collect( object : FlowCollector<DataState<HomeViewState>?> {

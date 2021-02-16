@@ -21,7 +21,6 @@ sealed class ManageWorkoutStateEvent : StateEvent{
 
 
     class InsertWorkoutEvent(
-        val name: String
     ) : ManageWorkoutStateEvent(){
         override fun errorInfo(): String = "Error inserting new workout."
 

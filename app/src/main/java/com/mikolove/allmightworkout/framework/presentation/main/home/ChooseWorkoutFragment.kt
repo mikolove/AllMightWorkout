@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -32,10 +33,10 @@ import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.ListToolbarState.*
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class ChooseWorkoutFragment
@@ -45,7 +46,6 @@ class ChooseWorkoutFragment
     @Inject
     lateinit var dateUtil: DateUtil
     val viewModel : HomeViewModel by activityViewModels()
-    lateinit var uiController: UIController
     private var actionMode : ActionMode? = null
     private var listAdapter: WorkoutListAdapter? = null
     private var itemTouchHelper: ItemTouchHelper? = null
@@ -73,6 +73,7 @@ class ChooseWorkoutFragment
         viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
     }
+/*
 
     override fun onAttach(context: Context) {
         try {
@@ -82,6 +83,7 @@ class ChooseWorkoutFragment
         }
         super.onAttach(context)
     }
+*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         val viewState = viewModel.viewState.value
@@ -94,6 +96,11 @@ class ChooseWorkoutFragment
             viewState
         )
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,7 +118,7 @@ class ChooseWorkoutFragment
         binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
 
 
-            findNavController().navigate(R.id.action_homeFragment_to_manageWorkoutFragment)
+            navigateToManageWorkout(null)
          /*   val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.chooseWorkoutFragment, true)
                 .build()
@@ -152,6 +159,16 @@ class ChooseWorkoutFragment
             //Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_manageWorkoutFragment)
         }
         restoreInstanceState(savedInstanceState)
+    }
+
+    private fun navigateToManageWorkout(idWorkout : String?){
+        if(idWorkout.isNullOrEmpty()){
+            findNavController().navigate(R.id.action_homeFragment_to_manageWorkoutFragment)
+        }else{
+            val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
+            findNavController().navigate(R.id.action_homeFragment_to_manageWorkoutFragment,bundle)
+        }
+
     }
 
     private fun subscribeObservers(){
@@ -263,7 +280,7 @@ class ChooseWorkoutFragment
             when (item?.getItemId()) {
                 R.id.toolbar_workout_delete -> {
                     printLogD("ChooseWorkoutFragment", "DELETE IS PRESSED")
-                    actionMode?.finish()
+                    deleteWorkouts()
                     return true
                 }
             }
@@ -272,6 +289,7 @@ class ChooseWorkoutFragment
 
         override fun onDestroyActionMode(mode: ActionMode?) {
             printLogD("ChooseWorkoutFragment", "Close is pressed")
+            viewModel.clearSelectedWorkouts()
             actionMode = null
         }
     }
@@ -294,6 +312,7 @@ class ChooseWorkoutFragment
                     viewModel.workoutListInteractionManager
                 )
             )
+            //itemTouchHelper?.attachToRecyclerView(this)
 
             listAdapter = WorkoutListAdapter(
                 this@ChooseWorkoutFragment,
@@ -302,7 +321,7 @@ class ChooseWorkoutFragment
                 dateUtil
             )
 
-            itemTouchHelper?.attachToRecyclerView(this)
+
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
@@ -480,6 +499,9 @@ class ChooseWorkoutFragment
     }
 
     private fun disableMultiSelectToolbarState(){
+        if(actionMode != null){
+            actionMode?.finish()
+        }
         actionMode = null
     }
 
@@ -626,7 +648,7 @@ class ChooseWorkoutFragment
         Item Touch Helper
      */
     override fun onItemSwiped(position: Int) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
 }

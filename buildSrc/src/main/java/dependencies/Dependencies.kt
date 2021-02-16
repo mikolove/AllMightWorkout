@@ -49,7 +49,6 @@ object Dependencies {
 
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit2_version}"
     val retrofit_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2_version}"
-    val markdown_processor = "com.yydcdut:markdown-processor:${Versions.markdown_processor}"
     val multidex = "androidx.multidex:multidex:${Versions.multidex_version}"
 
 

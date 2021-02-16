@@ -80,7 +80,7 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = InsertWorkoutEvent(name = newWorkout.name)
+            stateEvent = InsertWorkoutEvent()
         ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
 
             override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
@@ -113,7 +113,7 @@ class InsertWorkoutTest {
          insertWorkout.insertWorkout(
              idWorkout = newWorkout.idWorkout,
              name = newWorkout.name,
-             stateEvent = InsertWorkoutEvent(name = newWorkout.name)
+             stateEvent = InsertWorkoutEvent()
          ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
 
              override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
@@ -146,7 +146,7 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = InsertWorkoutEvent(name = newWorkout.name)
+            stateEvent = InsertWorkoutEvent()
         ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
 
             override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {

@@ -10,26 +10,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetTotalBodyPartsByWorkoutType(
-    private val bodyPartCacheDataSource: BodyPartCacheDataSource
+    val bodyPartCacheDataSource: BodyPartCacheDataSource
 ) {
 
-    fun getTotalBodyPartsByWorkoutType(
+    inline fun <reified ViewState> getTotalBodyPartsByWorkoutType(
         idWorkoutType : String,
         stateEvent : StateEvent
-    ) : Flow<DataState<HomeViewState>?> = flow {
+    ) : Flow<DataState<ViewState>?> = flow {
 
         val cacheResult = safeCacheCall(Dispatchers.IO){
             bodyPartCacheDataSource.getTotalBodyPartsByWorkoutType(idWorkoutType)
         }
 
-        val response = object : CacheResponseHandler<HomeViewState, Int>(
+        val response = object : CacheResponseHandler<ViewState, Int>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<HomeViewState>? {
-                val viewState = HomeViewState(
-                    totalBodyPartsByWorkoutType = resultObj
-                )
+            override suspend fun handleSuccess(resultObj: Int): DataState<ViewState>? {
+
+                val viewState = when(ViewState::class){
+                    HomeViewState::class -> HomeViewState(totalBodyPartsByWorkoutType = resultObj)
+                    else -> null
+                }
 
                 return DataState.data(
                     response = Response(
@@ -37,7 +39,7 @@ class GetTotalBodyPartsByWorkoutType(
                         uiComponentType = UIComponentType.None(),
                         messageType = MessageType.Success()
                     ),
-                    data = viewState,
+                    data = viewState as ViewState,
                     stateEvent = stateEvent
                 )
 

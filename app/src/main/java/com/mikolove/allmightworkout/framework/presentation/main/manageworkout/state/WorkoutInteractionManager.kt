@@ -2,11 +2,12 @@ package com.mikolove.allmightworkout.framework.presentation.main.manageworkout.s
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.WorkoutInteractionState.*
 
 class WorkoutInteractionManager{
 
     private val _workoutNameState: MutableLiveData<WorkoutInteractionState>
-            = MutableLiveData(WorkoutInteractionState.DefaultState())
+            = MutableLiveData(DefaultState())
 
     val workoutNameState: LiveData<WorkoutInteractionState>
         get() = _workoutNameState
@@ -16,26 +17,24 @@ class WorkoutInteractionManager{
         if(!workoutNameState.toString().equals(state.toString())){
             _workoutNameState.value = state
             when(state){
-                is WorkoutInteractionState.EditState -> {
+                is EditState -> {
                     //Switch other edit text state
                 }
             }
         }
     }
 
-
     fun isEditingName() = workoutNameState.value.toString().equals(
-        WorkoutInteractionState.EditState().toString()
+        EditState().toString()
     )
 
-
     fun exitEditState(){
-        _workoutNameState.value = WorkoutInteractionState.DefaultState()
+        _workoutNameState.value = DefaultState()
     }
 
-    // return true if either title or body are in EditState
+    // return true if either name or something else is in EditState
     fun checkEditState() = workoutNameState.value.toString().equals(
-        WorkoutInteractionState.EditState().toString()
+        EditState().toString()
     )
 
 }

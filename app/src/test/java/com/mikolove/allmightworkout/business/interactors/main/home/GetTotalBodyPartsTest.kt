@@ -46,7 +46,7 @@ class GetTotalBodyPartsTest {
 
         var totalBodyParts = 0
 
-        getTotalBodyParts.getTotalBodyParts(
+        getTotalBodyParts.getTotalBodyParts<HomeViewState>(
             stateEvent = GetTotalBodyPartsEvent()
         ).collect( object : FlowCollector<DataState<HomeViewState>?>{
             override suspend fun emit(value: DataState<HomeViewState>?) {
