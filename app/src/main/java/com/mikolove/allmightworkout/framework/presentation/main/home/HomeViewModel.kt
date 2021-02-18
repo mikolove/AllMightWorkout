@@ -69,6 +69,13 @@ constructor(
             )
         )
 
+        setWorkoutOrder(
+            sharedPreferences.getString(
+                WORKOUT_LIST_ORDER,
+                WORKOUT_ORDER_DESC
+            )
+        )
+
         setExerciseListFilter(
             sharedPreferences.getString(
                 EXERCISE_LIST_FILTER,
@@ -76,12 +83,12 @@ constructor(
             )
         )
 
-        /*setWorkoutTrainingListOrder(
+        setExerciseOrder(
             sharedPreferences.getString(
-                WORKOUT_TRAINING_LIST_FILTER,
-                WORKOUT_FILTER_NAME
+                EXERCISE_LIST_ORDER,
+                EXERCISE_ORDER_DESC
             )
-        )*/
+        )
     }
 
     /********************************************************************

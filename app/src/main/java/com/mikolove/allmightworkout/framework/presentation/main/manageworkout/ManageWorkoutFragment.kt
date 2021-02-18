@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.manageworkout
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialContainerTransform
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -35,7 +37,15 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.main_fragment_container
+            duration = 1000.toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
+        }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,6 +73,21 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
         }
     }
 
+    override fun onDestroyView() {
+
+        /*
+            Unbind view state
+         */
+        if (viewModel.checkEditState()) {
+            viewModel.exitEditState()
+        }
+        viewModel.setWorkout(null)
+        viewModel.setListExercise(null)
+        viewModel.setIsUpdatePending(false)
+
+        super.onDestroyView()
+    }
+
     /********************************************************************
     MENU INTERACTIONS
      *********************************************************************/
@@ -81,7 +106,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
                 true
             }
             R.id.toolbar_manage_workout_delete -> {
-                printLogD("ManageWorkoutFragment","DELETE LAUNCH")
                 deleteWorkout()
                 true
             }
@@ -102,7 +126,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     }
 
     private fun setupOnBackPressDispatcher() {
-        printLogD("ManageWorkoutFragment","Setup Back dispatcher")
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressed()
@@ -163,9 +186,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
                                 }
                             }
                         )
-                        viewModel.setWorkout(null)
-                        viewModel.setListExercise(null)
-                        viewModel.setIsUpdatePending(false)
                         findNavController().popBackStack()
                     }
 
@@ -269,13 +289,9 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
                         uiComponentType = UIComponentType.AreYouSureDialog(
                             object : AreYouSureCallback {
                                 override fun proceed() {
-                                    printLogD("ManageWorkoutFragment","Launch Remove workout stateEvent")
                                     viewModel.setStateEvent(RemoveWorkoutEvent())
                                 }
-
-                                override fun cancel() {
-                                    // do nothing
-                                }
+                                override fun cancel() {}
                             }
                         ),
                         messageType = MessageType.Info()
@@ -355,15 +371,13 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     /********************************************************************
         BACK BUTTON PRESS
     *********************************************************************/
+
     private fun onBackPressed() {
+        printLogD("ManageWorkoutFragment","ON BACK PRESSED")
         if (viewModel.checkEditState()) {
             quitEditState()
          }else{
             findNavController().popBackStack()
         }
     }
-
-
-
-
 }

@@ -1,9 +1,12 @@
 package com.mikolove.allmightworkout.framework.presentation.main.home
 
+import android.annotation.SuppressLint
+import android.os.Build
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -83,11 +86,15 @@ class WorkoutListAdapter(
         private val binding =  ItemWorkoutBinding.bind(itemView)
 
 
+        @SuppressLint("StringFormatInvalid")
         fun bind(item: Workout) = with(itemView) {
+
+            //Add test transition
+            binding.itemWorkoutContainer.transitionName = resources.getString(R.string.test_workout_item_transition_name,item.idWorkout)
 
             //Add clicklisteners
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+                interaction?.onItemSelected(adapterPosition, item,binding.itemWorkoutContainer)
             }
             itemView.setOnLongClickListener{
                 interaction?.activateMultiSelectionMode()
@@ -123,6 +130,8 @@ class WorkoutListAdapter(
 
     interface Interaction {
         fun onItemSelected(position: Int, item: Workout)
+
+        fun onItemSelected(position: Int, item: Workout, containerView : View)
 
         fun restoreListPosition()
 

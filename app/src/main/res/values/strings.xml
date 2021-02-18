@@ -3,6 +3,10 @@
     <string name="app_name">All Might Workout</string>
 
 
+    <!-- test words -->
+    <string name="test_workout_item_transition_name">test_workout_item_transition_name_%1$s</string>
+    <string name="test_workout_item_detail_transition_name">test_workout_item_detail_transition_name</string>
+
     <!-- Menu words -->
     <string name="menu_filter">Filter</string>
     <string name="menu_validate">Validate</string>

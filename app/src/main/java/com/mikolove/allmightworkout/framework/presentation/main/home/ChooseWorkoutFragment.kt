@@ -9,7 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +22,7 @@ import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
+import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentChooseWorkoutBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_DATE_CREATED
@@ -53,11 +54,11 @@ class ChooseWorkoutFragment
 
     override fun onDestroyView() {
         printLogD("ChooseWorkoutFragment", "OnDestroyView")
+        disableActionMode()
         binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
         binding = null
         listAdapter = null
         itemTouchHelper = null
-        actionMode = null
         super.onDestroyView()
     }
 
@@ -109,12 +110,27 @@ class ChooseWorkoutFragment
         restoreInstanceState(savedInstanceState)
     }
 
-    private fun navigateToManageWorkout(idWorkout: String){
+    private fun navigateToManageWorkout( idWorkout: String){
 
         val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
         findNavController().navigate(
             R.id.action_homeFragment_to_manageWorkoutFragment,
             bundle
+        )
+        viewModel.setInsertedWorkout(null)
+    }
+
+    private fun navigateToManageWorkout(containerView : View, idWorkout: String){
+
+        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
+        val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
+
+        val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_manageWorkoutFragment,
+            bundle,
+            null,
+            extras
         )
         viewModel.setInsertedWorkout(null)
     }
@@ -164,20 +180,35 @@ class ChooseWorkoutFragment
         })
 
         viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
-            stateMessage?.let { message ->
-                if (message.response.message?.equals(DELETE_WORKOUTS_SUCCESS) == true) {
-                    showSnackbarDeleteWorkouts()
-                } else {
-                    uiController.onResponseReceived(
-                        response = message.response,
-                        stateMessageCallback = object : StateMessageCallback {
-                            override fun removeMessageFromStack() {
-                                viewModel.clearStateMessage()
+
+            stateMessage?.response?.let { response ->
+
+                when (response.message) {
+
+                     DELETE_WORKOUTS_SUCCESS -> {
+
+                        showSnackbarDeleteWorkouts()
+                        viewModel.setWorkoutToolbarState(SearchViewState())
+
+                    }
+
+                    DELETE_WORKOUTS_ERRORS -> {
+
+                    }
+
+                    else -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
                             }
-                        }
-                    )
-                }
+                        )
+                    }
+                 }
             }
+
         })
     }
 
@@ -241,12 +272,17 @@ class ChooseWorkoutFragment
 
         override fun onDestroyActionMode(mode: ActionMode?) {
             printLogD("ChooseWorkoutFragment", "Close is pressed")
-            viewModel.clearSelectedWorkouts()
-            actionMode = null
+            disableActionMode()
         }
     }
 
 
+    private fun disableActionMode(){
+        viewModel.setWorkoutToolbarState(SearchViewState())
+        viewModel.clearSelectedWorkouts()
+        actionMode?.finish()
+        actionMode = null
+    }
 
     private fun setupUI(){
         view?.hideKeyboard()
@@ -591,6 +627,12 @@ class ChooseWorkoutFragment
             navigateToManageWorkout(item.idWorkout)
         }
 
+    }
+
+    override fun onItemSelected(position: Int, item: Workout, containerView: View) {
+        if(!isMultiSelectionModeEnabled()){
+            navigateToManageWorkout(containerView,item.idWorkout)
+        }
     }
 
     override fun restoreListPosition() {
