@@ -23,6 +23,7 @@ constructor(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        printLogD("BaseFragment","on View Created")
         return inflater.inflate(layoutRes, container, false)
     }
 

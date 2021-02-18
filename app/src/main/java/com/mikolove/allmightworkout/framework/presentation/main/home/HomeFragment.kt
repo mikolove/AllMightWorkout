@@ -37,7 +37,7 @@ constructor(): BaseFragment(R.layout.fragment_home)
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentHomeBinding.bind(view)
-        binding?.let {
+/*        binding?.let {
 
             it.fragmentHomeViewPager.adapter = FragmentCollectionAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
 
@@ -47,7 +47,7 @@ constructor(): BaseFragment(R.layout.fragment_home)
             }.attach()
 
 
-        }
+        }*/
         //val tabLayout = view.findViewById<TabLayout>(R.id.fragment_home_tab_layout)
 
         //val viewpager = view.findViewById<ViewPager2>(R.id.fragment_home_view_pager)

@@ -7,6 +7,7 @@ import android.text.InputType
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.view.ActionMode
+import androidx.customview.widget.Openable
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.callbacks.onDismiss
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.mikolove.allmightworkout.R
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), UIController {
     private val TAG: String = "AppDebug"
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var bottomNavBar : BottomNavigationView
     private lateinit var binding : ActivityMainBinding
     private var dialogInView: MaterialDialog? = null
 
@@ -50,17 +53,65 @@ class MainActivity : AppCompatActivity(), UIController {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.historyFragment,
+            R.id.chooseWorkoutFragment,
+            R.id.chooseExerciseFragment
+        ).build()
+
         setupActionBarWithNavController(
             navController,
             appBarConfiguration)
 
+        bottomNavBar = binding.mainBottomNavigation
+        bottomNavBar.setOnNavigationItemSelectedListener { item ->
+
+            when(item.itemId){
+                R.id.page_1 -> {
+                    navigateToHistory()
+                    true
+                }
+                R.id.page_2 -> {
+                    navigateToChooseWorkout()
+                    true
+                }
+                R.id.page_3 -> {
+                    navigateToChooseExercise()
+                    true
+                }
+                else -> false
+            }
+        }
+
+    }
+
+    fun setBottomNavigationVisibility(visibility : Int){
+        binding.mainBottomNavigation.visibility = visibility
+    }
+
+
+    private fun navigateToHistory(){
+        findNavController(R.id.main_fragment_container)
+            .navigate(R.id.action_global_historyFragment)
+    }
+
+    private fun navigateToChooseExercise(){
+        findNavController(R.id.main_fragment_container)
+            .navigate(R.id.action_global_chooseExerciseFragment)
+    }
+
+    private fun navigateToChooseWorkout(){
+        findNavController(R.id.main_fragment_container)
+            .navigate(R.id.action_global_chooseWorkoutFragment)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.main_fragment_container)
-            .navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        val navController = findNavController(R.id.main_fragment_container)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun displayBottomNavigation(visibility: Int) {
+        binding?.mainBottomNavigation.visibility = visibility
     }
 
     override fun displayProgressBar(isDisplayed: Boolean) {

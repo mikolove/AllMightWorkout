@@ -59,6 +59,7 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
         setupUI()
         setupOnBackPressDispatcher()
         subscribeObservers()
+        setupBottomNav()
         getWorkoutFromPreviousFragment()
 
         /*
@@ -71,6 +72,11 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
         binding?.fragmentManageWorkoutSwitchIsActive?.setOnClickListener {
             onClickWorkoutIsActive()
         }
+    }
+
+
+    private fun setupBottomNav(){
+        uiController?.displayBottomNavigation(View.GONE)
     }
 
     override fun onDestroyView() {

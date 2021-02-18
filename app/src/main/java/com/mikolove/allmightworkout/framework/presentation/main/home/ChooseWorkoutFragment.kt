@@ -73,6 +73,7 @@ class ChooseWorkoutFragment
         viewModel.loadTotalWorkouts()
         viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
+        setupBottomNav()
     }
 
 
@@ -97,6 +98,7 @@ class ChooseWorkoutFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        printLogD("ChooseWorkoutFragment","OnViewCreated")
         setHasOptionsMenu(true)
 
         binding = FragmentChooseWorkoutBinding.bind(view)
@@ -105,16 +107,21 @@ class ChooseWorkoutFragment
         setupRecyclerView()
         setupSwipeRefresh()
         setupFAB()
+        setupBottomNav()
         subscribeObservers()
 
         restoreInstanceState(savedInstanceState)
+    }
+
+    private fun setupBottomNav(){
+        uiController?.displayBottomNavigation(View.VISIBLE)
     }
 
     private fun navigateToManageWorkout( idWorkout: String){
 
         val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
         findNavController().navigate(
-            R.id.action_homeFragment_to_manageWorkoutFragment,
+            R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,
             bundle
         )
         viewModel.setInsertedWorkout(null)
@@ -127,7 +134,7 @@ class ChooseWorkoutFragment
 
         val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
         findNavController().navigate(
-            R.id.action_homeFragment_to_manageWorkoutFragment,
+            R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,
             bundle,
             null,
             extras
