@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.st
 class ManageWorkoutListInteractors(
     val getWorkoutById : GetWorkoutById,
     val addExerciseToWorkout: AddExerciseToWorkout,
-    val insertWorkout: InsertWorkout,
     val removeExerciseFromWorkout: RemoveExerciseFromWorkout,
     val removeWorkout: RemoveWorkout<ManageWorkoutViewState>,
     val updateWorkout: UpdateWorkout

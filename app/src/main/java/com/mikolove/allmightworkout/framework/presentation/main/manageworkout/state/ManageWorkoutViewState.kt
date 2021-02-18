@@ -9,10 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ManageWorkoutViewState(
 
-    var cacheIdWorkout : String?  = null,
     var workout : Workout? = null,
     var exerciseList : List<Exercise>? = null,
-    var isNewWorkout : Boolean? = null,
     var isUpdatePending : Boolean? = null,
 
     var lastWorkoutExerciseState : Boolean? = null,

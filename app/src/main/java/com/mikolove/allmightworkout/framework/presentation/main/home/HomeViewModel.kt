@@ -3,10 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.home
 import android.content.SharedPreferences
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.home.*
 import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleExercises.Companion.DELETE_EXERCISES_YOU_MUST_SELECT
@@ -28,13 +25,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+const val INSERT_WORKOUT_ERROR_NO_NAME = "You must set a name to create a workout."
+
 @HiltViewModel
 class HomeViewModel
 @Inject
 constructor(
     private val homeListInteractors: HomeListInteractors,
     private val editor: SharedPreferences.Editor,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val workoutFactory: WorkoutFactory
 ) : BaseViewModel<HomeViewState>(){
 
     override fun initNewViewState(): HomeViewState {
@@ -92,12 +92,12 @@ constructor(
 
         data.let { viewState ->
 
+            viewState.insertedWorkout?.let { insertedWorkout ->
+                setInsertedWorkout(insertedWorkout)
+            }
             viewState.listWorkouts?.let { listWorkouts ->
                 setListWorkouts(listWorkouts)
             }
-            /*viewState.listTrainingWorkouts?.let { listTrainingWorkouts ->
-                setListTrainingWorkouts(listTrainingWorkouts)
-            }*/
             viewState.listExercises?.let { listExercises ->
                 setListExercises(listExercises)
             }
@@ -134,6 +134,14 @@ constructor(
     override fun setStateEvent(stateEvent: StateEvent) {
 
         val job : Flow<DataState<HomeViewState>?> = when(stateEvent){
+
+            is InsertWorkoutEvent -> {
+
+                homeListInteractors.insertWorkout.insertWorkout(
+                    name = stateEvent.name,
+                    stateEvent = stateEvent
+                )
+            }
 
             is GetBodyPartEvent-> {
                homeListInteractors.getBodyParts.getBodyParts(
@@ -330,6 +338,14 @@ constructor(
         editor.apply()
     }
 
+    fun createWorkout(name : String) : Workout = workoutFactory.createWorkout(
+        idWorkout = null,
+        name = name,
+        exercises = null,
+        isActive = true,
+        created_at = null
+    )
+
     /********************************************************************
         GETTERS - QUERY
     *********************************************************************/
@@ -431,6 +447,12 @@ constructor(
             update.workout_list_filter = filter
             setViewState(update)
         }
+    }
+
+    fun setInsertedWorkout(workout: Workout?){
+        val update = getCurrentViewStateOrNew()
+        update.insertedWorkout = workout
+        setViewState(update)
     }
 
     fun setWorkoutOrder(order: String?){

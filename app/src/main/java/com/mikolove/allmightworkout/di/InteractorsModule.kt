@@ -36,9 +36,11 @@ object InteractorsModule {
         bodyPartCacheDataSource : BodyPartCacheDataSource,
         workoutTypeCacheDataSource : WorkoutTypeCacheDataSource,
         workoutNetworkDataSource : WorkoutNetworkDataSource,
-        exerciseNetworkDataSource : ExerciseNetworkDataSource
+        exerciseNetworkDataSource : ExerciseNetworkDataSource,
+        workoutFactory: WorkoutFactory
     ) : HomeListInteractors{
         return HomeListInteractors(
+            insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
             getBodyParts = GetBodyParts(bodyPartCacheDataSource),
             getExercises = GetExercises(exerciseCacheDataSource),
             getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
@@ -74,7 +76,6 @@ object InteractorsModule {
     @Singleton
     @Provides
     fun provideManageWorkoutListInteractors(
-        workoutFactory: WorkoutFactory,
         workoutCacheDataSource: WorkoutCacheDataSource,
         workoutNetworkDataSource: WorkoutNetworkDataSource,
         exerciseCacheDataSource: ExerciseCacheDataSource,
@@ -85,7 +86,6 @@ object InteractorsModule {
         return ManageWorkoutListInteractors(
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
             addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
-            insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
             removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
             updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource)

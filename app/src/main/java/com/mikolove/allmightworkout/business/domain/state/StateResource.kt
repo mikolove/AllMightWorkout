@@ -28,6 +28,8 @@ sealed class UIComponentType{
         val onDismissCallback: TodoCallback? = null
     ): UIComponentType()
 
+    class SimpleSnackBar() : UIComponentType()
+
     class None: UIComponentType()
 }
 

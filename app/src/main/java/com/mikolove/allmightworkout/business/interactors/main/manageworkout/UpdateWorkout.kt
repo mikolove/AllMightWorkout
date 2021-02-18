@@ -41,7 +41,7 @@ class UpdateWorkout(
                     DataState.data(
                         response = Response(
                             message = UPDATE_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
+                            uiComponentType = UIComponentType.SimpleSnackBar(),
                             messageType = MessageType.Success()
                         ),
                         data = null,

@@ -4,8 +4,20 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class HomeStateEvent : StateEvent{
+
+
+    class InsertWorkoutEvent(
+        val name : String
+    ) : HomeStateEvent(){
+        override fun errorInfo(): String = "Error inserting new workout."
+
+        override fun eventName(): String = "InsertWorkoutEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
 
     class GetWorkoutsEvent(
         val clearLayoutManagerState: Boolean = true

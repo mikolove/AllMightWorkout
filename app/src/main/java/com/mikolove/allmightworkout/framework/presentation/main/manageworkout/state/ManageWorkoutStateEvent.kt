@@ -20,15 +20,6 @@ sealed class ManageWorkoutStateEvent : StateEvent{
     }
 
 
-    class InsertWorkoutEvent(
-    ) : ManageWorkoutStateEvent(){
-        override fun errorInfo(): String = "Error inserting new workout."
-
-        override fun eventName(): String = "InsertWorkoutEvent"
-
-        override fun shouldDisplayProgressBar(): Boolean = false
-    }
-
     class UpdateWorkoutEvent() : ManageWorkoutStateEvent(){
         override fun errorInfo(): String = "Error updating workout."
 

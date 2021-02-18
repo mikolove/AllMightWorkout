@@ -8,6 +8,7 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +26,7 @@ InsertWorkout(
         idWorkout : String? = null,
         name : String,
         stateEvent : StateEvent
-    ) : Flow<DataState<ManageWorkoutViewState>?> = flow{
+    ) : Flow<DataState<HomeViewState>?> = flow{
 
         val newWorkout = workoutFactory.createWorkout(
             idWorkout = idWorkout?: UUID.randomUUID().toString(),
@@ -38,14 +39,14 @@ InsertWorkout(
             workoutCacheDataSource.insertWorkout(newWorkout)
         }
 
-        val cacheResponse = object : CacheResponseHandler<ManageWorkoutViewState, Long>(
+        val cacheResponse = object : CacheResponseHandler<HomeViewState, Long>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<ManageWorkoutViewState>? {
+            override suspend fun handleSuccess(resultObj: Long): DataState<HomeViewState>? {
                 return if (resultObj > 0) {
 
-                    val viewState = ManageWorkoutViewState(workout = newWorkout, isNewWorkout = false, cacheIdWorkout = newWorkout.idWorkout)
+                    val viewState = HomeViewState(insertedWorkout = newWorkout)
                     DataState.data(
                         response = Response(
                             message = INSERT_WORKOUT_SUCCESS,

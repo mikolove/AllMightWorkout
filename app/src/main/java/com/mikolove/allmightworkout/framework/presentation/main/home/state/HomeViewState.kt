@@ -19,6 +19,9 @@ data class HomeViewState(
     var listBodyParts: ArrayList<BodyPart>? = null,
     var listExercisesFromWorkoutId: ArrayList<Exercise>? = null, //Not sure if needed
 
+    //Insert workout
+    var insertedWorkout : Workout? = null,
+
     //Workout selected for training
     var workoutSelected: Workout? = null,
     var workoutTypeSelected : WorkoutType? = null,

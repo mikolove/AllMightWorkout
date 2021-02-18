@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.view.ActionMode
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.callbacks.onDismiss
@@ -32,13 +34,9 @@ class MainActivity : AppCompatActivity(), UIController {
 
     private val TAG: String = "AppDebug"
 
-    private var appBarConfiguration: AppBarConfiguration? = null
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding : ActivityMainBinding
     private var dialogInView: MaterialDialog? = null
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +46,20 @@ class MainActivity : AppCompatActivity(), UIController {
         setContentView(view)
 
         setSupportActionBar(binding.materialToolBar)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(
+            navController,
+            appBarConfiguration)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.navigation)
-            .navigateUp(appBarConfiguration as AppBarConfiguration)
+        return findNavController(R.id.main_fragment_container)
+            .navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
 
@@ -99,6 +106,16 @@ class MainActivity : AppCompatActivity(), UIController {
                         stateMessageCallback = stateMessageCallback
                     )
                 }
+            }
+
+            is SimpleSnackBar -> {
+                response.message?.let { msg ->
+                    displaySimpleSnackbar(
+                        message = msg,
+                        stateMessageCallback = stateMessageCallback
+                    )
+                }
+
             }
 
             is AreYouSureDialog -> {
@@ -158,6 +175,19 @@ class MainActivity : AppCompatActivity(), UIController {
                 onDismissCallback?.execute()
             }
         })
+        snackbar.show()
+        stateMessageCallback.removeMessageFromStack()
+    }
+
+    private fun displaySimpleSnackbar(
+        message: String,
+        stateMessageCallback: StateMessageCallback
+    ){
+        val snackbar = Snackbar.make(
+            binding.mainFragmentContainer,
+            message,
+            Snackbar.LENGTH_LONG
+        )
         snackbar.show()
         stateMessageCallback.removeMessageFromStack()
     }

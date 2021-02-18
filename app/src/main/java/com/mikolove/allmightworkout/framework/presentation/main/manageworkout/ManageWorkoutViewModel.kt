@@ -6,6 +6,7 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.ManageWorkoutListInteractors
+import com.mikolove.allmightworkout.business.interactors.main.manageworkout.UpdateWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
@@ -28,20 +29,21 @@ const val WORKOUT_NAME_CANNOT_BE_EMPTY = "Workout name cannot be empty."
 class ManageWorkoutViewModel
 @Inject
 constructor(
-    private val manageWorkoutListInteractors: ManageWorkoutListInteractors,
-    private val workoutFactory: WorkoutFactory,
-    private val editor: SharedPreferences.Editor,
-    private val sharedPreferences: SharedPreferences
+    private val manageWorkoutListInteractors: ManageWorkoutListInteractors
 ) : BaseViewModel<ManageWorkoutViewState>(){
 
 
     /********************************************************************
-        LIVE DATA INTERACTION STATE - editText , etc
+        LIVE DATA INTERACTION STATE - editText , switch
     *********************************************************************/
 
     private val workoutInteractionManager: WorkoutInteractionManager = WorkoutInteractionManager()
+
     val workoutNameInteractionState: LiveData<WorkoutInteractionState>
         get() = workoutInteractionManager.workoutNameState
+
+    val workoutIsActiveInteractionState: LiveData<WorkoutInteractionState>
+        get() = workoutInteractionManager.workoutIsActiveState
 
     /********************************************************************
         INIT BLOC
@@ -55,13 +57,6 @@ constructor(
 
         data.let { viewState ->
 
-            viewState.isNewWorkout?.let { isNewWorkout ->
-               setIsNewWorkout(false)
-            }
-
-            viewState.cacheIdWorkout?.let { cacheIdWorkout ->
-                setCacheIdWorkout(cacheIdWorkout)
-            }
             viewState.workout?.let { workout ->
                 printLogD("ManageWorkoutViewModel","Workout updated ${workout}")
                 setWorkout(workout)
@@ -74,7 +69,6 @@ constructor(
     override fun setStateEvent(stateEvent: StateEvent) {
         val job : Flow<DataState<ManageWorkoutViewState>?> = when(stateEvent){
 
-
             is ManageWorkoutStateEvent.GetWorkoutByIdEvent -> {
                 manageWorkoutListInteractors.getWorkoutById.getWorkoutById(
                     idWorkout = stateEvent.idWorkout,
@@ -82,36 +76,22 @@ constructor(
                 )
             }
 
-            is ManageWorkoutStateEvent.InsertWorkoutEvent -> {
-
-                val idWorkout = getWorkout()?.idWorkout
-                val nameWorkout = getWorkout()?.name
-
-                if(idWorkout != null && !isWorkoutNameNull()){
-                    manageWorkoutListInteractors.insertWorkout.insertWorkout(
-                        idWorkout = idWorkout,
-                        name = nameWorkout!!,
-                        stateEvent = stateEvent
-                    )
-                }else{
-                    emitStateMessageEvent(
-                        stateMessage = StateMessage(
-                            response = Response(
-                                message = InsertWorkout.INSERT_WORKOUT_FAILED,
-                                uiComponentType = UIComponentType.Dialog(),
-                                messageType = MessageType.Error()
-                            )
-                        ),
-                        stateEvent = stateEvent
-                    )
-                }
-            }
-
           is ManageWorkoutStateEvent.UpdateWorkoutEvent -> {
-                manageWorkoutListInteractors.updateWorkout.updateWorkout(
-                    workout = getWorkout()!!,
-                    stateEvent = stateEvent
+              if(!isWorkoutNameNull()){
+                  manageWorkoutListInteractors.updateWorkout.updateWorkout(
+                      workout = getWorkout()!!,
+                      stateEvent = stateEvent
+                  )
+              }else{
+                emitStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = UpdateWorkout.UPDATE_WORKOUT_FAILED,
+                            uiComponentType = UIComponentType.Dialog(),
+                            messageType = MessageType.Error())),
+                    stateEvent= stateEvent
                 )
+              }
             }
 
             is ManageWorkoutStateEvent.RemoveWorkoutEvent -> {
@@ -139,14 +119,6 @@ constructor(
     /********************************************************************
         TRIGGER STATE EVENTS - FUNCTIONS
     *********************************************************************/
-
-    fun createWorkout() : Workout = workoutFactory.createWorkout(
-        idWorkout = null,
-        name = null,
-        exercises = null,
-        isActive = true,
-        created_at = null
-    )
 
     fun updateWorkout(name: String?, isActive: Boolean){
         updateWorkoutName(name)
@@ -183,7 +155,7 @@ constructor(
     }
 
     fun updateWorkoutName(name: String?){
-        if(name.isNullOrEmpty()){
+        if(name.isNullOrBlank()){
             setStateEvent(
                 ManageWorkoutStateEvent.CreateStateMessageEvent(
                     stateMessage = StateMessage(
@@ -210,11 +182,7 @@ constructor(
         GETTERS
     *********************************************************************/
 
-    fun getCacheIdWorkout() : String? = getCurrentViewStateOrNew().cacheIdWorkout ?: null
-
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workout ?: null
-
-    fun getIsNewWorkout() : Boolean = getCurrentViewStateOrNew().isNewWorkout ?: false
 
     fun getIsUpdatePending(): Boolean = getCurrentViewStateOrNew().isUpdatePending?: false
 
@@ -222,29 +190,18 @@ constructor(
         SETTERS
     *********************************************************************/
 
-    fun setIsNewWorkout(isNewWorkout : Boolean){
-        val update = getCurrentViewStateOrNew()
-        update.isNewWorkout = isNewWorkout
-        setViewState(update)
-    }
-
     fun setIsUpdatePending(isPending: Boolean){
         val update = getCurrentViewStateOrNew()
         update.isUpdatePending = isPending
         setViewState(update)
     }
 
-    fun setWorkout(workout: Workout){
+    fun setWorkout(workout: Workout?){
         val update = getCurrentViewStateOrNew()
         update.workout = workout
         setViewState(update)
     }
 
-    fun setCacheIdWorkout(cacheIdWorkout : String?){
-        val update = getCurrentViewStateOrNew()
-        update.cacheIdWorkout = cacheIdWorkout
-        setViewState(update)
-    }
 
     fun setListExercise(exercises : List<Exercise>?){
         val update = getCurrentViewStateOrNew()
@@ -261,11 +218,17 @@ constructor(
         workoutInteractionManager.setWorkoutNameState(state)
     }
 
+    fun setWorkoutInteractionIsActiveState(state : WorkoutInteractionState){
+        workoutInteractionManager.setWorkoutIsActiveState(state)
+    }
+
     fun checkEditState() = workoutInteractionManager.checkEditState()
 
     fun exitEditState() = workoutInteractionManager.exitEditState()
 
     fun isEditingName() = workoutInteractionManager.isEditingName()
+
+    fun isEditingIsActive() = workoutInteractionManager.isEditingIsActive()
 
 
 }

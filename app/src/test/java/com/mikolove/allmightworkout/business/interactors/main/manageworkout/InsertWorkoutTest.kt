@@ -10,7 +10,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout.Companion.INSERT_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.InsertWorkoutEvent
+import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
@@ -80,10 +81,10 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = InsertWorkoutEvent()
-        ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
+            stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+        ).collect(object : FlowCollector<DataState<HomeViewState>?> {
 
-            override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
+            override suspend fun emit(value: DataState<HomeViewState>?) {
                 assertEquals(
                     value?.stateMessage?.response?.message,
                     INSERT_WORKOUT_SUCCESS
@@ -113,10 +114,10 @@ class InsertWorkoutTest {
          insertWorkout.insertWorkout(
              idWorkout = newWorkout.idWorkout,
              name = newWorkout.name,
-             stateEvent = InsertWorkoutEvent()
-         ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
+             stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+         ).collect(object : FlowCollector<DataState<HomeViewState>?> {
 
-             override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
+             override suspend fun emit(value: DataState<HomeViewState>?) {
                  assertEquals(
                      value?.stateMessage?.response?.message,
                      INSERT_WORKOUT_FAILED
@@ -146,10 +147,10 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = InsertWorkoutEvent()
-        ).collect(object : FlowCollector<DataState<ManageWorkoutViewState>?> {
+            stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+        ).collect(object : FlowCollector<DataState<HomeViewState>?> {
 
-            override suspend fun emit(value: DataState<ManageWorkoutViewState>?) {
+            override suspend fun emit(value: DataState<HomeViewState>?) {
                 assert(
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false

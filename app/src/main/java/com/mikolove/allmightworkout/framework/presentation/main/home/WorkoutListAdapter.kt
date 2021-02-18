@@ -79,7 +79,7 @@ class WorkoutListAdapter(
 
         //Maybe change place for this
         private val COLOR_UNSELECTED = R.color.design_default_color_background
-        private val COLOR_SELECTED   = R.color.colorPrimary
+        private val COLOR_SELECTED   = R.color.colorSecondary
         private val binding =  ItemWorkoutBinding.bind(itemView)
 
 

@@ -12,13 +12,14 @@ import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.manageworkout.RemoveWorkout
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.manageworkout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentManageWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.WorkoutInteractionState
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.WorkoutInteractionState.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,25 +31,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     private var binding : FragmentManageWorkoutBinding? = null
     val viewModel : ManageWorkoutViewModel by activityViewModels()
 
-    /********************************************************************
-        MENU INTERACTIONS
-    *********************************************************************/
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_manage_workout_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.toolbar_manage_workout_validate -> {
-                insertWorkout()
-                true
-            }
-            R.id.toolbar_manage_workout_delete -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +48,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
 
         setupUI()
         setupOnBackPressDispatcher()
-
         subscribeObservers()
         getWorkoutFromPreviousFragment()
 
@@ -82,11 +63,53 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
         }
     }
 
+    /********************************************************************
+    MENU INTERACTIONS
+     *********************************************************************/
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_manage_workout_menu, menu)
+
+        val menuValidate = menu.findItem(R.id.toolbar_manage_workout_validate)
+        setMenuVisibility(menuValidate,viewModel.getIsUpdatePending())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.toolbar_manage_workout_validate -> {
+                updateWorkout()
+                true
+            }
+            R.id.toolbar_manage_workout_delete -> {
+                printLogD("ManageWorkoutFragment","DELETE LAUNCH")
+                deleteWorkout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setMenuVisibility(menuItem: MenuItem, isVisible : Boolean){
+        menuItem.setVisible(isVisible)
+    }
+
+    /********************************************************************
+        SETUP
+    *********************************************************************/
 
     private fun setupUI(){
         binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
     }
 
+    private fun setupOnBackPressDispatcher() {
+        printLogD("ManageWorkoutFragment","Setup Back dispatcher")
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
 
     /********************************************************************
@@ -100,8 +123,11 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
             if(viewState != null){
 
                 viewState.workout?.let { workout ->
-                    printLogD("ManageWorkoutFragment","Load Workout UI")
-                    setWorkoutUi(workout)
+                        setWorkoutUi(workout)
+                }
+
+                viewState.isUpdatePending?.let { isUpdatePending ->
+                    activity?.invalidateOptionsMenu()
                 }
             }
         })
@@ -117,15 +143,35 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
                 when(response.message){
 
                     UPDATE_WORKOUT_SUCCESS -> {
-                        viewModel.clearStateMessage()
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        viewModel.setIsUpdatePending(false)
                     }
 
                     DELETE_WORKOUT_SUCCESS -> {
-                        viewModel.clearStateMessage()
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        viewModel.setWorkout(null)
+                        viewModel.setListExercise(null)
+                        viewModel.setIsUpdatePending(false)
                         findNavController().popBackStack()
                     }
 
+                    //If another we quit so we clear Message Stack
                     else -> {
+
                         uiController.onResponseReceived(
                             response = stateMessage.response,
                             stateMessageCallback = object: StateMessageCallback {
@@ -144,9 +190,7 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
                                 findNavController().popBackStack()
                             }
 
-                            else -> {
-                                // do nothing
-                            }
+                            else -> { }
                         }
                     }
                 }
@@ -158,17 +202,27 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
 
             when(state){
 
-                is WorkoutInteractionState.EditState -> {
-                    printLogD("ManageWorkoutFragment","Enter editing state")
+                is EditState -> {
                     binding?.fragmentManageWorkoutEditName?.enableContentInteraction()
                     view?.showKeyboard()
                     viewModel.setIsUpdatePending(true)
                 }
 
-                is WorkoutInteractionState.DefaultState -> {
-                    printLogD("ManageWorkoutFragment","Enter default state")
+                is DefaultState -> {
                     binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
+                    view?.hideKeyboard()
                 }
+            }
+        })
+
+        viewModel.workoutIsActiveInteractionState.observe(viewLifecycleOwner, Observer { state ->
+
+            when(state){
+
+                is EditState -> {
+                    viewModel.setIsUpdatePending(true)
+                }
+                is DefaultState -> { }
             }
         })
 
@@ -179,28 +233,17 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
      *********************************************************************/
 
     private fun getWorkoutFromPreviousFragment(){
-        printLogD("ManageWorkoutFragment","Load workout")
-
         arguments?.let { args ->
             (args.getString(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY))?.let { idWorkout ->
-                printLogD("ManageWorkoutFragment","Args found load workout")
-                printLogD("ManageWorkoutFragment","id workout loaded is ${idWorkout}")
-                viewModel.setStateEvent(ManageWorkoutStateEvent.GetWorkoutByIdEvent(idWorkout))
+                viewModel.setStateEvent(GetWorkoutByIdEvent(idWorkout))
             }
-        } ?: loadDefaultWorkout()
+        } ?: onErrorRetrievingWorkoutFromPreviousFragment()
 
     }
 
-    private fun loadDefaultWorkout(){
-        printLogD("ManageWorkoutFragment","No workout found load default")
-        val workout = viewModel.createWorkout()
-        viewModel.setIsNewWorkout(true)
-        viewModel.setWorkout(workout)
-    }
-
-    private fun onErrorRetrievingNoteFromPreviousFragment(){
+    private fun onErrorRetrievingWorkoutFromPreviousFragment(){
         viewModel.setStateEvent(
-            ManageWorkoutStateEvent.CreateStateMessageEvent(
+            CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
                         message = MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT,
@@ -213,34 +256,57 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     }
 
 
-    private fun insertWorkout(){
-        if(viewModel.getIsNewWorkout()){
-            if(viewModel.checkEditState()){
-                quitEditState()
-            }
-
-            viewModel.setStateEvent(ManageWorkoutStateEvent.InsertWorkoutEvent())
-
-        }
-    }
-    private fun updateWorkout() {
-        if(!viewModel.getIsNewWorkout()){
-            if(viewModel.getIsUpdatePending()){
-                viewModel.setStateEvent(
-                    ManageWorkoutStateEvent.UpdateWorkoutEvent()
-                )
-            }
-        }
-    }
-
     /********************************************************************
         SETTERS - GETTERS - ACTIONS
     *********************************************************************/
+
+    private fun deleteWorkout() {
+        viewModel.setStateEvent(
+            CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = RemoveWorkout.DELETE_WORKOUT_ARE_YOU_SURE,
+                        uiComponentType = UIComponentType.AreYouSureDialog(
+                            object : AreYouSureCallback {
+                                override fun proceed() {
+                                    printLogD("ManageWorkoutFragment","Launch Remove workout stateEvent")
+                                    viewModel.setStateEvent(RemoveWorkoutEvent())
+                                }
+
+                                override fun cancel() {
+                                    // do nothing
+                                }
+                            }
+                        ),
+                        messageType = MessageType.Info()
+                    )
+                )
+            )
+        )
+    }
+
+    private fun updateWorkout() {
+        if(viewModel.getIsUpdatePending()){
+            if (viewModel.checkEditState()) {
+                quitEditState()
+            }
+            viewModel.setStateEvent(
+                UpdateWorkoutEvent()
+            )
+        }
+    }
+
+    private fun quitEditState(){
+        updateNameInViewModel()
+        updateIsActiveInViewModel()
+        viewModel.exitEditState()
+    }
 
     private fun setWorkoutUi(workout : Workout){
         setWorkoutName(workout.name)
         setWorkoutIsActive(workout.isActive)
     }
+
     private fun setWorkoutName(name : String){
         binding?.fragmentManageWorkoutEditName?.setText(name)
     }
@@ -250,10 +316,18 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     }
 
     private fun onClickWorkoutEditName(){
-        printLogD("ManageWorkoutFragment","Name in edit mode")
         if(!viewModel.isEditingName()){
+            updateIsActiveInViewModel()
+            viewModel.setWorkoutInteractionNameState(EditState())
+        }
+    }
+
+    private fun onClickWorkoutIsActive(){
+        if(!viewModel.isEditingIsActive()){
             updateNameInViewModel()
-            viewModel.setWorkoutInteractionNameState(WorkoutInteractionState.EditState())
+            viewModel.setWorkoutInteractionIsActiveState(EditState())
+            //Change state on first click
+            setWorkoutIsActive(!getWorkoutIsActive())
         }
     }
 
@@ -262,42 +336,26 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
             viewModel.updateWorkoutName(getWorkoutName())
         }
     }
+    private fun updateIsActiveInViewModel(){
+        if(viewModel.isEditingIsActive()){
+            viewModel.updateWorkoutIsActive(getWorkoutIsActive())
+        }
+    }
 
     private fun getWorkoutName() : String{
         return binding?.fragmentManageWorkoutEditName?.text.toString()
-    }
-
-    private fun onClickWorkoutIsActive(){
-        printLogD("ManageWorkoutFragment","Is Active clicked")
-        updateIsActiveInViewModel()
-    }
-
-    private fun updateIsActiveInViewModel(){
-        viewModel.updateWorkoutIsActive(getWorkoutIsActive())
     }
 
     private fun getWorkoutIsActive() : Boolean{
         return binding?.fragmentManageWorkoutSwitchIsActive?.let {
             it.isChecked
         }?: false
-
     }
-
-
-    private fun quitEditState(){
-        updateNameInViewModel()
-        //updateIsActiveInViewModel()
-        viewModel.exitEditState()
-        view?.hideKeyboard()
-    }
-
-
 
     /********************************************************************
         BACK BUTTON PRESS
     *********************************************************************/
     private fun onBackPressed() {
-        printLogD("ManageWorkoutFragment","OnBackPressed")
         if (viewModel.checkEditState()) {
             quitEditState()
          }else{
@@ -305,15 +363,7 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
         }
     }
 
-    private fun setupOnBackPressDispatcher() {
-        printLogD("ManageWorkoutFragment","Setup Back dispatcher")
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
+
 
 
 }

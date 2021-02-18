@@ -35,7 +35,7 @@ class RemoveWorkout<ViewState>(
                     DataState.data(
                         response = Response(
                             message = DELETE_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.None(),
+                            uiComponentType = UIComponentType.SimpleSnackBar(),
                             messageType = MessageType.Success()
                         ),
                         data = null,
@@ -76,6 +76,6 @@ class RemoveWorkout<ViewState>(
     companion object{
         val DELETE_WORKOUT_SUCCESS = "Successfully deleted workout"
         val DELETE_WORKOUT_FAILED = "Failed deleting workout"
-        val DELETE_WORKOUT_ARE_YOU_SURE = "Are you sure to delete this ?"
+        val DELETE_WORKOUT_ARE_YOU_SURE = "Are you sure to delete this workout ?"
     }
 }

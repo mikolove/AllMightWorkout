@@ -33,6 +33,7 @@
     <!-- ChooseWorkout Fragment -->
     <string name="fragment_choose_workout_title">Workouts</string>
     <string name="fragment_choose_workout_add_content_description">Add Workout</string>
+    <string name="fragment_choose_workout_add_name">Enter a name for the new workout</string>
 
     <!-- ChooseExercise Fragment -->
     <string name="fragment_choose_exercise_title">Exercises</string>

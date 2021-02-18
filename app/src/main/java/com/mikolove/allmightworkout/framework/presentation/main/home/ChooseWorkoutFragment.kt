@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.framework.presentation.main.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -10,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +28,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_NAME
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_ASC
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_DESC
-import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
@@ -37,6 +36,7 @@ import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.MA
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ChooseWorkoutFragment
@@ -52,7 +52,7 @@ class ChooseWorkoutFragment
     private var binding : FragmentChooseWorkoutBinding? = null
 
     override fun onDestroyView() {
-        printLogD("ChooseWorkoutFragment","OnDestroyView")
+        printLogD("ChooseWorkoutFragment", "OnDestroyView")
         binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
         binding = null
         listAdapter = null
@@ -73,17 +73,7 @@ class ChooseWorkoutFragment
         viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
     }
-/*
 
-    override fun onAttach(context: Context) {
-        try {
-            uiController = context as UIController
-        }catch (e: ClassCastException){
-            e.printStackTrace()
-        }
-        super.onAttach(context)
-    }
-*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         val viewState = viewModel.viewState.value
@@ -113,62 +103,20 @@ class ChooseWorkoutFragment
         setupUI()
         setupRecyclerView()
         setupSwipeRefresh()
+        setupFAB()
         subscribeObservers()
 
-        binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
-
-
-            navigateToManageWorkout(null)
-         /*   val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.chooseWorkoutFragment, true)
-                .build()
-
-            findNavController().navigate(R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,null ,navOptions)
-
-            printLogD("ChooseWorkoutFragment", "fragment id : ${R.id.homeFragment}")
-            printLogD("ChooseWorkoutFragment", "fragment id : ${R.id.chooseWorkoutFragment}")
-
-            val chooseWorkoutView = activity?.supportFragmentManager?.findFragmentById(R.id.main_fragment_container)?.childFragmentManager?.fragments?.forEach {
-                printLogD("ChooseWorkoutFragment", "child fragment : ${it.javaClass.name}")
-                printLogD("ChooseWorkoutFragment", "child fragment : ${this.javaClass.name}")
-            }
-
-            val graph = this.findNavController().graph
-            printLogD("ChooseWorkoutFragment", "${this.findNavController().currentDestination}")
-            graph.startDestination = R.id.chooseWorkoutFragment
-            printLogD("ChooseWorkoutFragment", "${this.findNavController().currentDestination}")*/
-            //this.findNavController().navigate(R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment)
-
-            //val viewChoose = childFragmentManager.fragments.get(0)
-            //printLogD("ChooseWorkoutFragment","view id : ${viewChoose}")
-
-            //viewChoose?.navController?.navigate(R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment)
-
-            //printLogD("ChooseWorkoutFragment","view id ${chooseWorkoutView?.id}")
-           /* printLogD("ChooseWorkoutFragment","current destination ID ${findNavController().currentDestination?.id}")
-            printLogD("ChooseWorkoutFragment","Home Fragment ID ${R.id.homeFragment}")
-            val graph = findNavController().graph.findNode(R.id.navigation7)
-            printLogD("ChooseWorkoutFragment","graph id ${findNavController().graph.id}")
-            printLogD("ChooseWorkoutFragment","graph is NavGraph ${graph is NavGraph}")
-            if (graph is NavGraph) {
-                printLogD("ChooseWorkoutFragment","graph is NavGraph ${graph is NavGraph}")
-                graph.startDestination = R.id.chooseWorkoutFragment
-
-            }
-*/
-            //Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_manageWorkoutFragment)
-        }
         restoreInstanceState(savedInstanceState)
     }
 
-    private fun navigateToManageWorkout(idWorkout : String?){
-        if(idWorkout.isNullOrEmpty()){
-            findNavController().navigate(R.id.action_homeFragment_to_manageWorkoutFragment)
-        }else{
-            val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
-            findNavController().navigate(R.id.action_homeFragment_to_manageWorkoutFragment,bundle)
-        }
+    private fun navigateToManageWorkout(idWorkout: String){
 
+        val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_manageWorkoutFragment,
+            bundle
+        )
+        viewModel.setInsertedWorkout(null)
     }
 
     private fun subscribeObservers(){
@@ -193,6 +141,7 @@ class ChooseWorkoutFragment
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if (viewState != null) {
+
                 viewState.listWorkouts?.let { workoutList ->
 
                     if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
@@ -203,6 +152,9 @@ class ChooseWorkoutFragment
                     listAdapter?.notifyDataSetChanged()
                 }
 
+                viewState.insertedWorkout?.let { insertedWorkout ->
+                    navigateToManageWorkout(insertedWorkout.idWorkout)
+                }
             }
         })
 
@@ -456,21 +408,6 @@ class ChooseWorkoutFragment
         val searchItem = menu?.findItem(R.id.toolbar_workout_search)
         val searchView = searchItem?.actionView as SearchView
 
-        /*
-
-        //Testing way to input search
-        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                printLogD("ChooseWorkoutFragment","Submit search on ${query}")
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                printLogD("ChooseWorkoutFragment","Changed ${newText}")
-                return true
-            }
-        })*/
-
         //May Add autocomplete
         val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
         searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
@@ -578,6 +515,39 @@ class ChooseWorkoutFragment
         }
     }
 
+
+    private fun setupFAB(){
+        binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
+            uiController.displayInputCaptureDialog(
+                getString(R.string.fragment_choose_workout_add_name),
+                object : DialogInputCaptureCallback {
+                    override fun onTextCaptured(text: String) {
+                        if (!text.isNullOrEmpty() && text.isNotBlank()) {
+                            viewModel.setStateEvent(
+                                InsertWorkoutEvent(name = text)
+                            )
+                        } else {
+                            onErrorNoNameSpecified()
+                        }
+                    }
+                }
+            )
+        }
+    }
+
+    private fun onErrorNoNameSpecified(){
+        viewModel.setStateEvent(
+            CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = INSERT_WORKOUT_ERROR_NO_NAME,
+                        uiComponentType = UIComponentType.Dialog(),
+                        messageType = MessageType.Error()
+                    )
+                )
+            )
+        )
+    }
     private fun deleteWorkouts(){
         viewModel.setStateEvent(
             CreateStateMessageEvent(
@@ -617,7 +587,10 @@ class ChooseWorkoutFragment
     override fun onItemSelected(position: Int, item: Workout) {
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
+        }else{
+            navigateToManageWorkout(item.idWorkout)
         }
+
     }
 
     override fun restoreListPosition() {
