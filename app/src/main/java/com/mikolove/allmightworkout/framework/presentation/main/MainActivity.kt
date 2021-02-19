@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import androidx.appcompat.view.ActionMode
 import androidx.customview.widget.Openable
 import androidx.navigation.findNavController
@@ -29,6 +31,7 @@ import com.mikolove.allmightworkout.framework.presentation.common.gone
 import com.mikolove.allmightworkout.framework.presentation.common.invisible
 import com.mikolove.allmightworkout.framework.presentation.common.visible
 import com.mikolove.allmightworkout.util.TodoCallback
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,9 +52,13 @@ class MainActivity : AppCompatActivity(), UIController {
         setContentView(view)
 
         setSupportActionBar(binding.materialToolBar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+
+        setupProgressLinearIndicator()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
+
 
         appBarConfiguration = AppBarConfiguration.Builder(
             R.id.historyFragment,
@@ -114,11 +121,19 @@ class MainActivity : AppCompatActivity(), UIController {
         binding?.mainBottomNavigation.visibility = visibility
     }
 
+    private fun setupProgressLinearIndicator(){
+        binding.mainProgressBar.hide()
+        binding.mainProgressBar.setVisibilityAfterHide(View.INVISIBLE)
+    }
+
     override fun displayProgressBar(isDisplayed: Boolean) {
-        if(isDisplayed)
-            binding.mainProgressBar.visible()
-        else
-            binding.mainProgressBar.invisible()
+        if(isDisplayed) {
+            //binding.mainProgressBar.visible()
+            binding.mainProgressBar.show()
+        }else {
+            //binding.mainProgressBar.invisible()
+            binding.mainProgressBar.hide()
+        }
     }
 
     override fun displayInputCaptureDialog(title: String, callback: DialogInputCaptureCallback) {
@@ -136,6 +151,22 @@ class MainActivity : AppCompatActivity(), UIController {
             }
             cancelable(true)
         }
+    }
+
+    override fun displayAppBarTitle() {
+
+        val navController = findNavController(R.id.main_fragment_container)
+        printLogD("MainActivity","Current destination ${navController?.currentDestination?.id}")
+        val appTitle = when(navController?.currentDestination?.id) {
+
+            R.id.historyFragment -> R.string.fragment_home_tab_layout_history
+            R.id.chooseWorkoutFragment -> R.string.fragment_home_tab_layout_workout
+            R.id.chooseExerciseFragment -> R.string.fragment_home_tab_layout_exercise
+            R.id.manageWorkoutFragment -> R.string.fragment_manage_workout_text_title
+            else -> R.string.app_bar_title_default
+        }
+
+        supportActionBar?.setTitle(appTitle)
     }
 
     override fun onResponseReceived(

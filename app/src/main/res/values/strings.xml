@@ -27,6 +27,7 @@
 
 
     <!-- Home Fragment -->
+    <string name="app_bar_title_default">Default</string>
     <string name="fragment_home_tab_layout_history">History</string>
     <string name="fragment_home_tab_layout_workout">Workouts</string>
     <string name="fragment_home_tab_layout_exercise">ExerciseS</string>

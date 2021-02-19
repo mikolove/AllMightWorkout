@@ -25,6 +25,7 @@ class HomeFragment
 constructor(): BaseFragment(R.layout.fragment_home)
 {
 
+
     //private var viewPager: ViewPager2? = null
     //private var tabLayout: TabLayout? = null
     //private var fragmentCollectionAdapter : FragmentCollectionAdapter? = null

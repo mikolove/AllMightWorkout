@@ -16,6 +16,16 @@
         <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
 
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+
+        <item name="linearProgressIndicatorStyle">@style/Widget.App.LinearProgressIndicator</item>
+    </style>
+
+    <style name="Widget.App.LinearProgressIndicator" parent="Widget.MaterialComponents.LinearProgressIndicator">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.LinearProgressIndicator</item>
+    </style>
+
+    <style name="ThemeOverlay.App.LinearProgressIndicator" parent="">
+        <item name="colorPrimary">@color/colorSecondary</item>
     </style>
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">

@@ -81,12 +81,10 @@ class WorkoutListAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
 
         //Maybe change place for this
-        private val COLOR_UNSELECTED = R.color.design_default_color_background
-        private val COLOR_SELECTED   = R.color.colorSecondary
+/*        private val COLOR_UNSELECTED = R.color.design_default_color_background
+        private val COLOR_SELECTED   = R.color.colorSecondary*/
         private val binding =  ItemWorkoutBinding.bind(itemView)
 
-
-        @SuppressLint("StringFormatInvalid")
         fun bind(item: Workout) = with(itemView) {
 
             //Add test transition
@@ -104,7 +102,6 @@ class WorkoutListAdapter(
 
             //Bind values
             binding.itemWorkoutTextName.text = item.name
-            binding.itemWorkoutTextExercises.text = item.exercises?.size.toString() ?: "0"
             binding.itemWorkoutTextCreatedAt.text = item.createdAt
 
             //Its seems to never crash and be efficient. Author mitch tabian
@@ -114,12 +111,12 @@ class WorkoutListAdapter(
               if(!workouts.isNullOrEmpty()){
 
                   if(workouts.contains(item)){
-                      changeColor(newColor = COLOR_SELECTED)
+                      binding.itemWorkoutContainer.setChecked(true)
                   }else{
-                      changeColor(newColor = COLOR_UNSELECTED)
+                      binding.itemWorkoutContainer.setChecked(false)
                   }
               }else{
-                  changeColor(newColor = COLOR_UNSELECTED)
+                  binding.itemWorkoutContainer.setChecked(false)
               }
 
             })

@@ -27,6 +27,11 @@ constructor(
         return inflater.inflate(layoutRes, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        displayAppBarTitle()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity?.let {
@@ -42,4 +47,7 @@ constructor(
         }
     }
 
+   fun displayAppBarTitle(){
+       uiController?.displayAppBarTitle()
+   }
 }

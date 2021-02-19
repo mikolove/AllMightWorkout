@@ -170,7 +170,7 @@ class ChooseWorkoutFragment
                     if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
                         viewModel.setWorkoutQueryExhausted(true)
                     }
-
+                    printLogD("ChooseWorkoutFragment","List size ${workoutList.size}")
                     listAdapter?.submitList(workoutList)
                     listAdapter?.notifyDataSetChanged()
                 }
@@ -560,7 +560,7 @@ class ChooseWorkoutFragment
 
 
     private fun setupFAB(){
-        binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
+        /*binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
             uiController.displayInputCaptureDialog(
                 getString(R.string.fragment_choose_workout_add_name),
                 object : DialogInputCaptureCallback {
@@ -575,7 +575,7 @@ class ChooseWorkoutFragment
                     }
                 }
             )
-        }
+        }*/
     }
 
     private fun onErrorNoNameSpecified(){
@@ -637,7 +637,9 @@ class ChooseWorkoutFragment
     }
 
     override fun onItemSelected(position: Int, item: Workout, containerView: View) {
-        if(!isMultiSelectionModeEnabled()){
+        if(isMultiSelectionModeEnabled()){
+            viewModel.addOrRemoveWorkoutFromSelectedList(item)
+        }else{
             navigateToManageWorkout(containerView,item.idWorkout)
         }
     }

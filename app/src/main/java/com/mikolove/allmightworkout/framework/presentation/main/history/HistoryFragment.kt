@@ -22,4 +22,5 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
 }

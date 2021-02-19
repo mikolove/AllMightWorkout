@@ -10,6 +10,8 @@ interface UIController {
 
     fun displayBottomNavigation(visibility : Int)
 
+    fun displayAppBarTitle()
+
     fun displayProgressBar(isDisplayed: Boolean)
 
     fun hideSoftKeyboard()

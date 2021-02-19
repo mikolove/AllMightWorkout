@@ -33,7 +33,6 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
     private var binding : FragmentManageWorkoutBinding? = null
     val viewModel : ManageWorkoutViewModel by activityViewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()

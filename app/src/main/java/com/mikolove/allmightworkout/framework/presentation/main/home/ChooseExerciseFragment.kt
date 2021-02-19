@@ -20,7 +20,9 @@ class ChooseExerciseFragment(): BaseFragment(R.layout.fragment_choose_exercise){
         printLogD("ChooseExerciseFragment","OnDestroyView")
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
 }
