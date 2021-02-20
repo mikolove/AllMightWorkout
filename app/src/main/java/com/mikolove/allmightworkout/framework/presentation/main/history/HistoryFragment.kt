@@ -6,10 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.databinding.FragmentChooseWorkoutBinding
 import com.mikolove.allmightworkout.databinding.FragmentHistoryBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.util.printLogD

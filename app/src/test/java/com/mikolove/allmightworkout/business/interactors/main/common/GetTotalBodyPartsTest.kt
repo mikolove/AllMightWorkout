@@ -7,6 +7,7 @@ import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalBod
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -46,10 +47,10 @@ class GetTotalBodyPartsTest {
 
         var totalBodyParts = 0
 
-        getTotalBodyParts.getTotalBodyParts<HomeViewState>(
+        getTotalBodyParts.getTotalBodyParts<WorkoutViewState>(
             stateEvent = GetTotalBodyPartsEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?>{
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
                     value?.stateMessage?.response?.message,
                     GET_TOTAL_BODYPART_SUCCESS

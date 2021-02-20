@@ -17,6 +17,9 @@ import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExerciseSet
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

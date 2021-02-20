@@ -11,6 +11,7 @@ import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -63,14 +64,14 @@ class GetBodyPartsTest {
         var results : ArrayList<BodyPart>? = null
 
         //Get bodyparts
-        getBodyParts.getBodyParts<HomeViewState>(
+        getBodyParts.getBodyParts<WorkoutViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetBodyPartEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assertEquals(
                     value?.stateMessage?.response?.message,
@@ -100,14 +101,14 @@ class GetBodyPartsTest {
         var results : ArrayList<BodyPart>? = null
 
         //Get bodyparts
-        getBodyParts.getBodyParts<HomeViewState>(
+        getBodyParts.getBodyParts<WorkoutViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetBodyPartEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assertEquals(
                     value?.stateMessage?.response?.message,
@@ -136,14 +137,14 @@ class GetBodyPartsTest {
         var query = FORCE_SEARCH_BODYPART_EXCEPTION
         var results : ArrayList<BodyPart>? = null
 
-        getBodyParts.getBodyParts<HomeViewState>(
+        getBodyParts.getBodyParts<WorkoutViewState>(
             query = query,
             filterAndOrder = BODYPART_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetBodyPartEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assert(
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false

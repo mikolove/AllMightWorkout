@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetC
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.interactors.sync.SyncExercises
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue

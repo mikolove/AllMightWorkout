@@ -9,6 +9,7 @@ import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutB
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -59,12 +60,12 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById<HomeViewState>(
+        getWorkoutById.getWorkoutById<WorkoutViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
-        ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assertEquals(
                     value?.stateMessage?.response?.message,
@@ -92,12 +93,12 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById<HomeViewState>(
+        getWorkoutById.getWorkoutById<WorkoutViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
-        ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assert(
                     value?.stateMessage?.response?.message
@@ -124,12 +125,12 @@ class GetWorkoutByIdTest {
         var workoutRetrieved : Workout? = null
 
         //Search it
-        getWorkoutById.getWorkoutById<HomeViewState>(
+        getWorkoutById.getWorkoutById<WorkoutViewState>(
             idWorkout = idWorkout,
             stateEvent = GetWorkoutByIdEvent(idWorkout)
-        ).collect( object  : FlowCollector<DataState<HomeViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assert(
                     value?.stateMessage?.response?.message

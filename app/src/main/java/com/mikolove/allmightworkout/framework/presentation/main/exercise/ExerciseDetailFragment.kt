@@ -1,18 +1,17 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageexercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
+import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.ManageExerciseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ManageExerciseFragment(): BaseFragment(R.layout.fragment_base){
+class ExerciseDetailFragment(): BaseFragment(R.layout.fragment_base){
 
-    val viewModel : ManageExerciseViewModel by activityViewModels()
+    val viewModel : ExerciseViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

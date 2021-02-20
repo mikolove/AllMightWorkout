@@ -11,6 +11,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -93,8 +94,8 @@ class RemoveMultipleExercisesTest {
         removeMultipleExercises?.removeMultipleExercises(
             exercises = randomExercises,
             stateEvent = RemoveMultipleExercisesEvent(exercises = randomExercises)
-        )?.collect( object : FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     DELETE_EXERCISES_SUCCESS
@@ -145,8 +146,8 @@ class RemoveMultipleExercisesTest {
         removeMultipleExercises?.removeMultipleExercises(
             exercises = exercisesToDelete,
             stateEvent = RemoveMultipleExercisesEvent(exercises = exercisesToDelete)
-        )?.collect( object : FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     DELETE_EXERCISES_ERRORS
@@ -198,8 +199,8 @@ class RemoveMultipleExercisesTest {
         removeMultipleExercises?.removeMultipleExercises(
             exercises = exercisesToDelete,
             stateEvent = RemoveMultipleExercisesEvent(exercises = exercisesToDelete)
-        )?.collect(object : FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        )?.collect(object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     DELETE_EXERCISES_ERRORS

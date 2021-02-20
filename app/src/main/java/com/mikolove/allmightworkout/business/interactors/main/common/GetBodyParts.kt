@@ -6,6 +6,7 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -47,7 +48,7 @@ class GetBodyParts(
                 }
 
                 val viewState = when(ViewState::class){
-                    HomeViewState::class -> HomeViewState(listBodyParts = ArrayList(resultObj))
+                    WorkoutViewState::class -> WorkoutViewState(listBodyParts = ArrayList(resultObj))
                     else -> null
                 }
 

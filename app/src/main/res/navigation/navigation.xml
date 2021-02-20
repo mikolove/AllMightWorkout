@@ -2,84 +2,84 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/historyFragment">
+    app:startDestination="@id/history_fragment">
 
     <fragment
-        android:id="@+id/chooseWorkoutFragment"
+        android:id="@+id/workout_fragment"
         android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutFragment"
-        android:label="ChooseWorkoutFragment" >
+        android:label="WorkoutFragment" >
         <action
             android:id="@+id/action_chooseWorkoutFragment_to_manageWorkoutFragment"
-            app:destination="@id/manageWorkoutFragment" />
+            app:destination="@id/workout_detail_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/manageWorkoutFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.ManageWorkoutFragment"
-        android:label="ManageWorkoutFragment" >
+        android:id="@+id/workout_detail_fragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutDetailFragment"
+        android:label="WorkoutDetailFragment" >
         <action
-            android:id="@+id/action_manageWorkoutFragment_to_addExerciseToWorkoutFragment"
-            app:destination="@id/addExerciseToWorkoutFragment" />
+            android:id="@+id/action_workout_fragment_to_add_exercise_to_workout_fragment"
+            app:destination="@id/add_exercise_to_workout_fragment" />
         <action
-            android:id="@+id/action_manageWorkoutFragment_to_chooseWorkoutFragment"
-            app:destination="@id/chooseWorkoutFragment"
-            app:popUpTo="@id/chooseWorkoutFragment"
+            android:id="@+id/action_workout_detail_fragment_to_workout_fragment"
+            app:destination="@id/workout_fragment"
+            app:popUpTo="@id/workout_fragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/chooseExerciseFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.ChooseExerciseFragment"
-        android:label="ChooseExerciseFragment" >
+        android:id="@+id/exercise_fragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseFragment"
+        android:label="ExerciseFragment" >
         <action
-            android:id="@+id/action_chooseExerciseFragment_to_manageExerciseFragment"
-            app:destination="@id/manageExerciseFragment" />
+            android:id="@+id/action_exercise_fragment_to_exercise_detail_fragment"
+            app:destination="@id/exercise_detail_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/manageExerciseFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageexercise.ManageExerciseFragment"
-        android:label="ManageExerciseFragment" >
+        android:id="@+id/exercise_detail_fragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseDetailFragment"
+        android:label="ExerciseDetailFragment" >
         <action
-            android:id="@+id/action_manageExerciseFragment_to_chooseExerciseFragment"
-            app:destination="@id/chooseExerciseFragment" />
+            android:id="@+id/action_exercise_detail_fragment_to_exercise_fragment"
+            app:destination="@id/exercise_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/historyFragment"
+        android:id="@+id/history_fragment"
         android:name="com.mikolove.allmightworkout.framework.presentation.main.history.HistoryFragment"
         android:label="historyFragment" >
         <action
-            android:id="@+id/action_historyFragment_to_historyDetailFragment"
-            app:destination="@id/historyDetailFragment" />
+            android:id="@+id/action_history_fragment_to_history_detail_fragment"
+            app:destination="@id/history_detail_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/historyDetailFragment"
+        android:id="@+id/history_detail_fragment"
         android:name="com.mikolove.allmightworkout.framework.presentation.main.history.HistoryDetailFragment"
         android:label="historyDetailFragment" >
         <action
-            android:id="@+id/action_historyDetailFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            android:id="@+id/action_history_detail_fragment_to_history_fragment"
+            app:destination="@id/history_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/addExerciseToWorkoutFragment"
+        android:id="@+id/add_exercise_to_workout_fragment"
         android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.AddExerciseToWorkoutFragment"
         android:label="AddExerciseToWorkoutFragment" >
         <action
-            android:id="@+id/action_addExerciseToWorkoutFragment_to_manageWorkoutFragment"
-            app:destination="@id/manageWorkoutFragment"
-            app:popUpTo="@id/manageWorkoutFragment"
+            android:id="@+id/action_add_exercise_to_workout_fragment_to_workout_detail_fragment"
+            app:destination="@id/workout_detail_fragment"
+            app:popUpTo="@id/workout_detail_fragment"
             app:popUpToInclusive="true" />
     </fragment>
     <action
-        android:id="@+id/action_global_historyFragment"
-        app:destination="@id/historyFragment"
+        android:id="@+id/action_global_history_fragment"
+        app:destination="@id/history_fragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/action_global_chooseWorkoutFragment"
-        app:destination="@id/chooseWorkoutFragment"
+        android:id="@+id/action_global_workout_fragment"
+        app:destination="@id/workout_fragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/action_global_chooseExerciseFragment"
-        app:destination="@id/chooseExerciseFragment"
+        android:id="@+id/action_global_exercise_fragment"
+        app:destination="@id/exercise_fragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 </navigation>

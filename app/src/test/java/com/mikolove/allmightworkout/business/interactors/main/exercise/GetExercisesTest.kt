@@ -10,8 +10,8 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExerci
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises.Companion.GET_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_CREATED
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -68,8 +68,8 @@ class GetExercisesTest {
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
-        ).collect(object: FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     GET_EXERCISES_SUCCESS
@@ -104,8 +104,8 @@ class GetExercisesTest {
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
-        ).collect(object: FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     GET_EXERCISES_NO_MATCHING_RESULTS
@@ -137,8 +137,8 @@ class GetExercisesTest {
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
             stateEvent = GetExercisesEvent()
-        ).collect(object: FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false

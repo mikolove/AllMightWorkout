@@ -1,19 +1,18 @@
-package com.mikolove.allmightworkout.framework.presentation.main.home
+package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
+import com.mikolove.allmightworkout.framework.presentation.main.home.HomeViewModel
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseExerciseFragment(): BaseFragment(R.layout.fragment_choose_exercise){
+class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise){
 
-    val viewModel : HomeViewModel by activityViewModels()
+    val viewModel : ExerciseViewModel by activityViewModels()
 
     override fun onDestroyView() {
         super.onDestroyView()

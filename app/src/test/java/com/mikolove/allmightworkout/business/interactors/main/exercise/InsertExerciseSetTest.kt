@@ -8,6 +8,7 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSe
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -85,8 +86,8 @@ class InsertExerciseSetTest {
             restTime = newExerciseSet.restTime,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSetId = newExerciseSet.idExerciseSet)
-        ).collect(object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -128,8 +129,8 @@ class InsertExerciseSetTest {
             restTime = newExerciseSet.restTime,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSetId = newExerciseSet.idExerciseSet)
-        ).collect(object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -171,8 +172,8 @@ class InsertExerciseSetTest {
             restTime = newExerciseSet.restTime,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSetId = newExerciseSet.idExerciseSet)
-        ).collect(object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
                     value?.stateMessage?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false

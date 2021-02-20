@@ -10,6 +10,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -77,8 +78,8 @@ class RemoveExerciseSetTest {
             exerciseSet = exerciseSet,
             idExercise = exercise.idExercise,
             stateEvent = RemoveExerciseSetEvent(exerciseId = exercise.idExercise)
-        ).collect( object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     DELETE_EXERCISE_SET_SUCCESS
@@ -120,8 +121,8 @@ class RemoveExerciseSetTest {
             exerciseSet = exerciseSet,
             idExercise = exercise.idExercise,
             stateEvent = RemoveExerciseSetEvent(exerciseId = exercise.idExercise)
-        ).collect( object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     DELETE_EXERCISE_SET_FAILED
@@ -164,8 +165,8 @@ class RemoveExerciseSetTest {
             exerciseSet = exerciseSet,
             idExercise = exercise.idExercise,
             stateEvent = RemoveExerciseSetEvent(exerciseId = exercise.idExercise)
-        ).collect( object : FlowCollector<DataState<ManageExerciseViewState>?> {
-            override suspend fun emit(value: DataState<ManageExerciseViewState>?) {
+        ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
                     value?.stateMessage?.response?.message
                             ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false

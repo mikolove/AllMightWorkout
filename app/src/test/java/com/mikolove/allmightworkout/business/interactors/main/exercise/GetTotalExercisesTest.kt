@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetTotalExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetTotalExercises.Companion.GET_TOTAL_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -47,8 +48,8 @@ class GetTotalExercisesTest {
 
         getTotalExercises.getTotalExercises(
             stateEvent = GetTotalExercisesEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?> {
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+        ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
+            override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
                     GET_TOTAL_EXERCISES_SUCCESS

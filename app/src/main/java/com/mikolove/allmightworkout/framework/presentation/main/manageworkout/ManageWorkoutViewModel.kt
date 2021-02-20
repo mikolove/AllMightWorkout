@@ -17,12 +17,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-
-const val MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idWorkout from bundle."
-const val MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY = "idWorkout"
-const val WORKOUT_NAME_CANNOT_BE_EMPTY = "Workout name cannot be empty."
-
-
 @HiltViewModel
 class ManageWorkoutViewModel
 @Inject
@@ -132,6 +126,7 @@ constructor(
         setViewState(update)
     }
 
+/*
     fun isWorkoutNameNull() : Boolean{
         val name = getWorkout()?.name
         if (name.isNullOrBlank()) {
@@ -151,6 +146,7 @@ constructor(
             return false
         }
     }
+*/
 
     fun updateWorkoutName(name: String?){
         if(name.isNullOrBlank()){

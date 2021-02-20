@@ -20,22 +20,17 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWork
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.ManageWorkoutViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
-const val MANAGE_WORKOUT_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state"
-
 @AndroidEntryPoint
-class WorkoutDetailFragment(): BaseFragment(R.layout.fragment_workout_detail){
+class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
     private var binding : FragmentWorkoutDetailBinding? = null
-    val viewModel : ManageWorkoutViewModel by activityViewModels()
+    val viewModel : WorkoutViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +85,7 @@ class WorkoutDetailFragment(): BaseFragment(R.layout.fragment_workout_detail){
         if (viewModel.checkEditState()) {
             viewModel.exitEditState()
         }
-        viewModel.setWorkout(null)
-        viewModel.setListExercise(null)
+        viewModel.setWorkoutSelected(null)
         viewModel.setIsUpdatePending(false)
 
         super.onDestroyView()

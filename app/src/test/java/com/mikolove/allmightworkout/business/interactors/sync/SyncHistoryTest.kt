@@ -1,11 +1,10 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.interactors.sync.SyncHistory
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.runBlocking

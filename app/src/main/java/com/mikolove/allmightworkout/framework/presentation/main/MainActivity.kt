@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.view.ActionMode
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -61,9 +60,9 @@ class MainActivity :
 
 
         appBarConfiguration = AppBarConfiguration.Builder(
-            R.id.historyFragment,
-            R.id.chooseWorkoutFragment,
-            R.id.chooseExerciseFragment
+            R.id.history_fragment,
+            R.id.workout_fragment,
+            R.id.exercise_fragment
         ).build()
 
         setupActionBarWithNavController(
@@ -110,17 +109,17 @@ class MainActivity :
 
     private fun navigateToHistory(){
         findNavController(R.id.main_fragment_container)
-            .navigate(R.id.action_global_historyFragment)
+            .navigate(R.id.action_global_history_fragment)
     }
 
     private fun navigateToChooseExercise(){
         findNavController(R.id.main_fragment_container)
-            .navigate(R.id.action_global_chooseExerciseFragment)
+            .navigate(R.id.action_global_exercise_fragment)
     }
 
     private fun navigateToChooseWorkout(){
         findNavController(R.id.main_fragment_container)
-            .navigate(R.id.action_global_chooseWorkoutFragment)
+            .navigate(R.id.action_global_workout_fragment)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -170,10 +169,10 @@ class MainActivity :
         printLogD("MainActivity","Current destination ${navController?.currentDestination?.id}")
         val appTitle = when(navController?.currentDestination?.id) {
 
-            R.id.historyFragment -> R.string.fragment_home_tab_layout_history
-            R.id.chooseWorkoutFragment -> R.string.fragment_home_tab_layout_workout
-            R.id.chooseExerciseFragment -> R.string.fragment_home_tab_layout_exercise
-            R.id.manageWorkoutFragment -> R.string.fragment_manage_workout_text_title
+            R.id.history_fragment -> R.string.fragment_home_tab_layout_history
+            R.id.workout_fragment -> R.string.fragment_home_tab_layout_workout
+            R.id.exercise_fragment -> R.string.fragment_home_tab_layout_exercise
+            R.id.workout_detail_fragment -> R.string.fragment_manage_workout_text_title
             else -> R.string.app_bar_title_default
         }
 

@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCach
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,7 +30,7 @@ class GetTotalBodyParts(
 
 
                 val viewState = when(ViewState::class) {
-                    HomeViewState::class -> HomeViewState(
+                    WorkoutViewState::class -> WorkoutViewState(
                         totalBodyParts = resultObj
                     )
                     else -> null

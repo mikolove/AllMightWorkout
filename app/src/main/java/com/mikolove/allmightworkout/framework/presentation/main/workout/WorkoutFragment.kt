@@ -32,16 +32,15 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.HOME_LIST_STATE_BUNDLE_KEY
-import com.mikolove.allmightworkout.framework.presentation.main.home.HomeViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.home.INSERT_WORKOUT_ERROR_NO_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+const val WORKOUT_VIEW_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.workout.state"
 
 @AndroidEntryPoint
 class WorkoutFragment
@@ -53,7 +52,7 @@ class WorkoutFragment
     @Inject
     lateinit var dateUtil: DateUtil
 
-    val viewModel : HomeViewModel by activityViewModels()
+    val viewModel : WorkoutViewModel by activityViewModels()
     private var actionMode : ActionMode? = null
     private var actionModeCallBack : ActionMode.Callback? = null
     private var listAdapter: WorkoutListAdapter? = null
@@ -688,7 +687,7 @@ class WorkoutFragment
 
     private fun restoreInstanceState(savedInstanceState: Bundle?){
         savedInstanceState?.let { inState ->
-            (inState[HOME_LIST_STATE_BUNDLE_KEY] as HomeViewState?)?.let { viewState ->
+            (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
         }

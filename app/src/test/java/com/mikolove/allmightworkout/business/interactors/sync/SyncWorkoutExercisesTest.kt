@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNe
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutExercises
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddExerciseToWorkoutFragment(): BaseFragment(R.layout.fragment_base){
 
-    val viewModel : ManageWorkoutViewModel by activityViewModels()
+    val viewModel : WorkoutViewModel by activityViewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

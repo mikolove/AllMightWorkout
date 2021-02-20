@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.databinding.FragmentHomeBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseFragment
 import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryFragment
 import com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutFragment
 import com.mikolove.allmightworkout.util.printLogD
@@ -99,7 +100,7 @@ class FragmentCollectionAdapter(fragmentManager: FragmentManager, lifecycle: Lif
         return when(position){
             0 -> HistoryFragment()
             1 -> WorkoutFragment()
-            2 -> ChooseExerciseFragment()
+            2 -> ExerciseFragment()
             else -> { throw Exception("Exception getting Fragment")}
         }
     }

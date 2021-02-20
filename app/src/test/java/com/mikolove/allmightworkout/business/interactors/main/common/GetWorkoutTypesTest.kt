@@ -11,6 +11,7 @@ import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -63,14 +64,14 @@ class GetWorkoutTypesTest {
         var results : ArrayList<WorkoutType>? = null
 
         //Get workoutTypes
-        getWorkoutTypes.getWorkoutTypes<HomeViewState>(
+        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetWorkoutTypesEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?> {
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -100,14 +101,14 @@ class GetWorkoutTypesTest {
         var results : ArrayList<WorkoutType>? = null
 
         //Get workoutTypes
-        getWorkoutTypes.getWorkoutTypes<HomeViewState>(
+        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetWorkoutTypesEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?> {
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -136,14 +137,14 @@ class GetWorkoutTypesTest {
         var query = FORCE_SEARCH_WORKOUTTYPE_EXCEPTION
         var results : ArrayList<WorkoutType>? = null
 
-        getWorkoutTypes.getWorkoutTypes<HomeViewState>(
+        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,
             stateEvent = GetWorkoutTypesEvent()
-        ).collect( object : FlowCollector<DataState<HomeViewState>?> {
+        ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
 
-            override suspend fun emit(value: DataState<HomeViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assert(
                     value?.stateMessage?.response?.message

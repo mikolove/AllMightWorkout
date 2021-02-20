@@ -160,14 +160,14 @@ constructor(
                    stateEvent = stateEvent
                )
             }
-            is GetExercisesEvent -> {
+/*            is GetExercisesEvent -> {
                 homeListInteractors.getExercises.getExercises(
                     query = getSearchQueryExercises(),
                     filterAndOrder = getOrderExercises() + getFilterExercises(),
                     page = getPageExercises(),
                     stateEvent = stateEvent
                 )
-            }
+            }*/
             is GetTotalBodyPartsEvent -> {
                 homeListInteractors.getTotalBodyParts.getTotalBodyParts(stateEvent)
             }
@@ -177,9 +177,9 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
-            is GetTotalExercisesEvent -> {
+/*            is GetTotalExercisesEvent -> {
                 homeListInteractors.getTotalExercises.getTotalExercises(stateEvent)
-            }
+            }*/
 /*            is GetTotalWorkoutsEvent -> {
                 homeListInteractors.getTotalWorkouts.getTotalWorkouts(stateEvent)
             }*/
@@ -205,12 +205,12 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
-            is RemoveMultipleExercisesEvent -> {
+/*            is RemoveMultipleExercisesEvent -> {
                 homeListInteractors.removeMultipleExercises.removeMultipleExercises(
                     exercises = stateEvent.exercises,
                     stateEvent = stateEvent
                 )
-            }
+            }*/
    /*         is RemoveMultipleWorkoutsEvent -> {
                 homeListInteractors.removeMultipleWorkouts.removeMultipleWorkouts(
                     workouts = stateEvent.workouts,

@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
