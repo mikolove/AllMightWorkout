@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialFadeThrough
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -39,7 +40,7 @@ class ManageWorkoutFragment(): BaseFragment(R.layout.fragment_manage_workout){
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
-            duration = 1000.toLong()
+            duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
         }

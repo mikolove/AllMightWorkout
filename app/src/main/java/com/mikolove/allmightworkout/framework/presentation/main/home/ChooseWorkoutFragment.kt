@@ -5,6 +5,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
@@ -29,6 +30,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_NAME
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_ASC
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_DESC
+import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
@@ -41,21 +43,36 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChooseWorkoutFragment
-: BaseFragment(R.layout.fragment_choose_workout), WorkoutListAdapter.Interaction, ItemTouchHelperAdapter
-{
+: BaseFragment(R.layout.fragment_choose_workout),
+    WorkoutListAdapter.Interaction,
+    ItemTouchHelperAdapter,
+    FabController {
 
     @Inject
     lateinit var dateUtil: DateUtil
     val viewModel : HomeViewModel by activityViewModels()
     private var actionMode : ActionMode? = null
+    private var actionModeCallBack : ActionMode.Callback? = null
     private var listAdapter: WorkoutListAdapter? = null
     private var itemTouchHelper: ItemTouchHelper? = null
     private var binding : FragmentChooseWorkoutBinding? = null
 
+    override fun fabOnClick() {
+        addWorkout()
+    }
+
+    override fun setupFAB(){
+        uiController.loadFabController(this)
+        uiController.mainFabVisibility()
+
+    }
+
+
     override fun onDestroyView() {
         printLogD("ChooseWorkoutFragment", "OnDestroyView")
-        disableActionMode()
+        //disableActionMode()
         binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
+        printLogD("ChooseWokoutFragment","Action mode is ${actionMode}")
         binding = null
         listAdapter = null
         itemTouchHelper = null
@@ -257,8 +274,7 @@ class ChooseWorkoutFragment
 
     private fun initializeActionMode() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            val inflater = mode?.menuInflater
-            inflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
+            activity?.menuInflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
             return true
         }
 
@@ -287,8 +303,8 @@ class ChooseWorkoutFragment
     private fun disableActionMode(){
         viewModel.setWorkoutToolbarState(SearchViewState())
         viewModel.clearSelectedWorkouts()
-        actionMode?.finish()
-        actionMode = null
+        //actionMode?.finish()
+        //actionMode = null
     }
 
     private fun setupUI(){
@@ -472,17 +488,25 @@ class ChooseWorkoutFragment
     }
 
     private fun enableMultiSelectToolbarState(){
+        printLogD("ChooseWorkoutFragment", "Start action Mode")
         if(actionMode == null) {
-            printLogD("ChooseWorkoutFragment", "Start action Mode")
-            actionMode = activity?.startActionMode(initializeActionMode())
+            printLogD("ChooseWorkoutFragment", "Action mode  null")
+            actionModeCallBack = initializeActionMode()
+            actionMode = activity?.startActionMode(actionModeCallBack)
+            uiController?.displayBottomNavigation(View.INVISIBLE)
         }
     }
 
     private fun disableMultiSelectToolbarState(){
+        printLogD("ChooseWorkoutFragment", "Stop action Mode")
         if(actionMode != null){
+            printLogD("ChooseWorkoutFragment", "Action Mode is not null")
             actionMode?.finish()
+            actionModeCallBack = null
+            actionMode = null
+            uiController?.displayBottomNavigation(View.VISIBLE)
         }
-        actionMode = null
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -559,25 +583,26 @@ class ChooseWorkoutFragment
     }
 
 
-    private fun setupFAB(){
-        /*binding?.fragmentChooseWorkoutAddButton?.setOnClickListener {
-            uiController.displayInputCaptureDialog(
-                getString(R.string.fragment_choose_workout_add_name),
-                object : DialogInputCaptureCallback {
-                    override fun onTextCaptured(text: String) {
-                        if (!text.isNullOrEmpty() && text.isNotBlank()) {
-                            viewModel.setStateEvent(
-                                InsertWorkoutEvent(name = text)
-                            )
-                        } else {
-                            onErrorNoNameSpecified()
-                        }
+    private fun addWorkout(){
+        uiController.displayInputCaptureDialog(
+            getString(R.string.fragment_choose_workout_add_name),
+            object : DialogInputCaptureCallback {
+                override fun onTextCaptured(text: String) {
+                    if (!text.isNullOrEmpty() && text.isNotBlank()) {
+                        viewModel.setStateEvent(
+                            InsertWorkoutEvent(name = text)
+                        )
+                    } else {
+                        onErrorNoNameSpecified()
                     }
                 }
-            )
-        }*/
+            }
+        )
     }
 
+
+
+  
     private fun onErrorNoNameSpecified(){
         viewModel.setStateEvent(
             CreateStateMessageEvent(

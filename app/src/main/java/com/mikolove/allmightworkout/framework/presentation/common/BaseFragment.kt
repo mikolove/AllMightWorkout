@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.transition.MaterialFadeThrough
 import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.main.MainActivity
 import com.mikolove.allmightworkout.util.printLogD
@@ -18,28 +19,36 @@ constructor(
 
     lateinit var uiController: UIController
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        printLogD("BaseFragment","on View Created")
         return inflater.inflate(layoutRes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        printLogD("BaseFragment","onViewCreated")
         displayAppBarTitle()
+        loadFabController()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        printLogD("BaseFragment","OnAttach")
         activity?.let {
-            printLogD("BaseFragment","Activity is ${it}")
             if(it is MainActivity){
                 try {
                     uiController = context as UIController
-                    printLogD("BaseFragment","UIController is ${uiController}")
                 }catch (e: ClassCastException){
                     e.printStackTrace()
                 }
@@ -48,6 +57,11 @@ constructor(
     }
 
    fun displayAppBarTitle(){
-       uiController?.displayAppBarTitle()
+       uiController.displayAppBarTitle()
    }
+
+    fun loadFabController(){
+        uiController.loadFabController(null)
+        uiController.mainFabVisibility()
+    }
 }

@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.ActionMode
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.StringRes
-import androidx.appcompat.view.ActionMode
-import androidx.customview.widget.Openable
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,16 +24,16 @@ import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType.*
 import com.mikolove.allmightworkout.databinding.ActivityMainBinding
 import com.mikolove.allmightworkout.framework.presentation.UIController
+import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.displayToast
-import com.mikolove.allmightworkout.framework.presentation.common.gone
-import com.mikolove.allmightworkout.framework.presentation.common.invisible
-import com.mikolove.allmightworkout.framework.presentation.common.visible
 import com.mikolove.allmightworkout.util.TodoCallback
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), UIController {
+class MainActivity :
+    AppCompatActivity(),
+    UIController{
 
     private val TAG: String = "AppDebug"
 
@@ -43,6 +41,7 @@ class MainActivity : AppCompatActivity(), UIController {
     private lateinit var bottomNavBar : BottomNavigationView
     private lateinit var binding : ActivityMainBinding
     private var dialogInView: MaterialDialog? = null
+    private var mainFabController: FabController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +89,21 @@ class MainActivity : AppCompatActivity(), UIController {
             }
         }
 
+        binding.floatingActionButton.setOnClickListener {
+            mainFabController?.fabOnClick()
+        }
+
     }
 
-    fun setBottomNavigationVisibility(visibility : Int){
-        binding.mainBottomNavigation.visibility = visibility
+
+    override fun loadFabController(fabController: FabController?) {
+        mainFabController = fabController
+    }
+
+    override fun mainFabVisibility() {
+        mainFabController?.let {
+            binding.floatingActionButton.show()
+        }?: binding.floatingActionButton.hide()
     }
 
 

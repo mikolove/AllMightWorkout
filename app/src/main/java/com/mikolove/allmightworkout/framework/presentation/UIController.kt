@@ -23,4 +23,8 @@ interface UIController {
         stateMessageCallback: StateMessageCallback
     )
 
+    fun loadFabController(fabController: FabController?)
+
+    fun mainFabVisibility()
+
 }
