@@ -14,7 +14,6 @@ import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceK
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
@@ -25,9 +24,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-const val MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idWorkout from bundle."
-const val MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY = "idWorkout"
+const val WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idWorkout from bundle."
+const val WORKOUT_ID_WORKOUT_BUNDLE_KEY = "idWorkout"
 const val WORKOUT_NAME_CANNOT_BE_EMPTY = "Workout name cannot be empty."
+const val INSERT_WORKOUT_ERROR_NO_NAME = "You must set a name to create a workout."
 
 @HiltViewModel
 class WorkoutViewModel
@@ -296,7 +296,7 @@ constructor(
 
     fun refreshWorkoutSearchQuery(){
         setWorkoutQueryExhausted(false)
-        setStateEvent(HomeStateEvent.GetWorkoutsEvent(false))
+        setStateEvent(GetWorkoutsEvent(false))
     }
 
     fun reloadBodyParts(){
@@ -311,32 +311,32 @@ constructor(
 
     fun loadTotalWorkouts(){
         printLogD("HomeViewModel","Load total workouts")
-        setStateEvent(HomeStateEvent.GetTotalWorkoutsEvent())
+        setStateEvent(GetTotalWorkoutsEvent())
     }
 
     fun loadTotalWorkoutTypes(idWorkoutType : String){
         printLogD("HomeViewModel","Load total bodyPart by WorkoutType")
-        setStateEvent(HomeStateEvent.GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType))
+        setStateEvent(GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType))
     }
 
     fun loadTotalBodyParts(){
         printLogD("HomeViewModel","Load total bodyParts")
-        setStateEvent(HomeStateEvent.GetTotalBodyPartsEvent())
+        setStateEvent(GetTotalBodyPartsEvent())
     }
 
     fun loadWorkoutTypes(){
         printLogD("HomeViewModel","Load workout types")
-        setStateEvent(HomeStateEvent.GetWorkoutTypesEvent())
+        setStateEvent(GetWorkoutTypesEvent())
     }
 
     fun loadBodyParts(){
         printLogD("HomeViewModel","Load body parts")
-        setStateEvent(HomeStateEvent.GetBodyPartEvent())
+        setStateEvent(GetBodyPartEvent())
     }
 
     fun loadWorkouts(){
         printLogD("HomeViewModel","Load workouts")
-        setStateEvent(HomeStateEvent.GetWorkoutsEvent())
+        setStateEvent(GetWorkoutsEvent())
     }
 
     fun clearListWorkoutTypes(){
@@ -549,12 +549,12 @@ constructor(
 
     fun deleteWorkouts(){
         if(getSelectedWorkouts().size > 0){
-            setStateEvent(HomeStateEvent.RemoveMultipleWorkoutsEvent(getSelectedWorkouts()))
+            setStateEvent(RemoveMultipleWorkoutsEvent(getSelectedWorkouts()))
             removeSelectedWorkoutsFromList()
         }
         else{
             setStateEvent(
-                HomeStateEvent.CreateStateMessageEvent(
+                CreateStateMessageEvent(
                     stateMessage = StateMessage(
                         response = Response(
                             message = RemoveMultipleWorkouts.DELETE_WORKOUTS_YOU_MUST_SELECT,
@@ -576,7 +576,7 @@ constructor(
             printLogD("NoteListViewModel", "attempting to load workout next page...")
             clearWorkoutLayoutManagerState()
             incrementPageWorkoutsNumber()
-            setStateEvent(HomeStateEvent.GetWorkoutsEvent())
+            setStateEvent(GetWorkoutsEvent())
         }
     }
 

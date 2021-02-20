@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageexercise
+package com.mikolove.allmightworkout.oldCode.manageexercise
 
+/*
 import android.content.SharedPreferences
 import com.mikolove.allmightworkout.business.domain.model.BodyPartFactory
 import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
@@ -8,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ManageExerciseListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
+import com.mikolove.allmightworkout.oldCode.manageexercise.state.ManageExerciseViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,4 +37,4 @@ constructor(
     override fun initNewViewState(): ManageExerciseViewState {
         return ManageExerciseViewState()
     }
-}
+}*/

@@ -20,9 +20,9 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWork
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -209,7 +209,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
                                 findNavController().popBackStack()
                             }
 
-                            MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT -> {
+                            WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT -> {
                                 findNavController().popBackStack()
                             }
 
@@ -257,8 +257,8 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
     private fun getWorkoutFromPreviousFragment(){
         arguments?.let { args ->
-            (args.getString(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY))?.let { idWorkout ->
-                viewModel.setStateEvent(WorkoutStateEvent.GetWorkoutByIdEvent(idWorkout))
+            (args.getString(WORKOUT_ID_WORKOUT_BUNDLE_KEY))?.let { idWorkout ->
+                viewModel.setStateEvent(GetWorkoutByIdEvent(idWorkout))
             }
         } ?: onErrorRetrievingWorkoutFromPreviousFragment()
 
@@ -269,7 +269,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
             CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
-                        message = MANAGE_WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT,
+                        message = WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT,
                         uiComponentType = UIComponentType.Dialog(),
                         messageType = MessageType.Error()
                     )

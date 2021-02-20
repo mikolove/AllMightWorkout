@@ -8,7 +8,6 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

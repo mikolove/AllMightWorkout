@@ -1,7 +1,8 @@
-package com.mikolove.allmightworkout.business.interactors.main.workout
+package com.mikolove.allmightworkout.oldCode
 
+/*
 import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
+import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutViewState
 
 class ManageWorkoutListInteractors(
     val getWorkoutById : GetWorkoutById,
@@ -10,4 +11,4 @@ class ManageWorkoutListInteractors(
     val removeWorkout: RemoveWorkout<ManageWorkoutViewState>,
     val updateWorkout: UpdateWorkout
 ) {
-}
+}*/

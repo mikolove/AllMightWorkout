@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WorkoutInProgressFragment(): BaseFragment(R.layout.fragment_base){
 
-    val viewModel : WorkoutViewModel by activityViewModels()
+    val inProgressViewModel : WorkoutInProgressViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

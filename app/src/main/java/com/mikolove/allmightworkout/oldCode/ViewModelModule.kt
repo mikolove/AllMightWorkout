@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.oldCode
 
+/*
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -8,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object ViewModelModule {
 
-/*    @Singleton
+    @Singleton
     @Provides
     fun provideViewModelFactory(
         homeListInteractors : HomeListInteractors,
@@ -44,5 +45,5 @@ object ViewModelModule {
             editor = editor,
             sharedPreferences = sharedPreferences
         )
-    }*/
-}
+    }
+}*/

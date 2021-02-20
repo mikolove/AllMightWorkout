@@ -1,5 +1,5 @@
-package com.mikolove.allmightworkout.framework.presentation.main.home
-
+package com.mikolove.allmightworkout.oldCode.home
+/*
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.*
@@ -16,7 +16,7 @@ import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
-const val HOME_LIST_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.home.state"
+const val HOME_LIST_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.oldCode.home.state"
 
 @AndroidEntryPoint
 class HomeFragment
@@ -36,6 +36,7 @@ constructor(): BaseFragment(R.layout.fragment_home)
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentHomeBinding.bind(view)
+*/
 /*        binding?.let {
 
             it.fragmentHomeViewPager.adapter = FragmentCollectionAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
@@ -46,7 +47,8 @@ constructor(): BaseFragment(R.layout.fragment_home)
             }.attach()
 
 
-        }*/
+        }*//*
+
         //val tabLayout = view.findViewById<TabLayout>(R.id.fragment_home_tab_layout)
 
         //val viewpager = view.findViewById<ViewPager2>(R.id.fragment_home_view_pager)
@@ -57,9 +59,11 @@ constructor(): BaseFragment(R.layout.fragment_home)
     override fun onDestroyView() {
 
         printLogD("HomeFragment","OnDestroyView")
-        /*tabLayoutMediator?.detach()
-        tabLayoutMediator = null
         */
+/*tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+        *//*
+
         val viewpager = binding?.fragmentHomeViewPager
 
         viewpager?.let {
@@ -68,8 +72,10 @@ constructor(): BaseFragment(R.layout.fragment_home)
         }
 
         binding = null
-      /*  fragmentCollectionAdapter = null
-        binding = null*/
+      */
+/*  fragmentCollectionAdapter = null
+        binding = null*//*
+
         super.onDestroyView()
      }
 
@@ -106,4 +112,4 @@ class FragmentCollectionAdapter(fragmentManager: FragmentManager, lifecycle: Lif
     }
 
 
-}
+}*/

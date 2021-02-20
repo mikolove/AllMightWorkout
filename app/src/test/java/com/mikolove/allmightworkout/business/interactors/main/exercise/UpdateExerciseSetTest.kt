@@ -12,8 +12,7 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExe
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
+import com.mikolove.allmightworkout.oldCode.manageexercise.state.ManageExerciseStateEvent.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

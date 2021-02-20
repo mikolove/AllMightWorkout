@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.di
 
+package com.mikolove.allmightworkout.oldCode
+/*
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
@@ -25,7 +26,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object InteractorsModule {
+object InteractorsModuleOld {
 
 
     @Singleton
@@ -115,4 +116,75 @@ object InteractorsModule {
         )
     }
 
-}
+
+
+      @Singleton
+      @Provides
+      fun provideHomeListInteractors(
+          workoutCacheDataSource : WorkoutCacheDataSource,
+          exerciseCacheDataSource : ExerciseCacheDataSource,
+          bodyPartCacheDataSource : BodyPartCacheDataSource,
+          workoutTypeCacheDataSource : WorkoutTypeCacheDataSource,
+          workoutNetworkDataSource : WorkoutNetworkDataSource,
+          exerciseNetworkDataSource : ExerciseNetworkDataSource,
+          workoutFactory: WorkoutFactory
+      ) : HomeListInteractors{
+          return HomeListInteractors(
+              insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
+              getBodyParts = GetBodyParts(bodyPartCacheDataSource),
+              getExercises = GetExercises(exerciseCacheDataSource),
+              getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
+              getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource),
+              getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
+              getTotalWorkouts = GetTotalWorkouts(workoutCacheDataSource),
+              getWorkoutById = GetWorkoutById(workoutCacheDataSource),
+              getWorkouts = GetWorkouts(workoutCacheDataSource),
+              getWorkoutTypes = GetWorkoutTypes(workoutTypeCacheDataSource),
+              removeMultipleExercises = RemoveMultipleExercises(exerciseCacheDataSource,exerciseNetworkDataSource),
+              removeMultipleWorkouts = RemoveMultipleWorkouts(workoutCacheDataSource,workoutNetworkDataSource)
+          )
+      }
+
+
+
+      @Singleton
+      @Provides
+      fun provideManageWorkoutListInteractors(
+          workoutCacheDataSource: WorkoutCacheDataSource,
+          workoutNetworkDataSource: WorkoutNetworkDataSource,
+          exerciseCacheDataSource: ExerciseCacheDataSource,
+          exerciseNetworkDataSource: ExerciseNetworkDataSource,
+          dateUtil : DateUtil
+      ) : ManageWorkoutListInteractors {
+
+          return ManageWorkoutListInteractors(
+              getWorkoutById = GetWorkoutById(workoutCacheDataSource),
+              addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
+              removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
+              removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
+              updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource)
+          )
+      }
+
+      @Singleton
+      @Provides
+      fun provideManageExerciseListInteractors(
+          exerciseCacheDataSource: ExerciseCacheDataSource,
+          exerciseNetworkDataSource: ExerciseNetworkDataSource,
+          exerciseFactory: ExerciseFactory,
+          exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
+          exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
+          exerciseSetFactory: ExerciseSetFactory
+      ): ManageExerciseListInteractors {
+
+          return ManageExerciseListInteractors(
+              insertExercise = InsertExercise(exerciseCacheDataSource,exerciseNetworkDataSource,exerciseFactory),
+              insertExerciseSet = InsertExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource,exerciseSetFactory),
+              removeExercise = RemoveExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
+              removeExerciseSet = RemoveExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
+              updateExercise = UpdateExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
+              updateExerciseSet = UpdateExerciseSet(exerciseSetCacheDataSource, exerciseSetNetworkDataSource)
+          )
+      }
+
+}*/

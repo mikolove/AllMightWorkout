@@ -7,8 +7,7 @@ import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
+import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector

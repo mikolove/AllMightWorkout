@@ -5,7 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeC
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

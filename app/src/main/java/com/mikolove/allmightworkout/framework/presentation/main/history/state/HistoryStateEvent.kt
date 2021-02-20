@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.framework.presentation.main.history.state
 
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
 
 sealed class HistoryStateEvent : StateEvent {
 

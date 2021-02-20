@@ -1,5 +1,5 @@
-package com.mikolove.allmightworkout.framework.presentation.main.home.state
-
+package com.mikolove.allmightworkout.oldCode.home.state
+/*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
@@ -57,4 +57,4 @@ data class HomeViewState(
 ) : Parcelable, ViewState {
 
 
-}
+}*/

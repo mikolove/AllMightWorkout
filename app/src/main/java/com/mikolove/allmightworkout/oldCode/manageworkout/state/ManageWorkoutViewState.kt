@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state
+package com.mikolove.allmightworkout.oldCode.manageworkout.state
 
+/*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
@@ -18,4 +19,4 @@ data class ManageWorkoutViewState(
 
 ) : Parcelable, ViewState {
 
-}
+}*/

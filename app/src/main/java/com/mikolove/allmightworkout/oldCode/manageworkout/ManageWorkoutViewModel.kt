@@ -1,5 +1,5 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageworkout
-
+package com.mikolove.allmightworkout.oldCode.manageworkout
+/*
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -7,8 +7,8 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.ManageWork
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutViewState
+import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutStateEvent
+import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutViewState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.util.printLogD
@@ -25,9 +25,11 @@ constructor(
 ) : BaseViewModel<ManageWorkoutViewState>(){
 
 
-    /********************************************************************
+    */
+/********************************************************************
         LIVE DATA INTERACTION STATE - editText , switch
-    *********************************************************************/
+    *********************************************************************//*
+
 
     private val workoutInteractionManager: WorkoutInteractionManager = WorkoutInteractionManager()
 
@@ -37,9 +39,11 @@ constructor(
     val workoutIsActiveInteractionState: LiveData<WorkoutInteractionState>
         get() = workoutInteractionManager.workoutIsActiveState
 
-    /********************************************************************
+    */
+/********************************************************************
         INIT BLOC
-    *********************************************************************/
+    *********************************************************************//*
+
 
     override fun initNewViewState(): ManageWorkoutViewState {
         return ManageWorkoutViewState()
@@ -61,6 +65,7 @@ constructor(
     override fun setStateEvent(stateEvent: StateEvent) {
         val job : Flow<DataState<ManageWorkoutViewState>?> = when(stateEvent){
 
+*/
 /*            is ManageWorkoutStateEvent.GetWorkoutByIdEvent -> {
                 manageWorkoutListInteractors.getWorkoutById.getWorkoutById(
                     idWorkout = stateEvent.idWorkout,
@@ -91,7 +96,8 @@ constructor(
                     workout = getWorkout()!!,
                     stateEvent = stateEvent
                 )
-            }*/
+            }*//*
+
 
             is ManageWorkoutStateEvent.CreateStateMessageEvent -> {
                 emitStateMessageEvent(
@@ -108,9 +114,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
         TRIGGER STATE EVENTS - FUNCTIONS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     fun updateWorkout(name: String?, isActive: Boolean){
         updateWorkoutName(name)
@@ -126,6 +134,7 @@ constructor(
         setViewState(update)
     }
 
+*/
 /*
     fun isWorkoutNameNull() : Boolean{
         val name = getWorkout()?.name
@@ -146,7 +155,8 @@ constructor(
             return false
         }
     }
-*/
+*//*
+
 
     fun updateWorkoutName(name: String?){
         if(name.isNullOrBlank()){
@@ -172,17 +182,21 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         GETTERS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workoutSelected ?: null
 
     fun getIsUpdatePending(): Boolean = getCurrentViewStateOrNew().isUpdatePending?: false
 
-    /********************************************************************
+    */
+/********************************************************************
         SETTERS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     fun setIsUpdatePending(isPending: Boolean){
         val update = getCurrentViewStateOrNew()
@@ -204,9 +218,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
         INTERACTIONS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     fun setWorkoutInteractionNameState(state : WorkoutInteractionState){
         workoutInteractionManager.setWorkoutNameState(state)
@@ -225,4 +241,4 @@ constructor(
     fun isEditingIsActive() = workoutInteractionManager.isEditingIsActive()
 
 
-}
+}*/

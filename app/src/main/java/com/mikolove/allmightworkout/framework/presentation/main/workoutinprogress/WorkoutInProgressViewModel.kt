@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class WorkoutViewModel
+class WorkoutInProgressViewModel
 @Inject
 constructor(
     private val workoutInProgressListInteractors: WorkoutInProgressListInteractors,

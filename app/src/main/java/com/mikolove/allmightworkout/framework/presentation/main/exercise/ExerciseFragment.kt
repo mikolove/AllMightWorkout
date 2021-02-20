@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.main.home.HomeViewModel
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 

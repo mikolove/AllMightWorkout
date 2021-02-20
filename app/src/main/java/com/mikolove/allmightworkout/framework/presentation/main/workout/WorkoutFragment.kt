@@ -31,10 +31,8 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_DESC
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.home.HOME_LIST_STATE_BUNDLE_KEY
-import com.mikolove.allmightworkout.framework.presentation.main.home.INSERT_WORKOUT_ERROR_NO_NAME
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +42,7 @@ const val WORKOUT_VIEW_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framewor
 
 @AndroidEntryPoint
 class WorkoutFragment
-: BaseFragment(R.layout.fragment_workout),
+    : BaseFragment(R.layout.fragment_workout),
     WorkoutListAdapter.Interaction,
     ItemTouchHelperAdapter,
     FabController {
@@ -106,7 +104,7 @@ class WorkoutFragment
         viewState?.listWorkouts =  ArrayList()
 
         outState.putParcelable(
-            HOME_LIST_STATE_BUNDLE_KEY,
+            WORKOUT_VIEW_STATE_BUNDLE_KEY,
             viewState
         )
         super.onSaveInstanceState(outState)
@@ -141,9 +139,9 @@ class WorkoutFragment
 
     private fun navigateToManageWorkout( idWorkout: String){
 
-        val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
+        val bundle = bundleOf(WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
         findNavController().navigate(
-            R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,
+            R.id.action_workout_fragment_to_workout_detail_fragment,
             bundle
         )
         viewModel.setQueryWorkouts("")
@@ -157,9 +155,9 @@ class WorkoutFragment
         val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
 
-        val bundle = bundleOf(MANAGE_WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
+        val bundle = bundleOf(WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
         findNavController().navigate(
-            R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,
+            R.id.action_workout_fragment_to_workout_detail_fragment,
             bundle,
             null,
             extras
@@ -219,7 +217,7 @@ class WorkoutFragment
 
                 when (response.message) {
 
-                     DELETE_WORKOUTS_SUCCESS -> {
+                    DELETE_WORKOUTS_SUCCESS -> {
 
                         showSnackbarDeleteWorkouts()
                         viewModel.setWorkoutToolbarState(SearchViewState())
@@ -240,7 +238,7 @@ class WorkoutFragment
                             }
                         )
                     }
-                 }
+                }
             }
 
         })
@@ -609,7 +607,7 @@ class WorkoutFragment
 
 
 
-  
+
     private fun onErrorNoNameSpecified(){
         viewModel.setStateEvent(
             CreateStateMessageEvent(
@@ -707,5 +705,6 @@ class WorkoutFragment
     override fun onItemSwiped(position: Int) {
         //TODO("Not yet implemented")
     }
+
 
 }

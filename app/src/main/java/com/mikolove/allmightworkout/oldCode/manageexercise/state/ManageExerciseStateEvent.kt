@@ -1,11 +1,12 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state
+package com.mikolove.allmightworkout.oldCode.manageexercise.state
 
+/*
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state.ManageWorkoutStateEvent
+import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class ManageExerciseStateEvent : StateEvent{
 
@@ -61,4 +62,4 @@ sealed class ManageExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-}
+}*/

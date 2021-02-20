@@ -1,9 +1,10 @@
-package com.mikolove.allmightworkout.framework.presentation.main.manageworkout.state
+package com.mikolove.allmightworkout.oldCode.manageworkout.state
 
+/*
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent
+import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent
 
 sealed class ManageWorkoutStateEvent : StateEvent{
 
@@ -23,4 +24,4 @@ sealed class ManageWorkoutStateEvent : StateEvent{
         override fun shouldDisplayProgressBar() = false
     }
 
-}
+}*/

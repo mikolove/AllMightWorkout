@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.business.interactors.main.exercise
+package com.mikolove.allmightworkout.oldCode
 
+/*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 
 
@@ -11,4 +12,4 @@ class ManageExerciseListInteractors(
     val updateExercise: UpdateExercise,
     val updateExerciseSet: UpdateExerciseSet
 ) {
-}
+}*/

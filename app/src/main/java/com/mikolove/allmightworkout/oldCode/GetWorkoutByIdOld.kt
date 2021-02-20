@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.business.interactors.main.common
+package com.mikolove.allmightworkout.oldCode
 
+/*
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetWorkoutById(
+class GetWorkoutByIdOld(
     val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
@@ -29,7 +30,11 @@ class GetWorkoutById(
         ){
             override suspend fun handleSuccess(resultObj: Workout): DataState<ViewState>? {
 
-                val viewState = WorkoutViewState(workoutSelected = resultObj)
+                val viewState =when(ViewState::class){
+                    WorkoutViewState::class -> WorkoutViewState(workoutSelected = resultObj)
+                    //Others state if needed
+                    else -> null
+                }
 
                 return DataState.data(
                     response = Response(
@@ -49,4 +54,4 @@ class GetWorkoutById(
         val GET_WORKOUT_BY_ID_SUCCESS = "Successfully retrieved workout by id."
     }
 
-}
+}*/
