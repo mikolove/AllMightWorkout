@@ -10,7 +10,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout.Companion.INSERT_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
@@ -80,7 +81,7 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+            stateEvent = InsertWorkoutEvent(name = newWorkout.name)
         ).collect(object : FlowCollector<DataState<WorkoutViewState>?> {
 
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -113,7 +114,7 @@ class InsertWorkoutTest {
          insertWorkout.insertWorkout(
              idWorkout = newWorkout.idWorkout,
              name = newWorkout.name,
-             stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+             stateEvent = InsertWorkoutEvent(name = newWorkout.name)
          ).collect(object : FlowCollector<DataState<WorkoutViewState>?> {
 
              override suspend fun emit(value: DataState<WorkoutViewState>?) {
@@ -146,7 +147,7 @@ class InsertWorkoutTest {
         insertWorkout.insertWorkout(
             idWorkout = newWorkout.idWorkout,
             name = newWorkout.name,
-            stateEvent = HomeStateEvent.InsertWorkoutEvent(name = newWorkout.name)
+            stateEvent = InsertWorkoutEvent(name = newWorkout.name)
         ).collect(object : FlowCollector<DataState<WorkoutViewState>?> {
 
             override suspend fun emit(value: DataState<WorkoutViewState>?) {

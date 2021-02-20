@@ -8,8 +8,8 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSe
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.oldCode.manageexercise.state.ManageExerciseStateEvent.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

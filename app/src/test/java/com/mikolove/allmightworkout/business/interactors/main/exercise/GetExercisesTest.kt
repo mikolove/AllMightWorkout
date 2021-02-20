@@ -10,8 +10,9 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExerci
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises.Companion.GET_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_CREATED
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

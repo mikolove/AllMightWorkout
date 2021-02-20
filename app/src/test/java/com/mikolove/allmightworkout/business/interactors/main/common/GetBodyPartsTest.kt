@@ -9,7 +9,8 @@ import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyPart
 import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector

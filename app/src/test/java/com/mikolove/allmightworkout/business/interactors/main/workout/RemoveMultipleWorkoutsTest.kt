@@ -9,7 +9,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.RemoveMultipleWorkoutsEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
@@ -92,7 +93,7 @@ class RemoveMultipleWorkoutsTest {
 
         removeMultipleWorkouts?.removeMultipleWorkouts(
             workouts = randomWorkouts,
-            stateEvent = RemoveMultipleWorkoutsEvent(workouts =randomWorkouts)
+            stateEvent = RemoveMultipleWorkoutsEvent(workouts = randomWorkouts)
         )?.collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(

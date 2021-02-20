@@ -11,8 +11,9 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
