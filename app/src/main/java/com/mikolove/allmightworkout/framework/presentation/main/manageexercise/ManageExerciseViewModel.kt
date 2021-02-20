@@ -6,7 +6,7 @@ import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
-import com.mikolove.allmightworkout.business.interactors.main.manageexercise.ManageExerciseListInteractors
+import com.mikolove.allmightworkout.business.interactors.main.exercise.ManageExerciseListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.state.ManageExerciseViewState
 import dagger.hilt.android.lifecycle.HiltViewModel

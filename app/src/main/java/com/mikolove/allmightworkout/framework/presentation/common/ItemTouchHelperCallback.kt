@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.framework.presentation.common
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.ListInteractionManager
 
 //Enable some gesture and action on RecyclerView ViewHolder
 class ItemTouchHelperCallback<DomainModel>

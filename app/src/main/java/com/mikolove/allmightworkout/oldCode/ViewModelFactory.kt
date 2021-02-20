@@ -1,21 +1,5 @@
 package com.mikolove.allmightworkout.oldCode
 
-import android.content.SharedPreferences
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.home.HomeListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.manageexercise.ManageExerciseListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.manageworkout.ManageWorkoutListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutListInteractors
-import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.home.HomeViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.ManageExerciseViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.ManageWorkoutViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutViewModel
-import javax.inject.Inject
-
 /*
 class ViewModelFactory
 @Inject

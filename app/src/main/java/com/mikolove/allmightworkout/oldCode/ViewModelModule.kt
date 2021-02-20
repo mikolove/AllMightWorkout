@@ -1,18 +1,8 @@
 package com.mikolove.allmightworkout.oldCode
 
-import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProvider
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.home.HomeListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.manageexercise.ManageExerciseListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.manageworkout.ManageWorkoutListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutListInteractors
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

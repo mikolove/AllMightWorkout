@@ -32,7 +32,7 @@ class GetWorkoutById(
 
                 val viewState = when(ViewState::class){
                     HomeViewState::class -> HomeViewState(workoutSelected = resultObj)
-                    ManageWorkoutViewState::class -> ManageWorkoutViewState(workout = resultObj)
+                    ManageWorkoutViewState::class -> ManageWorkoutViewState(workoutSelected = resultObj)
                     else -> null
                 }
 

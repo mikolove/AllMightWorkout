@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/chooseWorkoutFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.home.ChooseWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutFragment"
         android:label="ChooseWorkoutFragment" >
         <action
             android:id="@+id/action_chooseWorkoutFragment_to_manageWorkoutFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/manageWorkoutFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageworkout.ManageWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.ManageWorkoutFragment"
         android:label="ManageWorkoutFragment" >
         <action
             android:id="@+id/action_manageWorkoutFragment_to_addExerciseToWorkoutFragment"
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/addExerciseToWorkoutFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.manageworkout.AddExerciseToWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.AddExerciseToWorkoutFragment"
         android:label="AddExerciseToWorkoutFragment" >
         <action
             android:id="@+id/action_addExerciseToWorkoutFragment_to_manageWorkoutFragment"

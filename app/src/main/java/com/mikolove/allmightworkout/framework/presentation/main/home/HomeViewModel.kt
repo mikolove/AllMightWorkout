@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.home.*
-import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleExercises.Companion.DELETE_EXERCISES_YOU_MUST_SELECT
-import com.mikolove.allmightworkout.business.interactors.main.home.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_YOU_MUST_SELECT
+import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_YOU_MUST_SELECT
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_YOU_MUST_SELECT
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_NAME
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys.Companion.EXERCISE_LIST_FILTER
@@ -18,8 +18,8 @@ import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeStateEvent.CreateStateMessageEvent
 import com.mikolove.allmightworkout.framework.presentation.main.home.state.HomeViewState
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.ListInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.main.home.state.ListToolbarState
+import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
+import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -99,7 +99,7 @@ constructor(
 
         data.let { viewState ->
 
-            viewState.insertedWorkout?.let { insertedWorkout ->
+            viewState.workoutToInsert?.let { insertedWorkout ->
                 setInsertedWorkout(insertedWorkout)
             }
             viewState.listWorkouts?.let { listWorkouts ->
@@ -141,6 +141,7 @@ constructor(
     override fun setStateEvent(stateEvent: StateEvent) {
 
         val job : Flow<DataState<HomeViewState>?> = when(stateEvent){
+/*
 
             is InsertWorkoutEvent -> {
 
@@ -149,6 +150,7 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
+*/
 
             is GetBodyPartEvent-> {
                homeListInteractors.getBodyParts.getBodyParts(
@@ -178,23 +180,23 @@ constructor(
             is GetTotalExercisesEvent -> {
                 homeListInteractors.getTotalExercises.getTotalExercises(stateEvent)
             }
-            is GetTotalWorkoutsEvent -> {
+/*            is GetTotalWorkoutsEvent -> {
                 homeListInteractors.getTotalWorkouts.getTotalWorkouts(stateEvent)
-            }
+            }*/
             is GetWorkoutByIdEvent -> {
                 homeListInteractors.getWorkoutById.getWorkoutById(
                     idWorkout = stateEvent.idWorkout,
                     stateEvent = stateEvent
                 )
             }
-            is GetWorkoutsEvent -> {
+ /*           is GetWorkoutsEvent -> {
                 homeListInteractors.getWorkouts.getWorkouts(
                     query = getSearchQueryWorkouts(),
                     filterAndOrder = getOrderWorkouts() + getFilterWorkouts(),
                     page = getPageWorkouts(),
                     stateEvent = stateEvent
                 )
-            }
+            }*/
             is GetWorkoutTypesEvent -> {
                 homeListInteractors.getWorkoutTypes.getWorkoutTypes(
                     query = "",
@@ -209,12 +211,12 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
-            is RemoveMultipleWorkoutsEvent -> {
+   /*         is RemoveMultipleWorkoutsEvent -> {
                 homeListInteractors.removeMultipleWorkouts.removeMultipleWorkouts(
                     workouts = stateEvent.workouts,
                     stateEvent = stateEvent
                 )
-            }
+            }*/
 
             is CreateStateMessageEvent -> {
                 emitStateMessageEvent(
@@ -405,7 +407,7 @@ constructor(
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
     fun getLayoutManagerState(): Parcelable? {
-        return getCurrentViewStateOrNew().workoutLayoutManagerState
+        return getCurrentViewStateOrNew().workoutRecyclerLayoutManagerState
     }
 
     fun getWorkouts() = getCurrentViewStateOrNew().listWorkouts
@@ -438,7 +440,7 @@ constructor(
 
     fun setWorkoutsLayoutManagerState(layoutManagerState: Parcelable){
         val update = getCurrentViewStateOrNew()
-        update.workoutLayoutManagerState = layoutManagerState
+        update.workoutRecyclerLayoutManagerState = layoutManagerState
         setViewState(update)
     }
 
@@ -458,7 +460,7 @@ constructor(
 
     fun setInsertedWorkout(workout: Workout?){
         val update = getCurrentViewStateOrNew()
-        update.insertedWorkout = workout
+        update.workoutToInsert = workout
         setViewState(update)
     }
 
@@ -680,7 +682,7 @@ constructor(
 
     fun clearWorkoutLayoutManagerState(){
         val update = getCurrentViewStateOrNew()
-        update.workoutLayoutManagerState = null
+        update.workoutRecyclerLayoutManagerState = null
         setViewState(update)
     }
 

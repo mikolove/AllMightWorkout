@@ -20,7 +20,7 @@ data class HomeViewState(
     var listExercisesFromWorkoutId: ArrayList<Exercise>? = null, //Not sure if needed
 
     //Insert workout
-    var insertedWorkout : Workout? = null,
+    var workoutToInsert : Workout? = null,
 
     //Workout selected for training
     var workoutSelected: Workout? = null,
@@ -45,7 +45,7 @@ data class HomeViewState(
     var load_workout_list_filter: String? = null,
 
     //clean UI
-    var workoutLayoutManagerState: Parcelable? = null,
+    var workoutRecyclerLayoutManagerState: Parcelable? = null,
     var exerciseLayoutManagerState: Parcelable? = null,
 
     //Total elements in cache for each list - maybe undeeded

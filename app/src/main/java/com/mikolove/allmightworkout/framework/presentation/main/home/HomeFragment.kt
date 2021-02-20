@@ -5,16 +5,13 @@ import android.view.View
 import androidx.fragment.app.*
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.databinding.FragmentHomeBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryFragment
+import com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutFragment
 import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.ActivityRetainedLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
@@ -101,7 +98,7 @@ class FragmentCollectionAdapter(fragmentManager: FragmentManager, lifecycle: Lif
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0 -> HistoryFragment()
-            1 -> ChooseWorkoutFragment()
+            1 -> WorkoutFragment()
             2 -> ChooseExerciseFragment()
             else -> { throw Exception("Exception getting Fragment")}
         }

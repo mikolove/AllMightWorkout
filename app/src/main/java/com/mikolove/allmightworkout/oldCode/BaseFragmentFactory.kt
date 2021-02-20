@@ -1,23 +1,5 @@
 package com.mikolove.allmightworkout.oldCode
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
-import androidx.lifecycle.ViewModelProvider
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryDetailFragment
-import com.mikolove.allmightworkout.framework.presentation.main.history.HistoryFragment
-import com.mikolove.allmightworkout.framework.presentation.main.home.ChooseExerciseFragment
-import com.mikolove.allmightworkout.framework.presentation.main.home.ChooseWorkoutFragment
-import com.mikolove.allmightworkout.framework.presentation.main.home.HomeFragment
-import com.mikolove.allmightworkout.framework.presentation.main.home.LoadWorkoutFragment
-import com.mikolove.allmightworkout.framework.presentation.main.manageexercise.ManageExerciseFragment
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.AddExerciseToWorkoutFragment
-import com.mikolove.allmightworkout.framework.presentation.main.manageworkout.ManageWorkoutFragment
-import com.mikolove.allmightworkout.framework.presentation.main.workout.ExerciseInProgressFragment
-import com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutInProgressFragment
-import com.mikolove.allmightworkout.util.printLogD
-import javax.inject.Inject
-
 //Allows constructor di of ViewModel to fragment
 /*
 class BaseFragmentFactory
