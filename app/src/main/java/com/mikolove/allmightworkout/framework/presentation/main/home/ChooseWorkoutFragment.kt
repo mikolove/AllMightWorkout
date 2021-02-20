@@ -50,6 +50,7 @@ class ChooseWorkoutFragment
 
     @Inject
     lateinit var dateUtil: DateUtil
+
     val viewModel : HomeViewModel by activityViewModels()
     private var actionMode : ActionMode? = null
     private var actionModeCallBack : ActionMode.Callback? = null
@@ -67,12 +68,15 @@ class ChooseWorkoutFragment
 
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        printLogD("ChooseWorkoutFragment","List of selected workout ${viewModel.getSelectedWorkouts().size}")
+        printLogD("ChooseWorkoutFragment","ToolBar state ${viewModel.isWorkoutMultiSelectionStateActive()}")
+    }
     override fun onDestroyView() {
         printLogD("ChooseWorkoutFragment", "OnDestroyView")
-        //disableActionMode()
         binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
-        printLogD("ChooseWokoutFragment","Action mode is ${actionMode}")
+        disableMultiSelectToolbarState()
         binding = null
         listAdapter = null
         itemTouchHelper = null
@@ -141,6 +145,9 @@ class ChooseWorkoutFragment
             R.id.action_chooseWorkoutFragment_to_manageWorkoutFragment,
             bundle
         )
+        viewModel.setQueryWorkouts("")
+        viewModel.clearListWorkouts()
+        viewModel.loadWorkouts()
         viewModel.setInsertedWorkout(null)
     }
 
@@ -156,6 +163,9 @@ class ChooseWorkoutFragment
             null,
             extras
         )
+        viewModel.setQueryWorkouts("")
+        viewModel.clearListWorkouts()
+        viewModel.loadWorkouts()
         viewModel.setInsertedWorkout(null)
     }
 
@@ -187,9 +197,8 @@ class ChooseWorkoutFragment
                     if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
                         viewModel.setWorkoutQueryExhausted(true)
                     }
-                    printLogD("ChooseWorkoutFragment","List size ${workoutList.size}")
                     listAdapter?.submitList(workoutList)
-                    listAdapter?.notifyDataSetChanged()
+                    //listAdapter?.notifyDataSetChanged()
                 }
 
                 viewState.insertedWorkout?.let { insertedWorkout ->
@@ -265,12 +274,7 @@ class ChooseWorkoutFragment
     private fun setupMenu(){
 
         setHasOptionsMenu(true)
-        activity?.let {
-            //(it as AppCompatActivity).startSupportActionMode()
-        }
     }
-
-
 
     private fun initializeActionMode() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -301,8 +305,8 @@ class ChooseWorkoutFragment
 
 
     private fun disableActionMode(){
-        viewModel.setWorkoutToolbarState(SearchViewState())
         viewModel.clearSelectedWorkouts()
+        viewModel.setWorkoutToolbarState(SearchViewState())
         //actionMode?.finish()
         //actionMode = null
     }
@@ -481,7 +485,9 @@ class ChooseWorkoutFragment
         }
         searchView.setOnCloseListener {
             printLogD("ChooseWorkoutFragment", "Close search view")
-            viewModel.clearSelectedWorkouts()
+            viewModel.setQueryWorkouts("")
+            viewModel.clearListWorkouts()
+            viewModel.loadWorkouts()
             false
         }
 
@@ -493,7 +499,7 @@ class ChooseWorkoutFragment
             printLogD("ChooseWorkoutFragment", "Action mode  null")
             actionModeCallBack = initializeActionMode()
             actionMode = activity?.startActionMode(actionModeCallBack)
-            uiController?.displayBottomNavigation(View.INVISIBLE)
+            //uiController?.displayBottomNavigation(View.INVISIBLE)
         }
     }
 
@@ -504,7 +510,7 @@ class ChooseWorkoutFragment
             actionMode?.finish()
             actionModeCallBack = null
             actionMode = null
-            uiController?.displayBottomNavigation(View.VISIBLE)
+            //uiController?.displayBottomNavigation(View.VISIBLE)
         }
 
     }
@@ -671,6 +677,7 @@ class ChooseWorkoutFragment
 
     override fun restoreListPosition() {
         viewModel.getLayoutManagerState()?.let { lmState ->
+            printLogD("ChooseWorkoutFragment","restore list position ${lmState}")
             binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
                 lmState
             )

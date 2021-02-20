@@ -35,7 +35,7 @@ class RemoveWorkout<ViewState>(
                     DataState.data(
                         response = Response(
                             message = DELETE_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.SimpleSnackBar(),
+                            uiComponentType = UIComponentType.Toast(),
                             messageType = MessageType.Success()
                         ),
                         data = null,

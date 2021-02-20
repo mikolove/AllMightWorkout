@@ -238,7 +238,7 @@ constructor(
 
     fun reloadWorkouts(){
         setWorkoutQueryExhausted(false)
-        setQueryWorkouts("")
+        //setQueryWorkouts("")
         clearListWorkouts()
         loadWorkouts()
     }

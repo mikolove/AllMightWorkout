@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.ActionMode
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -267,6 +268,7 @@ class MainActivity :
                 onDismissCallback?.execute()
             }
         })
+        snackBarAnchorView(snackbar)
         snackbar.show()
         stateMessageCallback.removeMessageFromStack()
     }
@@ -280,10 +282,19 @@ class MainActivity :
             message,
             Snackbar.LENGTH_LONG
         )
+        snackBarAnchorView(snackbar)
         snackbar.show()
         stateMessageCallback.removeMessageFromStack()
     }
 
+    private fun snackBarAnchorView(snackbar: Snackbar)
+    {
+        if(binding.floatingActionButton.isVisible){
+            snackbar.setAnchorView(binding.floatingActionButton)
+        }else{
+            snackbar.setAnchorView(binding.mainBottomNavigation)
+        }
+    }
     private fun displayDialog(
         response: Response,
         stateMessageCallback: StateMessageCallback

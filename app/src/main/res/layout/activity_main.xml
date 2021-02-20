@@ -6,50 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".framework.presentation.main.MainActivity">
 
-<!--
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:layout_gravity="top">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:titleEnabled="true"
-            app:expandedTitleMarginStart="72dp"
-            app:expandedTitleMarginBottom="28dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:contentScrim="?attr/colorPrimary"
-            app:statusBarScrim="?attr/colorPrimaryVariant">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/materialToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:title="@string/fragment_home_tab_layout_history"
-                style="@style/Widget.MaterialComponents.Toolbar">
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/main_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:hideAnimationBehavior="inward"
-                app:minHideDelay="500"/>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-    </com.google.android.material.appbar.AppBarLayout>
--->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -57,21 +13,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/materialToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                style="@style/Widget.MaterialComponents.Toolbar">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/Widget.MaterialComponents.Toolbar">
 
-            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/main_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:hideAnimationBehavior="inward"
-                app:minHideDelay="500"/>
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/main_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:hideAnimationBehavior="inward"
+            app:minHideDelay="500"/>
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -94,10 +50,11 @@
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
+        android:layout_gravity="end|top"
         android:layout_margin="16dp"
         android:translationY="-16dp"
         app:layout_anchorGravity="end"
+        android:contentDescription="@string/fragment_choose_workout_add_content_description"
         app:layout_anchor="@id/main_bottom_navigation"
         app:srcCompat="@drawable/ic_baseline_add_24"/>
 
@@ -108,11 +65,10 @@
         android:layout_gravity="bottom"
         style="@style/Widget.App.BottomNavigationView"
         app:menu="@menu/bottom_navigation_menu"
-        app:hideOnScroll="true"
         app:fabAlignmentMode="end"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
-
-
+/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<!--android:name="com.mikolove.allmightworkout.framework.presentation.common.BaseNavHostFragment"-->
+<!--
+    app:hideOnScroll="true"
+    app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
