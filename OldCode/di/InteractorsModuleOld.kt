@@ -1,5 +1,5 @@
 
-package com.mikolove.allmightworkout.oldCode
+package com.mikolove.allmightworkout.oldCode.di
 /*
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
@@ -12,7 +12,7 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.*
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.home.*
+import com.mikolove.allmightworkout.oldCode.interactors.home.*
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExerciseSet

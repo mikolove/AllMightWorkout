@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.oldCode.interactors.home
 
+/*
 import com.mikolove.allmightworkout.business.interactors.main.common.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetTotalExercises
@@ -23,4 +24,4 @@ class HomeListInteractors(
     val removeMultipleExercises: RemoveMultipleExercises,
     val removeMultipleWorkouts: RemoveMultipleWorkouts
 ) {
-}
+}*/

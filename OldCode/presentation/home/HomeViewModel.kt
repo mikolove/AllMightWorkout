@@ -1,12 +1,12 @@
 
-package com.mikolove.allmightworkout.oldCode.home
+package com.mikolove.allmightworkout.oldCode.presentation.home
 
 /*import android.content.SharedPreferences
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.home.*
+import com.mikolove.allmightworkout.oldCode.interactors.home.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises.Companion.DELETE_EXERCISES_YOU_MUST_SELECT
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_YOU_MUST_SELECT
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
@@ -16,9 +16,9 @@ import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceK
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys.Companion.WORKOUT_LIST_FILTER
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys.Companion.WORKOUT_LIST_ORDER
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.*
-import com.mikolove.allmightworkout.oldCode.home.state.HomeStateEvent.CreateStateMessageEvent
-import com.mikolove.allmightworkout.oldCode.home.state.HomeViewState
+import com.mikolove.allmightworkout.oldCode.presentation.home.state.HomeStateEvent.*
+import com.mikolove.allmightworkout.oldCode.presentation.home.state.HomeStateEvent.CreateStateMessageEvent
+import com.mikolove.allmightworkout.oldCode.presentation.home.state.HomeViewState
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.util.printLogD

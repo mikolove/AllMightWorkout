@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode.home
+package com.mikolove.allmightworkout.oldCode.presentation.home
 /*
 import android.os.Bundle
 import android.view.View
@@ -16,7 +16,7 @@ import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
-const val HOME_LIST_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.oldCode.home.state"
+const val HOME_LIST_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.oldCode.presentation.home.state"
 
 @AndroidEntryPoint
 class HomeFragment

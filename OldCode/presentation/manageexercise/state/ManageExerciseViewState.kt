@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode.manageexercise.state
+package com.mikolove.allmightworkout.oldCode.presentation.manageexercise.state
 
 /*
 import android.os.Parcelable

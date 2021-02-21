@@ -58,7 +58,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         setupOnBackPressDispatcher()
         subscribeObservers()
         setupBottomNav()
-        getWorkoutFromPreviousFragment()
+        //getWorkoutFromPreviousFragment()
 
         /*
             Bind listener
@@ -149,7 +149,8 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
             if(viewState != null){
 
                 viewState.workoutSelected?.let { workout ->
-                        setWorkoutUi(workout)
+                    printLogD("WorkoutDetailFragment","Workout selected load UI")
+                    setWorkoutUi(workout)
                 }
 
                 viewState.isUpdatePending?.let { isUpdatePending ->

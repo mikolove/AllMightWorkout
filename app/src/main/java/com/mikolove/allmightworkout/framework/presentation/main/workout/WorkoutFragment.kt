@@ -6,7 +6,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -14,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -57,58 +57,10 @@ class WorkoutFragment
     private var itemTouchHelper: ItemTouchHelper? = null
     private var binding : FragmentWorkoutBinding? = null
 
-    override fun fabOnClick() {
-        addWorkout()
-    }
 
-    override fun setupFAB(){
-        uiController.loadFabController(this)
-        uiController.mainFabVisibility()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        printLogD("ChooseWorkoutFragment","List of selected workout ${viewModel.getSelectedWorkouts().size}")
-        printLogD("ChooseWorkoutFragment","ToolBar state ${viewModel.isWorkoutMultiSelectionStateActive()}")
-    }
-    override fun onDestroyView() {
-        printLogD("ChooseWorkoutFragment", "OnDestroyView")
-        binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
-        disableMultiSelectToolbarState()
-        binding = null
-        listAdapter = null
-        itemTouchHelper = null
-        super.onDestroyView()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        saveLayoutManagerState()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadTotalWorkouts()
-        viewModel.clearListWorkouts()
-        viewModel.refreshWorkoutSearchQuery()
-        setupBottomNav()
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        val viewState = viewModel.viewState.value
-
-        //clear the list. Don't want to save a large list to bundle.
-        viewState?.listWorkouts =  ArrayList()
-
-        outState.putParcelable(
-            WORKOUT_VIEW_STATE_BUNDLE_KEY,
-            viewState
-        )
-        super.onSaveInstanceState(outState)
-    }
+    /********************************************************************
+        LIFECYCLE MANANGEMENT
+     *********************************************************************/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +70,7 @@ class WorkoutFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        printLogD("ChooseWorkoutFragment","OnViewCreated")
+        printLogD("WorkoutFragment","OnViewCreated")
         setHasOptionsMenu(true)
 
         binding = FragmentWorkoutBinding.bind(view)
@@ -126,47 +78,96 @@ class WorkoutFragment
         setupUI()
         setupRecyclerView()
         setupSwipeRefresh()
-        setupFAB()
-        setupBottomNav()
         subscribeObservers()
+
+        viewModel.clearListWorkouts()
+        viewModel.refreshWorkoutSearchQuery()
+        viewModel.loadTotalWorkouts()
 
         restoreInstanceState(savedInstanceState)
     }
 
-    private fun setupBottomNav(){
-        uiController?.displayBottomNavigation(View.VISIBLE)
+    override fun onResume() {
+        super.onResume()
+        printLogD("WorkoutFragment","OnResume")
+        setupFAB()
+        setupBottomNav()
+        listAdapter?.stateRestorationPolicy = PREVENT_WHEN_EMPTY
     }
 
-    private fun navigateToManageWorkout( idWorkout: String){
+    override fun onPause() {
+        super.onPause()
+        printLogD("WorkoutFragment", "OnPause savelistPosition")
+        //saveLayoutManagerState()
+    }
 
-        val bundle = bundleOf(WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
-        findNavController().navigate(
-            R.id.action_workout_fragment_to_workout_detail_fragment,
-            bundle
+    override fun onDestroyView() {
+        printLogD("WorkoutFragment", "OnDestroyView")
+        disableMultiSelectToolbarState()
+        binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
+        listAdapter = null
+        binding = null
+        itemTouchHelper = null
+
+        printLogD("WorkoutFragment", "recyclerview adapter ${binding?.fragmentChooseWorkoutRecyclerview?.adapter}")
+        printLogD("WorkoutFragment", "Listadapter ${listAdapter}")
+
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        printLogD("WorkoutFragment", "OnDestroy")
+        printLogD("WorkoutFragment","List of selected workout ${viewModel.getSelectedWorkouts().size}")
+        printLogD("WorkoutFragment","ToolBar state ${viewModel.isWorkoutMultiSelectionStateActive()}")
+
+    }
+
+
+    /********************************************************************
+        FRAGEMENT SAVEINSTANCE
+     *********************************************************************/
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        printLogD("WorkoutFragment","OnSaveInstanceState")
+        val viewState = viewModel.viewState.value
+
+        //clear the list. Don't want to save a large list to bundle.
+        viewState?.listWorkouts =  ArrayList()
+        viewState?.listBodyParts = ArrayList()
+        viewState?.listWorkoutTypes = ArrayList()
+        viewState?.listExercisesFromWorkoutId = ArrayList()
+        viewState?.workoutSelected = null
+        viewState?.workoutToInsert = null
+
+        outState.putParcelable(
+            WORKOUT_VIEW_STATE_BUNDLE_KEY,
+            viewState
         )
-        viewModel.setQueryWorkouts("")
-        viewModel.clearListWorkouts()
-        viewModel.loadWorkouts()
-        viewModel.setInsertedWorkout(null)
+        super.onSaveInstanceState(outState)
     }
 
-    private fun navigateToManageWorkout(containerView : View, idWorkout: String){
-
-        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
-        val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
-
-        val bundle = bundleOf(WORKOUT_ID_WORKOUT_BUNDLE_KEY to idWorkout)
-        findNavController().navigate(
-            R.id.action_workout_fragment_to_workout_detail_fragment,
-            bundle,
-            null,
-            extras
-        )
-        viewModel.setQueryWorkouts("")
-        viewModel.clearListWorkouts()
-        viewModel.loadWorkouts()
-        viewModel.setInsertedWorkout(null)
+    private fun restoreInstanceState(savedInstanceState: Bundle?){
+        printLogD("WorkoutFragment","OnRestoreInstanceState")
+    /*    savedInstanceState?.let { inState ->
+            (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
+                viewModel.setViewState(viewState)
+            }
+        }*/
     }
+
+
+    //Allow the app to restart at list position
+    private fun saveLayoutManagerState(){
+   /*     binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
+            printLogD("WorkoutFragment","Save Layout Manager")
+            viewModel.setWorkoutsLayoutManagerState(lmState)
+        }*/
+    }
+
+    /********************************************************************
+        SUBSCRIBE OBSERVERS
+     *********************************************************************/
 
     private fun subscribeObservers(){
 
@@ -197,11 +198,18 @@ class WorkoutFragment
                         viewModel.setWorkoutQueryExhausted(true)
                     }
                     listAdapter?.submitList(workoutList)
+                    restoreListPosition()
                     //listAdapter?.notifyDataSetChanged()
                 }
 
                 viewState.workoutToInsert?.let { insertedWorkout ->
-                    navigateToManageWorkout(insertedWorkout.idWorkout)
+                    viewModel.getWorkoutById(insertedWorkout.idWorkout)
+                }
+
+                viewState.workoutSelected?.let { workoutSeleted ->
+                    if(viewModel.getWorkoutToInsert() != null) {
+                        insertionNavigateToManageWorkout()
+                    }
                 }
             }
         })
@@ -220,7 +228,7 @@ class WorkoutFragment
                     DELETE_WORKOUTS_SUCCESS -> {
 
                         showSnackbarDeleteWorkouts()
-                        viewModel.setWorkoutToolbarState(SearchViewState())
+                        disableActionMode()
 
                     }
 
@@ -245,73 +253,29 @@ class WorkoutFragment
     }
 
 
-    //Allow the app to restart at list position
-    private fun saveLayoutManagerState(){
-        binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
-            viewModel.setWorkoutsLayoutManagerState(lmState)
-        }
-    }
-
-    private fun showSnackbarDeleteWorkouts(){
-        uiController.onResponseReceived(
-            response = Response(
-                message = DELETE_WORKOUTS_SUCCESS,
-                uiComponentType = UIComponentType.SnackBar(
-                    undoCallback = null,
-                    onDismissCallback = null
-                ),
-                messageType = MessageType.Info()
-            ),
-            stateMessageCallback = object : StateMessageCallback {
-                override fun removeMessageFromStack() {
-                    viewModel.clearStateMessage()
-                }
-            }
-        )
-    }
-
-    private fun setupMenu(){
-
-        setHasOptionsMenu(true)
-    }
-
-    private fun initializeActionMode() : ActionMode.Callback = object : ActionMode.Callback{
-        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            activity?.menuInflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            return false
-        }
-
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-            when (item?.getItemId()) {
-                R.id.toolbar_workout_delete -> {
-                    printLogD("ChooseWorkoutFragment", "DELETE IS PRESSED")
-                    deleteWorkouts()
-                    return true
-                }
-            }
-            return false
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode?) {
-            printLogD("ChooseWorkoutFragment", "Close is pressed")
-            disableActionMode()
-        }
-    }
-
-
-    private fun disableActionMode(){
-        viewModel.clearSelectedWorkouts()
-        viewModel.setWorkoutToolbarState(SearchViewState())
-        //actionMode?.finish()
-        //actionMode = null
-    }
+    /********************************************************************
+        SETUP
+    *********************************************************************/
 
     private fun setupUI(){
         view?.hideKeyboard()
+    }
+
+    override fun setupFAB(){
+        uiController.loadFabController(this)
+        uiController.mainFabVisibility()
+
+    }
+
+    private fun setupBottomNav(){
+        uiController.displayBottomNavigation(View.VISIBLE)
+    }
+
+    private fun setupSwipeRefresh(){
+        binding?.fragmentChooseWorkoutSwiperefreshlayout?.setOnRefreshListener {
+            //startNewSearch()
+            binding?.fragmentChooseWorkoutSwiperefreshlayout?.isRefreshing = false
+        }
     }
 
     private fun setupRecyclerView(){
@@ -347,185 +311,40 @@ class WorkoutFragment
                 }
             })
 
+            listAdapter?.stateRestorationPolicy = PREVENT_WHEN_EMPTY
             adapter = listAdapter
         }
     }
 
-    private fun setupSwipeRefresh(){
-        binding?.fragmentChooseWorkoutSwiperefreshlayout?.setOnRefreshListener {
-            startNewSearch()
-            binding?.fragmentChooseWorkoutSwiperefreshlayout?.isRefreshing = false
-        }
+    /********************************************************************
+        NAVIGATION
+     *********************************************************************/
+
+    private fun insertionNavigateToManageWorkout(){
+        findNavController().navigate(
+            R.id.action_workout_fragment_to_workout_detail_fragment,
+            null
+        )
+        viewModel.clearListWorkouts()
+        viewModel.setInsertedWorkout(null)
     }
 
-    private fun startNewSearch(){
-        viewModel.reloadWorkouts()
+    private fun selectionNavigateToManageWorkout(containerView : View){
+
+        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
+        val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
+        findNavController().navigate(
+            R.id.action_workout_fragment_to_workout_detail_fragment,
+            null,
+            null,
+            extras
+        )
+        viewModel.clearListWorkouts()
     }
 
-
-    /*
-        Toolbar Setup and Actions
-     */
-
-
-/*    private fun setupMultiSelectionToolbar(parentView: View){
-        parentView
-            .findViewById<ImageView>(R.id.action_exit_multiselect_state)
-            .setOnClickListener {
-                viewModel.setWorkoutToolbarState(SearchViewState())
-            }
-
-        parentView
-            .findViewById<ImageView>(R.id.action_delete_items)
-            .setOnClickListener {
-                deleteWorkouts()
-            }
-    }
-
-    private fun enableMultiSelectToolbarState(){
-        view?.let { v ->
-            val view = View.inflate(
-                v.context,
-                R.layout.layout_multiselection_toolbar,
-                null
-            )
-            view.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            binding?.fragmentChooseWorkoutToolbarContentContainer?.addView(view)
-            setupMultiSelectionToolbar(view)
-        }
-    }
-
-    private fun disableMultiSelectToolbarState(){
-        view?.let {
-            val view = binding?.fragmentChooseWorkoutToolbarContentContainer?.findViewById<Toolbar>(R.id.multiselect_toolbar)
-            binding?.fragmentChooseWorkoutToolbarContentContainer?.removeView(view)
-            viewModel.clearSelectedWorkouts()
-        }
-    }
-
-
-    private fun setupSearchView(){
-
-        val searchViewToolbar: Toolbar? = binding?.fragmentChooseWorkoutToolbarContentContainer?.findViewById<Toolbar>(R.id.searchview_toolbar)
-
-        searchViewToolbar?.let { toolbar ->
-
-            val searchView = toolbar.findViewById<SearchView>(R.id.search_view)
-
-            val searchPlate: SearchView.SearchAutoComplete?
-                    = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-
-            searchPlate?.setOnEditorActionListener { v, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
-                    || actionId == EditorInfo.IME_ACTION_SEARCH ) {
-                    val searchQuery = v.text.toString()
-                    viewModel.setQueryWorkouts(searchQuery)
-                    startNewSearch()
-                }
-                true
-            }
-        }
-    }
-
-    private fun enableSearchViewToolbarState(){
-        view?.let { v ->
-            val view = View.inflate(
-                v.context,
-                R.layout.layout_searchview_toolbar,
-                null
-            )
-            view.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            binding?.fragmentChooseWorkoutToolbarContentContainer?.addView(view)
-            setupSearchView()
-            setupFilterButton()
-        }
-    }
-
-    private fun disableSearchViewToolbarState(){
-        view?.let {
-            val view = binding?.fragmentChooseWorkoutToolbarContentContainer?.findViewById<Toolbar>(R.id.searchview_toolbar)
-            binding?.fragmentChooseWorkoutToolbarContentContainer?.removeView(view)
-        }
-    }
-
-
-    private fun setupFilterButton(){
-        val searchViewToolbar: Toolbar? =  binding?.fragmentChooseWorkoutToolbarContentContainer?.findViewById<Toolbar>(R.id.searchview_toolbar)
-        searchViewToolbar?.findViewById<ImageView>(R.id.action_filter)?.setOnClickListener {
-            showFilterDialog()
-        }
-    }*/
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_workout_menu_search, menu)
-
-        //Deal with searchView
-        val searchItem = menu?.findItem(R.id.toolbar_workout_search)
-        val searchView = searchItem?.actionView as SearchView
-
-        //May Add autocomplete
-        val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-        searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
-                || actionId == EditorInfo.IME_ACTION_SEARCH ) {
-                val searchQuery = v.text.toString()
-                viewModel.setQueryWorkouts(searchQuery)
-                startNewSearch()
-                printLogD("ChooseWorkoutFragment", "Started search on ${searchQuery}")
-            }
-            true
-        }
-        searchView.setOnCloseListener {
-            printLogD("ChooseWorkoutFragment", "Close search view")
-            viewModel.setQueryWorkouts("")
-            viewModel.clearListWorkouts()
-            viewModel.loadWorkouts()
-            false
-        }
-
-    }
-
-    private fun enableMultiSelectToolbarState(){
-        printLogD("ChooseWorkoutFragment", "Start action Mode")
-        if(actionMode == null) {
-            printLogD("ChooseWorkoutFragment", "Action mode  null")
-            actionModeCallBack = initializeActionMode()
-            actionMode = activity?.startActionMode(actionModeCallBack)
-            //uiController?.displayBottomNavigation(View.INVISIBLE)
-        }
-    }
-
-    private fun disableMultiSelectToolbarState(){
-        printLogD("ChooseWorkoutFragment", "Stop action Mode")
-        if(actionMode != null){
-            printLogD("ChooseWorkoutFragment", "Action Mode is not null")
-            actionMode?.finish()
-            actionModeCallBack = null
-            actionMode = null
-            //uiController?.displayBottomNavigation(View.VISIBLE)
-        }
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.toolbar_workout_filter -> {
-                // navigate to settings screen
-                printLogD("ChooseWorkoutFragment", "Show filter dialog")
-                showFilterDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
+    /********************************************************************
+        UI DIALOG
+     *********************************************************************/
 
     fun showFilterDialog(){
 
@@ -587,6 +406,123 @@ class WorkoutFragment
         }
     }
 
+    /********************************************************************
+        UI FAB
+     *********************************************************************/
+
+    override fun fabOnClick() {
+        addWorkout()
+    }
+
+    /********************************************************************
+        ACTION MODE
+     *********************************************************************/
+
+    private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            activity?.menuInflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            when (item?.getItemId()) {
+                R.id.toolbar_workout_delete -> {
+                    printLogD("WorkoutFragment", "ActionMode delete button is pressed")
+                    deleteWorkouts()
+                    return true
+                }
+            }
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            printLogD("WorkoutFragment", "ActionMode close button is pressed")
+            disableActionMode()
+        }
+    }
+
+    private fun enableMultiSelectToolbarState(){
+        if(actionMode == null) {
+            printLogD("WorkoutFragment", "Start action Mode")
+            printLogD("WorkoutFragment", "Action mode null create it")
+            actionModeCallBack = createActionModeCallBack()
+            actionMode = activity?.startActionMode(actionModeCallBack)
+        }
+    }
+
+    private fun disableMultiSelectToolbarState(){
+        if(actionMode != null){
+            printLogD("WorkoutFragment", "Stop action Mode")
+            printLogD("WorkoutFragment", "Action Mode is not null clear it")
+            actionMode?.finish()
+            actionModeCallBack = null
+            actionMode = null
+        }
+    }
+
+    private fun disableActionMode(){
+        viewModel.setWorkoutToolbarState(SearchViewState())
+    }
+
+    /********************************************************************
+        MENU
+     *********************************************************************/
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_workout_menu_search, menu)
+
+        //Deal with searchView
+        val searchItem = menu?.findItem(R.id.toolbar_workout_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        //May Add autocomplete
+        val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
+                || actionId == EditorInfo.IME_ACTION_SEARCH ) {
+                val searchQuery = v.text.toString()
+                viewModel.setQueryWorkouts(searchQuery)
+                startNewSearch()
+                printLogD("WorkoutFragment", "Started search on ${searchQuery}")
+            }
+            true
+        }
+
+        searchView.setOnCloseListener {
+            printLogD("WorkoutFragment", "Close search view")
+            viewModel.setQueryWorkouts("")
+            viewModel.clearListWorkouts()
+            viewModel.loadWorkouts()
+            false
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.toolbar_workout_filter -> {
+                // navigate to settings screen
+                printLogD("WorkoutFragment", "Show filter dialog")
+                showFilterDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    /********************************************************************
+        VIEWMODEL ACTION
+     *********************************************************************/
+
+
+    private fun startNewSearch(){
+        viewModel.reloadWorkouts()
+    }
 
     private fun addWorkout(){
         uiController.displayInputCaptureDialog(
@@ -604,9 +540,6 @@ class WorkoutFragment
             }
         )
     }
-
-
-
 
     private fun onErrorNoNameSpecified(){
         viewModel.setStateEvent(
@@ -645,51 +578,46 @@ class WorkoutFragment
         )
     }
 
-    // for debugging
-    private fun printActiveJobs(){
-
-        for((index, job) in viewModel.getActiveJobs().withIndex()){
-            printLogD("ChooseWorkoutFragment", "${index}: ${job}")
-        }
+    private fun showSnackbarDeleteWorkouts(){
+        uiController.onResponseReceived(
+            response = Response(
+                message = DELETE_WORKOUTS_SUCCESS,
+                uiComponentType = UIComponentType.SnackBar(
+                    undoCallback = null,
+                    onDismissCallback = null
+                ),
+                messageType = MessageType.Info()
+            ),
+            stateMessageCallback = object : StateMessageCallback {
+                override fun removeMessageFromStack() {
+                    viewModel.clearStateMessage()
+                }
+            }
+        )
     }
 
-
-    /*
-        List Adapter Interactions
-     */
-    override fun onItemSelected(position: Int, item: Workout) {
-        if(isMultiSelectionModeEnabled()){
-            viewModel.addOrRemoveWorkoutFromSelectedList(item)
-        }else{
-            navigateToManageWorkout(item.idWorkout)
-        }
-
-    }
+    /********************************************************************
+        WORKOUT LIST ADAPTER INTERACTIONS
+     *********************************************************************/
 
     override fun onItemSelected(position: Int, item: Workout, containerView: View) {
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{
-            navigateToManageWorkout(containerView,item.idWorkout)
+            viewModel.setWorkoutSelected(item)
+            selectionNavigateToManageWorkout(containerView)
         }
     }
 
     override fun restoreListPosition() {
-        viewModel.getLayoutManagerState()?.let { lmState ->
-            printLogD("ChooseWorkoutFragment","restore list position ${lmState}")
+       /* viewModel.getLayoutManagerState()?.let { lmState ->
+            printLogD("WorkoutFragment","restore list position ${lmState}")
             binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
                 lmState
             )
-        }
+        }*/
     }
 
-    private fun restoreInstanceState(savedInstanceState: Bundle?){
-        savedInstanceState?.let { inState ->
-            (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
-                viewModel.setViewState(viewState)
-            }
-        }
-    }
 
     override fun isMultiSelectionModeEnabled(): Boolean = viewModel.isWorkoutMultiSelectionStateActive()
 
@@ -699,12 +627,25 @@ class WorkoutFragment
         return viewModel.isWorkoutSelected(workout)
     }
 
-    /*
-        Item Touch Helper
-     */
+
+    /********************************************************************
+        WORKOUT LIST ADAPTER TOUCH HELPER
+     *********************************************************************/
+
     override fun onItemSwiped(position: Int) {
         //TODO("Not yet implemented")
     }
 
+
+    /********************************************************************
+        DEBUG
+     *********************************************************************/
+
+    private fun printActiveJobs(){
+
+        for((index, job) in viewModel.getActiveJobs().withIndex()){
+            printLogD("WorkoutFragment", "${index}: ${job}")
+        }
+    }
 
 }

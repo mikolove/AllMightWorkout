@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode.manageworkout
+package com.mikolove.allmightworkout.oldCode.presentation.manageworkout
 /*
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
@@ -7,8 +7,8 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.ManageWork
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutStateEvent
-import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutViewState
+import com.mikolove.allmightworkout.oldCode.presentation.manageworkout.state.ManageWorkoutStateEvent
+import com.mikolove.allmightworkout.oldCode.presentation.manageworkout.state.ManageWorkoutViewState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.util.printLogD

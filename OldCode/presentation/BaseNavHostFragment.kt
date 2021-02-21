@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode
+package com.mikolove.allmightworkout.oldCode.presentation
 
 import android.content.Context
 import androidx.navigation.fragment.NavHostFragment

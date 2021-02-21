@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.home
+package com.mikolove.allmightworkout.oldCode.interactors.home
 
 /*
 TODO: Define if usefull thinking not

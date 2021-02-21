@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
@@ -134,6 +135,9 @@ constructor(
             }
 
             is GetWorkoutsEvent -> {
+                if(stateEvent.clearLayoutManagerState){
+                    clearWorkoutLayoutManagerState()
+                }
                 workoutInteractors.getWorkouts.getWorkouts(
                    query = getSearchQueryWorkouts(),
                    filterAndOrder = getOrderWorkouts() + getFilterWorkouts(),
@@ -289,7 +293,7 @@ constructor(
 
     fun reloadWorkouts(){
         setWorkoutQueryExhausted(false)
-        //setQueryWorkouts("")
+        resetPageWorkouts()
         clearListWorkouts()
         loadWorkouts()
     }
@@ -357,6 +361,9 @@ constructor(
         setViewState(update)
     }
 
+    fun getWorkoutById(idWorkout : String){
+        setStateEvent(GetWorkoutByIdEvent(idWorkout = idWorkout))
+    }
 
     fun saveFilterWorkoutsOptions(filter: String, order: String){
         editor.putString(PreferenceKeys.WORKOUT_LIST_FILTER, filter)
@@ -422,6 +429,8 @@ constructor(
     fun getTotalBodyPartByWorkoutType() = getCurrentViewStateOrNew().totalBodyPartsByWorkoutType
 
     fun getWorkoutTypeSelected() = getCurrentViewStateOrNew().workoutTypeSelected
+
+    fun getWorkoutToInsert() = getCurrentViewStateOrNew().workoutToInsert ?: null
 
     fun getWorkoutSelected() = getCurrentViewStateOrNew().workoutSelected
 
@@ -571,6 +580,11 @@ constructor(
     PageManagement
      *********************************************************************/
 
+    private fun resetPageWorkouts(){
+        val update = getCurrentViewStateOrNew()
+        update.pageWorkouts = 1
+        setViewState(update)
+    }
     fun nextPageWorkouts(){
         if(!isWorkoutsQueryExhausted()){
             printLogD("NoteListViewModel", "attempting to load workout next page...")

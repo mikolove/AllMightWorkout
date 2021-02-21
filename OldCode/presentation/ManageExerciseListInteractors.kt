@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode
+package com.mikolove.allmightworkout.oldCode.presentation
 
 /*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState

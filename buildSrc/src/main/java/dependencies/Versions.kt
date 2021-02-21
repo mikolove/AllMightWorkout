@@ -6,6 +6,7 @@ object Versions {
     val minsdk = 23
     val targetsdk = 30
     val kotlin = "1.4.30"
+    val recycler_view = "1.2.0-beta01"
     val ktx = "1.3.2"
     val hilt = "2.31.2-alpha"
     val hilt_testing = "2.31.2-alpha"

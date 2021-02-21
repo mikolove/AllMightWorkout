@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode
+package com.mikolove.allmightworkout.oldCode.interactors
 
 /*
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler

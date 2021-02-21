@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode.home.state
+package com.mikolove.allmightworkout.oldCode.presentation.home.state
 /*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.BodyPart

@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode
+package com.mikolove.allmightworkout.oldCode.presentation
 
 //Allows constructor di of ViewModel to fragment
 /*

@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.oldCode.manageexercise
+package com.mikolove.allmightworkout.oldCode.presentation.manageexercise
 
 /*
 import android.content.SharedPreferences
@@ -9,7 +9,7 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ManageExerciseListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.oldCode.manageexercise.state.ManageExerciseViewState
+import com.mikolove.allmightworkout.oldCode.presentation.manageexercise.state.ManageExerciseViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

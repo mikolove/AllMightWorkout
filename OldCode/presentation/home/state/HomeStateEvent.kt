@@ -1,10 +1,10 @@
-package com.mikolove.allmightworkout.oldCode.home.state
+package com.mikolove.allmightworkout.oldCode.presentation.home.state
 /*
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
-import com.mikolove.allmightworkout.oldCode.manageworkout.state.ManageWorkoutStateEvent
+import com.mikolove.allmightworkout.oldCode.presentation.manageworkout.state.ManageWorkoutStateEvent
 
 sealed class HomeStateEvent : StateEvent{
 

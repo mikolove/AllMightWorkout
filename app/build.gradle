@@ -7,6 +7,7 @@ import dependencies.Dependencies
 import dependencies.Java
 import dependencies.AndroidTestDependencies
 
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -109,6 +110,9 @@ dependencies {
     implementation Dependencies.navigation_fragment
     implementation Dependencies.navigation_ui
     implementation Dependencies.navigation_dynamic
+
+    //Recycler View
+    implementation Dependencies.recycler_view
 
     //Fragment
     implementation Dependencies.fragment_ktx

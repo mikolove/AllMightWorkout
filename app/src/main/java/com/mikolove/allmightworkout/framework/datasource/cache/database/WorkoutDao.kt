@@ -82,7 +82,7 @@ interface WorkoutDao {
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
-        ORDER BY name ASC LIMIT ( :page * :pageSize)
+        ORDER BY name COLLATE NOCASE ASC LIMIT ( :page * :pageSize)
     """)
     suspend fun getWorkoutsOrderByNameASC( query: String, page : Int, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
