@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -42,6 +43,17 @@ class MainActivity :
     private lateinit var binding : ActivityMainBinding
     private var dialogInView: MaterialDialog? = null
     private var mainFabController: FabController? = null
+
+
+    //FIX leak android Q maybe
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
+        if(isTaskRoot && navHostFragment.childFragmentManager.backStackEntryCount == 0) {
+            finishAfterTransition()
+        }else {
+            super.onBackPressed()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,6 +141,9 @@ class MainActivity :
 
     override fun displayBottomNavigation(visibility: Int) {
         binding?.mainBottomNavigation.visibility = visibility
+    }
+
+    override fun performShowBottomNavigation() {
     }
 
     private fun setupProgressLinearIndicator(){

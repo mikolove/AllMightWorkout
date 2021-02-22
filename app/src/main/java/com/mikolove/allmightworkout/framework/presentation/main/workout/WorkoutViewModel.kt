@@ -5,7 +5,6 @@ import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
@@ -294,7 +293,6 @@ constructor(
     fun reloadWorkouts(){
         setWorkoutQueryExhausted(false)
         resetPageWorkouts()
-        clearListWorkouts()
         loadWorkouts()
     }
 
@@ -438,9 +436,17 @@ constructor(
 
     fun isWorkoutsPaginationExhausted() = getWorkoutsListSize() >= getTotalWorkouts()
 
+    fun isSearchActive() = getCurrentViewStateOrNew().searchActive ?: false
+
     /********************************************************************
     SETTERS - VIEWSTATE AND OTHER
      *********************************************************************/
+
+    fun setIsSearchActive(isActive : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.searchActive = isActive
+        setViewState(update)
+    }
 
     fun setIsUpdatePending(isPending: Boolean){
         val update = getCurrentViewStateOrNew()
@@ -607,6 +613,7 @@ constructor(
     }
 
     fun clearWorkoutLayoutManagerState(){
+        printLogD("WorkoutViewModel","clearLayoutManager")
         val update = getCurrentViewStateOrNew()
         update.workoutRecyclerLayoutManagerState = null
         setViewState(update)

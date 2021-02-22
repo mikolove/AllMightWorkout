@@ -53,7 +53,7 @@ class WorkoutListAdapter(
         }
 
     }
-    //private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -82,6 +82,7 @@ class WorkoutListAdapter(
     }
 
     fun submitList(list: List<Workout>) {
+
         val diffCallback = WorkoutDiffCallBack(workouts,list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         workouts.clear()
@@ -89,7 +90,8 @@ class WorkoutListAdapter(
 
         diffResult.dispatchUpdatesTo(this)
 
-/*        val commitCallBack = Runnable {
+
+ /*       val commitCallBack = Runnable {
             //if process died restore list position
             interaction?.restoreListPosition()
         }

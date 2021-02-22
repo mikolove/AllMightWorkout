@@ -80,11 +80,7 @@ class WorkoutFragment
         setupSwipeRefresh()
         subscribeObservers()
 
-        viewModel.clearListWorkouts()
-        viewModel.refreshWorkoutSearchQuery()
-        viewModel.loadTotalWorkouts()
-
-        restoreInstanceState(savedInstanceState)
+        //restoreInstanceState(savedInstanceState)
     }
 
     override fun onResume() {
@@ -92,7 +88,9 @@ class WorkoutFragment
         printLogD("WorkoutFragment","OnResume")
         setupFAB()
         setupBottomNav()
-        listAdapter?.stateRestorationPolicy = PREVENT_WHEN_EMPTY
+        viewModel.loadTotalWorkouts()
+        viewModel.clearListWorkouts()
+        viewModel.refreshWorkoutSearchQuery()
     }
 
     override fun onPause() {
@@ -148,21 +146,23 @@ class WorkoutFragment
     }
 
     private fun restoreInstanceState(savedInstanceState: Bundle?){
-        printLogD("WorkoutFragment","OnRestoreInstanceState")
-    /*    savedInstanceState?.let { inState ->
+        printLogD("WorkoutFragment","restoreInstanceState")
+        savedInstanceState?.let { inState ->
             (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
-        }*/
+        }
     }
 
 
     //Allow the app to restart at list position
     private fun saveLayoutManagerState(){
-   /*     binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
+        binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
             printLogD("WorkoutFragment","Save Layout Manager")
+            printLogD("WorkoutFragment","LAYOUT IN VIEW STATE ${viewModel.getLayoutManagerState()?.toString()}")
+            printLogD("WorkoutFragment","ACTUAL LAYOUT ${lmState.toString()}")
             viewModel.setWorkoutsLayoutManagerState(lmState)
-        }*/
+        }
     }
 
     /********************************************************************
@@ -194,12 +194,13 @@ class WorkoutFragment
 
                 viewState.listWorkouts?.let { workoutList ->
 
-                    if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
-                        viewModel.setWorkoutQueryExhausted(true)
+                    if(workoutList.size > 0){
+                        if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
+                            viewModel.setWorkoutQueryExhausted(true)
+                        }
+                        listAdapter?.submitList(workoutList)
+                        //listAdapter?.notifyDataSetChanged()
                     }
-                    listAdapter?.submitList(workoutList)
-                    restoreListPosition()
-                    //listAdapter?.notifyDataSetChanged()
                 }
 
                 viewState.workoutToInsert?.let { insertedWorkout ->
@@ -263,6 +264,7 @@ class WorkoutFragment
 
     override fun setupFAB(){
         uiController.loadFabController(this)
+        uiController.loadFabController(this)
         uiController.mainFabVisibility()
 
     }
@@ -273,7 +275,7 @@ class WorkoutFragment
 
     private fun setupSwipeRefresh(){
         binding?.fragmentChooseWorkoutSwiperefreshlayout?.setOnRefreshListener {
-            //startNewSearch()
+            startNewSearch()
             binding?.fragmentChooseWorkoutSwiperefreshlayout?.isRefreshing = false
         }
     }
@@ -325,11 +327,17 @@ class WorkoutFragment
             R.id.action_workout_fragment_to_workout_detail_fragment,
             null
         )
-        viewModel.clearListWorkouts()
         viewModel.setInsertedWorkout(null)
     }
 
     private fun selectionNavigateToManageWorkout(containerView : View){
+
+        if(viewModel.isSearchActive()){
+            viewModel.setQueryWorkouts("")
+            viewModel.clearListWorkouts()
+            viewModel.loadWorkouts()
+            viewModel.setIsSearchActive(false)
+        }
 
         val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
@@ -339,7 +347,6 @@ class WorkoutFragment
             null,
             extras
         )
-        viewModel.clearListWorkouts()
     }
 
     /********************************************************************
@@ -488,12 +495,14 @@ class WorkoutFragment
                 viewModel.setQueryWorkouts(searchQuery)
                 startNewSearch()
                 printLogD("WorkoutFragment", "Started search on ${searchQuery}")
+                viewModel.setIsSearchActive(true)
             }
             true
         }
 
         searchView.setOnCloseListener {
             printLogD("WorkoutFragment", "Close search view")
+            viewModel.setIsSearchActive(false)
             viewModel.setQueryWorkouts("")
             viewModel.clearListWorkouts()
             viewModel.loadWorkouts()
@@ -521,6 +530,7 @@ class WorkoutFragment
 
 
     private fun startNewSearch(){
+        viewModel.clearListWorkouts()
         viewModel.reloadWorkouts()
     }
 
@@ -610,12 +620,12 @@ class WorkoutFragment
     }
 
     override fun restoreListPosition() {
-       /* viewModel.getLayoutManagerState()?.let { lmState ->
+        viewModel.getLayoutManagerState()?.let { lmState ->
             printLogD("WorkoutFragment","restore list position ${lmState}")
             binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
                 lmState
             )
-        }*/
+        }
     }
 
 

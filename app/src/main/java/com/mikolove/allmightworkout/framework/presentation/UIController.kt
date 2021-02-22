@@ -10,6 +10,8 @@ interface UIController {
 
     fun displayBottomNavigation(visibility : Int)
 
+    fun performShowBottomNavigation()
+
     fun displayAppBarTitle()
 
     fun displayProgressBar(isDisplayed: Boolean)

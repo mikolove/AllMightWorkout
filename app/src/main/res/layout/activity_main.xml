@@ -40,11 +40,7 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-    </androidx.fragment.app.FragmentContainerView>
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
@@ -70,5 +66,6 @@
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <!--
-    app:hideOnScroll="true"
-    app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
+        app:hideOnScroll="true"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:layout_scrollFlags="scroll|enterAlways" -->
