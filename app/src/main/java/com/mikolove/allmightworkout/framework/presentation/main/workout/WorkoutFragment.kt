@@ -5,6 +5,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -177,13 +178,11 @@ class WorkoutFragment
 
                 is MultiSelectionState -> {
                     enableMultiSelectToolbarState()
-                    //disableSearchViewToolbarState()
-
                 }
 
                 is SearchViewState -> {
-                    //enableSearchViewToolbarState()
                     disableMultiSelectToolbarState()
+
                 }
             }
         })
@@ -207,7 +206,7 @@ class WorkoutFragment
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
                 }
 
-                viewState.workoutSelected?.let { workoutSeleted ->
+                viewState.workoutSelected?.let { _ ->
                     if(viewModel.getWorkoutToInsert() != null) {
                         insertionNavigateToManageWorkout()
                     }
@@ -473,6 +472,7 @@ class WorkoutFragment
 
     private fun disableActionMode(){
         viewModel.setWorkoutToolbarState(SearchViewState())
+        viewModel.clearSelectedWorkouts()
     }
 
     /********************************************************************
@@ -483,7 +483,7 @@ class WorkoutFragment
         inflater.inflate(R.menu.toolbar_workout_menu_search, menu)
 
         //Deal with searchView
-        val searchItem = menu?.findItem(R.id.toolbar_workout_search)
+        val searchItem = menu.findItem(R.id.toolbar_workout_search)
         val searchView = searchItem?.actionView as SearchView
 
         //May Add autocomplete
