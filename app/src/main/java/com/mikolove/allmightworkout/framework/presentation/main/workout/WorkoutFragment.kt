@@ -20,7 +20,6 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
@@ -62,6 +61,7 @@ class WorkoutFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        printLogD("WorkoutFragment","OnCreate")
         viewModel.setupChannel()
     }
 
@@ -96,7 +96,7 @@ class WorkoutFragment
 
     override fun onPause() {
         super.onPause()
-        printLogD("WorkoutFragment", "OnPause savelistPosition")
+        printLogD("WorkoutFragment", "OnPause")
     }
 
     override fun onDestroyView() {
@@ -105,19 +105,12 @@ class WorkoutFragment
         binding?.fragmentWorkoutRecyclerview?.adapter = null
         listAdapter = null
         binding = null
-
-        printLogD("WorkoutFragment", "recyclerview adapter ${binding?.fragmentWorkoutRecyclerview?.adapter}")
-        printLogD("WorkoutFragment", "Listadapter ${listAdapter}")
-
         super.onDestroyView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         printLogD("WorkoutFragment", "OnDestroy")
-        printLogD("WorkoutFragment","List of selected workout ${viewModel.getSelectedWorkouts().size}")
-        printLogD("WorkoutFragment","ToolBar state ${viewModel.isWorkoutMultiSelectionStateActive()}")
-
     }
 
 
@@ -179,7 +172,6 @@ class WorkoutFragment
 
                 viewState.listWorkouts?.let { workoutList ->
 
-                    printLogD("WorkoutFragment","List Workouts loaded ${workoutList} with size ${workoutList.size}")
                     if(workoutList.size > 0){
                         if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
                             viewModel.setWorkoutQueryExhausted(true)
@@ -189,13 +181,10 @@ class WorkoutFragment
                 }
 
                 viewState.workoutToInsert?.let { insertedWorkout ->
-                    printLogD("WorkoutFragment","Workout to insert")
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
                 }
 
                 viewState.workoutSelected?.let { _ ->
-                    printLogD("WorkoutFragment","Workout selected")
-
                     if(viewModel.getWorkoutToInsert() != null) {
                         insertionNavigateToManageWorkout()
                     }
@@ -206,7 +195,6 @@ class WorkoutFragment
         viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
             printActiveJobs()
             uiController.displayProgressBar(isLoading)
-            printLogD("WorkoutFragment","isLoading ${isLoading}")
         })
 
         viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
@@ -411,7 +399,6 @@ class WorkoutFragment
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             when (item?.getItemId()) {
                 R.id.toolbar_workout_delete -> {
-                    printLogD("WorkoutFragment", "ActionMode delete button is pressed")
                     deleteWorkouts()
                     return true
                 }
@@ -420,15 +407,12 @@ class WorkoutFragment
         }
 
         override fun onDestroyActionMode(mode: ActionMode?) {
-            printLogD("WorkoutFragment", "ActionMode close button is pressed")
             disableActionMode()
         }
     }
 
     private fun enableMultiSelectToolbarState(){
         if(actionMode == null) {
-            printLogD("WorkoutFragment", "Start action Mode")
-            printLogD("WorkoutFragment", "Action mode null create it")
             actionModeCallBack = createActionModeCallBack()
             actionMode = activity?.startActionMode(actionModeCallBack)
         }
@@ -436,8 +420,6 @@ class WorkoutFragment
 
     private fun disableMultiSelectToolbarState(){
         if(actionMode != null){
-            printLogD("WorkoutFragment", "Stop action Mode")
-            printLogD("WorkoutFragment", "Action Mode is not null clear it")
             actionMode?.finish()
             actionModeCallBack = null
             actionMode = null
@@ -611,20 +593,6 @@ class WorkoutFragment
         )
     }
 
-    private fun showToastNoSearchResult(){
-        uiController.onResponseReceived(
-            response = Response(
-                message = GET_WORKOUTS_NO_MATCHING_RESULTS,
-                uiComponentType = UIComponentType.Toast(),
-                messageType = MessageType.Info()
-            ),
-            stateMessageCallback = object : StateMessageCallback{
-                override fun removeMessageFromStack() {
-                    viewModel.clearStateMessage()
-                }
-            }
-        )
-    }
 
     /********************************************************************
         WORKOUT LIST ADAPTER INTERACTIONS
@@ -638,16 +606,6 @@ class WorkoutFragment
             selectionNavigateToManageWorkout(containerView)
         }
     }
-
-    override fun restoreListPosition() {
-/*        viewModel.getLayoutManagerState()?.let { lmState ->
-            printLogD("WorkoutFragment","restore list position ${lmState}")
-            binding?.fragmentWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
-                lmState
-            )
-        }*/
-    }
-
 
     override fun isMultiSelectionModeEnabled(): Boolean = viewModel.isWorkoutMultiSelectionStateActive()
 
