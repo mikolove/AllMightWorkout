@@ -491,7 +491,7 @@ class WorkoutFragment
 
 
     /********************************************************************
-        VIEWMODEL ACTION
+        VIEWMODEL ACTIONS
      *********************************************************************/
 
 
@@ -506,7 +506,7 @@ class WorkoutFragment
             getString(R.string.fragment_choose_workout_add_name),
             object : DialogInputCaptureCallback {
                 override fun onTextCaptured(text: String) {
-                    if (!text.isNullOrEmpty() && text.isNotBlank()) {
+                    if (!text.isNullOrBlank()) {
                         viewModel.setStateEvent(
                             InsertWorkoutEvent(name = text)
                         )
@@ -554,6 +554,10 @@ class WorkoutFragment
             )
         )
     }
+
+    /********************************************************************
+        OVERRIDE UI CONTROLLER TOAST SNACKBAR
+     *********************************************************************/
 
     private fun showToastDeleteWorkouts(){
 
