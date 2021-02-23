@@ -8,10 +8,10 @@ sealed  class ListToolbarState {
             return "MultiSelectionState"
         }
     }
-    class SearchViewState: ListToolbarState(){
+    class SelectionState: ListToolbarState(){
 
         override fun toString(): String {
-            return "SearchViewState"
+            return "SelectionState"
         }
     }
 }

@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -21,7 +20,6 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
@@ -79,14 +77,18 @@ class WorkoutFragment
         setupRecyclerView()
         setupSwipeRefresh()
         subscribeObservers()
+
+        //Restore ViewState where it was not sure
         //restoreInstanceState(savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
         printLogD("WorkoutFragment","OnResume")
+
         setupFAB()
         setupBottomNav()
+
         viewModel.loadTotalWorkouts()
         viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
@@ -95,7 +97,6 @@ class WorkoutFragment
     override fun onPause() {
         super.onPause()
         printLogD("WorkoutFragment", "OnPause savelistPosition")
-        //saveLayoutManagerState()
     }
 
     override fun onDestroyView() {
@@ -128,7 +129,6 @@ class WorkoutFragment
         printLogD("WorkoutFragment","OnSaveInstanceState")
         val viewState = viewModel.viewState.value
 
-        //clear the list. Don't want to save a large list to bundle.
         viewState?.listWorkouts =  ArrayList()
         viewState?.listBodyParts = ArrayList()
         viewState?.listWorkoutTypes = ArrayList()
@@ -152,17 +152,6 @@ class WorkoutFragment
         }
     }
 
-
-    //Allow the app to restart at list position
-    private fun saveLayoutManagerState(){
-/*        binding?.fragmentWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
-            printLogD("WorkoutFragment","Save Layout Manager")
-            printLogD("WorkoutFragment","LAYOUT IN VIEW STATE ${viewModel.getLayoutManagerState()?.toString()}")
-            printLogD("WorkoutFragment","ACTUAL LAYOUT ${lmState.toString()}")
-            viewModel.setWorkoutsLayoutManagerState(lmState)
-        }*/
-    }
-
     /********************************************************************
         SUBSCRIBE OBSERVERS
      *********************************************************************/
@@ -177,7 +166,7 @@ class WorkoutFragment
                     enableMultiSelectToolbarState()
                 }
 
-                is SearchViewState -> {
+                is SelectionState -> {
                     disableMultiSelectToolbarState()
 
                 }
@@ -327,13 +316,6 @@ class WorkoutFragment
 
     private fun selectionNavigateToManageWorkout(containerView : View){
 
-/*        if(viewModel.isSearchActive()){
-            viewModel.setQueryWorkouts("")
-            viewModel.clearListWorkouts()
-            viewModel.loadWorkouts()
-            viewModel.setIsSearchActive(false)
-        }*/
-
         val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
@@ -467,7 +449,7 @@ class WorkoutFragment
     }
 
     private fun disableActionMode(){
-        viewModel.setWorkoutToolbarState(SearchViewState())
+        viewModel.setWorkoutToolbarState(SelectionState())
         viewModel.clearSelectedWorkouts()
     }
 
@@ -484,19 +466,20 @@ class WorkoutFragment
         val searchItem = menu.findItem(R.id.menu_workout_search)
         val searchView = searchItem?.actionView as SearchView
 
+        //Reload standard search when finish
         searchItem.setOnActionExpandListener(object :MenuItem.OnActionExpandListener{
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                printLogD("WorkoutFragment", "SearchView Collapsed")
                 viewModel.setIsSearchActive(false)
                 viewModel.setQueryWorkouts("")
                 startNewSearch()
                 return true
             }
         })
+
         //May Add autocomplete
         val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
         searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
@@ -505,35 +488,22 @@ class WorkoutFragment
                 val searchQuery = v.text.toString()
                 viewModel.setQueryWorkouts(searchQuery)
                 startNewSearch()
-                printLogD("WorkoutFragment", "Started search on ${searchQuery}")
                 viewModel.setIsSearchActive(true)
             }
             true
         }
 
+        //Expand if search isActive on menu reload
         if(viewModel.isSearchActive()){
-            printLogD("WorkoutFragment", "Was open last time reopen")
             searchItem.expandActionView()
             searchView.setQuery(viewModel.getSearchQueryWorkouts(),false)
         }
-
-
-/*        searchView.setOnCloseListener {
-            printLogD("WorkoutFragment", "Close search view")
-            viewModel.setIsSearchActive(false)
-            viewModel.setQueryWorkouts("")
-            viewModel.clearListWorkouts()
-            viewModel.loadWorkouts()
-            false
-        }*/
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_workout_filter -> {
-                // navigate to settings screen
-                printLogD("WorkoutFragment", "Show filter dialog")
                 showFilterDialog()
                 true
             }
@@ -550,7 +520,7 @@ class WorkoutFragment
     private fun startNewSearch(){
         printLogD("WorkoutFragment","Start New search")
         viewModel.clearListWorkouts()
-        viewModel.reloadWorkouts()
+        viewModel.workoutsStartNewSeach()
     }
 
     private fun addWorkout(){

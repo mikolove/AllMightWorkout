@@ -12,7 +12,7 @@ class ListInteractionManager<DomainModel> {
         get() = _selectedItems
 
     private val _toolbarState: MutableLiveData<ListToolbarState>
-            = MutableLiveData(SearchViewState())
+            = MutableLiveData(SelectionState())
 
     val toolbarState: LiveData<ListToolbarState>
         get() = _toolbarState
