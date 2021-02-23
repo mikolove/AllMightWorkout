@@ -96,7 +96,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
      *********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_manage_workout_menu, menu)
+        inflater.inflate(R.menu.menu_workout_detail, menu)
 
         val menuValidate = menu.findItem(R.id.toolbar_manage_workout_validate)
         setMenuVisibility(menuValidate,viewModel.getIsUpdatePending())

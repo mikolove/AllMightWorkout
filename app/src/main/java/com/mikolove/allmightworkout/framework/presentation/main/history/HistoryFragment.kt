@@ -57,7 +57,7 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history){
 
     private fun initializeActionMode() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            activity?.menuInflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
+            activity?.menuInflater?.inflate(R.menu.menu_workout_actionmode, menu)
             return true
         }
 

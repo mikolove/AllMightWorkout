@@ -17,6 +17,7 @@
             android:id="@+id/materialToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
             style="@style/Widget.MaterialComponents.Toolbar">
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -60,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         style="@style/Widget.App.BottomNavigationView"
-        app:menu="@menu/bottom_navigation_menu"
+        app:menu="@menu/menu_bottom_navigation"
         app:fabAlignmentMode="end"
 />
 

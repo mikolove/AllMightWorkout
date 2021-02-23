@@ -291,12 +291,14 @@ constructor(
     }
 
     fun reloadWorkouts(){
+        printLogD("WorkoutViewModel","Reload workout called")
         setWorkoutQueryExhausted(false)
         resetPageWorkouts()
         loadWorkouts()
     }
 
     fun refreshWorkoutSearchQuery(){
+        printLogD("WorkoutViewModel","RefreshWorkouSearchQUery")
         setWorkoutQueryExhausted(false)
         setStateEvent(GetWorkoutsEvent(false))
     }
@@ -379,6 +381,7 @@ constructor(
         isActive = true,
         created_at = null
     )
+
 
     /********************************************************************
     GETTERS - QUERY

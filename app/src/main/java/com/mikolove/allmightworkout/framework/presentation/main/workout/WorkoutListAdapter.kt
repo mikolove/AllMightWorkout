@@ -6,42 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemWorkoutBinding
+import com.mikolove.allmightworkout.framework.presentation.common.Change
+import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload
 import com.mikolove.allmightworkout.util.printLogD
 
-class WorkoutDiffCallBack(private val oldList : List<Workout>, private val newList : List<Workout>) : DiffUtil.Callback(){
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].idWorkout == newList[newItemPosition].idWorkout
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
-    }
-
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        return super.getChangePayload(oldItemPosition, newItemPosition)
-    }
-}
 
 class WorkoutListAdapter(
     private val interaction: Interaction? = null,
     private val lifecycleOwner : LifecycleOwner,
     private val selectedWorkouts : LiveData<ArrayList<Workout>>,
     private val dateUtil: DateUtil
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<WorkoutListAdapter.WorkoutViewHolder>() {
 
-    private val workouts = ArrayList<Workout>()
+    private val workouts = mutableListOf<Workout>()
 
+/*
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Workout>() {
 
         override fun areItemsTheSame(oldItem: Workout, newItem: Workout): Boolean {
@@ -54,9 +38,10 @@ class WorkoutListAdapter(
 
     }
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+*/
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
 
         return WorkoutViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_workout, parent, false),
@@ -67,13 +52,38 @@ class WorkoutListAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
+    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
+/*        when (holder) {
             is WorkoutViewHolder -> {
                 //holder.bind(differ.currentList.get(position))
                 holder.bind(workouts.get(position))
             }
-        }
+        }*/
+
+        holder.bind(workouts.get(position))
+    }
+
+    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int, payloads: MutableList<Any>) {
+
+        if(payloads.isEmpty()){
+            super.onBindViewHolder(holder, position, payloads)
+            printLogD("WorkoutListAdapter","No payload found")
+        }else{
+
+            printLogD("WorkoutListAdapter","Payload found")
+            val combinedChange = createCombinedPayload(payloads as List<Change<Workout>>)
+
+            val oldWorkout = combinedChange.oldData
+            val newWorkout = combinedChange.newData
+
+            //Bind values
+            if(oldWorkout.name != newWorkout.name)
+                holder.binding.itemWorkoutTextName.text = newWorkout.name
+
+            if(oldWorkout.createdAt != newWorkout.createdAt)
+                holder.binding.itemWorkoutTextCreatedAt.text = newWorkout.createdAt
+
+         }
     }
 
     override fun getItemCount(): Int {
@@ -85,10 +95,9 @@ class WorkoutListAdapter(
 
         val diffCallback = WorkoutDiffCallBack(workouts,list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
         workouts.clear()
         workouts.addAll(list)
-
-        diffResult.dispatchUpdatesTo(this)
 
 
  /*       val commitCallBack = Runnable {
@@ -111,7 +120,7 @@ class WorkoutListAdapter(
         //Maybe change place for this
 /*        private val COLOR_UNSELECTED = R.color.design_default_color_background
         private val COLOR_SELECTED   = R.color.colorSecondary*/
-        private val binding =  ItemWorkoutBinding.bind(itemView)
+        val binding =  ItemWorkoutBinding.bind(itemView)
 
         fun bind(item: Workout) = with(itemView) {
 
@@ -149,9 +158,7 @@ class WorkoutListAdapter(
 
             })
         }
-
     }
-
 
     interface Interaction {
         fun onItemSelected(position: Int, item: Workout, containerView : View)
@@ -164,4 +171,6 @@ class WorkoutListAdapter(
 
         fun isWorkoutSelected(workout : Workout): Boolean
     }
+
+
 }

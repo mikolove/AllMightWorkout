@@ -5,7 +5,6 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -22,6 +21,8 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts
+import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
@@ -45,7 +46,6 @@ const val WORKOUT_VIEW_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framewor
 class WorkoutFragment
     : BaseFragment(R.layout.fragment_workout),
     WorkoutListAdapter.Interaction,
-    ItemTouchHelperAdapter,
     FabController {
 
     @Inject
@@ -55,7 +55,6 @@ class WorkoutFragment
     private var actionMode : ActionMode? = null
     private var actionModeCallBack : ActionMode.Callback? = null
     private var listAdapter: WorkoutListAdapter? = null
-    private var itemTouchHelper: ItemTouchHelper? = null
     private var binding : FragmentWorkoutBinding? = null
 
 
@@ -103,12 +102,11 @@ class WorkoutFragment
     override fun onDestroyView() {
         printLogD("WorkoutFragment", "OnDestroyView")
         disableMultiSelectToolbarState()
-        binding?.fragmentChooseWorkoutRecyclerview?.adapter = null
+        binding?.fragmentWorkoutRecyclerview?.adapter = null
         listAdapter = null
         binding = null
-        itemTouchHelper = null
 
-        printLogD("WorkoutFragment", "recyclerview adapter ${binding?.fragmentChooseWorkoutRecyclerview?.adapter}")
+        printLogD("WorkoutFragment", "recyclerview adapter ${binding?.fragmentWorkoutRecyclerview?.adapter}")
         printLogD("WorkoutFragment", "Listadapter ${listAdapter}")
 
         super.onDestroyView()
@@ -158,7 +156,7 @@ class WorkoutFragment
 
     //Allow the app to restart at list position
     private fun saveLayoutManagerState(){
-        binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
+        binding?.fragmentWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
             printLogD("WorkoutFragment","Save Layout Manager")
             printLogD("WorkoutFragment","LAYOUT IN VIEW STATE ${viewModel.getLayoutManagerState()?.toString()}")
             printLogD("WorkoutFragment","ACTUAL LAYOUT ${lmState.toString()}")
@@ -193,22 +191,37 @@ class WorkoutFragment
 
                 viewState.listWorkouts?.let { workoutList ->
 
+                    printLogD("WorkoutFragment","List Workouts loaded ${workoutList} with size ${workoutList.size}")
                     if(workoutList.size > 0){
                         if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
                             viewModel.setWorkoutQueryExhausted(true)
                         }
                         listAdapter?.submitList(workoutList)
-                        //listAdapter?.notifyDataSetChanged()
                     }
                 }
 
                 viewState.workoutToInsert?.let { insertedWorkout ->
+                    printLogD("WorkoutFragment","Workout to insert")
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
                 }
 
                 viewState.workoutSelected?.let { _ ->
+                    printLogD("WorkoutFragment","Workout selected")
+
                     if(viewModel.getWorkoutToInsert() != null) {
                         insertionNavigateToManageWorkout()
+                    }
+                }
+
+                viewState.searchActive?.let { isActive ->
+                    if(isActive) {
+                        printLogD("WorkoutFragment","iSearchActive found true")
+                        viewModel.setQueryWorkouts("")
+                        viewModel.clearListWorkouts()
+                        viewModel.loadWorkouts()
+                        viewModel.setIsSearchActive(false)
+                    }else {
+                        printLogD("WorkoutFragment","iSearchActive found false")
                     }
                 }
             }
@@ -234,6 +247,10 @@ class WorkoutFragment
 
                     DELETE_WORKOUTS_ERRORS -> {
 
+                    }
+
+                    GET_WORKOUTS_NO_MATCHING_RESULTS ->{
+                        showToastNoSearchResult()
                     }
 
                     else -> {
@@ -263,9 +280,7 @@ class WorkoutFragment
 
     override fun setupFAB(){
         uiController.loadFabController(this)
-        uiController.loadFabController(this)
         uiController.mainFabVisibility()
-
     }
 
     private fun setupBottomNav(){
@@ -273,25 +288,18 @@ class WorkoutFragment
     }
 
     private fun setupSwipeRefresh(){
-        binding?.fragmentChooseWorkoutSwiperefreshlayout?.setOnRefreshListener {
+        binding?.fragmentWorkoutSwiperefreshlayout?.setOnRefreshListener {
             startNewSearch()
-            binding?.fragmentChooseWorkoutSwiperefreshlayout?.isRefreshing = false
+            binding?.fragmentWorkoutSwiperefreshlayout?.isRefreshing = false
         }
     }
 
     private fun setupRecyclerView(){
-        binding?.fragmentChooseWorkoutRecyclerview?.apply {
+        binding?.fragmentWorkoutRecyclerview?.apply {
 
             layoutManager = LinearLayoutManager(activity)
             val topSpacingDecorator = TopSpacingItemDecoration(20)
             addItemDecoration(topSpacingDecorator)
-            itemTouchHelper = ItemTouchHelper(
-                ItemTouchHelperCallback<Workout>(
-                    this@WorkoutFragment,
-                    viewModel.workoutListInteractionManager
-                )
-            )
-            //itemTouchHelper?.attachToRecyclerView(this)
 
             listAdapter = WorkoutListAdapter(
                 this@WorkoutFragment,
@@ -331,12 +339,12 @@ class WorkoutFragment
 
     private fun selectionNavigateToManageWorkout(containerView : View){
 
-        if(viewModel.isSearchActive()){
+/*        if(viewModel.isSearchActive()){
             viewModel.setQueryWorkouts("")
             viewModel.clearListWorkouts()
             viewModel.loadWorkouts()
             viewModel.setIsSearchActive(false)
-        }
+        }*/
 
         val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
@@ -426,7 +434,7 @@ class WorkoutFragment
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            activity?.menuInflater?.inflate(R.menu.toolbar_workout_menu_multiselection, menu)
+            activity?.menuInflater?.inflate(R.menu.menu_workout_actionmode, menu)
             return true
         }
 
@@ -480,12 +488,24 @@ class WorkoutFragment
      *********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_workout_menu_search, menu)
+        inflater.inflate(R.menu.menu_workout, menu)
 
         //Deal with searchView
-        val searchItem = menu.findItem(R.id.toolbar_workout_search)
+        val searchItem = menu.findItem(R.id.menu_workout_search)
         val searchView = searchItem?.actionView as SearchView
 
+        searchItem.setOnActionExpandListener(object :MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                viewModel.setIsSearchActive(false)
+                viewModel.setQueryWorkouts("")
+                startNewSearch()
+                return true
+            }
+        })
         //May Add autocomplete
         val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
         searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
@@ -500,20 +520,20 @@ class WorkoutFragment
             true
         }
 
-        searchView.setOnCloseListener {
+/*        searchView.setOnCloseListener {
             printLogD("WorkoutFragment", "Close search view")
             viewModel.setIsSearchActive(false)
             viewModel.setQueryWorkouts("")
             viewModel.clearListWorkouts()
             viewModel.loadWorkouts()
             false
-        }
+        }*/
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.toolbar_workout_filter -> {
+            R.id.menu_workout_filter -> {
                 // navigate to settings screen
                 printLogD("WorkoutFragment", "Show filter dialog")
                 showFilterDialog()
@@ -530,6 +550,7 @@ class WorkoutFragment
 
 
     private fun startNewSearch(){
+        printLogD("WorkoutFragment","Start New search")
         viewModel.clearListWorkouts()
         viewModel.reloadWorkouts()
     }
@@ -606,6 +627,21 @@ class WorkoutFragment
         )
     }
 
+    private fun showToastNoSearchResult(){
+        uiController.onResponseReceived(
+            response = Response(
+                message = GET_WORKOUTS_NO_MATCHING_RESULTS,
+                uiComponentType = UIComponentType.Toast(),
+                messageType = MessageType.Info()
+            ),
+            stateMessageCallback = object : StateMessageCallback{
+                override fun removeMessageFromStack() {
+                    viewModel.clearStateMessage()
+                }
+            }
+        )
+    }
+
     /********************************************************************
         WORKOUT LIST ADAPTER INTERACTIONS
      *********************************************************************/
@@ -622,7 +658,7 @@ class WorkoutFragment
     override fun restoreListPosition() {
         viewModel.getLayoutManagerState()?.let { lmState ->
             printLogD("WorkoutFragment","restore list position ${lmState}")
-            binding?.fragmentChooseWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
+            binding?.fragmentWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
                 lmState
             )
         }
@@ -636,16 +672,6 @@ class WorkoutFragment
     override fun isWorkoutSelected(workout: Workout): Boolean {
         return viewModel.isWorkoutSelected(workout)
     }
-
-
-    /********************************************************************
-        WORKOUT LIST ADAPTER TOUCH HELPER
-     *********************************************************************/
-
-    override fun onItemSwiped(position: Int) {
-        //TODO("Not yet implemented")
-    }
-
 
     /********************************************************************
         DEBUG

@@ -2,7 +2,7 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_choose_workout_swiperefreshlayout"
+    android:id="@+id/fragment_workout_swiperefreshlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="8dp"
@@ -12,6 +12,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_choose_workout_recyclerview" />
+        android:id="@+id/fragment_workout_recyclerview" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

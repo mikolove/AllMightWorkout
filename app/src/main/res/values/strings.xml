@@ -9,6 +9,7 @@
 
     <!-- Menu words -->
     <string name="menu_filter">Filter</string>
+    <string name="menu_search">Search</string>
     <string name="menu_validate">Validate</string>
     <string name="menu_delete">Delete</string>
 
@@ -24,7 +25,7 @@
 
     <!-- Search toolbar -->
     <string name="search_toolbar_search">Search</string>
-
+    <string name="menu_search_workout_hint">Search workout...</string>
 
     <!-- Home Fragment -->
     <string name="app_bar_title_default">Default</string>

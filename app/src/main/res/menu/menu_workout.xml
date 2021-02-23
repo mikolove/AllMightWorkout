@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/toolbar_workout_search"
+        android:id="@+id/menu_workout_search"
         android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="@string/menu_filter"
-        app:showAsAction="ifRoom" />
+        android:title="@string/menu_search"
+        app:showAsAction="always|collapseActionView" />
 
     <item
-        android:id="@+id/toolbar_workout_filter"
+        android:id="@+id/menu_workout_filter"
         android:icon="@drawable/ic_baseline_filter_list_24"
         android:title="@string/menu_filter"
         app:showAsAction="ifRoom" />

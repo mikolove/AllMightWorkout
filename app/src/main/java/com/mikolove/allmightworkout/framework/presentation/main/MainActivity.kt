@@ -190,7 +190,7 @@ class MainActivity :
             R.id.workout_detail_fragment -> R.string.fragment_manage_workout_text_title
             else -> R.string.app_bar_title_default
         }
-
+        supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setTitle(appTitle)
     }
 
