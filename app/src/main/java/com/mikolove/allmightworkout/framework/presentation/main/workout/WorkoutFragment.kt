@@ -79,7 +79,6 @@ class WorkoutFragment
         setupRecyclerView()
         setupSwipeRefresh()
         subscribeObservers()
-
         //restoreInstanceState(savedInstanceState)
     }
 
@@ -156,12 +155,12 @@ class WorkoutFragment
 
     //Allow the app to restart at list position
     private fun saveLayoutManagerState(){
-        binding?.fragmentWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
+/*        binding?.fragmentWorkoutRecyclerview?.layoutManager?.onSaveInstanceState()?.let { lmState ->
             printLogD("WorkoutFragment","Save Layout Manager")
             printLogD("WorkoutFragment","LAYOUT IN VIEW STATE ${viewModel.getLayoutManagerState()?.toString()}")
             printLogD("WorkoutFragment","ACTUAL LAYOUT ${lmState.toString()}")
             viewModel.setWorkoutsLayoutManagerState(lmState)
-        }
+        }*/
     }
 
     /********************************************************************
@@ -212,24 +211,13 @@ class WorkoutFragment
                         insertionNavigateToManageWorkout()
                     }
                 }
-
-                viewState.searchActive?.let { isActive ->
-                    if(isActive) {
-                        printLogD("WorkoutFragment","iSearchActive found true")
-                        viewModel.setQueryWorkouts("")
-                        viewModel.clearListWorkouts()
-                        viewModel.loadWorkouts()
-                        viewModel.setIsSearchActive(false)
-                    }else {
-                        printLogD("WorkoutFragment","iSearchActive found false")
-                    }
-                }
             }
         })
 
-        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer {
+        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
             printActiveJobs()
-            uiController.displayProgressBar(it)
+            uiController.displayProgressBar(isLoading)
+            printLogD("WorkoutFragment","isLoading ${isLoading}")
         })
 
         viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
@@ -490,6 +478,8 @@ class WorkoutFragment
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout, menu)
 
+        printLogD("WorkoutFragment", "LOADED MENU")
+
         //Deal with searchView
         val searchItem = menu.findItem(R.id.menu_workout_search)
         val searchView = searchItem?.actionView as SearchView
@@ -500,6 +490,7 @@ class WorkoutFragment
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                printLogD("WorkoutFragment", "SearchView Collapsed")
                 viewModel.setIsSearchActive(false)
                 viewModel.setQueryWorkouts("")
                 startNewSearch()
@@ -519,6 +510,13 @@ class WorkoutFragment
             }
             true
         }
+
+        if(viewModel.isSearchActive()){
+            printLogD("WorkoutFragment", "Was open last time reopen")
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.getSearchQueryWorkouts(),false)
+        }
+
 
 /*        searchView.setOnCloseListener {
             printLogD("WorkoutFragment", "Close search view")
@@ -656,12 +654,12 @@ class WorkoutFragment
     }
 
     override fun restoreListPosition() {
-        viewModel.getLayoutManagerState()?.let { lmState ->
+/*        viewModel.getLayoutManagerState()?.let { lmState ->
             printLogD("WorkoutFragment","restore list position ${lmState}")
             binding?.fragmentWorkoutRecyclerview?.layoutManager?.onRestoreInstanceState(
                 lmState
             )
-        }
+        }*/
     }
 
 

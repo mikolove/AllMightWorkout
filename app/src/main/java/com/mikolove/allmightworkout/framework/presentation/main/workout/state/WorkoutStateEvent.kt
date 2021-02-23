@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.domain.state.StateMessage
 sealed class WorkoutStateEvent : StateEvent {
 
     class GetWorkoutsEvent(
-        val clearLayoutManagerState: Boolean = true
     ) : WorkoutStateEvent() {
 
         override fun errorInfo(): String = "Error retrieving workouts."
@@ -18,7 +17,7 @@ sealed class WorkoutStateEvent : StateEvent {
     }
 
     class GetTotalWorkoutsEvent(
-        val clearLayoutManagerState: Boolean = true
+
     ) : WorkoutStateEvent(){
         override fun errorInfo(): String = "Error retrieving total workouts"
 
@@ -29,7 +28,7 @@ sealed class WorkoutStateEvent : StateEvent {
 
     class GetWorkoutByIdEvent(
         val idWorkout: String,
-        val clearLayoutManagerState: Boolean = true
+
     ) : WorkoutStateEvent(){
         override fun errorInfo(): String = "Error retrieving workout by id workout."
 
@@ -102,7 +101,6 @@ sealed class WorkoutStateEvent : StateEvent {
     }
 
     class GetWorkoutTypesEvent(
-        val clearLayoutManagerState: Boolean = true
     ): WorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error getting list of workout."
@@ -113,7 +111,7 @@ sealed class WorkoutStateEvent : StateEvent {
     }
 
     class GetBodyPartEvent(
-        val clearLayoutManagerState: Boolean = true
+
     ): WorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error getting list of bodypart."

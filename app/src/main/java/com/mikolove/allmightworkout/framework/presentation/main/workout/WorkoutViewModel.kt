@@ -134,9 +134,9 @@ constructor(
             }
 
             is GetWorkoutsEvent -> {
-                if(stateEvent.clearLayoutManagerState){
+         /*       if(stateEvent.clearLayoutManagerState){
                     clearWorkoutLayoutManagerState()
-                }
+                }*/
                 workoutInteractors.getWorkouts.getWorkouts(
                    query = getSearchQueryWorkouts(),
                    filterAndOrder = getOrderWorkouts() + getFilterWorkouts(),
@@ -300,7 +300,7 @@ constructor(
     fun refreshWorkoutSearchQuery(){
         printLogD("WorkoutViewModel","RefreshWorkouSearchQUery")
         setWorkoutQueryExhausted(false)
-        setStateEvent(GetWorkoutsEvent(false))
+        setStateEvent(GetWorkoutsEvent())
     }
 
     fun reloadBodyParts(){
@@ -417,9 +417,9 @@ constructor(
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
-    fun getLayoutManagerState(): Parcelable? {
+/*    fun getLayoutManagerState(): Parcelable? {
         return getCurrentViewStateOrNew().workoutRecyclerLayoutManagerState
-    }
+    }*/
 
     fun getWorkouts() = getCurrentViewStateOrNew().listWorkouts
 
@@ -463,11 +463,11 @@ constructor(
         setViewState(update)
     }
 
-    fun setWorkoutsLayoutManagerState(layoutManagerState: Parcelable){
+/*    fun setWorkoutsLayoutManagerState(layoutManagerState: Parcelable){
         val update = getCurrentViewStateOrNew()
         update.workoutRecyclerLayoutManagerState = layoutManagerState
         setViewState(update)
-    }
+    }*/
 
     fun setWorkoutListFilter(filter : String?) {
         filter?.let {
@@ -597,7 +597,7 @@ constructor(
     fun nextPageWorkouts(){
         if(!isWorkoutsQueryExhausted()){
             printLogD("NoteListViewModel", "attempting to load workout next page...")
-            clearWorkoutLayoutManagerState()
+            //clearWorkoutLayoutManagerState()
             incrementPageWorkoutsNumber()
             setStateEvent(GetWorkoutsEvent())
         }
@@ -615,12 +615,12 @@ constructor(
         setViewState(update)
     }
 
-    fun clearWorkoutLayoutManagerState(){
+/*    fun clearWorkoutLayoutManagerState(){
         printLogD("WorkoutViewModel","clearLayoutManager")
         val update = getCurrentViewStateOrNew()
         update.workoutRecyclerLayoutManagerState = null
         setViewState(update)
-    }
+    }*/
 
     private fun incrementPageWorkoutsNumber(){
         val update = getCurrentViewStateOrNew()

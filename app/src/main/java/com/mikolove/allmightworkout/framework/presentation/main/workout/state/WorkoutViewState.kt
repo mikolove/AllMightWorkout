@@ -42,7 +42,6 @@ data class WorkoutViewState(
     var workout_list_order: String? = null,
 
     //clean UI
-    var workoutRecyclerLayoutManagerState: Parcelable? = null,
     var workoutDetailRecyclerLayoutManagerState: Parcelable? = null,
 
     //Total elements in cache for each list - maybe undeeded
