@@ -43,7 +43,7 @@ class GetWorkouts(
 
                 if(resultObj.size == 0){
                     message = GET_WORKOUTS_NO_MATCHING_RESULTS
-                    uiComponentType = UIComponentType.None()
+                    uiComponentType = UIComponentType.Toast()
                 }
 
                 return DataState.data(

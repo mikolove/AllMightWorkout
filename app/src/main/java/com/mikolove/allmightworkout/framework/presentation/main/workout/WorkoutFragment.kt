@@ -217,17 +217,13 @@ class WorkoutFragment
 
                     DELETE_WORKOUTS_SUCCESS -> {
 
-                        showSnackbarDeleteWorkouts()
+                        showToastDeleteWorkouts()
                         disableActionMode()
-
                     }
 
                     DELETE_WORKOUTS_ERRORS -> {
-
-                    }
-
-                    GET_WORKOUTS_NO_MATCHING_RESULTS ->{
-                        showToastNoSearchResult()
+                        showToastDeleteWorkoutsError()
+                        disableActionMode()
                     }
 
                     else -> {
@@ -473,8 +469,8 @@ class WorkoutFragment
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                viewModel.setIsSearchActive(false)
                 viewModel.setQueryWorkouts("")
+                viewModel.setIsSearchActive(false)
                 startNewSearch()
                 return true
             }
@@ -577,7 +573,8 @@ class WorkoutFragment
         )
     }
 
-    private fun showSnackbarDeleteWorkouts(){
+    private fun showToastDeleteWorkouts(){
+
         uiController.onResponseReceived(
             response = Response(
                 message = DELETE_WORKOUTS_SUCCESS,
@@ -587,7 +584,26 @@ class WorkoutFragment
                 ),
                 messageType = MessageType.Info()
             ),
-            stateMessageCallback = object : StateMessageCallback {
+            stateMessageCallback = object: StateMessageCallback {
+                override fun removeMessageFromStack() {
+                    viewModel.clearStateMessage()
+                }
+            }
+        )
+    }
+
+    private fun showToastDeleteWorkoutsError(){
+
+        uiController.onResponseReceived(
+            response = Response(
+                message = DELETE_WORKOUTS_ERRORS,
+                uiComponentType = UIComponentType.SnackBar(
+                    undoCallback = null,
+                    onDismissCallback = null
+                ),
+                messageType = MessageType.Info()
+            ),
+            stateMessageCallback = object: StateMessageCallback {
                 override fun removeMessageFromStack() {
                     viewModel.clearStateMessage()
                 }
