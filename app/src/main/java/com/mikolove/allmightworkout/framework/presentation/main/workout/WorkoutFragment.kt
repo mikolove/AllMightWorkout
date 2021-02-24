@@ -22,6 +22,7 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
@@ -183,6 +184,8 @@ class WorkoutFragment
                             viewModel.setWorkoutQueryExhausted(true)
                         }
                         listAdapter?.submitList(workoutList)
+                    }else{
+                        //SHOW NO WORKOUTS VIEW
                     }
                 }
 
@@ -218,6 +221,12 @@ class WorkoutFragment
                     DELETE_WORKOUTS_ERRORS -> {
                         showToastDeleteWorkoutsError()
                         disableActionMode()
+                    }
+
+                    GET_WORKOUTS_NO_MATCHING_RESULTS -> {
+                        if(viewModel.isSearchActive()) {
+                            showToastNoMatchingWorkouts()
+                        }
                     }
 
                     else -> {
@@ -327,6 +336,9 @@ class WorkoutFragment
         UI DIALOG
      *********************************************************************/
 
+    fun updateFilterByChip(){
+
+    }
     fun showFilterDialog(){
 
         activity?.let {
@@ -511,7 +523,7 @@ class WorkoutFragment
     private fun startNewSearch(){
         printLogD("WorkoutFragment","Start New search")
         viewModel.clearListWorkouts()
-        viewModel.workoutsStartNewSeach()
+        viewModel.workoutsStartNewSearch()
     }
 
     private fun addWorkout(){
@@ -610,6 +622,21 @@ class WorkoutFragment
         )
     }
 
+    private fun showToastNoMatchingWorkouts(){
+
+        uiController.onResponseReceived(
+            response = Response(
+                message = GET_WORKOUTS_NO_MATCHING_RESULTS,
+                uiComponentType = UIComponentType.Toast(),
+                messageType = MessageType.Info()
+            ),
+            stateMessageCallback = object: StateMessageCallback {
+                override fun removeMessageFromStack() {
+                    viewModel.clearStateMessage()
+                }
+            }
+        )
+    }
 
     /********************************************************************
         WORKOUT LIST ADAPTER INTERACTIONS

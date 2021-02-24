@@ -28,7 +28,7 @@ sealed class ExerciseStateEvent : StateEvent{
     }
 
     class InsertExerciseEvent(
-        name : String
+        val name : String
     ) : ExerciseStateEvent(){
         override fun errorInfo(): String = "Error inserting new exercise."
 

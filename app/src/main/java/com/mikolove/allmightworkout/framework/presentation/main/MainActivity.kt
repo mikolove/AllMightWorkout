@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -20,6 +21,7 @@ import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFade
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType.*

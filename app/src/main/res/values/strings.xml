@@ -44,7 +44,7 @@
     <!-- ChooseExercise Fragment -->
     <string name="fragment_choose_exercise_title">Exercises</string>
     <string name="fragment_choose_exercise_add_content_description">Add Exercise</string>
-
+    <string name="fragment_choose_exercise_add_name">Enter a name for the new exercise</string>
 
     <!-- ManageWorkout Fragment -->
     <string name="fragment_manage_workout_text_title">Manage workout</string>
@@ -61,8 +61,8 @@
     <string name="filter_options">Filter options</string>
     <string name="filter_asc">ASC</string>
     <string name="filter_desc">DESC</string>
-    <string name="filter_title">Title</string>
-    <string name="filter_date">Date</string>
+    <string name="filter_title">Name</string>
+    <string name="filter_date">Created at</string>
     <string name="filter_title_or_date">Filter by title or date</string>
     <string name="filter_asc_desc">Ascending or descending order</string>
     <string name="text_Apply">Apply</string>

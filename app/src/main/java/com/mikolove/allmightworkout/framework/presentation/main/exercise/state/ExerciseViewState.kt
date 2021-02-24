@@ -18,6 +18,9 @@ data class ExerciseViewState(
     //Insert workout
     var exerciseToInsert : Exercise? = null,
 
+    //Update
+    var isUpdatePending : Boolean? = null,
+
     //Workout selected for training
     var exerciseSelected: Exercise? = null,
     var workoutTypeSelected : WorkoutType? = null,
@@ -31,10 +34,6 @@ data class ExerciseViewState(
     //Load and store filters for each list
     var exercise_list_filter: String? = null,
     var exercise_list_order: String? = null,
-
-    //clean UI
-    var exerciseRecyclerLayoutManagerState: Parcelable? = null,
-    var exerciseSetRecyclerLayoutManagerState: Parcelable? = null,
 
     //Total elements in cache for each list - maybe undeeded
     var totalExercises: Int? = null,

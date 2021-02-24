@@ -6,7 +6,10 @@ import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
+import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise
+import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
@@ -18,6 +21,11 @@ import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+
+const val EXERCISE_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idExercise from bundle."
+const val EXERCISE_ID_WORKOUT_BUNDLE_KEY = "idExercise"
+const val EXERCISE_NAME_CANNOT_BE_EMPTY = "Exercise name cannot be empty."
+const val INSERT_EXERCISE_ERROR_NO_NAME = "You must set a name to create an exercise."
 
 @HiltViewModel
 class ExerciseViewModel
@@ -43,6 +51,13 @@ constructor(
     val exerciseToolbarState: LiveData<ListToolbarState>
         get() = exerciseListInteractionManager.toolbarState
 
+    private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
+
+    val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.exerciseNameState
+
+    val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.exerciseIsActiveState
 
     /********************************************************************
     INIT BLOC
@@ -66,10 +81,10 @@ constructor(
 
 
     override fun handleNewData(data: ExerciseViewState) {
-/*        data.let { viewState ->
+       data.let { viewState ->
 
-            viewState.exerciseToInsert?.let { insertedWorkout ->
-                setInsertedWorkout(insertedWorkout)
+            viewState.exerciseToInsert?.let { insertedExercise ->
+                setInsertedExercise(insertedExercise)
             }
             viewState.exerciseSelected?.let { exerciseSelected ->
                 setExerciseSelected(exerciseSelected)
@@ -92,12 +107,62 @@ constructor(
             viewState.totalBodyPartsByWorkoutType?.let { totalBodyPartsByWorkoutType ->
                 setTotalBodyPartsByWorkoutType(totalBodyPartsByWorkoutType)
             }
-        }*/
+        }
     }
 
     override fun setStateEvent(stateEvent: StateEvent) {
 
         val job : Flow<DataState<ExerciseViewState>?> = when(stateEvent){
+
+            is InsertExerciseEvent -> {
+                exerciseInteractors.insertExercise.insertExercise(
+                    name = stateEvent.name,
+                    exerciseType = stateEvent.exerciseType,
+                    bodyPart = stateEvent.bodyPart,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is GetExerciseByIdEvent -> {
+                exerciseInteractors.getExerciseById(
+                    idExercise = stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is GetExercisesEvent -> {
+                exerciseInteractors.getExercises.getExercises(
+                    query = getSearchQueryExercises(),
+                    filterAndOrder = getOrderExercises()+getFilterExercises(),
+                    page = getPageExercises(),
+                    stateEvent = stateEvent
+                )
+            }
+
+            is UpdateExerciseEvent -> {
+                if(!isExerciseNameNull() &&)
+                exerciseInteractors.updateExercise.updateExercise(
+                    exercise = getExerciseSelected()!!,
+                    stateEvent = stateEvent
+                )else {
+                    emitStateMessageEvent(
+                        stateMessage = StateMessage(
+                            response = Response(
+                                message = UpdateExercise.UPDATE_EXERCISE_FAILED,
+                                uiComponentType = UIComponentType.Dialog(),
+                                messageType = MessageType.Error())
+                        ),
+                        stateEvent= stateEvent
+                    )
+                }
+            }
+
+            is RemoveExerciseEvent -> {
+                exerciseInteractors.removeExercise.removeExercise(
+                    exercise = getExerciseSelected()!!,
+                    stateEvent = stateEvent
+                )
+            }
 
             is RemoveMultipleExercisesEvent -> {
                 exerciseInteractors.removeMultipleExercises.removeMultipleExercises(
@@ -155,6 +220,52 @@ constructor(
 
     /********************************************************************
     TRIGGER STATE EVENTS - FUNCTIONS
+     *********************************************************************/
+
+    fun getExerciseById( idExercise : String){
+        setStateEvent(GetExerciseByIdEvent(idExercise = idExercise))
+    }
+
+    fun createExercise(name : String, exerciseType: ExerciseType, bodyPart: BodyPart) : Exercise = exerciseFactory.createExercise(
+        idExercise = null,
+        name = name,
+        sets = null,
+        bodyPart = bodyPart,
+        exerciseType = exerciseType,
+        isActive = true,
+        created_at = null
+    )
+
+    fun updateExercise(name : String?, bodyPart: BodyPart,exerciseType: ExerciseType,isActive : Boolean){
+        updateExerciseName(name)
+        updateExerciseBodyPart(bodyPart)
+        updateExerciseExerciseType(exerciseType)
+        updateExerciseIsActive(isActive)
+    }
+
+    fun isExerciseNameNull() : Boolean{
+        val name = getExerciseSelected()?.name
+        if(name.isNullOrBlank()) {
+            setStateEvent(
+                CreateStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = EXERCISE_NAME_CANNOT_BE_EMPTY,
+                            uiComponentType = UIComponentType.Dialog(),
+                            messageType = MessageType.Info()
+                        )
+                    )
+                )
+            )
+            return true
+        }else{
+            return false
+        }
+    }
+
+
+    /********************************************************************
+        LIST EXERCISES MANAGING
      *********************************************************************/
 
 
@@ -231,7 +342,7 @@ constructor(
         editor.apply()
     }
 
-    fun createWorkout(name : String) : Exercise = exerciseFactory.createExercise(
+    fun createExercise(name : String) : Exercise = exerciseFactory.createExercise(
         idExercise = null,
         name = name,
         sets = null,

@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout
 
 import android.content.SharedPreferences
-import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -18,7 +17,6 @@ import com.mikolove.allmightworkout.framework.presentation.main.workout.state.Wo
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
-import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -134,9 +132,6 @@ constructor(
             }
 
             is GetWorkoutsEvent -> {
-         /*       if(stateEvent.clearLayoutManagerState){
-                    clearWorkoutLayoutManagerState()
-                }*/
                 workoutInteractors.getWorkouts.getWorkouts(
                    query = getSearchQueryWorkouts(),
                    filterAndOrder = getOrderWorkouts() + getFilterWorkouts(),
@@ -148,7 +143,7 @@ constructor(
             is UpdateWorkoutEvent -> {
                 if(!isWorkoutNameNull()){
                     workoutInteractors.updateWorkout.updateWorkout(
-                        workout = getWorkout()!!,
+                        workout = getWorkoutSelected()!!,
                         stateEvent = stateEvent
                     )
                 }else{
@@ -166,7 +161,7 @@ constructor(
 
             is RemoveWorkoutEvent -> {
                 workoutInteractors.removeWorkout.removeWorkout(
-                    workout = getWorkout()!!,
+                    workout = getWorkoutSelected()!!,
                     stateEvent = stateEvent
                 )
             }
@@ -250,17 +245,8 @@ constructor(
         updateWorkoutIsActive(isActive)
     }
 
-    fun updateWorkoutIsActive(isActive: Boolean){
-        val update = getCurrentViewStateOrNew()
-        val updatedWorkout = update.workoutSelected?.copy(
-            isActive = isActive
-        )
-        update.workoutSelected = updatedWorkout
-        setViewState(update)
-    }
-
     fun isWorkoutNameNull() : Boolean{
-        val name = getWorkout()?.name
+        val name = getWorkoutSelected()?.name
         if (name.isNullOrBlank()) {
             setStateEvent(
                 CreateStateMessageEvent(
@@ -279,36 +265,12 @@ constructor(
         }
     }
 
-    fun updateWorkoutName(name: String?){
-        if(name.isNullOrBlank()){
-            setStateEvent(
-                CreateStateMessageEvent(
-                    stateMessage = StateMessage(
-                        response = Response(
-                            message = WorkoutCacheEntity.nullNameError(),
-                            uiComponentType = UIComponentType.Dialog(),
-                            messageType = MessageType.Error()
-                        )
-                    )
-                )
-            )
-        }
-        else{
-            val update = getCurrentViewStateOrNew()
-            val updatedWorkout = update.workoutSelected?.copy(
-                name = name
-            )
-            update.workoutSelected = updatedWorkout
-            setViewState(update)
-        }
-    }
-
     /********************************************************************
         LIST WORKOUTS MANAGING
      *********************************************************************/
 
     //Launch actual query reseting Pagination
-    fun workoutsStartNewSeach(){
+    fun workoutsStartNewSearch(){
         setWorkoutQueryExhausted(false)
         resetPageWorkouts()
         loadWorkouts()
@@ -324,17 +286,6 @@ constructor(
         setStateEvent(GetWorkoutsEvent())
     }
 
-    fun clearListWorkouts(){
-        val update = getCurrentViewStateOrNew()
-        update.listWorkouts = ArrayList()
-        setViewState(update)
-    }
-
-
-    fun loadTotalWorkouts(){
-        printLogD("HomeViewModel","Load total workouts")
-        setStateEvent(GetTotalWorkoutsEvent())
-    }
 
     /********************************************************************
         OTHERS LIST MANAGING
@@ -351,37 +302,24 @@ constructor(
     }
 
     fun loadTotalWorkoutTypes(idWorkoutType : String){
-        printLogD("HomeViewModel","Load total bodyPart by WorkoutType")
         setStateEvent(GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType))
     }
 
     fun loadTotalBodyParts(){
-        printLogD("HomeViewModel","Load total bodyParts")
         setStateEvent(GetTotalBodyPartsEvent())
     }
 
+    fun loadTotalWorkouts(){
+        setStateEvent(GetTotalWorkoutsEvent())
+    }
+
     fun loadWorkoutTypes(){
-        printLogD("HomeViewModel","Load workout types")
         setStateEvent(GetWorkoutTypesEvent())
     }
 
     fun loadBodyParts(){
-        printLogD("HomeViewModel","Load body parts")
         setStateEvent(GetBodyPartEvent())
     }
-
-    fun clearListWorkoutTypes(){
-        val update = getCurrentViewStateOrNew()
-        update.listWorkoutTypes = ArrayList()
-        setViewState(update)
-    }
-
-    fun clearListBodyParts(){
-        val update = getCurrentViewStateOrNew()
-        update.listBodyParts = ArrayList()
-        setViewState(update)
-    }
-
 
 
     fun saveFilterWorkoutsOptions(filter: String, order: String){
@@ -417,19 +355,12 @@ constructor(
             ?: return 1
     }
 
-    fun getWorkout() : Workout? = getCurrentViewStateOrNew().workoutSelected ?: null
-
-    fun getIsUpdatePending(): Boolean = getCurrentViewStateOrNew().isUpdatePending?: false
 
     /********************************************************************
     GETTERS - VIEWSTATE AND OTHER
      *********************************************************************/
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
-
-/*    fun getLayoutManagerState(): Parcelable? {
-        return getCurrentViewStateOrNew().workoutRecyclerLayoutManagerState
-    }*/
 
     fun getWorkouts() = getCurrentViewStateOrNew().listWorkouts
 
@@ -443,7 +374,9 @@ constructor(
 
     fun getWorkoutToInsert() = getCurrentViewStateOrNew().workoutToInsert ?: null
 
-    fun getWorkoutSelected() = getCurrentViewStateOrNew().workoutSelected
+    fun getWorkoutSelected() : Workout? = getCurrentViewStateOrNew().workoutSelected ?: null
+
+    fun getIsUpdatePending(): Boolean = getCurrentViewStateOrNew().isUpdatePending?: false
 
     fun getWorkoutsListSize() = getCurrentViewStateOrNew().listWorkouts?.size?: 0
 
@@ -454,6 +387,57 @@ constructor(
     /********************************************************************
     SETTERS - VIEWSTATE AND OTHER
      *********************************************************************/
+
+    fun clearListWorkouts(){
+        val update = getCurrentViewStateOrNew()
+        update.listWorkouts = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearListWorkoutTypes(){
+        val update = getCurrentViewStateOrNew()
+        update.listWorkoutTypes = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearListBodyParts(){
+        val update = getCurrentViewStateOrNew()
+        update.listBodyParts = ArrayList()
+        setViewState(update)
+    }
+
+    fun updateWorkoutIsActive(isActive: Boolean){
+        val update = getCurrentViewStateOrNew()
+        val updatedWorkout = update.workoutSelected?.copy(
+            isActive = isActive
+        )
+        update.workoutSelected = updatedWorkout
+        setViewState(update)
+    }
+
+    fun updateWorkoutName(name: String?){
+        if(name.isNullOrBlank()){
+            setStateEvent(
+                CreateStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = WorkoutCacheEntity.nullNameError(),
+                            uiComponentType = UIComponentType.Dialog(),
+                            messageType = MessageType.Error()
+                        )
+                    )
+                )
+            )
+        }
+        else{
+            val update = getCurrentViewStateOrNew()
+            val updatedWorkout = update.workoutSelected?.copy(
+                name = name
+            )
+            update.workoutSelected = updatedWorkout
+            setViewState(update)
+        }
+    }
 
     fun setIsSearchActive(isActive : Boolean){
         val update = getCurrentViewStateOrNew()

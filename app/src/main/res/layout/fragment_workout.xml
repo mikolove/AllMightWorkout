@@ -1,18 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_workout_swiperefreshlayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginBottom="?actionBarSize">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <HorizontalScrollView
+        android:id="@+id/fragment_workout_horizontalview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:transitionGroup="true"
-        android:id="@+id/fragment_workout_recyclerview" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleLine="true">
+            <!-- Chips can be declared here, or added dynamically. -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_workout_chip_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_title" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_workout_chip_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_asc" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/fragment_workout_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_workout_horizontalview"
+        app:layout_constraintStart_toStartOf="@+id/fragment_workout_horizontalview"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_workout_horizontalview" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_workout_swiperefreshlayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_workout_divider"
+        app:layout_constraintStart_toStartOf="@+id/fragment_workout_divider"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_workout_divider">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_workout_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionGroup="true" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
