@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.google.android.material.transition.MaterialElevationScale
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -77,6 +79,10 @@ class WorkoutFragment
         setupRecyclerView()
         setupSwipeRefresh()
         subscribeObservers()
+
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         //Restore ViewState where it was not sure
         //restoreInstanceState(savedInstanceState)
@@ -308,6 +314,13 @@ class WorkoutFragment
             null,
             extras
         )
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 300.toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = 300.toLong()
+        }
     }
 
     /********************************************************************
