@@ -88,11 +88,11 @@ class WorkoutListAdapter(
 
             //Add clicklisteners
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item,binding.itemWorkoutContainer)
+                interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
             }
             itemView.setOnLongClickListener{
                 interaction?.activateMultiSelectionMode()
-                interaction?.onItemSelected(adapterPosition, item,binding.itemWorkoutContainer)
+                interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
                 true
             }
 

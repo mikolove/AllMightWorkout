@@ -37,7 +37,16 @@ data class ExerciseCacheEntity(
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
     var updatedAt: Date
-){}
+){
+
+    companion object{
+
+        fun nullNameError() : String{
+            return "You must enter a name"
+        }
+
+    }
+}
 
 data class ExerciseWithSetsCacheEntity(
     @Embedded

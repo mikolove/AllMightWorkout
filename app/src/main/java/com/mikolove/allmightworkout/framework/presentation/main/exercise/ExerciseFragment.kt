@@ -312,7 +312,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
-            R.id.action_exercise_fragment_to_exercise_detail_fragment
+            R.id.action_exercise_fragment_to_exercise_detail_fragment,
             null,
             null,
             extras
@@ -334,12 +334,17 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     }
 
+    fun showAddExerciseDialog(){
+
+
+    }
+
     fun showFilterDialog(){
 
         activity?.let {
             val dialog = MaterialDialog(it)
                 .noAutoDismiss()
-                .customView(R.layout.layout_filter)
+                .customView(R.layout.dialog_filter)
 
             val view = dialog.getCustomView()
 
@@ -650,7 +655,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun activateMultiSelectionMode() = viewModel.setExerciseToolbarState(ListToolbarState.MultiSelectionState())
 
-    override fun isWorkoutSelected(exercise: Exercise): Boolean {
+    override fun isExerciseSelected(exercise: Exercise): Boolean {
         return viewModel.isExerciseSelected(exercise)
     }
 

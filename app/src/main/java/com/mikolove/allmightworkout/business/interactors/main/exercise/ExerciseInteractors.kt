@@ -1,13 +1,11 @@
 package com.mikolove.allmightworkout.business.interactors.main.exercise
 
-import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts
-import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalBodyParts
-import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalBodyPartsByWorkoutType
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutTypes
+import com.mikolove.allmightworkout.business.interactors.main.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 
 class ExerciseInteractors(
     val getExercises: GetExercises,
+    val getExerciseById : GetExerciseById,
     val getTotalExercises: GetTotalExercises,
     val insertExercise: InsertExercise,
     val insertExerciseSet: InsertExerciseSet,

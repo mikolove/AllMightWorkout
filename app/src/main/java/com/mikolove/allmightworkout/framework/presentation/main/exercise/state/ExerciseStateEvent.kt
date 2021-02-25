@@ -1,6 +1,8 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
 
+import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 
@@ -17,6 +19,17 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = true
     }
 
+    class GetExerciseByIdEvent(
+        val idExercise : String
+    ) : ExerciseStateEvent(){
+
+        override fun errorInfo(): String = "Error retrieving exercise by id."
+
+        override fun eventName(): String = "    class GetExerciseByIdEvent(\n"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
     class GetTotalExercisesEvent(
         val clearLayoutManagerState: Boolean = true
     ) : ExerciseStateEvent(){
@@ -28,7 +41,9 @@ sealed class ExerciseStateEvent : StateEvent{
     }
 
     class InsertExerciseEvent(
-        val name : String
+        val name : String,
+        val exerciseType: ExerciseType,
+        val bodyPart: BodyPart
     ) : ExerciseStateEvent(){
         override fun errorInfo(): String = "Error inserting new exercise."
 

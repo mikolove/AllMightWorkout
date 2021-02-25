@@ -279,7 +279,7 @@ constructor(
     //Launch actual query keeping Pagination
     fun refreshWorkoutSearchQuery(){
         setWorkoutQueryExhausted(false)
-        setStateEvent(GetWorkoutsEvent())
+        loadWorkouts()
     }
 
     fun loadWorkouts(){
@@ -332,7 +332,7 @@ constructor(
 
 
     /********************************************************************
-    GETTERS - QUERY
+        GETTERS - QUERY
      *********************************************************************/
 
     fun getFilterWorkouts(): String {

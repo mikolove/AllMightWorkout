@@ -26,6 +26,7 @@ data class ExerciseViewState(
     var workoutTypeSelected : WorkoutType? = null,
 
     //Search option
+    var searchActive : Boolean? = null,
     var searchQueryExercises: String? = null,
     var pageExercises: Int? = null,
     var isExercisesQueryExhausted: Boolean? = null,

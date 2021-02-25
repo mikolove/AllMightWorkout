@@ -344,7 +344,7 @@ class WorkoutFragment
         activity?.let {
             val dialog = MaterialDialog(it)
                 .noAutoDismiss()
-                .customView(R.layout.layout_filter)
+                .customView(R.layout.dialog_filter)
 
             val view = dialog.getCustomView()
 

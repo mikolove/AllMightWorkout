@@ -70,6 +70,7 @@ object InteractorsModule {
     ) : ExerciseInteractors{
         return ExerciseInteractors(
             getExercises = GetExercises(exerciseCacheDataSource),
+            getExerciseById = GetExerciseById(exerciseCacheDataSource),
             getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
             insertExercise = InsertExercise(exerciseCacheDataSource,exerciseNetworkDataSource,exerciseFactory),
             insertExerciseSet = InsertExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource,exerciseSetFactory),

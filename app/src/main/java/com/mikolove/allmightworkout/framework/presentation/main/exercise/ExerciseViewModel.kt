@@ -1,20 +1,20 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import android.content.SharedPreferences
-import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise
-import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
+import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionManager
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionState
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.util.printLogD
@@ -124,7 +124,7 @@ constructor(
             }
 
             is GetExerciseByIdEvent -> {
-                exerciseInteractors.getExerciseById(
+                exerciseInteractors.getExerciseById.getExerciseById(
                     idExercise = stateEvent.idExercise,
                     stateEvent = stateEvent
                 )
@@ -140,11 +140,12 @@ constructor(
             }
 
             is UpdateExerciseEvent -> {
-                if(!isExerciseNameNull() &&)
-                exerciseInteractors.updateExercise.updateExercise(
-                    exercise = getExerciseSelected()!!,
-                    stateEvent = stateEvent
-                )else {
+                if(!isExerciseNameNull()){
+                    exerciseInteractors.updateExercise.updateExercise(
+                        exercise = getExerciseSelected()!!,
+                        stateEvent = stateEvent
+                    )
+                }else {
                     emitStateMessageEvent(
                         stateMessage = StateMessage(
                             response = Response(
@@ -268,12 +269,26 @@ constructor(
         LIST EXERCISES MANAGING
      *********************************************************************/
 
-
-    fun reloadExercises(){
-        setQueryExercises("")
-        clearListExercises()
+    //Launch actual query reseting Pagination
+    fun exercisesStartNewSearch(){
+        setExerciseQueryExhausted(false)
+        resetPageExercises()
         loadExercises()
     }
+
+    //Launch actual query keeping Pagination
+    fun refreshExerciseSearchQuery(){
+        setExerciseQueryExhausted(false)
+        loadExercises()
+    }
+
+    fun loadExercises(){
+        setStateEvent(GetExercisesEvent())
+    }
+
+    /********************************************************************
+        OTHERS LIST MANAGING
+    *********************************************************************/
 
     fun reloadBodyParts(){
         clearListBodyParts()
@@ -285,53 +300,25 @@ constructor(
         loadWorkoutTypes()
     }
 
-
     fun loadTotalExercises(){
-        printLogD("HomeViewModel","Load total exercises")
         setStateEvent(GetTotalExercisesEvent())
     }
 
     fun loadTotalWorkoutTypes(idWorkoutType : String){
-        printLogD("HomeViewModel","Load total bodyPart by WorkoutType")
         setStateEvent(GetTotalBodyPartsByWorkoutTypeEvent(idWorkoutType))
     }
 
     fun loadTotalBodyParts(){
-        printLogD("HomeViewModel","Load total bodyParts")
         setStateEvent(GetTotalBodyPartsEvent())
     }
 
     fun loadWorkoutTypes(){
-        printLogD("HomeViewModel","Load workout types")
         setStateEvent(GetWorkoutTypesEvent())
     }
 
     fun loadBodyParts(){
         printLogD("HomeViewModel","Load body parts")
         setStateEvent(GetBodyPartEvent())
-    }
-
-    fun loadExercises(){
-        printLogD("HomeViewModel","Load Exercises")
-        setStateEvent(GetExercisesEvent())
-    }
-
-    fun clearListWorkoutTypes(){
-        val update = getCurrentViewStateOrNew()
-        update.listWorkoutTypes = ArrayList()
-        setViewState(update)
-    }
-
-    fun clearListBodyParts(){
-        val update = getCurrentViewStateOrNew()
-        update.listBodyParts = ArrayList()
-        setViewState(update)
-    }
-
-    fun clearListExercises(){
-        val update = getCurrentViewStateOrNew()
-        update.listExercises = ArrayList()
-        setViewState(update)
     }
 
     fun saveFilterExercisesOptions(filter: String, order: String){
@@ -341,16 +328,6 @@ constructor(
         editor.putString(PreferenceKeys.EXERCISE_LIST_ORDER, order)
         editor.apply()
     }
-
-    fun createExercise(name : String) : Exercise = exerciseFactory.createExercise(
-        idExercise = null,
-        name = name,
-        sets = null,
-        bodyPart = null,
-        exerciseType = ExerciseType.REP_EXERCISE,
-        isActive = true,
-        created_at = null
-    )
 
     /********************************************************************
         GETTERS - QUERY
@@ -382,10 +359,6 @@ constructor(
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
-    fun getLayoutManagerState(): Parcelable? {
-        return getCurrentViewStateOrNew().exerciseRecyclerLayoutManagerState
-    }
-
     fun getExercises() = getCurrentViewStateOrNew().listExercises
 
     fun getTotalExercises() = getCurrentViewStateOrNew().totalExercises ?: 0
@@ -396,16 +369,107 @@ constructor(
 
     fun getWorkoutTypeSelected() = getCurrentViewStateOrNew().workoutTypeSelected
 
-    fun getExerciseSelected() = getCurrentViewStateOrNew().exerciseSelected
+    fun getExerciseToInsert() = getCurrentViewStateOrNew().exerciseToInsert ?: null
+
+    fun getExerciseSelected() = getCurrentViewStateOrNew().exerciseSelected ?: null
+
+    fun getIsUpdatePending() : Boolean = getCurrentViewStateOrNew().isUpdatePending ?:false
 
     fun getExercisesListSize() = getCurrentViewStateOrNew().listExercises?.size?: 0
 
     fun isExercisesPaginationExhausted() = getExercisesListSize() >= getTotalExercises()
 
+    fun isSearchActive() = getCurrentViewStateOrNew().searchActive ?: false
 
     /********************************************************************
     SETTERS - VIEWSTATE AND OTHER
      *********************************************************************/
+
+    fun clearListExercises(){
+        val update = getCurrentViewStateOrNew()
+        update.listExercises = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearListWorkoutTypes(){
+        val update = getCurrentViewStateOrNew()
+        update.listWorkoutTypes = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearListBodyParts(){
+        val update = getCurrentViewStateOrNew()
+        update.listBodyParts = ArrayList()
+        setViewState(update)
+    }
+
+    fun updateExerciseName(name :String?){
+        if(name.isNullOrBlank()){
+            setStateEvent(
+                CreateStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = ExerciseCacheEntity.nullNameError(),
+                            uiComponentType = UIComponentType.Dialog(),
+                            messageType = MessageType.Error()
+                        )
+                    )
+                )
+            )
+        }else{
+            val update = getCurrentViewStateOrNew()
+            val updateExercise = update.exerciseSelected?.copy(
+                name = name
+            )
+            update.exerciseSelected = updateExercise
+            setViewState(update)
+        }
+    }
+
+    fun updateExerciseIsActive(isActive : Boolean){
+        val update = getCurrentViewStateOrNew()
+        val updateExercise = update.exerciseSelected?.copy(
+            isActive = isActive
+        )
+        update.exerciseSelected = updateExercise
+        setViewState(update)
+    }
+
+    fun updateExerciseBodyPart(bodyPart: BodyPart){
+        val update = getCurrentViewStateOrNew()
+        val updateExercise = update.exerciseSelected?.copy(
+            bodyPart = bodyPart
+        )
+        update.exerciseSelected = updateExercise
+        setViewState(update)
+    }
+
+    fun updateExerciseExerciseType(exerciseType: ExerciseType){
+        val update = getCurrentViewStateOrNew()
+        val updateExercise = update.exerciseSelected?.copy(
+            exerciseType = exerciseType
+        )
+        update.exerciseSelected = updateExercise
+        setViewState(update)
+    }
+
+    fun setIsSearchActive(isActive: Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.searchActive = isSearchActive()
+        setViewState(update)
+    }
+
+    fun setIsUpdatePending(isPending: Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.isUpdatePending = isPending
+        setViewState(update)
+    }
+
+    fun setExerciseSelected(exercise : Exercise?){
+        val update = getCurrentViewStateOrNew()
+        update.exerciseSelected = exercise
+        setViewState(update)
+    }
 
     fun setExerciseListFilter(filter : String?){
         filter?.let {
@@ -413,6 +477,12 @@ constructor(
             update.exercise_list_filter = filter
             setViewState(update)
         }
+    }
+
+    fun setInsertedExercise(exercise :Exercise?){
+        val update = getCurrentViewStateOrNew()
+        update.exerciseToInsert = exercise
+        setViewState(update)
     }
 
     fun setExerciseOrder(order: String?){
@@ -457,7 +527,7 @@ constructor(
         setViewState(update)
     }
 
-    private fun setQueryExercises(string : String?){
+    fun setQueryExercises(string : String?){
         val update = getCurrentViewStateOrNew()
         update.searchQueryExercises = string
         setViewState(update)
@@ -518,13 +588,24 @@ constructor(
     }
 
     /********************************************************************
-    PageManagement
+        ListExercises PageManagement
      *********************************************************************/
+
+    fun resetPageExercises(){
+        val update = getCurrentViewStateOrNew()
+        update.pageExercises = 1
+        setViewState(update)
+    }
+
+    private fun incrementPageExercisesNumber(){
+        val update = getCurrentViewStateOrNew()
+        val page = update.copy().pageExercises ?: 1
+        update.pageExercises = page.plus(1)
+        setViewState(update)
+    }
 
     fun nextPageExercises(){
         if(!isExercisesQueryExhausted()){
-            printLogD("NoteListViewModel", "attempting to load workout next page...")
-            clearExerciseLayoutManagerState()
             incrementPageExercisesNumber()
             setStateEvent(GetExercisesEvent())
         }
@@ -540,19 +621,37 @@ constructor(
         setViewState(update)
     }
 
-    fun clearExerciseLayoutManagerState(){
-        val update = getCurrentViewStateOrNew()
-        update.exerciseRecyclerLayoutManagerState = null
-        setViewState(update)
+    /********************************************************************
+    INTERACTIONS
+     *********************************************************************/
+
+    fun setExerciseInteractionNameState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseNameState(state)
     }
 
-    private fun incrementPageExercisesNumber(){
-        val update = getCurrentViewStateOrNew()
-        val page = update.copy().pageExercises ?: 1
-        update.pageExercises = page.plus(1)
-        setViewState(update)
+    fun setExerciseInteractionIsActiveState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseIsActiveState(state)
     }
 
+    fun setExerciseInteractionBodyPartState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseBodyPartState(state)
+    }
+
+    fun setExerciseInteractionExerciseTypeState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseExerciseTypeState(state)
+    }
+
+    fun checkEditState() = exerciseInteractionManager.checkEditState()
+
+    fun exitEditState() = exerciseInteractionManager.exitEditState()
+
+    fun isEditingName() = exerciseInteractionManager.isEditingName()
+
+    fun isEditingIsActive() = exerciseInteractionManager.isEditingIsActive()
+
+    fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
+
+    fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
 
 }
 
