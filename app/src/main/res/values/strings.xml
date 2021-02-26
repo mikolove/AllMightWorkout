@@ -56,6 +56,15 @@
     <string name="fragment_manage_workout_text_exercises">List of exercises in :</string>
     <string name="fragment_manage_workout_text_manage_exercises">Manage exercises</string>
 
+
+    <!-- Exercise detail Fragment -->
+    <string name="fragment_exercise_detail_label_name">Name</string>
+    <string name="fragment_exercise_detail_label_isactive">Is Active</string>
+    <string name="fragment_exercise_detail_text_is_active">Is active</string>
+    <string name="fragment_exercise_detail_text_exercises">List of exercises in :</string>
+    <string name="fragment_exercise_detail_text_manage_exercises">Manage exercises</string>
+
+
     <!-- Item workout -->
     <string name="item_workout_text_exercises">Exercises</string>
     <string name="item_workout_text_created_at">Created at</string>
