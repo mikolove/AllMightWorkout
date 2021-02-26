@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/history_fragment">
+    app:startDestination="@id/loading_fragment">
 
     <fragment
         android:id="@+id/workout_fragment"
@@ -82,4 +82,12 @@
         app:destination="@id/exercise_fragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/loading_fragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingFragment"
+        android:label="LoadingFragment" />
+    <action
+        android:id="@+id/action_global_loading_fragment"
+        app:destination="@id/loading_fragment"
+        app:launchSingleTop="true" />
 </navigation>

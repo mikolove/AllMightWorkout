@@ -52,7 +52,16 @@ class WorkoutListAdapter(
                 holder.binding.itemWorkoutTextName.text = newWorkout.name
 
             if(oldWorkout.createdAt != newWorkout.createdAt)
-                holder.binding.itemWorkoutTextCreatedAt.text = newWorkout.createdAt
+                holder.binding.itemWorkoutTextCreatedAt.text = dateUtil.showDateInCurrentLocal(newWorkout.createdAt)
+
+            holder.itemView.setOnClickListener {
+                interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
+            }
+            holder.itemView.setOnLongClickListener{
+                interaction?.activateMultiSelectionMode()
+                interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
+                true
+            }
          }
     }
 
@@ -98,7 +107,7 @@ class WorkoutListAdapter(
 
             //Bind values
             binding.itemWorkoutTextName.text = item.name
-            binding.itemWorkoutTextCreatedAt.text = item.createdAt
+            binding.itemWorkoutTextCreatedAt.text = dateUtil.showDateInCurrentLocal(item.createdAt)
 
             //Its seems to never crash and be efficient. Author mitch tabian
             //This is use to change the color of selected item

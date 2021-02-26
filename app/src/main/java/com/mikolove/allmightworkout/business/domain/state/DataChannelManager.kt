@@ -55,10 +55,13 @@ abstract class DataChannelManager<ViewState> {
     private fun canExecuteNewStateEvent(stateEvent: StateEvent): Boolean{
         // If a job is already active, do not allow duplication
         if(isJobAlreadyActive(stateEvent)){
+            printLogD("DCM","Job already active")
             return false
         }
         // if a dialog is showing, do not allow new StateEvents
         if(!isMessageStackEmpty()){
+            printLogD("DCM","Message Stack is not empty")
+
             return false
         }
         return true

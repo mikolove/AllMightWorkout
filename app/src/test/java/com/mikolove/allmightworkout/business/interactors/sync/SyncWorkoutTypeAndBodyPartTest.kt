@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.auth.loading
+package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource

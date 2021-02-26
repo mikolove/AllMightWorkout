@@ -22,16 +22,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFade
+import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType.*
 import com.mikolove.allmightworkout.databinding.ActivityMainBinding
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_LOGIN
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_PASSWORD
 import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.displayToast
 import com.mikolove.allmightworkout.util.TodoCallback
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity :
@@ -39,6 +43,8 @@ class MainActivity :
     UIController{
 
     private val TAG: String = "AppDebug"
+
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var bottomNavBar : BottomNavigationView
@@ -72,8 +78,8 @@ class MainActivity :
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
-
         appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.loading_fragment,
             R.id.history_fragment,
             R.id.workout_fragment,
             R.id.exercise_fragment

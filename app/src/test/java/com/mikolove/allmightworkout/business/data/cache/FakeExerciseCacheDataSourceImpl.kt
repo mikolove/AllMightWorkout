@@ -16,7 +16,7 @@ const val FORCE_DELETES_EXERCISE_EXCEPTION = "FORCE_DELETES_EXERCISE_EXCEPTION"
 const val FORCE_SEARCH_EXERCISES_EXCEPTION = "FORCE_SEARCH_EXERCISES_EXCEPTION"
 const val FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION = "FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION"
 const val FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION = "FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION"
-
+const val FORCE_GET_EXERCISE_BY_ID_EXCEPTION = "FORCE_GET_EXERCISE_BY_ID_EXCEPTION"
 
 class FakeExerciseCacheDataSourceImpl(
     private val exercisesData: HashMap<String, Exercise>,
@@ -102,6 +102,9 @@ class FakeExerciseCacheDataSourceImpl(
     }
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? {
+        if(primaryKey.equals(FORCE_GET_EXERCISE_BY_ID_EXCEPTION)){
+            throw Exception("Something went wrong retrieving exercise by id.")
+        }
         return exercisesData[primaryKey]
     }
 

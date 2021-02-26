@@ -310,9 +310,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
             if (viewModel.checkEditState()) {
                 quitEditState()
             }
-            viewModel.setStateEvent(
-                WorkoutStateEvent.UpdateWorkoutEvent()
-            )
+            viewModel.updateWorkout()
         }
     }
 
@@ -381,6 +379,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         if (viewModel.checkEditState()) {
             quitEditState()
          }else{
+
             findNavController().popBackStack()
         }
     }

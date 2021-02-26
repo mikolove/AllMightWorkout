@@ -532,9 +532,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             object : DialogInputCaptureCallback {
                 override fun onTextCaptured(text: String) {
                     if (!text.isNullOrBlank()) {
-                        viewModel.setStateEvent(
+                       /* viewModel.setStateEvent(
                             ExerciseStateEvent.InsertExerciseEvent(name = text)
-                        )
+                        )*/
                     } else {
                         onErrorNoNameSpecified()
                     }

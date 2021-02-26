@@ -85,24 +85,24 @@ class SyncWorkoutExercises(
             val networkUpdatedAt = networkWorkout.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
             val cacheUpdatedAt = cacheWorkout?.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
 
-            printLogD("SyncWorkoutExercises","For network workout ${networkWorkout.idWorkout}")
+/*            printLogD("SyncWorkoutExercises","For network workout ${networkWorkout.idWorkout}")
             printLogD("SyncWorkoutExercises","And cache workout  ${cacheWorkout?.idWorkout}")
             printLogD("SyncWorkoutExercises","networkUpdatedAT = ${networkUpdatedAt}")
-            printLogD("SyncWorkoutExercises","cacheUpdatedAt ${cacheUpdatedAt}")
+            printLogD("SyncWorkoutExercises","cacheUpdatedAt ${cacheUpdatedAt}")*/
 
             //If one or the other is not null
             if (networkUpdatedAt != null || cacheUpdatedAt != null) {
 
-                printLogD("SyncWorkoutExercises","networkUpdatedAt != null || cacheUpdatedAt != null")
+               // printLogD("SyncWorkoutExercises","networkUpdatedAt != null || cacheUpdatedAt != null")
 
                 if (cacheUpdatedAt == null && networkUpdatedAt != null) {
-                    printLogD("SyncWorkoutExercises","cacheUpdatedAt == null && networkUpdatedAt != null")
+                   // printLogD("SyncWorkoutExercises","cacheUpdatedAt == null && networkUpdatedAt != null")
 
                     //Update cache with network
                     updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
 
                 } else if (cacheUpdatedAt != null && networkUpdatedAt == null) {
-                    printLogD("SyncWorkoutExercises","cacheUpdatedAt != null && networkUpdatedAt == null")
+                    //printLogD("SyncWorkoutExercises","cacheUpdatedAt != null && networkUpdatedAt == null")
 
                     //Update network with cache
                     updateWorkoutExerciseInNetworkWithCache(
@@ -110,14 +110,14 @@ class SyncWorkoutExercises(
 
                 } else if (cacheUpdatedAt != null && networkUpdatedAt != null) {
 
-                    printLogD("SyncWorkoutExercises","cacheUpdatedAt != null && networkUpdatedAt != null")
+                    //printLogD("SyncWorkoutExercises","cacheUpdatedAt != null && networkUpdatedAt != null")
 
                     //Compare them
                     if (networkUpdatedAt != cacheUpdatedAt) {
 
-                        printLogD("SyncWorkoutExercises","networkUpdatedAt != cacheUpdatedAt")
+                        //printLogD("SyncWorkoutExercises","networkUpdatedAt != cacheUpdatedAt")
                         if (networkUpdatedAt.after(cacheUpdatedAt)) {
-                            printLogD("SyncWorkoutExercises","networkUpdatedAt.after(cacheUpdatedAt)")
+                            //printLogD("SyncWorkoutExercises","networkUpdatedAt.after(cacheUpdatedAt)")
 
                             //Update cache with network
                             updateWorkoutExerciseInCacheWithNetwork(
@@ -126,7 +126,7 @@ class SyncWorkoutExercises(
                         }
 
                         if (networkUpdatedAt.before(cacheUpdatedAt)) {
-                            printLogD("SyncWorkoutExercises","networkUpdatedAt.before(cacheUpdatedAt)")
+                            //printLogD("SyncWorkoutExercises","networkUpdatedAt.before(cacheUpdatedAt)")
 
                             //Update network with cache
                             updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)

@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_EXERCISE_BY_ID_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.DataState
@@ -87,7 +88,7 @@ class GetExerciseByIdTest {
     fun getWorkoutByInvalidId_success_confirmNoResults() = runBlocking {
 
         //Exercise id
-        val idExercise = "idExercise1"
+        val idExercise = "invalidIdExercise"
         var exerciseRetrieved : Exercise? = null
 
         //Search it
@@ -119,7 +120,7 @@ class GetExerciseByIdTest {
     fun getExerciseById_fail_confirmNoResults() = runBlocking {
 
         //Exercise id
-        val idExercise = "idExercise1"
+        val idExercise = FORCE_GET_EXERCISE_BY_ID_EXCEPTION
         var exerciseRetrieved : Exercise? = null
 
         //Search it

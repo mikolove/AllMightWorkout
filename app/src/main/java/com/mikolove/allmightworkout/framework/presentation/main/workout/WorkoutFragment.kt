@@ -190,6 +190,7 @@ class WorkoutFragment
                 }
 
                 viewState.workoutToInsert?.let { insertedWorkout ->
+                    printLogD("WorkoutFragment","INSERTED WORKOUT OBSERVED IN FRAGMENT")
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
                 }
 
@@ -223,17 +224,19 @@ class WorkoutFragment
                         disableActionMode()
                     }
 
-                    GET_WORKOUTS_NO_MATCHING_RESULTS -> {
+/*                    GET_WORKOUTS_NO_MATCHING_RESULTS -> {
                         if(viewModel.isSearchActive()) {
                             showToastNoMatchingWorkouts()
                         }
-                    }
+                    }*/
 
                     else -> {
+                        printLogD("WorkoutFragment","State message response ${stateMessage.response}")
                         uiController.onResponseReceived(
                             response = stateMessage.response,
                             stateMessageCallback = object: StateMessageCallback {
                                 override fun removeMessageFromStack() {
+                                    printLogD("WorkoutFragment","Cleared ${stateMessage.response}")
                                     viewModel.clearStateMessage()
                                 }
                             }
@@ -532,6 +535,7 @@ class WorkoutFragment
             object : DialogInputCaptureCallback {
                 override fun onTextCaptured(text: String) {
                     if (!text.isNullOrBlank()) {
+                        printLogD("WorkoutFragment","Add workout ${text}")
                         viewModel.setStateEvent(
                             InsertWorkoutEvent(name = text)
                         )
@@ -647,6 +651,7 @@ class WorkoutFragment
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{
             viewModel.setWorkoutSelected(item)
+            printLogD("WorkoutFragment","ITEM SELECTED ${item}")
             selectionNavigateToManageWorkout(containerView)
         }
     }

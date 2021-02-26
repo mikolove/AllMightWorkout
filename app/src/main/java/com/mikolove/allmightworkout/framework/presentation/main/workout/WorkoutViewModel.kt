@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
@@ -17,6 +18,7 @@ import com.mikolove.allmightworkout.framework.presentation.main.workout.state.Wo
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -34,7 +36,8 @@ constructor(
     private val workoutInteractors: WorkoutInteractors,
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences,
-    private val workoutFactory: WorkoutFactory
+    private val workoutFactory: WorkoutFactory,
+    private val dateUtil: DateUtil
 ) : BaseViewModel<WorkoutViewState>(){
 
     override fun initNewViewState(): WorkoutViewState {
@@ -86,6 +89,7 @@ constructor(
                 setWorkoutSelected(workout)
             }
             viewState.workoutToInsert?.let { insertedWorkout ->
+                printLogD("WorkoutViewModel","Inserted workout ${insertedWorkout}")
                 setInsertedWorkout(insertedWorkout)
             }
             viewState.listWorkouts?.let { listWorkouts ->
@@ -114,10 +118,13 @@ constructor(
     *********************************************************************/
 
     override fun setStateEvent(stateEvent: StateEvent) {
+
+        printLogD("WorkoutViewModel","ENTER SET STATE EVENT")
+
         val job : Flow<DataState<WorkoutViewState>?> = when(stateEvent) {
 
             is InsertWorkoutEvent -> {
-
+                printLogD("WorkoutViewModel","INSERT IT")
                 workoutInteractors.insertWorkout.insertWorkout(
                     name = stateEvent.name,
                     stateEvent = stateEvent
@@ -240,9 +247,9 @@ constructor(
         created_at = null
     )
 
-    fun updateWorkout(name: String?, isActive: Boolean){
-        updateWorkoutName(name)
-        updateWorkoutIsActive(isActive)
+    fun updateWorkout(){
+        updateWorkoutUpdatedAt()
+        setStateEvent(UpdateWorkoutEvent())
     }
 
     fun isWorkoutNameNull() : Boolean{
@@ -403,6 +410,15 @@ constructor(
     fun clearListBodyParts(){
         val update = getCurrentViewStateOrNew()
         update.listBodyParts = ArrayList()
+        setViewState(update)
+    }
+
+    fun updateWorkoutUpdatedAt(){
+        val update = getCurrentViewStateOrNew()
+        val updatedWorkout = update.workoutSelected?.copy(
+            updatedAt = dateUtil.getCurrentTimestamp()
+        )
+        update.workoutSelected = updatedWorkout
         setViewState(update)
     }
 

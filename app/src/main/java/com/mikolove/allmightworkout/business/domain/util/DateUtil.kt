@@ -5,29 +5,31 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DateUtil
-constructor( private val dateFormat : SimpleDateFormat){
+constructor(
+    private val dateFormatUs : SimpleDateFormat,
+    private val dateFormatLocal : SimpleDateFormat){
 
 
     /*
     Firebase String - Timestamp
      */
     fun convertFirebaseTimestampToStringData(timestamp: Timestamp): String{
-        return dateFormat.format(timestamp.toDate())
+        return dateFormatUs.format(timestamp.toDate())
     }
 
     fun convertStringDateToFirebaseTimestamp(date: String): Timestamp{
-        return Timestamp(dateFormat.parse(date))
+        return Timestamp(dateFormatUs.parse(date))
     }
 
     /*
     Room String - Date
      */
     fun convertDateToStringDate(date : Date) : String{
-        return dateFormat.format(date)
+        return dateFormatUs.format(date)
     }
 
     fun convertStringDateToDate(date : String) : Date{
-        return dateFormat.parse(date)
+        return dateFormatUs.parse(date)
     }
 
     /*
@@ -38,7 +40,7 @@ constructor( private val dateFormat : SimpleDateFormat){
     }
 
     fun getCurrentTimestamp(): String {
-        return dateFormat.format(Date())
+        return dateFormatUs.format(Date())
     }
 
     fun getCurrentDate() : Date{
@@ -50,5 +52,14 @@ constructor( private val dateFormat : SimpleDateFormat){
         calendar.time = getCurrentDate()
         calendar.add(Calendar.MONTH,-month)
         return calendar.time
+    }
+
+    /*
+        Show date in current local
+     */
+
+    fun showDateInCurrentLocal(dateToShow : String) : String{
+        val date = convertStringDateToDate(dateToShow)
+        return dateFormatLocal.format(date)
     }
 }
