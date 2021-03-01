@@ -15,7 +15,8 @@ import kotlin.collections.HashMap
 class DependencyContainer {
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
-    val dateUtil = DateUtil(dateFormat)
+    private val dateFormatDefault = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val dateUtil = DateUtil(dateFormat,dateFormatDefault)
 
     lateinit var workoutNetworkDataSource: WorkoutNetworkDataSource
     lateinit var workoutCacheDataSource: WorkoutCacheDataSource

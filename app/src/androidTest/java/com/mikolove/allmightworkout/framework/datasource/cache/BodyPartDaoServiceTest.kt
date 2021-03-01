@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.BodyPartFactory
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
-import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyPartDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutTypeDaoService
@@ -13,7 +12,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.implementation.Bo
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.BodyPartCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.WorkoutTypeWithBodyPartCacheMapper
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -157,6 +155,14 @@ class BodyPartDaoServiceTest : BaseTest(){
         val searchResult = bodyPartDaoService.getBodyPartsByWorkoutType(workoutType.idWorkoutType)
 
         assertTrue { searchResult?.contains(bodyPart) == true }
+
+        val workoutTypeWithNoBodyPart = createWorkoutTypeTwo()
+
+        workoutTypeDaoService.insertWorkoutType(workoutTypeWithNoBodyPart)
+
+        val searchNoResult = bodyPartDaoService.getBodyPartsByWorkoutType(workoutTypeWithNoBodyPart.idWorkoutType)
+
+        assertTrue { searchNoResult.isEmpty() }
 
     }
 
@@ -327,6 +333,12 @@ class BodyPartDaoServiceTest : BaseTest(){
     private fun createWorkoutType() : WorkoutType = workoutTypeFactory.createWorkoutType(
         idWorkoutType = "abs",
         name = "abs",
+        bodyParts = null
+    )
+
+    private fun createWorkoutTypeTwo() : WorkoutType = workoutTypeFactory.createWorkoutType(
+        idWorkoutType = "chest",
+        name = "chest",
         bodyParts = null
     )
 }

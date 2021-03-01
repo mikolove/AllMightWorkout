@@ -37,7 +37,7 @@ interface BodyPartDao{
         WHERE body_parts.fk_id_workout_type = workout_types.id_workout_type
         AND workout_types.id_workout_type = :idWorkoutType
     """)
-    suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPartCacheEntity>?
+    suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPartCacheEntity>
 
     @Query("SELECT * FROM body_parts WHERE id_body_part = :primaryKey")
     suspend fun getBodyPartById(primaryKey: String) : BodyPartCacheEntity?

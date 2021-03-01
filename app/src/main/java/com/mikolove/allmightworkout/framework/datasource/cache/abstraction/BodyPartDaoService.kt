@@ -11,7 +11,7 @@ interface BodyPartDaoService {
 
     suspend fun removeBodyPart(primaryKey: String) : Int
 
-    suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>?
+    suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>
 
     suspend fun getBodyPartById(primaryKey: String) : BodyPart?
 

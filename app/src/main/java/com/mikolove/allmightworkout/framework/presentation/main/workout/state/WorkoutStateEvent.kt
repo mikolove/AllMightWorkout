@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.workout.state
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 
 sealed class WorkoutStateEvent : StateEvent {
 
@@ -121,6 +122,15 @@ sealed class WorkoutStateEvent : StateEvent {
         override fun shouldDisplayProgressBar() : Boolean = true
     }
 
+    class GetBodyPartByWorkoutTypeEvent(
+        val idWorkoutType: String
+    ) : WorkoutStateEvent(){
+        override fun errorInfo(): String = "Error getting list of bodypart."
+
+        override fun eventName(): String = "GetBodyPartByWorkoutTypeEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
     class GetTotalBodyPartsEvent(): WorkoutStateEvent(){
         override fun errorInfo(): String = "Error retrieving total bodyparts"
 

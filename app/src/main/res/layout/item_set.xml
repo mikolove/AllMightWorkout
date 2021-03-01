@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:checkable="false">
+    android:checkable="false"
+    android:id="@+id/item_set_container">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,13 +17,13 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_exercise_container"
+            android:id="@+id/item_set_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/item_set_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -30,31 +31,31 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/item_exercise_delete" />
+                app:layout_constraintTop_toTopOf="@+id/item_set_button_delete" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/item_set_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintBottom_toBottomOf="@+id/item_set_title"
+                app:layout_constraintStart_toEndOf="@+id/item_set_title" />
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/item_exercise_edit"
+                android:id="@+id/item_set_button_edit"
                 style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 app:icon="@drawable/ic_baseline_edit_24"
-                app:layout_constraintEnd_toStartOf="@id/item_exercise_delete"
-                app:layout_constraintTop_toTopOf="@+id/item_exercise_delete" />
+                app:layout_constraintEnd_toStartOf="@id/item_set_button_delete"
+                app:layout_constraintTop_toTopOf="@+id/item_set_button_delete" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/item_exercise_delete"
+                android:id="@+id/item_set_button_delete"
                 style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,61 +70,58 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_exercise_content"
+            android:id="@+id/item_set_content_expandable"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
+                android:id="@+id/item_exercise_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/exercise_set_rep"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/item_set_text_rep"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/exercise_set_weight"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/item_set_text_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/exercise_set_rep">
+                app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
+                app:layout_constraintTop_toTopOf="@+id/item_set_text_rep">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/exercise_set_time"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/item_set_text_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -131,32 +129,31 @@
                 android:layout_marginBottom="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/exercise_set_rep"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_set_rep">
+                app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
+                app:layout_constraintStart_toStartOf="@+id/item_set_text_rep"
+                app:layout_constraintTop_toBottomOf="@+id/item_set_text_rep">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/exercise_set_rest_time"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/item_set_text_rest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
-                app:layout_constraintEnd_toEndOf="@+id/exercise_set_weight"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="@+id/exercise_set_time">
+                app:layout_constraintEnd_toEndOf="@+id/item_set_text_weight"
+                app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
+                app:layout_constraintTop_toTopOf="@+id/item_set_text_time">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

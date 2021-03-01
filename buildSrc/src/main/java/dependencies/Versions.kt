@@ -5,7 +5,7 @@ object Versions {
     val compilesdk = 30
     val minsdk = 23
     val targetsdk = 30
-    val kotlin = "1.4.30"
+    val kotlin = "1.4.31"
     val recycler_view = "1.2.0-beta01"
     val ktx = "1.3.2"
     val hilt = "2.31.2-alpha"
@@ -43,5 +43,4 @@ object Versions {
     val fragment_version = "1.3.0-alpha08"
     val androidx_test_ext = "1.1.2"
     val multidex_version = "2.0.1"
-    //val fragment_test = "1.3.0-alpha06"
 }

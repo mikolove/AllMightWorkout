@@ -19,14 +19,14 @@
                 app:layout_constraintGuide_percent="0.5"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField"
+                android:id="@+id/exercise_detail_text_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
-                app:layout_constraintEnd_toStartOf="@+id/switchMaterial"
+                app:layout_constraintEnd_toStartOf="@+id/exercise_detail_switch_isactive"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -37,19 +37,19 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchMaterial"
+                android:id="@+id/exercise_detail_switch_isactive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:checked="true"
                 android:text="@string/fragment_exercise_detail_label_isactive"
-                app:layout_constraintBottom_toBottomOf="@+id/textField"
+                app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_text_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textField" />
+                app:layout_constraintTop_toTopOf="@+id/exercise_detail_text_name" />
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/workout_type"
+                android:id="@+id/exercise_detail_workouttype"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -57,8 +57,8 @@
                 android:layout_marginEnd="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                app:layout_constraintStart_toStartOf="@+id/textField"
-                app:layout_constraintTop_toBottomOf="@+id/textField">
+                app:layout_constraintStart_toStartOf="@+id/exercise_detail_text_name"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_text_name">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -68,15 +68,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/body_part"
+                android:id="@+id/exercise_detail_bodypart"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
-                app:layout_constraintEnd_toEndOf="@+id/switchMaterial"
+                app:layout_constraintEnd_toEndOf="@+id/exercise_detail_switch_isactive"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/workout_type">
+                app:layout_constraintTop_toTopOf="@+id/exercise_detail_workouttype">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -87,15 +87,15 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/exercise_type"
+                android:id="@+id/exercise_detail_exercisetype"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/fragment_exercise_detail_label_name"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                app:layout_constraintStart_toStartOf="@+id/workout_type"
-                app:layout_constraintTop_toBottomOf="@+id/workout_type">
+                app:layout_constraintStart_toStartOf="@+id/exercise_detail_workouttype"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_workouttype">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -106,23 +106,37 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_set"
+                android:id="@+id/excercise_detail_button_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:icon="@drawable/ic_baseline_add_24"
+                android:text="Create exercise"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_exercisetype" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/exercise_detail_button_add"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 app:icon="@drawable/ic_baseline_add_24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add set"
-                app:layout_constraintBottom_toBottomOf="@+id/exercise_type"
-                app:layout_constraintEnd_toEndOf="@+id/body_part" />
+                app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_exercisetype"
+                app:layout_constraintEnd_toEndOf="@+id/exercise_detail_bodypart"
+                android:visibility="invisible"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/exercise_detail_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/add_set"
-                app:layout_constraintStart_toStartOf="@+id/exercise_type"
-                app:layout_constraintTop_toBottomOf="@+id/add_set" />
-
+                app:layout_constraintEnd_toEndOf="@+id/exercise_detail_button_add"
+                app:layout_constraintStart_toStartOf="@+id/exercise_detail_exercisetype"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_button_add"
+                android:visibility="invisible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -361,6 +361,10 @@ constructor(
 
     fun getExercises() = getCurrentViewStateOrNew().listExercises
 
+    fun getWorkoutTypes() = getCurrentViewStateOrNew().listWorkoutTypes
+
+    fun getBodyParts() = getCurrentViewStateOrNew().listBodyParts
+
     fun getTotalExercises() = getCurrentViewStateOrNew().totalExercises ?: 0
 
     fun getTotalBodyParts() = getCurrentViewStateOrNew().totalBodyParts

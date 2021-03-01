@@ -29,7 +29,7 @@ constructor(
         return bodyPartDao.removeBodyPart(primaryKey)
     }
 
-    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? {
+    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart> {
         return bodyPartDao.getBodyPartsByWorkoutType(idWorkoutType)?.let {
             bodyPartCacheMapper.entityListToDomainList(it)
         }

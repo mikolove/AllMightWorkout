@@ -92,6 +92,8 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
         viewModel.loadTotalExercises()
         viewModel.clearListExercises()
+        viewModel.loadWorkoutTypes()
+        viewModel.loadBodyParts()
         viewModel.refreshExerciseSearchQuery()
     }
 
@@ -404,7 +406,8 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
      *********************************************************************/
 
     override fun fabOnClick() {
-        addExercise()
+        //addExercise()
+        findNavController().navigate(R.id.action_exercise_fragment_to_exercise_detail_fragment)
     }
 
     /********************************************************************

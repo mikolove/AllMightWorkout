@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeC
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +49,7 @@ class GetWorkoutTypes(
 
                 val viewState = when(ViewState::class){
                     WorkoutViewState::class -> WorkoutViewState(listWorkoutTypes = ArrayList(resultObj))
+                    ExerciseViewState::class -> ExerciseViewState(listWorkoutTypes = ArrayList(resultObj))
                     else -> null
                 }
 

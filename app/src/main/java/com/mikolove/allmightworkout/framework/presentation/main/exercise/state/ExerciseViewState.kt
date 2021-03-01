@@ -14,6 +14,7 @@ data class ExerciseViewState(
     var listExercises: ArrayList<Exercise>? = null,
     var listWorkoutTypes: ArrayList<WorkoutType>? = null,
     var listBodyParts: ArrayList<BodyPart>? = null,
+    var listBodyPartsByWorkoutTypes : ArrayList<BodyPart>? = null,
 
     //Insert workout
     var exerciseToInsert : Exercise? = null,

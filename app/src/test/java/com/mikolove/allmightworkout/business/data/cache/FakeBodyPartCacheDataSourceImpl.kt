@@ -11,6 +11,7 @@ const val FORCE_UPDATE_BODYPART_EXCEPTION = "FORCE_UPDATE_BODYPART_EXCEPTION"
 const val FORCE_DELETE_BODYPART_EXCEPTION = "FORCE_DELETE_BODYPART_EXCEPTION"
 const val FORCE_DELETES_BODYPART_EXCEPTION = "FORCE_DELETES_BODYPART_EXCEPTION"
 const val FORCE_SEARCH_BODYPART_EXCEPTION = "FORCE_SEARCH_BODYPART_EXCEPTION"
+const val FORCE_GET_BODYPART_BY_WORKOUT_TYPE_EXCEPTION = "FORCE_GET_BODYPART_BY_WORKOUT_TYPE_EXCEPTION"
 
 class FakeBodyPartCacheDataSourceImpl
 constructor(
@@ -90,7 +91,12 @@ constructor(
         return bodyPartsData.size
     }
 
-    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>? {
+    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart> {
+
+        if(idWorkoutType.equals(FORCE_GET_BODYPART_BY_WORKOUT_TYPE_EXCEPTION)){
+            throw Exception("Something went wrong retieving bodyparts")
+        }
+
         return workoutTypesData[idWorkoutType]?.bodyParts ?: ArrayList()
     }
 

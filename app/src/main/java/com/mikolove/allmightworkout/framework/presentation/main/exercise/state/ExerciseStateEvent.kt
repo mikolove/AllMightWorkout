@@ -127,6 +127,16 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar() : Boolean = true
     }
 
+    class GetBodyPartByWorkoutTypeEvent(
+        val idWorkoutType: String
+    ) : ExerciseStateEvent(){
+        override fun errorInfo(): String = "Error getting list of bodypart."
+
+        override fun eventName(): String = "GetBodyPartByWorkoutTypeEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
     class GetTotalBodyPartsEvent(): ExerciseStateEvent(){
         override fun errorInfo(): String = "Error retrieving total bodyparts"
 
