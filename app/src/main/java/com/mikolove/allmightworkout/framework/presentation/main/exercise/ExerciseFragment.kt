@@ -88,12 +88,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         printLogD("ExerciseFragment","OnResume")
 
         setupFAB()
-        setupBottomNav()
-
         viewModel.loadTotalExercises()
         viewModel.clearListExercises()
         viewModel.loadWorkoutTypes()
-        viewModel.loadBodyParts()
         viewModel.refreshExerciseSearchQuery()
     }
 
@@ -123,18 +120,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("ExerciseFragment","OnSaveInstanceState")
-        val viewState = viewModel.viewState.value
+/*        val viewState = viewModel.viewState.value
 
         viewState?.listExercises =  ArrayList()
         viewState?.listBodyParts = ArrayList()
         viewState?.listWorkoutTypes = ArrayList()
         viewState?.exerciseSelected = null
-        viewState?.exerciseToInsert = null
+        viewState?.isExistExercise = null
 
         outState.putParcelable(
             EXERCISE_VIEW_STATE_BUNDLE_KEY,
             viewState
-        )
+        )*/
         super.onSaveInstanceState(outState)
     }
 
@@ -184,15 +181,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
                     }
                 }
 
-                viewState.exerciseToInsert?.let { insertedExercise ->
-                    viewModel.getExerciseById(insertedExercise.idExercise)
-                }
-
-                viewState.exerciseSelected?.let { _ ->
-                    if(viewModel.getExerciseToInsert() != null) {
-                        insertionNavigateToManageExercise()
-                    }
-                }
             }
         })
 
@@ -219,9 +207,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
                     }
 
                     GetExercises.GET_EXERCISES_NO_MATCHING_RESULTS -> {
-                        if(viewModel.isSearchActive()) {
                             showToastNoMatchingExercises()
-                        }
                     }
 
                     else -> {
@@ -252,10 +238,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     override fun setupFAB(){
         uiController.loadFabController(this)
         uiController.mainFabVisibility()
-    }
-
-    private fun setupBottomNav(){
-        uiController.displayBottomNavigation(View.VISIBLE)
     }
 
     private fun setupSwipeRefresh(){
@@ -306,10 +288,13 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             R.id.action_exercise_fragment_to_exercise_detail_fragment,
             null
         )
-        viewModel.setInsertedExercise(null)
+        viewModel.setIsExistExercise(false)
     }
 
     private fun selectionNavigateToManageExercise(containerView : View){
+
+        viewModel.setWorkoutTypeSelected(viewModel.getExerciseSelectedWorkoutType())
+        viewModel.setIsExistExercise(true)
 
         val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
@@ -406,8 +391,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
      *********************************************************************/
 
     override fun fabOnClick() {
-        //addExercise()
-        findNavController().navigate(R.id.action_exercise_fragment_to_exercise_detail_fragment)
+        insertionNavigateToManageExercise()
     }
 
     /********************************************************************

@@ -8,9 +8,9 @@ import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 //Used to make communication between Fragments And MainActivity
 interface UIController {
 
-    fun displayBottomNavigation(visibility : Int)
+    fun displayAppBar()
 
-    fun performShowBottomNavigation()
+    fun displayBottomNavigation()
 
     fun displayAppBarTitle()
 

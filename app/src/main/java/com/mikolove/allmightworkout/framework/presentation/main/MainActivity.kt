@@ -4,38 +4,35 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.transition.TransitionManager
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
+import androidx.transition.Visibility
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialFade
-import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType.*
 import com.mikolove.allmightworkout.databinding.ActivityMainBinding
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_LOGIN
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_PASSWORD
 import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.displayToast
 import com.mikolove.allmightworkout.util.TodoCallback
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity :
@@ -43,8 +40,6 @@ class MainActivity :
     UIController{
 
     private val TAG: String = "AppDebug"
-
-
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var bottomNavBar : BottomNavigationView
@@ -147,11 +142,39 @@ class MainActivity :
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun displayBottomNavigation(visibility: Int) {
-        binding?.mainBottomNavigation.visibility = visibility
+    override fun displayAppBar() {
+        val navController = findNavController(R.id.main_fragment_container)
+        val visibility = when(navController?.currentDestination?.id) {
+            R.id.loading_fragment -> View.GONE
+            else -> View.VISIBLE
+        }
+
+        if(binding?.appBarLayout.visibility != visibility)
+            binding?.appBarLayout.visibility = visibility
     }
 
-    override fun performShowBottomNavigation() {
+    override fun displayBottomNavigation() {
+
+        val container = binding?.mainActivityContainer
+        val slide = Slide()
+        slide.duration = 200
+        slide.addTarget(bottomNavBar)
+        TransitionManager.beginDelayedTransition(container,slide)
+
+        val navController = findNavController(R.id.main_fragment_container)
+        val visibility = when(navController?.currentDestination?.id) {
+
+            R.id.loading_fragment -> View.GONE
+            R.id.history_fragment -> View.VISIBLE
+            R.id.workout_fragment -> View.VISIBLE
+            R.id.exercise_fragment -> View.VISIBLE
+            R.id.workout_detail_fragment -> View.GONE
+            R.id.exercise_detail_fragment -> View.GONE
+            else -> View.VISIBLE
+        }
+
+        if(bottomNavBar.visibility != visibility)
+            bottomNavBar.visibility = visibility
     }
 
     private fun setupProgressLinearIndicator(){

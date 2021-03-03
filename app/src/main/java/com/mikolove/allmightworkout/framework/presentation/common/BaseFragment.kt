@@ -36,7 +36,9 @@ constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         printLogD("BaseFragment","onViewCreated")
+        displayAppBar()
         displayAppBarTitle()
+        displayBottomNavigation()
         loadFabController()
     }
 
@@ -54,9 +56,17 @@ constructor(
         }
     }
 
+    fun displayAppBar(){
+        uiController.displayAppBar()
+    }
+
    fun displayAppBarTitle(){
        uiController.displayAppBarTitle()
    }
+
+    fun displayBottomNavigation(){
+        uiController.displayBottomNavigation()
+    }
 
     fun loadFabController(){
         uiController.loadFabController(null)

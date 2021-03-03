@@ -30,6 +30,16 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
+    class GetExerciseSetByIdExerciseEvent(
+        val idExercise: String
+    ) : ExerciseStateEvent(){
+        override fun errorInfo(): String = "Error retrieving sets by id exercise"
+
+        override fun eventName(): String = "GetExerciseSetByIdExerciseEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
     class GetTotalExercisesEvent(
         val clearLayoutManagerState: Boolean = true
     ) : ExerciseStateEvent(){

@@ -9,8 +9,9 @@ import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyPart
 import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyPartsByWorkoutType.Companion.GET_BODYPART_BY_WORKOUT_TYPES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -61,12 +62,12 @@ class GetBodyPartsByWorkoutTypeTest {
         var bodyPartsRetrieved : ArrayList<BodyPart>? = null
 
         //Search it
-        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<ExerciseViewState>(
+        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<WorkoutViewState>(
             idWorkoutType = idWorkoutType,
             stateEvent = GetBodyPartByWorkoutTypeEvent(idWorkoutType = idWorkoutType)
-        ).collect( object  : FlowCollector<DataState<ExerciseViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<ExerciseViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -93,12 +94,12 @@ class GetBodyPartsByWorkoutTypeTest {
         var bodyPartsRetrieved : ArrayList<BodyPart>? = null
 
         //Search it
-        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<ExerciseViewState>(
+        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<WorkoutViewState>(
             idWorkoutType = idWorkoutType,
             stateEvent = GetBodyPartByWorkoutTypeEvent(idWorkoutType = idWorkoutType)
-        ).collect( object  : FlowCollector<DataState<ExerciseViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<ExerciseViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
                     value?.stateMessage?.response?.message,
@@ -129,12 +130,12 @@ class GetBodyPartsByWorkoutTypeTest {
         var bodyPartsRetrieved : ArrayList<BodyPart>? = null
 
         //Search it
-        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<ExerciseViewState>(
+        getBodyPartsByWorkoutType.getBodyPartsByWorkoutType<WorkoutViewState>(
             idWorkoutType = idWorkoutType,
             stateEvent = GetBodyPartByWorkoutTypeEvent(idWorkoutType = idWorkoutType)
-        ).collect( object  : FlowCollector<DataState<ExerciseViewState>?>{
+        ).collect( object  : FlowCollector<DataState<WorkoutViewState>?>{
 
-            override suspend fun emit(value: DataState<ExerciseViewState>?) {
+            override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assert(
                     value?.stateMessage?.response?.message

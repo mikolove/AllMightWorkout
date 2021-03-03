@@ -51,7 +51,7 @@ class InsertExercise(
             override suspend fun handleSuccess(resultObj: Long): DataState<ExerciseViewState>? {
                 return if(resultObj >0 ){
 
-                    val viewState = ExerciseViewState(exerciseToInsert = newExercise)
+                    val viewState = ExerciseViewState(exerciseSelected = newExercise, isExistExercise = true)
                     DataState.data(
                         response = Response(
                             message = INSERT_EXERCISE_SUCCESS,

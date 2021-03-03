@@ -9,6 +9,7 @@ const val FORCE_NEW_EXERCISESET_EXCEPTION = "FORCE_NEW_EXERCISESET_EXCEPTION"
 const val FORCE_NEW_EXERCISESETS_EXCEPTION = "FORCE_NEW_EXERCISESETS_EXCEPTION"
 const val FORCE_UPDATE_EXERCISESET_EXCEPTION = "FORCE_UPDATE_EXERCISESET_EXCEPTION"
 const val FORCE_DELETE_EXERCISESET_EXCEPTION = "FORCE_DELETE_EXERCISESET_EXCEPTION"
+const val FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION = "FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION"
 
 class FakeExerciseSetCacheDataSourceImpl(
     private val exerciseDatas: HashMap<String, Exercise>,
@@ -124,8 +125,12 @@ class FakeExerciseSetCacheDataSourceImpl(
         return exerciseSet
     }
 
-    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
-        return exerciseDatas[idExercise]?.sets
+    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet> {
+
+        if(idExercise.equals(FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION)){
+            throw Exception("Something went wrong getting exercise Set")
+        }
+        return exerciseDatas[idExercise]?.sets ?: ArrayList()
     }
 
     override suspend fun getTotalExercisesSetByExercise(

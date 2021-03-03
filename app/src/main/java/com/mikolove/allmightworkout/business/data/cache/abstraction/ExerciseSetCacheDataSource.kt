@@ -6,7 +6,7 @@ interface ExerciseSetCacheDataSource {
 
     suspend fun getExerciseSetById(primaryKey: String, idExercise: String) : ExerciseSet?
 
-    suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSet>?
+    suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>
 
     suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String) : Long
 

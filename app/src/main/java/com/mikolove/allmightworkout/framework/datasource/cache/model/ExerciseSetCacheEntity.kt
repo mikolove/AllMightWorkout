@@ -41,4 +41,13 @@ data class ExerciseSetCacheEntity(
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
     var updatedAt: Date
-){}
+){
+
+    companion object{
+
+        fun notEmptyError() : String{
+            return "You must at least have one set"
+        }
+
+    }
+}

@@ -34,7 +34,7 @@ interface ExerciseSetDao{
     suspend fun getExerciseSetById(primaryKey: String, idExercise: String) : ExerciseSetCacheEntity
 
     @Query("SELECT * FROM exercise_sets WHERE fk_id_exercise = :idExercise ORDER BY created_at DESC")
-    suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSetCacheEntity>?
+    suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSetCacheEntity>
 
     @Query("SELECT count(*) FROM exercise_sets WHERE fk_id_exercise = :idExercise")
     suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int

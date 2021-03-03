@@ -14,7 +14,7 @@ interface ExerciseSetDaoService {
 
     suspend fun getExerciseSetById(primaryKey: String, idExercise: String) : ExerciseSet?
 
-    suspend fun getExerciseSetByIdExercise(idExercise : String) : List<ExerciseSet>?
+    suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>
 
     suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int
 }

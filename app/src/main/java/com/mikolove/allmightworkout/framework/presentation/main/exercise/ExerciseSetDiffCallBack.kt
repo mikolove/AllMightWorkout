@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main
+package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import androidx.recyclerview.widget.DiffUtil
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet

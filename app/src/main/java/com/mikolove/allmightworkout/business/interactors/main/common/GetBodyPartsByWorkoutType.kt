@@ -33,7 +33,7 @@ class GetBodyPartsByWorkoutType
 
                     val viewState = when(ViewState::class) {
                         WorkoutViewState::class -> WorkoutViewState(listBodyPartsByWorkoutTypes = ArrayList(resultObj))
-                        ExerciseViewState::class -> ExerciseViewState(listBodyPartsByWorkoutTypes = ArrayList(resultObj))
+                        //ExerciseViewState::class -> ExerciseViewState(listBodyPartsByWorkoutTypes = ArrayList(resultObj))
                         else -> null
                     }
 

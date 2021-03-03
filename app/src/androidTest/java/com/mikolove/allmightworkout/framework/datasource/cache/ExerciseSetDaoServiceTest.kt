@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.framework.datasource.cache
 
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.cache.database.ExerciseSetDao
@@ -10,7 +9,6 @@ import com.mikolove.allmightworkout.framework.datasource.cache.implementation.Ex
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseSetCacheMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.ExerciseWithSetsCacheMapper
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -235,6 +233,13 @@ class ExerciseSetDaoServiceTest : BaseTest(){
 
         val searchResult = exerciseSetDaoService.getExerciseSetByIdExercise(exercise.idExercise)
         assertTrue { searchResult?.containsAll(sets) == true }
+
+        val exerciseTwo = createExerciseOnly()
+        exerciseDaoService.insertExercise(exerciseTwo)
+
+        val searchResultEmpty = exerciseSetDaoService.getExerciseSetByIdExercise(exerciseTwo.idExercise)
+        assertTrue { searchResultEmpty.isEmpty() }
+
     }
 
     //    7. g_getTotalExercisesSetByExercise_CBS
@@ -261,6 +266,7 @@ class ExerciseSetDaoServiceTest : BaseTest(){
         }
         return listOfSet
     }
+
     private fun createSetExercise() : ExerciseSet {
         val exerciseSet = exerciseSetFactory.createExerciseSet(
             idExerciseSet = UUID.randomUUID().toString(),

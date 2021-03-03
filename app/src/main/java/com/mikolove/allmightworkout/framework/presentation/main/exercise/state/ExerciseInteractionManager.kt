@@ -6,110 +6,141 @@ import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.E
 
 class ExerciseInteractionManager {
 
-    private val _exerciseNameState : MutableLiveData<ExerciseInteractionState>
+    private val _nameState : MutableLiveData<ExerciseInteractionState>
         = MutableLiveData(DefaultState())
 
-    val exerciseNameState : LiveData<ExerciseInteractionState>
-        get() = _exerciseNameState
+    val nameState : LiveData<ExerciseInteractionState>
+        get() = _nameState
 
-    private val _exerciseIsActiveState : MutableLiveData<ExerciseInteractionState>
+    private val _isActiveState : MutableLiveData<ExerciseInteractionState>
         = MutableLiveData(DefaultState())
 
-    val exerciseIsActiveState : LiveData<ExerciseInteractionState>
-        get() = _exerciseIsActiveState
+    val isActiveState : LiveData<ExerciseInteractionState>
+        get() = _isActiveState
 
-    private val _exerciseBodyPartState : MutableLiveData<ExerciseInteractionState>
+    private val _workoutTypeState : MutableLiveData<ExerciseInteractionState>
             = MutableLiveData(DefaultState())
 
-    val exerciseBodyPartState : LiveData<ExerciseInteractionState>
-        get() = _exerciseBodyPartState
+    val workoutTypeState : LiveData<ExerciseInteractionState>
+        get() = _workoutTypeState
 
 
-    private val _exerciseExerciseTypeState : MutableLiveData<ExerciseInteractionState>
+    private val _bodyPartState : MutableLiveData<ExerciseInteractionState>
             = MutableLiveData(DefaultState())
 
-    val exerciseExerciseTypeState : LiveData<ExerciseInteractionState>
-        get() = _exerciseExerciseTypeState
+    val bodyPartState : LiveData<ExerciseInteractionState>
+        get() = _bodyPartState
 
 
-    fun setExerciseNameState(state: ExerciseInteractionState){
-        if(!exerciseNameState.toString().equals(state.toString())){
-            _exerciseNameState.value = state
+    private val _exerciseTypeState : MutableLiveData<ExerciseInteractionState>
+            = MutableLiveData(DefaultState())
+
+    val exerciseTypeState : LiveData<ExerciseInteractionState>
+        get() = _exerciseTypeState
+
+
+    fun setNameState(state: ExerciseInteractionState){
+        if(!nameState.toString().equals(state.toString())){
+            _nameState.value = state
             when(state){
                 is EditState ->{
-                    _exerciseIsActiveState.value = DefaultState()
-                    _exerciseBodyPartState.value = DefaultState()
-                    _exerciseExerciseTypeState.value = DefaultState()
+                    _isActiveState.value = DefaultState()
+                    _workoutTypeState.value = DefaultState()
+                    _bodyPartState.value = DefaultState()
+                    _exerciseTypeState.value = DefaultState()
                 }
             }
         }
     }
 
-    fun setExerciseIsActiveState(state: ExerciseInteractionState){
-        if(!exerciseIsActiveState.toString().equals(state.toString())){
-            _exerciseIsActiveState.value = state
+    fun setIsActiveState(state: ExerciseInteractionState){
+        if(!isActiveState.toString().equals(state.toString())){
+            _isActiveState.value = state
             when(state){
                 is EditState ->{
-                    _exerciseNameState.value = DefaultState()
-                    _exerciseBodyPartState.value = DefaultState()
-                    _exerciseExerciseTypeState.value = DefaultState()
+                    _nameState.value = DefaultState()
+                    _workoutTypeState.value = DefaultState()
+                    _bodyPartState.value = DefaultState()
+                    _exerciseTypeState.value = DefaultState()
                 }
             }
         }
     }
 
-    fun setExerciseBodyPartState(state: ExerciseInteractionState){
-        if(!exerciseBodyPartState.toString().equals(state.toString())){
-            _exerciseBodyPartState.value = state
+    fun setBodyPartState(state: ExerciseInteractionState){
+        if(!bodyPartState.toString().equals(state.toString())){
+            _bodyPartState.value = state
             when(state){
                 is EditState ->{
-                    _exerciseIsActiveState.value = DefaultState()
-                    _exerciseNameState.value = DefaultState()
-                    _exerciseExerciseTypeState.value = DefaultState()
+                    _isActiveState.value = DefaultState()
+                    _workoutTypeState.value = DefaultState()
+                    _nameState.value = DefaultState()
+                    _exerciseTypeState.value = DefaultState()
                 }
             }
         }
     }
 
-    fun setExerciseExerciseTypeState(state: ExerciseInteractionState){
-        if(!exerciseExerciseTypeState.toString().equals(state.toString())){
-            _exerciseExerciseTypeState.value = state
+    fun setExerciseTypeState(state: ExerciseInteractionState){
+        if(!exerciseTypeState.toString().equals(state.toString())){
+            _exerciseTypeState.value = state
             when(state){
                 is EditState ->{
-                    _exerciseIsActiveState.value = DefaultState()
-                    _exerciseBodyPartState.value = DefaultState()
-                    _exerciseNameState.value = DefaultState()
+                    _isActiveState.value = DefaultState()
+                    _workoutTypeState.value = DefaultState()
+                    _bodyPartState.value = DefaultState()
+                    _nameState.value = DefaultState()
                 }
             }
         }
     }
 
-    fun isEditingName() = exerciseNameState.value.toString().equals(
+    fun setWorkoutTypeState(state: ExerciseInteractionState){
+        if(!workoutTypeState.toString().equals(state.toString())){
+            _workoutTypeState.value = state
+            when(state){
+                is EditState ->{
+                    _isActiveState.value = DefaultState()
+                    _exerciseTypeState.value = DefaultState()
+                    _bodyPartState.value = DefaultState()
+                    _nameState.value = DefaultState()
+                }
+            }
+        }
+    }
+
+    fun isEditingName() = nameState.value.toString().equals(
         EditState().toString()
     )
 
-    fun isEditingIsActive() = exerciseIsActiveState.value.toString().equals(
+    fun isEditingIsActive() = isActiveState.value.toString().equals(
         EditState().toString()
     )
 
-    fun isEditingBodyPart() = exerciseBodyPartState.value.toString().equals(
+    fun isEditingBodyPart() = bodyPartState.value.toString().equals(
         EditState().toString()
     )
 
-    fun isEditingExerciseType() = exerciseExerciseTypeState.value.toString().equals(
+    fun isEditingExerciseType() = exerciseTypeState.value.toString().equals(
+        EditState().toString()
+    )
+
+    fun isEditingWorkoutType() = workoutTypeState.value.toString().equals(
         EditState().toString()
     )
 
     fun exitEditState(){
-        _exerciseNameState.value = DefaultState()
-        _exerciseBodyPartState.value = DefaultState()
-        _exerciseIsActiveState.value = DefaultState()
-        _exerciseExerciseTypeState.value = DefaultState()
+        _nameState.value = DefaultState()
+        _workoutTypeState.value = DefaultState()
+        _bodyPartState.value = DefaultState()
+        _isActiveState.value = DefaultState()
+        _exerciseTypeState.value = DefaultState()
     }
 
     fun checkEditState() =
-        exerciseNameState.value.toString().equals(EditState().toString()) ||
-        exerciseBodyPartState.value.toString().equals(EditState().toString()) ||
-        exerciseIsActiveState.value.toString().equals(EditState().toString()) ||
-        exerciseExerciseTypeState.value.toString().equals(EditState().toString())
+        nameState.value.toString().equals(EditState().toString()) ||
+        workoutTypeState.value.toString().equals(EditState().toString()) ||
+        bodyPartState.value.toString().equals(EditState().toString()) ||
+        isActiveState.value.toString().equals(EditState().toString()) ||
+        exerciseTypeState.value.toString().equals(EditState().toString())
 }

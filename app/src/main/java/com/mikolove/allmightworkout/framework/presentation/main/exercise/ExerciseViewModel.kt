@@ -2,6 +2,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
@@ -9,6 +10,7 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMul
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
+import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseSetCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
@@ -34,12 +36,31 @@ constructor(
     private val exerciseInteractors: ExerciseInteractors,
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences,
-    private val exerciseFactory: ExerciseFactory
+    private val exerciseFactory: ExerciseFactory,
+    private val exerciseSetFactory: ExerciseSetFactory
 ) : BaseViewModel<ExerciseViewState>()
 {
 
     override fun initNewViewState(): ExerciseViewState {
         return ExerciseViewState()
+    }
+
+    /********************************************************************
+        LIVEDATA
+     *********************************************************************/
+
+    private val _exerciseTypeState : MutableLiveData<ExerciseType> = MutableLiveData()
+
+    val exerciseTypeState : LiveData<ExerciseType>
+        get() = _exerciseTypeState
+
+    fun getExerciseTypeState() : ExerciseType = _exerciseTypeState.value?: ExerciseType.REP_EXERCISE
+
+    fun setExerciseTypeState(exerciseType: ExerciseType){
+        _exerciseTypeState.value =  exerciseType
+    }
+    fun clearExerciseTypeState(){
+        _exerciseTypeState.value = null
     }
 
     /********************************************************************
@@ -54,10 +75,10 @@ constructor(
     private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
 
     val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.exerciseNameState
+        get() = exerciseInteractionManager.nameState
 
     val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.exerciseIsActiveState
+        get() = exerciseInteractionManager.isActiveState
 
     /********************************************************************
     INIT BLOC
@@ -83,17 +104,25 @@ constructor(
     override fun handleNewData(data: ExerciseViewState) {
        data.let { viewState ->
 
-            viewState.exerciseToInsert?.let { insertedExercise ->
-                setInsertedExercise(insertedExercise)
+            viewState.isExistExercise?.let { isExistExercise ->
+                setIsExistExercise(isExistExercise)
             }
             viewState.exerciseSelected?.let { exerciseSelected ->
                 setExerciseSelected(exerciseSelected)
             }
+            viewState.workoutTypeSelected?.let { workoutTypeSelected ->
+                setWorkoutTypeSelected(workoutTypeSelected)
+            }
+           viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
+               setCachedExerciseSetsByIdExercise(cachedSets)
+               setCachedExercisesSetsExhausted(true)
+           }
             viewState.listExercises?.let { listExercises ->
                 setListExercises(listExercises)
             }
             viewState.listWorkoutTypes?.let { listWorkoutTypes ->
                 setListWorkoutTypes(listWorkoutTypes)
+                setWorkoutTypeExhausted(true)
             }
             viewState.listBodyParts?.let { listBodyParts ->
                 setListBodyParts(listBodyParts)
@@ -109,6 +138,7 @@ constructor(
             }
         }
     }
+
 
     override fun setStateEvent(stateEvent: StateEvent) {
 
@@ -189,6 +219,13 @@ constructor(
                 )
             }
 
+            is GetBodyPartByWorkoutTypeEvent ->{
+                exerciseInteractors.getBodyPartsByWorkoutType.getBodyPartsByWorkoutType(
+                    idWorkoutType = stateEvent.idWorkoutType,
+                    stateEvent = stateEvent
+                )
+            }
+
             is GetTotalExercisesEvent -> {
                 exerciseInteractors.getTotalExercises.getTotalExercises(stateEvent)
             }
@@ -203,6 +240,14 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
+
+            is GetExerciseSetByIdExerciseEvent -> {
+                exerciseInteractors.getExerciseSetByIdExercise.getExerciseSetByIdExercise(
+                    idExercise = stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
             is CreateStateMessageEvent -> {
                 emitStateMessageEvent(
                     stateMessage = stateEvent.stateMessage,
@@ -227,14 +272,23 @@ constructor(
         setStateEvent(GetExerciseByIdEvent(idExercise = idExercise))
     }
 
-    fun createExercise(name : String, exerciseType: ExerciseType, bodyPart: BodyPart) : Exercise = exerciseFactory.createExercise(
+    fun createExercise() : Exercise = exerciseFactory.createExercise(
         idExercise = null,
-        name = name,
+        name = null,
         sets = null,
-        bodyPart = bodyPart,
-        exerciseType = exerciseType,
+        bodyPart = null,
+        exerciseType = ExerciseType.REP_EXERCISE,
         isActive = true,
         created_at = null
+    )
+
+    fun createExerciseSet() : ExerciseSet = exerciseSetFactory.createExerciseSet(
+         idExerciseSet = null,
+         reps = null,
+         weight = null,
+         time = null,
+         restTime = null,
+         created_at = null
     )
 
     fun updateExercise(name : String?, bodyPart: BodyPart,exerciseType: ExerciseType,isActive : Boolean){
@@ -264,6 +318,31 @@ constructor(
         }
     }
 
+    fun addExercise(){
+        val exercise = getExerciseSelected()
+        exercise?.let {
+            if( it.bodyPart != null){
+                setStateEvent(InsertExerciseEvent(
+                    it.name,
+                    it.exerciseType,
+                    it.bodyPart!!))
+            }
+        }
+
+    }
+
+    fun addSet(){
+        val set = createExerciseSet()
+        val sets = ArrayList(getExerciseSelected()?.sets)
+        sets.add(set)
+        updateExerciseSets(sets)
+    }
+
+    fun removeSet(exerciseSet : ExerciseSet){
+        var sets = ArrayList(getExerciseSelected()?.sets)
+        sets.remove(exerciseSet)
+        updateExerciseSets(sets)
+    }
 
     /********************************************************************
         LIST EXERCISES MANAGING
@@ -313,7 +392,17 @@ constructor(
     }
 
     fun loadWorkoutTypes(){
+        setWorkoutTypeExhausted(false)
         setStateEvent(GetWorkoutTypesEvent())
+    }
+
+    fun loadCachedExerciseSets(idExercise: String){
+        setCachedExercisesSetsExhausted(false)
+        setStateEvent(GetExerciseSetByIdExerciseEvent(idExercise = idExercise))
+    }
+
+    fun loadBodyPartsByWorkoutTypes(idWorkoutType: String){
+        setStateEvent(GetBodyPartByWorkoutTypeEvent(idWorkoutType = idWorkoutType))
     }
 
     fun loadBodyParts(){
@@ -373,7 +462,9 @@ constructor(
 
     fun getWorkoutTypeSelected() = getCurrentViewStateOrNew().workoutTypeSelected
 
-    fun getExerciseToInsert() = getCurrentViewStateOrNew().exerciseToInsert ?: null
+    fun isWorkoutTypesExhausted() = getCurrentViewStateOrNew().isWorkoutTypesExhausted ?: false
+
+    fun isExistExercise() = getCurrentViewStateOrNew().isExistExercise ?: false
 
     fun getExerciseSelected() = getCurrentViewStateOrNew().exerciseSelected ?: null
 
@@ -384,6 +475,19 @@ constructor(
     fun isExercisesPaginationExhausted() = getExercisesListSize() >= getTotalExercises()
 
     fun isSearchActive() = getCurrentViewStateOrNew().searchActive ?: false
+
+    fun getExerciseSelectedWorkoutType() : WorkoutType? {
+        val exerciseSelected = getExerciseSelected()
+        val workoutTypes = getWorkoutTypes()
+        return workoutTypes?.let { workoutTypes ->
+            exerciseSelected?.let { exercise ->
+                val workoutType = workoutTypes.find{ workoutType ->
+                    workoutType.bodyParts?.contains(exercise.bodyPart) == true
+                }
+                workoutType
+            }
+        } ?: null
+    }
 
     /********************************************************************
     SETTERS - VIEWSTATE AND OTHER
@@ -439,13 +543,36 @@ constructor(
         setViewState(update)
     }
 
-    fun updateExerciseBodyPart(bodyPart: BodyPart){
+    fun updateExerciseBodyPart(bodyPart: BodyPart?){
         val update = getCurrentViewStateOrNew()
         val updateExercise = update.exerciseSelected?.copy(
             bodyPart = bodyPart
         )
         update.exerciseSelected = updateExercise
         setViewState(update)
+    }
+
+    fun updateExerciseSets(sets : ArrayList<ExerciseSet>){
+        if(sets.isNullOrEmpty()){
+            setStateEvent(
+                CreateStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = ExerciseSetCacheEntity.notEmptyError(),
+                            uiComponentType = UIComponentType.Dialog(),
+                            messageType = MessageType.Error()
+                        )
+                    )
+                )
+            )
+        }else{
+            val update = getCurrentViewStateOrNew()
+            val updateExercise = update.exerciseSelected?.copy(
+                sets = sets
+            )
+            update.exerciseSelected = updateExercise
+            setViewState(update)
+        }
     }
 
     fun updateExerciseExerciseType(exerciseType: ExerciseType){
@@ -475,6 +602,7 @@ constructor(
         setViewState(update)
     }
 
+
     fun setExerciseListFilter(filter : String?){
         filter?.let {
             val update = getCurrentViewStateOrNew()
@@ -483,9 +611,9 @@ constructor(
         }
     }
 
-    fun setInsertedExercise(exercise :Exercise?){
+    fun setIsExistExercise(isExist : Boolean?){
         val update = getCurrentViewStateOrNew()
-        update.exerciseToInsert = exercise
+        update.isExistExercise = isExist
         setViewState(update)
     }
 
@@ -537,12 +665,29 @@ constructor(
         setViewState(update)
     }
 
-    private fun setWorkoutTypeSelected(workoutType : WorkoutType){
+    fun setWorkoutTypeSelected(workoutType : WorkoutType?){
         val update = getCurrentViewStateOrNew()
         update.workoutTypeSelected = workoutType
         setViewState(update)
     }
 
+    fun setWorkoutTypeExhausted(isExhausted: Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.isWorkoutTypesExhausted = isExhausted
+        setViewState(update)
+    }
+
+    private fun setCachedExerciseSetsByIdExercise(cachedSets: ArrayList<ExerciseSet>) {
+        val update = getCurrentViewStateOrNew()
+        update.cachedExerciseSetsByIdExercise = cachedSets
+        setViewState(update)
+    }
+
+    fun setCachedExercisesSetsExhausted(isExhausted: Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.isCachedExercisesSetsExhausted = isExhausted
+        setViewState(update)
+    }
     /********************************************************************
     TOOLBARS GETTERS AND SETTERS - EXERCISES
      *********************************************************************/
@@ -626,23 +771,26 @@ constructor(
     }
 
     /********************************************************************
-    INTERACTIONS
+        INTERACTIONS
      *********************************************************************/
 
-    fun setExerciseInteractionNameState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setExerciseNameState(state)
+    fun setInteractionNameState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setNameState(state)
     }
 
-    fun setExerciseInteractionIsActiveState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setExerciseIsActiveState(state)
+    fun setInteractionIsActiveState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setIsActiveState(state)
     }
 
-    fun setExerciseInteractionBodyPartState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setExerciseBodyPartState(state)
+    fun setInteractionWorkoutTypeState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setWorkoutTypeState(state)
+    }
+    fun setInteractionBodyPartState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setBodyPartState(state)
     }
 
-    fun setExerciseInteractionExerciseTypeState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setExerciseExerciseTypeState(state)
+    fun setInteractionExerciseTypeState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseTypeState(state)
     }
 
     fun checkEditState() = exerciseInteractionManager.checkEditState()
@@ -652,6 +800,8 @@ constructor(
     fun isEditingName() = exerciseInteractionManager.isEditingName()
 
     fun isEditingIsActive() = exerciseInteractionManager.isEditingIsActive()
+
+    fun isEditingWorkoutType() = exerciseInteractionManager.isEditingWorkoutType()
 
     fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
 

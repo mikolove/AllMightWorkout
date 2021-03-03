@@ -71,6 +71,7 @@ object InteractorsModule {
         return ExerciseInteractors(
             getExercises = GetExercises(exerciseCacheDataSource),
             getExerciseById = GetExerciseById(exerciseCacheDataSource),
+            getExerciseSetByIdExercise = GetExerciseSetByIdExercise(exerciseSetCacheDataSource),
             getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
             insertExercise = InsertExercise(exerciseCacheDataSource,exerciseNetworkDataSource,exerciseFactory),
             insertExerciseSet = InsertExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource,exerciseSetFactory),
@@ -81,6 +82,7 @@ object InteractorsModule {
             removeMultipleExercises = RemoveMultipleExercises(exerciseCacheDataSource,exerciseNetworkDataSource),
             getWorkoutTypes = GetWorkoutTypes(workoutTypeCacheDataSource),
             getBodyParts = GetBodyParts(bodyPartCacheDataSource),
+            getBodyPartsByWorkoutType = GetBodyPartsByWorkoutType(bodyPartCacheDataSource),
             getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
             getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource)
         )

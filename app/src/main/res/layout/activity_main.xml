@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".framework.presentation.main.MainActivity">
+    tools:context=".framework.presentation.main.MainActivity"
+    android:id="@+id/main_activity_container">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:visibility="gone">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolBar"
@@ -63,7 +65,7 @@
         style="@style/Widget.App.BottomNavigationView"
         app:menu="@menu/menu_bottom_navigation"
         app:fabAlignmentMode="end"
-/>
+        android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <!--

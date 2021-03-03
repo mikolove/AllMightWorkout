@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:checkable="false"
@@ -28,21 +28,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/item_set_button_delete" />
+
 
             <TextView
                 android:id="@+id/item_set_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintBottom_toBottomOf="@+id/item_set_title"
-                app:layout_constraintStart_toEndOf="@+id/item_set_title" />
-
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="@+id/item_set_button_delete"
+                app:layout_constraintStart_toStartOf="@+id/item_set_title"
+                app:layout_constraintTop_toBottomOf="@+id/item_set_title" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_set_button_edit"
@@ -73,7 +73,7 @@
             android:id="@+id/item_set_content_expandable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/item_exercise_guideline"
@@ -89,7 +89,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/fragment_exercise_detail_label_name"
+                android:hint="@string/item_set_text_rep"
                 app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/fragment_exercise_detail_label_name"
+                android:hint="@string/item_set_text_weight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
                 app:layout_constraintTop_toTopOf="@+id/item_set_text_rep">
@@ -127,7 +127,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="@string/fragment_exercise_detail_label_name"
+                android:hint="@string/item_set_text_time"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
                 app:layout_constraintStart_toStartOf="@+id/item_set_text_rep"
@@ -145,7 +145,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:hint="@string/fragment_exercise_detail_label_name"
+                android:hint="@string/item_set_text_rest"
                 app:layout_constraintEnd_toEndOf="@+id/item_set_text_weight"
                 app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
                 app:layout_constraintTop_toTopOf="@+id/item_set_text_time">

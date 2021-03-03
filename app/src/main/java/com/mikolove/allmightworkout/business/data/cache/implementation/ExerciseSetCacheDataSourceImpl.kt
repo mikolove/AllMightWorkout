@@ -3,8 +3,6 @@ package com.mikolove.allmightworkout.business.data.cache.implementation
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseSetDaoService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class ExerciseSetCacheDataSourceImpl
 constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
@@ -28,7 +26,7 @@ constructor( private val exerciseSetDaoService : ExerciseSetDaoService)
 
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? = exerciseSetDaoService.getExerciseSetById(primaryKey,idExercise)
 
-    override suspend fun getExerciseSetByIdExercise(idExercise : String): List<ExerciseSet>? = exerciseSetDaoService.getExerciseSetByIdExercise(idExercise)
+    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet> = exerciseSetDaoService.getExerciseSetByIdExercise(idExercise)
 
     override suspend fun getTotalExercisesSetByExercise(
         idExercise: String

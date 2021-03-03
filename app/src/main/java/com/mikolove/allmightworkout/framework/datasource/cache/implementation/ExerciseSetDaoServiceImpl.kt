@@ -54,7 +54,7 @@ constructor(
         }
     }
 
-    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? {
+    override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet> {
         return exerciseSetDao.getExerciseSetByIdExercise(idExercise)?.let {
             exerciseSetCacheMapper.entityListToDomainList(it)
         }

@@ -1,11 +1,10 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
 
 import android.os.Parcelable
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.ViewState
 import kotlinx.parcelize.Parcelize
+import retrofit2.http.Body
 
 @Parcelize
 data class ExerciseViewState(
@@ -14,24 +13,28 @@ data class ExerciseViewState(
     var listExercises: ArrayList<Exercise>? = null,
     var listWorkoutTypes: ArrayList<WorkoutType>? = null,
     var listBodyParts: ArrayList<BodyPart>? = null,
-    var listBodyPartsByWorkoutTypes : ArrayList<BodyPart>? = null,
+    var cachedExerciseSetsByIdExercise : ArrayList<ExerciseSet>? = null,
 
-    //Insert workout
-    var exerciseToInsert : Exercise? = null,
+    //Exercise Management
+    var isExistExercise : Boolean? = null,
+    var exerciseSelected: Exercise? = null,
 
     //Update
     var isUpdatePending : Boolean? = null,
 
-    //Workout selected for training
-    var exerciseSelected: Exercise? = null,
+    //Exercise Form selected option
     var workoutTypeSelected : WorkoutType? = null,
 
     //Search option
     var searchActive : Boolean? = null,
     var searchQueryExercises: String? = null,
     var pageExercises: Int? = null,
-    var isExercisesQueryExhausted: Boolean? = null,
 
+
+    //Query exhausted
+    var isExercisesQueryExhausted: Boolean? = null,
+    var isWorkoutTypesExhausted : Boolean? = null,
+    var isCachedExercisesSetsExhausted : Boolean? = null,
 
     //Load and store filters for each list
     var exercise_list_filter: String? = null,

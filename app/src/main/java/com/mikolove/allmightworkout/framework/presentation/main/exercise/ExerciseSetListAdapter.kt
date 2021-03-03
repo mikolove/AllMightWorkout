@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
@@ -14,12 +16,11 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemSetBinding
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload
-import com.mikolove.allmightworkout.framework.presentation.main.ExerciseSetDiffCallBack
 
 class ExerciseSetListAdapter (
     private val interaction: Interaction? = null,
     private val lifecycleOwner : LifecycleOwner,
-    private val exercise : Exercise,
+    private val exerciseType : LiveData<ExerciseType>,
     private val dateUtil: DateUtil
 ) : RecyclerView.Adapter<ExerciseSetListAdapter.ExerciseSetViewHolder>() {
 
@@ -30,7 +31,7 @@ class ExerciseSetListAdapter (
         return ExerciseSetViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_set, parent, false),
             interaction,
-            exercise,
+            exerciseType,
             lifecycleOwner,
             dateUtil
         )
@@ -78,7 +79,7 @@ class ExerciseSetListAdapter (
     constructor(
         itemView: View,
         private val interaction: Interaction?,
-        private val exercise : Exercise,
+        private val exerciseType : LiveData<ExerciseType>,
         private val lifecycleOwner: LifecycleOwner,
         private val dateUtil: DateUtil
     ) : RecyclerView.ViewHolder(itemView) {
@@ -91,7 +92,7 @@ class ExerciseSetListAdapter (
             //Add test transition
 
             binding.itemSetButtonEdit.setOnClickListener {
-                interaction?.onEditClick(binding.itemSetContentExpandable)
+                interaction?.onEditClick(binding.itemSetContainer,binding.itemSetContentExpandable)
                 interaction?.activateEditMode()
             }
 
@@ -101,15 +102,19 @@ class ExerciseSetListAdapter (
 
             //Bind values
             binding.itemSetTitle.text = "Set"
-            if(exercise.exerciseType.equals(ExerciseType.REP_EXERCISE)) {
-                binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
-                binding.itemSetTextTime.isEnabled = false
-                binding.itemSetTextRep.isEnabled = true
-            }else {
-                binding.itemSetSubtitle.text = "${item.reps} x ${item.time} sec - Rest time : ${item.restTime} sec"
-                binding.itemSetTextTime.isEnabled = true
-                binding.itemSetTextRep.isEnabled = false
-            }
+
+            exerciseType.observe(lifecycleOwner,{ exerciseType ->
+
+                if(exerciseType.equals(ExerciseType.REP_EXERCISE)){
+                    binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
+                    binding.itemSetTextTime.isEnabled = false
+                    binding.itemSetTextRep.isEnabled = true
+                }else{
+                    binding.itemSetSubtitle.text = "${item.reps} x ${item.time} sec - Rest time : ${item.restTime} sec"
+                    binding.itemSetTextTime.isEnabled = true
+                    binding.itemSetTextRep.isEnabled = false
+                }
+            })
 
             binding.itemSetTextRep.editText?.setText(item.reps.toString())
             binding.itemSetTextWeight.editText?.setText(item.weight.toString())
@@ -121,7 +126,7 @@ class ExerciseSetListAdapter (
 
     interface Interaction {
 
-        fun onEditClick(expandableView: View)
+        fun onEditClick(rootView : MaterialCardView ,expandableView: View)
 
         fun onDeleteClick(item: ExerciseSet)
 

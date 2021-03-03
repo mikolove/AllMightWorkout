@@ -94,7 +94,6 @@ class WorkoutFragment
         printLogD("WorkoutFragment","OnResume")
 
         setupFAB()
-        setupBottomNav()
 
         viewModel.loadTotalWorkouts()
         viewModel.clearListWorkouts()
@@ -260,10 +259,6 @@ class WorkoutFragment
     override fun setupFAB(){
         uiController.loadFabController(this)
         uiController.mainFabVisibility()
-    }
-
-    private fun setupBottomNav(){
-        uiController.displayBottomNavigation(View.VISIBLE)
     }
 
     private fun setupSwipeRefresh(){
