@@ -104,6 +104,8 @@ constructor(
     override fun handleNewData(data: ExerciseViewState) {
        data.let { viewState ->
 
+           printLogD("ExerciseViewModel","handleNewData")
+
             viewState.isExistExercise?.let { isExistExercise ->
                 setIsExistExercise(isExistExercise)
             }
@@ -806,6 +808,88 @@ constructor(
     fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
 
     fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
+
+
+    /*
+        driving mad about this dont understand
+     */
+
+    fun getDetailWorkoutTypesExhausted() : Boolean = getCurrentViewStateOrNew().detailWorkoutTypesExshauted ?: false
+
+    fun getDetailBodyPartExhausted() : Boolean = getCurrentViewStateOrNew().detailBodyPartsExshauted ?: false
+
+    fun getDetailExerciseTypesExhausted() : Boolean = getCurrentViewStateOrNew().detailExerciseTypeExshauted?: false
+
+    fun setDetailWorkoutTypesExhausted(state : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.detailWorkoutTypesExshauted = state
+        setViewState(update)
+    }
+
+    fun setDetailBodyPartsExhausted(state : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.detailBodyPartsExshauted = state
+        setViewState(update)
+    }
+
+    fun setDetailExerciseTypesExhausted(state : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.detailExerciseTypeExshauted = state
+        setViewState(update)
+    }
+
+    fun resetDetailExhausted(){
+        val update = getCurrentViewStateOrNew()
+        update.detailExerciseTypeExshauted = false
+        update.detailBodyPartsExshauted = false
+        update.detailWorkoutTypesExshauted = false
+        setViewState(update)
+    }
+
+    fun setDetailWorkoutTypes(workoutTypes : ArrayList<WorkoutType>?){
+        val update = getCurrentViewStateOrNew()
+        update.detailWorkoutTypes = workoutTypes
+        setViewState(update)
+    }
+
+    fun setDetailBodyPart(bodyparts : ArrayList<BodyPart>?){
+        val update = getCurrentViewStateOrNew()
+        printLogD("ExerciseViewModel","before detail bodyParts ${update.detailBodyParts}")
+        update.detailBodyParts = bodyparts
+        printLogD("ExerciseViewModel","after detail bodyParts ${update.detailBodyParts}")
+        setViewState(update)
+    }
+
+    fun setDetailExerciseTypes(exerciseTypes : ArrayList<ExerciseType>?){
+        val update = getCurrentViewStateOrNew()
+        update.detailExerciseType = exerciseTypes
+        setViewState(update)
+    }
+
+    fun clearDetailWorkoutTypes(){
+        val update = getCurrentViewStateOrNew()
+        update.detailWorkoutTypes = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearDetailBodyPart(){
+        val update = getCurrentViewStateOrNew()
+        update.detailBodyParts = ArrayList()
+        setViewState(update)
+    }
+
+    fun clearDetailExerciseTypes(){
+        val update = getCurrentViewStateOrNew()
+        update.detailExerciseType = ArrayList()
+        setViewState(update)
+    }
+
+    fun setReloadBodyParts(reload :Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.reloadBodyParts = reload
+        setViewState(update)
+    }
+
 
 }
 

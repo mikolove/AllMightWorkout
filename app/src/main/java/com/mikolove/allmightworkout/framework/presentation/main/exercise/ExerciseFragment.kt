@@ -293,7 +293,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     private fun selectionNavigateToManageExercise(containerView : View){
 
-        viewModel.setWorkoutTypeSelected(viewModel.getExerciseSelectedWorkoutType())
+       // viewModel.setWorkoutTypeSelected(viewModel.getExerciseSelectedWorkoutType())
         viewModel.setIsExistExercise(true)
 
         val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)

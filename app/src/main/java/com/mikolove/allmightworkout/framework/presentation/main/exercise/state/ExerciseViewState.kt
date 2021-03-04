@@ -16,8 +16,17 @@ data class ExerciseViewState(
     var cachedExerciseSetsByIdExercise : ArrayList<ExerciseSet>? = null,
 
     //Exercise Management
+    var reloadBodyParts : Boolean? = null,
     var isExistExercise : Boolean? = null,
     var exerciseSelected: Exercise? = null,
+
+    //Fuck this dropdown management test
+    var detailWorkoutTypes : ArrayList<WorkoutType>? = null,
+    var detailWorkoutTypesExshauted : Boolean? =null,
+    var detailBodyParts : ArrayList<BodyPart>? = null,
+    var detailBodyPartsExshauted : Boolean? =null,
+    var detailExerciseType : ArrayList<ExerciseType>? = null,
+    var detailExerciseTypeExshauted : Boolean? =null,
 
     //Update
     var isUpdatePending : Boolean? = null,
