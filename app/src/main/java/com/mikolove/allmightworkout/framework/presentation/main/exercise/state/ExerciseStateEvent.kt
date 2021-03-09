@@ -2,6 +2,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
@@ -70,10 +71,10 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class RemoveExerciseEvent(exercise : Exercise): ExerciseStateEvent(){
+    class RemoveExerciseEvent(): ExerciseStateEvent(){
         override fun errorInfo(): String = "Error deleting exercise."
 
-        override fun eventName(): String = "RemoveExerciseByIdEvent"
+        override fun eventName(): String = "RemoveExerciseEvent"
 
         override fun shouldDisplayProgressBar(): Boolean = false
     }
@@ -89,7 +90,9 @@ sealed class ExerciseStateEvent : StateEvent{
 
     }
 
-    class InsertExerciseSetEvent(exerciseSetId : String): ExerciseStateEvent(){
+    class InsertExerciseSetEvent(
+        val exerciseSet : ExerciseSet,
+        val idExercise : String ): ExerciseStateEvent(){
         override fun errorInfo(): String = "Error adding exercise set."
 
         override fun eventName(): String = "InsertExerciseSetEvent"
@@ -97,6 +100,16 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
+    class InsertMultipleExerciseSetEvent(
+        val sets : ArrayList<ExerciseSet>,
+        val idExercise: String
+    ) : ExerciseStateEvent(){
+        override fun errorInfo(): String = "Error inserting some new exercise sets."
+
+        override fun eventName(): String = "InsertMultipleExerciseSetEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
 
     class UpdateExerciseSetEvent(): ExerciseStateEvent(){
         override fun errorInfo(): String = "Error updating exercise set."

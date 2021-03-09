@@ -29,7 +29,8 @@
                 android:hint="@string/fragment_exercise_detail_label_name"
                 app:layout_constraintEnd_toStartOf="@+id/exercise_detail_switch_isactive"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -59,7 +60,8 @@
                 android:hint="@string/fragment_exercise_detail_label_workout_type"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="@+id/exercise_detail_text_name"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_text_name">
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_text_name"
+                app:errorEnabled="true">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -78,7 +80,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/exercise_detail_switch_isactive"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/exercise_detail_workouttype"
-                android:enabled="false">
+                android:enabled="false"
+                app:errorEnabled="true">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -97,7 +100,8 @@
                 android:hint="@string/fragment_exercise_detail_label_exercise_type"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="@+id/exercise_detail_workouttype"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_workouttype">
+                app:layout_constraintTop_toBottomOf="@+id/exercise_detail_workouttype"
+                app:errorEnabled="true">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"

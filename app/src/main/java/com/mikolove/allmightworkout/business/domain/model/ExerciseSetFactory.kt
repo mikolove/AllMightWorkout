@@ -21,8 +21,8 @@ constructor(private val dateUtil: DateUtil) {
         return ExerciseSet(
             idExerciseSet = idExerciseSet ?: UUID.randomUUID().toString(),
             reps = reps ?: 8,
-            weight = weight ?: 0,
-            time = time ?: 0,
+            weight = weight ?: 5,
+            time = time ?: 60,
             restTime = restTime ?: 45,
             startedAt = null,
             endedAt = null,

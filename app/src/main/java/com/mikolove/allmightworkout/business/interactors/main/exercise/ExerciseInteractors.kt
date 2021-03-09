@@ -11,6 +11,7 @@ class ExerciseInteractors(
     val getTotalExercises: GetTotalExercises,
     val insertExercise: InsertExercise,
     val insertExerciseSet: InsertExerciseSet,
+    val insertMultipleExerciseSet: InsertMultipleExerciseSet,
     val updateExercise: UpdateExercise,
     val updateExerciseSet: UpdateExerciseSet,
     val removeExercise: RemoveExercise<ExerciseViewState>,

@@ -5,10 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCach
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
@@ -20,21 +17,21 @@ class InsertExercise(
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
     private val exerciseFactory: ExerciseFactory
-
 ) {
 
     fun insertExercise(
-        idExercise : String? = null,
-        name : String,
+        idExercise: String? = null,
+        name: String,
+        sets: List<ExerciseSet>?,
         exerciseType: ExerciseType,
         bodyPart: BodyPart,
-        stateEvent : StateEvent
+        stateEvent: StateEvent
     ) : Flow<DataState<ExerciseViewState>?> = flow {
 
         val newExercise = exerciseFactory.createExercise(
             idExercise = idExercise ?: UUID.randomUUID().toString(),
             name = name,
-            sets = null,
+            sets = sets,
             bodyPart = bodyPart,
             exerciseType = exerciseType,
             created_at = null

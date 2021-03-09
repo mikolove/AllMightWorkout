@@ -360,9 +360,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
     }
 
     private fun getWorkoutIsActive() : Boolean{
-        return binding?.fragmentManageWorkoutSwitchIsActive?.let {
-            it.isChecked
-        }?: false
+        return binding?.fragmentManageWorkoutSwitchIsActive?.isChecked ?: false
     }
 
     /********************************************************************

@@ -92,7 +92,8 @@ class InsertExerciseTest {
             name = newExercise.name,
             exerciseType = exerciseType,
             bodyPart = bodyPart!!,
-            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType)
+            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType),
+            sets = null
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?>{
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
@@ -138,7 +139,8 @@ class InsertExerciseTest {
             name = newExercise.name,
             exerciseType = exerciseType,
             bodyPart = bodyPart!!,
-            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType)
+            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType),
+            sets = null
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?>{
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
@@ -183,7 +185,8 @@ class InsertExerciseTest {
             name = newExercise.name,
             exerciseType = exerciseType,
             bodyPart = bodyPart!!,
-            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType)
+            stateEvent = InsertExerciseEvent(name = newExercise.name, bodyPart = newExercise.bodyPart!! ,exerciseType = newExercise.exerciseType),
+            sets = null
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?>{
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(

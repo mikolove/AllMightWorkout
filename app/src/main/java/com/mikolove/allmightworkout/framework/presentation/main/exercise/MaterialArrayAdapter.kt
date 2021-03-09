@@ -21,6 +21,4 @@ class MaterialArrayAdapter<Item>(context: Context, layout: Int, var values: Arra
     override fun getFilter(): Filter {
         return filter_that_does_nothing
     }
-
-
 }

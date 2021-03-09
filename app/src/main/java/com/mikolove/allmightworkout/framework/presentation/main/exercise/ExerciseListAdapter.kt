@@ -48,17 +48,12 @@ class ExerciseListAdapter(
             val oldExercise = combinedChange.oldData
             val newExercise = combinedChange.newData
 
-            if(oldExercise.name != newExercise.name)
-                holder.binding.itemExerciseTextName.text = newExercise.name
+            holder.binding.itemExerciseTextTitle.text = newExercise.name
+            holder.binding.itemExerciseTextSubtitle.text = "${newExercise.sets.size} ${newExercise.exerciseType} sets - Bodypart : ${newExercise.bodyPart?.name}"
 
-            if(oldExercise.createdAt != newExercise.createdAt)
-                holder.binding.itemExerciseTextCreatedAt.text = newExercise.createdAt
-
-            if(oldExercise.bodyPart != newExercise.bodyPart)
-                holder.binding.itemExerciseTextBodyPart.text = newExercise.bodyPart?.name ?: "No bodypart"
-
-            if(oldExercise.exerciseType != newExercise.exerciseType)
-                holder.binding.itemExerciseTextExerciseType.text = newExercise.exerciseType.name
+            holder.itemView.setOnClickListener {
+                interaction?.onItemSelected(holder.bindingAdapterPosition, newExercise, holder.binding.itemExerciseContainer)
+            }
         }
     }
 
@@ -103,11 +98,8 @@ class ExerciseListAdapter(
             }
 
             //Bind values
-            binding.itemExerciseTextName.text = item.name
-            binding.itemExerciseTextCreatedAt.text = item.createdAt
-            binding.itemExerciseTextExerciseType.text = item.exerciseType.name
-            binding.itemExerciseTextBodyPart.text = item.bodyPart?.name ?: "No bodypart"
-
+            binding.itemExerciseTextTitle.text = item.name
+            binding.itemExerciseTextSubtitle.text = "${item.sets.size} ${item.exerciseType} sets - Bodypart : ${item.bodyPart?.name}"
             selectedExercises.observe(lifecycleOwner, { exercises ->
 
                 if(!exercises.isNullOrEmpty()){

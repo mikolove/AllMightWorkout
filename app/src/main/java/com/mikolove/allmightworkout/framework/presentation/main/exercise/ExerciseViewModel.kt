@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertExercise.Companion.INSERT_EXERCISE_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
@@ -15,10 +16,8 @@ import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceK
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionState
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +25,7 @@ import javax.inject.Inject
 
 const val EXERCISE_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idExercise from bundle."
 const val EXERCISE_ID_WORKOUT_BUNDLE_KEY = "idExercise"
-const val EXERCISE_NAME_CANNOT_BE_EMPTY = "Exercise name cannot be empty."
+const val EXERCISE_INCOMPLETE = "Exercise is incomplete, please fill the form values."
 const val INSERT_EXERCISE_ERROR_NO_NAME = "You must set a name to create an exercise."
 
 @HiltViewModel
@@ -46,7 +45,7 @@ constructor(
     }
 
     /********************************************************************
-        LIVEDATA
+    LIVEDATA
      *********************************************************************/
 
     private val _exerciseTypeState : MutableLiveData<ExerciseType> = MutableLiveData()
@@ -64,8 +63,8 @@ constructor(
     }
 
     /********************************************************************
-        TOOLBAR SELECTION VARS
-    *********************************************************************/
+    TOOLBAR SELECTION VARS
+     *********************************************************************/
 
     val exerciseListInteractionManager = ListInteractionManager<Exercise>()
 
@@ -74,11 +73,20 @@ constructor(
 
     private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
 
+    private val exerciseSetInteractionManager: ExerciseSetInteractionManager = ExerciseSetInteractionManager()
+
     val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
         get() = exerciseInteractionManager.nameState
 
-    val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.isActiveState
+    val exerciseBodyPartInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.bodyPartState
+
+    val exerciseWorkoutTypeInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.workoutTypeState
+
+    val exerciseTypeInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.exerciseTypeState
+
 
     /********************************************************************
     INIT BLOC
@@ -102,9 +110,9 @@ constructor(
 
 
     override fun handleNewData(data: ExerciseViewState) {
-       data.let { viewState ->
+        data.let { viewState ->
 
-           printLogD("ExerciseViewModel","handleNewData")
+            printLogD("ExerciseViewModel","handleNewData")
 
             viewState.isExistExercise?.let { isExistExercise ->
                 setIsExistExercise(isExistExercise)
@@ -112,13 +120,11 @@ constructor(
             viewState.exerciseSelected?.let { exerciseSelected ->
                 setExerciseSelected(exerciseSelected)
             }
-            viewState.workoutTypeSelected?.let { workoutTypeSelected ->
-                setWorkoutTypeSelected(workoutTypeSelected)
+
+            viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
+                setCachedExerciseSetsByIdExercise(cachedSets)
+                setCachedExercisesSetsExhausted(true)
             }
-           viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
-               setCachedExerciseSetsByIdExercise(cachedSets)
-               setCachedExercisesSetsExhausted(true)
-           }
             viewState.listExercises?.let { listExercises ->
                 setListExercises(listExercises)
             }
@@ -146,14 +152,27 @@ constructor(
 
         val job : Flow<DataState<ExerciseViewState>?> = when(stateEvent){
 
-            is InsertExerciseEvent -> {
-                exerciseInteractors.insertExercise.insertExercise(
-                    name = stateEvent.name,
-                    exerciseType = stateEvent.exerciseType,
-                    bodyPart = stateEvent.bodyPart,
+            is InsertExerciseSetEvent -> {
+
+                exerciseInteractors.insertExerciseSet.insertExerciseSet(
+                    idExerciseSet = stateEvent.exerciseSet.idExerciseSet,
+                    reps = stateEvent.exerciseSet.reps,
+                    weight = stateEvent.exerciseSet.weight,
+                    time = stateEvent.exerciseSet.time,
+                    restTime = stateEvent.exerciseSet.restTime,
+                    idExercise = stateEvent.idExercise,
                     stateEvent = stateEvent
                 )
             }
+
+            is InsertMultipleExerciseSetEvent ->  {
+                exerciseInteractors.insertMultipleExerciseSet.insertMultipleExerciseSet(
+                    sets = stateEvent.sets,
+                    idExercise =  stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
 
             is GetExerciseByIdEvent -> {
                 exerciseInteractors.getExerciseById.getExerciseById(
@@ -171,8 +190,31 @@ constructor(
                 )
             }
 
+            is InsertExerciseEvent -> {
+                if(isExerciseValid()){
+                    exerciseInteractors.insertExercise.insertExercise(
+                        name = stateEvent.name,
+                        exerciseType = stateEvent.exerciseType,
+                        bodyPart = stateEvent.bodyPart,
+                        stateEvent = stateEvent,
+                        sets = getExerciseSelected()?.sets
+                    )
+                }else{
+                    emitStateMessageEvent(
+                        stateMessage = StateMessage(
+                            response = Response(
+                                message = INSERT_EXERCISE_FAILED,
+                                uiComponentType = UIComponentType.Toast(),
+                                messageType = MessageType.Error())
+                        ),
+                        stateEvent= stateEvent
+                    )
+                }
+            }
+
+
             is UpdateExerciseEvent -> {
-                if(!isExerciseNameNull()){
+                if(isExerciseValid()){
                     exerciseInteractors.updateExercise.updateExercise(
                         exercise = getExerciseSelected()!!,
                         stateEvent = stateEvent
@@ -182,7 +224,7 @@ constructor(
                         stateMessage = StateMessage(
                             response = Response(
                                 message = UpdateExercise.UPDATE_EXERCISE_FAILED,
-                                uiComponentType = UIComponentType.Dialog(),
+                                uiComponentType = UIComponentType.Toast(),
                                 messageType = MessageType.Error())
                         ),
                         stateEvent= stateEvent
@@ -285,52 +327,86 @@ constructor(
     )
 
     fun createExerciseSet() : ExerciseSet = exerciseSetFactory.createExerciseSet(
-         idExerciseSet = null,
-         reps = null,
-         weight = null,
-         time = null,
-         restTime = null,
-         created_at = null
+        idExerciseSet = null,
+        reps = null,
+        weight = null,
+        time = null,
+        restTime = null,
+        created_at = null
     )
 
-    fun updateExercise(name : String?, bodyPart: BodyPart,exerciseType: ExerciseType,isActive : Boolean){
-        updateExerciseName(name)
-        updateExerciseBodyPart(bodyPart)
-        updateExerciseExerciseType(exerciseType)
-        updateExerciseIsActive(isActive)
-    }
+    fun isExerciseValid() : Boolean{
 
-    fun isExerciseNameNull() : Boolean{
-        val name = getExerciseSelected()?.name
-        if(name.isNullOrBlank()) {
+        val exercise = getExerciseSelected() ?: return false
+
+        val name = exercise.name
+        val bodyPart = exercise.bodyPart
+
+        if(name.isNullOrBlank() || bodyPart == null) {
             setStateEvent(
                 CreateStateMessageEvent(
                     stateMessage = StateMessage(
                         response = Response(
-                            message = EXERCISE_NAME_CANNOT_BE_EMPTY,
-                            uiComponentType = UIComponentType.Dialog(),
+                            message = EXERCISE_INCOMPLETE,
+                            uiComponentType = UIComponentType.Toast(),
                             messageType = MessageType.Info()
                         )
                     )
                 )
             )
-            return true
-        }else{
             return false
+        }else{
+            return true
         }
     }
 
-    fun addExercise(){
+
+
+    fun insertExercise(){
         val exercise = getExerciseSelected()
         exercise?.let {
-            if( it.bodyPart != null){
-                setStateEvent(InsertExerciseEvent(
-                    it.name,
-                    it.exerciseType,
-                    it.bodyPart!!))
+            if(isExerciseValid()){
+                if( it.bodyPart != null){
+                    setStateEvent(InsertExerciseEvent(
+                        it.name,
+                        it.exerciseType,
+                        it.bodyPart!!))
+                }
             }
         }
+    }
 
+    fun updateExercise(){
+        val exercise = getExerciseSelected()
+        exercise?.let {
+            if(isExerciseValid()){
+                if( it.bodyPart != null){
+                    setStateEvent(UpdateExerciseEvent(
+
+                    ))
+                }
+            }
+        }
+    }
+
+    fun deleteExercise(){
+        val exercise = getExerciseSelected()
+        exercise?.let {
+            setStateEvent(RemoveExerciseEvent())
+        }
+    }
+
+    fun insertSets() {
+        val idExerciseSet = getExerciseSelected()?.idExercise
+        val sets = ArrayList(getExerciseSelected()?.sets)
+        if(idExerciseSet != null){
+            if( sets != null){
+                setStateEvent(InsertMultipleExerciseSetEvent(
+                    sets = sets,
+                    idExercise = idExerciseSet)
+                )
+            }
+        }
     }
 
     fun addSet(){
@@ -347,7 +423,7 @@ constructor(
     }
 
     /********************************************************************
-        LIST EXERCISES MANAGING
+    LIST EXERCISES MANAGING
      *********************************************************************/
 
     //Launch actual query reseting Pagination
@@ -368,8 +444,8 @@ constructor(
     }
 
     /********************************************************************
-        OTHERS LIST MANAGING
-    *********************************************************************/
+    OTHERS LIST MANAGING
+     *********************************************************************/
 
     fun reloadBodyParts(){
         clearListBodyParts()
@@ -421,8 +497,8 @@ constructor(
     }
 
     /********************************************************************
-        GETTERS - QUERY
-    *********************************************************************/
+    GETTERS - QUERY
+     *********************************************************************/
 
     fun getFilterExercises(): String {
         return getCurrentViewStateOrNew().exercise_list_filter
@@ -445,8 +521,8 @@ constructor(
     }
 
     /********************************************************************
-        GETTERS - VIEWSTATE AND OTHER
-    *********************************************************************/
+    GETTERS - VIEWSTATE AND OTHER
+     *********************************************************************/
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
@@ -461,8 +537,6 @@ constructor(
     fun getTotalBodyParts() = getCurrentViewStateOrNew().totalBodyParts
 
     fun getTotalBodyPartByWorkoutType() = getCurrentViewStateOrNew().totalBodyPartsByWorkoutType
-
-    fun getWorkoutTypeSelected() = getCurrentViewStateOrNew().workoutTypeSelected
 
     fun isWorkoutTypesExhausted() = getCurrentViewStateOrNew().isWorkoutTypesExhausted ?: false
 
@@ -520,7 +594,7 @@ constructor(
                     stateMessage = StateMessage(
                         response = Response(
                             message = ExerciseCacheEntity.nullNameError(),
-                            uiComponentType = UIComponentType.Dialog(),
+                            uiComponentType = UIComponentType.Toast(),
                             messageType = MessageType.Error()
                         )
                     )
@@ -578,6 +652,8 @@ constructor(
     }
 
     fun updateExerciseExerciseType(exerciseType: ExerciseType){
+
+        //Update viewstate
         val update = getCurrentViewStateOrNew()
         val updateExercise = update.exerciseSelected?.copy(
             exerciseType = exerciseType
@@ -667,12 +743,6 @@ constructor(
         setViewState(update)
     }
 
-    fun setWorkoutTypeSelected(workoutType : WorkoutType?){
-        val update = getCurrentViewStateOrNew()
-        update.workoutTypeSelected = workoutType
-        setViewState(update)
-    }
-
     fun setWorkoutTypeExhausted(isExhausted: Boolean){
         val update = getCurrentViewStateOrNew()
         update.isWorkoutTypesExhausted = isExhausted
@@ -739,7 +809,7 @@ constructor(
     }
 
     /********************************************************************
-        ListExercises PageManagement
+    ListExercises PageManagement
      *********************************************************************/
 
     fun resetPageExercises(){
@@ -773,7 +843,7 @@ constructor(
     }
 
     /********************************************************************
-        INTERACTIONS
+    INTERACTIONS
      *********************************************************************/
 
     fun setInteractionNameState(state : ExerciseInteractionState){
@@ -795,9 +865,9 @@ constructor(
         exerciseInteractionManager.setExerciseTypeState(state)
     }
 
-    fun checkEditState() = exerciseInteractionManager.checkEditState()
+    fun checkExerciseEditState() = exerciseInteractionManager.checkEditState()
 
-    fun exitEditState() = exerciseInteractionManager.exitEditState()
+    fun exitExerciseEditState() = exerciseInteractionManager.exitEditState()
 
     fun isEditingName() = exerciseInteractionManager.isEditingName()
 
@@ -854,9 +924,7 @@ constructor(
 
     fun setDetailBodyPart(bodyparts : ArrayList<BodyPart>?){
         val update = getCurrentViewStateOrNew()
-        printLogD("ExerciseViewModel","before detail bodyParts ${update.detailBodyParts}")
         update.detailBodyParts = bodyparts
-        printLogD("ExerciseViewModel","after detail bodyParts ${update.detailBodyParts}")
         setViewState(update)
     }
 
@@ -884,12 +952,50 @@ constructor(
         setViewState(update)
     }
 
-    fun setReloadBodyParts(reload :Boolean){
-        val update = getCurrentViewStateOrNew()
-        update.reloadBodyParts = reload
-        setViewState(update)
+
+    /********************************************************************
+    INTERACTIONS Set STATE
+     *********************************************************************/
+
+    val repInteractionState : LiveData<ExerciseSetInteractionState>
+        get() = exerciseSetInteractionManager.repState
+
+    val weightInteractionState : LiveData<ExerciseSetInteractionState>
+        get() = exerciseSetInteractionManager.weightState
+
+    val timeInteractionState : LiveData<ExerciseSetInteractionState>
+        get() = exerciseSetInteractionManager.timeState
+
+    val restInteractionState : LiveData<ExerciseSetInteractionState>
+        get() = exerciseSetInteractionManager.restState
+
+    fun setInteractionRepState(state : ExerciseSetInteractionState){
+        exerciseSetInteractionManager.setRepState(state)
     }
 
+    fun setInteractionWeightState(state : ExerciseSetInteractionState){
+        exerciseSetInteractionManager.setWeightState(state)
+    }
+
+    fun setInteractionTimeState(state : ExerciseSetInteractionState){
+        exerciseSetInteractionManager.setTimeState(state)
+    }
+
+    fun setInteractionRestState(state : ExerciseSetInteractionState){
+        exerciseSetInteractionManager.setRestState(state)
+    }
+
+    fun checkSetEditState() = exerciseSetInteractionManager.checkEditState()
+
+    fun exitSetEditState() = exerciseSetInteractionManager.exitEditState()
+
+    fun isEditingRep() = exerciseSetInteractionManager.isEditingRep()
+
+    fun isEditingWeight() = exerciseSetInteractionManager.isEditingWeight()
+
+    fun isEditingRest() = exerciseSetInteractionManager.isEditingRest()
+
+    fun isEditingTime() = exerciseSetInteractionManager.isEditingTime()
 
 }
 

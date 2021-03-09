@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_exercise_detail_fragment_to_exercise_fragment"
             app:destination="@id/exercise_fragment" />
+        <action
+            android:id="@+id/action_exercise_detail_fragment_to_exercise_set_detail_fragment"
+            app:destination="@id/exercise_set_detail_fragment" />
     </fragment>
     <fragment
         android:id="@+id/history_fragment"
@@ -90,4 +93,13 @@
         android:id="@+id/action_global_loading_fragment"
         app:destination="@id/loading_fragment"
         app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/exercise_set_detail_fragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseSetDetailFragment"
+        android:label="ExerciseSetDetailFragment" >
+        <action
+            android:id="@+id/action_exercise_set_detail_fragment_to_exercise_detail_fragment"
+            app:destination="@id/exercise_detail_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

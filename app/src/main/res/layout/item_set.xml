@@ -11,12 +11,7 @@
     android:checkable="false"
     android:id="@+id/item_set_container">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/item_set_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -52,7 +47,8 @@
                 android:layout_marginEnd="8dp"
                 app:icon="@drawable/ic_baseline_edit_24"
                 app:layout_constraintEnd_toStartOf="@id/item_set_button_delete"
-                app:layout_constraintTop_toTopOf="@+id/item_set_button_delete" />
+                app:layout_constraintTop_toTopOf="@+id/item_set_button_delete"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_set_button_delete"
@@ -69,95 +65,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_set_content_expandable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/item_exercise_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/item_set_text_rep"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/item_set_text_rep"
-                app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/item_set_text_weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/item_set_text_weight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
-                app:layout_constraintTop_toTopOf="@+id/item_set_text_rep">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/item_set_text_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:hint="@string/item_set_text_time"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/item_exercise_guideline"
-                app:layout_constraintStart_toStartOf="@+id/item_set_text_rep"
-                app:layout_constraintTop_toBottomOf="@+id/item_set_text_rep">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/item_set_text_rest"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:hint="@string/item_set_text_rest"
-                app:layout_constraintEnd_toEndOf="@+id/item_set_text_weight"
-                app:layout_constraintStart_toStartOf="@+id/item_exercise_guideline"
-                app:layout_constraintTop_toTopOf="@+id/item_set_text_time">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

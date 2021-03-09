@@ -20,9 +20,6 @@ class FakeExerciseSetCacheDataSourceImpl(
         if(exerciseSet.idExerciseSet.equals(FORCE_NEW_EXERCISESET_EXCEPTION)){
             throw Exception("Something went wrong inserting exercise Set")
         }
-        if(exerciseSet.idExerciseSet.equals(FORCE_NEW_EXERCISESETS_EXCEPTION)){
-            throw Exception("Something went wrong inserting exercise Sets")
-        }
         if(exerciseSet.idExerciseSet.equals(FORCE_GENERAL_FAILURE)){
             return -1
         }

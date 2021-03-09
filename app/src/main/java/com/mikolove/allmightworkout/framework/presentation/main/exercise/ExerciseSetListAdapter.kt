@@ -7,21 +7,19 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemSetBinding
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload
+import com.mikolove.allmightworkout.util.printLogD
 
 class ExerciseSetListAdapter (
     private val interaction: Interaction? = null,
     private val lifecycleOwner : LifecycleOwner,
-    private val exerciseType : LiveData<ExerciseType>,
-    private val dateUtil: DateUtil
+    private val exerciseType : LiveData<ExerciseType>
 ) : RecyclerView.Adapter<ExerciseSetListAdapter.ExerciseSetViewHolder>() {
 
     private val sets = mutableListOf<ExerciseSet>()
@@ -32,8 +30,7 @@ class ExerciseSetListAdapter (
             LayoutInflater.from(parent.context).inflate(R.layout.item_set, parent, false),
             interaction,
             exerciseType,
-            lifecycleOwner,
-            dateUtil
+            lifecycleOwner
         )
     }
 
@@ -50,15 +47,6 @@ class ExerciseSetListAdapter (
 
             val oldSet = combinedChange.oldData
             val newSet = combinedChange.newData
-
-            if(oldSet.reps != newSet.reps)
-                holder.binding.itemSetTextRep.editText?.setText(newSet.reps.toString())
-            if(oldSet.weight != newSet.weight)
-                holder.binding.itemSetTextWeight.editText?.setText(newSet.weight.toString())
-            if(oldSet.time != newSet.time)
-                holder.binding.itemSetTextTime.editText?.setText(newSet.time.toString())
-            if(oldSet.reps != newSet.reps)
-                holder.binding.itemSetTextRest.editText?.setText(newSet.restTime.toString())
         }
     }
 
@@ -80,20 +68,16 @@ class ExerciseSetListAdapter (
         itemView: View,
         private val interaction: Interaction?,
         private val exerciseType : LiveData<ExerciseType>,
-        private val lifecycleOwner: LifecycleOwner,
-        private val dateUtil: DateUtil
+        private val lifecycleOwner: LifecycleOwner
     ) : RecyclerView.ViewHolder(itemView) {
 
-        //Maybe change place for this
         val binding =  ItemSetBinding.bind(itemView)
 
         fun bind(item: ExerciseSet) = with(itemView) {
 
             //Add test transition
-
-            binding.itemSetButtonEdit.setOnClickListener {
-                interaction?.onEditClick(binding.itemSetContainer,binding.itemSetContentExpandable)
-                interaction?.activateEditMode()
+            binding.itemSetContainer.setOnClickListener{
+                interaction?.onEditClick(item)
             }
 
             binding.itemSetButtonDelete.setOnClickListener {
@@ -104,36 +88,22 @@ class ExerciseSetListAdapter (
             binding.itemSetTitle.text = "Set"
 
             exerciseType.observe(lifecycleOwner,{ exerciseType ->
-
+                printLogD("ExerciseSetListAdapter","Set subtitle ${exerciseType}")
                 if(exerciseType.equals(ExerciseType.REP_EXERCISE)){
                     binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
-                    binding.itemSetTextTime.isEnabled = false
-                    binding.itemSetTextRep.isEnabled = true
                 }else{
                     binding.itemSetSubtitle.text = "${item.reps} x ${item.time} sec - Rest time : ${item.restTime} sec"
-                    binding.itemSetTextTime.isEnabled = true
-                    binding.itemSetTextRep.isEnabled = false
                 }
             })
 
-            binding.itemSetTextRep.editText?.setText(item.reps.toString())
-            binding.itemSetTextWeight.editText?.setText(item.weight.toString())
-            binding.itemSetTextTime.editText?.setText(item.time.toString())
-            binding.itemSetTextRest.editText?.setText(item.restTime.toString())
-
         }
+
     }
 
     interface Interaction {
 
-        fun onEditClick(rootView : MaterialCardView ,expandableView: View)
+        fun onEditClick(item: ExerciseSet)
 
         fun onDeleteClick(item: ExerciseSet)
-
-        fun isEditModeEnabled(): Boolean
-
-        fun activateEditMode()
     }
-
-
 }

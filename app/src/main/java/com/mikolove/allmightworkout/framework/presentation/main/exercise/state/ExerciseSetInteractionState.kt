@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
 
-sealed class ExerciseInteractionState {
+sealed class ExerciseSetInteractionState {
 
-    class EditState: ExerciseInteractionState() {
+    class EditState: ExerciseSetInteractionState() {
 
         override fun toString(): String {
             return "EditState"
         }
     }
 
-    class DefaultState: ExerciseInteractionState(){
+    class DefaultState: ExerciseSetInteractionState(){
 
         override fun toString(): String {
             return "DefaultState"

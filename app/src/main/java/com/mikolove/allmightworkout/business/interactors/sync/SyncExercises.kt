@@ -125,7 +125,7 @@ class SyncExercises(
 
         //Insert exercise in cache not found in network
         for(cachedExerciseNotFound in cachedExercises){
-            printLogD("SyncExercises","Insert exercise into network")
+            printLogD("SyncExercises","Insert exercise into network ${cachedExerciseNotFound.idExercise}")
             safeApiCall(IO){
                 exerciseNetworkDataSource.insertExercise(cachedExerciseNotFound)
             }
@@ -134,7 +134,7 @@ class SyncExercises(
         //Insert exerciseSet in cache not found in network
         for( (idExercise, cachedExerciseSetNotFound) in cachedExerciseSets){
             cachedExerciseSetNotFound.forEach { set->
-                printLogD("SyncExercises","Insert exercise set into network")
+                printLogD("SyncExercises","Insert exercise set into network ${set.idExerciseSet}")
                 safeApiCall(IO){
                     exerciseSetNetworkDataSource.insertExerciseSet(set,idExercise)
                 }
@@ -214,7 +214,7 @@ class SyncExercises(
     }
 
     private suspend fun insertExerciseToCache(exercise : Exercise){
-        printLogD("SyncExercises","insertExerciseToCache")
+        printLogD("SyncExercises","insertExerciseToCache ${exercise.idExercise}")
         exerciseCacheDataSource.insertExercise(exercise)
 
         exercise.sets?.forEach { exerciseSet ->
@@ -223,7 +223,7 @@ class SyncExercises(
     }
 
     private suspend fun insertExerciseSetToCache(exerciseSet : ExerciseSet, idExercise: String){
-        printLogD("SyncExercises","insertExerciseSetToCache")
+        printLogD("SyncExercises","insertExerciseSetToCache ${idExercise} ${exerciseSet.idExerciseSet}")
         exerciseSetCacheDataSource.insertExerciseSet(exerciseSet,idExercise)
     }
 }

@@ -13,7 +13,8 @@
     <!-- Menu words -->
     <string name="menu_filter">Filter</string>
     <string name="menu_search">Search</string>
-    <string name="menu_validate">Validate</string>
+    <string name="menu_create">Create</string>
+    <string name="menu_update">Update</string>
     <string name="menu_delete">Delete</string>
 
     <!-- Global words -->
@@ -67,6 +68,11 @@
     <string name="fragment_exercise_detail_text_is_active">Is active</string>
     <string name="fragment_exercise_detail_text_exercises">List of exercises in :</string>
     <string name="fragment_exercise_detail_text_manage_exercises">Manage exercises</string>
+
+    <string name="fragment_exercise_detail_error_name">Name cannot be empty.</string>
+    <string name="fragment_exercise_detail_error_workout_type">Workout type must be set</string>
+    <string name="fragment_exercise_detail_error_body_part">Body part must be set</string>
+    <string name="fragment_exercise_detail_error_exercise_type">Exercise type must be set</string>
 
 
     <!-- Item workout -->
