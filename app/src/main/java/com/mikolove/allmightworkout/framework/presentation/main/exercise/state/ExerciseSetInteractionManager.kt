@@ -78,7 +78,7 @@ class ExerciseSetInteractionManager{
                 is EditState ->{
                     _repState.value = DefaultState()
                     _timeState.value = DefaultState()
-                    _timeState.value = DefaultState()
+                    _weightState.value = DefaultState()
                 }
             }
         }

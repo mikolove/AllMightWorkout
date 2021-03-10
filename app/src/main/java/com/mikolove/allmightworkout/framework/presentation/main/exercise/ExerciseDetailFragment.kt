@@ -54,13 +54,24 @@ class ExerciseDetailFragment():
     private var bodyPartPosition : Int? = null
     private var exerciseTypePosition : Int? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.setupChannel()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+
+        binding = FragmentExerciseDetailBinding.bind(view)
+
+        viewModel.resetDetailExhausted()
+        setupAdapters()
+        setupButtonAction()
+        setupOnBackPressDispatcher()
+        subscribeObservers()
     }
 
     override fun onResume() {
@@ -72,28 +83,7 @@ class ExerciseDetailFragment():
         init()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setHasOptionsMenu(true)
-
-        binding = FragmentExerciseDetailBinding.bind(view)
-
-        setupAdapters()
-        setupButtonAction()
-        setupOnBackPressDispatcher()
-        subscribeObservers()
-    }
-
     override fun onDestroyView() {
-
-        quitEditState()
-        viewModel.setIsUpdatePending(false)
-        viewModel.setExerciseSelected(null)
-        viewModel.setDetailWorkoutTypes(null)
-        viewModel.setDetailBodyPart(null)
-        viewModel.setDetailExerciseTypes(null)
-        viewModel.resetDetailExhausted()
 
         exerciseSetAdapter = null
         workoutTypeAdapter = null
@@ -130,6 +120,12 @@ class ExerciseDetailFragment():
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+
             R.id.toolbar_exercise_detail_add -> {
                 insertExercise()
                 true
@@ -162,6 +158,7 @@ class ExerciseDetailFragment():
             if(viewState != null){
 
                 viewState.detailWorkoutTypes?.let {
+                    printLogD("ExerciseDetailFragment","Load workoutTypes ${viewModel.getDetailWorkoutTypesExhausted()}")
                     if(!viewModel.getDetailWorkoutTypesExhausted()){
                         workoutTypeAdapter?.clear()
                         workoutTypeAdapter?.addAll(it)
@@ -180,6 +177,7 @@ class ExerciseDetailFragment():
 
                 viewState.detailExerciseType?.let {
                     if(!viewModel.getDetailExerciseTypesExhausted()){
+                        printLogD("ExerciseDetailFragment","Load exerciseTypes ${viewModel.getDetailExerciseTypesExhausted()}")
                         exerciseTypeAdapter?.clear()
                         exerciseTypeAdapter?.addAll(it)
                         viewModel.setDetailExerciseTypesExhausted(true)
@@ -453,6 +451,8 @@ class ExerciseDetailFragment():
     }
     private fun setupAdapters(){
 
+        printLogD("ExerciseDetailFragment","Setup Adapters")
+
         //WorkoutTypeAdapter
         val types = arrayListOf<WorkoutType>()
         workoutTypeAdapter = MaterialArrayAdapter(requireContext(),R.layout.item_workout_type,types)
@@ -687,10 +687,9 @@ class ExerciseDetailFragment():
         Navigate to set detail
      *********************************************************************/
     private fun navigateToSet(item: ExerciseSet){
-        if(viewModel.isExistExercise()){
-            //Set destination set
-            findNavController().navigate(R.id.action_exercise_detail_fragment_to_exercise_set_detail_fragment)
-        }
+        //Set destination set
+        viewModel.setExerciseSetSelected(item)
+        findNavController().navigate(R.id.action_exercise_detail_fragment_to_exercise_set_detail_fragment)
     }
 
     /********************************************************************
@@ -706,12 +705,21 @@ class ExerciseDetailFragment():
     }
 
     private fun onBackPressed() {
+        printLogD("ExerciseDetailFragment","On Back Pressed")
         if (viewModel.checkExerciseEditState()) {
             quitEditState()
         }else{
+
+            viewModel.setExerciseSelected(null)
+            viewModel.setDetailWorkoutTypes(null)
+            viewModel.setDetailBodyPart(null)
+            viewModel.setDetailExerciseTypes(null)
+            viewModel.resetDetailExhausted()
+
             findNavController().popBackStack()
         }
     }
+
     private fun setupOnBackPressDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

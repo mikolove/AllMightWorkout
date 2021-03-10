@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/item_set_text_rep"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/item_set_text_weight"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_set_detail_text_rep"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_set_detail_text_time"
         app:layout_constraintStart_toStartOf="@+id/fragment_exercise_set_detail_text_rep"
         app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_set_detail_text_rep">
 
@@ -46,11 +46,14 @@
         android:id="@+id/fragment_exercise_set_detail_text_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/item_set_text_time"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_set_detail_text_weight"
-        app:layout_constraintStart_toStartOf="@+id/fragment_exercise_set_detail_text_weight"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_set_detail_text_weight">
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_exercise_set_detail_text_rep"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -65,9 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/item_set_text_rest"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_set_detail_text_time"
-        app:layout_constraintStart_toStartOf="@+id/fragment_exercise_set_detail_text_time"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_set_detail_text_time">
+        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_set_detail_text_weight"
+        app:layout_constraintStart_toStartOf="@+id/fragment_exercise_set_detail_text_weight"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_set_detail_text_weight">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -76,4 +79,11 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

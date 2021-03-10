@@ -18,6 +18,7 @@ data class ExerciseViewState(
     //Exercise Management
     var isExistExercise : Boolean? = null,
     var exerciseSelected: Exercise? = null,
+    var exerciseSetSelected : ExerciseSet? =null,
 
     //Fuck this material design dropdown management
     var detailWorkoutTypes : ArrayList<WorkoutType>? = null,
@@ -34,7 +35,6 @@ data class ExerciseViewState(
     var searchActive : Boolean? = null,
     var searchQueryExercises: String? = null,
     var pageExercises: Int? = null,
-
 
     //Query exhausted
     var isExercisesQueryExhausted: Boolean? = null,

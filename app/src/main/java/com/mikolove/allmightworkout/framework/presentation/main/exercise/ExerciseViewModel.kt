@@ -114,12 +114,13 @@ constructor(
 
             printLogD("ExerciseViewModel","handleNewData")
 
-            viewState.isExistExercise?.let { isExistExercise ->
+/*            viewState.isExistExercise?.let { isExistExercise ->
                 setIsExistExercise(isExistExercise)
             }
+
             viewState.exerciseSelected?.let { exerciseSelected ->
                 setExerciseSelected(exerciseSelected)
-            }
+            }*/
 
             viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
                 setCachedExerciseSetsByIdExercise(cachedSets)
@@ -544,6 +545,8 @@ constructor(
 
     fun getExerciseSelected() = getCurrentViewStateOrNew().exerciseSelected ?: null
 
+    fun getExerciseSetSelected() = getCurrentViewStateOrNew().exerciseSetSelected ?: null
+
     fun getIsUpdatePending() : Boolean = getCurrentViewStateOrNew().isUpdatePending ?:false
 
     fun getExercisesListSize() = getCurrentViewStateOrNew().listExercises?.size?: 0
@@ -662,6 +665,110 @@ constructor(
         setViewState(update)
     }
 
+    fun updateExerciseSetRep(rep : Int){
+
+        getExerciseSetSelected()?.let {
+            val update = getCurrentViewStateOrNew()
+
+            val sets = ArrayList(update.exerciseSelected?.sets)
+
+            sets.remove(update.exerciseSetSelected)
+
+            val updateExerciseSet = update.exerciseSetSelected?.copy(
+                reps = rep
+            )
+
+            sets.add(updateExerciseSet)
+
+            val updateExercise = update.exerciseSelected?.copy(
+                sets = sets
+            )
+
+            update.exerciseSetSelected = updateExerciseSet
+            update.exerciseSelected = updateExercise
+
+            setViewState(update)
+        }
+    }
+
+    fun updateExerciseSetWeight(weight : Int){
+
+        getExerciseSetSelected()?.let {
+            val update = getCurrentViewStateOrNew()
+
+            val sets = ArrayList(update.exerciseSelected?.sets)
+
+            sets.remove(update.exerciseSetSelected)
+
+            val updateExerciseSet = update.exerciseSetSelected?.copy(
+                weight = weight
+            )
+
+            sets.add(updateExerciseSet)
+
+            val updateExercise = update.exerciseSelected?.copy(
+                sets = sets
+            )
+
+            update.exerciseSetSelected = updateExerciseSet
+            update.exerciseSelected = updateExercise
+
+            setViewState(update)
+        }
+    }
+
+    fun updateExerciseSetTime(time : Int){
+
+        getExerciseSetSelected()?.let {
+            val update = getCurrentViewStateOrNew()
+
+            val sets = ArrayList(update.exerciseSelected?.sets)
+
+            sets.remove(update.exerciseSetSelected)
+
+            val updateExerciseSet = update.exerciseSetSelected?.copy(
+                time = time
+            )
+
+            sets.add(updateExerciseSet)
+
+            val updateExercise = update.exerciseSelected?.copy(
+                sets = sets
+            )
+
+            update.exerciseSetSelected = updateExerciseSet
+            update.exerciseSelected = updateExercise
+
+            setViewState(update)
+        }
+    }
+
+    fun updateExerciseSetRest(rest : Int){
+
+        getExerciseSetSelected()?.let {
+            val update = getCurrentViewStateOrNew()
+
+            val sets = ArrayList(update.exerciseSelected?.sets)
+
+            sets.remove(update.exerciseSetSelected)
+
+            val updateExerciseSet = update.exerciseSetSelected?.copy(
+                restTime = rest
+            )
+
+            sets.add(updateExerciseSet)
+
+            val updateExercise = update.exerciseSelected?.copy(
+                sets = sets
+            )
+
+            update.exerciseSetSelected = updateExerciseSet
+            update.exerciseSelected = updateExercise
+
+            setViewState(update)
+        }
+    }
+
     fun setIsSearchActive(isActive: Boolean){
         val update = getCurrentViewStateOrNew()
         update.searchActive = isSearchActive()
@@ -677,6 +784,12 @@ constructor(
     fun setExerciseSelected(exercise : Exercise?){
         val update = getCurrentViewStateOrNew()
         update.exerciseSelected = exercise
+        setViewState(update)
+    }
+
+    fun setExerciseSetSelected(exerciseSet: ExerciseSet?){
+        val update = getCurrentViewStateOrNew()
+        update.exerciseSetSelected = exerciseSet
         setViewState(update)
     }
 
