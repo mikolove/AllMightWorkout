@@ -114,14 +114,6 @@ constructor(
 
             printLogD("ExerciseViewModel","handleNewData")
 
-/*            viewState.isExistExercise?.let { isExistExercise ->
-                setIsExistExercise(isExistExercise)
-            }
-
-            viewState.exerciseSelected?.let { exerciseSelected ->
-                setExerciseSelected(exerciseSelected)
-            }*/
-
             viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
                 setCachedExerciseSetsByIdExercise(cachedSets)
                 setCachedExercisesSetsExhausted(true)
@@ -174,14 +166,6 @@ constructor(
                 )
             }
 
-
-            is GetExerciseByIdEvent -> {
-                exerciseInteractors.getExerciseById.getExerciseById(
-                    idExercise = stateEvent.idExercise,
-                    stateEvent = stateEvent
-                )
-            }
-
             is GetExercisesEvent -> {
                 exerciseInteractors.getExercises.getExercises(
                     query = getSearchQueryExercises(),
@@ -190,6 +174,14 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
+
+            is GetExerciseByIdEvent -> {
+                exerciseInteractors.getExerciseById.getExerciseById(
+                    idExercise = stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
 
             is InsertExerciseEvent -> {
                 if(isExerciseValid()){

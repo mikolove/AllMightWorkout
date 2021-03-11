@@ -76,7 +76,7 @@ class RemoveExerciseTest {
         //Remove it
         removeExercise.removeExercise(
             exercise = removedExercise,
-            stateEvent = RemoveExerciseEvent(removedExercise)
+            stateEvent = RemoveExerciseEvent()
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assertEquals(
@@ -119,7 +119,7 @@ class RemoveExerciseTest {
         //Remove it
         removeExercise.removeExercise(
             exercise = exerciseToDelete,
-            stateEvent = RemoveExerciseEvent(exerciseToDelete)
+            stateEvent = RemoveExerciseEvent()
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assertEquals(
@@ -161,7 +161,7 @@ class RemoveExerciseTest {
         //Remove it
         removeExercise.removeExercise(
             exercise = exerciseToDelete,
-            stateEvent = RemoveExerciseEvent(exerciseToDelete)
+            stateEvent = RemoveExerciseEvent()
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(

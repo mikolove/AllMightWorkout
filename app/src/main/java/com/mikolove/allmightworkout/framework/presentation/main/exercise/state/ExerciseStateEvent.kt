@@ -111,6 +111,27 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
+    class UpdateMultipleExerciseSetEvent(
+        val sets : ArrayList<ExerciseSet>,
+        val idExercise: String
+    ) : ExerciseStateEvent(){
+
+        override fun errorInfo(): String = "Error updating some exercise sets."
+
+        override fun eventName(): String = "UpdateMultipleExerciseSetEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
+    class RemoveMultipleExerciseSetEvent() : ExerciseStateEvent(){
+
+        override fun errorInfo(): String = "Error removing some exercise sets."
+
+        override fun eventName(): String = "RemoveMultipleExerciseSetEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
     class UpdateExerciseSetEvent(): ExerciseStateEvent(){
         override fun errorInfo(): String = "Error updating exercise set."
 
