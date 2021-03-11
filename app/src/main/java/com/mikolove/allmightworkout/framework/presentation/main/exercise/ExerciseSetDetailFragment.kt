@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -18,8 +19,6 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     val viewModel : ExerciseViewModel by activityViewModels()
 
     private var binding : FragmentExerciseSetDetailBinding? = null
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,15 +39,21 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
 
 
     override fun onDestroyView() {
-
-        viewModel.setExerciseSetSelected(null)
-        viewModel.setIsUpdatePending(false)
-        quitEditState()
-
         binding = null
         super.onDestroyView()
-
     }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun subscribeObservers(){
 
         viewModel.viewState.observe(viewLifecycleOwner,{ viewState ->
@@ -64,6 +69,50 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
 
         viewModel.exerciseTypeState.observe(viewLifecycleOwner,{ exerciseType ->
             setupActiveUI(exerciseType)
+        })
+
+        viewModel.repInteractionState.observe(viewLifecycleOwner,{ state ->
+            when(state){
+
+                is EditState -> { }
+
+                is DefaultState ->{
+                    binding?.fragmentExerciseSetDetailTextRep?.clearFocus()
+                }
+            }
+        })
+
+        viewModel.weightInteractionState.observe(viewLifecycleOwner,{ state ->
+            when(state){
+
+                is EditState -> { }
+
+                is DefaultState ->{
+                    binding?.fragmentExerciseSetDetailTextWeight?.clearFocus()
+                }
+            }
+        })
+
+        viewModel.timeInteractionState.observe(viewLifecycleOwner,{ state ->
+            when(state){
+
+                is EditState -> { }
+
+                is DefaultState ->{
+                    binding?.fragmentExerciseSetDetailTextTime?.clearFocus()
+                }
+            }
+        })
+
+        viewModel.restInteractionState.observe(viewLifecycleOwner,{ state ->
+            when(state){
+
+                is EditState -> { }
+
+                is DefaultState ->{
+                    binding?.fragmentExerciseSetDetailTextRest?.clearFocus()
+                }
+            }
         })
 
     }
@@ -228,13 +277,15 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         updateSetWeightInViewModel()
         updateSetRestInViewModel()
         updateSetTimeInViewModel()
+        view?.hideKeyboard()
         viewModel.exitSetEditState()
     }
 
     private fun onBackPressed() {
-        if (viewModel.checkExerciseEditState()) {
+        if (viewModel.checkSetEditState()) {
             quitEditState()
         }else{
+            viewModel.setExerciseSetSelected(null)
             findNavController().popBackStack()
         }
     }

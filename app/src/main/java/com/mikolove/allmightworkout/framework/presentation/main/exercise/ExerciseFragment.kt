@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.transition.MaterialElevationScale
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises
@@ -391,6 +392,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
      *********************************************************************/
 
     override fun fabOnClick() {
+        //Generate exercise to create
+        val exercise = viewModel.createExercise()
+        viewModel.setExerciseSelected(exercise)
         insertionNavigateToManageExercise()
     }
 

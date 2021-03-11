@@ -317,15 +317,22 @@ constructor(
         setStateEvent(GetExerciseByIdEvent(idExercise = idExercise))
     }
 
-    fun createExercise() : Exercise = exerciseFactory.createExercise(
-        idExercise = null,
-        name = null,
-        sets = null,
-        bodyPart = null,
-        exerciseType = ExerciseType.REP_EXERCISE,
-        isActive = true,
-        created_at = null
-    )
+    fun createExercise() : Exercise {
+        val sets : ArrayList<ExerciseSet> = ArrayList()
+        repeat(1){
+            sets.add(createExerciseSet())
+        }
+
+        return  exerciseFactory.createExercise(
+            idExercise = null,
+            name = null,
+            sets = sets,
+            bodyPart = null,
+            exerciseType = ExerciseType.REP_EXERCISE,
+            isActive = true,
+            created_at = null
+        )
+    }
 
     fun createExerciseSet() : ExerciseSet = exerciseSetFactory.createExerciseSet(
         idExerciseSet = null,

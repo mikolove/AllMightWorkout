@@ -317,19 +317,8 @@ class ExerciseDetailFragment():
 
     private fun init(){
 
-        //Init from new exercise
-        if(!viewModel.isExistExercise()){
-            val exercise = viewModel.createExercise()
-            val sets : ArrayList<ExerciseSet> = ArrayList()
-            repeat(1){
-                sets.add(viewModel.createExerciseSet())
-            }
-            exercise.sets = sets
-            viewModel.setExerciseSelected(exercise)
-
         //Init from existing exercise
-        }else{
-
+        if(viewModel.isExistExercise()){
             val workoutType = viewModel.getExerciseSelectedWorkoutType()
             val bodyPart = viewModel.getExerciseSelected()?.bodyPart
             val exerciseType = viewModel.getExerciseSelected()?.exerciseType
