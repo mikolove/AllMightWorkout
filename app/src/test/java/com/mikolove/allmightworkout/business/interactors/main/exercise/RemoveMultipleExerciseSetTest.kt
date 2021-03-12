@@ -86,7 +86,7 @@ class RemoveMultipleExerciseSetTest {
         removeMultipleExerciseSet?.removeMultipleExerciseSet(
             sets,
             idExercise = exercise.idExercise,
-            stateEvent = RemoveMultipleExerciseSetEvent()
+            stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
@@ -125,7 +125,7 @@ class RemoveMultipleExerciseSetTest {
         removeMultipleExerciseSet?.removeMultipleExerciseSet(
             updateSets,
             idExercise = exercise.idExercise,
-            stateEvent = RemoveMultipleExerciseSetEvent()
+            stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
                 value?.stateMessage?.response?.message,
@@ -165,7 +165,7 @@ class RemoveMultipleExerciseSetTest {
         removeMultipleExerciseSet?.removeMultipleExerciseSet(
             updateSets,
             idExercise = exercise.idExercise,
-            stateEvent = RemoveMultipleExerciseSetEvent()
+            stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
                 value?.stateMessage?.response?.message,

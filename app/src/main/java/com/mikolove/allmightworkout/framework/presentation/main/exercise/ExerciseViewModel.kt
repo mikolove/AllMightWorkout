@@ -3,8 +3,10 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Update
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
 import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertExercise.Companion.INSERT_EXERCISE_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
@@ -36,7 +38,8 @@ constructor(
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences,
     private val exerciseFactory: ExerciseFactory,
-    private val exerciseSetFactory: ExerciseSetFactory
+    private val exerciseSetFactory: ExerciseSetFactory,
+    private val dateUtil: DateUtil
 ) : BaseViewModel<ExerciseViewState>()
 {
 
@@ -78,6 +81,9 @@ constructor(
     val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
         get() = exerciseInteractionManager.nameState
 
+    val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.isActiveState
+
     val exerciseBodyPartInteractionState : LiveData<ExerciseInteractionState>
         get() = exerciseInteractionManager.bodyPartState
 
@@ -113,6 +119,13 @@ constructor(
         data.let { viewState ->
 
             printLogD("ExerciseViewModel","handleNewData")
+
+            viewState.isExistExercise?.let { isInserted ->
+                setIsExistExercise(isInserted)
+            }
+            viewState.exerciseSelected?.let { exercise ->
+                setExerciseSelected(exercise)
+            }
 
             viewState.cachedExerciseSetsByIdExercise?.let { cachedSets ->
                 setCachedExerciseSetsByIdExercise(cachedSets)
@@ -160,6 +173,22 @@ constructor(
 
             is InsertMultipleExerciseSetEvent ->  {
                 exerciseInteractors.insertMultipleExerciseSet.insertMultipleExerciseSet(
+                    sets = stateEvent.sets,
+                    idExercise =  stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is UpdateMultipleExerciseSetEvent->  {
+                exerciseInteractors.updateMultipleExerciseSet.updateMultipleExerciseSet(
+                    sets = stateEvent.sets,
+                    idExercise =  stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is RemoveMultipleExerciseSetEvent ->  {
+                exerciseInteractors.removeMultipleExerciseSet.removeMultipleExerciseSet(
                     sets = stateEvent.sets,
                     idExercise =  stateEvent.idExercise,
                     stateEvent = stateEvent
@@ -366,11 +395,12 @@ constructor(
         val exercise = getExerciseSelected()
         exercise?.let {
             if(isExerciseValid()){
-                if( it.bodyPart != null){
+                val bodyPart = it.bodyPart
+                if( bodyPart != null){
                     setStateEvent(InsertExerciseEvent(
                         it.name,
                         it.exerciseType,
-                        it.bodyPart!!))
+                        bodyPart))
                 }
             }
         }
@@ -380,11 +410,66 @@ constructor(
         val exercise = getExerciseSelected()
         exercise?.let {
             if(isExerciseValid()){
-                if( it.bodyPart != null){
-                    setStateEvent(UpdateExerciseEvent(
-
-                    ))
+                val bodyPart = it.bodyPart
+                if( bodyPart != null){
+                    setStateEvent(UpdateExerciseEvent())
                 }
+            }
+        }
+    }
+
+    fun updateExerciseSets(){
+
+        //Get actual sets and old sets
+        val idExercise = getExerciseSelected()?.idExercise
+        val sets = getExerciseSelected()?.sets
+        val cachedSets = getCachedSets()
+
+        //Manage all set
+        val setToInsert : ArrayList<ExerciseSet> = ArrayList()
+        val setToDelete : ArrayList<ExerciseSet> = ArrayList()
+        val setToUpdate : ArrayList<ExerciseSet> = ArrayList()
+
+        if(cachedSets != null && sets != null ){
+
+            sets.forEach { set ->
+
+                //If exercise existed in cache
+                val cacheSet = cachedSets.find { it.idExerciseSet == set.idExerciseSet }
+                if(cacheSet != null && !cacheSet.equals(set)){
+                    setToUpdate.add(set)
+                }
+
+                //If exercise not exist in cache
+                if(cacheSet == null){
+                    setToInsert.add(set)
+                }
+            }
+
+            cachedSets.forEach { setInCache ->
+                //Set in cache not exist in sets anymore
+                if(sets.find{ it.idExerciseSet == setInCache.idExerciseSet} == null ){
+                    setToDelete.add(setInCache)
+                }
+            }
+        }
+
+        if(idExercise != null){
+            if(setToDelete.isNotEmpty()){
+                setStateEvent(RemoveMultipleExerciseSetEvent(setToDelete,idExercise))
+                printLogD("ExerciseViewModel","toDelete ${setToDelete}")
+            }
+
+            if(setToInsert.isNotEmpty()){
+                setStateEvent(InsertMultipleExerciseSetEvent(setToInsert,idExercise))
+                printLogD("ExerciseViewModel","toInsert ${setToInsert}")
+
+            }
+
+            if(setToUpdate.isNotEmpty()){
+                setStateEvent(UpdateMultipleExerciseSetEvent(setToUpdate,idExercise))
+                printLogD("ExerciseViewModel","toUpdate ${setToUpdate}")
+
             }
         }
     }
@@ -546,6 +631,8 @@ constructor(
 
     fun getExerciseSetSelected() = getCurrentViewStateOrNew().exerciseSetSelected ?: null
 
+    fun getCachedSets() = getCurrentViewStateOrNew().cachedExerciseSetsByIdExercise
+
     fun getIsUpdatePending() : Boolean = getCurrentViewStateOrNew().isUpdatePending ?:false
 
     fun getExercisesListSize() = getCurrentViewStateOrNew().listExercises?.size?: 0
@@ -605,7 +692,8 @@ constructor(
         }else{
             val update = getCurrentViewStateOrNew()
             val updateExercise = update.exerciseSelected?.copy(
-                name = name
+                name = name,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
             update.exerciseSelected = updateExercise
             setViewState(update)
@@ -615,7 +703,8 @@ constructor(
     fun updateExerciseIsActive(isActive : Boolean){
         val update = getCurrentViewStateOrNew()
         val updateExercise = update.exerciseSelected?.copy(
-            isActive = isActive
+            isActive = isActive,
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
         update.exerciseSelected = updateExercise
         setViewState(update)
@@ -624,7 +713,8 @@ constructor(
     fun updateExerciseBodyPart(bodyPart: BodyPart?){
         val update = getCurrentViewStateOrNew()
         val updateExercise = update.exerciseSelected?.copy(
-            bodyPart = bodyPart
+            bodyPart = bodyPart,
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
         update.exerciseSelected = updateExercise
         setViewState(update)
@@ -646,7 +736,8 @@ constructor(
         }else{
             val update = getCurrentViewStateOrNew()
             val updateExercise = update.exerciseSelected?.copy(
-                sets = sets
+                sets = sets,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
             update.exerciseSelected = updateExercise
             setViewState(update)
@@ -658,7 +749,8 @@ constructor(
         //Update viewstate
         val update = getCurrentViewStateOrNew()
         val updateExercise = update.exerciseSelected?.copy(
-            exerciseType = exerciseType
+            exerciseType = exerciseType,
+            updatedAt = dateUtil.getCurrentTimestamp()
         )
         update.exerciseSelected = updateExercise
         setViewState(update)
@@ -674,7 +766,8 @@ constructor(
             sets.remove(update.exerciseSetSelected)
 
             val updateExerciseSet = update.exerciseSetSelected?.copy(
-                reps = rep
+                reps = rep,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
 
             sets.add(updateExerciseSet)
@@ -700,7 +793,8 @@ constructor(
             sets.remove(update.exerciseSetSelected)
 
             val updateExerciseSet = update.exerciseSetSelected?.copy(
-                weight = weight
+                weight = weight,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
 
             sets.add(updateExerciseSet)
@@ -726,7 +820,8 @@ constructor(
             sets.remove(update.exerciseSetSelected)
 
             val updateExerciseSet = update.exerciseSetSelected?.copy(
-                time = time
+                time = time,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
 
             sets.add(updateExerciseSet)
@@ -752,7 +847,8 @@ constructor(
             sets.remove(update.exerciseSetSelected)
 
             val updateExerciseSet = update.exerciseSetSelected?.copy(
-                restTime = rest
+                restTime = rest,
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
 
             sets.add(updateExerciseSet)

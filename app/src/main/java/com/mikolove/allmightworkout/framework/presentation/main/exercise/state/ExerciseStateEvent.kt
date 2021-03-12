@@ -123,7 +123,10 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
-    class RemoveMultipleExerciseSetEvent() : ExerciseStateEvent(){
+    class RemoveMultipleExerciseSetEvent(
+        val sets : ArrayList<ExerciseSet>,
+        val idExercise: String
+    ) : ExerciseStateEvent(){
 
         override fun errorInfo(): String = "Error removing some exercise sets."
 

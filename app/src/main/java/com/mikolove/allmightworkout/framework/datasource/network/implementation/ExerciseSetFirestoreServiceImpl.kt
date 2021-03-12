@@ -14,6 +14,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreC
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
 
 class ExerciseSetFirestoreServiceImpl
@@ -105,15 +106,11 @@ constructor(
         exercise?.let {
 
             //Remove set
-            var listOfSets : ArrayList<ExerciseSet> = ArrayList()
-            for(networkSet in exercise.sets){
-                if(networkSet.idExerciseSet != primaryKey )
-                    listOfSets.add(networkSet)
-            }
-            it.sets = listOfSets
+            it.sets = exercise.sets.filter { set -> set.idExerciseSet != primaryKey }
 
             //Update entity
             val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
+
             firestore
                 .collection(USERS_COLLECTION)
                 .document(FIRESTORE_USER_ID)

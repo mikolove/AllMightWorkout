@@ -14,9 +14,15 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertExercise.Companion.INSERT_EXERCISE_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_ERRORS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveExercise
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveExercise.Companion.DELETE_EXERCISE_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_ERRORS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateMultipleExerciseSet.Companion.UPDATE_EXERCISE_SETS_ERRORS
+import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateMultipleExerciseSet.Companion.UPDATE_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout
 import com.mikolove.allmightworkout.databinding.FragmentExerciseDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.FabController
@@ -214,7 +220,6 @@ class ExerciseDetailFragment():
                 when(response.message){
 
                     INSERT_EXERCISE_SUCCESS -> {
-
                         uiController.onResponseReceived(
                             response = stateMessage.response,
                             stateMessageCallback = object : StateMessageCallback {
@@ -251,6 +256,79 @@ class ExerciseDetailFragment():
                         findNavController().popBackStack()
                     }
 
+                    ADD_EXERCISE_SETS_SUCCESS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
+                    ADD_EXERCISE_SETS_ERRORS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
+                    UPDATE_EXERCISE_SETS_SUCCESS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
+                    UPDATE_EXERCISE_SETS_ERRORS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
+                    DELETE_EXERCISE_SETS_SUCCESS -> {
+
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
+                    DELETE_EXERCISE_SETS_ERRORS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        loadCachedExercise()
+                    }
+
                     else -> {
                         uiController.onResponseReceived(
                             response = stateMessage.response,
@@ -270,6 +348,15 @@ class ExerciseDetailFragment():
                     view?.hideKeyboard()
                     binding?.exerciseDetailTextName?.clearFocus()
                 }
+                is EditState ->{
+                    setUpdatePending()
+                }
+            }
+        })
+
+        viewModel.exerciseIsActiveInteractionState.observe(viewLifecycleOwner,{ state ->
+            when(state){
+                is DefaultState ->{ }
                 is EditState ->{
                     setUpdatePending()
                 }
@@ -318,17 +405,19 @@ class ExerciseDetailFragment():
     private fun init(){
 
         //Init from existing exercise
-        if(viewModel.isExistExercise()){
+        //if(viewModel.isExistExercise()){
             val workoutType = viewModel.getExerciseSelectedWorkoutType()
             val bodyPart = viewModel.getExerciseSelected()?.bodyPart
             val exerciseType = viewModel.getExerciseSelected()?.exerciseType
 
-            loadDetailBodyParts(ArrayList(workoutType?.bodyParts))
+            workoutType?.let {
+                loadDetailBodyParts(ArrayList(workoutType?.bodyParts))
+            }
 
             (binding?.exerciseDetailWorkouttype?.editText as AutoCompleteTextView)?.setText(workoutType?.name?.capitalize())
             (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView)?.setText(bodyPart?.name?.capitalize())
             (binding?.exerciseDetailExercisetype?.editText as AutoCompleteTextView)?.setText(exerciseType.toString().capitalize())
-        }
+        //}
     }
 
     private fun loadCachedExercise(){
@@ -357,6 +446,7 @@ class ExerciseDetailFragment():
         if(!viewModel.isExistExercise()){
             binding?.excerciseDetailButtonCreate?.setOnClickListener {
                 insertExercise()
+
             }
         }
         binding?.exerciseDetailButtonAdd?.setOnClickListener {
@@ -412,7 +502,13 @@ class ExerciseDetailFragment():
         if(viewModel.isExistExercise()){
             quitEditState()
         }
+
+        //Update exercise
         viewModel.updateExercise()
+
+        //Update sets
+        viewModel.updateExerciseSets()
+
     }
 
     private fun insertSets(){
