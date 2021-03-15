@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.CompoundButton
+import android.widget.RadioGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -117,6 +119,7 @@ class ExerciseDetailFragment():
             setMenuVisibility(menuDelete,false)
             setMenuVisibility(menuCreate,true)
         }else{
+            printLogD("ExerciseDetailFragment","Is updated pending ? ${viewModel.getIsUpdatePending()}")
             setMenuVisibility(menuUpdate,viewModel.getIsUpdatePending())
             setMenuVisibility(menuDelete,true)
             setMenuVisibility(menuCreate,false)
@@ -461,13 +464,13 @@ class ExerciseDetailFragment():
             }
         })
 
-        binding?.exerciseDetailSwitchIsactive?.setOnFocusChangeListener(object : View.OnFocusChangeListener{
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if(hasFocus) {
-                    onClickIsActive()
-                }
+        binding?.exerciseDetailSwitchIsactive?.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if(viewModel.getExerciseSelected()?.isActive != isChecked)
+                    onClickIsActive(isChecked)
             }
         })
+
         binding?.exerciseDetailWorkouttype?.editText?.setOnFocusChangeListener(object : View.OnFocusChangeListener{
             override fun onFocusChange(v: View?, hasFocus: Boolean) {
                 if(hasFocus) {
@@ -523,7 +526,7 @@ class ExerciseDetailFragment():
     private fun addSet(){
         viewModel.addSet()
         if(viewModel.isExistExercise()){
-            viewModel.setIsUpdatePending(true)
+            setUpdatePending()
         }
     }
 
@@ -603,14 +606,13 @@ class ExerciseDetailFragment():
         }
     }
 
-    private fun onClickIsActive(){
+    private fun onClickIsActive(isChecked : Boolean){
         if(!viewModel.isEditingIsActive()){
             updateNameInViewModel()
             updateBodyPartInViewModel()
             updateExerciseTypeInViewModel()
             viewModel.setInteractionIsActiveState(EditState())
-
-            //setExerciseIsActive(!getExerciseIsActive())
+            setExerciseIsActive(isChecked)
         }
     }
 
@@ -776,6 +778,7 @@ class ExerciseDetailFragment():
      *********************************************************************/
     private fun navigateToSet(item: ExerciseSet){
         //Set destination set
+        quitEditState()
         viewModel.setExerciseSetSelected(item)
         findNavController().navigate(R.id.action_exercise_detail_fragment_to_exercise_set_detail_fragment)
     }

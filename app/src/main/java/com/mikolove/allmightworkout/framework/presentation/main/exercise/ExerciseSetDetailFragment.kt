@@ -74,7 +74,9 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.repInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> { }
+                is EditState -> {
+                    setUpdatePending()
+                }
 
                 is DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextRep?.clearFocus()
@@ -85,7 +87,9 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.weightInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> { }
+                is EditState -> {
+                    setUpdatePending()
+                }
 
                 is DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextWeight?.clearFocus()
@@ -96,7 +100,9 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.timeInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> { }
+                is EditState -> {
+                    setUpdatePending()
+                }
 
                 is DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextTime?.clearFocus()
@@ -107,7 +113,9 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.restInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> { }
+                is EditState -> {
+                    setUpdatePending()
+                }
 
                 is DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextRest?.clearFocus()
@@ -253,19 +261,41 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     }
 
     private fun getRep() : Int{
-        return binding?.fragmentExerciseSetDetailTextRep?.editText?.text.toString().toInt()
+        val text = binding?.fragmentExerciseSetDetailTextRep?.editText?.text.toString()
+        return when(val value = text.toIntOrNull()){
+            null -> 0
+            else -> value
+        }
     }
 
     private fun getTime(): Int{
-        return binding?.fragmentExerciseSetDetailTextTime?.editText?.text.toString().toInt()
+        val text = binding?.fragmentExerciseSetDetailTextTime?.editText?.text.toString()
+        return when(val value = text.toIntOrNull()){
+            null -> 0
+            else -> value
+        }
     }
 
     private fun getRest(): Int{
-        return binding?.fragmentExerciseSetDetailTextRest?.editText?.text.toString().toInt()
+        val text = binding?.fragmentExerciseSetDetailTextRest?.editText?.text.toString()
+        return when(val value = text.toIntOrNull()){
+            null -> 0
+            else -> value
+        }
     }
 
     private fun getWeight(): Int{
-        return binding?.fragmentExerciseSetDetailTextWeight?.editText?.text.toString().toInt()
+        val text = binding?.fragmentExerciseSetDetailTextWeight?.editText?.text.toString()
+        return when(val value = text.toIntOrNull()){
+            null -> 0
+            else -> value
+        }
+    }
+
+    private fun setUpdatePending(){
+        if(viewModel.isExistExercise()){
+            viewModel.setIsUpdatePending(true)
+        }
     }
 
     /********************************************************************

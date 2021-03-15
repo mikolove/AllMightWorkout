@@ -92,7 +92,7 @@ class ExerciseSetListAdapter (
                 if(exerciseType.equals(ExerciseType.REP_EXERCISE)){
                     binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
                 }else{
-                    binding.itemSetSubtitle.text = "${item.reps} x ${item.time} sec - Rest time : ${item.restTime} sec"
+                    binding.itemSetSubtitle.text = "${item.time} sec - Rest time : ${item.restTime} sec"
                 }
             })
 
