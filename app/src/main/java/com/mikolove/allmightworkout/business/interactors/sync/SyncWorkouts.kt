@@ -16,18 +16,14 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
 class SyncWorkouts(
+    private val dateFormat: SimpleDateFormat,
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    private lateinit var dateFormat : SimpleDateFormat
-
     suspend fun syncWorkouts(){
-
-        dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-
         val cachedWorkouts = ArrayList(getCachedWorkouts())
 
         syncCacheAndNetwork(cachedWorkouts)

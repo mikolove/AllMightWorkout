@@ -211,7 +211,6 @@ constructor(
                 )
             }
 
-
             is InsertExerciseEvent -> {
                 if(isExerciseValid()){
                     exerciseInteractors.insertExercise.insertExercise(

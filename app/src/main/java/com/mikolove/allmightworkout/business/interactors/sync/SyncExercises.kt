@@ -15,23 +15,20 @@ import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class SyncExercises(
+    private val dateFormat: SimpleDateFormat,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    private lateinit var dateFormat : SimpleDateFormat
-
     suspend fun syncExercises(){
-
-        dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-
         val cachedExercises = getCachedExercises()
 
         val cachedExerciseSets = HashMap<String,List<ExerciseSet>>()

@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.text.SimpleDateFormat
 import javax.inject.Singleton
 
 @Module
@@ -70,12 +71,14 @@ object SyncModule {
     @Singleton
     @Provides
     fun provideSyncExercises(
+        @SimpleDateFormatUS dateFormatUs: SimpleDateFormat,
         exerciseCacheDataSource: ExerciseCacheDataSource,
         exerciseNetworkDataSource: ExerciseNetworkDataSource,
         exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
         exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
     ) : SyncExercises {
         return SyncExercises(
+            dateFormat = dateFormatUs,
             exerciseCacheDataSource = exerciseCacheDataSource,
             exerciseNetworkDataSource = exerciseNetworkDataSource,
             exerciseSetCacheDataSource = exerciseSetCacheDataSource,
@@ -86,12 +89,14 @@ object SyncModule {
     @Singleton
     @Provides
     fun provideSyncWorkouts(
+        @SimpleDateFormatUS dateFormatUs: SimpleDateFormat,
         workoutCacheDataSource : WorkoutCacheDataSource,
         workoutNetworkDataSource: WorkoutNetworkDataSource,
         exerciseCacheDataSource: ExerciseCacheDataSource,
         exerciseNetworkDataSource: ExerciseNetworkDataSource
     ) : SyncWorkouts {
         return SyncWorkouts(
+            dateFormat = dateFormatUs,
             workoutCacheDataSource = workoutCacheDataSource,
             workoutNetworkDataSource = workoutNetworkDataSource,
             exerciseCacheDataSource = exerciseCacheDataSource,

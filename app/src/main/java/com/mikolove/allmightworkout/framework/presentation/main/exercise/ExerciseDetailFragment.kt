@@ -461,10 +461,13 @@ class ExerciseDetailFragment():
             }
         })
 
-        binding?.exerciseDetailSwitchIsactive?.setOnClickListener {
-            onClickIsActive()
-        }
-
+        binding?.exerciseDetailSwitchIsactive?.setOnFocusChangeListener(object : View.OnFocusChangeListener{
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                if(hasFocus) {
+                    onClickIsActive()
+                }
+            }
+        })
         binding?.exerciseDetailWorkouttype?.editText?.setOnFocusChangeListener(object : View.OnFocusChangeListener{
             override fun onFocusChange(v: View?, hasFocus: Boolean) {
                 if(hasFocus) {
@@ -607,7 +610,7 @@ class ExerciseDetailFragment():
             updateExerciseTypeInViewModel()
             viewModel.setInteractionIsActiveState(EditState())
 
-            setExerciseIsActive(!getExerciseIsActive())
+            //setExerciseIsActive(!getExerciseIsActive())
         }
     }
 
@@ -795,7 +798,10 @@ class ExerciseDetailFragment():
             quitEditState()
         }else{
 
+            viewModel.setIsUpdatePending(false)
             viewModel.setExerciseSelected(null)
+            viewModel.setExerciseSetSelected(null)
+
             viewModel.setDetailWorkoutTypes(null)
             viewModel.setDetailBodyPart(null)
             viewModel.setDetailExerciseTypes(null)
