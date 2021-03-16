@@ -94,9 +94,8 @@ class WorkoutFragment
         printLogD("WorkoutFragment","OnResume")
 
         setupFAB()
-
         viewModel.loadTotalWorkouts()
-        viewModel.clearListWorkouts()
+        //viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
     }
 
@@ -183,8 +182,9 @@ class WorkoutFragment
                             viewModel.setWorkoutQueryExhausted(true)
                         }
                         listAdapter?.submitList(workoutList)
+                        showList()
                     }else{
-                        //SHOW NO WORKOUTS VIEW
+                        hideList()
                     }
                 }
 
@@ -251,6 +251,16 @@ class WorkoutFragment
     /********************************************************************
         SETUP
     *********************************************************************/
+
+    private fun showList(){
+        binding?.fragmentWorkoutSwiperefreshlayout?.fadeIn()
+        binding?.fragmentWorkoutNoWorkout?.fadeOut()
+    }
+
+    private fun hideList(){
+        binding?.fragmentWorkoutSwiperefreshlayout?.fadeOut()
+        binding?.fragmentWorkoutNoWorkout?.fadeIn()
+    }
 
     private fun setupUI(){
         view?.hideKeyboard()
@@ -626,7 +636,7 @@ class WorkoutFragment
         uiController.onResponseReceived(
             response = Response(
                 message = GET_WORKOUTS_NO_MATCHING_RESULTS,
-                uiComponentType = UIComponentType.Toast(),
+                uiComponentType = UIComponentType.None(),
                 messageType = MessageType.Info()
             ),
             stateMessageCallback = object: StateMessageCallback {

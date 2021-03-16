@@ -45,6 +45,20 @@
         app:layout_constraintStart_toStartOf="@+id/fragment_workout_horizontalview"
         app:layout_constraintTop_toBottomOf="@+id/fragment_workout_horizontalview" />
 
+    <TextView
+        android:id="@+id/fragment_workout_no_workout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/fragment_choose_workout_no_workout"
+        android:textAppearance="?textAppearanceBody2"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_workout_divider"
+        app:layout_constraintStart_toStartOf="@+id/fragment_workout_divider"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_workout_divider" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/fragment_workout_swiperefreshlayout"
         android:layout_width="0dp"
@@ -52,7 +66,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/fragment_workout_divider"
         app:layout_constraintStart_toStartOf="@+id/fragment_workout_divider"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_workout_divider">
+        app:layout_constraintTop_toBottomOf="@+id/fragment_workout_divider"
+        android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_workout_recyclerview"

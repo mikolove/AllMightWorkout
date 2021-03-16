@@ -88,11 +88,12 @@ class ExerciseSetListAdapter (
             binding.itemSetTitle.text = "Set"
 
             exerciseType.observe(lifecycleOwner,{ exerciseType ->
-                printLogD("ExerciseSetListAdapter","Set subtitle ${exerciseType}")
-                if(exerciseType.equals(ExerciseType.REP_EXERCISE)){
-                    binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
-                }else{
-                    binding.itemSetSubtitle.text = "${item.time} sec - Rest time : ${item.restTime} sec"
+                exerciseType?.let {
+                    if(exerciseType.equals(ExerciseType.REP_EXERCISE)){
+                        binding.itemSetSubtitle.text = "${item.reps} x ${item.weight} kg - Rest time : ${item.restTime} sec"
+                    }else{
+                        binding.itemSetSubtitle.text = "${item.time} sec - Rest time : ${item.restTime} sec"
+                    }
                 }
             })
 

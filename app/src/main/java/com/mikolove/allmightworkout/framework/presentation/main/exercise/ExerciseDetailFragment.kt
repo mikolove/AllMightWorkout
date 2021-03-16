@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.CompoundButton
-import android.widget.RadioGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -25,15 +24,12 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMul
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateMultipleExerciseSet.Companion.UPDATE_EXERCISE_SETS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateMultipleExerciseSet.Companion.UPDATE_EXERCISE_SETS_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout
 import com.mikolove.allmightworkout.databinding.FragmentExerciseDetailBinding
-import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
 import com.mikolove.allmightworkout.framework.presentation.common.hideKeyboard
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionState.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,8 +37,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ExerciseDetailFragment():
     BaseFragment(R.layout.fragment_exercise_detail),
-    ExerciseSetListAdapter.Interaction,
-    FabController{
+    ExerciseSetListAdapter.Interaction{
 
     val viewModel : ExerciseViewModel by activityViewModels()
 
@@ -75,7 +70,6 @@ class ExerciseDetailFragment():
 
         binding = FragmentExerciseDetailBinding.bind(view)
 
-        viewModel.resetDetailExhausted()
         setupAdapters()
         setupButtonAction()
         setupOnBackPressDispatcher()
@@ -87,7 +81,7 @@ class ExerciseDetailFragment():
 
         loadDetailWorkoutTypes(viewModel.getWorkoutTypes())
         loadDetailExerciseTypes(ExerciseType.values().toCollection(ArrayList()))
-        loadCachedExercise()
+        loadCachedExerciseSets()
         init()
     }
 
@@ -119,7 +113,6 @@ class ExerciseDetailFragment():
             setMenuVisibility(menuDelete,false)
             setMenuVisibility(menuCreate,true)
         }else{
-            printLogD("ExerciseDetailFragment","Is updated pending ? ${viewModel.getIsUpdatePending()}")
             setMenuVisibility(menuUpdate,viewModel.getIsUpdatePending())
             setMenuVisibility(menuDelete,true)
             setMenuVisibility(menuCreate,false)
@@ -167,7 +160,6 @@ class ExerciseDetailFragment():
             if(viewState != null){
 
                 viewState.detailWorkoutTypes?.let {
-                    printLogD("ExerciseDetailFragment","Load workoutTypes ${viewModel.getDetailWorkoutTypesExhausted()}")
                     if(!viewModel.getDetailWorkoutTypesExhausted()){
                         workoutTypeAdapter?.clear()
                         workoutTypeAdapter?.addAll(it)
@@ -186,7 +178,6 @@ class ExerciseDetailFragment():
 
                 viewState.detailExerciseType?.let {
                     if(!viewModel.getDetailExerciseTypesExhausted()){
-                        printLogD("ExerciseDetailFragment","Load exerciseTypes ${viewModel.getDetailExerciseTypesExhausted()}")
                         exerciseTypeAdapter?.clear()
                         exerciseTypeAdapter?.addAll(it)
                         viewModel.setDetailExerciseTypesExhausted(true)
@@ -194,7 +185,6 @@ class ExerciseDetailFragment():
                 }
 
                 viewState.exerciseSelected?.let {
-                    printLogD("ExerciseDetailFragment","${it.name} / ${it.bodyPart} / ${it.exerciseType} / ${it.isActive}")
 
                     //Update name and is Active
                     setExerciseName(it.name)
@@ -268,7 +258,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     ADD_EXERCISE_SETS_ERRORS -> {
@@ -280,7 +270,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     UPDATE_EXERCISE_SETS_SUCCESS -> {
@@ -292,7 +282,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     UPDATE_EXERCISE_SETS_ERRORS -> {
@@ -304,7 +294,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     DELETE_EXERCISE_SETS_SUCCESS -> {
@@ -317,7 +307,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     DELETE_EXERCISE_SETS_ERRORS -> {
@@ -329,7 +319,7 @@ class ExerciseDetailFragment():
                                 }
                             }
                         )
-                        loadCachedExercise()
+                        loadCachedExerciseSets()
                     }
 
                     else -> {
@@ -407,23 +397,20 @@ class ExerciseDetailFragment():
 
     private fun init(){
 
-        //Init from existing exercise
-        //if(viewModel.isExistExercise()){
-            val workoutType = viewModel.getExerciseSelectedWorkoutType()
-            val bodyPart = viewModel.getExerciseSelected()?.bodyPart
-            val exerciseType = viewModel.getExerciseSelected()?.exerciseType
+        val workoutType = viewModel.getExerciseSelectedWorkoutType()
+        val bodyPart = viewModel.getExerciseSelected()?.bodyPart
+        val exerciseType = viewModel.getExerciseSelected()?.exerciseType
 
-            workoutType?.let {
-                loadDetailBodyParts(ArrayList(workoutType?.bodyParts))
-            }
+        workoutType?.let {
+            loadDetailBodyParts(ArrayList(workoutType?.bodyParts))
+        }
 
-            (binding?.exerciseDetailWorkouttype?.editText as AutoCompleteTextView)?.setText(workoutType?.name?.capitalize())
-            (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView)?.setText(bodyPart?.name?.capitalize())
-            (binding?.exerciseDetailExercisetype?.editText as AutoCompleteTextView)?.setText(exerciseType.toString().capitalize())
-        //}
+        (binding?.exerciseDetailWorkouttype?.editText as AutoCompleteTextView)?.setText(workoutType?.name?.capitalize())
+        (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView)?.setText(bodyPart?.name?.capitalize())
+        (binding?.exerciseDetailExercisetype?.editText as AutoCompleteTextView)?.setText(exerciseType.toString().capitalize())
     }
 
-    private fun loadCachedExercise(){
+    private fun loadCachedExerciseSets(){
         val idExercise = viewModel.getExerciseSelected()?.idExercise ?: ""
         viewModel.loadCachedExerciseSets(idExercise)
     }
@@ -536,13 +523,11 @@ class ExerciseDetailFragment():
     }
 
     private fun setUpdatePending(){
-        if(viewModel.isExistExercise()){
+        if(viewModel.isExistExercise() && !viewModel.getIsUpdatePending()){
             viewModel.setIsUpdatePending(true)
         }
     }
     private fun setupAdapters(){
-
-        printLogD("ExerciseDetailFragment","Setup Adapters")
 
         //WorkoutTypeAdapter
         val types = arrayListOf<WorkoutType>()
@@ -658,7 +643,6 @@ class ExerciseDetailFragment():
 
     private fun updateBodyPartInViewModel(){
         if(viewModel.isEditingBodyPart()){
-            printLogD("ExerciseDetailFragment","Bodypart ${getExerciseBodyPart()}")
             viewModel.updateExerciseBodyPart(getExerciseBodyPart())
         }
     }
@@ -737,19 +721,8 @@ class ExerciseDetailFragment():
     }
 
     override fun onDeleteClick(item: ExerciseSet) {
-
         removeSet(item)
-
     }
-
-    override fun setupFAB() {
-
-    }
-
-    override fun fabOnClick() {
-
-    }
-
 
     private fun deleteExercise() {
         viewModel.setStateEvent(
@@ -796,7 +769,6 @@ class ExerciseDetailFragment():
     }
 
     private fun onBackPressed() {
-        printLogD("ExerciseDetailFragment","On Back Pressed")
         if (viewModel.checkExerciseEditState()) {
             quitEditState()
         }else{
@@ -804,6 +776,7 @@ class ExerciseDetailFragment():
             viewModel.setIsUpdatePending(false)
             viewModel.setExerciseSelected(null)
             viewModel.setExerciseSetSelected(null)
+            viewModel.clearExerciseTypeState()
 
             viewModel.setDetailWorkoutTypes(null)
             viewModel.setDetailBodyPart(null)

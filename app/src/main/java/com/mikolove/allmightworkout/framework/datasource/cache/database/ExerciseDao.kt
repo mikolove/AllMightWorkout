@@ -93,14 +93,14 @@ interface ExerciseDao{
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
-        ORDER BY name DESC LIMIT ( :page * :pageSize)
+        ORDER BY name COLLATE NOCASE DESC LIMIT ( :page * :pageSize)
     """)
     suspend fun getExercisesOrderByNameDESC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
-        ORDER BY name ASC LIMIT ( :page * :pageSize)
+        ORDER BY name COLLATE NOCASE ASC LIMIT ( :page * :pageSize)
     """)
     suspend fun getExercisesOrderByNameASC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 

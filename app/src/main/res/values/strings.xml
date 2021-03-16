@@ -42,13 +42,16 @@
 
     <!-- ChooseWorkout Fragment -->
     <string name="fragment_choose_workout_title">Workouts</string>
+    <string name="fragment_choose_workout_no_workout">No workouts found that match the searching query. Add some workouts or change the filters.</string>
     <string name="fragment_choose_workout_add_content_description">Add Workout</string>
     <string name="fragment_choose_workout_add_name">Enter a name for the new workout</string>
 
     <!-- ChooseExercise Fragment -->
     <string name="fragment_choose_exercise_title">Exercises</string>
+    <string name="fragment_choose_exercise_no_exercise">No exercises found that match the searching query. Add some exercises or change the filters.</string>
     <string name="fragment_choose_exercise_add_content_description">Add Exercise</string>
     <string name="fragment_choose_exercise_add_name">Enter a name for the new exercise</string>
+
 
     <!-- ManageWorkout Fragment -->
     <string name="fragment_manage_workout_text_title">Manage workout</string>

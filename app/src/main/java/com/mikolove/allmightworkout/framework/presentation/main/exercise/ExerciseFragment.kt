@@ -27,10 +27,7 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMul
 import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController
-import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
-import com.mikolove.allmightworkout.framework.presentation.common.hideKeyboard
+import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.util.printLogD
@@ -62,14 +59,12 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        printLogD("ExerciseFragment","OnCreate")
         viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        printLogD("ExerciseFragment","OnViewCreated")
         setHasOptionsMenu(true)
 
         binding = FragmentExerciseBinding.bind(view)
@@ -86,22 +81,14 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun onResume() {
         super.onResume()
-        printLogD("ExerciseFragment","OnResume")
-
         setupFAB()
         viewModel.loadTotalExercises()
-        viewModel.clearListExercises()
+        //viewModel.clearListExercises()
         viewModel.loadWorkoutTypes()
         viewModel.refreshExerciseSearchQuery()
     }
 
-    override fun onPause() {
-        super.onPause()
-        printLogD("ExerciseFragment", "OnPause")
-    }
-
     override fun onDestroyView() {
-        printLogD("ExerciseFragment", "OnDestroyView")
         disableMultiSelectToolbarState()
         binding?.fragmentExerciseRecyclerview?.adapter = null
         listAdapter = null
@@ -121,18 +108,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("ExerciseFragment","OnSaveInstanceState")
-/*        val viewState = viewModel.viewState.value
-
-        viewState?.listExercises =  ArrayList()
-        viewState?.listBodyParts = ArrayList()
-        viewState?.listWorkoutTypes = ArrayList()
-        viewState?.exerciseSelected = null
-        viewState?.isExistExercise = null
-
-        outState.putParcelable(
-            EXERCISE_VIEW_STATE_BUNDLE_KEY,
-            viewState
-        )*/
         super.onSaveInstanceState(outState)
     }
 
@@ -177,11 +152,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
                             viewModel.setExerciseQueryExhausted(true)
                         }
                         listAdapter?.submitList(exerciseList)
+                        showList()
                     }else{
-                        //SHOW NO WORKOUTS VIEW
+                        hideList()
                     }
                 }
-
             }
         })
 
@@ -231,6 +206,16 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     /********************************************************************
     SETUP
      *********************************************************************/
+
+    private fun showList(){
+        binding?.fragmentExerciseSwiperefreshlayout?.fadeIn()
+        binding?.fragmentExerciseNoExercise?.fadeOut()
+    }
+
+    private fun hideList(){
+        binding?.fragmentExerciseSwiperefreshlayout?.fadeOut()
+        binding?.fragmentExerciseNoExercise?.fadeIn()
+    }
 
     private fun setupUI(){
         view?.hideKeyboard()
@@ -294,9 +279,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     private fun selectionNavigateToManageExercise(containerView : View){
 
-       // viewModel.setWorkoutTypeSelected(viewModel.getExerciseSelectedWorkoutType())
         viewModel.setIsExistExercise(true)
-
         val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
@@ -317,15 +300,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     /********************************************************************
     UI DIALOG
      *********************************************************************/
-
-    fun updateFilterByChip(){
-
-    }
-
-    fun showAddExerciseDialog(){
-
-
-    }
 
     fun showFilterDialog(){
 
@@ -454,8 +428,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise, menu)
 
-        printLogD("ExerciseFragment", "LOADED MENU")
-
         //Deal with searchView
         val searchItem = menu.findItem(R.id.menu_exercise_search)
         val searchView = searchItem?.actionView as SearchView
@@ -507,31 +479,13 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
 
     /********************************************************************
-    VIEWMODEL ACTIONS
+        VIEWMODEL ACTIONS
      *********************************************************************/
 
 
     private fun startNewSearch(){
-        printLogD("ExerciseFragment","Start New search")
         viewModel.clearListExercises()
         viewModel.exercisesStartNewSearch()
-    }
-
-    private fun addExercise(){
-        uiController.displayInputCaptureDialog(
-            getString(R.string.fragment_choose_exercise_add_name),
-            object : DialogInputCaptureCallback {
-                override fun onTextCaptured(text: String) {
-                    if (!text.isNullOrBlank()) {
-                       /* viewModel.setStateEvent(
-                            ExerciseStateEvent.InsertExerciseEvent(name = text)
-                        )*/
-                    } else {
-                        onErrorNoNameSpecified()
-                    }
-                }
-            }
-        )
     }
 
     private fun onErrorNoNameSpecified(){
@@ -618,7 +572,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         uiController.onResponseReceived(
             response = Response(
                 message = GetExercises.GET_EXERCISES_NO_MATCHING_RESULTS,
-                uiComponentType = UIComponentType.Toast(),
+                uiComponentType = UIComponentType.None(),
                 messageType = MessageType.Info()
             ),
             stateMessageCallback = object: StateMessageCallback {

@@ -25,8 +25,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-const val EXERCISE_ERRROR_RETRIEVING_ID_WORKOUT = "Error retrieving idExercise from bundle."
-const val EXERCISE_ID_WORKOUT_BUNDLE_KEY = "idExercise"
 const val EXERCISE_INCOMPLETE = "Exercise is incomplete, please fill the form values."
 const val INSERT_EXERCISE_ERROR_NO_NAME = "You must set a name to create an exercise."
 
@@ -48,15 +46,13 @@ constructor(
     }
 
     /********************************************************************
-    LIVEDATA
+        LIVEDATA
      *********************************************************************/
 
     private val _exerciseTypeState : MutableLiveData<ExerciseType> = MutableLiveData()
 
     val exerciseTypeState : LiveData<ExerciseType>
         get() = _exerciseTypeState
-
-    fun getExerciseTypeState() : ExerciseType = _exerciseTypeState.value?: ExerciseType.REP_EXERCISE
 
     fun setExerciseTypeState(exerciseType: ExerciseType){
         _exerciseTypeState.value =  exerciseType
@@ -74,28 +70,9 @@ constructor(
     val exerciseToolbarState: LiveData<ListToolbarState>
         get() = exerciseListInteractionManager.toolbarState
 
-    private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
-
-    private val exerciseSetInteractionManager: ExerciseSetInteractionManager = ExerciseSetInteractionManager()
-
-    val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.nameState
-
-    val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.isActiveState
-
-    val exerciseBodyPartInteractionState : LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.bodyPartState
-
-    val exerciseWorkoutTypeInteractionState : LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.workoutTypeState
-
-    val exerciseTypeInteractionState : LiveData<ExerciseInteractionState>
-        get() = exerciseInteractionManager.exerciseTypeState
-
 
     /********************************************************************
-    INIT BLOC
+        INIT BLOC - set filters
      *********************************************************************/
 
     init {
@@ -117,8 +94,6 @@ constructor(
 
     override fun handleNewData(data: ExerciseViewState) {
         data.let { viewState ->
-
-            printLogD("ExerciseViewModel","handleNewData")
 
             viewState.isExistExercise?.let { isInserted ->
                 setIsExistExercise(isInserted)
@@ -330,7 +305,7 @@ constructor(
 
 
     /********************************************************************
-    TRIGGER STATE EVENTS - FUNCTIONS
+        TRIGGER STATE EVENTS - FUNCTIONS
      *********************************************************************/
 
     fun getExerciseById( idExercise : String){
@@ -387,8 +362,6 @@ constructor(
             return true
         }
     }
-
-
 
     fun insertExercise(){
         val exercise = getExerciseSelected()
@@ -568,7 +541,6 @@ constructor(
     }
 
     fun loadBodyParts(){
-        printLogD("HomeViewModel","Load body parts")
         setStateEvent(GetBodyPartEvent())
     }
 
@@ -967,10 +939,11 @@ constructor(
         update.isCachedExercisesSetsExhausted = isExhausted
         setViewState(update)
     }
+
+
     /********************************************************************
     TOOLBARS GETTERS AND SETTERS - EXERCISES
      *********************************************************************/
-
 
     fun getSelectedExercises() = exerciseListInteractionManager.getSelectedItems()
 
@@ -1016,7 +989,7 @@ constructor(
     }
 
     /********************************************************************
-    ListExercises PageManagement
+        ListExercises PageManagement
      *********************************************************************/
 
     fun resetPageExercises(){
@@ -1049,47 +1022,12 @@ constructor(
         setViewState(update)
     }
 
+
+
+
     /********************************************************************
-    INTERACTIONS
+        Dropdown management
      *********************************************************************/
-
-    fun setInteractionNameState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setNameState(state)
-    }
-
-    fun setInteractionIsActiveState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setIsActiveState(state)
-    }
-
-    fun setInteractionWorkoutTypeState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setWorkoutTypeState(state)
-    }
-    fun setInteractionBodyPartState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setBodyPartState(state)
-    }
-
-    fun setInteractionExerciseTypeState(state : ExerciseInteractionState){
-        exerciseInteractionManager.setExerciseTypeState(state)
-    }
-
-    fun checkExerciseEditState() = exerciseInteractionManager.checkEditState()
-
-    fun exitExerciseEditState() = exerciseInteractionManager.exitEditState()
-
-    fun isEditingName() = exerciseInteractionManager.isEditingName()
-
-    fun isEditingIsActive() = exerciseInteractionManager.isEditingIsActive()
-
-    fun isEditingWorkoutType() = exerciseInteractionManager.isEditingWorkoutType()
-
-    fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
-
-    fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
-
-
-    /*
-        driving mad about this dont understand
-     */
 
     fun getDetailWorkoutTypesExhausted() : Boolean = getCurrentViewStateOrNew().detailWorkoutTypesExshauted ?: false
 
@@ -1161,9 +1099,30 @@ constructor(
 
 
     /********************************************************************
-    INTERACTIONS Set STATE
+    INTERACTIONS EXERCISE & SET STATE
      *********************************************************************/
 
+    private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
+
+    private val exerciseSetInteractionManager: ExerciseSetInteractionManager = ExerciseSetInteractionManager()
+
+    //Exercise
+    val exerciseNameInteractionState: LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.nameState
+
+    val exerciseIsActiveInteractionState: LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.isActiveState
+
+    val exerciseBodyPartInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.bodyPartState
+
+    val exerciseWorkoutTypeInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.workoutTypeState
+
+    val exerciseTypeInteractionState : LiveData<ExerciseInteractionState>
+        get() = exerciseInteractionManager.exerciseTypeState
+
+    //Exercise set
     val repInteractionState : LiveData<ExerciseSetInteractionState>
         get() = exerciseSetInteractionManager.repState
 
@@ -1176,6 +1135,27 @@ constructor(
     val restInteractionState : LiveData<ExerciseSetInteractionState>
         get() = exerciseSetInteractionManager.restState
 
+    //Set Exercise
+    fun setInteractionNameState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setNameState(state)
+    }
+
+    fun setInteractionIsActiveState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setIsActiveState(state)
+    }
+
+    fun setInteractionWorkoutTypeState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setWorkoutTypeState(state)
+    }
+    fun setInteractionBodyPartState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setBodyPartState(state)
+    }
+
+    fun setInteractionExerciseTypeState(state : ExerciseInteractionState){
+        exerciseInteractionManager.setExerciseTypeState(state)
+    }
+
+    //Set Exercise set
     fun setInteractionRepState(state : ExerciseSetInteractionState){
         exerciseSetInteractionManager.setRepState(state)
     }
@@ -1191,6 +1171,21 @@ constructor(
     fun setInteractionRestState(state : ExerciseSetInteractionState){
         exerciseSetInteractionManager.setRestState(state)
     }
+
+    //Functions
+    fun checkExerciseEditState() = exerciseInteractionManager.checkEditState()
+
+    fun exitExerciseEditState() = exerciseInteractionManager.exitEditState()
+
+    fun isEditingName() = exerciseInteractionManager.isEditingName()
+
+    fun isEditingIsActive() = exerciseInteractionManager.isEditingIsActive()
+
+    fun isEditingWorkoutType() = exerciseInteractionManager.isEditingWorkoutType()
+
+    fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
+
+    fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
 
     fun checkSetEditState() = exerciseSetInteractionManager.checkEditState()
 
