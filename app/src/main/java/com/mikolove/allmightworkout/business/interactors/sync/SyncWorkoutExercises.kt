@@ -26,6 +26,12 @@ class SyncWorkoutExercises(
 ) {
 
 
+    /*
+        LOGIC HERE IS NOT HAVE TO REDO THIS
+        IF LAST UPDATE IS NULL WHEN SYNC ANOTHER DEVICE TRYING TO SYNC BEFORE A MODIFICATION IS DONE
+        THE NEW DEVICE WILL NEVER GET THE LINKED EXERCISES
+
+     */
     suspend fun syncWorkoutExercises() {
 
         val cachedWorkouts = ArrayList(getCachedWorkouts())
@@ -85,10 +91,10 @@ class SyncWorkoutExercises(
             val networkUpdatedAt = networkWorkout.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
             val cacheUpdatedAt = cacheWorkout?.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
 
-/*            printLogD("SyncWorkoutExercises","For network workout ${networkWorkout.idWorkout}")
+            printLogD("SyncWorkoutExercises","For network workout ${networkWorkout.idWorkout}")
             printLogD("SyncWorkoutExercises","And cache workout  ${cacheWorkout?.idWorkout}")
             printLogD("SyncWorkoutExercises","networkUpdatedAT = ${networkUpdatedAt}")
-            printLogD("SyncWorkoutExercises","cacheUpdatedAt ${cacheUpdatedAt}")*/
+            printLogD("SyncWorkoutExercises","cacheUpdatedAt ${cacheUpdatedAt}")
 
             //If one or the other is not null
             if (networkUpdatedAt != null || cacheUpdatedAt != null) {
@@ -120,8 +126,7 @@ class SyncWorkoutExercises(
                             //printLogD("SyncWorkoutExercises","networkUpdatedAt.after(cacheUpdatedAt)")
 
                             //Update cache with network
-                            updateWorkoutExerciseInCacheWithNetwork(
-                                networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
 
                         }
 
@@ -132,7 +137,20 @@ class SyncWorkoutExercises(
                             updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
 
                         }
+
+                    //Update cache with network when this is a new installation
+                    }else if(networkUpdatedAt.equals(cacheUpdatedAt)){
+
+                        printLogD("SyncWorkoutExercises","networkUpdatedAt.equals(cacheUpdatedAt)")
+
+                        val cacheExerciseSize = cacheWorkout.exercises?.size ?: 0
+                        val networkExerciseSize = networkWorkout.exercises?.size ?:0
+                        if(cacheExerciseSize == 0 && networkExerciseSize >0){
+                            printLogD("SyncWorkoutExercises","cache size ${cacheExerciseSize} network size ${networkExerciseSize}")
+                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                        }
                     }
+
                 }
 
             //First if end

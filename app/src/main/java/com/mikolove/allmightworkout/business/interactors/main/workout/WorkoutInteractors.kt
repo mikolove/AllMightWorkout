@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.framework.presentation.main.workout.state.Wo
 
 class WorkoutInteractors(
     val getWorkouts: GetWorkouts,
+    val getExercises: GetExercises,
     val getWorkoutById: GetWorkoutById,
     val getTotalWorkouts: GetTotalWorkouts,
     val insertWorkout: InsertWorkout,

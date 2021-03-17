@@ -13,6 +13,7 @@ data class WorkoutViewState(
 
     //Retrieving lists
     var listWorkouts: ArrayList<Workout>? = null,
+    var listExercises: ArrayList<Exercise>? = null,
     var listWorkoutTypes: ArrayList<WorkoutType>? = null,
     var listBodyParts: ArrayList<BodyPart>? = null,
     var listBodyPartsByWorkoutTypes : ArrayList<BodyPart>? = null,
@@ -37,6 +38,10 @@ data class WorkoutViewState(
     var pageWorkouts: Int? = null,
     var isWorkoutsQueryExhausted: Boolean? = null,
 
+    var searchQueryExercises: String? = null,
+    var pageExercises: Int? = null,
+    var isExerciseQueryExhausted: Boolean? = null,
+
 
     //Load and store filters for each list
     var workout_list_filter: String? = null,
@@ -44,6 +49,7 @@ data class WorkoutViewState(
 
     //Total elements in cache for each list - maybe undeeded
     var totalWorkouts: Int? = null,
+    var totalExercises: Int? = null,
     var totalBodyParts: Int? = null,
     var totalBodyPartsByWorkoutType: Int? = null
 

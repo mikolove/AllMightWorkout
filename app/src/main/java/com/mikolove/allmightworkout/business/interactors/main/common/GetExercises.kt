@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.exercise
+package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
@@ -6,20 +6,21 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetExercises(
-    private val exerciseCacheDataSource: ExerciseCacheDataSource
+    val exerciseCacheDataSource: ExerciseCacheDataSource
 ) {
 
-    fun getExercises(
+    inline fun <reified ViewState> getExercises(
         query: String,
         filterAndOrder: String,
         page: Int,
         stateEvent : StateEvent
-    ) : Flow<DataState<ExerciseViewState>?> = flow{
+    ) : Flow<DataState<ViewState>?> = flow{
 
         var updatedPage = page
         if(page <= 0) updatedPage = 1
@@ -32,11 +33,11 @@ class GetExercises(
             )
         }
 
-        val response = object : CacheResponseHandler<ExerciseViewState, List<Exercise>>(
+        val response = object : CacheResponseHandler<ViewState, List<Exercise>>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<ExerciseViewState>? {
+            override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<ViewState>? {
 
                 var message : String? = GET_EXERCISES_SUCCESS
                 var uiComponentType : UIComponentType = UIComponentType.None()
@@ -46,13 +47,18 @@ class GetExercises(
                     uiComponentType = UIComponentType.Toast()
                 }
 
+                val viewState = when(ViewState::class){
+                    ExerciseViewState::class -> { ExerciseViewState(listExercises = ArrayList(resultObj)) }
+                    WorkoutViewState::class  -> { WorkoutViewState(listExercises = ArrayList(resultObj)) }
+                    else -> null
+                }
                 return DataState.data(
                     response = Response(
                         message = message,
                         uiComponentType = uiComponentType,
                         messageType =  MessageType.Success()
                     ),
-                    data = ExerciseViewState(listExercises = ArrayList(resultObj)),
+                    data = viewState as ViewState,
                     stateEvent = stateEvent
                 )
             }

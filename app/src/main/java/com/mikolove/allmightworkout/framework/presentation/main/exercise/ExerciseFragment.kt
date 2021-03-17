@@ -7,6 +7,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -19,10 +20,9 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.transition.MaterialElevationScale
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises
+import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
 import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
@@ -208,13 +208,17 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
      *********************************************************************/
 
     private fun showList(){
-        binding?.fragmentExerciseSwiperefreshlayout?.fadeIn()
-        binding?.fragmentExerciseNoExercise?.fadeOut()
+        if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == false) {
+            binding?.fragmentExerciseSwiperefreshlayout?.fadeIn()
+            binding?.fragmentExerciseNoExercise?.fadeOut()
+        }
     }
 
     private fun hideList(){
-        binding?.fragmentExerciseSwiperefreshlayout?.fadeOut()
-        binding?.fragmentExerciseNoExercise?.fadeIn()
+        if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == true) {
+            binding?.fragmentExerciseSwiperefreshlayout?.fadeOut()
+            binding?.fragmentExerciseNoExercise?.fadeIn()
+        }
     }
 
     private fun setupUI(){
@@ -484,7 +488,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
 
     private fun startNewSearch(){
-        viewModel.clearListExercises()
+        //viewModel.clearListExercises()
         viewModel.exercisesStartNewSearch()
     }
 

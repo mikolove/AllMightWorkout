@@ -17,6 +17,16 @@ sealed class WorkoutStateEvent : StateEvent {
         override fun shouldDisplayProgressBar(): Boolean = true
     }
 
+    class GetExercisesEvent() : WorkoutStateEvent() {
+
+        override fun errorInfo(): String = "Error retrieving exercises."
+
+        override fun eventName(): String = "GetExercisesEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
+
     class GetTotalWorkoutsEvent(
 
     ) : WorkoutStateEvent(){
@@ -67,8 +77,8 @@ sealed class WorkoutStateEvent : StateEvent {
     }
 
     class AddExerciseToWorkoutEvent(
-        exerciseId : String,
-        workoutId : String
+        val exerciseId : String,
+        val workoutId : String
     ) : WorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error adding exercise to workout."
@@ -79,8 +89,8 @@ sealed class WorkoutStateEvent : StateEvent {
     }
 
     class RemoveExerciseFromWorkoutEvent(
-        exerciseId: String,
-        workoutId: String
+        val exerciseId: String,
+        val workoutId: String
     ) : WorkoutStateEvent(){
 
         override fun errorInfo(): String = "Error removing exercise for the specified workout."

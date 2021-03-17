@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.allmightworkout.business.interactors.main.common.*
-import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseDaoService
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 
 class ExerciseInteractors(

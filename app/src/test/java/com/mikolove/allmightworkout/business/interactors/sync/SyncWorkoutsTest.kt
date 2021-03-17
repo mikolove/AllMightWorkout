@@ -10,6 +10,7 @@ import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,6 +45,8 @@ class SyncWorkoutsTest {
 
     private val workoutFactory : WorkoutFactory
 
+    private val dateFormat : SimpleDateFormat
+
     private val workoutCacheDataSource : WorkoutCacheDataSource
     private val workoutNetworkDataSource : WorkoutNetworkDataSource
     private val exerciseCacheDataSource : ExerciseCacheDataSource
@@ -56,12 +59,14 @@ class SyncWorkoutsTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
 
+        dateFormat = dependencyContainer.dateFormat
         workoutFactory = dependencyContainer.workoutFactory
         workoutCacheDataSource = dependencyContainer.workoutCacheDataSource
         workoutNetworkDataSource = dependencyContainer.workoutNetworkDataSource
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
         syncWorkouts = SyncWorkouts(
+            dateFormat,
             workoutCacheDataSource,
             workoutNetworkDataSource,
             exerciseCacheDataSource,

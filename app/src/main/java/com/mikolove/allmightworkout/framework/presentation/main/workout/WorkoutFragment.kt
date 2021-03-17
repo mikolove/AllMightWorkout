@@ -7,6 +7,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -230,12 +231,10 @@ class WorkoutFragment
                     }*/
 
                     else -> {
-                        printLogD("WorkoutFragment","State message response ${stateMessage.response}")
                         uiController.onResponseReceived(
                             response = stateMessage.response,
                             stateMessageCallback = object: StateMessageCallback {
                                 override fun removeMessageFromStack() {
-                                    printLogD("WorkoutFragment","Cleared ${stateMessage.response}")
                                     viewModel.clearStateMessage()
                                 }
                             }
@@ -253,13 +252,17 @@ class WorkoutFragment
     *********************************************************************/
 
     private fun showList(){
-        binding?.fragmentWorkoutSwiperefreshlayout?.fadeIn()
-        binding?.fragmentWorkoutNoWorkout?.fadeOut()
+        if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == false) {
+            binding?.fragmentWorkoutSwiperefreshlayout?.fadeIn()
+            binding?.fragmentWorkoutNoWorkout?.fadeOut()
+        }
     }
 
     private fun hideList(){
-        binding?.fragmentWorkoutSwiperefreshlayout?.fadeOut()
-        binding?.fragmentWorkoutNoWorkout?.fadeIn()
+        if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == true){
+            binding?.fragmentWorkoutSwiperefreshlayout?.fadeOut()
+            binding?.fragmentWorkoutNoWorkout?.fadeIn()
+        }
     }
 
     private fun setupUI(){
@@ -530,7 +533,7 @@ class WorkoutFragment
 
     private fun startNewSearch(){
         printLogD("WorkoutFragment","Start New search")
-        viewModel.clearListWorkouts()
+        //viewModel.clearListWorkouts()
         viewModel.workoutsStartNewSearch()
     }
 

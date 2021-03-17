@@ -7,9 +7,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialContainerTransform
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
@@ -29,8 +32,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
-    private var binding : FragmentWorkoutDetailBinding? = null
     val viewModel : WorkoutViewModel by activityViewModels()
+
+    private var binding : FragmentWorkoutDetailBinding? = null
+    private var listAdapter : WorkoutExercisesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +59,11 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         setHasOptionsMenu(true)
         binding = FragmentWorkoutDetailBinding.bind(view)
 
-        setupUI()
+        setupRecyclerView()
         setupOnBackPressDispatcher()
         subscribeObservers()
-        //getWorkoutFromPreviousFragment()
+
+        setupUI()
 
         /*
             Bind listener
@@ -69,20 +75,17 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         binding?.fragmentManageWorkoutSwitchIsActive?.setOnClickListener {
             onClickWorkoutIsActive()
         }
+
+        binding?.fragmentManageWorkoutButtonAddExercise?.setOnClickListener {
+            findNavController().navigate(R.id.action_workout_detail_fragment_to_add_exercise_to_workout_fragment)
+        }
     }
 
 
     override fun onDestroyView() {
-
-        /*
-            Unbind view state
-         */
-        if (viewModel.checkEditState()) {
-            viewModel.exitEditState()
-        }
-        viewModel.setWorkoutSelected(null)
-        viewModel.setIsUpdatePending(false)
-
+        binding?.fragmentManageWorkoutRecyclerviewExercise?.adapter = null
+        listAdapter = null
+        binding = null
         super.onDestroyView()
     }
 
@@ -99,6 +102,11 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
             R.id.toolbar_manage_workout_validate -> {
                 updateWorkout()
                 true
@@ -121,6 +129,17 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
     private fun setupUI(){
         binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
+    }
+
+    private fun setupRecyclerView(){
+        binding?.fragmentManageWorkoutRecyclerviewExercise?.apply {
+
+            layoutManager = LinearLayoutManager(activity)
+            val topSpacingDecorator = TopSpacingItemDecoration(20)
+            addItemDecoration(topSpacingDecorator)
+            listAdapter = WorkoutExercisesAdapter()
+            adapter = listAdapter
+        }
     }
 
     private fun setupOnBackPressDispatcher() {
@@ -146,6 +165,15 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
                 viewState.workoutSelected?.let { workout ->
                     printLogD("WorkoutDetailFragment","Workout selected load UI")
                     setWorkoutUi(workout)
+
+                    workout?.exercises?.let { exercises ->
+                        if (exercises.isNotEmpty()) {
+                            listAdapter?.submitList(exercises)
+                            showList()
+                        } else {
+                            hideList()
+                        }
+                    }?: hideList()
                 }
 
                 viewState.isUpdatePending?.let { isUpdatePending ->
@@ -248,34 +276,6 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
     }
 
     /********************************************************************
-        GETS ARGS BUNDLE
-     *********************************************************************/
-
-    private fun getWorkoutFromPreviousFragment(){
-        arguments?.let { args ->
-            (args.getString(WORKOUT_ID_WORKOUT_BUNDLE_KEY))?.let { idWorkout ->
-                viewModel.setStateEvent(GetWorkoutByIdEvent(idWorkout))
-            }
-        } ?: onErrorRetrievingWorkoutFromPreviousFragment()
-
-    }
-
-    private fun onErrorRetrievingWorkoutFromPreviousFragment(){
-        viewModel.setStateEvent(
-            CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = WORKOUT_ERRROR_RETRIEVING_ID_WORKOUT,
-                        uiComponentType = UIComponentType.Dialog(),
-                        messageType = MessageType.Error()
-                    )
-                )
-            )
-        )
-    }
-
-
-    /********************************************************************
         SETTERS - GETTERS - ACTIONS
     *********************************************************************/
 
@@ -288,7 +288,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
                         uiComponentType = UIComponentType.AreYouSureDialog(
                             object : AreYouSureCallback {
                                 override fun proceed() {
-                                    viewModel.setStateEvent(WorkoutStateEvent.RemoveWorkoutEvent())
+                                    viewModel.setStateEvent(RemoveWorkoutEvent())
                                 }
                                 override fun cancel() {}
                             }
@@ -313,6 +313,20 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         updateNameInViewModel()
         updateIsActiveInViewModel()
         viewModel.exitEditState()
+    }
+
+    private fun showList(){
+        if(binding?.fragmentManageWorkoutRecyclerviewExercise?.isVisible == false) {
+            binding?.fragmentManageWorkoutRecyclerviewExercise?.fadeIn()
+            binding?.fragmentManageWorkoutNoExercises?.fadeOut()
+        }
+    }
+
+    private fun hideList(){
+        if(binding?.fragmentManageWorkoutRecyclerviewExercise?.isVisible == true){
+            binding?.fragmentManageWorkoutRecyclerviewExercise?.fadeOut()
+            binding?.fragmentManageWorkoutNoExercises?.fadeIn()
+        }
     }
 
     private fun setWorkoutUi(workout : Workout){
@@ -372,6 +386,9 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         if (viewModel.checkEditState()) {
             quitEditState()
          }else{
+
+            viewModel.setWorkoutSelected(null)
+            viewModel.setIsUpdatePending(false)
 
             findNavController().popBackStack()
         }

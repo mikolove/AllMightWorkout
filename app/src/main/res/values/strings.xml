@@ -59,6 +59,7 @@
     <string name="fragment_manage_workout_text_is_active">Is active</string>
     <string name="fragment_manage_workout_text_exercises">List of exercises in :</string>
     <string name="fragment_manage_workout_text_manage_exercises">Manage exercises</string>
+    <string name="fragment_manage_workout_text_no_exercises">This workout contains no exercises.</string>
 
 
     <!-- Exercise detail Fragment -->

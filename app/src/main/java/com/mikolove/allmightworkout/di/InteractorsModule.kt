@@ -41,6 +41,7 @@ object InteractorsModule {
     ) : WorkoutInteractors {
         return WorkoutInteractors(
             getWorkouts = GetWorkouts(workoutCacheDataSource),
+            getExercises = GetExercises(exerciseCacheDataSource),
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
             getTotalWorkouts = GetTotalWorkouts(workoutCacheDataSource),
             insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),

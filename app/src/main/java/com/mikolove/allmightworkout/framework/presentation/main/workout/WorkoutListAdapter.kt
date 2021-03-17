@@ -51,8 +51,11 @@ class WorkoutListAdapter(
             if(oldWorkout.name != newWorkout.name)
                 holder.binding.itemWorkoutTextName.text = newWorkout.name
 
-            if(oldWorkout.createdAt != newWorkout.createdAt)
-                holder.binding.itemWorkoutTextCreatedAt.text = dateUtil.showDateInCurrentLocal(newWorkout.createdAt)
+            if(oldWorkout.exercises?.size != newWorkout.exercises?.size){
+                val exerciseSize = newWorkout.exercises?.size ?: 0
+                holder.binding.itemWorkoutTextExercises.text = "${exerciseSize} Exercises"
+
+            }
 
             holder.itemView.setOnClickListener {
                 interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
@@ -107,7 +110,8 @@ class WorkoutListAdapter(
 
             //Bind values
             binding.itemWorkoutTextName.text = item.name
-            binding.itemWorkoutTextCreatedAt.text = dateUtil.showDateInCurrentLocal(item.createdAt)
+            val exerciseSize = item.exercises?.size ?: 0
+            binding.itemWorkoutTextExercises.text = "${exerciseSize} Exercises"
 
             //Its seems to never crash and be efficient. Author mitch tabian
             //This is use to change the color of selected item

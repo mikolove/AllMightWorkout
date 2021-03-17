@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.interactors.main.exercise
+package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_EXERCISES_EXCEPTION
@@ -6,11 +6,10 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCach
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises.Companion.GET_EXERCISES_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExercises.Companion.GET_EXERCISES_SUCCESS
+import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_NO_MATCHING_RESULTS
+import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_CREATED
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -31,7 +30,7 @@ Test cases:
     b) listen for GET_EXERCISES_NO_MATCHING_RESULTS emitted from flow
     c) confirm nothing was retrieved
     d) confirm there is notes in the cache
-3. searchWorkouts_fail_confirmNoResults()
+3. searchExercises_fail_confirmNoResults()
     a) force an exception to be thrown
     b) listen for CACHE_ERROR_UNKNOWN emitted from flow
     c) confirm nothing was retrieved
@@ -64,7 +63,7 @@ class GetExercisesTest {
         val query = ""
         var results : ArrayList<Exercise>? = null
 
-        getExercises.getExercises(
+        getExercises.getExercises<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -100,7 +99,7 @@ class GetExercisesTest {
         val query = "einzeoineoinzefoizenf"
         var results: ArrayList<Exercise>? = null
 
-        getExercises.getExercises(
+        getExercises.getExercises<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -129,11 +128,11 @@ class GetExercisesTest {
     }
 
     @Test
-    fun searchWorkouts_fail_confirmNoResults() = runBlocking {
+    fun searchExercises_fail_confirmNoResults() = runBlocking {
 
         val query = FORCE_SEARCH_EXERCISES_EXCEPTION
         var results: ArrayList<Exercise>? = null
-        getExercises.getExercises(
+        getExercises.getExercises<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
