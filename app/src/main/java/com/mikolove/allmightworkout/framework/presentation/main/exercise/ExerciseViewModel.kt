@@ -837,7 +837,7 @@ constructor(
 
     fun setIsSearchActive(isActive: Boolean){
         val update = getCurrentViewStateOrNew()
-        update.searchActive = isSearchActive()
+        update.searchActive = isActive
         setViewState(update)
     }
 

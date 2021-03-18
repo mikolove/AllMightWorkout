@@ -34,6 +34,7 @@ data class WorkoutViewState(
 
     //Search option
     var searchActive : Boolean? = null,
+
     var searchQueryWorkouts: String? = null,
     var pageWorkouts: Int? = null,
     var isWorkoutsQueryExhausted: Boolean? = null,

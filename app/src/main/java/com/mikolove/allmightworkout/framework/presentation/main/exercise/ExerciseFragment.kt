@@ -28,6 +28,7 @@ import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.util.printLogD
@@ -83,7 +84,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         super.onResume()
         setupFAB()
         viewModel.loadTotalExercises()
-        //viewModel.clearListExercises()
         viewModel.loadWorkoutTypes()
         viewModel.refreshExerciseSearchQuery()
     }
@@ -111,15 +111,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         super.onSaveInstanceState(outState)
     }
 
-    private fun restoreInstanceState(savedInstanceState: Bundle?){
-        printLogD("ExerciseFragment","restoreInstanceState")
-        savedInstanceState?.let { inState ->
-            (inState[EXERCISE_VIEW_STATE_BUNDLE_KEY] as ExerciseViewState?)?.let { viewState ->
-                viewModel.setViewState(viewState)
-            }
-        }
-    }
-
     /********************************************************************
     SUBSCRIBE OBSERVERS
      *********************************************************************/
@@ -130,11 +121,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
             when (toolbarState) {
 
-                is ListToolbarState.MultiSelectionState -> {
+                is MultiSelectionState -> {
                     enableMultiSelectToolbarState()
                 }
 
-                is ListToolbarState.SelectionState -> {
+                is SelectionState -> {
                     disableMultiSelectToolbarState()
 
                 }
@@ -421,7 +412,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
     private fun disableActionMode(){
-        viewModel.setExerciseToolbarState(ListToolbarState.SelectionState())
+        viewModel.setExerciseToolbarState(SelectionState())
         viewModel.clearSelectedExercises()
     }
 
@@ -602,7 +593,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun isMultiSelectionModeEnabled(): Boolean = viewModel.isExerciseMultiSelectionStateActive()
 
-    override fun activateMultiSelectionMode() = viewModel.setExerciseToolbarState(ListToolbarState.MultiSelectionState())
+    override fun activateMultiSelectionMode() = viewModel.setExerciseToolbarState(
+        MultiSelectionState()
+    )
 
     override fun isExerciseSelected(exercise: Exercise): Boolean {
         return viewModel.isExerciseSelected(exercise)

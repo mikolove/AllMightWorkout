@@ -5,7 +5,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -22,7 +24,6 @@ import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
 import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
 import com.mikolove.allmightworkout.framework.presentation.common.fadeOut
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseSetInteractionState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -78,7 +79,7 @@ class AddExerciseToWorkoutFragment():
             if (viewState != null) {
 
                 viewState.listExercises?.let { exercises ->
-
+                    printLogD("AddExerciseToWorkoutFragment","isExerciseQueryExhausted ${viewModel.isExercisesQueryExhausted()} // Pagination exhausted ${viewModel.isExercisesPaginationExhausted()}")
                     if (exercises.isNotEmpty()) {
                         if (viewModel.isExercisesPaginationExhausted() && !viewModel.isExercisesQueryExhausted()) {
                             viewModel.setExerciseQueryExhausted(true)
@@ -172,6 +173,7 @@ class AddExerciseToWorkoutFragment():
             binding?.fragmentAddExerciseToWorkoutSwiperefreshlayout?.isRefreshing = false
         }
     }
+    
     private fun setupRecyclerView(){
         binding?.fragmentAddExerciseToWorkoutRecyclerview?.apply {
 
@@ -192,6 +194,7 @@ class AddExerciseToWorkoutFragment():
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastPosition = layoutManager.findLastVisibleItemPosition()
                     if (lastPosition == listAdapter?.itemCount?.minus(1)) {
+                        printLogD("AddExerciseToFragment", "launching nextPage")
                         viewModel.nextPageExercises()
                     }
                 }
@@ -205,13 +208,54 @@ class AddExerciseToWorkoutFragment():
      *********************************************************************/
 
     private fun startNewSearch(){
-        //viewModel.clearListExercises()
         viewModel.exercisesStartNewSearch()
     }
 
     /********************************************************************
         MENU INTERACTIONS
      *********************************************************************/
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_add_workout_exercise, menu)
+
+        //Deal with searchView
+        val searchItem = menu.findItem(R.id.menu_workout_exercise_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        //Reload standard search when finish
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                viewModel.setQueryExercises("")
+                viewModel.setIsSearchActive(false)
+                startNewSearch()
+                return true
+            }
+        })
+
+        //May Add autocomplete
+        val searchAutoComplete: SearchView.SearchAutoComplete? = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        searchAutoComplete?.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
+                || actionId == EditorInfo.IME_ACTION_SEARCH ) {
+                val searchQuery = v.text.toString()
+                viewModel.setQueryExercises(searchQuery)
+                startNewSearch()
+                viewModel.setIsSearchActive(true)
+            }
+            true
+        }
+
+        //Expand if search isActive on menu reload
+        if(viewModel.isSearchActive()){
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.getSearchQueryExercises(),false)
+        }
+
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){

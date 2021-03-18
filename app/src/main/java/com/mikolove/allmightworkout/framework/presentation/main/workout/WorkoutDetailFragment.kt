@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialContainerTransform
 import com.mikolove.allmightworkout.R
+import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
@@ -30,7 +33,9 @@ import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
+class WorkoutDetailFragment:
+    BaseFragment(R.layout.fragment_workout_detail),
+    WorkoutExercisesAdapter.Interaction{
 
     val viewModel : WorkoutViewModel by activityViewModels()
 
@@ -41,12 +46,12 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
 
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
+   /*    sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
             duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
-        }
+        }*/
     }
 
 
@@ -55,7 +60,7 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
 
         /*
             Load Fragment
-         */
+        */
         setHasOptionsMenu(true)
         binding = FragmentWorkoutDetailBinding.bind(view)
 
@@ -137,19 +142,12 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
             layoutManager = LinearLayoutManager(activity)
             val topSpacingDecorator = TopSpacingItemDecoration(20)
             addItemDecoration(topSpacingDecorator)
-            listAdapter = WorkoutExercisesAdapter()
+            listAdapter = WorkoutExercisesAdapter(this@WorkoutDetailFragment)
             adapter = listAdapter
         }
     }
 
-    private fun setupOnBackPressDispatcher() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
+
 
 
     /********************************************************************
@@ -216,6 +214,17 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
                         findNavController().popBackStack()
                     }
 
+                    REMOVE_WORKOUT_EXERCISE_SUCCESS -> {
+                        uiController.onResponseReceived(
+                            response = stateMessage.response,
+                            stateMessageCallback = object: StateMessageCallback {
+                                override fun removeMessageFromStack() {
+                                    viewModel.clearStateMessage()
+                                }
+                            }
+                        )
+                        reloadWorkoutSelected()
+                    }
                     //If another we quit so we clear Message Stack
                     else -> {
 
@@ -300,6 +309,42 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
         )
     }
 
+    private fun areYouSureToRemoveExerciseFromWorkout(item : Exercise) {
+        viewModel.setStateEvent(
+            CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = RemoveExerciseFromWorkout.REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE,
+                        uiComponentType = UIComponentType.AreYouSureDialog(
+                            object : AreYouSureCallback {
+                                override fun proceed() {
+                                    removeExerciseFromWorkout(item)
+                                }
+                                override fun cancel() {}
+                            }
+                        ),
+                        messageType = MessageType.Info()
+                    )
+                )
+            )
+        )
+    }
+
+    private fun removeExerciseFromWorkout(exercise: Exercise){
+        val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
+        idWorkout?.let {
+            viewModel.removeExerciseFromWorkout(
+                exercise.idExercise,
+                idWorkout)
+        }
+    }
+
+    private fun reloadWorkoutSelected(){
+        quitEditState()
+        viewModel.setIsUpdatePending(false)
+        viewModel.reloadWorkoutSelected()
+    }
+
     private fun updateWorkout() {
         if(viewModel.getIsUpdatePending()){
             if (viewModel.checkEditState()) {
@@ -378,6 +423,14 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
     }
 
     /********************************************************************
+    Adapter interaction
+     *********************************************************************/
+
+    override fun onClickDelete(item: Exercise) {
+        areYouSureToRemoveExerciseFromWorkout(item)
+    }
+
+    /********************************************************************
         BACK BUTTON PRESS
     *********************************************************************/
 
@@ -393,4 +446,14 @@ class WorkoutDetailFragment: BaseFragment(R.layout.fragment_workout_detail){
             findNavController().popBackStack()
         }
     }
+
+    private fun setupOnBackPressDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 }

@@ -8,6 +8,7 @@ class WorkoutInteractors(
     val getExercises: GetExercises,
     val getWorkoutById: GetWorkoutById,
     val getTotalWorkouts: GetTotalWorkouts,
+    val getTotalExercises: GetTotalExercises,
     val insertWorkout: InsertWorkout,
     val updateWorkout: UpdateWorkout,
     val removeWorkout: RemoveWorkout<WorkoutViewState>,

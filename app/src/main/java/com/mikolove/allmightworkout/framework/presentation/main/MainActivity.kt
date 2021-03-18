@@ -113,6 +113,7 @@ class MainActivity :
 
 
     override fun loadFabController(fabController: FabController?) {
+        printLogD("MainActivity","LoadFabController ${fabController}")
         mainFabController = fabController
     }
 

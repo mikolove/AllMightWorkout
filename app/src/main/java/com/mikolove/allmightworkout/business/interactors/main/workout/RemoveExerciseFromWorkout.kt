@@ -64,7 +64,7 @@ class RemoveExerciseFromWorkout(
                         DataState.data(
                             response = Response(
                                 message = REMOVE_WORKOUT_EXERCISE_SUCCESS,
-                                uiComponentType = UIComponentType.Toast(),
+                                uiComponentType = UIComponentType.None(),
                                 messageType = MessageType.Success()
                             ),
                             data = null,
@@ -126,6 +126,7 @@ class RemoveExerciseFromWorkout(
 
     companion object{
         val REMOVE_WORKOUT_EXERCISE_SUCCESS  = "Successfully deleted added exercise to workout."
+        val REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE  = "Are you sure to remove this exercise from workout ?"
         val REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."
         val REMOVE_WORKOUT_EXERCISE_FAILED  = "Failed deleting exercise from workout."
     }

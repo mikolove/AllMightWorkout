@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
@@ -16,7 +14,6 @@ import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceK
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
@@ -238,6 +235,10 @@ constructor(
                 workoutInteractors.getTotalWorkouts.getTotalWorkouts(stateEvent)
             }
 
+            is GetTotalExercisesEvent -> {
+                workoutInteractors.getTotalExercises.getTotalExercises(stateEvent)
+            }
+
             is GetTotalBodyPartsEvent -> {
                 workoutInteractors.getTotalBodyParts.getTotalBodyParts(stateEvent)
             }
@@ -330,7 +331,6 @@ constructor(
     }
 
 
-
     fun exercisesStartNewSearch(){
         setExerciseQueryExhausted(false)
         resetPageExercises()
@@ -350,6 +350,12 @@ constructor(
     /********************************************************************
         OTHERS LIST MANAGING
      *********************************************************************/
+
+    fun reloadWorkoutSelected(){
+        getWorkoutSelected()?.let { workout ->
+            setStateEvent(GetWorkoutByIdEvent(workout.idWorkout))
+        }
+    }
 
     fun reloadBodyParts(){
         clearListBodyParts()
@@ -373,7 +379,7 @@ constructor(
         setStateEvent(GetTotalWorkoutsEvent())
     }
     fun loadTotalExercises(){
-        setStateEvent(ExerciseStateEvent.GetTotalExercisesEvent())
+        setStateEvent(GetTotalExercisesEvent())
     }
 
     fun loadWorkoutTypes(){
@@ -655,6 +661,12 @@ constructor(
     fun setQueryWorkouts(string : String?){
         val update = getCurrentViewStateOrNew()
         update.searchQueryWorkouts = string
+        setViewState(update)
+    }
+
+    fun setQueryExercises(string : String?){
+        val update = getCurrentViewStateOrNew()
+        update.searchQueryExercises = string
         setViewState(update)
     }
 

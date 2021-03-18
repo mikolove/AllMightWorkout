@@ -66,7 +66,7 @@ class AddExerciseToWorkout(
                         DataState.data(
                             response = Response(
                                 message = INSERT_WORKOUT_EXERCISE_SUCCESS,
-                                uiComponentType = UIComponentType.Toast(),
+                                uiComponentType = UIComponentType.None(),
                                 messageType = MessageType.Success()
                             ),
                             data = viewState,

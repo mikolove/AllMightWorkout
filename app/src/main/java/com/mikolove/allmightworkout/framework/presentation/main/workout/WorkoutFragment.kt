@@ -49,10 +49,11 @@ class WorkoutFragment
     WorkoutListAdapter.Interaction,
     FabController {
 
+    val viewModel : WorkoutViewModel by activityViewModels()
+
     @Inject
     lateinit var dateUtil: DateUtil
 
-    val viewModel : WorkoutViewModel by activityViewModels()
     private var actionMode : ActionMode? = null
     private var actionModeCallBack : ActionMode.Callback? = null
     private var listAdapter: WorkoutListAdapter? = null
@@ -86,8 +87,6 @@ class WorkoutFragment
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        //Restore ViewState where it was not sure
-        //restoreInstanceState(savedInstanceState)
     }
 
     override fun onResume() {
@@ -96,13 +95,7 @@ class WorkoutFragment
 
         setupFAB()
         viewModel.loadTotalWorkouts()
-        //viewModel.clearListWorkouts()
         viewModel.refreshWorkoutSearchQuery()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        printLogD("WorkoutFragment", "OnPause")
     }
 
     override fun onDestroyView() {
@@ -126,7 +119,7 @@ class WorkoutFragment
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("WorkoutFragment","OnSaveInstanceState")
-        val viewState = viewModel.viewState.value
+/*        val viewState = viewModel.viewState.value
 
         viewState?.listWorkouts =  ArrayList()
         viewState?.listBodyParts = ArrayList()
@@ -138,7 +131,7 @@ class WorkoutFragment
         outState.putParcelable(
             WORKOUT_VIEW_STATE_BUNDLE_KEY,
             viewState
-        )
+        )*/
         super.onSaveInstanceState(outState)
     }
 
@@ -224,11 +217,9 @@ class WorkoutFragment
                         disableActionMode()
                     }
 
-/*                    GET_WORKOUTS_NO_MATCHING_RESULTS -> {
-                        if(viewModel.isSearchActive()) {
+                    GET_WORKOUTS_NO_MATCHING_RESULTS -> {
                             showToastNoMatchingWorkouts()
-                        }
-                    }*/
+                    }
 
                     else -> {
                         uiController.onResponseReceived(
@@ -270,7 +261,7 @@ class WorkoutFragment
     }
 
     override fun setupFAB(){
-        uiController.loadFabController(this)
+        uiController.loadFabController(this@WorkoutFragment)
         uiController.mainFabVisibility()
     }
 
@@ -325,7 +316,7 @@ class WorkoutFragment
     }
 
     private fun selectionNavigateToManageWorkout(containerView : View){
-
+        
         val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
@@ -347,9 +338,7 @@ class WorkoutFragment
         UI DIALOG
      *********************************************************************/
 
-    fun updateFilterByChip(){
 
-    }
     fun showFilterDialog(){
 
         activity?.let {
@@ -659,7 +648,6 @@ class WorkoutFragment
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{
             viewModel.setWorkoutSelected(item)
-            printLogD("WorkoutFragment","ITEM SELECTED ${item}")
             selectionNavigateToManageWorkout(containerView)
         }
     }
