@@ -58,11 +58,13 @@ class WorkoutListAdapter(
             }
 
             holder.itemView.setOnClickListener {
-                interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
+                //interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
+                interaction?.onItemSelected(null, newWorkout,null)
             }
             holder.itemView.setOnLongClickListener{
                 interaction?.activateMultiSelectionMode()
-                interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
+                interaction?.onItemSelected(null, newWorkout,null)
+                //interaction?.onItemSelected(holder.bindingAdapterPosition, newWorkout,holder.binding.itemWorkoutContainer)
                 true
             }
          }
@@ -96,15 +98,17 @@ class WorkoutListAdapter(
         fun bind(item: Workout) = with(itemView) {
 
             //Add test transition
-            binding.itemWorkoutContainer.transitionName = resources.getString(R.string.test_workout_item_transition_name,item.idWorkout)
+            //binding.itemWorkoutContainer.transitionName = resources.getString(R.string.test_workout_item_transition_name,item.idWorkout)
 
             //Add clicklisteners
             itemView.setOnClickListener {
-                interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
+                //interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
+                interaction?.onItemSelected(null, item,null)
             }
             itemView.setOnLongClickListener{
                 interaction?.activateMultiSelectionMode()
-                interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
+                //interaction?.onItemSelected(bindingAdapterPosition, item,binding.itemWorkoutContainer)
+                interaction?.onItemSelected(null, item,null)
                 true
             }
 
@@ -133,7 +137,7 @@ class WorkoutListAdapter(
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Workout, containerView : View)
+        fun onItemSelected(position: Int?, item: Workout, containerView: View?)
 
         fun isMultiSelectionModeEnabled(): Boolean
 

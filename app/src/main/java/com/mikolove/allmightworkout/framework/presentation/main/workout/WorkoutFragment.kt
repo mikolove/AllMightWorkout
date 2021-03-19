@@ -79,25 +79,29 @@ class WorkoutFragment
         binding = FragmentWorkoutBinding.bind(view)
 
         setupUI()
+        setupFAB()
         setupRecyclerView()
         setupSwipeRefresh()
         subscribeObservers()
 
-
-        postponeEnterTransition()
+      /*  postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-
+*/
     }
 
     override fun onResume() {
         super.onResume()
         printLogD("WorkoutFragment","OnResume")
 
-        setupFAB()
         viewModel.loadTotalWorkouts()
         viewModel.refreshWorkoutSearchQuery()
     }
 
+    override fun onPause() {
+        super.onPause()
+        printLogD("WorkoutFragment","OnPause")
+
+    }
     override fun onDestroyView() {
         printLogD("WorkoutFragment", "OnDestroyView")
         disableMultiSelectToolbarState()
@@ -315,9 +319,13 @@ class WorkoutFragment
         viewModel.setInsertedWorkout(null)
     }
 
-    private fun selectionNavigateToManageWorkout(containerView : View){
-        
-        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
+    private fun selectionNavigateToManageWorkout(containerView : View?){
+
+        findNavController().navigate(
+            R.id.action_workout_fragment_to_workout_detail_fragment,
+            null
+        )
+/*        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
             R.id.action_workout_fragment_to_workout_detail_fragment,
@@ -331,7 +339,7 @@ class WorkoutFragment
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = 300.toLong()
-        }
+        }*/
     }
 
     /********************************************************************
@@ -502,6 +510,7 @@ class WorkoutFragment
             searchView.setQuery(viewModel.getSearchQueryWorkouts(),false)
         }
 
+        printLogD("WorkoutFragment","Code here test debug")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -643,7 +652,7 @@ class WorkoutFragment
         WORKOUT LIST ADAPTER INTERACTIONS
      *********************************************************************/
 
-    override fun onItemSelected(position: Int, item: Workout, containerView: View) {
+    override fun onItemSelected(position: Int?, item: Workout, containerView: View?) {
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{

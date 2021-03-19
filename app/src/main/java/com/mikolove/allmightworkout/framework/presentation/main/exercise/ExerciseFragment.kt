@@ -71,6 +71,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         binding = FragmentExerciseBinding.bind(view)
 
         setupUI()
+        setupFAB()
         setupRecyclerView()
         setupSwipeRefresh()
         subscribeObservers()
@@ -82,7 +83,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun onResume() {
         super.onResume()
-        setupFAB()
+
         viewModel.loadTotalExercises()
         viewModel.loadWorkoutTypes()
         viewModel.refreshExerciseSearchQuery()

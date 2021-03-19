@@ -46,7 +46,7 @@ class WorkoutDetailFragment:
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
 
-   /*    sharedElementEnterTransition = MaterialContainerTransform().apply {
+       /*sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
             duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
@@ -88,7 +88,7 @@ class WorkoutDetailFragment:
 
 
     override fun onDestroyView() {
-        binding?.fragmentManageWorkoutRecyclerviewExercise?.adapter = null
+        //binding?.fragmentManageWorkoutRecyclerviewExercise?.adapter = null
         listAdapter = null
         binding = null
         super.onDestroyView()
