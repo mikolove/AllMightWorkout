@@ -141,6 +141,7 @@ constructor(
                     weight = stateEvent.exerciseSet.weight,
                     time = stateEvent.exerciseSet.time,
                     restTime = stateEvent.exerciseSet.restTime,
+                    order = stateEvent.exerciseSet.order,
                     idExercise = stateEvent.idExercise,
                     stateEvent = stateEvent
                 )
@@ -166,6 +167,15 @@ constructor(
                 exerciseInteractors.removeMultipleExerciseSet.removeMultipleExerciseSet(
                     sets = stateEvent.sets,
                     idExercise =  stateEvent.idExercise,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is UpdateNetworkExerciseSetsEvent -> {
+                exerciseInteractors.updateNetworkExerciseSets.updateNetworkExerciseSets(
+                    sets = stateEvent.sets,
+                    deletedSets = stateEvent.deletedSets,
+                    idExercise = stateEvent.idExercise,
                     stateEvent = stateEvent
                 )
             }
@@ -315,7 +325,7 @@ constructor(
     fun createExercise() : Exercise {
         val sets : ArrayList<ExerciseSet> = ArrayList()
         repeat(1){
-            sets.add(createExerciseSet())
+            sets.add(createExerciseSet(1))
         }
 
         return  exerciseFactory.createExercise(
@@ -329,12 +339,13 @@ constructor(
         )
     }
 
-    fun createExerciseSet() : ExerciseSet = exerciseSetFactory.createExerciseSet(
+    fun createExerciseSet(order : Int) : ExerciseSet = exerciseSetFactory.createExerciseSet(
         idExerciseSet = null,
         reps = null,
         weight = null,
         time = null,
         restTime = null,
+        order = order,
         created_at = null
     )
 
@@ -443,6 +454,12 @@ constructor(
                 printLogD("ExerciseViewModel","toUpdate ${setToUpdate}")
 
             }
+
+            setStateEvent(UpdateNetworkExerciseSetsEvent(
+                sets = ArrayList(sets),
+                deletedSets = setToDelete,
+                idExercise = idExercise
+            ))
         }
     }
 
@@ -467,18 +484,36 @@ constructor(
     }
 
     fun addSet(){
-        val set = createExerciseSet()
         val sets = ArrayList(getExerciseSelected()?.sets)
-        sets.add(set)
-        updateExerciseSets(sets)
+        var newOrderedList : ArrayList<ExerciseSet> = ArrayList()
+        sets.forEachIndexed { index, set ->
+            val updateSet = set.copy(
+                order = index.plus(1),
+                updatedAt = dateUtil.getCurrentTimestamp())
+            newOrderedList.add(updateSet)
+        }
+        val position = newOrderedList.size.plus(1)
+        val set = createExerciseSet(position)
+        newOrderedList.add(set)
+        updateExerciseSets(newOrderedList)
     }
 
     fun removeSet(exerciseSet : ExerciseSet){
         var sets = ArrayList(getExerciseSelected()?.sets)
+        var newOrderedList : ArrayList<ExerciseSet> = ArrayList()
         sets.remove(exerciseSet)
-        updateExerciseSets(sets)
+        sets.forEachIndexed { index, set ->
+            val updateSet = set.copy(
+                order = index.plus(1),
+                updatedAt = dateUtil.getCurrentTimestamp())
+            newOrderedList.add(updateSet)
+        }
+        updateExerciseSets(newOrderedList)
     }
 
+    private fun updateSetsOrder(){
+
+    }
     /********************************************************************
     LIST EXERCISES MANAGING
      *********************************************************************/
@@ -832,6 +867,21 @@ constructor(
             update.exerciseSelected = updateExercise
 
             setViewState(update)
+        }
+    }
+
+    fun updateExerciseSetOrder(set : ExerciseSet, position : Int){
+        val update = getCurrentViewStateOrNew()
+
+        val listOfSets = ArrayList(getExerciseSelected()?.sets)
+
+        val set = listOfSets.find { it.idExerciseSet == set.idExerciseSet }
+
+        val updatedOrderSet = set?.copy(
+            order = position
+        )
+        listOfSets?.let { sets ->
+
         }
     }
 

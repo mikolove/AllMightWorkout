@@ -87,6 +87,11 @@ class ExerciseDetailFragment():
 
     override fun onDestroyView() {
 
+        viewModel.setDetailWorkoutTypes(null)
+        viewModel.setDetailBodyPart(null)
+        viewModel.setDetailExerciseTypes(null)
+        viewModel.resetDetailExhausted()
+
         exerciseSetAdapter = null
         workoutTypeAdapter = null
         bodyPartAdapter = null
@@ -194,7 +199,8 @@ class ExerciseDetailFragment():
                     viewModel.setExerciseTypeState(it.exerciseType)
 
                     //Update sets
-                    exerciseSetAdapter?.submitList(it.sets)
+                    val sortedList = it.sets.sortedBy { it.order }
+                    exerciseSetAdapter?.submitList(sortedList)
                 }
 
             }
@@ -522,6 +528,9 @@ class ExerciseDetailFragment():
         setUpdatePending()
     }
 
+    override fun updateOrder(item: ExerciseSet, position: Int) {
+    }
+
     private fun setUpdatePending(){
         if(viewModel.isExistExercise() && !viewModel.getIsUpdatePending()){
             viewModel.setIsUpdatePending(true)
@@ -778,10 +787,10 @@ class ExerciseDetailFragment():
             viewModel.setExerciseSetSelected(null)
             viewModel.clearExerciseTypeState()
 
-            viewModel.setDetailWorkoutTypes(null)
-            viewModel.setDetailBodyPart(null)
-            viewModel.setDetailExerciseTypes(null)
-            viewModel.resetDetailExhausted()
+//            viewModel.setDetailWorkoutTypes(null)
+//            viewModel.setDetailBodyPart(null)
+//            viewModel.setDetailExerciseTypes(null)
+//            viewModel.resetDetailExhausted()
 
             findNavController().popBackStack()
         }

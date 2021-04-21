@@ -19,10 +19,11 @@ interface ExerciseSetDao{
         weight = :weight,
         duration = :time,
         rest_time = :restTime,
+        position = :order,
         updated_at= :updatedAt
         WHERE id_exercise_set = :primaryKey AND fk_id_exercise = :idExercise
     """)
-    suspend fun updateExerciseSet(primaryKey: String, reps: Int, weight: Int, time: Int, restTime: Int, updatedAt : Date, idExercise: String) : Int
+    suspend fun updateExerciseSet(primaryKey: String, reps: Int, weight: Int, time: Int, restTime: Int, order :Int, updatedAt : Date, idExercise: String) : Int
 
     @Query("DELETE FROM exercise_sets WHERE id_exercise_set IN (:primaryKeys)")
     suspend fun removeExerciseSets(primaryKeys: List<String>) : Int

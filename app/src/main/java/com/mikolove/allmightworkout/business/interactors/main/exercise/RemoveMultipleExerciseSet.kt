@@ -74,16 +74,19 @@ class RemoveMultipleExerciseSet(
             ))
         }
 
-        updateNetwork(successfulDeletes,idExercise)
+        //updateNetwork(successfulDeletes,idExercise)
     }
 
 
     private suspend fun updateNetwork(successfulDeletes: ArrayList<ExerciseSet>,idExercise: String){
-        for (set in successfulDeletes){
-            safeApiCall(IO){
-                exerciseSetNetworkDataSource.removeExerciseSetById(set.idExerciseSet,idExercise)
-            }
 
+        val ids = successfulDeletes.mapIndexed { index, set -> set.idExerciseSet }
+
+        safeApiCall(IO){
+            exerciseSetNetworkDataSource.removeExerciseSetsById(ids,idExercise)
+        }
+
+        for (set in successfulDeletes){
             safeApiCall(IO){
                 exerciseSetNetworkDataSource.insertDeletedExerciseSet(set)
             }

@@ -36,6 +36,7 @@ class UpdateMultipleExerciseSet(
                     weight = set.weight,
                     time = set.time,
                     restTime = set.restTime,
+                    order = set.order,
                     updatedAt = set.updatedAt,
                     idExercise = idExercise
                 )
@@ -86,7 +87,7 @@ class UpdateMultipleExerciseSet(
             )
         }
 
-        updateNetwork(successfulUpdate, idExercise)
+        //updateNetwork(successfulUpdate, idExercise)
     }
 
 

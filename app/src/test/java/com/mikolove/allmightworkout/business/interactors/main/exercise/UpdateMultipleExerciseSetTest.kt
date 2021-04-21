@@ -80,6 +80,7 @@ class UpdateMultipleExerciseSetTest {
                 reps = 15,
                 weight = 15,
                 restTime = 120,
+                order = 1,
                 time = 100,
                 updatedAt = dateUtil.getCurrentTimestamp()
             )
@@ -128,6 +129,7 @@ class UpdateMultipleExerciseSetTest {
                 reps = 15,
                 weight = 15,
                 restTime = 120,
+                order = 1,
                 time = 100,
                 updatedAt = dateUtil.getCurrentTimestamp()
             )
@@ -186,6 +188,7 @@ class UpdateMultipleExerciseSetTest {
                 reps = 15,
                 weight = 15,
                 restTime = 120,
+                order = 1,
                 time = 100,
                 updatedAt = dateUtil.getCurrentTimestamp()
             )

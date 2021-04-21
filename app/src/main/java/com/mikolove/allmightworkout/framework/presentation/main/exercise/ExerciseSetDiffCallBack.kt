@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise
 import androidx.recyclerview.widget.DiffUtil
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.framework.presentation.common.Change
+import com.mikolove.allmightworkout.util.printLogD
 
 class ExerciseSetDiffCallBack(private val oldList : List<ExerciseSet>, private val newList : List<ExerciseSet>) : DiffUtil.Callback(){
 
@@ -16,16 +17,5 @@ class ExerciseSetDiffCallBack(private val oldList : List<ExerciseSet>, private v
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition] == newList[newItemPosition]
-    }
-
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        //return super.getChangePayload(oldItemPosition, newItemPosition)
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
-
-        return Change(
-            oldItem,
-            newItem
-        )
     }
 }

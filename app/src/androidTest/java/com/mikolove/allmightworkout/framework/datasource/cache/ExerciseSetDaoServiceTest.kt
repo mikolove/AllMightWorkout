@@ -135,6 +135,7 @@ class ExerciseSetDaoServiceTest : BaseTest(){
             weight = 10,
             time =10,
             restTime = 10,
+            order = 1,
             created_at = dbSet?.createdAt
         )
 
@@ -144,6 +145,7 @@ class ExerciseSetDaoServiceTest : BaseTest(){
             updatedSet.weight,
             updatedSet.time,
             updatedSet.restTime,
+            updatedSet.order,
             updatedSet.updatedAt,
             exercise.idExercise
         )

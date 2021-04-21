@@ -17,6 +17,7 @@ constructor(
             weight = entity.weight,
             time = entity.time,
             restTime = entity.restTime,
+            order = entity.order,
             startedAt = null,
             endedAt = null,
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
@@ -31,6 +32,7 @@ constructor(
             weight = domainModel.weight,
             time = domainModel.time,
             restTime = domainModel.restTime,
+            order = domainModel.order,
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
         )

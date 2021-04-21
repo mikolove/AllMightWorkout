@@ -15,7 +15,6 @@ import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import javax.inject.Inject
 
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -192,6 +191,7 @@ class SyncExercises(
                     networkExerciseSet.weight,
                     networkExerciseSet.time,
                     networkExerciseSet.restTime,
+                    networkExerciseSet.order,
                     networkExerciseSet.updatedAt,
                     idExercise
                 )

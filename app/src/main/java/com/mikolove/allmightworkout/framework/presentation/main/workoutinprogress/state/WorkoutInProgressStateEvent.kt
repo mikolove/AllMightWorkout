@@ -5,7 +5,17 @@ import com.mikolove.allmightworkout.business.domain.state.StateMessage
 
 sealed  class WorkoutInProgressStateEvent : StateEvent{
 
-    class InsertHistoryExerciseEventInProgress(
+    class GetWorkoutByIdEvent(
+        val idWorkout : String
+    ) : WorkoutInProgressStateEvent(){
+        override fun errorInfo(): String = "Error retrieving workout by id."
+
+        override fun eventName(): String = "GetWorkoutByIdEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
+    class InsertHistoryExerciseEvent(
 
     ) : WorkoutInProgressStateEvent(){
         override fun errorInfo(): String = "Error inserting history exercise."
@@ -15,7 +25,7 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean= false
     }
 
-    class InsertHistoryExerciseSetEventInProgress(
+    class InsertHistoryExerciseSetEvent(
 
     ) : WorkoutInProgressStateEvent(){
         override fun errorInfo(): String = "Error inserting history exercise set."
@@ -25,7 +35,7 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean= false
     }
 
-    class InsertHistoryWorkoutInProgressEvent(
+    class InsertHistoryWorkoutEvent(
 
     ) : WorkoutInProgressStateEvent(){
         override fun errorInfo(): String = "Error inserting history workout."
@@ -35,27 +45,8 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean= false
     }
 
-    class UpdateHistoryExerciseEventInProgress(
 
-    ) : WorkoutInProgressStateEvent(){
-        override fun errorInfo(): String = "Error updating history exercise."
-
-        override fun eventName(): String = "UpdateHistoryExerciseEvent"
-
-        override fun shouldDisplayProgressBar(): Boolean= false
-    }
-
-    class UpdateHistoryExerciseSetEventInProgress(
-
-    ) : WorkoutInProgressStateEvent(){
-        override fun errorInfo(): String = "Error updating history exercise set."
-
-        override fun eventName(): String = "UpdateHistoryExerciseEvent"
-
-        override fun shouldDisplayProgressBar(): Boolean= false
-    }
-
-    class CreateInProgressStateMessageEvent(
+    class CreateStateMessageEvent(
         val stateMessage: StateMessage
     ): WorkoutInProgressStateEvent(){
 

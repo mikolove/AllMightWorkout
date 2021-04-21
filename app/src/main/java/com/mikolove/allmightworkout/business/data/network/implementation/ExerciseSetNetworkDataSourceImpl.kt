@@ -21,6 +21,8 @@ constructor(
 
     override suspend fun removeExerciseSetById(primaryKey: String, idExercise : String)  = exerciseSetFirestoreService.removeExerciseSetById(primaryKey,idExercise)
 
+    override suspend fun removeExerciseSetsById(primaryKeys: List<String>, idExercise: String) = exerciseSetFirestoreService.removeExerciseSetsById( primaryKeys, idExercise)
+
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? = exerciseSetFirestoreService.getExerciseSetById(primaryKey,idExercise)
 
     override suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>? = exerciseSetFirestoreService.getExerciseSetByIdExercise(idExercise)
@@ -31,4 +33,9 @@ constructor(
     override suspend fun insertDeletedExerciseSet(exerciseSet: ExerciseSet) = exerciseSetFirestoreService.insertDeletedExerciseSet(exerciseSet)
     //TODO : Delete this at a moment firestore structure changed
     override suspend fun getDeletedExerciseSets(): List<ExerciseSet> = exerciseSetFirestoreService.getDeletedExerciseSets()
+
+    override suspend fun updateExerciseSets(exerciseSets: List<ExerciseSet>, idExercise: String) = exerciseSetFirestoreService.updateExerciseSets(exerciseSets,idExercise)
+
+    override suspend fun insertDeletedExerciseSets(exerciseSets: List<ExerciseSet>) = exerciseSetFirestoreService.insertDeletedExerciseSets(exerciseSets)
+
 }

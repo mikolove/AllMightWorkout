@@ -9,6 +9,7 @@ data class ExerciseSet(
     var weight: Int,
     var time: Int,
     var restTime: Int,
+    var order : Int,
     var startedAt: String?,
     var endedAt: String?,
     var createdAt: String,
@@ -36,6 +37,7 @@ data class ExerciseSet(
         if (weight != other.weight) return false
         if (time != other.time) return false
         if (restTime != other.restTime) return false
+        if (order != other.order) return false
         if (startedAt != other.startedAt) return false
         if (endedAt != other.endedAt) return false
         if (createdAt != other.createdAt) return false
@@ -49,6 +51,7 @@ data class ExerciseSet(
         result = 31 * result + weight
         result = 31 * result + time
         result = 31 * result + restTime
+        result = 31 * result + order
         result = 31 * result + (startedAt?.hashCode() ?: 0)
         result = 31 * result + (endedAt?.hashCode() ?: 0)
         result = 31 * result + createdAt.hashCode()

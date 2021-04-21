@@ -51,6 +51,18 @@ class FakeExerciseSetNetworkDataSourceImpl(
         }
     }
 
+    override suspend fun removeExerciseSetsById(primaryKeys: List<String>, idExercise: String) {
+        val listExerciseSet : ArrayList<ExerciseSet> = ArrayList()
+        exerciseDatas[idExercise]?.sets?.let{ list ->
+            for( set in list){
+                if(!primaryKeys.contains(set.idExerciseSet))
+                    listExerciseSet.add(set)
+            }
+            exerciseDatas[idExercise]?.sets = listExerciseSet
+
+        }
+    }
+
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {
         var exerciseSet : ExerciseSet? = null
         exerciseDatas[idExercise]?.sets?.let { list ->

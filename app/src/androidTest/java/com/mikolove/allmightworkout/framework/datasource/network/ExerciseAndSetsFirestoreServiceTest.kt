@@ -480,6 +480,75 @@ class ExerciseAndSetsFirestoreServiceTest : BaseTest() {
         assertTrue {  searchResult.contains(exercise.sets[0]) }
     }
 
+
+    @Test
+    fun p_removeExerciseSets_CBS() = runBlocking {
+
+        //Create a workout
+        val exercise = createExercise()
+        exercise.sets = createSets()
+
+        //Insert it
+        exerciseFirestoreService.insertExercise(exercise)
+
+        //Get total set from exercise
+        val totalSetsBeforeDelete = exerciseSetFirestoreService.getTotalExercisesSetByExercise(exercise.idExercise)
+
+        assertTrue { totalSetsBeforeDelete != 0 }
+
+        //Remove a random set from it
+        val listOfPrimaryKey = listOf(exercise.sets[0].idExerciseSet,exercise.sets[1].idExerciseSet)
+        exerciseSetFirestoreService.removeExerciseSetsById(listOfPrimaryKey,exercise.idExercise)
+
+        //Get total again
+        val totalSetsAfterDelete = exerciseSetFirestoreService.getTotalExercisesSetByExercise(exercise.idExercise)
+
+        //Assert deletion
+        assertTrue { totalSetsBeforeDelete > totalSetsAfterDelete }
+        assertTrue { totalSetsAfterDelete == 2 }
+
+    }
+
+    @Test
+    fun q_updateExerciseSets_CBS() = runBlocking {
+
+        //Create
+        val exercise = createExercise()
+        exercise.sets = createSets()
+
+        //Insert it
+        exerciseFirestoreService.insertExercise(exercise)
+
+        val sets  = createSets()
+
+        exerciseSetFirestoreService.updateExerciseSets(sets,exercise.idExercise)
+
+        val searchResult = exerciseSetFirestoreService.getExerciseSetByIdExercise(idExercise = exercise.idExercise)
+
+        assertEquals(searchResult,sets)
+    }
+
+    @Test
+    fun r_insertDeletedExerciseSets_CBS() = runBlocking {
+
+        //Create a workout
+        val exercise = createExercise()
+        exercise.sets = createSets()
+
+        //Insert it
+        exerciseFirestoreService.insertExercise(exercise)
+
+        //Insert set into deleted
+
+        exerciseSetFirestoreService.insertDeletedExerciseSets(exercise.sets)
+
+        //CBS
+        val searchResult = exerciseSetFirestoreService.getDeletedExerciseSets()
+
+        assertTrue {  searchResult.containsAll(exercise.sets) }
+    }
+
+
     private fun createWorkout() : Workout{
         val workout = workoutFactory.createWorkout(
             idWorkout = UUID.randomUUID().toString(),

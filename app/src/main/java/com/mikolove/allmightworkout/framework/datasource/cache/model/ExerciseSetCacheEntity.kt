@@ -36,6 +36,9 @@ data class ExerciseSetCacheEntity(
     @ColumnInfo(name = "rest_time")
     var restTime: Int,
 
+    @ColumnInfo(name = "position")
+    var order: Int,
+
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt: Date,
 

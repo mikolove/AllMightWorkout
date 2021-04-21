@@ -6,7 +6,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetC
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -197,6 +196,7 @@ class SyncExercisesTest {
             weight = 42,
             time = 42,
             restTime = 42,
+            order = 1,
             created_at = cachedExerciseSet1?.createdAt
         )
         val updatedExercise = exerciseFactory.createExercise(
@@ -224,6 +224,7 @@ class SyncExercisesTest {
             weight = updatedExerciseSet.weight,
             time = updatedExerciseSet.time,
             restTime = updatedExerciseSet.restTime,
+            order = updatedExerciseSet.order,
             updatedAt = updatedExerciseSet.updatedAt,
             idExercise = "idExercise1"
         )
@@ -264,6 +265,7 @@ class SyncExercisesTest {
             weight = 42,
             time = 42,
             restTime = 42,
+            order = 1,
             created_at = networkExerciseSet?.createdAt
         )
         val updatedExercise = exerciseFactory.createExercise(

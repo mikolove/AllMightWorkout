@@ -44,6 +44,7 @@ class FakeExerciseSetCacheDataSourceImpl(
         weight: Int,
         time: Int,
         restTime: Int,
+        order: Int,
         updatedAt: String,
         idExercise: String
     ): Int {
@@ -67,6 +68,7 @@ class FakeExerciseSetCacheDataSourceImpl(
             weight = weight,
             time = time,
             restTime = restTime,
+            order = order,
             updatedAt = updatedAt
         )
 

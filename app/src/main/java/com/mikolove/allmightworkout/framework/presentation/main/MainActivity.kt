@@ -174,6 +174,8 @@ class MainActivity :
             R.id.exercise_detail_fragment -> View.GONE
             R.id.add_exercise_to_workout_fragment -> View.GONE
             R.id.exercise_set_detail_fragment -> View.GONE
+            R.id.workoutInProgressFragment -> View.GONE
+            R.id.exerciseInProgressFragment -> View.GONE
             else -> View.VISIBLE
         }
 

@@ -5,7 +5,9 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCache
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,7 +31,11 @@ class GetWorkoutById(
         ){
             override suspend fun handleSuccess(resultObj: Workout): DataState<ViewState>? {
 
-                val viewState = WorkoutViewState(workoutSelected = resultObj)
+                val viewState = when(ViewState::class){
+                    WorkoutViewState::class -> WorkoutViewState(workoutSelected = resultObj)
+                    WorkoutInProgressViewState:: class -> WorkoutInProgressViewState(workout = resultObj)
+                    else -> null
+                }
 
                 return DataState.data(
                     response = Response(

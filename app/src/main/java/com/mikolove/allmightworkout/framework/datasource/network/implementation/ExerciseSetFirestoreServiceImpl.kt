@@ -10,12 +10,15 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Exercis
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseSetNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISES_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISE_SETS_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 class ExerciseSetFirestoreServiceImpl
 constructor(
@@ -88,6 +91,61 @@ constructor(
 
     }
 
+    override suspend fun updateExerciseSets(exerciseSet: List<ExerciseSet>, idExercise: String) {
+
+        val exercise = firestore
+            .collection(USERS_COLLECTION)
+            .document(FIRESTORE_USER_ID)
+            .collection(EXERCISES_COLLECTION)
+            .document(idExercise)
+            .get()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
+            }
+
+        exercise?.let {
+
+            //Update entity
+            it.sets = exerciseSet
+
+            val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(FIRESTORE_USER_ID)
+                .collection(EXERCISES_COLLECTION)
+                .document(idExercise)
+                .set(updatedEntity)
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+        }
+    }
+
+    override suspend fun insertDeletedExerciseSets(exerciseSets: List<ExerciseSet>) {
+        if(exerciseSets.size > 500){
+            throw Exception("Cannot delete more than 500 exercise sets at a time in firestore.")
+        }
+
+        val collectionRef = firestore
+            .collection(USERS_COLLECTION)
+            .document(FIRESTORE_USER_ID)
+            .collection(REMOVED_EXERCISE_SETS_COLLECTION)
+
+        firestore.runBatch { batch ->
+            for(set in exerciseSets){
+                val documentRef = collectionRef.document(set.idExerciseSet)
+                batch.set(documentRef, exerciseSetNetworkMapper.mapToEntity(set))
+            }
+        }.addOnFailureListener {
+            // send error reports to Firebase Crashlytics
+            cLog(it.message)
+        }.await()
+     }
+
     override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String) {
 
         val exercise = firestore
@@ -106,7 +164,8 @@ constructor(
         exercise?.let {
 
             //Remove set
-            it.sets = exercise.sets.filter { set -> set.idExerciseSet != primaryKey }
+            val newSets = it.sets.filter { set -> set.idExerciseSet != primaryKey }
+            it.sets = newSets
 
             //Update entity
             val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
@@ -122,6 +181,44 @@ constructor(
                 }
                 .await()
         }
+    }
+
+    override suspend fun removeExerciseSetsById(primaryKeys: List<String>, idExercise: String) {
+
+        val exercise = firestore
+            .collection(USERS_COLLECTION)
+            .document(FIRESTORE_USER_ID)
+            .collection(EXERCISES_COLLECTION)
+            .document(idExercise)
+            .get()
+            .addOnFailureListener {
+                cLog(it.message)
+            }
+            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                exerciseNetworkMapper.mapFromEntity(it)
+            }
+
+        exercise?.let {
+
+            //Remove set
+            val newSets = it.sets.filter { set -> !primaryKeys.contains(set.idExerciseSet) }
+            it.sets = newSets
+
+            //Update entity
+            val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
+
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(FIRESTORE_USER_ID)
+                .collection(EXERCISES_COLLECTION)
+                .document(idExercise)
+                .set(updatedEntity)
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+        }
+
     }
 
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {

@@ -27,6 +27,7 @@ class InsertExerciseSet(
         weight : Int,
         time : Int,
         restTime : Int,
+        order : Int,
         idExercise : String,
         stateEvent: StateEvent
     ) : Flow<DataState<ExerciseViewState>?> = flow {
@@ -37,6 +38,7 @@ class InsertExerciseSet(
             weight = weight,
             time = time,
             restTime = restTime,
+            order = order,
             created_at = null
         )
 

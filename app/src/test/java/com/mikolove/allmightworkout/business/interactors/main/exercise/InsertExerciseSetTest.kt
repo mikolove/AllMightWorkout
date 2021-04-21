@@ -83,6 +83,7 @@ class InsertExerciseSetTest {
             weight = newExerciseSet.weight,
             time = newExerciseSet.time,
             restTime = newExerciseSet.restTime,
+            order = newExerciseSet.order,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSet = newExerciseSet,idExercise = idExercise)
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {
@@ -126,6 +127,7 @@ class InsertExerciseSetTest {
             weight = newExerciseSet.weight,
             time = newExerciseSet.time,
             restTime = newExerciseSet.restTime,
+            order = newExerciseSet.order,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSet = newExerciseSet,idExercise = idExercise)
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {
@@ -169,6 +171,7 @@ class InsertExerciseSetTest {
             weight = newExerciseSet.weight,
             time = newExerciseSet.time,
             restTime = newExerciseSet.restTime,
+            order = newExerciseSet.order,
             idExercise = idExercise,
             stateEvent = InsertExerciseSetEvent(exerciseSet = newExerciseSet,idExercise = idExercise)
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?> {

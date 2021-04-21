@@ -80,6 +80,7 @@ object InteractorsModule {
             insertMultipleExerciseSet = InsertMultipleExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             updateMultipleExerciseSet = UpdateMultipleExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             removeMultipleExerciseSet = RemoveMultipleExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
+            updateNetworkExerciseSets = UpdateNetworkExerciseSets(exerciseSetNetworkDataSource),
             updateExercise = UpdateExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
             updateExerciseSet = UpdateExerciseSet(exerciseSetCacheDataSource, exerciseSetNetworkDataSource),
             removeExercise = RemoveExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
@@ -96,6 +97,7 @@ object InteractorsModule {
     @Singleton
     @Provides
     fun provideWorkoutListInteractors(
+        workoutCacheDataSource : WorkoutCacheDataSource,
         historyWorkoutFactory : HistoryWorkoutFactory,
         historyExerciseFactory : HistoryExerciseFactory,
         historyExerciseSetFactory : HistoryExerciseSetFactory,
@@ -105,6 +107,7 @@ object InteractorsModule {
     ): WorkoutInProgressListInteractors{
 
         return WorkoutInProgressListInteractors(
+            getWorkoutById = GetWorkoutById(workoutCacheDataSource),
             insertHistoryWorkout = InsertHistoryWorkout(historyWorkoutCacheDataSource,historyWorkoutFactory),
             insertHistoryExercise = InsertHistoryExercise(historyExerciseCacheDataSource,historyExerciseFactory),
             insertHistoryExerciseSet = InsertHistoryExerciseSet(historyExerciseSetCacheDataSource,historyExerciseSetFactory)

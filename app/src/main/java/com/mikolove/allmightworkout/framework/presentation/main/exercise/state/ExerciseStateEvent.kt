@@ -123,6 +123,18 @@ sealed class ExerciseStateEvent : StateEvent{
         override fun shouldDisplayProgressBar(): Boolean = false
     }
 
+    class UpdateNetworkExerciseSetsEvent(
+        val sets : ArrayList<ExerciseSet>,
+        val deletedSets : ArrayList<ExerciseSet>,
+        val idExercise: String
+    ) : ExerciseStateEvent(){
+        override fun errorInfo(): String = "Error updating network exercises sets"
+
+        override fun eventName(): String ="UpdateNetworkExerciseSetsEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
+    }
+
     class RemoveMultipleExerciseSetEvent(
         val sets : ArrayList<ExerciseSet>,
         val idExercise: String

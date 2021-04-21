@@ -25,6 +25,7 @@ constructor(
         weight: Int,
         time: Int,
         restTime: Int,
+        order: Int,
         updatedAt: String,
         idExercise: String
     ): Int {
@@ -34,6 +35,7 @@ constructor(
             weight = weight,
             time = time,
             restTime = restTime,
+            order = order,
             updatedAt = dateUtil.convertStringDateToDate(updatedAt),
             idExercise = idExercise
         )

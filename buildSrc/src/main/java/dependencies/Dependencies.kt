@@ -14,6 +14,7 @@ object Dependencies {
 
     val recycler_view = "androidx.recyclerview:recyclerview:${Versions.recycler_view}"
 
+
     val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle_version}"
     val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle_version}"
     val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle_version}"

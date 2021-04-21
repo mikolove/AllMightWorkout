@@ -84,6 +84,14 @@ class WorkoutDetailFragment:
         binding?.fragmentManageWorkoutButtonAddExercise?.setOnClickListener {
             findNavController().navigate(R.id.action_workout_detail_fragment_to_add_exercise_to_workout_fragment)
         }
+
+        binding?.fragmentManageWorkoutButtonLaunch?.setOnClickListener {
+            val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
+            idWorkout?.let {
+                val action = WorkoutDetailFragmentDirections.actionWorkoutDetailFragmentToWorkoutInProgressFragment(idWorkout)
+                findNavController().navigate(action)
+            }
+        }
     }
 
 

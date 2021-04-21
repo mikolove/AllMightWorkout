@@ -82,7 +82,7 @@ class InsertMultipleExerciseSet(
             )
         }
 
-        updateNetwork(successfulAdd,idExercise)
+        //updateNetwork(successfulAdd,idExercise)
 
     }
 

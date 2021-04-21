@@ -18,7 +18,7 @@ constructor(
         var bodyPart = entity.bodyPartCacheEntity?.let { bodyPartCacheMapper.mapFromEntity(it) }
         var listOfSets : List<ExerciseSet>?
         if(!entity.listOfExerciseSetCacheEntity.isNullOrEmpty()){
-            listOfSets = entity.listOfExerciseSetCacheEntity?.let { exerciseSetCacheMapper.entityListToDomainList(it) }
+            listOfSets = entity.listOfExerciseSetCacheEntity.let { exerciseSetCacheMapper.entityListToDomainList(it) }
         }else{
             listOfSets = listOf()
         }

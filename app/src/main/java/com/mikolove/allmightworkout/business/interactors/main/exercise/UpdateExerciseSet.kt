@@ -32,6 +32,7 @@ class UpdateExerciseSet(
                 exerciseSet.weight,
                 exerciseSet.time,
                 exerciseSet.restTime,
+                exerciseSet.order,
                 exerciseSet.updatedAt,
                 idExercise
             )

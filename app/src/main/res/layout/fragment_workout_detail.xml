@@ -2,6 +2,7 @@
 
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -86,9 +87,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_manage_workout_no_exercises"
             app:layout_constraintEnd_toEndOf="@+id/fragment_manage_workout_button_add_exercise"
             app:layout_constraintStart_toStartOf="@+id/fragment_manage_workout_text_list_title"
             app:layout_constraintTop_toBottomOf="@+id/fragment_manage_workout_button_add_exercise" />
@@ -102,7 +102,7 @@
             android:textAppearance="?textAppearanceBody2"
             android:textStyle="italic"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_manage_workout_button_launch"
             app:layout_constraintEnd_toEndOf="@+id/fragment_manage_workout_button_add_exercise"
             app:layout_constraintStart_toStartOf="@+id/fragment_manage_workout_text_list_title"
             app:layout_constraintTop_toBottomOf="@+id/fragment_manage_workout_button_add_exercise" />
@@ -115,6 +115,18 @@
             app:layout_constraintBottom_toBottomOf="@+id/fragment_manage_workout_button_add_exercise"
             app:layout_constraintStart_toStartOf="@+id/fragment_manage_workout_edit_name"
             app:layout_constraintTop_toTopOf="@+id/fragment_manage_workout_button_add_exercise" />
+
+        <Button
+            android:id="@+id/fragment_manage_workout_button_launch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,6 +84,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
+            order = 1,
             created_at = randomExerciseSet.createdAt
         )
 
@@ -127,6 +128,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
+            order = 1,
             created_at = randomExerciseSet.createdAt
         )
 
@@ -170,6 +172,7 @@ class UpdateExerciseSetTest {
             weight = 50,
             time = 120,
             restTime = 240,
+            order = 1,
             created_at = randomExerciseSet.createdAt
         )
 

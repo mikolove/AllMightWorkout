@@ -38,7 +38,7 @@ class ExerciseSetListAdapter (
         holder.bind(sets.get(position))
     }
 
-    override fun onBindViewHolder(holder: ExerciseSetViewHolder, position: Int, payloads: MutableList<Any>) {
+/*    override fun onBindViewHolder(holder: ExerciseSetViewHolder, position: Int, payloads: MutableList<Any>) {
 
         if(payloads.isEmpty()){
             super.onBindViewHolder(holder, position, payloads)
@@ -48,7 +48,8 @@ class ExerciseSetListAdapter (
             val oldSet = combinedChange.oldData
             val newSet = combinedChange.newData
         }
-    }
+    }*/
+
 
     override fun getItemCount(): Int {
         return sets.size
@@ -60,6 +61,7 @@ class ExerciseSetListAdapter (
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
         sets.clear()
+        printLogD("ExerciseSetListAdapter","Sort list")
         sets.addAll(list)
     }
 
@@ -73,6 +75,7 @@ class ExerciseSetListAdapter (
 
         val binding =  ItemSetBinding.bind(itemView)
 
+
         fun bind(item: ExerciseSet) = with(itemView) {
 
             //Add test transition
@@ -85,7 +88,7 @@ class ExerciseSetListAdapter (
             }
 
             //Bind values
-            binding.itemSetTitle.text = "Set"
+            binding.itemSetTitle.text = "Set ${item.order}"
 
             exerciseType.observe(lifecycleOwner,{ exerciseType ->
                 exerciseType?.let {
@@ -106,5 +109,7 @@ class ExerciseSetListAdapter (
         fun onEditClick(item: ExerciseSet)
 
         fun onDeleteClick(item: ExerciseSet)
+
+        fun updateOrder(item : ExerciseSet,position: Int)
     }
 }

@@ -8,12 +8,14 @@ data class ExerciseSetNetworkEntity(
     var weight: Int,
     var time: Int,
     var restTime: Int,
+    var order : Int,
     var createdAt: Timestamp,
     var updatedAt: Timestamp,
 ) {
 
     constructor() : this(
         "",
+        0,
         0,
         0,
         0,
