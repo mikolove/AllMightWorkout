@@ -48,7 +48,7 @@ class ChronometerManager() {
 
                 is RunningState ->{
                     _startButtonState.value = StopButtonState()
-                    _resetButtonState.value = PassiveButtonState()
+                    _resetButtonState.value = ActiveButtonState()
                     _endButtonState.value = PassiveButtonState()
                 }
 

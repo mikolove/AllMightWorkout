@@ -114,6 +114,13 @@ constructor(
         setViewState(update)
     }
 
+    fun updateWorkoutExercise(exercises : List<Exercise>){
+        val update = getCurrentViewStateOrNew()
+        val updatedWorkout = update.workout?.copy(exercises = exercises)
+        update.workout = updatedWorkout
+        setViewState(update)
+    }
+
     val chronometerManager = ChronometerManager()
     val chronometerState: LiveData<ChronometerState>
         get() = chronometerManager.getChronometerSate()

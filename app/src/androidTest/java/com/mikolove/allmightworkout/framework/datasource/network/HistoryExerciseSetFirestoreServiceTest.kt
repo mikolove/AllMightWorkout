@@ -4,7 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryExerciseFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryExerciseSetFirestoreService
@@ -15,9 +14,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.implementation.
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryWorkoutNetworkMapper
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.junit.Before
@@ -26,7 +23,6 @@ import org.junit.Test
 import org.junit.runners.MethodSorters
 import java.util.*
 import javax.inject.Inject
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /*

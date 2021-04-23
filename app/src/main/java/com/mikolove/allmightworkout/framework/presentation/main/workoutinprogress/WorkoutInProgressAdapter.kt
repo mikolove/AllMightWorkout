@@ -9,7 +9,10 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemWorkoutInProgressBinding
+import com.mikolove.allmightworkout.framework.presentation.common.invisible
+import com.mikolove.allmightworkout.framework.presentation.common.visible
 import com.mikolove.allmightworkout.util.printLogD
+import java.util.concurrent.TimeUnit
 
 class WorkoutInProgressAdapter(
     private val interaction: Interaction? = null,
@@ -56,6 +59,8 @@ class WorkoutInProgressAdapter(
         fun bind(item: Exercise) = with(itemView) {
             printLogD("WorkoutInProgressAdapter","${item}")
             printLogD("WorkoutInProgressAdapter","${item.startedAt}")
+
+
             //Add clicklisteners
             itemView.setOnClickListener {
                 interaction?.onItemSelected(item)
@@ -67,8 +72,22 @@ class WorkoutInProgressAdapter(
 
             binding.wipExerciseTitle.text = item.name
             binding.wipExerciseSets.text = "${setsDone}/${sets} Sets done."
-            binding.wipExerciseStarted.text = "started : ${item.startedAt}"
-            binding.wipExerciseEnded.text = "ended : ${item.endedAt}"
+            if (sets == setsDone){
+                val startedAt = item?.startedAt
+                val endedAt = item?.endedAt
+                if(startedAt != null && endedAt != null){
+                    val endTime = dateUtil.convertStringDateToDate(endedAt).time
+                    val startTime = dateUtil.convertStringDateToDate(startedAt).time
+                    val diffInS = TimeUnit.MILLISECONDS.toSeconds(endTime - startTime)
+                    binding.wipExerciseTextDone.text = "Done in ${diffInS} secs."
+                }else{
+                    binding.wipExerciseTextDone.text = "Done"
+                }
+                binding.wipExerciseDone.visible()
+            }else{
+                binding.wipExerciseTextDone.text = ""
+                binding.wipExerciseDone.invisible()
+            }
         }
     }
 

@@ -65,12 +65,10 @@ class WorkoutInProgressFragment():
             if(viewState != null) {
 
                 viewState.workout?.let { workout ->
-
                     if(getExerciseList().isEmpty()){
                         workout.exercises?.let { viewModel.setExerciseList(it) }
-                        setupUI()
                     }
-
+                    setupUI()
                 }
 
                 viewState.exerciseList?.let { exercises ->
@@ -142,6 +140,18 @@ class WorkoutInProgressFragment():
         return viewModel.getExerciseList()
     }
 
+    private fun quitWorkout(){
+
+        //if not finish prompt user demand
+
+        //saveExercise
+
+        //saveWorkout
+
+        //unbind all and quit to homescreen
+
+    }
+
     private fun navigateToExercise(item : Exercise){
 
         val updateExercise = item.copy(
@@ -153,6 +163,8 @@ class WorkoutInProgressFragment():
     }
 
     override fun onItemSelected(item: Exercise) {
-        navigateToExercise(item)
+        if(item.endedAt == null){
+            navigateToExercise(item)
+        }
     }
 }

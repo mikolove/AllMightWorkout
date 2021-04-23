@@ -4,9 +4,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -48,8 +52,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
     }
 
     override fun onDestroyView() {
-        chronometer?.stop()
-        timer?.cancel()
+        closeChronometer()
         chronometer = null
         timer = null
         countDownTimer = null
@@ -64,14 +67,14 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
         binding = FragmentExerciseInProgressBinding.bind(view)
 
-
         init()
+        setupOnBackPressDispatcher()
         subscribeObservers()
 
         binding?.eipButtonStartStop?.setOnClickListener {
 
-            if(viewModel.chronometerManager.isStartButtonActive()){
-                viewModel.getActualSet()?.let { set ->
+            viewModel.getActualSet()?.let { set ->
+                if(viewModel.chronometerManager.isStartButtonActive()){
 
                     if(viewModel.chronometerManager.isIdleState()){
                         startSet(set)
@@ -86,25 +89,51 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             }
         }
 
-        binding?.eipButtonEnd?.setOnClickListener {
-
-            if(viewModel.chronometerManager.isEndButtonActive()){
-                val actualSet = viewModel.getActualSet()
-                if( actualSet?.order == 1 && actualSet.startedAt == null){
-                    navigateBack()
-                }else{
-                    areYouSureToQuitExercise()
+        binding?.epiButtonReset?.setOnClickListener{
+            viewModel.getActualSet()?.let { set ->
+                if(viewModel.chronometerManager.isRunningState()){
+                    resetSet(set)
                 }
             }
+        }
+
+        binding?.eipButtonEnd?.setOnClickListener {
+            quitExercise()
         }
 
 
     }
 
+
+    private fun quitExercise(){
+        if(viewModel.chronometerManager.isEndButtonActive()){
+            val actualSet = viewModel.getActualSet()
+            if( actualSet?.order == 1 && actualSet.startedAt == null){
+                navigateBack()
+            }else{
+                areYouSureToQuitExercise()
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun saveAndNavigateback(){
         saveExercise()
+        setChronometerState(ChronometerState.CloseState())
         navigateBack()
     }
+
     private fun navigateBack(){
         viewModel.setExercise(null)
         viewModel.setExerciseSetList(null)
@@ -161,6 +190,10 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                             }
                         }
                     }
+                }
+
+                is ChronometerState.CloseState -> {
+                    closeChronometer()
                 }
             }
         })
@@ -318,6 +351,12 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         startChronometer()
     }
 
+    private fun resetSet(set : ExerciseSet){
+        val updatedSet = set.copy(startedAt = null)
+        viewModel.setActualSet(updatedSet)
+        resetChronometer()
+    }
+
     private fun stopSet(set : ExerciseSet){
         val updatedSet = set.copy(endedAt = dateUtil.getCurrentTimestamp())
         viewModel.setActualSet(updatedSet)
@@ -326,6 +365,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
     private fun stopRest(){
         setChronometerState(ChronometerState.SaveState())
+        chronometer?.base = SystemClock.elapsedRealtime()
         timer?.cancel()
     }
 
@@ -366,8 +406,38 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         setChronometerState(ChronometerState.SaveState())
     }
 
+    private fun resetChronometer(){
+        chronometer?.stop()
+        chronometer?.base = SystemClock.elapsedRealtime()
+        setChronometerState(ChronometerState.IdleState())
+    }
+
     private fun stopChronometer(){
         chronometer?.stop()
         setChronometerState(ChronometerState.StopState())
     }
+
+    private fun closeChronometer(){
+        chronometer?.stop()
+        timer?.cancel()
+        setChronometerState(ChronometerState.IdleState())
+    }
+
+    /********************************************************************
+    BACK BUTTON PRESS
+     *********************************************************************/
+
+    private fun onBackPressed() {
+        quitExercise()
+    }
+
+    private fun setupOnBackPressDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 }

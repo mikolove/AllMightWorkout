@@ -32,4 +32,10 @@ sealed class ChronometerState {
         }
     }
 
+    class CloseState : ChronometerState(){
+        override fun toString(): String {
+            return "CloseState"
+        }
+    }
+
 }

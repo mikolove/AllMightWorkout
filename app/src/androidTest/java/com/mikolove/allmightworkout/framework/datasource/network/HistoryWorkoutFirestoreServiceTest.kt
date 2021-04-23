@@ -7,16 +7,13 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSetFact
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkoutFactory
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryWorkoutFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.HistoryWorkoutFirestoreServiceImpl
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryWorkoutNetworkMapper
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.junit.Before

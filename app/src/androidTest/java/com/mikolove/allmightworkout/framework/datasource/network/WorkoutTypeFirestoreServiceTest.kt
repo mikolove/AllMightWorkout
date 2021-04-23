@@ -2,22 +2,18 @@ package com.mikolove.allmightworkout.framework.datasource.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.di.ProductionModule
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.data.WorkoutTypeDataFactory
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutTypeFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.WorkoutTypeFirestoreServiceImpl
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.BodyPartNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutTypeNetworkMapper
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.BODYPART_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.WORKOUT_TYPE_COLLECTION
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import javax.inject.Inject
