@@ -77,25 +77,15 @@
         android:layout_marginBottom="16dp"
         android:text="End exercise"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/eip_guideline"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/eip_button_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="@+id/eip_button_end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/eip_guideline" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/eip_guideline_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5
-"/>
+        app:layout_constraintGuide_percent="0.5"/>
 
     <TextView
         android:id="@+id/eip_text_info_set"

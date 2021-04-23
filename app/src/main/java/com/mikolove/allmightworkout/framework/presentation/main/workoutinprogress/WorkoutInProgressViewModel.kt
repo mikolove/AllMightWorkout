@@ -81,12 +81,6 @@ constructor(
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workout ?: null
     fun getExerciseList() : List<Exercise> = getCurrentViewStateOrNew().exerciseList ?: ArrayList()
 
-    private var validatedSetList : ArrayList<ExerciseSet> = ArrayList()
-    fun getValidatedSetList() = validatedSetList
-    private fun setValidatedSetList(list : ArrayList<ExerciseSet>){
-        validatedSetList = list
-    }
-
     fun loadNextSet(actualSet : ExerciseSet) : Boolean{
 
         val nextOrderSet = actualSet.order.plus(1)
@@ -96,16 +90,6 @@ constructor(
             setActualSet(it)
             true
         }?:false
-    }
-
-    fun addSetToValidated(set : ExerciseSet){
-        var updateValidated = getValidatedSetList()
-        updateValidated.add(set)
-        setValidatedSetList(updateValidated)
-    }
-
-    fun cleanValidatedSetList(){
-        validatedSetList = ArrayList()
     }
 
     fun getWorkoutById(idWorkout : String) {
@@ -118,7 +102,7 @@ constructor(
         setViewState(update)
     }
 
-    fun setExerciseSetList(sets : List<ExerciseSet>){
+    fun setExerciseSetList(sets : List<ExerciseSet>?){
         val update = getCurrentViewStateOrNew()
         update.setList = sets
         setViewState(update)
@@ -130,11 +114,9 @@ constructor(
         setViewState(update)
     }
 
-
     val chronometerManager = ChronometerManager()
     val chronometerState: LiveData<ChronometerState>
         get() = chronometerManager.getChronometerSate()
-
 
     fun getExercise() : Exercise? = getCurrentViewStateOrNew().exercise
     fun getSets() : List<ExerciseSet> = getCurrentViewStateOrNew().setList ?: ArrayList()
@@ -149,37 +131,36 @@ constructor(
 
     fun geTotalSets() = getCurrentViewStateOrNew().setList?.size?.plus(1) ?: 0
 
-    fun setExercise(exercise : Exercise ){
+    fun setExercise(exercise : Exercise?){
         val update = getCurrentViewStateOrNew()
         update.exercise = exercise
         setViewState(update)
     }
 
 
+    fun saveSet(set :ExerciseSet){
+
+        val updateExercise = getExercise()
+
+        updateExercise?.let {
+            it?.sets?.find { it.idExerciseSet == set.idExerciseSet }?.apply {
+                startedAt = set.startedAt
+                endedAt = set.endedAt
+            }
+            setExercise(it)
+        }
+    }
+
     fun saveExercise(){
-
-        //Get validated set
-        val setsValidated = getValidatedSetList()
-
-        //Update in progress exercise
         val updateExercise = getExercise()?.copy(
              endedAt = dateUtil.getCurrentTimestamp()
         )
-        setsValidated.forEach { setValidated ->
-            updateExercise?.sets?.find { it.idExerciseSet == setValidated.idExerciseSet }?.apply {
-                startedAt = setValidated.startedAt
-                endedAt = setValidated.endedAt
-            }
-        }
-
-        //Upadte list
         val updatedExerciseList = getCurrentViewStateOrNew().exerciseList
         updatedExerciseList?.find { it.idExercise == updateExercise?.idExercise }?.apply {
             startedAt = updateExercise?.startedAt
             endedAt = updateExercise?.endedAt
             sets = updateExercise?.sets ?: ArrayList()
         }
-
         updatedExerciseList?.let { setExerciseList(it) }
     }
 

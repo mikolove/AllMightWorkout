@@ -6,89 +6,83 @@ import android.widget.Chronometer
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerButtonState.*
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState.*
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState.StopState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlin.concurrent.timer
 
 class ChronometerManager() {
 
-    private var chronometer: Chronometer? = null
-    private var countDownTimer : TextView? = null
-    private var timer : CountDownTimer? = null
-
-
     private val _chronometerState : MutableLiveData<ChronometerState>
-        = MutableLiveData(ChronometerState.IdleState())
-    private val chronometerState : LiveData<ChronometerState>
+            = MutableLiveData(IdleState())
+    val chronometerState : LiveData<ChronometerState>
         get() = _chronometerState
 
-    fun setChronometer(chronometer: Chronometer){
-        this.chronometer = chronometer
-    }
+    private val _startButtonState : MutableLiveData<ChronometerButtonState>
+        = MutableLiveData(StartButtonState())
+    val startButtonState : LiveData<ChronometerButtonState>
+        get() = _startButtonState
 
-    fun setCountDownTimer(countDownTimer: TextView){
-        this.countDownTimer = countDownTimer
-    }
+    private val _resetButtonState : MutableLiveData<ChronometerButtonState>
+            = MutableLiveData(PassiveButtonState())
+    val resetButtonState : LiveData<ChronometerButtonState>
+        get() = _resetButtonState
 
-    fun start(){
-        setChronometerState(ChronometerState.RunningState())
-        chronometer?.base = SystemClock.elapsedRealtime()
-        chronometer?.onChronometerTickListener = null
-        chronometer?.start()
-    }
+    private val _endButtonState : MutableLiveData<ChronometerButtonState>
+            = MutableLiveData(ActiveButtonState())
+    val endButtonState : LiveData<ChronometerButtonState>
+        get() = _endButtonState
 
-    fun startRest(restTime : Int){
 
-        val restTimeLong = restTime.toLong()
-        timer = object : CountDownTimer(restTimeLong*1000 , 1000){
+    fun setChronometerState(state : ChronometerState) {
+        if(!chronometerState.toString().equals(state.toString())){
+            _chronometerState.value = state
+            when(state){
 
-            override fun onTick(millisUntilFinished: Long) {
-                countDownTimer?.text = (millisUntilFinished / 1000).toString()
-            }
+                is IdleState ->{
+                    _startButtonState.value = StartButtonState()
+                    _resetButtonState.value = PassiveButtonState()
+                    _endButtonState.value = ActiveButtonState()
+                }
 
-            override fun onFinish() {
-                stopRest()
+                is RunningState ->{
+                    _startButtonState.value = StopButtonState()
+                    _resetButtonState.value = PassiveButtonState()
+                    _endButtonState.value = PassiveButtonState()
+                }
+
+                is RestTimeState -> {
+                    _startButtonState.value = RestButtonState()
+                    _resetButtonState.value = PassiveButtonState()
+                    _endButtonState.value = PassiveButtonState()
+                }
+
+                is StopState ->{
+
+                }
+
+                is SaveState ->{
+
+                }
             }
         }
-
-        timer?.start()
-        setChronometerState(ChronometerState.RestTimeState())
     }
 
-    fun cancelRest(){
-        timer?.cancel()
-        stopRest()
-    }
-
-    fun stopRest(){
-        setChronometerState(ChronometerState.SaveState())
-        chronometer?.base = SystemClock.elapsedRealtime()
-    }
-
-    fun stop(){
-        setChronometerState(ChronometerState.StopState())
-        chronometer?.stop()
-    }
-
-    fun setChronometerState( state : ChronometerState){
-        _chronometerState.value = state
-    }
-
-    fun close(){
-        timer?.cancel()
-        chronometer?.stop()
-        setChronometerState(ChronometerState.IdleState())
-        countDownTimer = null
-        chronometer = null
-        timer = null
-    }
 
     fun getChronometerSate() = chronometerState
 
-    fun isIdleState()  = chronometerState.value.toString().equals(ChronometerState.IdleState().toString())
+    fun isIdleState()  = chronometerState.value.toString().equals(IdleState().toString())
 
-    fun isRunningState()  = chronometerState.value.toString().equals(ChronometerState.RunningState().toString())
+    fun isRunningState()  = chronometerState.value.toString().equals(RunningState().toString())
 
-    fun isStopState()  = chronometerState.value.toString().equals(ChronometerState.StopState().toString())
+    fun isStopState()  = chronometerState.value.toString().equals(StopState().toString())
 
-    fun isRestState()  = chronometerState.value.toString().equals(ChronometerState.RestTimeState().toString())
+    fun isRestState()  = chronometerState.value.toString().equals(RestTimeState().toString())
+
+    fun isStartButtonActive() = !startButtonState.value.toString().equals(PassiveButtonState().toString())
+
+    fun isResetButtonActive() = !resetButtonState.value.toString().equals(PassiveButtonState().toString())
+
+    fun isEndButtonActive() = !endButtonState.value.toString().equals(PassiveButtonState().toString())
 }
