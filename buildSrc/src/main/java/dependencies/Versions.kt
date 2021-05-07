@@ -1,16 +1,16 @@
 package dependencies
 
 object Versions {
-    val gradle = "4.1.3"
+    val gradle = "4.2.0"
     val compilesdk = 30
     val minsdk = 24
     val targetsdk = 30
-    val kotlin = "1.4.32"
+    val kotlin = "1.5.0"
     val recycler_view = "1.2.0"
     val safe_args = "2.3.4"
     val ktx = "1.3.2"
     val hilt = "2.35"
-    val hilt_testing = "2.31.2-alpha"
+    val hilt_testing = "2.35"
     val hilt_jetpack = "1.0.0-beta01"
     val nav_components = "2.3.0"
     val material_dialogs = "3.3.0"

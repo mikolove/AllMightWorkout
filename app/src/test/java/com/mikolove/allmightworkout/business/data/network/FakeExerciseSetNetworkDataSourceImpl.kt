@@ -22,6 +22,7 @@ class FakeExerciseSetNetworkDataSourceImpl(
         exerciseDatas[idExercise]?.sets = listExerciseSet
     }
 
+
     override suspend fun updateExerciseSet(
         exerciseSet: ExerciseSet,
         idExercise: String
@@ -36,6 +37,14 @@ class FakeExerciseSetNetworkDataSourceImpl(
             }
             exerciseDatas[idExercise]?.sets = listExerciseSet
         }
+    }
+
+    override suspend fun updateExerciseSets(exerciseSet: List<ExerciseSet>, idExercise: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertDeletedExerciseSets(exerciseSets: List<ExerciseSet>) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun removeExerciseSetById(primaryKey: String, idExercise: String)

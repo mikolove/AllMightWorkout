@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerManager
@@ -17,6 +18,8 @@ import javax.inject.Inject
 
 
 const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this exercise. It will be save at his current state."
+const val WIP_ARE_YOU_SURE_STOP_WORKOUT = "Are you sure to stop this workout. It will save at his current state."
+
 
 @HiltViewModel
 class WorkoutInProgressViewModel
@@ -52,6 +55,11 @@ constructor(
                 )
             }
 
+          /*  is InsertHistoryWorkout -> {
+                workoutInProgressListInteractors.insertHistoryWorkout.insertHistoryWorkout(
+
+                )
+            }*/
             is CreateStateMessageEvent -> {
                 emitStateMessageEvent(
                     stateMessage = stateEvent.stateMessage,
@@ -168,8 +176,36 @@ constructor(
             endedAt = updateExercise?.endedAt
             sets = updateExercise?.sets ?: ArrayList()
         }
-        updatedExerciseList?.let { setExerciseList(it) }
+
+        updatedExerciseList?.let {
+            setExerciseList(it)
+            var isDone = true
+            for(exercise in it){
+                if(exercise.startedAt == null || exercise.endedAt == null)
+                    isDone = false
+            }
+            setIsWorkoutDone(isDone)
+        }
     }
 
+    fun setIsWorkoutDone(isDone : Boolean){
+        val update = getCurrentViewStateOrNew()
+        update.isWorkoutDone = isDone
+        setViewState(update)
+    }
+
+
+    fun isWorkoutDone() = getCurrentViewStateOrNew().isWorkoutDone ?: false
+
+    fun saveWorkout(workout : Workout, exercises: List<Exercise>){
+
+        val exercisesDone = exercises.filter { it.endedAt != null }
+
+        val updateWorkout = workout.copy(
+            endedAt = dateUtil.getCurrentTimestamp(),
+            exercises = exercisesDone
+        )
+
+    }
 
 }

@@ -216,6 +216,27 @@ class HistoryWorkoutDaoServiceTest : BaseTest(){
 
     }
 
+    //    9. i_getHistoryWorkoutByName_CBS
+    @Test
+    fun j_deleteHistoryWorkout_CBS() = runBlocking {
+
+        val historyWorkout = insertData()
+
+        val searchResult = historyWorkoutDaoService.getHistoryWorkoutOrderByDateDESC(historyWorkout.name,1)
+
+        assertTrue { searchResult.contains(historyWorkout) }
+
+        val deleted = historyWorkoutDaoService.deleteHistoryWorkout(historyWorkout.idHistoryWorkout)
+
+        val searchDelete = historyWorkoutDaoService.getHistoryWorkoutOrderByDateDESC(historyWorkout.name,1)
+
+        assertTrue { searchDelete.isEmpty() }
+
+        assertTrue {  deleted == 1 }
+    }
+
+
+
     private fun createHistoryWorkout() : HistoryWorkout = historyWorkoutFactory.createHistoryWorkout(
         idHistoryWorkout = UUID.randomUUID().toString(),
         name = "History workout name",

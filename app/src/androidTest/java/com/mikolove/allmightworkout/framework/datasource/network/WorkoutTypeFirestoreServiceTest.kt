@@ -8,6 +8,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.abstraction.Wor
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.WorkoutTypeFirestoreServiceImpl
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.BodyPartNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutTypeNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.BODYPART_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.WORKOUT_TYPE_COLLECTION
 import dagger.hilt.android.testing.HiltAndroidTest

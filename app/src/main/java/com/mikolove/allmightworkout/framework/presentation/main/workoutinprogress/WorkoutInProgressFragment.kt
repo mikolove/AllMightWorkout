@@ -1,7 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
+import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -54,8 +57,25 @@ class WorkoutInProgressFragment():
         loadWorkout(getIdWorkout())
 
         setupRecyclerView()
+        onBackPressed()
         subscribeObservers()
 
+        binding?.wipWorkoutButtonEnd?.setOnClickListener {
+            quitWorkout()
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun subscribeObservers(){
@@ -74,6 +94,7 @@ class WorkoutInProgressFragment():
                 viewState.exerciseList?.let { exercises ->
                         listAdapter?.submitList(exercises)
                 }
+
             }
         })
 
@@ -143,14 +164,22 @@ class WorkoutInProgressFragment():
     private fun quitWorkout(){
 
         //if not finish prompt user demand
-
+        if(viewModel.isWorkoutDone()){
+            areYouSureToQuitWorkout()
+        }
         //saveExercise
 
         //saveWorkout
+        val workout = viewModel.getWorkout()
+        val exerciseList = viewModel.getExerciseList()
+        if(workout!=null && exerciseList != null){
+            saveWorkout(workout,exerciseList)
+        }
 
         //unbind all and quit to homescreen
 
     }
+
 
     private fun navigateToExercise(item : Exercise){
 
@@ -167,4 +196,53 @@ class WorkoutInProgressFragment():
             navigateToExercise(item)
         }
     }
+
+    private fun saveWorkout(workout : Workout, exercises : List<Exercise>){
+
+        viewModel.saveWorkout(workout, exercises)
+    }
+
+    private fun areYouSureToQuitWorkout(){
+        viewModel.setStateEvent(
+            WorkoutInProgressStateEvent.CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = WIP_ARE_YOU_SURE_STOP_EXERCISE,
+                        uiComponentType = UIComponentType.AreYouSureDialog(
+                            object : AreYouSureCallback {
+                                override fun proceed() {
+                                    //Save exercise state
+                                    quitWorkout()
+                                }
+
+                                override fun cancel() {
+                                    // do nothing
+                                }
+                            }
+                        ),
+                        messageType = MessageType.Info()
+                    )
+                )
+            )
+        )
+    }
+
+
+    /********************************************************************
+    BACK BUTTON PRESS
+     *********************************************************************/
+
+    private fun onBackPressed() {
+    }
+
+    private fun setupOnBackPressDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+
 }

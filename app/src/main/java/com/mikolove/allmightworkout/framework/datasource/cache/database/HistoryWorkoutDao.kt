@@ -31,6 +31,9 @@ interface HistoryWorkoutDao{
     """)
     suspend fun getHistoryWorkoutById(primaryKey : String) : HistoryWorkoutWithExercisesCacheEntity?
 
+    @Query("DELETE FROM history_workouts WHERE id_history_workout = :idHistoryWorkout")
+    suspend fun deleteHistoryWorkout(idHistoryWorkout : String) : Int
+
     @Query("SELECT count(*) FROM history_workouts")
     suspend fun getTotalHistoryWorkout() : Int
 

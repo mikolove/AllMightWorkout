@@ -13,6 +13,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.implementation.
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.HistoryWorkoutNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await

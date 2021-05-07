@@ -18,6 +18,10 @@ constructor(
         return historyWorkoutDao.insertHistoryWorkout(historyWorkoutCacheMapper.mapToEntity(historyWorkout))
     }
 
+    override suspend fun deleteHistoryWorkout(idHistoryWorkout: String): Int {
+        return historyWorkoutDao.deleteHistoryWorkout(idHistoryWorkout)
+    }
+
     override suspend fun getHistoryWorkoutById(primaryKey: String): HistoryWorkout? {
         return historyWorkoutDao.getHistoryWorkoutById(primaryKey)?.let {
             historyWorkoutWithExercisesCacheMapper.mapFromEntity(it)

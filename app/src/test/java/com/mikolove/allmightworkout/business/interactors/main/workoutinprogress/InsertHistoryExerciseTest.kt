@@ -103,7 +103,7 @@ class InsertHistoryExerciseTest {
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
             idHistoryWorkout = UUID.randomUUID().toString(),
-            stateEvent = InsertHistoryExerciseEventInProgress()
+            stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?> {
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assertEquals(
@@ -148,7 +148,7 @@ class InsertHistoryExerciseTest {
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
             idHistoryWorkout = UUID.randomUUID().toString(),
-            stateEvent = InsertHistoryExerciseEventInProgress()
+            stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?> {
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assertEquals(
@@ -192,7 +192,7 @@ class InsertHistoryExerciseTest {
             started_at = historyExercise.startedAt,
             ended_at = historyExercise.endedAt,
             idHistoryWorkout = UUID.randomUUID().toString(),
-            stateEvent = InsertHistoryExerciseEventInProgress()
+            stateEvent = InsertHistoryExerciseEvent()
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?> {
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assert(

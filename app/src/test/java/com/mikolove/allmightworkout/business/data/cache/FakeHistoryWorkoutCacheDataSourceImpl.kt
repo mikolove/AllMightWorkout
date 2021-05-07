@@ -28,6 +28,12 @@ class FakeHistoryWorkoutCacheDataSourceImpl(
         return 1 // success
     }
 
+    override suspend fun deleteHistoryWorkout(idHistoryWorkout: String): Int {
+        return historyWorkoutsData.remove(idHistoryWorkout)?.let{
+            1
+        }?: -1
+    }
+
     override suspend fun getHistoryWorkouts(
         query: String,
         filterAndOrder: String,

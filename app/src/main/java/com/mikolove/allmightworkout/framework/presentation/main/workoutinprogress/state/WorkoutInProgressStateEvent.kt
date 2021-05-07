@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
 
+import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 
@@ -41,6 +42,16 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
         override fun errorInfo(): String = "Error inserting history workout."
 
         override fun eventName(): String = "InsertHistoryWorkoutEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean= false
+    }
+
+    class InsertHistoryEvent(
+        val workout : Workout,
+    ) : WorkoutInProgressStateEvent(){
+        override fun errorInfo(): String = "Error inserting history."
+
+        override fun eventName(): String = "InsertHistoryEvent"
 
         override fun shouldDisplayProgressBar(): Boolean= false
     }
