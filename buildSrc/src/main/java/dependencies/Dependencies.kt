@@ -1,6 +1,5 @@
 package dependencies
 
-import sun.misc.Version
 
 object Dependencies {
 

@@ -19,6 +19,7 @@ import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,11 +58,15 @@ class WorkoutInProgressFragment():
         loadWorkout(getIdWorkout())
 
         setupRecyclerView()
-        onBackPressed()
+        setupOnBackPressDispatcher()
         subscribeObservers()
 
         binding?.wipWorkoutButtonEnd?.setOnClickListener {
-            quitWorkout()
+            if(viewModel.isWorkoutDone()){
+                quitWorkoutAndSave()
+            }else{
+                areYouSureToQuitWorkout()
+            }
         }
 
     }
@@ -70,7 +75,7 @@ class WorkoutInProgressFragment():
         return when (item.itemId) {
 
             android.R.id.home -> {
-                onBackPressed()
+                areYouSureToQuitWithoutSaving()
                 true
             }
 
@@ -161,25 +166,21 @@ class WorkoutInProgressFragment():
         return viewModel.getExerciseList()
     }
 
-    private fun quitWorkout(){
-
-        //if not finish prompt user demand
-        if(viewModel.isWorkoutDone()){
-            areYouSureToQuitWorkout()
-        }
-        //saveExercise
+    private fun quitWorkoutAndSave(){
 
         //saveWorkout
         val workout = viewModel.getWorkout()
         val exerciseList = viewModel.getExerciseList()
         if(workout!=null && exerciseList != null){
+            printLogD("WorkoutInProgressFragment","Save workout")
             saveWorkout(workout,exerciseList)
         }
 
+        //Sync Online
+
         //unbind all and quit to homescreen
-
+        onBackPressed()
     }
-
 
     private fun navigateToExercise(item : Exercise){
 
@@ -212,7 +213,32 @@ class WorkoutInProgressFragment():
                             object : AreYouSureCallback {
                                 override fun proceed() {
                                     //Save exercise state
-                                    quitWorkout()
+                                    quitWorkoutAndSave()
+                                }
+
+                                override fun cancel() {
+                                    // do nothing
+                                }
+                            }
+                        ),
+                        messageType = MessageType.Info()
+                    )
+                )
+            )
+        )
+    }
+
+    private fun areYouSureToQuitWithoutSaving(){
+        viewModel.setStateEvent(
+            WorkoutInProgressStateEvent.CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = WIP_ARE_YOU_SURE_QUIT_NO_SAVE,
+                        uiComponentType = UIComponentType.AreYouSureDialog(
+                            object : AreYouSureCallback {
+                                override fun proceed() {
+                                    //Save exercise state
+                                    onBackPressed()
                                 }
 
                                 override fun cancel() {
@@ -233,12 +259,16 @@ class WorkoutInProgressFragment():
      *********************************************************************/
 
     private fun onBackPressed() {
+        viewModel.setWorkout(null)
+        viewModel.setExerciseList(null)
+        viewModel.setIsWorkoutDone(null)
+        findNavController().popBackStack()
     }
 
     private fun setupOnBackPressDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                onBackPressed()
+                areYouSureToQuitWithoutSaving()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

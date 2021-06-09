@@ -31,7 +31,7 @@ object Versions {
     val firebase_bom = "25.12.0"
     val espresso_core = "3.3.0"
     val espresso_idling_resource = "3.3.0"
-    val mockk_version = "1.9.2"
+    val mockk_version = "1.11.0"
     val test_runner = "1.2.0"
     val test_core = "1.2.0"
     val coroutines_version = "1.4.2"

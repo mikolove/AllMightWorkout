@@ -11,6 +11,7 @@ import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerManager
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this exercise. It will be save at his current state."
+const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this workout ? It will be save at his current state."
+const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? It will not be save."
 const val WIP_ARE_YOU_SURE_STOP_WORKOUT = "Are you sure to stop this workout. It will save at his current state."
 
 
@@ -63,6 +65,7 @@ constructor(
                     stateEvent = stateEvent
                 )
             }
+
             is CreateStateMessageEvent -> {
                 emitStateMessageEvent(
                     stateMessage = stateEvent.stateMessage,
@@ -103,11 +106,12 @@ constructor(
         }?:false
     }
 
+
     fun getWorkoutById(idWorkout : String) {
         setStateEvent(GetWorkoutByIdEvent(idWorkout = idWorkout))
     }
 
-    fun setExerciseList(exercises : List<Exercise>){
+    fun setExerciseList(exercises : List<Exercise>?){
         val update = getCurrentViewStateOrNew()
         update.exerciseList = exercises
         setViewState(update)
@@ -119,7 +123,7 @@ constructor(
         setViewState(update)
     }
 
-    private fun setWorkout(workout : Workout){
+    fun setWorkout(workout : Workout?){
         val update = getCurrentViewStateOrNew()
         update.workout = workout
         setViewState(update)
@@ -191,7 +195,7 @@ constructor(
         }
     }
 
-    fun setIsWorkoutDone(isDone : Boolean){
+    fun setIsWorkoutDone(isDone : Boolean?){
         val update = getCurrentViewStateOrNew()
         update.isWorkoutDone = isDone
         setViewState(update)
@@ -208,7 +212,7 @@ constructor(
             endedAt = dateUtil.getCurrentTimestamp(),
             exercises = exercisesDone
         )
-
+        setStateEvent(InsertHistoryEvent(workout = updateWorkout))
     }
 
 }
