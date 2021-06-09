@@ -5,6 +5,7 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
@@ -55,11 +56,13 @@ constructor(
                 )
             }
 
-          /*  is InsertHistoryWorkout -> {
-                workoutInProgressListInteractors.insertHistoryWorkout.insertHistoryWorkout(
-
+            is InsertHistoryEvent -> {
+                workoutInProgressListInteractors.insertHistory.insertHistory(
+                    workout = stateEvent.workout,
+                    idHistoryWorkout = null,
+                    stateEvent = stateEvent
                 )
-            }*/
+            }
             is CreateStateMessageEvent -> {
                 emitStateMessageEvent(
                     stateMessage = stateEvent.stateMessage,

@@ -47,11 +47,11 @@ class InsertHistory(
         cacheResponse = insertHistoryWorkout(historyWorkout)
 
         //Insert exercise and set
-        if(!errorOccured(cacheResponse)){
+        if(!errorOccurred(cacheResponse)){
 
             workout.exercises?.forEach exerciseLoop@ { exercise ->
 
-                if(errorOccured(cacheResponse))
+                if(errorOccurred(cacheResponse))
                     return@exerciseLoop
 
                 val workoutType = getWorkoutType(exercise.bodyPart)
@@ -71,12 +71,12 @@ class InsertHistory(
                 cacheResponse = insertHistoryExercise(historyExercise,historyWorkout.idHistoryWorkout)
 
                 //Stop Process
-                if(!errorOccured(cacheResponse)){
+                if(!errorOccurred(cacheResponse)){
 
                     exercise.sets.forEach setLoop@ { set ->
 
                         //Stop process
-                        if(errorOccured(cacheResponse)){
+                        if(errorOccurred(cacheResponse)){
                             return@setLoop
                         }
 
@@ -97,7 +97,7 @@ class InsertHistory(
             }
         }
 
-        if(errorOccured(cacheResponse)){
+        if(errorOccurred(cacheResponse)){
             //Delete inserted content if added
             safeCacheCall(IO){
                 historyWorkoutCacheDataSource.deleteHistoryWorkout(historyWorkout.idHistoryWorkout)
@@ -132,15 +132,15 @@ class InsertHistory(
 
     }
 
-    private suspend fun insertHistoryWorkout(historyWorkout : HistoryWorkout) : DataState<Long>? {
-        val cacheInsertHWorkout = safeCacheCall(IO){
+    private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): DataState<Long>? {
+        val cacheInsertHWorkout = safeCacheCall(IO) {
             historyWorkoutCacheDataSource.insertHistoryWorkout(historyWorkout)
         }
 
-        val responseInsertHWorkout = object :CacheResponseHandler<Long,Long>(
+        return object : CacheResponseHandler<Long, Long>(
             cacheInsertHWorkout,
             null
-        ){
+        ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
                     response = null,
@@ -149,20 +149,21 @@ class InsertHistory(
                 )
             }
         }.getResult()
-
-        return responseInsertHWorkout
     }
 
-    private suspend fun insertHistoryExercise(historyExercise : HistoryExercise, idHistoryWorkout : String) : DataState<Long>? {
+    private suspend fun insertHistoryExercise(
+        historyExercise: HistoryExercise,
+        idHistoryWorkout: String
+    ): DataState<Long>? {
 
-        val cacheInsertExercise = safeCacheCall(IO){
-            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise,idHistoryWorkout)
+        val cacheInsertExercise = safeCacheCall(IO) {
+            historyExerciseCacheDataSource.insertHistoryExercise(historyExercise, idHistoryWorkout)
         }
 
-        val reponseInsertExercise = object : CacheResponseHandler<Long,Long>(
+        return object : CacheResponseHandler<Long, Long>(
             cacheInsertExercise,
             null
-        ){
+        ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
                     response = null,
@@ -171,20 +172,24 @@ class InsertHistory(
                 )
             }
         }.getResult()
-
-        return reponseInsertExercise
     }
 
-    private suspend fun insertHistoryExerciseSet(historyExerciseSet : HistoryExerciseSet, idHistoryExercise : String) : DataState<Long>? {
+    private suspend fun insertHistoryExerciseSet(
+        historyExerciseSet: HistoryExerciseSet,
+        idHistoryExercise: String
+    ): DataState<Long>? {
 
-        val cacheInsertExerciseSet = safeCacheCall(IO){
-            historyExerciseSetCacheDataSource.insertHistoryExerciseSet(historyExerciseSet,idHistoryExercise)
+        val cacheInsertExerciseSet = safeCacheCall(IO) {
+            historyExerciseSetCacheDataSource.insertHistoryExerciseSet(
+                historyExerciseSet,
+                idHistoryExercise
+            )
         }
 
-        val reponseInsertExerciseSet = object : CacheResponseHandler<Long,Long>(
+        return object : CacheResponseHandler<Long, Long>(
             cacheInsertExerciseSet,
             null
-        ){
+        ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
                     response = null,
@@ -193,8 +198,6 @@ class InsertHistory(
                 )
             }
         }.getResult()
-
-        return reponseInsertExerciseSet
     }
 
     private suspend fun getWorkoutType(bodyPart : BodyPart?) : WorkoutType?{
@@ -219,7 +222,7 @@ class InsertHistory(
         return response?.data
     }
 
-    private fun errorOccured(cacheResponse : DataState<Long>?) : Boolean{
+    private fun errorOccurred(cacheResponse : DataState<Long>?) : Boolean{
         val inserted = cacheResponse?.data ?: -1
         return inserted <= 0
     }

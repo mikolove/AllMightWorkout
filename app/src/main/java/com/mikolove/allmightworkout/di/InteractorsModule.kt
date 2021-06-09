@@ -12,10 +12,7 @@ import com.mikolove.allmightworkout.business.interactors.main.history.GetHistory
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExerciseSet
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -103,11 +100,14 @@ object InteractorsModule {
         historyExerciseSetFactory : HistoryExerciseSetFactory,
         historyWorkoutCacheDataSource : HistoryWorkoutCacheDataSource,
         historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
-        historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource
+        historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
+        workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
     ): WorkoutInProgressListInteractors{
 
         return WorkoutInProgressListInteractors(
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
+            insertHistory = InsertHistory(historyWorkoutCacheDataSource,historyExerciseCacheDataSource,historyExerciseSetCacheDataSource
+            ,workoutTypeCacheDataSource,historyWorkoutFactory,historyExerciseFactory,historyExerciseSetFactory),
             insertHistoryWorkout = InsertHistoryWorkout(historyWorkoutCacheDataSource,historyWorkoutFactory),
             insertHistoryExercise = InsertHistoryExercise(historyExerciseCacheDataSource,historyExerciseFactory),
             insertHistoryExerciseSet = InsertHistoryExerciseSet(historyExerciseSetCacheDataSource,historyExerciseSetFactory)

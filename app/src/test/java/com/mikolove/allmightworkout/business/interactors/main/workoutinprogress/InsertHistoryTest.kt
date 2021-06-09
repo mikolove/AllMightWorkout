@@ -153,31 +153,6 @@ class InsertHistoryTest {
         assertTrue{ idHistoryWorkout == null }
     }
 
-    @Test
-    fun throwException_checkGenericError_confirmCacheUnchanged() = runBlocking {
-
-
-        val workout = generateWorkoutWithExerciseAndSet()
-        var idHistoryWorkout : String? = ""
-
-        insertHistory.insertHistory(
-            workout = workout,
-            idHistoryWorkout = FORCE_NEW_HISTORY_WORKOUT_EXCEPTION,
-            stateEvent = InsertHistoryEvent(workout)
-        ).collect(object : FlowCollector<DataState<WorkoutInProgressViewState>?>{
-
-            override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
-                Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
-                    InsertHistory.INSERT_HISTORY_FAILED
-                )
-
-                idHistoryWorkout = value?.data?.idHistoryWorkoutInserted
-            }
-        })
-
-        assertTrue{ idHistoryWorkout == null }
-    }
 
     private suspend fun generateWorkoutWithExerciseAndSet() : Workout {
 
