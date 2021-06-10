@@ -53,7 +53,17 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
 
         override fun eventName(): String = "InsertHistoryEvent"
 
-        override fun shouldDisplayProgressBar(): Boolean= false
+        override fun shouldDisplayProgressBar(): Boolean= true
+    }
+
+    class InsertHistoryNetworkEvent(
+        val workout : Workout,
+    ) : WorkoutInProgressStateEvent(){
+        override fun errorInfo(): String = "Error inserting history to network."
+
+        override fun eventName(): String = "InsertHistoryNetworkEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean= true
     }
 
 

@@ -15,6 +15,10 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_FAILED
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
@@ -103,6 +107,9 @@ class WorkoutInProgressFragment():
             }
         })
 
+        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
+            uiController.displayProgressBar(isLoading)
+        })
 
         viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
 
@@ -110,9 +117,25 @@ class WorkoutInProgressFragment():
 
                 when(response.message){
 
+
+                    INSERT_HISTORY_SUCCESS -> {
+
+                        //OnBackPress
+                        showToastHistorySaved(INSERT_HISTORY_SUCCESS)
+                        onBackPressed()
+
+                        //Launch sync network - no validation requested
+
+                    }
+
+                    INSERT_HISTORY_FAILED -> {
+                        showToastHistorySaved(INSERT_HISTORY_FAILED)
+                        onBackPressed()
+
+                    }
+
                     //If another we quit so we clear Message Stack
                     else -> {
-
                         uiController.onResponseReceived(
                             response = stateMessage.response,
                             stateMessageCallback = object: StateMessageCallback {
@@ -121,7 +144,6 @@ class WorkoutInProgressFragment():
                                 }
                             }
                         )
-
                     }
                 }
             }
@@ -176,10 +198,6 @@ class WorkoutInProgressFragment():
             saveWorkout(workout,exerciseList)
         }
 
-        //Sync Online
-
-        //unbind all and quit to homescreen
-        onBackPressed()
     }
 
     private fun navigateToExercise(item : Exercise){
@@ -250,6 +268,22 @@ class WorkoutInProgressFragment():
                     )
                 )
             )
+        )
+    }
+
+    private fun showToastHistorySaved(text : String){
+
+        uiController.onResponseReceived(
+            response = Response(
+                message = text,
+                uiComponentType = UIComponentType.Toast(),
+                messageType = MessageType.Info()
+            ),
+            stateMessageCallback = object: StateMessageCallback {
+                override fun removeMessageFromStack() {
+                    viewModel.clearStateMessage()
+                }
+            }
         )
     }
 

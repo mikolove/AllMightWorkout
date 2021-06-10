@@ -5,6 +5,10 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerc
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryExerciseNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryExerciseSetNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
+import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -19,6 +23,9 @@ class InsertHistory(
     private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
     private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
+    private val historyWorkoutNetworkDataSource: HistoryWorkoutNetworkDataSource,
+    private val historyExerciseNetworkDataSource: HistoryExerciseNetworkDataSource,
+    private val historyExerciseSetNetworkDataSource: HistoryExerciseSetNetworkDataSource,
     private val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource,
     private val historyWorkoutFactory: HistoryWorkoutFactory,
     private val historyExerciseFactory: HistoryExerciseFactory,
@@ -31,6 +38,9 @@ class InsertHistory(
         idHistoryWorkout : String? = null,
         stateEvent : StateEvent
     ) : Flow<DataState<WorkoutInProgressViewState>?> = flow {
+
+        var listHistoryExerciseSaved : ArrayList<HistoryExercise> = ArrayList()
+        var listHistoryExerciseSetSaved : ArrayList<HistoryExerciseSet>
 
         var cacheResponse : DataState<Long>?
 
@@ -71,7 +81,7 @@ class InsertHistory(
 
                 cacheResponse = insertHistoryExercise(historyExercise,historyWorkout.idHistoryWorkout)
 
-                //Stop Process
+                listHistoryExerciseSetSaved = ArrayList()
                 if(!errorOccurred(cacheResponse)){
 
                     exercise.sets.forEach setLoop@ { set ->
@@ -92,14 +102,21 @@ class InsertHistory(
                             created_at = null
                         )
 
-                        printLogD("InsertHistory","${historyExercise.idHistoryExercise}")
+                        //Save Progress for network
+                        listHistoryExerciseSetSaved.add(historyExerciseSet)
+
                         cacheResponse = insertHistoryExerciseSet(historyExerciseSet,
                             historyExercise.idHistoryExercise)
 
 
                     }
                 }
+
+                historyExercise.historySets = listHistoryExerciseSetSaved
+                listHistoryExerciseSaved.add(historyExercise)
+
             }
+            historyWorkout.historyExercises = listHistoryExerciseSaved
         }
 
         if(errorOccurred(cacheResponse)){
@@ -121,6 +138,10 @@ class InsertHistory(
                 ) as DataState<WorkoutInProgressViewState>?
             )
         }else{
+
+            //Update network
+            updateNetworkHistoryWorkout(historyWorkout)
+
             //Emit success InsertHistory
             emit(
                 DataState.data(
@@ -230,6 +251,31 @@ class InsertHistory(
     private fun errorOccurred(cacheResponse : DataState<Long>?) : Boolean{
         val inserted = cacheResponse?.data ?: -1
         return inserted <= 0
+    }
+
+    private suspend fun updateNetworkHistoryWorkout(historyWorkout : HistoryWorkout){
+
+        safeApiCall(IO){
+            historyWorkoutNetworkDataSource.insertHistoryWorkout(historyWorkout = historyWorkout)
+        }
+
+        historyWorkout.historyExercises?.forEach {  historyExercise ->
+
+            safeApiCall(IO){
+                historyExerciseNetworkDataSource.insertHistoryExercise(
+                    historyExercise = historyExercise,
+                    idHistoryWorkout = historyWorkout.idHistoryWorkout)
+            }
+
+            historyExercise.historySets?.forEach{ historyExerciseSet ->
+                safeApiCall(IO){
+                    historyExerciseSetNetworkDataSource.insertHistoryExerciseSet(
+                        historyExerciseSet= historyExerciseSet,
+                        historyExerciseId = historyExercise.idHistoryExercise,
+                        historyWorkoutId = historyWorkout.idHistoryWorkout)
+                }
+            }
+        }
     }
 
     companion object{

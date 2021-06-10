@@ -1,9 +1,7 @@
 package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.common.*
@@ -98,6 +96,9 @@ object InteractorsModule {
         historyWorkoutFactory : HistoryWorkoutFactory,
         historyExerciseFactory : HistoryExerciseFactory,
         historyExerciseSetFactory : HistoryExerciseSetFactory,
+        historyWorkoutNetworkDataSource : HistoryWorkoutNetworkDataSource,
+        historyExerciseNetworkDataSource : HistoryExerciseNetworkDataSource,
+        historyExerciseSetNetworkDataSource : HistoryExerciseSetNetworkDataSource,
         historyWorkoutCacheDataSource : HistoryWorkoutCacheDataSource,
         historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
         historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
@@ -106,8 +107,10 @@ object InteractorsModule {
 
         return WorkoutInProgressListInteractors(
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
-            insertHistory = InsertHistory(historyWorkoutCacheDataSource,historyExerciseCacheDataSource,historyExerciseSetCacheDataSource
-            ,workoutTypeCacheDataSource,historyWorkoutFactory,historyExerciseFactory,historyExerciseSetFactory),
+            insertHistory = InsertHistory(
+                historyWorkoutCacheDataSource,historyExerciseCacheDataSource,historyExerciseSetCacheDataSource,
+                historyWorkoutNetworkDataSource,historyExerciseNetworkDataSource, historyExerciseSetNetworkDataSource,
+                workoutTypeCacheDataSource,historyWorkoutFactory,historyExerciseFactory,historyExerciseSetFactory),
             insertHistoryWorkout = InsertHistoryWorkout(historyWorkoutCacheDataSource,historyWorkoutFactory),
             insertHistoryExercise = InsertHistoryExercise(historyExerciseCacheDataSource,historyExerciseFactory),
             insertHistoryExerciseSet = InsertHistoryExerciseSet(historyExerciseSetCacheDataSource,historyExerciseSetFactory)

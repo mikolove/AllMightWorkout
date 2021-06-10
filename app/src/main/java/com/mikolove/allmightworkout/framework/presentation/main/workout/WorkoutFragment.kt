@@ -222,7 +222,7 @@ class WorkoutFragment
                     }
 
                     GET_WORKOUTS_NO_MATCHING_RESULTS -> {
-                            showToastNoMatchingWorkouts()
+                        showToastNoMatchingWorkouts()
                     }
 
                     else -> {
