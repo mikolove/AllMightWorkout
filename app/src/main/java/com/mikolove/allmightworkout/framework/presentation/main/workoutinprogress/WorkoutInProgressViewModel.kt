@@ -29,9 +29,6 @@ class WorkoutInProgressViewModel
 @Inject
 constructor(
     private val workoutInProgressListInteractors: WorkoutInProgressListInteractors,
-    private val historyWorkoutFactory : HistoryWorkoutFactory,
-    private val historyExerciseFactory: HistoryExerciseFactory,
-    private val historyExerciseSetFactory: HistoryExerciseSetFactory,
     private val dateUtil: DateUtil
     ) : BaseViewModel<WorkoutInProgressViewState>() {
 
@@ -126,13 +123,6 @@ constructor(
     fun setWorkout(workout : Workout?){
         val update = getCurrentViewStateOrNew()
         update.workout = workout
-        setViewState(update)
-    }
-
-    fun updateWorkoutExercise(exercises : List<Exercise>){
-        val update = getCurrentViewStateOrNew()
-        val updatedWorkout = update.workout?.copy(exercises = exercises)
-        update.workout = updatedWorkout
         setViewState(update)
     }
 
