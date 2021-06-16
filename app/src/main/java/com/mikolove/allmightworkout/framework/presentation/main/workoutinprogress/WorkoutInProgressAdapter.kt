@@ -69,7 +69,7 @@ class WorkoutInProgressAdapter(
 
             binding.wipExerciseTitle.text = item.name
             binding.wipExerciseSets.text = "${setsDone}/${sets} Sets done."
-            if(sets == setsDone){
+            if( setsDone > 0){
                 binding.wipItemContainer.isChecked = true
             }
 

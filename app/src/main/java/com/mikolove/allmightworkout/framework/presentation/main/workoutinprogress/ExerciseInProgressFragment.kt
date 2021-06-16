@@ -12,6 +12,7 @@ import android.widget.Chronometer
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -263,12 +264,12 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         when(state){
 
             is ChronometerState.IdleState -> {
-                binding?.eipButtonStartStop?.text = "Start"
+                binding?.eipButtonStartStop?.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_play_circle_24,null)
                 binding?.eipCountdowntimer?.invisible()
                 binding?.eipChronometer?.visible()
             }
             is ChronometerState.RestTimeState -> {
-                binding?.eipButtonStartStop?.text = "Stop Rest"
+                binding?.eipButtonStartStop?.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_stop_circle_24,null)
                 binding?.eipCountdowntimer?.visible()
                 binding?.eipChronometer?.invisible()
             }
@@ -277,7 +278,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 binding?.eipChronometer?.visible()
             }
             is ChronometerState.RunningState -> {
-                binding?.eipButtonStartStop?.text = "Stop"
+                binding?.eipButtonStartStop?.background = ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_stop_circle_24,null)
                 binding?.eipCountdowntimer?.invisible()
                 binding?.eipChronometer?.visible()
             }
@@ -292,19 +293,22 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
         binding?.eipTitleSets?.text =  "Set : ${set.order}/${viewModel.getSets().size}"
 
-        binding?.eipTextInfoRestTime?.text = "Rest time : ${set.restTime}"
+        binding?.eipTextRest?.text = "${set.restTime} sec"
 
         viewModel.getExercise()?.let {
-            binding?.eipTextInfoSet?.text = when(it.exerciseType){
+            binding?.eipTextRep?.text = when(it.exerciseType){
 
                 ExerciseType.TIME_EXERCISE -> {
-                    "Time : ${set.time} Weight : ${set.weight}"
+                    "${set.time} sec"
                 }
 
                 ExerciseType.REP_EXERCISE -> {
-                    "Rep : ${set.reps} Weight : ${set.weight}"
+                    "${set.reps} rep"
                 }
             }
+
+            binding?.eipTextWeight?.text = "${set.weight} kg"
+
         }
 
     }
@@ -392,7 +396,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
     private fun startChronometer(){
         setChronometerState(ChronometerState.RunningState())
         chronometer?.base = SystemClock.elapsedRealtime()
-        chronometer?.onChronometerTickListener = null
+         chronometer?.onChronometerTickListener = null
         chronometer?.start()
     }
 

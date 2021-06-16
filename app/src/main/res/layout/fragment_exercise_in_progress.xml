@@ -5,63 +5,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Chronometer
-        android:id="@+id/eip_chronometer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eip_title_sets"
-        app:layout_constraintHeight_percent="0.40"
-        app:layout_constraintWidth_percent="0.70"
-        android:visibility="visible"/>
-
-    <TextView
-        android:id="@+id/eip_countdowntimer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eip_title_sets"
-        app:layout_constraintHeight_percent="0.40"
-        app:layout_constraintWidth_percent="0.70"
-        android:visibility="invisible"/>
-
     <TextView
         android:id="@+id/eip_title_sets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:text="TextView"
-        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/eip_button_start_stop"
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/eip_guideline_horizontal_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10123119" />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eip_guideline_horizontal_1">
+
+
+        <TextView
+            android:id="@+id/eip_text_rep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:drawableLeft="@drawable/ic_baseline_info_24"
+            android:gravity="center"
+            android:text="5 kg" />
+
+        <TextView
+            android:id="@+id/eip_text_weight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:drawableLeft="@drawable/ic_baseline_fitness_center_24"
+            android:gravity="center"
+            android:text="5 kg" />
+
+        <TextView
+            android:id="@+id/eip_text_rest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:drawableLeft="@drawable/ic_baseline_restore_24"
+            android:gravity="center"
+            android:text="60 sec " />
+
+
+    </LinearLayout>
+
+    <Chronometer
+        android:id="@+id/eip_chronometer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eip_guideline_horizontal_3"
+        app:layout_constraintWidth_percent="0.70" />
+
+    <TextView
+        android:id="@+id/eip_countdowntimer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eip_guideline_horizontal_3"
+        app:layout_constraintWidth_percent="0.70" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/eip_guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/eip_guideline_horizontal_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <ImageView
+        android:id="@+id/eip_button_start_stop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_baseline_play_circle_24"
         android:text="Start"
-        app:layout_constraintEnd_toStartOf="@+id/eip_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/eip_guideline_horizontal_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/eip_guideline_horizontal" />
 
-    <Button
+    <ImageView
         android:id="@+id/epi_button_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/ic_baseline_replay_24"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="@+id/eip_button_start_stop"
+        app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/eip_guideline" />
+        app:layout_constraintStart_toEndOf="@+id/eip_button_start_stop"
+        app:layout_constraintTop_toTopOf="@+id/eip_button_start_stop" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/eip_guideline"
@@ -80,33 +157,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/eip_guideline_horizontal"
+        android:id="@+id/eip_guideline_horizontal_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.85" />
 
-    <TextView
-        android:id="@+id/eip_text_info_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/epi_button_reset"
-        app:layout_constraintStart_toStartOf="@+id/eip_button_start_stop"
-        app:layout_constraintTop_toBottomOf="@+id/eip_button_start_stop" />
 
-    <TextView
-        android:id="@+id/eip_text_info_rest_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/eip_text_info_set"
-        app:layout_constraintStart_toStartOf="@+id/eip_text_info_set"
-        app:layout_constraintTop_toBottomOf="@+id/eip_text_info_set" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

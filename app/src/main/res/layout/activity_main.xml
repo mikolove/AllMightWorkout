@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp"
-            style="@style/Widget.MaterialComponents.Toolbar">
+            android:theme="@style/ThemeOverlay.AllMightWorkout.ActionBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary">
 
         </com.google.android.material.appbar.MaterialToolbar>
 
