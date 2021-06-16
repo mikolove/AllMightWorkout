@@ -225,6 +225,8 @@ class MainActivity :
             R.id.workout_fragment -> R.string.fragment_home_tab_layout_workout
             R.id.exercise_fragment -> R.string.fragment_home_tab_layout_exercise
             R.id.workout_detail_fragment -> R.string.fragment_manage_workout_text_title
+            R.id.workoutInProgressFragment -> R.string.wip_fragment_title
+            R.id.exerciseInProgressFragment -> R.string.eip_fragment_title
             else -> R.string.app_bar_title_default
         }
         supportActionBar?.setDisplayShowTitleEnabled(true)

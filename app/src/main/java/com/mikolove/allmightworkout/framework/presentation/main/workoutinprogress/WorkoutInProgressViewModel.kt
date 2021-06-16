@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 
 const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this workout ? It will be save at his current state."
+const val WIP_ERROR_LOADING_EXERCISE = "Error loading exercise."
 const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? It will not be save."
-const val WIP_ARE_YOU_SURE_STOP_WORKOUT = "Are you sure to stop this workout. It will save at his current state."
 
 
 @HiltViewModel

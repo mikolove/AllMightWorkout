@@ -60,7 +60,6 @@ class WorkoutInProgressFragment():
         binding = FragmentWorkoutInProgressBinding.bind(view)
 
         loadWorkout(getIdWorkout())
-
         setupRecyclerView()
         setupOnBackPressDispatcher()
         subscribeObservers()
@@ -124,8 +123,6 @@ class WorkoutInProgressFragment():
                         showToastHistorySaved(INSERT_HISTORY_SUCCESS)
                         onBackPressed()
 
-                        //Launch sync network - no validation requested
-
                     }
 
                     INSERT_HISTORY_FAILED -> {
@@ -152,7 +149,8 @@ class WorkoutInProgressFragment():
     }
 
     private fun setupUI(){
-        binding?.wipWorkoutCreatedAt?.text = getWorkout()?.startedAt
+        binding?.wipWorkoutTitle?.text = getWorkout()?.name
+        binding?.wipWorkoutCreatedAt?.text = getString(R.string.wip_started_at,getWorkout()?.startedAt).replaceFirstChar { it.uppercase() }
     }
 
     private fun setupRecyclerView(){
@@ -194,7 +192,6 @@ class WorkoutInProgressFragment():
         val workout = viewModel.getWorkout()
         val exerciseList = viewModel.getExerciseList()
         if(workout!=null && exerciseList != null){
-            printLogD("WorkoutInProgressFragment","Save workout")
             saveWorkout(workout,exerciseList)
         }
 
@@ -230,12 +227,10 @@ class WorkoutInProgressFragment():
                         uiComponentType = UIComponentType.AreYouSureDialog(
                             object : AreYouSureCallback {
                                 override fun proceed() {
-                                    //Save exercise state
                                     quitWorkoutAndSave()
                                 }
 
                                 override fun cancel() {
-                                    // do nothing
                                 }
                             }
                         ),
@@ -255,12 +250,10 @@ class WorkoutInProgressFragment():
                         uiComponentType = UIComponentType.AreYouSureDialog(
                             object : AreYouSureCallback {
                                 override fun proceed() {
-                                    //Save exercise state
                                     onBackPressed()
                                 }
 
                                 override fun cancel() {
-                                    // do nothing
                                 }
                             }
                         ),

@@ -148,10 +148,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             sets.minWithOrNull(compareBy { it.order })?.let { set ->
                 viewModel.setActualSet(set)
             }
-        }
 
-        chronometer = binding?.eipChronometer
-        countDownTimer = binding?.eipCountdowntimer
+            chronometer = binding?.eipChronometer
+            countDownTimer = binding?.eipCountdowntimer
+
+        } ?: navigateBackToastError()
 
     }
 
@@ -160,14 +161,12 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             viewState.actualSet?.let { set ->
-                printLogD("ExerciseInProgressFragment"," started at : ${set.startedAt} ended at : ${set.endedAt}")
                 updateUi(set)
             }
         })
 
         viewModel.chronometerState.observe(viewLifecycleOwner, Observer { chronometerState ->
 
-            printLogD("ExerciseInProgressFragment","STATE ${chronometerState}")
             switchClock(chronometerState)
 
             when(chronometerState){
@@ -319,12 +318,10 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                         uiComponentType = UIComponentType.AreYouSureDialog(
                             object : AreYouSureCallback {
                                 override fun proceed() {
-                                    //Save exercise state
                                     saveAndNavigateback()
                                 }
 
                                 override fun cancel() {
-                                    // do nothing
                                 }
                             }
                         ),
@@ -333,6 +330,21 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 )
             )
         )
+    }
+
+    private fun navigateBackToastError(){
+        viewModel.setStateEvent(
+            WorkoutInProgressStateEvent.CreateStateMessageEvent(
+                stateMessage = StateMessage(
+                    response = Response(
+                        message = WIP_ERROR_LOADING_EXERCISE,
+                        uiComponentType = UIComponentType.Toast(),
+                        messageType = MessageType.Info()
+                    )
+                )
+            )
+        )
+        navigateBack()
     }
 
 

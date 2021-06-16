@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize">
 
-    <HorizontalScrollView
+    <!--<HorizontalScrollView
         android:id="@+id/fragment_exercise_horizontalview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleLine="true">
-            <!-- Chips can be declared here, or added dynamically. -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/fragment_exercise_chip_filter"
                 android:layout_width="wrap_content"
@@ -43,16 +42,16 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_horizontalview"
         app:layout_constraintStart_toStartOf="@+id/fragment_exercise_horizontalview"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_horizontalview" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_horizontalview" />-->
 
     <TextView
         android:id="@+id/fragment_exercise_no_exercise"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_divider"
-        app:layout_constraintStart_toStartOf="@+id/fragment_exercise_divider"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
         android:text="@string/fragment_choose_exercise_no_exercise"
         android:textAppearance="?textAppearanceBody2"
@@ -64,10 +63,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_exercise_divider"
-        app:layout_constraintStart_toStartOf="@+id/fragment_exercise_divider"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_exercise_divider"
-        android:visibility="invisible">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_exercise_recyclerview"

@@ -57,9 +57,6 @@ class WorkoutInProgressAdapter(
         val binding =  ItemWorkoutInProgressBinding.bind(itemView)
 
         fun bind(item: Exercise) = with(itemView) {
-            printLogD("WorkoutInProgressAdapter","${item}")
-            printLogD("WorkoutInProgressAdapter","${item.startedAt}")
-
 
             //Add clicklisteners
             itemView.setOnClickListener {
@@ -72,7 +69,13 @@ class WorkoutInProgressAdapter(
 
             binding.wipExerciseTitle.text = item.name
             binding.wipExerciseSets.text = "${setsDone}/${sets} Sets done."
-            if (sets == setsDone){
+            if(sets == setsDone){
+                binding.wipItemContainer.isChecked = true
+            }
+
+            binding.wipExerciseType.text = "${item.bodyPart?.name}".replaceFirstChar { it.uppercase() }
+
+            /*if (sets == setsDone){
                 val startedAt = item?.startedAt
                 val endedAt = item?.endedAt
                 if(startedAt != null && endedAt != null){
@@ -87,7 +90,7 @@ class WorkoutInProgressAdapter(
             }else{
                 binding.wipExerciseTextDone.text = ""
                 binding.wipExerciseDone.invisible()
-            }
+            }*/
         }
     }
 

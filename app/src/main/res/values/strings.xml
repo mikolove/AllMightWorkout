@@ -14,6 +14,13 @@
     <string name="add_exercise_to_workout_chip_all">all</string>
     <string name="add_exercise_to_workout_chip_selected">%1$d Selected</string>
 
+    <!-- WorkoutInProgress Fragment-->
+    <string name="wip_fragment_title">Workout in progress</string>
+    <string name="wip_started_at">Started at : %1$s</string>
+
+    <!-- WorkoutInProgress Fragment-->
+    <string name="eip_fragment_title">Exercise in progress</string>
+
 
     <!-- Menu words -->
     <string name="menu_filter">Filter</string>
