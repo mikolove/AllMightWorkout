@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this workout ? It will be save at his current state."
+const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this workout ? You can save it in it's current state or not."
 const val WIP_ERROR_LOADING_EXERCISE = "Error loading exercise."
 const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? It will not be save."
 

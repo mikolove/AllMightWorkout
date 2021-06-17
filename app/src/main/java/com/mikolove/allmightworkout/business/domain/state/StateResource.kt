@@ -23,6 +23,10 @@ sealed class UIComponentType{
         val callback: AreYouSureCallback
     ): UIComponentType()
 
+    class AreYouSureSaveDialog(
+        val callback: AreYouSureSaveCallback
+    ): UIComponentType()
+
     class SnackBar(
         val undoCallback: SnackbarUndoCallback? = null,
         val onDismissCallback: TodoCallback? = null
@@ -57,6 +61,14 @@ interface AreYouSureCallback {
 
     fun cancel()
 }
+
+interface AreYouSureSaveCallback {
+
+    fun proceedSave()
+
+    fun proceedNotSave()
+}
+
 
 interface SnackbarUndoCallback {
 

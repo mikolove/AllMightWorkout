@@ -78,7 +78,7 @@ class WorkoutInProgressFragment():
         return when (item.itemId) {
 
             android.R.id.home -> {
-                areYouSureToQuitWithoutSaving()
+                areYouSureToQuitWorkout()
                 true
             }
 
@@ -224,13 +224,15 @@ class WorkoutInProgressFragment():
                 stateMessage = StateMessage(
                     response = Response(
                         message = WIP_ARE_YOU_SURE_STOP_EXERCISE,
-                        uiComponentType = UIComponentType.AreYouSureDialog(
-                            object : AreYouSureCallback {
-                                override fun proceed() {
+                        uiComponentType = UIComponentType.AreYouSureSaveDialog(
+                            object : AreYouSureSaveCallback {
+
+                                override fun proceedSave() {
                                     quitWorkoutAndSave()
                                 }
 
-                                override fun cancel() {
+                                override fun proceedNotSave() {
+                                    onBackPressed()
                                 }
                             }
                         ),
@@ -241,7 +243,7 @@ class WorkoutInProgressFragment():
         )
     }
 
-    private fun areYouSureToQuitWithoutSaving(){
+/*    private fun areYouSureToQuitWithoutSaving(){
         viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
@@ -263,7 +265,7 @@ class WorkoutInProgressFragment():
             )
         )
     }
-
+*/
     private fun showToastHistorySaved(text : String){
 
         uiController.onResponseReceived(
@@ -295,7 +297,7 @@ class WorkoutInProgressFragment():
     private fun setupOnBackPressDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                areYouSureToQuitWithoutSaving()
+                areYouSureToQuitWorkout()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

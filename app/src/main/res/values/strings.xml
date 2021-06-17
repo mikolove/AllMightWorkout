@@ -38,6 +38,9 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="text_yes">Yes</string>
     <string name="text_undo">Undo</string>
+    <string name="text_save">Save</string>
+    <string name="text_note_save">Not save</string>
+
 
     <!-- Search toolbar -->
     <string name="search_toolbar_search">Search</string>

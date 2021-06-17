@@ -18,6 +18,7 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.Visibility
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -275,6 +276,16 @@ class MainActivity :
                 }
             }
 
+            is AreYouSureSaveDialog -> {
+                response.message?.let {
+                    dialogInView = areYouSureSaveDialog(
+                        message = it,
+                        callback = response.uiComponentType.callback,
+                        stateMessageCallback = stateMessageCallback
+                    )
+                }
+            }
+
             is Toast -> {
                 response.message?.let {
                     displayToast(
@@ -483,6 +494,41 @@ class MainActivity :
                     dialogInView = null
                 }
                 cancelable(false)
+            }
+    }
+
+    private fun areYouSureSaveDialog(
+        message: String,
+        callback: AreYouSureSaveCallback,
+        stateMessageCallback: StateMessageCallback
+    ): MaterialDialog {
+        return MaterialDialog(this)
+            .show{
+                title(R.string.are_you_sure)
+                message(text = message)
+
+                negativeButton(R.string.text_note_save){
+                    stateMessageCallback.removeMessageFromStack()
+                    callback.proceedNotSave()
+                    dismiss()
+                }
+
+                positiveButton(R.string.text_save){
+                    stateMessageCallback.removeMessageFromStack()
+                    callback.proceedSave()
+                    dismiss()
+                }
+
+                onCancel {
+                    stateMessageCallback.removeMessageFromStack()
+                    dismiss()
+                }
+
+                onDismiss {
+                    dialogInView = null
+                }
+
+                cancelable(true)
             }
     }
 
