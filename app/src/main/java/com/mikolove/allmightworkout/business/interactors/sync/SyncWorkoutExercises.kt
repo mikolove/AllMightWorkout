@@ -175,16 +175,16 @@ class SyncWorkoutExercises(
             exerciseCacheDataSource.addExerciseToWorkout(idWorkout, exerciseNetwork.idExercise)
         }
 
-        if(cacheExercises.isNullOrEmpty()){
+        /*if(cacheExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{
+        }else{*/
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
-        }
+        //}
     }
 
     private suspend fun updateWorkoutExerciseInNetworkWithCache(
@@ -204,16 +204,16 @@ class SyncWorkoutExercises(
             exerciseNetworkDataSource.addExerciseToWorkout(idWorkout, exerciseCache.idExercise)
         }
 
-        if(networkExercises.isNullOrEmpty()){
+        /*if(networkExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{
+        }else{*/
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
-        }
+        //}
 
     }
 
