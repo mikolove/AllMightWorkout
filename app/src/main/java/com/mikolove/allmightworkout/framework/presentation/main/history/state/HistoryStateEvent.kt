@@ -15,6 +15,16 @@ sealed class HistoryStateEvent : StateEvent {
         override fun shouldDisplayProgressBar(): Boolean = true
     }
 
+    class GetTotalHistoryWorkoutsEvent(
+
+    ): HistoryStateEvent(){
+        override fun errorInfo(): String = "Error retrieving total history workouts"
+
+        override fun eventName(): String = "GetTotalHistoryWorkoutsEvent"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
     class GetHistoryWorkoutDetailEvent(
 
     ): HistoryStateEvent(){

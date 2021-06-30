@@ -8,6 +8,7 @@ import com.mikolove.allmightworkout.business.interactors.main.common.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.*
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
+import com.mikolove.allmightworkout.business.interactors.main.history.GetTotalHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
@@ -124,7 +125,8 @@ object InteractorsModule {
     ) : HistoryListInteractors{
         return HistoryListInteractors(
             getHistoryWorkoutDetail = GetHistoryWorkoutDetail(historyWorkoutCacheDataSource),
-            getHistoryWorkouts = GetHistoryWorkouts(historyWorkoutCacheDataSource)
+            getHistoryWorkouts = GetHistoryWorkouts(historyWorkoutCacheDataSource),
+            getTotalHistoryWorkouts = GetTotalHistoryWorkouts(historyWorkoutCacheDataSource)
         )
     }
 

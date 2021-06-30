@@ -48,7 +48,7 @@ data class WorkoutViewState(
     var workout_list_filter: String? = null,
     var workout_list_order: String? = null,
 
-    //Total elements in cache for each list - maybe undeeded
+    //Total elements in cache for each list - maybe uneeded
     var totalWorkouts: Int? = null,
     var totalExercises: Int? = null,
     var totalBodyParts: Int? = null,
