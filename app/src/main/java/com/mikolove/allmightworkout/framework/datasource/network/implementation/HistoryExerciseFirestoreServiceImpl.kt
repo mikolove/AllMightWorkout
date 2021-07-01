@@ -44,7 +44,7 @@ constructor(
          )
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(idHistoryWorkout)
             .collection(HISTORY_EXERCISES_COLLECTION)
@@ -60,7 +60,7 @@ constructor(
     override suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId: String): List<HistoryExercise> {
         val historyExercises =  firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(workoutId)
             .collection(HISTORY_EXERCISES_COLLECTION)
@@ -78,7 +78,7 @@ constructor(
 
                 val sets  : List<HistoryExerciseSet> = firestore
                     .collection(USERS_COLLECTION)
-                    .document(FIRESTORE_USER_ID)
+                    .document(firebaseAuth.currentUser.uid)
                     .collection(HISTORY_WORKOUTS_COLLECTION)
                     .document(workoutId)
                     .collection(HISTORY_EXERCISES_COLLECTION)
@@ -107,7 +107,7 @@ constructor(
 
         val historyExercise =  firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(idHistoryWorkout)
             .collection(HISTORY_EXERCISES_COLLECTION)
@@ -124,7 +124,7 @@ constructor(
 
                 val sets = firestore
                     .collection(USERS_COLLECTION)
-                    .document(FIRESTORE_USER_ID)
+                    .document(firebaseAuth.currentUser.uid)
                     .collection(HISTORY_WORKOUTS_COLLECTION)
                     .document(idHistoryWorkout)
                     .collection(HISTORY_EXERCISES_COLLECTION)

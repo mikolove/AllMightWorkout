@@ -91,6 +91,7 @@ dependencies {
     implementation Dependencies.firebase_auth_bom
     implementation Dependencies.retrofit
     implementation Dependencies.retrofit_gson
+    implementation Dependencies.firebase_auth_ui
 
     //Coroutines
     implementation Dependencies.kotlin_coroutines

@@ -45,7 +45,7 @@ constructor(
         )
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(entity.idHistoryWorkout)
             .set(historyWorkoutEntity)
@@ -59,7 +59,7 @@ constructor(
 
         var historyWorkouts = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .whereGreaterThan("createdAt",dateUtil.getCurrentDateLessMonth(3))
             .get()
@@ -77,7 +77,7 @@ constructor(
     override suspend fun getHistoryWorkout(): List<HistoryWorkout> {
         var historyWorkouts = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .get()
             .addOnFailureListener {
@@ -95,7 +95,7 @@ constructor(
 
         var historyWorkout = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(primaryKey)
             .get()
@@ -133,7 +133,7 @@ constructor(
 
                 var historyExercises : List<HistoryExercise>? = firestore
                     .collection(USERS_COLLECTION)
-                    .document(FIRESTORE_USER_ID)
+                    .document(firebaseAuth.currentUser.uid)
                     .collection(HISTORY_WORKOUTS_COLLECTION)
                     .document(hWorkout.idHistoryWorkout)
                     .collection(HISTORY_EXERCISES_COLLECTION)
@@ -152,7 +152,7 @@ constructor(
 
                         var historySets : List<HistoryExerciseSet>? = firestore
                             .collection(USERS_COLLECTION)
-                            .document(FIRESTORE_USER_ID)
+                            .document(firebaseAuth.currentUser.uid)
                             .collection(HISTORY_WORKOUTS_COLLECTION)
                             .document(historyWorkout.idHistoryWorkout)
                             .collection(HISTORY_EXERCISES_COLLECTION)

@@ -27,6 +27,7 @@ object Versions {
     val firebase_firestore = "21.6.0"
     val firebase_analytics = "17.5.0"
     val firebase_crashlytics = "2.10.1"
+    val firebase_ui_auth = "7.2.0"
     val firebase_auth = "19.4.0"
     val firebase_bom = "25.12.0"
     val espresso_core = "3.3.0"

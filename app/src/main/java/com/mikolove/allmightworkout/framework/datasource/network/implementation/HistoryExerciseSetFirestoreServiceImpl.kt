@@ -30,7 +30,7 @@ constructor(
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(historyWorkoutId)
             .collection(HISTORY_EXERCISES_COLLECTION)
@@ -51,7 +51,7 @@ constructor(
     ): List<HistoryExerciseSet> {
         return firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(HISTORY_WORKOUTS_COLLECTION)
             .document(idHistoryWorkoutId)
             .collection(HISTORY_EXERCISES_COLLECTION)

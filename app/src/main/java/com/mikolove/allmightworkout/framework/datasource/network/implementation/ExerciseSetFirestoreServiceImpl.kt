@@ -34,7 +34,7 @@ constructor(
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .update("sets" , FieldValue.arrayUnion(entity))
@@ -52,7 +52,7 @@ constructor(
 
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -79,7 +79,7 @@ constructor(
             val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
             firestore
                 .collection(USERS_COLLECTION)
-                .document(FIRESTORE_USER_ID)
+                .document(firebaseAuth.currentUser.uid)
                 .collection(EXERCISES_COLLECTION)
                 .document(idExercise)
                 .set(updatedEntity)
@@ -95,7 +95,7 @@ constructor(
 
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -114,7 +114,7 @@ constructor(
             val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
             firestore
                 .collection(USERS_COLLECTION)
-                .document(FIRESTORE_USER_ID)
+                .document(firebaseAuth.currentUser.uid)
                 .collection(EXERCISES_COLLECTION)
                 .document(idExercise)
                 .set(updatedEntity)
@@ -132,7 +132,7 @@ constructor(
 
         val collectionRef = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(REMOVED_EXERCISE_SETS_COLLECTION)
 
         firestore.runBatch { batch ->
@@ -150,7 +150,7 @@ constructor(
 
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -172,7 +172,7 @@ constructor(
 
             firestore
                 .collection(USERS_COLLECTION)
-                .document(FIRESTORE_USER_ID)
+                .document(firebaseAuth.currentUser.uid)
                 .collection(EXERCISES_COLLECTION)
                 .document(idExercise)
                 .set(updatedEntity)
@@ -187,7 +187,7 @@ constructor(
 
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -209,7 +209,7 @@ constructor(
 
             firestore
                 .collection(USERS_COLLECTION)
-                .document(FIRESTORE_USER_ID)
+                .document(firebaseAuth.currentUser.uid)
                 .collection(EXERCISES_COLLECTION)
                 .document(idExercise)
                 .set(updatedEntity)
@@ -225,7 +225,7 @@ constructor(
         var exerciseSet : ExerciseSet? = null
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -248,7 +248,7 @@ constructor(
         var exerciseSets : List<ExerciseSet>? = null
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -270,7 +270,7 @@ constructor(
         var exerciseSets : List<ExerciseSet>? = null
         val exercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(EXERCISES_COLLECTION)
             .document(idExercise)
             .get()
@@ -292,7 +292,7 @@ constructor(
         val entity = exerciseSetNetworkMapper.mapToEntity(exerciseSet)
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(REMOVED_EXERCISE_SETS_COLLECTION)
             .document(entity.idExerciseSet)
             .set(entity)
@@ -307,7 +307,7 @@ constructor(
     override suspend fun getDeletedExerciseSets(): List<ExerciseSet> {
         return firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(firebaseAuth.currentUser.uid)
             .collection(REMOVED_EXERCISE_SETS_COLLECTION)
             .get()
             .addOnFailureListener {
