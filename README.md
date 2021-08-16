@@ -10,14 +10,11 @@ Done :
     - Hilt implementation / test
     - Firestore Implementation / test
 
-In progress :
-
-    - Automated test via script
-    - Android Framework Part ( View / etc )
-
 To Do :
-
-    - Auth system v2
+    - Update Datachannel manager to simpler and cleaner queueing method.
+    _ Update Error message management to GenericInfoMessage
+    _ Change all files accordingly
+    - Implementing auth after with session manager
 
 # AllMightWorkout
 
