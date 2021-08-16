@@ -11,6 +11,7 @@ Done :
     - Firestore Implementation / test
 
 To Do :
+
     - Update Datachannel manager to simpler and cleaner queueing method.
     _ Update Error message management to GenericInfoMessage
     _ Change all files accordingly
