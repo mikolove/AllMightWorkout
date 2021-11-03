@@ -5,13 +5,10 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerManager
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,7 +46,7 @@ constructor(
         val job : Flow<DataState<WorkoutInProgressViewState>?> = when(stateEvent) {
 
             is GetWorkoutByIdEvent -> {
-                workoutInProgressListInteractors.getWorkoutById.getWorkoutById(
+                workoutInProgressListInteractors.getWorkoutById.execute(
                     idWorkout= stateEvent.idWorkout,
                     stateEvent = stateEvent
                 )

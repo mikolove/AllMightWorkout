@@ -140,7 +140,7 @@ constructor(
             }
 
             is GetWorkoutByIdEvent -> {
-                workoutInteractors.getWorkoutById.getWorkoutById(
+                workoutInteractors.getWorkoutById.execute(
                     idWorkout = stateEvent.idWorkout,
                     stateEvent = stateEvent
                 )

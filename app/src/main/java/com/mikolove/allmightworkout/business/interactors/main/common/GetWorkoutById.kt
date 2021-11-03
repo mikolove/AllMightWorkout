@@ -16,7 +16,7 @@ class GetWorkoutById(
     val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
-    inline fun <reified ViewState> getWorkoutById(
+    inline fun <reified ViewState> execute(
         idWorkout : String,
         stateEvent : StateEvent
     ) : Flow<DataState<ViewState>?> =  flow {
