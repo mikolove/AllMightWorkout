@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
+/*
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.mikolove.allmightworkout.business.domain.model.*
@@ -14,10 +15,9 @@ import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceK
 import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutInteractionManager
+import com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutInteractionState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -44,9 +44,11 @@ constructor(
         return WorkoutViewState()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         TOOLBAR SELECTION VARS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     val workoutListInteractionManager = ListInteractionManager<Workout>()
 
@@ -64,9 +66,11 @@ constructor(
     val exerciseListInteractionManager = ListInteractionManager<Exercise>()
 
 
-    /********************************************************************
+    */
+/********************************************************************
     INIT BLOC
-     *********************************************************************/
+     *********************************************************************//*
+
 
     init {
         setWorkoutListFilter(
@@ -121,9 +125,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         SET STATE EVENT - CALLING USECASES
-    *********************************************************************/
+    *********************************************************************//*
+
 
     override fun setStateEvent(stateEvent: StateEvent) {
 
@@ -156,7 +162,7 @@ constructor(
             }
 
             is GetWorkoutsEvent -> {
-                workoutInteractors.getWorkouts.getWorkouts(
+                workoutInteractors.getWorkouts.execute(
                    query = getSearchQueryWorkouts(),
                    filterAndOrder = getOrderWorkouts() + getFilterWorkouts(),
                    page = getPageWorkouts(),
@@ -232,7 +238,7 @@ constructor(
             }
 
             is GetTotalWorkoutsEvent -> {
-                workoutInteractors.getTotalWorkouts.getTotalWorkouts(stateEvent)
+                workoutInteractors.getTotalWorkouts.execute(stateEvent)
             }
 
             is GetTotalExercisesEvent -> {
@@ -267,9 +273,11 @@ constructor(
 
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     TRIGGER STATE EVENTS - FUNCTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getWorkoutById(idWorkout : String){
         setStateEvent(GetWorkoutByIdEvent(idWorkout = idWorkout))
@@ -309,9 +317,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         LIST WORKOUTS MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     //Launch actual query reseting Pagination
     fun workoutsStartNewSearch(){
@@ -347,9 +357,11 @@ constructor(
         setStateEvent(GetExercisesEvent())
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         OTHERS LIST MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun reloadWorkoutSelected(){
         getWorkoutSelected()?.let { workout ->
@@ -413,9 +425,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
         GETTERS - QUERY
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getFilterWorkouts(): String {
         return getCurrentViewStateOrNew().workout_list_filter
@@ -458,9 +472,11 @@ constructor(
 
 
 
-    /********************************************************************
+    */
+/********************************************************************
     GETTERS - VIEWSTATE AND OTHER
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
@@ -492,9 +508,11 @@ constructor(
 
     fun isSearchActive() = getCurrentViewStateOrNew().searchActive ?: false
 
-    /********************************************************************
+    */
+/********************************************************************
     SETTERS - VIEWSTATE AND OTHER
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun clearListWorkouts(){
         val update = getCurrentViewStateOrNew()
@@ -676,9 +694,11 @@ constructor(
         setViewState(update)
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         TOOLBARS GETTERS AND SETTERS - WORKOUTS
-    *********************************************************************/
+    *********************************************************************//*
+
 
     fun getSelectedExercises() = exerciseListInteractionManager.getSelectedItems()
     
@@ -734,9 +754,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         ListWorkouts Page Management
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun resetPageWorkouts(){
         val update = getCurrentViewStateOrNew()
@@ -768,9 +790,11 @@ constructor(
         setViewState(update)
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     ListExercise Page Management
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun resetPageExercises(){
         val update = getCurrentViewStateOrNew()
@@ -803,9 +827,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun setWorkoutInteractionNameState(state : WorkoutInteractionState){
         workoutInteractionManager.setWorkoutNameState(state)
@@ -825,4 +851,4 @@ constructor(
 
 
 
-}
+}*/

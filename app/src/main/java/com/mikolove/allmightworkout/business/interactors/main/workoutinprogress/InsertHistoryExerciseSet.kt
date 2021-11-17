@@ -5,7 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerc
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +15,7 @@ class InsertHistoryExerciseSet(
     private val historyExerciseSetFactory: HistoryExerciseSetFactory
 ) {
 
-    fun insertHistoryExerciseSet(
+  /*  fun insertHistoryExerciseSet(
         idHistoryExerciseSet: String?,
         reps: Int,
         weight: Int,
@@ -74,7 +73,7 @@ class InsertHistoryExerciseSet(
 
         emit(response)
     }
-
+*/
     companion object{
         const val INSERT_HISTORY_EXERCISE_SET_SUCCESS = "Successfully inserted history exercise set."
         const val INSERT_HISTORY_EXERCISE_SET_FAILED  = "Failed inserting history exercise set."

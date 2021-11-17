@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +16,7 @@ class RemoveMultipleExerciseSet(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    private var onDeleteError : Boolean = false
+   /* private var onDeleteError : Boolean = false
 
     fun removeMultipleExerciseSet(
         sets : List<ExerciseSet>,
@@ -47,7 +46,7 @@ class RemoveMultipleExerciseSet(
                 }
             }.getResult()
 
-            if(response?.stateMessage?.response?.message?.contains(stateEvent.errorInfo()) == true){
+            if(response?.message?.response?.message?.contains(stateEvent.errorInfo()) == true){
                 onDeleteError = true
             }
         }
@@ -91,7 +90,7 @@ class RemoveMultipleExerciseSet(
                 exerciseSetNetworkDataSource.insertDeletedExerciseSet(set)
             }
         }
-    }
+    }*/
 
     companion object{
         val DELETE_EXERCISE_SETS_SUCCESS = "Successfully deleted exercise sets."

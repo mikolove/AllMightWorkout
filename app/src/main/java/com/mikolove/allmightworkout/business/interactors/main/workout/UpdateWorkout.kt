@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,6 +16,7 @@ class UpdateWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
 ) {
+/*
 
     fun updateWorkout(
         workout : Workout,
@@ -65,7 +65,7 @@ class UpdateWorkout(
 
         emit(response)
 
-        updateNetwork(response?.stateMessage?.response?.message, workout)
+        updateNetwork(response?.message?.response?.message, workout)
 
     }
 
@@ -77,6 +77,7 @@ class UpdateWorkout(
         }
 
     }
+*/
 
     companion object{
         val UPDATE_WORKOUT_SUCCESS = "Successfully updated workout."

@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +12,7 @@ class GetTotalBodyParts(
     val bodyPartCacheDataSource: BodyPartCacheDataSource
 ) {
 
-    inline fun <reified ViewState> getTotalBodyParts(
+    /*inline fun <reified ViewState> getTotalBodyParts(
         stateEvent : StateEvent
     ): Flow<DataState<ViewState>?> = flow {
 
@@ -49,7 +48,7 @@ class GetTotalBodyParts(
         }.getResult()
 
         emit(response)
-    }
+    }*/
 
     companion object{
         val GET_TOTAL_BODYPART_SUCCESS = "Successfully retrieved the number of bodyparts from the cache."

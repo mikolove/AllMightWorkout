@@ -1,5 +1,6 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout.state
+package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
+/*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
@@ -54,7 +55,7 @@ data class WorkoutViewState(
     var totalBodyParts: Int? = null,
     var totalBodyPartsByWorkoutType: Int? = null
 
-): Parcelable, ViewState {
+): Parcelable {
 
 
-}
+}*/

@@ -7,6 +7,7 @@ private constructor(builder: GenericMessageInfo.Builder){
     val id: String
     val title: String
     val uiComponentType: UIComponentType
+    val messageType : MessageType
 
     // optional
     val onDismiss: (() -> Unit)?
@@ -24,9 +25,13 @@ private constructor(builder: GenericMessageInfo.Builder){
         if(builder.uiComponentType == null){
             throw Exception("GenericMessageInfo uiComponentType cannot be null.")
         }
+        if(builder.messageType == null){
+            throw Exception("GenericMessageInfo messageType cannot be null.")
+        }
         this.id = builder.id!!
         this.title = builder.title!!
         this.uiComponentType = builder.uiComponentType!!
+        this.messageType = builder.messageType!!
         this.onDismiss = builder.onDismiss
         this.description = builder.description
         this.positiveAction = builder.positiveAction
@@ -45,6 +50,9 @@ private constructor(builder: GenericMessageInfo.Builder){
             private set
 
         var uiComponentType: UIComponentType? = null
+            private set
+
+        var messageType : MessageType? = null
             private set
 
         var description: String? = null
@@ -78,6 +86,13 @@ private constructor(builder: GenericMessageInfo.Builder){
             return this
         }
 
+        fun messageType(
+            messageType : MessageType
+        ): Builder {
+            this.messageType = messageType
+            return this
+        }
+
         fun description(
             description: String
         ): Builder{
@@ -101,6 +116,15 @@ private constructor(builder: GenericMessageInfo.Builder){
 
         fun build() = GenericMessageInfo(this)
     }
+}
+
+fun GenericMessageInfo.doesMessageAlreadyExistInQueue(queue: Queue<GenericMessageInfo>): Boolean{
+    for(item in queue.items){
+        if (item.id == this.id){
+            return true
+        }
+    }
+    return false
 }
 
 data class PositiveAction(

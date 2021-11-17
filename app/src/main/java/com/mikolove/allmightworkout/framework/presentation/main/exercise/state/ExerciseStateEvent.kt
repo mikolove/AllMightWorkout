@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
 
+/*
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
@@ -222,4 +223,4 @@ sealed class ExerciseStateEvent : StateEvent{
 
         override fun shouldDisplayProgressBar() : Boolean = false
     }
-}
+}*/

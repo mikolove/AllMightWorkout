@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.allmightworkout.business.data.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_EXERCISESET_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
@@ -65,7 +64,7 @@ class GetExerciseSetByIdExerciseTest {
         ).collect{ value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS
             )
 
@@ -94,7 +93,7 @@ class GetExerciseSetByIdExerciseTest {
         ).collect{ value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
             )
 
@@ -121,7 +120,7 @@ class GetExerciseSetByIdExerciseTest {
         ).collect{ value ->
 
             assert(
-                value?.stateMessage?.response?.message
+                value?.message?.response?.message
                     ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false)
 
             value?.data?.cachedExerciseSetsByIdExercise?.let { sets ->

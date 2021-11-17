@@ -1,40 +1,32 @@
 package com.mikolove.allmightworkout.business.domain.state
 
 data class DataState<T>(
-    var stateMessage: StateMessage? = null,
+    var message: GenericMessageInfo.Builder? = null,
     var data: T? = null,
-    var stateEvent: StateEvent? = null
+    val isLoading: Boolean = false
 ) {
 
     companion object {
 
         fun <T> error(
-            response: Response,
-            stateEvent: StateEvent?
+            message: GenericMessageInfo.Builder
         ): DataState<T> {
             return DataState(
-                stateMessage = StateMessage(
-                    response
-                ),
-                data = null,
-                stateEvent = stateEvent
+                message = message,
+                data = null
             )
         }
 
         fun <T> data(
-            response: Response?,
+            message: GenericMessageInfo.Builder? = null,
             data: T? = null,
-            stateEvent: StateEvent?
         ): DataState<T> {
             return DataState(
-                stateMessage = response?.let {
-                    StateMessage(
-                        it
-                    )
-                },
-                data = data,
-                stateEvent = stateEvent
+                message = message,
+                data = data
             )
         }
+
+        fun <T> loading(): DataState<T> = DataState(isLoading = true)
     }
 }

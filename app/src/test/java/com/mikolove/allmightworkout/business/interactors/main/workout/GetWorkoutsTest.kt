@@ -10,9 +10,8 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_ORDER_BY_ASC_DATE_CREATED
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -66,7 +65,7 @@ class GetWorkoutsTest {
         val query = ""
         var results : ArrayList<Workout>? = null
 
-        getWorkouts.getWorkouts(
+        getWorkouts.execute(
             query = query,
             filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -76,7 +75,7 @@ class GetWorkoutsTest {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_WORKOUTS_SUCCESS
                 )
                 value?.data?.listWorkouts?.let { list ->
@@ -104,7 +103,7 @@ class GetWorkoutsTest {
 
         val query = "einzeoineoinzefoizenf"
         var results: ArrayList<Workout>? = null
-        getWorkouts.getWorkouts(
+        getWorkouts.execute(
             query = query,
             filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -112,7 +111,7 @@ class GetWorkoutsTest {
         ).collect(object: FlowCollector<DataState<WorkoutViewState>?>{
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_WORKOUTS_NO_MATCHING_RESULTS
                 )
                 value?.data?.listWorkouts?.let { list ->
@@ -138,7 +137,7 @@ class GetWorkoutsTest {
 
         val query = FORCE_SEARCH_WORKOUTS_EXCEPTION
         var results: ArrayList<Workout>? = null
-        getWorkouts.getWorkouts(
+        getWorkouts.execute(
             query = query,
             filterAndOrder = WORKOUT_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -146,7 +145,7 @@ class GetWorkoutsTest {
         ).collect(object: FlowCollector<DataState<WorkoutViewState>?>{
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
                 value?.data?.listWorkouts?.let { list ->

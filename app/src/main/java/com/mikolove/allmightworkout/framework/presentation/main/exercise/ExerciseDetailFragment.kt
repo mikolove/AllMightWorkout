@@ -29,17 +29,16 @@ import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
 import com.mikolove.allmightworkout.framework.presentation.common.hideKeyboard
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseInteractionState.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExerciseDetailFragment():
-    BaseFragment(R.layout.fragment_exercise_detail),
-    ExerciseSetListAdapter.Interaction{
+    BaseFragment(R.layout.fragment_exercise_detail)/*,
+    ExerciseSetListAdapter.Interaction*/{
 
-    val viewModel : ExerciseViewModel by activityViewModels()
+   /* val viewModel : ExerciseViewModel by activityViewModels()
 
     @Inject
     lateinit var dateUtil : DateUtil
@@ -50,9 +49,9 @@ class ExerciseDetailFragment():
     private var bodyPartAdapter : ArrayAdapter<BodyPart>? = null
     private var exerciseTypeAdapter : ArrayAdapter<ExerciseType>? = null
 
-    /*
+    *//*
         AutoComplete textview with ArrayAdapter is shit
-     */
+     *//*
     private var workoutTypePosition : Int? = null
     private var bodyPartPosition : Int? = null
     private var exerciseTypePosition : Int? = null
@@ -102,9 +101,9 @@ class ExerciseDetailFragment():
     }
 
 
-    /********************************************************************
+    *//********************************************************************
     MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise_detail, menu)
@@ -154,9 +153,9 @@ class ExerciseDetailFragment():
     }
 
 
-    /*
+    *//*
         Observers
-     */
+     *//*
 
     private fun subscribeObservers(){
 
@@ -397,9 +396,9 @@ class ExerciseDetailFragment():
 
     }
 
-    /*
+    *//*
         setup
-     */
+     *//*
 
     private fun init(){
 
@@ -587,9 +586,9 @@ class ExerciseDetailFragment():
     }
 
 
-    /*
+    *//*
         Form click
-     */
+     *//*
 
     private fun onClickExerciseName(){
         if(!viewModel.isEditingName()){
@@ -700,9 +699,9 @@ class ExerciseDetailFragment():
         } ?: ExerciseType.REP_EXERCISE
     }
 
-    /*
+    *//*
         Array Adapter position used to update item on state change
-     */
+     *//*
     private fun getWorkoutTypePosition() : Int? = workoutTypePosition
 
     private fun setWorkoutTypePosition(position : Int?){
@@ -721,9 +720,9 @@ class ExerciseDetailFragment():
         exerciseTypePosition = position
     }
 
-    /*
+    *//*
         Exercise Set Interactions
-     */
+     *//*
 
     override fun onEditClick(item: ExerciseSet) {
         navigateToSet(item)
@@ -755,9 +754,9 @@ class ExerciseDetailFragment():
         )
     }
 
-    /********************************************************************
+    *//********************************************************************
         Navigate to set detail
-     *********************************************************************/
+     *********************************************************************//*
     private fun navigateToSet(item: ExerciseSet){
         //Set destination set
         quitEditState()
@@ -765,9 +764,9 @@ class ExerciseDetailFragment():
         findNavController().navigate(R.id.action_exercise_detail_fragment_to_exercise_set_detail_fragment)
     }
 
-    /********************************************************************
+    *//********************************************************************
         BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun quitEditState(){
         updateNameInViewModel()
@@ -804,5 +803,5 @@ class ExerciseDetailFragment():
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
+*/
 }

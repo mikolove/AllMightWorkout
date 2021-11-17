@@ -25,13 +25,13 @@ class SyncWorkoutExercises(
     private val dateUtil: DateUtil
 ) {
 
-
-    /*
+/*
+    *//*
         LOGIC HERE IS NOT HAVE TO REDO THIS
         IF LAST UPDATE IS NULL WHEN SYNC ANOTHER DEVICE TRYING TO SYNC BEFORE A MODIFICATION IS DONE
         THE NEW DEVICE WILL NEVER GET THE LINKED EXERCISES
 
-     */
+     *//*
     suspend fun syncWorkoutExercises() {
 
         val cachedWorkouts = ArrayList(getCachedWorkouts())
@@ -175,11 +175,11 @@ class SyncWorkoutExercises(
             exerciseCacheDataSource.addExerciseToWorkout(idWorkout, exerciseNetwork.idExercise)
         }
 
-        /*if(cacheExercises.isNullOrEmpty()){
+        *//*if(cacheExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{*/
+        }else{*//*
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
@@ -204,17 +204,17 @@ class SyncWorkoutExercises(
             exerciseNetworkDataSource.addExerciseToWorkout(idWorkout, exerciseCache.idExercise)
         }
 
-        /*if(networkExercises.isNullOrEmpty()){
+        *//*if(networkExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{*/
+        }else{*//*
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
         //}
 
-    }
+    }*/
 
 }

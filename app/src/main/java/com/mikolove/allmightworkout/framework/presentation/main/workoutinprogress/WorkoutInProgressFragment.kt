@@ -22,14 +22,13 @@ import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class WorkoutInProgressFragment():
-    BaseFragment(R.layout.fragment_workout_in_progress),
+    BaseFragment(R.layout.fragment_workout_in_progress){/*,
     WorkoutInProgressAdapter.Interaction{
 
     val viewModel : WorkoutInProgressViewModel by activityViewModels()
@@ -243,7 +242,7 @@ class WorkoutInProgressFragment():
         )
     }
 
-/*    private fun areYouSureToQuitWithoutSaving(){
+*//*    private fun areYouSureToQuitWithoutSaving(){
         viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
@@ -265,7 +264,7 @@ class WorkoutInProgressFragment():
             )
         )
     }
-*/
+*//*
     private fun showToastHistorySaved(text : String){
 
         uiController.onResponseReceived(
@@ -283,9 +282,9 @@ class WorkoutInProgressFragment():
     }
 
 
-    /********************************************************************
+    *//********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun onBackPressed() {
         viewModel.setWorkout(null)
@@ -303,5 +302,5 @@ class WorkoutInProgressFragment():
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-
+*/
 }

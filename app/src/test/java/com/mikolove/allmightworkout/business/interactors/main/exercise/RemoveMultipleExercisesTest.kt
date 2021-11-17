@@ -96,7 +96,7 @@ class RemoveMultipleExercisesTest {
         )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_EXERCISES_SUCCESS
                 )
             }
@@ -148,7 +148,7 @@ class RemoveMultipleExercisesTest {
         )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_EXERCISES_ERRORS
                 )
             }
@@ -201,7 +201,7 @@ class RemoveMultipleExercisesTest {
         )?.collect(object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_EXERCISES_ERRORS
                 )
             }

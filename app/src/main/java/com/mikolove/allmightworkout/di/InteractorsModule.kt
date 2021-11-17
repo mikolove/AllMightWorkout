@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
+import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
@@ -32,6 +33,7 @@ object InteractorsModule {
         workoutTypeCacheDataSource : WorkoutTypeCacheDataSource,
         workoutNetworkDataSource : WorkoutNetworkDataSource,
         exerciseNetworkDataSource : ExerciseNetworkDataSource,
+        appDataStore: AppDataStore,
         workoutFactory: WorkoutFactory,
         dateUtil: DateUtil
     ) : WorkoutInteractors {
@@ -43,14 +45,15 @@ object InteractorsModule {
             getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
             insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
             updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource),
-            removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
+            //removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
             removeMultipleWorkouts = RemoveMultipleWorkouts(workoutCacheDataSource,workoutNetworkDataSource),
             addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             getWorkoutTypes = GetWorkoutTypes(workoutTypeCacheDataSource),
             getBodyParts = GetBodyParts(bodyPartCacheDataSource),
             getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
-            getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource)
+            getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource),
+            getWorkoutOrderAndFilter = GetWorkoutOrderAndFilter(appDataStoreManager = appDataStore)
         )
     }
 
@@ -79,7 +82,7 @@ object InteractorsModule {
             updateNetworkExerciseSets = UpdateNetworkExerciseSets(exerciseSetNetworkDataSource),
             updateExercise = UpdateExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
             updateExerciseSet = UpdateExerciseSet(exerciseSetCacheDataSource, exerciseSetNetworkDataSource),
-            removeExercise = RemoveExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
+            //removeExercise = RemoveExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
             removeExerciseSet = RemoveExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             removeMultipleExercises = RemoveMultipleExercises(exerciseCacheDataSource,exerciseNetworkDataSource),
             getWorkoutTypes = GetWorkoutTypes(workoutTypeCacheDataSource),

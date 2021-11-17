@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemExerciseBinding
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseDiffCallBack
 

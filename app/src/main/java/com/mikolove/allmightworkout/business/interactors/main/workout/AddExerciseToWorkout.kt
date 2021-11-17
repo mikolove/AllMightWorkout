@@ -9,7 +9,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +21,7 @@ class AddExerciseToWorkout(
     private val dateUtil: DateUtil
 ) {
 
-    fun addExerciseToWorkout(
+  /*  fun addExerciseToWorkout(
         idWorkout : String,
         idExercise : String,
         stateEvent : StateEvent
@@ -92,7 +91,7 @@ class AddExerciseToWorkout(
 
             emit(response)
 
-            updateNetwork(response?.stateMessage?.response?.message,idWorkout,idExercise,updatedExerciseIdsDate)
+            updateNetwork(response?.message?.response?.message,idWorkout,idExercise,updatedExerciseIdsDate)
         }
 
     }
@@ -129,7 +128,7 @@ class AddExerciseToWorkout(
             }
         }
     }
-
+*/
     companion object{
         val INSERT_WORKOUT_EXERCISE_SUCCESS  = "Successfully inserted added exercise to workout."
         val INSERT_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."

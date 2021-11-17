@@ -5,7 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorko
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +13,7 @@ class GetHistoryWorkoutDetail(
     private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource
 ) {
 
-    fun getHistoryWorkoutDetail(
+   /* fun getHistoryWorkoutDetail(
         idHistoryWorkout : String,
         stateEvent : StateEvent
     ) : Flow<DataState<HistoryViewState>?> = flow {
@@ -43,7 +42,7 @@ class GetHistoryWorkoutDetail(
         }.getResult()
 
         emit(response)
-    }
+    }*/
 
     companion object{
         val GET_HISTORY_WORKOUT_DETAIL_SUCCESS = "Successfully retrieved history workout with detail."

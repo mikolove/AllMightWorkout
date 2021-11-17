@@ -70,7 +70,7 @@ class GetHistoryWorkoutsTest {
         ).collect( object : FlowCollector<DataState<HistoryViewState>?>{
             override suspend fun emit(value: DataState<HistoryViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_HISTORY_WORKOUTS_SUCCESS
                 )
                 value?.data?.listHistoryWorkouts?.let {
@@ -106,7 +106,7 @@ class GetHistoryWorkoutsTest {
         ).collect( object : FlowCollector<DataState<HistoryViewState>?>{
             override suspend fun emit(value: DataState<HistoryViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS
                 )
                 value?.data?.listHistoryWorkouts?.let {
@@ -143,7 +143,7 @@ class GetHistoryWorkoutsTest {
         ).collect( object : FlowCollector<DataState<HistoryViewState>?>{
             override suspend fun emit(value: DataState<HistoryViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
                 value?.data?.listHistoryWorkouts?.let {

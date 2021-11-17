@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
 
+/*
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
@@ -77,4 +78,4 @@ sealed  class WorkoutInProgressStateEvent : StateEvent{
 
         override fun shouldDisplayProgressBar() : Boolean = false
     }
-}
+}*/

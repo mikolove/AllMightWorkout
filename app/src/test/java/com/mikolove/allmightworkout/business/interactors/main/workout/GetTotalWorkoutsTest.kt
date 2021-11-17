@@ -4,9 +4,8 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCache
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -47,12 +46,12 @@ class GetTotalWorkoutsTest {
 
         var totalWorkouts = 0
 
-        getTotalWorkouts.getTotalWorkouts(
+        getTotalWorkouts.execute(
             stateEvent = GetTotalWorkoutsEvent()
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GetTotalWorkouts.GET_TOTAL_WORKOUT_SUCCESS
                 )
 

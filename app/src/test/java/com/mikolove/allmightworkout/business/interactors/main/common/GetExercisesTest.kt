@@ -71,7 +71,7 @@ class GetExercisesTest {
         ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_EXERCISES_SUCCESS
                 )
                 value?.data?.listExercises?.let { list ->
@@ -107,7 +107,7 @@ class GetExercisesTest {
         ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_EXERCISES_NO_MATCHING_RESULTS
                 )
                 value?.data?.listExercises?.let { list ->
@@ -140,7 +140,7 @@ class GetExercisesTest {
         ).collect(object: FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
                 value?.data?.listExercises?.let { list ->

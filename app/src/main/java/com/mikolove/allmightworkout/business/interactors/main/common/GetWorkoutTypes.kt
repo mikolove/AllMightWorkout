@@ -5,8 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeC
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,7 +13,7 @@ class GetWorkoutTypes(
     val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
 ) {
 
-    inline fun <reified ViewState>  getWorkoutTypes(
+   /* inline fun <reified ViewState>  getWorkoutTypes(
         query : String,
         filterAndOrder : String,
         page : Int,
@@ -66,7 +64,7 @@ class GetWorkoutTypes(
         }.getResult()
 
         emit(response)
-    }
+    }*/
 
     companion object{
         val GET_WORKOUTTYPES_SUCCESS = "Successfully retrieved list of workoutTypes."

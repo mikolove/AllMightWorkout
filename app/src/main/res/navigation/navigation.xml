@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/loading_fragment">
+    app:startDestination="@id/history_fragment">
 
     <fragment
         android:id="@+id/workout_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutFragment"
         android:label="WorkoutFragment" >
         <action
             android:id="@+id/action_workout_fragment_to_workout_detail_fragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/workout_detail_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.WorkoutDetailFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutDetailFragment"
         android:label="WorkoutDetailFragment" >
         <action
             android:id="@+id/action_workout_detail_fragment_to_add_exercise_to_workout_fragment"
@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/add_exercise_to_workout_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout.AddExerciseToWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.AddExerciseToWorkoutFragment"
         android:label="AddExerciseToWorkoutFragment" >
         <action
             android:id="@+id/action_add_exercise_to_workout_fragment_to_workout_detail_fragment"

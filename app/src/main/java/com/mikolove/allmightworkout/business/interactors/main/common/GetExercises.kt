@@ -5,8 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCach
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 class GetExercises(
     val exerciseCacheDataSource: ExerciseCacheDataSource
 ) {
-
+/*
     inline fun <reified ViewState> getExercises(
         query: String,
         filterAndOrder: String,
@@ -66,7 +64,7 @@ class GetExercises(
 
         emit(response)
 
-    }
+    }*/
 
     companion object{
         val GET_EXERCISES_SUCCESS = "Successfully retrieved list of exercises."

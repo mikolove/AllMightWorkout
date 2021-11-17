@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class GetTotalHistoryWorkouts( private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource
 ) {
 
-    fun getTotalWorkouts(
+   /* fun getTotalWorkouts(
         stateEvent: StateEvent
     ) : Flow<DataState<HistoryViewState>?> = flow {
 
@@ -44,7 +43,7 @@ class GetTotalHistoryWorkouts( private val historyWorkoutCacheDataSource: Histor
 
         emit(response)
     }
-
+*/
     companion object{
         val GET_TOTAL_HISTORY_WORKOUT_SUCCESS = "Successfully retrieved the number of history workouts from the cache."
         val GET_TOTAL_HISTORY_WORKOUT_FAILED = "Failed to retrieved the number of history workouts from the cache."

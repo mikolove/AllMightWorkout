@@ -16,7 +16,7 @@ class SyncDeletedExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    suspend fun syncDeletedExercises(){
+   /* suspend fun syncDeletedExercises(){
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(IO){
@@ -56,6 +56,6 @@ class SyncDeletedExercises(
                 )
             }
         }.getResult()
-    }
+    }*/
 
 }

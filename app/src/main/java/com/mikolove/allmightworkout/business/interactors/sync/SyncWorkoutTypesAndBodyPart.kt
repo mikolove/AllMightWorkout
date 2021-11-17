@@ -29,7 +29,7 @@ class SyncWorkoutTypesAndBodyPart(
 ) {
 
 
-    suspend fun syncWorkoutTypesAndBodyPart(){
+  /*  suspend fun syncWorkoutTypesAndBodyPart(){
         val cachedWorkoutTypes = getCachedWorkoutTypes()
 
         syncNetworkWithCache(cachedWorkoutTypes)
@@ -133,5 +133,5 @@ class SyncWorkoutTypesAndBodyPart(
                 )
             }
         }
-    }
+    }*/
 }

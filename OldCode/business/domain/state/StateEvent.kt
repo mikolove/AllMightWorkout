@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.business.domain.state
+/*package com.mikolove.allmightworkout.business.domain.state
 
 interface StateEvent {
 
@@ -7,4 +7,4 @@ interface StateEvent {
     fun eventName(): String
 
     fun shouldDisplayProgressBar(): Boolean
-}
+}*/

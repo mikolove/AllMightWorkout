@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail.Companion.GET_HISTORY_WORKOUT_DETAIL_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -82,7 +81,7 @@ class GetHistoryWorkoutDetailTest {
             stateEvent = GetHistoryWorkoutDetailEvent()
         ).collect {
             assertEquals(
-                it?.stateMessage?.response?.message,
+                it?.message?.response?.message,
                 GET_HISTORY_WORKOUT_DETAIL_SUCCESS
             )
 
@@ -108,7 +107,7 @@ class GetHistoryWorkoutDetailTest {
             override suspend fun emit(value: DataState<HistoryViewState>?) {
 
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_DATA_NULL) ?: false
                 )
 
@@ -135,7 +134,7 @@ class GetHistoryWorkoutDetailTest {
             override suspend fun emit(value: DataState<HistoryViewState>?) {
 
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
 

@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
 
+/*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.ViewState
@@ -26,4 +27,4 @@ class WorkoutInProgressViewState(
     var historyExercises: ArrayList<HistoryExercise>? = null,
 
 ) : Parcelable, ViewState {
-}
+}*/

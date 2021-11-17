@@ -17,7 +17,7 @@ class RemoveWorkout<ViewState>(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource
 ) {
 
-    fun removeWorkout(
+  /*  fun removeWorkout(
         workout : Workout,
         stateEvent : StateEvent
     ) : Flow<DataState<ViewState>?> = flow {
@@ -57,7 +57,7 @@ class RemoveWorkout<ViewState>(
         emit(response)
 
         //Update network
-        updateNetwork(response?.stateMessage?.response?.message, workout)
+        updateNetwork(response?.message?.response?.message, workout)
 
     }
 
@@ -71,7 +71,7 @@ class RemoveWorkout<ViewState>(
                 workoutNetworkDataSource.insertDeleteWorkout(deletedWorkout)
             }
         }
-    }
+    }*/
 
     companion object{
         val DELETE_WORKOUT_SUCCESS = "Successfully deleted workout"

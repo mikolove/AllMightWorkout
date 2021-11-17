@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalExercises
 import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalExercises.Companion.GET_TOTAL_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
@@ -50,7 +49,7 @@ class GetTotalExercisesTest {
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_TOTAL_EXERCISES_SUCCESS
                 )
 

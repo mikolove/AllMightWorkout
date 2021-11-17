@@ -9,7 +9,6 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSetFactory
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,7 +20,7 @@ class InsertExerciseSet(
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 
-    fun insertExerciseSet(
+  /*  fun insertExerciseSet(
         idExerciseSet : String? = null,
         reps : Int,
         weight : Int,
@@ -80,7 +79,7 @@ class InsertExerciseSet(
 
         emit(cacheResponse)
 
-        updateNetwork(cacheResponse?.stateMessage?.response?.message, newExerciseSet,idExercise)
+        updateNetwork(cacheResponse?.message?.response?.message, newExerciseSet,idExercise)
    }
 
     private suspend fun updateNetwork(cacheResponse : String?, newExerciseSet : ExerciseSet, idExercise: String){
@@ -91,7 +90,7 @@ class InsertExerciseSet(
         }
     }
 
-
+*/
     companion object{
         val INSERT_EXERCISE_SET_SUCCESS = "Successfully inserted new exercise set."
         val INSERT_EXERCISE_SET_FAILED  = "Failed inserting new exercise set."

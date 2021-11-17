@@ -5,7 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetC
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ class GetExerciseSetByIdExercise(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource
 )  {
 
-    fun getExerciseSetByIdExercise(
+   /* fun getExerciseSetByIdExercise(
         idExercise : String,
         stateEvent : StateEvent
     ) : Flow<DataState<ExerciseViewState>?> = flow{
@@ -50,7 +50,7 @@ class GetExerciseSetByIdExercise(
         }.getResult()
 
         emit(response)
-    }
+    }*/
 
     companion object{
         val GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS = "Successfully retrieved list of exercise sets."

@@ -94,7 +94,7 @@ class UpdateMultipleExerciseSetTest {
         ).collect { value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 UPDATE_EXERCISE_SETS_SUCCESS
             )
         }
@@ -143,7 +143,7 @@ class UpdateMultipleExerciseSetTest {
         ).collect { value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 UPDATE_EXERCISE_SETS_ERRORS
             )
         }
@@ -202,7 +202,7 @@ class UpdateMultipleExerciseSetTest {
         ).collect { value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 UPDATE_EXERCISE_SETS_ERRORS
             )
         }

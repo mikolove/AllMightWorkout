@@ -4,10 +4,6 @@ package com.mikolove.allmightworkout.business.domain.state
  * Kotlin version of a java.util Queue
  * https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html
  */
-
-/*
-    Replacement for MessageStack
- */
 class Queue<T> (list:MutableList<T>){
 
     var items: MutableList<T> = list
@@ -68,6 +64,7 @@ class Queue<T> (list:MutableList<T>){
 
     fun clear(){
         items.removeAll { true }
+//        items.clear()
     }
 
 }

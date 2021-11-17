@@ -33,7 +33,7 @@ constructor(
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(entity.idExercise)
             .set(entity)
@@ -49,7 +49,7 @@ constructor(
         val entity = exerciseNetworkMapper.mapToEntity(exercise)
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(entity.idExercise)
             .update(
@@ -69,7 +69,7 @@ constructor(
     override suspend fun removeExerciseById(primaryKey: String) {
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(primaryKey)
             .delete()
@@ -84,7 +84,7 @@ constructor(
         //Get exercises and Sets
         return firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .get()
             .addOnFailureListener {
@@ -100,7 +100,7 @@ constructor(
         //Get exercise
         return firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .document(primaryKey)
             .get()
@@ -118,7 +118,7 @@ constructor(
         var exercises : ArrayList<Exercise> = ArrayList()
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .get()
@@ -145,7 +145,7 @@ constructor(
         var totalExercise : Int = 0
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(EXERCISES_COLLECTION)
             .get()
             .addOnSuccessListener { document ->
@@ -162,7 +162,7 @@ constructor(
     override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String) {
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .update("exerciseIds",FieldValue.arrayUnion(idExercise))
@@ -177,7 +177,7 @@ constructor(
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .update("exerciseIds",FieldValue.arrayRemove(idExercise))
@@ -193,7 +193,7 @@ constructor(
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .get()
@@ -214,7 +214,7 @@ constructor(
     override suspend fun getDeletedExercises(): List<Exercise> {
         return firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(REMOVED_EXERCISES_COLLECTION)
             .get()
             .addOnFailureListener {
@@ -230,7 +230,7 @@ constructor(
        val entity = exerciseNetworkMapper.mapToEntity(exercise)
         firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(REMOVED_EXERCISES_COLLECTION)
             .document(entity.idExercise)
             .set(entity)
@@ -248,7 +248,7 @@ constructor(
 
         val collectionRef = firestore
             .collection(USERS_COLLECTION)
-            .document(firebaseAuth.currentUser.uid)
+            .document(FIRESTORE_USER_ID)
             .collection(REMOVED_EXERCISES_COLLECTION)
 
         firestore.runBatch { batch ->

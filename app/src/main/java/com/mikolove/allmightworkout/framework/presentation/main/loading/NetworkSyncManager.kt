@@ -39,7 +39,7 @@ constructor(
         get() = _hasSyncBeenExecuted
 
     fun executeDataSync(coroutineScope: CoroutineScope){
-        if(_hasSyncBeenExecuted.value!!){
+       /* if(_hasSyncBeenExecuted.value!!){
             return
         }
 
@@ -90,7 +90,7 @@ constructor(
             CoroutineScope(Main).launch{
                 _hasSyncBeenExecuted.value = true
             }
-        }
+        }*/
     }
 
 }

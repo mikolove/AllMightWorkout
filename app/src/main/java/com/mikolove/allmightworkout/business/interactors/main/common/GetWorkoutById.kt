@@ -5,9 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCache
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
+
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +14,7 @@ class GetWorkoutById(
     val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
-    inline fun <reified ViewState> execute(
+ /*   inline fun <reified ViewState> execute(
         idWorkout : String,
         stateEvent : StateEvent
     ) : Flow<DataState<ViewState>?> =  flow {
@@ -50,7 +48,7 @@ class GetWorkoutById(
 
         emit(response)
     }
-
+*/
     companion object{
         val GET_WORKOUT_BY_ID_SUCCESS = "Successfully retrieved workout by id."
     }

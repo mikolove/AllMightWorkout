@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history.state
 
+/*
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 
@@ -45,4 +46,4 @@ sealed class HistoryStateEvent : StateEvent {
 
         override fun shouldDisplayProgressBar() : Boolean = false
     }
-}
+}*/

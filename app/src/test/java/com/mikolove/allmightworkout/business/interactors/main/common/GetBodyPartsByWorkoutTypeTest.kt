@@ -9,9 +9,8 @@ import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyPart
 import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyPartsByWorkoutType.Companion.GET_BODYPART_BY_WORKOUT_TYPES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -70,7 +69,7 @@ class GetBodyPartsByWorkoutTypeTest {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_BODYPART_BY_WORKOUT_TYPES_SUCCESS
                 )
 
@@ -102,7 +101,7 @@ class GetBodyPartsByWorkoutTypeTest {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GET_BODYPART_BY_WORKOUT_TYPES_NO_RESULT
                 )
 
@@ -138,7 +137,7 @@ class GetBodyPartsByWorkoutTypeTest {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
 
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false)
 
                 value?.data?.listBodyPartsByWorkoutTypes?.let { list ->

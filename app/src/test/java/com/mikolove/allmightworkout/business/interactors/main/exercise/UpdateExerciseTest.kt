@@ -13,7 +13,6 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -96,7 +95,7 @@ class UpdateExerciseTest {
 
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     UPDATE_EXERCISE_SUCCESS
                 )
             }
@@ -141,7 +140,7 @@ class UpdateExerciseTest {
 
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     UPDATE_EXERCISE_FAILED
                 )
             }
@@ -185,7 +184,7 @@ class UpdateExerciseTest {
 
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
             }

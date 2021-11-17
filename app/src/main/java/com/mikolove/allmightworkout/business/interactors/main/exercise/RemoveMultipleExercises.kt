@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +16,7 @@ class RemoveMultipleExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    // set true if an error occurs when deleting any of the exercises from cache
+   /* // set true if an error occurs when deleting any of the exercises from cache
     private var onDeleteError: Boolean = false
 
     fun removeMultipleExercises(
@@ -48,7 +47,7 @@ class RemoveMultipleExercises(
             }.getResult()
 
             //Check for random errors
-            if (response?.stateMessage?.response?.message?.contains(stateEvent.errorInfo()) == true) {
+            if (response?.message?.response?.message?.contains(stateEvent.errorInfo()) == true) {
                 onDeleteError = true
             }
 
@@ -92,7 +91,7 @@ class RemoveMultipleExercises(
         }
     }
 
-
+*/
     companion object{
         val DELETE_EXERCISES_SUCCESS = "Successfully deleted exercises."
         val DELETE_EXERCISES_ERRORS = "Not all the exercises were deleted. Errors occurs."

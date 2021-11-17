@@ -29,8 +29,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,11 +38,11 @@ import javax.inject.Inject
 const val EXERCISE_VIEW_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.exercise.state"
 
 @AndroidEntryPoint
-class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
+class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
     ExerciseListAdapter.Interaction,
-    FabController {
+    FabController*/ {
 
-    val viewModel : ExerciseViewModel by activityViewModels()
+  /*  val viewModel : ExerciseViewModel by activityViewModels()
 
     @Inject
     lateinit var dateUtil: DateUtil
@@ -54,9 +53,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     private var binding : FragmentExerciseBinding? = null
 
 
-    /********************************************************************
+    *//********************************************************************
     LIFECYCLE MANANGEMENT
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,18 +102,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
 
-    /********************************************************************
+    *//********************************************************************
     FRAGEMENT SAVEINSTANCE
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("ExerciseFragment","OnSaveInstanceState")
         super.onSaveInstanceState(outState)
     }
 
-    /********************************************************************
+    *//********************************************************************
     SUBSCRIBE OBSERVERS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun subscribeObservers(){
 
@@ -195,9 +194,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
 
-    /********************************************************************
+    *//********************************************************************
     SETUP
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun showList(){
         if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == false) {
@@ -261,9 +260,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
         NAVIGATION
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun insertionNavigateToManageExercise(){
         findNavController().navigate(
@@ -293,9 +292,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
     UI DIALOG
-     *********************************************************************/
+     *********************************************************************//*
 
     fun showFilterDialog(){
 
@@ -357,9 +356,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
     UI FAB
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun fabOnClick() {
         //Generate exercise to create
@@ -368,9 +367,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         insertionNavigateToManageExercise()
     }
 
-    /********************************************************************
+    *//********************************************************************
     ACTION MODE
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -417,9 +416,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         viewModel.clearSelectedExercises()
     }
 
-    /********************************************************************
+    *//********************************************************************
     MENU
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise, menu)
@@ -474,9 +473,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
 
-    /********************************************************************
+    *//********************************************************************
         VIEWMODEL ACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
 
     private fun startNewSearch(){
@@ -521,9 +520,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         )
     }
 
-    /********************************************************************
+    *//********************************************************************
     OVERRIDE UI CONTROLLER TOAST SNACKBAR
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun showToastDeleteExercises(){
 
@@ -579,9 +578,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         )
     }
 
-    /********************************************************************
+    *//********************************************************************
     WORKOUT LIST ADAPTER INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onItemSelected(position: Int, item: Exercise, containerView: View) {
         if(isMultiSelectionModeEnabled()){
@@ -602,9 +601,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         return viewModel.isExerciseSelected(exercise)
     }
 
-    /********************************************************************
+    *//********************************************************************
     DEBUG
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun printActiveJobs(){
 
@@ -612,5 +611,5 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             printLogD("ExerciseFragment", "${index}: ${job}")
         }
     }
-
+*/
 }

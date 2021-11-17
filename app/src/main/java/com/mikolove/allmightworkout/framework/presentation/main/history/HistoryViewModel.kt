@@ -1,14 +1,12 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
+import androidx.lifecycle.ViewModel
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_FILTER_NAME
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_ORDER_BY_DESC_DATE_CREATED
-import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -18,7 +16,7 @@ class HistoryViewModel
 @Inject
 constructor(
     private val historyListInteractors: HistoryListInteractors
-) : BaseViewModel<HistoryViewState>(){
+) : ViewModel() { /*: BaseViewModel<HistoryViewState>(){
 
     override fun initNewViewState(): HistoryViewState {
         return HistoryViewState()
@@ -61,9 +59,9 @@ constructor(
         launchJob(stateEvent,job)
     }
 
-    /********************************************************************
+    *//********************************************************************
     GETTERS - VIEWSTATE AND OTHER
-     *********************************************************************/
+     *********************************************************************//*
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
@@ -115,9 +113,9 @@ constructor(
         setViewState(update)
     }
 
-    /********************************************************************
+    *//********************************************************************
     ListHistory Page Management
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun resetPage(){
         val update = getCurrentViewStateOrNew()
@@ -160,5 +158,5 @@ constructor(
     fun loadHistory(){
         setStateEvent(HistoryStateEvent.GetHistoryWorkoutsEvent())
     }
-
+*/
 }

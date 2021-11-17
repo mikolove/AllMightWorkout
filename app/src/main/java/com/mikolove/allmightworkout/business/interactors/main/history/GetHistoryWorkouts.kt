@@ -5,7 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorko
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +13,7 @@ class GetHistoryWorkouts(
     private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource
 ) {
 
-    fun getHistoryWorkouts(
+   /* fun getHistoryWorkouts(
         query : String,
         filterAndOrder : String,
         page : Int,
@@ -56,7 +55,7 @@ class GetHistoryWorkouts(
 
         emit(response)
     }
-
+*/
     companion object{
         val GET_HISTORY_WORKOUTS_SUCCESS = "Successfully retrieved list of history workouts."
         val GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS = "There are no history workouts that match that query."

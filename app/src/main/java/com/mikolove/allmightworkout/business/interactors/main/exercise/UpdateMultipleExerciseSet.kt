@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +16,7 @@ class UpdateMultipleExerciseSet(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    private var onUpdateError: Boolean = false
+   /* private var onUpdateError: Boolean = false
 
     fun updateMultipleExerciseSet(
         sets: List<ExerciseSet>,
@@ -56,7 +55,7 @@ class UpdateMultipleExerciseSet(
                 }
             }.getResult()
 
-            if (response?.stateMessage?.response?.message?.contains(stateEvent.errorInfo()) == true) {
+            if (response?.message?.response?.message?.contains(stateEvent.errorInfo()) == true) {
                 onUpdateError = true
             }
         }
@@ -100,7 +99,7 @@ class UpdateMultipleExerciseSet(
                 exerciseSetNetworkDataSource.updateExerciseSet(set, idExercise)
             }
         }
-    }
+    }*/
 
     companion object {
         val UPDATE_EXERCISE_SETS_SUCCESS = "Successfully updated exercise sets."

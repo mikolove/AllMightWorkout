@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +42,7 @@ class WorkoutExercisesAdapter(
     class WorkoutExercisesViewHolder
     constructor(
         itemView: View,
-        private val interaction: WorkoutExercisesAdapter.Interaction?
+        private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
         //Maybe change place for this

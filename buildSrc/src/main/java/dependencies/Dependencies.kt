@@ -56,6 +56,6 @@ object Dependencies {
     val retrofit_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2_version}"
     val multidex = "androidx.multidex:multidex:${Versions.multidex_version}"
 
-
+    val datastore = "androidx.datastore:datastore-preferences:${Versions.datastore}"
 
 }

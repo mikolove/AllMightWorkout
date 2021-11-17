@@ -16,6 +16,7 @@ class SyncDeletedWorkouts(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource
 ) {
 
+/*
     suspend fun syncDeletedWorkouts(){
 
         //Get all deletedWorkouts from network
@@ -57,5 +58,6 @@ class SyncDeletedWorkouts(
             }
         }.getResult()
     }
+*/
 
 }

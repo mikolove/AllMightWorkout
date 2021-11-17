@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -22,15 +21,13 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExer
 import com.mikolove.allmightworkout.databinding.FragmentAddExerciseToWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
-import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
-import com.mikolove.allmightworkout.framework.presentation.common.fadeOut
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddExerciseToWorkoutFragment():
-    BaseFragment(R.layout.fragment_add_exercise_to_workout),
-    AddExerciseAdapter.Interaction{
+    BaseFragment(R.layout.fragment_add_exercise_to_workout) {/*,
+    AddExerciseAdapter.Interaction {
 
     val viewModel : WorkoutViewModel by activityViewModels()
 
@@ -68,9 +65,9 @@ class AddExerciseToWorkoutFragment():
         super.onDestroyView()
     }
 
-    /********************************************************************
+    *//********************************************************************
         OBSERVERS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun subscribeObservers(){
 
@@ -141,9 +138,9 @@ class AddExerciseToWorkoutFragment():
         })
     }
 
-    /********************************************************************
+    *//********************************************************************
         Setup UI
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun init(){
         viewModel?.getWorkoutSelected()?.let { workout ->
@@ -203,17 +200,17 @@ class AddExerciseToWorkoutFragment():
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
         MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun startNewSearch(){
         viewModel.exercisesStartNewSearch()
     }
 
-    /********************************************************************
+    *//********************************************************************
         MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_add_workout_exercise, menu)
@@ -283,9 +280,9 @@ class AddExerciseToWorkoutFragment():
     }
 
 
-    /********************************************************************
+    *//********************************************************************
         ADAPTER INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun addExerciseToWorkout(exercise: Exercise){
         val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
@@ -320,5 +317,5 @@ class AddExerciseToWorkoutFragment():
     override fun isExerciseSelected(exercise: Exercise): Boolean {
         return viewModel.isExerciseSelected(exercise)
     }
-
+*/
 }

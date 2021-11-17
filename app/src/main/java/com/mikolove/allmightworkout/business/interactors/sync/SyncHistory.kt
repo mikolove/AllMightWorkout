@@ -29,6 +29,7 @@ class SyncHistory(
 ) {
 
 
+/*
 
     suspend fun syncHistory() {
 
@@ -123,4 +124,5 @@ class SyncHistory(
 
         return response?.data ?: ArrayList()
     }
+*/
 }

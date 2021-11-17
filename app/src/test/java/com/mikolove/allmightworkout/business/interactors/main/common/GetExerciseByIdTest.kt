@@ -67,7 +67,7 @@ class GetExerciseByIdTest {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     GetExerciseById.GET_EXERCISE_BY_ID_SUCCESS
                 )
 
@@ -100,7 +100,7 @@ class GetExerciseByIdTest {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_DATA_NULL) ?: false)
 
                 exerciseRetrieved = value?.data?.exerciseSelected ?: null
@@ -132,7 +132,7 @@ class GetExerciseByIdTest {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false)
 
                 exerciseRetrieved = value?.data?.exerciseSelected ?: null

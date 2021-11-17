@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import android.os.Bundle
 import android.view.*
@@ -6,11 +6,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +16,11 @@ import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.google.android.material.transition.MaterialElevationScale
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts.Companion.GET_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_DATE_CREATED
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_NAME
@@ -35,8 +29,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,7 +42,7 @@ class WorkoutFragment
     WorkoutListAdapter.Interaction,
     FabController {
 
-    val viewModel : WorkoutViewModel by activityViewModels()
+    val viewModel : WorkoutListViewModel by viewModels()
 
     @Inject
     lateinit var dateUtil: DateUtil
@@ -61,13 +54,12 @@ class WorkoutFragment
 
 
     /********************************************************************
-        LIFECYCLE MANANGEMENT
+    LIFECYCLE MANANGEMENT
      *********************************************************************/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         printLogD("WorkoutFragment","OnCreate")
-        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,17 +76,29 @@ class WorkoutFragment
         setupSwipeRefresh()
         subscribeObservers()
 
-      /*  postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-*/
+/*        MaterialDialog(requireActivity())
+            .show{
+                title(text = "Test")
+                message(text = "Test")
+                positiveButton(text = "Ok"){
+                    dismiss()
+                }
+                negativeButton(text = "Cancel"){
+                    dismiss()
+                }
+                onDismiss {
+                    dismiss()
+                }
+                cancelable(false)
+            }*/
+        /*  postponeEnterTransition()
+          view.doOnPreDraw { startPostponedEnterTransition() }
+  */
     }
 
     override fun onResume() {
         super.onResume()
         printLogD("WorkoutFragment","OnResume")
-
-        viewModel.loadTotalWorkouts()
-        viewModel.refreshWorkoutSearchQuery()
     }
 
     override fun onPause() {
@@ -118,7 +122,7 @@ class WorkoutFragment
 
 
     /********************************************************************
-        FRAGEMENT SAVEINSTANCE
+    FRAGEMENT SAVEINSTANCE
      *********************************************************************/
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -141,15 +145,15 @@ class WorkoutFragment
 
     private fun restoreInstanceState(savedInstanceState: Bundle?){
         printLogD("WorkoutFragment","restoreInstanceState")
-        savedInstanceState?.let { inState ->
+        /*savedInstanceState?.let { inState ->
             (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
-        }
+        }*/
     }
 
     /********************************************************************
-        SUBSCRIBE OBSERVERS
+    SUBSCRIBE OBSERVERS
      *********************************************************************/
 
     private fun subscribeObservers(){
@@ -169,11 +173,42 @@ class WorkoutFragment
             }
         })
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
-            if (viewState != null) {
+        viewModel.state.observe(viewLifecycleOwner, { state ->
 
-                viewState.listWorkouts?.let { workoutList ->
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(OnRemoveHeadFromQueue)
+                    }
+                })
+
+            listAdapter?.apply {
+                submitList(list = state.listWorkouts)
+            }
+
+            /*     state.listWorkouts.let { list ->
+                     if(list.isEmpty()){
+                         hideList()
+                     }else{
+                         showList()
+                     }
+                 }*/
+
+            state.insertedWorkout?.let {
+
+            }
+        })
+
+        /* viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+
+            if (state != null) {
+
+                state.listWorkouts.let { workoutList ->
 
                     if(workoutList.size > 0){
                         if (viewModel.isWorkoutsPaginationExhausted() && !viewModel.isWorkoutsQueryExhausted()) {
@@ -186,20 +221,20 @@ class WorkoutFragment
                     }
                 }
 
-                viewState.workoutToInsert?.let { insertedWorkout ->
+               viewState.workoutToInsert?.let { insertedWorkout ->
                     printLogD("WorkoutFragment","INSERTED WORKOUT OBSERVED IN FRAGMENT")
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
-                }
+                }*/
 
-                viewState.workoutSelected?.let { _ ->
-                    if(viewModel.getWorkoutToInsert() != null) {
-                        insertionNavigateToManageWorkout()
-                    }
-                }
+        /*viewState.workoutSelected?.let { _ ->
+            if(viewModel.getWorkoutToInsert() != null) {
+                insertionNavigateToManageWorkout()
             }
-        })
+        }
+    }
+})*/
 
-        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
+        /*viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
             printActiveJobs()
             uiController.displayProgressBar(isLoading)
         })
@@ -238,13 +273,13 @@ class WorkoutFragment
                 }
             }
 
-        })
+        })*/
     }
 
 
     /********************************************************************
-        SETUP
-    *********************************************************************/
+    SETUP
+     *********************************************************************/
 
     private fun showList(){
         if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == false) {
@@ -271,7 +306,7 @@ class WorkoutFragment
 
     private fun setupSwipeRefresh(){
         binding?.fragmentWorkoutSwiperefreshlayout?.setOnRefreshListener {
-            startNewSearch()
+            viewModel.onTriggerEvent(NewSearch)
             binding?.fragmentWorkoutSwiperefreshlayout?.isRefreshing = false
         }
     }
@@ -290,14 +325,19 @@ class WorkoutFragment
                 dateUtil
             )
 
-
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastPosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastPosition == listAdapter?.itemCount?.minus(1)) {
-                        viewModel.nextPageWorkouts()
+                    printLogD("WorkoutFragment","Is onscroll exhausted : ${viewModel.state.value?.isQueryExhausted}")
+                    if (
+                        lastPosition == listAdapter?.itemCount?.minus(1) &&
+                        viewModel.state.value?.isLoading == false &&
+                        viewModel.state.value?.isQueryExhausted == false
+                    ) {
+                        printLogD("WorkoutFragment","Next Page")
+                        viewModel.onTriggerEvent(NextPage)
                     }
                 }
             })
@@ -308,16 +348,16 @@ class WorkoutFragment
     }
 
     /********************************************************************
-        NAVIGATION
+    NAVIGATION
      *********************************************************************/
 
-    private fun insertionNavigateToManageWorkout(){
+/*    private fun insertionNavigateToManageWorkout(){
         findNavController().navigate(
             R.id.action_workout_fragment_to_workout_detail_fragment,
             null
         )
         viewModel.setInsertedWorkout(null)
-    }
+    }*/
 
     private fun selectionNavigateToManageWorkout(containerView : View?){
 
@@ -343,72 +383,77 @@ class WorkoutFragment
     }
 
     /********************************************************************
-        UI DIALOG
+    UI DIALOG
      *********************************************************************/
 
 
     fun showFilterDialog(){
 
         activity?.let {
-            val dialog = MaterialDialog(it)
-                .noAutoDismiss()
-                .customView(R.layout.dialog_filter)
 
-            val view = dialog.getCustomView()
+            viewModel.state.value?.let { state ->
 
-            val filter = viewModel.getFilterWorkouts()
-            val order = viewModel.getOrderWorkouts()
+                val dialog = MaterialDialog(it)
+                    .noAutoDismiss()
+                    .customView(R.layout.dialog_filter)
 
-            view.findViewById<RadioGroup>(R.id.filter_group).apply {
-                when (filter) {
-                    WORKOUT_FILTER_DATE_CREATED -> check(R.id.filter_date)
-                    WORKOUT_FILTER_NAME -> check(R.id.filter_title)
+                val view = dialog.getCustomView()
+
+                val filter = state.list_filter.value
+                val order = state.list_order.value
+
+                view.findViewById<RadioGroup>(R.id.filter_group).apply {
+                    when (filter) {
+                        WORKOUT_FILTER_DATE_CREATED -> check(R.id.filter_date)
+                        WORKOUT_FILTER_NAME -> check(R.id.filter_title)
+                    }
                 }
-            }
 
-            view.findViewById<RadioGroup>(R.id.order_group).apply {
-                when (order) {
-                    WORKOUT_ORDER_ASC -> check(R.id.filter_asc)
-                    WORKOUT_ORDER_DESC -> check(R.id.filter_desc)
+                view.findViewById<RadioGroup>(R.id.order_group).apply {
+                    when (order) {
+                        WORKOUT_ORDER_ASC -> check(R.id.filter_asc)
+                        WORKOUT_ORDER_DESC -> check(R.id.filter_desc)
+                    }
                 }
-            }
 
-            view.findViewById<TextView>(R.id.positive_button).setOnClickListener {
+                view.findViewById<TextView>(R.id.positive_button).setOnClickListener {
 
-                val newFilter =
-                    when (view.findViewById<RadioGroup>(R.id.filter_group).checkedRadioButtonId) {
-                        R.id.filter_title -> WORKOUT_FILTER_NAME
-                        R.id.filter_date -> WORKOUT_FILTER_DATE_CREATED
-                        else -> WORKOUT_FILTER_DATE_CREATED
+                    val newFilter =
+                        when (view.findViewById<RadioGroup>(R.id.filter_group).checkedRadioButtonId) {
+                            R.id.filter_title -> WORKOUT_FILTER_NAME
+                            R.id.filter_date -> WORKOUT_FILTER_DATE_CREATED
+                            else -> WORKOUT_FILTER_DATE_CREATED
+                        }
+
+                    val newOrder =
+                        when (view.findViewById<RadioGroup>(R.id.order_group).checkedRadioButtonId) {
+                            R.id.filter_desc -> "-"
+                            else -> ""
+                        }
+
+                    viewModel.apply {
+                        onTriggerEvent(UpdateFilter(getFilterFromValue(newFilter)))
+                        onTriggerEvent(UpdateOrder(getOrderFromValue(newOrder)))
+                        onTriggerEvent(NewSearch)
                     }
 
-                val newOrder =
-                    when (view.findViewById<RadioGroup>(R.id.order_group).checkedRadioButtonId) {
-                        R.id.filter_desc -> "-"
-                        else -> ""
-                    }
+                    viewModel.onTriggerEvent(NewSearch)
 
-                viewModel.apply {
-                    saveFilterWorkoutsOptions(newFilter, newOrder)
-                    setWorkoutListFilter(newFilter)
-                    setWorkoutOrder(newOrder)
+                    dialog.dismiss()
                 }
 
-                startNewSearch()
+                view.findViewById<TextView>(R.id.negative_button).setOnClickListener {
+                    dialog.dismiss()
+                }
 
-                dialog.dismiss()
+                dialog.show()
             }
 
-            view.findViewById<TextView>(R.id.negative_button).setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.show()
         }
     }
 
     /********************************************************************
-        UI FAB
+    UI FAB
      *********************************************************************/
 
     override fun fabOnClick() {
@@ -416,7 +461,7 @@ class WorkoutFragment
     }
 
     /********************************************************************
-        ACTION MODE
+    ACTION MODE
      *********************************************************************/
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
@@ -465,13 +510,11 @@ class WorkoutFragment
     }
 
     /********************************************************************
-        MENU
+    MENU
      *********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout, menu)
-
-        printLogD("WorkoutFragment", "LOADED MENU")
 
         //Deal with searchView
         val searchItem = menu.findItem(R.id.menu_workout_search)
@@ -484,9 +527,10 @@ class WorkoutFragment
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                viewModel.setQueryWorkouts("")
+                viewModel.onTriggerEvent(UpdateQuery(""))
                 viewModel.setIsSearchActive(false)
-                startNewSearch()
+                viewModel.onTriggerEvent(NewSearch)
+                viewModel.setIsSearchActive(false)
                 return true
             }
         })
@@ -497,8 +541,8 @@ class WorkoutFragment
             if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
                 || actionId == EditorInfo.IME_ACTION_SEARCH ) {
                 val searchQuery = v.text.toString()
-                viewModel.setQueryWorkouts(searchQuery)
-                startNewSearch()
+                viewModel.onTriggerEvent(UpdateQuery(searchQuery))
+                viewModel.onTriggerEvent(NewSearch)
                 viewModel.setIsSearchActive(true)
             }
             true
@@ -507,10 +551,8 @@ class WorkoutFragment
         //Expand if search isActive on menu reload
         if(viewModel.isSearchActive()){
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.getSearchQueryWorkouts(),false)
+            searchView.setQuery(viewModel.getSearchQuery(),false)
         }
-
-        printLogD("WorkoutFragment","Code here test debug")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -525,76 +567,66 @@ class WorkoutFragment
 
 
     /********************************************************************
-        VIEWMODEL ACTIONS
+    VIEWMODEL ACTIONS
      *********************************************************************/
 
 
-    private fun startNewSearch(){
-        printLogD("WorkoutFragment","Start New search")
-        //viewModel.clearListWorkouts()
-        viewModel.workoutsStartNewSearch()
-    }
-
     private fun addWorkout(){
-        uiController.displayInputCaptureDialog(
-            getString(R.string.fragment_choose_workout_add_name),
-            object : DialogInputCaptureCallback {
-                override fun onTextCaptured(text: String) {
-                    if (!text.isNullOrBlank()) {
-                        printLogD("WorkoutFragment","Add workout ${text}")
-                        viewModel.setStateEvent(
-                            InsertWorkoutEvent(name = text)
-                        )
-                    } else {
-                        onErrorNoNameSpecified()
-                    }
-                }
-            }
-        )
-    }
 
-    private fun onErrorNoNameSpecified(){
-        viewModel.setStateEvent(
-            CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = INSERT_WORKOUT_ERROR_NO_NAME,
-                        uiComponentType = UIComponentType.Dialog(),
-                        messageType = MessageType.Error()
-                    )
-                )
-            )
-        )
-    }
-    private fun deleteWorkouts(){
-        viewModel.setStateEvent(
-            CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = DELETE_WORKOUTS_ARE_YOU_SURE,
-                        uiComponentType = UIComponentType.AreYouSureDialog(
-                            object : AreYouSureCallback {
-                                override fun proceed() {
-                                    viewModel.deleteWorkouts()
-                                }
-
-                                override fun cancel() {
-                                    // do nothing
-                                }
+        val message = GenericMessageInfo.Builder()
+            .id("WorkoutListViewModel.AddWorkoutDialog")
+            .title(getString(R.string.fragment_choose_workout_add_name))
+            .messageType(MessageType.Success)
+            .uiComponentType(
+                UIComponentType.InputCaptureDialog(
+                    object : DialogInputCaptureCallback {
+                        override fun onTextCaptured(text: String) {
+                            if (text.isNotBlank()) {
+                                viewModel.onTriggerEvent(InsertWorkout(name = text))
                             }
-                        ),
-                        messageType = MessageType.Info()
-                    )
+                        }
+                    }
+                ))
+
+        launchDialog(message)
+    }
+
+    private fun deleteWorkouts(){
+
+        printLogD("WorkoutFragment","Launch remove delete workout")
+        val message = GenericMessageInfo.Builder()
+            .id("WorkoutFragment.LaunchDelete")
+            .title(DELETE_WORKOUTS_ARE_YOU_SURE)
+            .description("")
+            .messageType(MessageType.Success)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {
+                        viewModel.onTriggerEvent(RemoveSelectedWorkouts)
+                    }
                 )
             )
-        )
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Delete",
+                    onNegativeAction = {}
+                )
+            )
+
+        launchDialog(message)
+    }
+
+    private fun launchDialog( message : GenericMessageInfo.Builder){
+        viewModel.onTriggerEvent(LaunchDialog(message))
     }
 
     /********************************************************************
-        OVERRIDE UI CONTROLLER TOAST SNACKBAR
+    OVERRIDE UI CONTROLLER TOAST SNACKBAR
      *********************************************************************/
 
-    private fun showToastDeleteWorkouts(){
+/*    private fun showToastDeleteWorkouts(){
 
         uiController.onResponseReceived(
             response = Response(
@@ -646,18 +678,18 @@ class WorkoutFragment
                 }
             }
         )
-    }
+    }*/
 
     /********************************************************************
-        WORKOUT LIST ADAPTER INTERACTIONS
+    WORKOUT LIST ADAPTER INTERACTIONS
      *********************************************************************/
 
     override fun onItemSelected(position: Int?, item: Workout, containerView: View?) {
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{
-            viewModel.setWorkoutSelected(item)
-            selectionNavigateToManageWorkout(containerView)
+            /*viewModel.setWorkoutSelected(item)
+            selectionNavigateToManageWorkout(containerView)*/
         }
     }
 
@@ -669,15 +701,5 @@ class WorkoutFragment
         return viewModel.isWorkoutSelected(workout)
     }
 
-    /********************************************************************
-        DEBUG
-     *********************************************************************/
-
-    private fun printActiveJobs(){
-
-        for((index, job) in viewModel.getActiveJobs().withIndex()){
-            printLogD("WorkoutFragment", "${index}: ${job}")
-        }
-    }
 
 }

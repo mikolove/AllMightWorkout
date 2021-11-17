@@ -23,7 +23,7 @@ class SyncWorkouts(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    suspend fun syncWorkouts(){
+ /*   suspend fun syncWorkouts(){
         val cachedWorkouts = ArrayList(getCachedWorkouts())
 
         syncCacheAndNetwork(cachedWorkouts)
@@ -82,11 +82,11 @@ class SyncWorkouts(
                     cachedWorkouts.remove(cacheWorkout)
                     updateWorkoutIfNeeded(networkWorkout,cacheWorkout)
 
-                    /*
+                    *//*
                         TODO : Update link between exercises and workout need to figure how will it work with firebase and room relational model
                         cacheWorkout.exercises?.forEach{ cacheExercise ->
                        }
-                    */
+                    *//*
 
                 }?: insertWorkoutInCache(networkWorkout)
             }
@@ -134,5 +134,5 @@ class SyncWorkouts(
                 )
             }
         }
-    }
+    }*/
 }

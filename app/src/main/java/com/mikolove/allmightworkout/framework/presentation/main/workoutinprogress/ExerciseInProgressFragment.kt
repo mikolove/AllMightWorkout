@@ -1,17 +1,13 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -21,21 +17,17 @@ import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.invisible
 import com.mikolove.allmightworkout.framework.presentation.common.visible
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerButtonState
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent
-import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_progress){
+class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_progress){/*
 
     val viewModel : WorkoutInProgressViewModel by activityViewModels()
     var binding : FragmentExerciseInProgressBinding? = null
@@ -356,9 +348,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         viewModel.saveExercise()
     }
 
-    /*
+    *//*
         Set management
-     */
+     *//*
 
     private fun startSet(set : ExerciseSet){
 
@@ -385,9 +377,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         timer?.cancel()
     }
 
-    /*
+    *//*
         Chronometer
-     */
+     *//*
 
     private fun setChronometerState(state : ChronometerState){
         viewModel.chronometerManager.setChronometerState(state)
@@ -439,9 +431,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         setChronometerState(ChronometerState.IdleState())
     }
 
-    /********************************************************************
+    *//********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun onBackPressed() {
         quitExercise()
@@ -455,5 +447,5 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
+*/
 }

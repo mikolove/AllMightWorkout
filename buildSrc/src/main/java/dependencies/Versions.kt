@@ -29,7 +29,7 @@ object Versions {
     val firebase_crashlytics = "2.10.1"
     val firebase_ui_auth = "7.2.0"
     val firebase_auth = "19.4.0"
-    val firebase_bom = "25.12.0"
+    val firebase_bom = "29.0.0"
     val espresso_core = "3.3.0"
     val espresso_idling_resource = "3.3.0"
     val mockk_version = "1.11.0"
@@ -44,4 +44,5 @@ object Versions {
     val fragment_version = "1.3.0-alpha08"
     val androidx_test_ext = "1.1.2"
     val multidex_version = "2.0.1"
+    val datastore = "1.0.0"
 }

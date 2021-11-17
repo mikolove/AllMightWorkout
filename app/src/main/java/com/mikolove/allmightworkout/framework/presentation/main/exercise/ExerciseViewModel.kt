@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.room.Update
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
@@ -15,11 +16,9 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseSetCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
-import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -38,16 +37,19 @@ constructor(
     private val exerciseFactory: ExerciseFactory,
     private val exerciseSetFactory: ExerciseSetFactory,
     private val dateUtil: DateUtil
-) : BaseViewModel<ExerciseViewState>()
+) : ViewModel() /*: BaseViewModel<ExerciseViewState>()*/
 {
 
+/*
     override fun initNewViewState(): ExerciseViewState {
         return ExerciseViewState()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         LIVEDATA
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private val _exerciseTypeState : MutableLiveData<ExerciseType> = MutableLiveData()
 
@@ -61,9 +63,11 @@ constructor(
         _exerciseTypeState.value = null
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     TOOLBAR SELECTION VARS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     val exerciseListInteractionManager = ListInteractionManager<Exercise>()
 
@@ -71,9 +75,11 @@ constructor(
         get() = exerciseListInteractionManager.toolbarState
 
 
-    /********************************************************************
+    */
+/********************************************************************
         INIT BLOC - set filters
-     *********************************************************************/
+     *********************************************************************//*
+
 
     init {
         setExerciseListFilter(
@@ -314,9 +320,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
         TRIGGER STATE EVENTS - FUNCTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getExerciseById( idExercise : String){
         setStateEvent(GetExerciseByIdEvent(idExercise = idExercise))
@@ -514,9 +522,11 @@ constructor(
     private fun updateSetsOrder(){
 
     }
-    /********************************************************************
+    */
+/********************************************************************
     LIST EXERCISES MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     //Launch actual query reseting Pagination
     fun exercisesStartNewSearch(){
@@ -535,9 +545,11 @@ constructor(
         setStateEvent(GetExercisesEvent())
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     OTHERS LIST MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun reloadBodyParts(){
         clearListBodyParts()
@@ -587,9 +599,11 @@ constructor(
         editor.apply()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     GETTERS - QUERY
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getFilterExercises(): String {
         return getCurrentViewStateOrNew().exercise_list_filter
@@ -611,9 +625,11 @@ constructor(
             ?: return 1
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     GETTERS - VIEWSTATE AND OTHER
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getActiveJobs() = dataChannelManager.getActiveJobs()
 
@@ -660,9 +676,11 @@ constructor(
         } ?: null
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     SETTERS - VIEWSTATE AND OTHER
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun clearListExercises(){
         val update = getCurrentViewStateOrNew()
@@ -991,9 +1009,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     TOOLBARS GETTERS AND SETTERS - EXERCISES
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getSelectedExercises() = exerciseListInteractionManager.getSelectedItems()
 
@@ -1038,9 +1058,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         ListExercises PageManagement
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun resetPageExercises(){
         val update = getCurrentViewStateOrNew()
@@ -1075,9 +1097,11 @@ constructor(
 
 
 
-    /********************************************************************
+    */
+/********************************************************************
         Dropdown management
-     *********************************************************************/
+     *********************************************************************//*
+
 
     fun getDetailWorkoutTypesExhausted() : Boolean = getCurrentViewStateOrNew().detailWorkoutTypesExshauted ?: false
 
@@ -1148,9 +1172,11 @@ constructor(
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     INTERACTIONS EXERCISE & SET STATE
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
 
@@ -1248,6 +1274,7 @@ constructor(
     fun isEditingRest() = exerciseSetInteractionManager.isEditingRest()
 
     fun isEditingTime() = exerciseSetInteractionManager.isEditingTime()
+*/
 
 }
 

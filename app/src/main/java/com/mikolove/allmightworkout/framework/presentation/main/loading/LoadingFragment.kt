@@ -24,7 +24,7 @@ const val LOADING_FRAGMENT_NO_SYNC = "User is not connected, could not sync data
 @AndroidEntryPoint
 class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
-    val viewModel: LoadingViewModel by viewModels()
+   /* val viewModel: LoadingViewModel by viewModels()
 
     @Inject
     lateinit var firebaseAuth : FirebaseAuth
@@ -97,7 +97,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         }else{
             createSignInIntent()
-           /* printLogD("Loading","User not logged")
+           *//* printLogD("Loading","User not logged")
             firebaseAuth.signInWithEmailAndPassword(
                 FirestoreAuth.FIRESTORE_LOGIN,
                 FirestoreAuth.FIRESTORE_PASSWORD
@@ -109,7 +109,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                     printLogD("Loading","Error logging user go to history")
                     //navigateToHistory()
                 }
-            }*/
+            }*//*
         }
     }
 
@@ -123,5 +123,5 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
     private fun navigateToHistory(){
         findNavController().navigate(R.id.action_global_history_fragment)
-    }
+    }*/
 }

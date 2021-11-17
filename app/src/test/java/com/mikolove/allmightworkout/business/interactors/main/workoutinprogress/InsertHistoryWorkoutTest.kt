@@ -94,7 +94,7 @@ class InsertHistoryWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?>{
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     INSERT_HISTORY_WORKOUT_SUCCESS
                 )
             }
@@ -130,7 +130,7 @@ class InsertHistoryWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?>{
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     INSERT_HISTORY_WORKOUT_FAILED
                 )
             }
@@ -166,7 +166,7 @@ class InsertHistoryWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutInProgressViewState>?>{
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                     ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
             }

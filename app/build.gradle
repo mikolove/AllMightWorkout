@@ -140,6 +140,10 @@ dependencies {
     //Multidex
     implementation Dependencies.multidex
 
+
+    //Data Store
+    implementation Dependencies.datastore
+
     // Test
     testImplementation TestDependencies.mockk
     testImplementation TestDependencies.jupiter_api
@@ -168,7 +172,6 @@ dependencies {
     androidTestImplementation AndroidTestDependencies.text_core_ktx
     androidTestImplementation AndroidTestDependencies.navigation_testing
     debugImplementation AndroidTestDependencies.fragment_testing
-
 
     // Hilt for instrumentation tests
     androidTestImplementation AndroidTestDependencies.hilt_testing

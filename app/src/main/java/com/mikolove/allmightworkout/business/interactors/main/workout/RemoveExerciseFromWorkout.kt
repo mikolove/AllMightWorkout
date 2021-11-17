@@ -9,7 +9,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +21,7 @@ class RemoveExerciseFromWorkout(
     private val dateUtil: DateUtil
 ) {
 
-    fun removeExerciseFromWorkout(
+   /* fun removeExerciseFromWorkout(
         idExercise : String,
         idWorkout: String,
         stateEvent : StateEvent
@@ -86,7 +85,7 @@ class RemoveExerciseFromWorkout(
 
             emit(response)
 
-            updateNetwork(response?.stateMessage?.response?.message, idWorkout,idExercise,updatedExerciseIdsDate)
+            updateNetwork(response?.message?.response?.message, idWorkout,idExercise,updatedExerciseIdsDate)
 
         }
     }
@@ -123,7 +122,7 @@ class RemoveExerciseFromWorkout(
             }
         }
     }
-
+*/
     companion object{
         val REMOVE_WORKOUT_EXERCISE_SUCCESS  = "Successfully deleted added exercise to workout."
         val REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE  = "Are you sure to remove this exercise from workout ?"

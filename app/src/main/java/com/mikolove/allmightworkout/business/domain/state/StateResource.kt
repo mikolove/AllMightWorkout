@@ -5,57 +5,46 @@ import android.view.View
 import com.mikolove.allmightworkout.util.TodoCallback
 
 
-data class StateMessage(val response: Response)
-
-data class Response(
-    val message: String?,
-    val uiComponentType: UIComponentType,
-    val messageType: MessageType
-)
-
 sealed class UIComponentType{
 
-    class Toast: UIComponentType()
+    object Toast : UIComponentType()
 
-    class Dialog: UIComponentType()
+    object Dialog: UIComponentType()
 
-    class AreYouSureDialog(
-        val callback: AreYouSureCallback
-    ): UIComponentType()
+    class InputCaptureDialog(
+        val callback: DialogInputCaptureCallback
+    ) : UIComponentType()
 
-    class AreYouSureSaveDialog(
-        val callback: AreYouSureSaveCallback
-    ): UIComponentType()
+    //object AreYouSureDialog: UIComponentType()
 
-    class SnackBar(
-        val undoCallback: SnackbarUndoCallback? = null,
-        val onDismissCallback: TodoCallback? = null
-    ): UIComponentType()
+    //object AreYouSureSaveDialog: UIComponentType()
 
-    class SimpleSnackBar() : UIComponentType()
+    //class SnackBar(): UIComponentType()
 
-    class None: UIComponentType()
+    //class SimpleSnackBar() : UIComponentType()
+
+    object None: UIComponentType()
 }
 
 sealed class MessageType{
 
-    class Success: MessageType()
+    object Success: MessageType()
 
-    class Error: MessageType()
+    object Error: MessageType()
 
-    class Info: MessageType()
+    object None: MessageType()
 
-    class None: MessageType()
+    //class Info: MessageType()
 }
 
 
 interface StateMessageCallback{
 
-    fun removeMessageFromStack()
+    fun removeMessageFromQueue()
 }
 
 
-interface AreYouSureCallback {
+/*interface AreYouSureCallback {
 
     fun proceed()
 
@@ -86,8 +75,7 @@ constructor(
 
 }
 
-
+*/
 interface DialogInputCaptureCallback {
-
     fun onTextCaptured(text: String)
 }

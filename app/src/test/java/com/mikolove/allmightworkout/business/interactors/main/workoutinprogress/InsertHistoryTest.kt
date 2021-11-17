@@ -1,10 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 
-import com.google.android.gms.common.internal.Asserts
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
-import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_WORKOUT_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.DataState
@@ -107,7 +103,7 @@ class InsertHistoryTest {
 
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     InsertHistory.INSERT_HISTORY_SUCCESS
                 )
 
@@ -142,7 +138,7 @@ class InsertHistoryTest {
 
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     InsertHistory.INSERT_HISTORY_FAILED
                 )
 

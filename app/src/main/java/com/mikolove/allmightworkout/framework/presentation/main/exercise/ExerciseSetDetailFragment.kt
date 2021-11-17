@@ -16,7 +16,7 @@ import com.mikolove.allmightworkout.util.printLogD
 
 class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_detail) {
 
-    val viewModel : ExerciseViewModel by activityViewModels()
+    /*val viewModel : ExerciseViewModel by activityViewModels()
 
     private var binding : FragmentExerciseSetDetailBinding? = null
 
@@ -298,9 +298,9 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun quitEditState(){
         updateSetRepInViewModel()
@@ -327,5 +327,5 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
+*/
 }

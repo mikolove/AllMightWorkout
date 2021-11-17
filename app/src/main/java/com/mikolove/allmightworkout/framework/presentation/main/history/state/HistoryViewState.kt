@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history.state
 
+/*
 import android.os.Parcelable
 import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
 import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
@@ -26,4 +27,4 @@ data class HistoryViewState(
 
 
     ) : Parcelable, ViewState{
-}
+}*/

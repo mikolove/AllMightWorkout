@@ -95,7 +95,7 @@ class InsertMultipleExerciseSetTest {
         )?.collect { value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 ADD_EXERCISE_SETS_SUCCESS
             )
         }
@@ -145,7 +145,7 @@ class InsertMultipleExerciseSetTest {
         )?.collect { value ->
 
             Assertions.assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 ADD_EXERCISE_SETS_ERRORS
             )
         }

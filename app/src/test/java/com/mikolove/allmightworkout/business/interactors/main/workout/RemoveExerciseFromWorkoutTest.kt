@@ -17,8 +17,8 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExer
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -104,7 +104,7 @@ class RemoveExerciseFromWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     REMOVE_WORKOUT_EXERCISE_SUCCESS
                 )
             }
@@ -148,7 +148,7 @@ class RemoveExerciseFromWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED
                 )
             }
@@ -204,7 +204,7 @@ class RemoveExerciseFromWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     REMOVE_WORKOUT_EXERCISE_FAILED
                 )
             }
@@ -253,7 +253,7 @@ class RemoveExerciseFromWorkoutTest {
         ).collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
             }

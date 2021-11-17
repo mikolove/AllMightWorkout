@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,7 +18,7 @@ class UpdateExerciseSet(
 ) {
 
 
-    fun updateExerciseSet(
+   /* fun updateExerciseSet(
         exerciseSet : ExerciseSet,
         idExercise : String,
         stateEvent : StateEvent
@@ -72,7 +71,7 @@ class UpdateExerciseSet(
 
         emit(response)
 
-        updateNetwork(response?.stateMessage?.response?.message,exerciseSet,idExercise)
+        updateNetwork(response?.message?.response?.message,exerciseSet,idExercise)
     }
 
     private suspend fun updateNetwork(response: String?, exerciseSet: ExerciseSet, idExercise: String){
@@ -81,7 +80,7 @@ class UpdateExerciseSet(
                 exerciseSetNetworkDataSource.updateExerciseSet(exerciseSet, idExercise)
             }
         }
-    }
+    }*/
     companion object{
         val UPDATE_EXERCISE_SET_SUCCESS = "Successfully updated exercise set."
         val UPDATE_EXERCISE_SET_FAILED  = "Failed updated exercise set."

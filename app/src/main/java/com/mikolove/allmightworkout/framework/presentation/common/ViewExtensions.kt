@@ -112,7 +112,7 @@ fun Activity.displayToast(
     stateMessageCallback: StateMessageCallback
 ){
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    stateMessageCallback.removeMessageFromStack()
+    stateMessageCallback.removeMessageFromQueue()
 }
 
 fun Activity.displayToast(
@@ -120,5 +120,5 @@ fun Activity.displayToast(
     stateMessageCallback: StateMessageCallback
 ){
     Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
-    stateMessageCallback.removeMessageFromStack()
+    stateMessageCallback.removeMessageFromQueue()
 }

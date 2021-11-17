@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.business.domain.state
 
 import com.mikolove.allmightworkout.util.printLogD
@@ -7,6 +8,21 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+
+From mitch discord
+
+"Need to delete this class not needed
+
+What I thought channels were for:
+Channels were somewhere to submit coroutines (jobs). The benefit of which would be to observe a single source as opposed to many. Although technically that could be a result, that is not the intention.
+
+What channels are actually for:
+Are a means of coroutine-coroutine communication. To pass values from one coroutine to another.
+
+What this means for my source code
+In the context of my projects (CleanNotes and Open-Api app), the channel is completely redundant. As you pointed out in your example, we can remove it.
+Thanks for expressing your confusion. Now less people will think I'm a dummy for using it incorrectly moving forward
+"
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -131,3 +147,4 @@ abstract class DataChannelManager<ViewState> {
     }
 
 }
+ */

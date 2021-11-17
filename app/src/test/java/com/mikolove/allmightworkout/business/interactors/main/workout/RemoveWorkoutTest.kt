@@ -9,8 +9,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -74,7 +74,7 @@ class RemoveWorkoutTest {
 
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_WORKOUT_SUCCESS
                 )
             }
@@ -114,7 +114,7 @@ class RemoveWorkoutTest {
 
              override suspend fun emit(value: DataState<WorkoutViewState>?) {
                  assertEquals(
-                     value?.stateMessage?.response?.message,
+                     value?.message?.response?.message,
                      DELETE_WORKOUT_FAILED
                  )
              }
@@ -154,7 +154,7 @@ class RemoveWorkoutTest {
 
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
             }

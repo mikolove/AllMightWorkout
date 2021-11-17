@@ -1,16 +1,13 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
-import com.mikolove.allmightworkout.framework.presentation.common.BaseViewModel
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerManager
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -27,10 +24,10 @@ class WorkoutInProgressViewModel
 constructor(
     private val workoutInProgressListInteractors: WorkoutInProgressListInteractors,
     private val dateUtil: DateUtil
-    ) : BaseViewModel<WorkoutInProgressViewState>() {
+    ) : ViewModel()/*BaseViewModel<WorkoutInProgressViewState>()*/ {
 
 
-    override fun handleNewData(data: WorkoutInProgressViewState) {
+   /* override fun handleNewData(data: WorkoutInProgressViewState) {
         data.let { viewState ->
 
             viewState.workout?.let { workout ->
@@ -81,10 +78,10 @@ constructor(
     }
 
 
-    /*
+    *//*
 
     Workout In Progress
-    */
+    *//*
 
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workout ?: null
     fun getExerciseList() : List<Exercise> = getCurrentViewStateOrNew().exerciseList ?: ArrayList()
@@ -201,5 +198,5 @@ constructor(
         )
         setStateEvent(InsertHistoryEvent(workout = updateWorkout))
     }
-
+*/
 }

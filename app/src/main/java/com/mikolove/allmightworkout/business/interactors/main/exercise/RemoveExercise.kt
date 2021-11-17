@@ -16,6 +16,7 @@ class RemoveExercise<ViewState>(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ){
 
+/*
     fun removeExercise(
         exercise : Exercise,
         stateEvent : StateEvent
@@ -57,7 +58,7 @@ class RemoveExercise<ViewState>(
 
         emit(response)
 
-        updateNetwork(response?.stateMessage?.response?.message, exercise)
+        updateNetwork(response?.message?.response?.message, exercise)
 
     }
 
@@ -72,6 +73,7 @@ class RemoveExercise<ViewState>(
             }
         }
     }
+*/
     companion object{
         val DELETE_EXERCISE_SUCCESS = "Successfully deleted exercise."
         val DELETE_EXERCISE_FAILED = "Failed deleting exercise."

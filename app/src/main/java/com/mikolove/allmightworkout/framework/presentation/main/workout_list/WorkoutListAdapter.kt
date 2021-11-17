@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater

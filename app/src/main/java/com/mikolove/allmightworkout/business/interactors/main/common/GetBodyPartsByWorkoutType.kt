@@ -5,9 +5,6 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCach
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 class GetBodyPartsByWorkoutType
     (val bodyPartCacheDataSource: BodyPartCacheDataSource) {
 
+/*
         inline fun <reified ViewState >getBodyPartsByWorkoutType(
             idWorkoutType : String,
             stateEvent : StateEvent
@@ -59,6 +57,7 @@ class GetBodyPartsByWorkoutType
 
             emit(response)
         }
+*/
 
     companion object{
         val GET_BODYPART_BY_WORKOUT_TYPES_SUCCESS = "Successfully retrieved the bodyparts from the cache."

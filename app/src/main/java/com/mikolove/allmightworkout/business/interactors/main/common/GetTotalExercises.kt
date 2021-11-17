@@ -4,9 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,7 +12,7 @@ class GetTotalExercises(
     val exerciseCacheDataSource: ExerciseCacheDataSource
 ){
 
-    inline fun<reified ViewState> getTotalExercises(
+   /* inline fun<reified ViewState> getTotalExercises(
         stateEvent: StateEvent
     ) : Flow<DataState<ViewState>?> = flow {
 
@@ -54,7 +51,7 @@ class GetTotalExercises(
         }.getResult()
 
         emit(response)
-    }
+    }*/
 
     companion object{
         val GET_TOTAL_EXERCISES_SUCCESS = "Successfully retrieved the number of exercises from the cache."

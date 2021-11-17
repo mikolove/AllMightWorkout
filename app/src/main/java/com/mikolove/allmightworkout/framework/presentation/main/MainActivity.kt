@@ -199,7 +199,7 @@ class MainActivity :
         }
     }
 
-    override fun displayInputCaptureDialog(title: String, callback: DialogInputCaptureCallback) {
+/*    override fun displayInputCaptureDialog(title: String, callback: DialogInputCaptureCallback) {
         dialogInView = MaterialDialog(this).show {
             title(text = title)
             input(
@@ -214,7 +214,7 @@ class MainActivity :
             }
             cancelable(true)
         }
-    }
+    }*/
 
     override fun displayAppBarTitle() {
 
@@ -233,6 +233,7 @@ class MainActivity :
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setTitle(appTitle)
     }
+/*
 
     override fun onResponseReceived(
         response: Response,
@@ -396,6 +397,7 @@ class MainActivity :
             }
         }?: stateMessageCallback.removeMessageFromStack()
     }
+*/
 
     override fun hideSoftKeyboard() {
         if (currentFocus != null) {
@@ -414,7 +416,7 @@ class MainActivity :
         }
     }
 
-    private fun displaySuccessDialog(
+ /*   private fun displaySuccessDialog(
         message: String?,
         stateMessageCallback: StateMessageCallback
     ): MaterialDialog {
@@ -530,6 +532,6 @@ class MainActivity :
 
                 cancelable(true)
             }
-    }
+    }*/
 
 }

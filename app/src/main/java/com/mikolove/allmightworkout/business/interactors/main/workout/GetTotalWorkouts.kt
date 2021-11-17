@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,32 +12,25 @@ class GetTotalWorkouts(
     private val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
-    fun getTotalWorkouts(
-        stateEvent: StateEvent
-    ) : Flow<DataState<WorkoutViewState>?> = flow {
+    fun execute() : Flow<DataState<Int>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
             workoutCacheDataSource.getTotalWorkout()
         }
 
-        val response = object : CacheResponseHandler<WorkoutViewState, Int>(
-            response = cacheResult,
-            stateEvent = stateEvent
+        val response = object : CacheResponseHandler<Int, Int>(
+            response = cacheResult
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<WorkoutViewState>? {
-
-                val viewState = WorkoutViewState(
-                    totalWorkouts = resultObj
-                )
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
 
                 return DataState.data(
-                    response = Response(
-                        message = GET_TOTAL_WORKOUT_SUCCESS,
-                        uiComponentType = UIComponentType.None(),
-                        messageType = MessageType.Success()
-                    ),
-                    data = viewState,
-                    stateEvent = stateEvent
+                    message = GenericMessageInfo.Builder()
+                        .id("GetTotalWorkouts.Success")
+                        .title("")
+                        .description(GET_TOTAL_WORKOUT_SUCCESS)
+                        .uiComponentType(UIComponentType.None)
+                        .messageType(MessageType.Success),
+                    data = resultObj
                 )
             }
         }.getResult()

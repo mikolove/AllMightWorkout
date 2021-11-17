@@ -98,7 +98,7 @@ class InsertExerciseTest {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     InsertExercise.INSERT_EXERCISE_SUCCESS
                 )
 
@@ -145,7 +145,7 @@ class InsertExerciseTest {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
 
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     InsertExercise.INSERT_EXERCISE_FAILED
                 )
 
@@ -190,7 +190,7 @@ class InsertExerciseTest {
         ).collect(object : FlowCollector<DataState<ExerciseViewState>?>{
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                         ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN)  ?: false
                 )
 

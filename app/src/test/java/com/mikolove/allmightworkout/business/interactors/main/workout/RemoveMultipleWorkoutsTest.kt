@@ -9,9 +9,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -91,13 +90,13 @@ class RemoveMultipleWorkoutsTest {
                 break
         }
 
-        removeMultipleWorkouts?.removeMultipleWorkouts(
+        removeMultipleWorkouts?.execute(
             workouts = randomWorkouts,
             stateEvent = RemoveMultipleWorkoutsEvent(workouts = randomWorkouts)
         )?.collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_WORKOUTS_SUCCESS
                 )
             }
@@ -139,13 +138,13 @@ class RemoveMultipleWorkoutsTest {
         }
 
         val workoutsToDelete = ArrayList(validWorkouts+invalidWorkouts)
-        removeMultipleWorkouts?.removeMultipleWorkouts(
+        removeMultipleWorkouts?.execute(
             workouts = workoutsToDelete,
             stateEvent = RemoveMultipleWorkoutsEvent(workouts = workoutsToDelete)
         )?.collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_WORKOUTS_ERRORS
                 )
             }
@@ -188,13 +187,13 @@ class RemoveMultipleWorkoutsTest {
         invalidWorkouts.add(invalidWorkout)
 
         val workoutsToDelete = ArrayList(validWorkouts+invalidWorkouts)
-        removeMultipleWorkouts?.removeMultipleWorkouts(
+        removeMultipleWorkouts?.execute(
             workouts = workoutsToDelete,
             stateEvent = RemoveMultipleWorkoutsEvent(workouts = workoutsToDelete)
         )?.collect( object : FlowCollector<DataState<WorkoutViewState>?> {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_WORKOUTS_ERRORS
                 )
             }

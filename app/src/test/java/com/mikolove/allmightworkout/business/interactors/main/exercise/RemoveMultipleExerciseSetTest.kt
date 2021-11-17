@@ -9,7 +9,6 @@ import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_ERRORS
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
@@ -89,7 +88,7 @@ class RemoveMultipleExerciseSetTest {
             stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 DELETE_EXERCISE_SETS_SUCCESS
             )
         }
@@ -128,7 +127,7 @@ class RemoveMultipleExerciseSetTest {
             stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 DELETE_EXERCISE_SETS_ERRORS
             )
         }
@@ -168,7 +167,7 @@ class RemoveMultipleExerciseSetTest {
             stateEvent = RemoveMultipleExerciseSetEvent(ArrayList(sets),exercise.idExercise)
         )?.collect{ value ->
             assertEquals(
-                value?.stateMessage?.response?.message,
+                value?.message?.response?.message,
                 DELETE_EXERCISE_SETS_ERRORS
             )
         }

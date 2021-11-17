@@ -80,7 +80,7 @@ class RemoveExerciseSetTest {
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_EXERCISE_SET_SUCCESS
                 )
             }
@@ -123,7 +123,7 @@ class RemoveExerciseSetTest {
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 Assertions.assertEquals(
-                    value?.stateMessage?.response?.message,
+                    value?.message?.response?.message,
                     DELETE_EXERCISE_SET_FAILED
                 )
             }
@@ -167,7 +167,7 @@ class RemoveExerciseSetTest {
         ).collect( object : FlowCollector<DataState<ExerciseViewState>?> {
             override suspend fun emit(value: DataState<ExerciseViewState>?) {
                 assert(
-                    value?.stateMessage?.response?.message
+                    value?.message?.response?.message
                             ?.contains(CacheErrors.CACHE_ERROR_UNKNOWN) ?: false
                 )
             }

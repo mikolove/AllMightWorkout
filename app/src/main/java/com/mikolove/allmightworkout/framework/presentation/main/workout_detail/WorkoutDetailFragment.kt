@@ -1,19 +1,15 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout
+package com.mikolove.allmightworkout.framework.presentation.main.workout_detail
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.MaterialContainerTransform
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
@@ -26,16 +22,15 @@ import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWork
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutInteractionState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutStateEvent.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.WorkoutExercisesAdapter
+import com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutInteractionState.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WorkoutDetailFragment:
-    BaseFragment(R.layout.fragment_workout_detail),
-    WorkoutExercisesAdapter.Interaction{
+    BaseFragment(R.layout.fragment_workout_detail){/*,
+    WorkoutExercisesAdapter.Interaction {
 
     val viewModel : WorkoutViewModel by activityViewModels()
 
@@ -46,21 +41,21 @@ class WorkoutDetailFragment:
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
 
-       /*sharedElementEnterTransition = MaterialContainerTransform().apply {
+       *//*sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
             duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
-        }*/
+        }*//*
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*
+        *//*
             Load Fragment
-        */
+        *//*
         setHasOptionsMenu(true)
         binding = FragmentWorkoutDetailBinding.bind(view)
 
@@ -70,9 +65,9 @@ class WorkoutDetailFragment:
 
         setupUI()
 
-        /*
+        *//*
             Bind listener
-         */
+         *//*
         binding?.fragmentManageWorkoutEditName?.setOnClickListener{
             onClickWorkoutEditName()
         }
@@ -102,9 +97,9 @@ class WorkoutDetailFragment:
         super.onDestroyView()
     }
 
-    /********************************************************************
+    *//********************************************************************
     MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout_detail, menu)
@@ -136,9 +131,9 @@ class WorkoutDetailFragment:
         menuItem.setVisible(isVisible)
     }
 
-    /********************************************************************
+    *//********************************************************************
         SETUP
-    *********************************************************************/
+    *********************************************************************//*
 
     private fun setupUI(){
         binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
@@ -158,9 +153,9 @@ class WorkoutDetailFragment:
 
 
 
-    /********************************************************************
+    *//********************************************************************
         OBSERVERS
-    *********************************************************************/
+    *********************************************************************//*
 
     private fun subscribeObservers(){
 
@@ -292,9 +287,9 @@ class WorkoutDetailFragment:
 
     }
 
-    /********************************************************************
+    *//********************************************************************
         SETTERS - GETTERS - ACTIONS
-    *********************************************************************/
+    *********************************************************************//*
 
     private fun deleteWorkout() {
         viewModel.setStateEvent(
@@ -430,17 +425,17 @@ class WorkoutDetailFragment:
         return binding?.fragmentManageWorkoutSwitchIsActive?.isChecked ?: false
     }
 
-    /********************************************************************
+    *//********************************************************************
     Adapter interaction
-     *********************************************************************/
+     *********************************************************************//*
 
     override fun onClickDelete(item: Exercise) {
         areYouSureToRemoveExerciseFromWorkout(item)
     }
 
-    /********************************************************************
+    *//********************************************************************
         BACK BUTTON PRESS
-    *********************************************************************/
+    *********************************************************************//*
 
     private fun onBackPressed() {
         printLogD("ManageWorkoutFragment","ON BACK PRESSED")
@@ -463,5 +458,5 @@ class WorkoutDetailFragment:
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
+*/
 }

@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,10 +20,11 @@ class RemoveMultipleWorkouts(
     // set true if an error occurs when deleting any of the workouts from cache
     private var onDeleteError: Boolean = false
 
-    fun removeMultipleWorkouts(
+    fun execute(
         workouts : List<Workout>,
-        stateEvent: StateEvent
-    ): Flow<DataState<WorkoutViewState>?> = flow {
+    ): Flow<DataState<Int>?> = flow {
+
+        emit(DataState.loading())
 
         val successfulDeletes : ArrayList<Workout> = ArrayList()
 
@@ -34,11 +34,10 @@ class RemoveMultipleWorkouts(
                 workoutCacheDataSource.removeWorkout(workout.idWorkout)
             }
 
-            val response = object : CacheResponseHandler<WorkoutViewState, Int>(
-                response = cacheResult,
-                stateEvent = stateEvent
+            val response = object : CacheResponseHandler<Int, Int>(
+                response = cacheResult
             ) {
-                override suspend fun handleSuccess(resultObj: Int): DataState<WorkoutViewState>? {
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
                     if (resultObj < 0) { // error
                         onDeleteError = true
                     } else { // success
@@ -49,7 +48,7 @@ class RemoveMultipleWorkouts(
             }.getResult()
 
             //Check for random errors
-            if (response?.stateMessage?.response?.message?.contains(stateEvent.errorInfo()) == true) {
+            if (response?.message?.messageType is MessageType.Error) {
                 onDeleteError = true
             }
 
@@ -57,24 +56,25 @@ class RemoveMultipleWorkouts(
 
         if(onDeleteError){
             emit(
-                DataState.data<WorkoutViewState>(
-                        response = Response(
-                            message = DELETE_WORKOUTS_ERRORS,
-                            uiComponentType = UIComponentType.Dialog(),
-                            messageType = MessageType.Error()),
-                        data = null,
-                        stateEvent = stateEvent
-                        ))
+                DataState<Int>(
+                    message = GenericMessageInfo.Builder()
+                        .id("RemoveMultipleWorkouts.Error")
+                        .title("")
+                        .description(DELETE_WORKOUTS_ERRORS)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Error))
+            )
         }else{
+
             emit(
-                DataState.data<WorkoutViewState>(
-                        response = Response(
-                            message = DELETE_WORKOUTS_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()),
-                    data = null,
-                    stateEvent = stateEvent
-                ))
+                DataState<Int>(
+                    message = GenericMessageInfo.Builder()
+                        .id("RemoveMultipleWorkouts.Success")
+                        .title("")
+                        .description(DELETE_WORKOUTS_SUCCESS)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Success))
+            )
         }
 
         updateNetwork(successfulDeletes)
@@ -91,7 +91,6 @@ class RemoveMultipleWorkouts(
             }
         }
     }
-
 
     companion object{
         val DELETE_WORKOUTS_SUCCESS = "Successfully deleted workouts."

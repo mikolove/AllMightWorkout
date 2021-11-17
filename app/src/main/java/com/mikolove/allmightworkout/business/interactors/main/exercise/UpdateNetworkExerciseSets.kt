@@ -4,7 +4,6 @@ import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSe
 import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class UpdateNetworkExerciseSets(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
-
+/*
     fun updateNetworkExerciseSets(
         sets : List<ExerciseSet>,
         deletedSets : List<ExerciseSet>,
@@ -43,7 +42,7 @@ class UpdateNetworkExerciseSets(
                 stateEvent = stateEvent
             )
         )
-    }
+    }*/
 
     companion object {
         val UPDATE_NETWORK_EXERCISE_SETS_DONE = "Network update exercise sets has been sended."

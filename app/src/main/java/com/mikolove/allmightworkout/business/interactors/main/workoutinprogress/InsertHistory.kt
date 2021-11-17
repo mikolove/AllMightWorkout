@@ -12,7 +12,6 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +31,7 @@ class InsertHistory(
     private val historyExerciseSetFactory: HistoryExerciseSetFactory
 ) {
 
+/*
     //This parameter is bad only used for test should change
     fun insertHistory(
         workout : Workout,
@@ -277,6 +277,7 @@ class InsertHistory(
             }
         }
     }
+*/
 
     companion object{
 

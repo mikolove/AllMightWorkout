@@ -8,7 +8,6 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout.state.WorkoutViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,11 +20,10 @@ InsertWorkout(
     private val workoutFactory: WorkoutFactory
 ) {
 
-    fun insertWorkout(
+    fun execute(
         idWorkout : String? = null,
         name : String,
-        stateEvent : StateEvent
-    ) : Flow<DataState<WorkoutViewState>?> = flow{
+    ) : Flow<DataState<String>?> = flow{
 
         val newWorkout = workoutFactory.createWorkout(
             idWorkout = idWorkout?: UUID.randomUUID().toString(),
@@ -38,40 +36,38 @@ InsertWorkout(
             workoutCacheDataSource.insertWorkout(newWorkout)
         }
 
-        val cacheResponse = object : CacheResponseHandler<WorkoutViewState, Long>(
+        val cacheResponse = object : CacheResponseHandler<String, Long>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<WorkoutViewState>? {
+
+            override suspend fun handleSuccess(resultObj: Long): DataState<String> {
                 return if (resultObj > 0) {
 
-                    val viewState = WorkoutViewState(workoutToInsert = newWorkout)
                     DataState.data(
-                        response = Response(
-                            message = INSERT_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = viewState,
-                        stateEvent = stateEvent)
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertWorkout.Success")
+                            .title("")
+                            .description(INSERT_WORKOUT_SUCCESS)
+                            .uiComponentType(UIComponentType.None)
+                            .messageType(MessageType.Success),
+                        data = newWorkout.idWorkout)
 
                 } else {
 
-                    DataState.data(
-                        response = Response(
-                            message = INSERT_WORKOUT_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent)
+                    DataState.error(
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertWorkout.Error")
+                            .title("")
+                            .description(INSERT_WORKOUT_FAILED)
+                            .uiComponentType(UIComponentType.Toast)
+                            .messageType(MessageType.Error))
                 }
             }
         }.getResult()
 
         emit(cacheResponse)
 
-        updateNetwork(cacheResponse?.stateMessage?.response?.message, newWorkout)
+        updateNetwork(cacheResponse?.message?.description, newWorkout)
     }
 
 

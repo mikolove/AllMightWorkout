@@ -27,7 +27,7 @@ class SyncExercises(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    suspend fun syncExercises(){
+/*    suspend fun syncExercises(){
         val cachedExercises = getCachedExercises()
 
         val cachedExerciseSets = HashMap<String,List<ExerciseSet>>()
@@ -222,5 +222,5 @@ class SyncExercises(
     private suspend fun insertExerciseSetToCache(exerciseSet : ExerciseSet, idExercise: String){
         printLogD("SyncExercises","insertExerciseSetToCache ${idExercise} ${exerciseSet.idExerciseSet}")
         exerciseSetCacheDataSource.insertExerciseSet(exerciseSet,idExercise)
-    }
+    }*/
 }

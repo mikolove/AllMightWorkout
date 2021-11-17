@@ -18,6 +18,7 @@ class SyncDeletedExerciseSets(
 ) {
 
 
+/*
     suspend fun syncDeletedExerciseSets(){
 
         //Get all deletedExercises from network
@@ -59,6 +60,7 @@ class SyncDeletedExerciseSets(
             }
         }.getResult()
     }
+*/
 
 
 }

@@ -1,13 +1,13 @@
-package com.mikolove.allmightworkout.business.domain.state
+/**package com.mikolove.allmightworkout.business.domain.state
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-/**
+
  * - Keeps track of active StateEvents in DataChannelManager
  * - Keeps track of whether the progress bar should show or not based on a boolean
  *      value in each StateEvent (shouldDisplayProgressBar)
- */
+
 class StateEventManager {
 
     private val activeStateEvents: HashMap<String, StateEvent> = HashMap()
@@ -54,4 +54,4 @@ class StateEventManager {
         }
         _shouldDisplayProgressBar.value = shouldDisplayProgressBar
     }
-}
+}*/
