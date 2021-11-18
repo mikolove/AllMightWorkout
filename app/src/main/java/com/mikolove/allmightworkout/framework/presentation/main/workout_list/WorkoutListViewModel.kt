@@ -30,8 +30,6 @@ class WorkoutListViewModel
 @Inject
 constructor(
     private val workoutInteractors: WorkoutInteractors,
-    private val workoutFactory: WorkoutFactory,
-    private val dateUtil: DateUtil,
     private val appDataStoreManager: AppDataStore,
 
     ) : ViewModel() {
@@ -47,6 +45,7 @@ constructor(
         get() = workoutListInteractionManager.toolbarState
 
     init {
+        printLogD("WorkoutListViewModel","Launch get and order")
         onTriggerEvent(GetOrderAndFilter)
     }
 
@@ -274,7 +273,7 @@ constructor(
                 workouts = getSelectedWorkouts()
             ).onEach { dataState ->
 
-                this.state.value = state.copy(isLoading = state.isLoading)
+                this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                 dataState?.message?.let { message ->
 

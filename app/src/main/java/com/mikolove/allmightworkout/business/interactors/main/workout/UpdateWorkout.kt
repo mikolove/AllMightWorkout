@@ -16,12 +16,12 @@ class UpdateWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
 ) {
-/*
 
-    fun updateWorkout(
+    fun execute(
         workout : Workout,
-        stateEvent : StateEvent
-    ): Flow<DataState<WorkoutViewState>?> = flow {
+    ): Flow<DataState<Int>?> = flow {
+
+        emit(DataState.loading())
 
         val cacheResult = safeCacheCall(IO){
             workoutCacheDataSource.updateWorkout(
@@ -32,32 +32,29 @@ class UpdateWorkout(
             )
         }
 
-        val response = object : CacheResponseHandler<WorkoutViewState,Int>(
+        val response = object : CacheResponseHandler<Int,Int>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<WorkoutViewState>? {
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                 return if(resultObj > 0){
+
                     DataState.data(
-                        response = Response(
-                            message = UPDATE_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.SimpleSnackBar(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent
-                    )
+                        message = GenericMessageInfo.Builder()
+                            .id("UpdateWorkout.Success")
+                            .title("")
+                            .description(UPDATE_WORKOUT_SUCCESS)
+                            .messageType(MessageType.Success)
+                            .uiComponentType(UIComponentType.None),
+                        data = resultObj)
                 }
                 else {
-                    DataState.data(
-                        response = Response(
-                            message = UPDATE_WORKOUT_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent
-                    )
+                    DataState.error(
+                        message = GenericMessageInfo.Builder()
+                            .id("UpdateWorkout.Error")
+                            .title("")
+                            .description(UPDATE_WORKOUT_FAILED)
+                            .messageType(MessageType.Error)
+                            .uiComponentType(UIComponentType.None))
                 }
 
             }
@@ -65,7 +62,7 @@ class UpdateWorkout(
 
         emit(response)
 
-        updateNetwork(response?.message?.response?.message, workout)
+        updateNetwork(response?.message?.description, workout)
 
     }
 
@@ -77,7 +74,6 @@ class UpdateWorkout(
         }
 
     }
-*/
 
     companion object{
         val UPDATE_WORKOUT_SUCCESS = "Successfully updated workout."

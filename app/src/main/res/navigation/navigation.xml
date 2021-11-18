@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_workout_detail_fragment_to_workoutInProgressFragment"
             app:destination="@id/workoutInProgressFragment" />
+        <argument
+            android:name="idWorkout"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/exercise_fragment"

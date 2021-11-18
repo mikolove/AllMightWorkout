@@ -14,43 +14,49 @@ class GetWorkoutById(
     val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
- /*   inline fun <reified ViewState> execute(
+    fun execute(
         idWorkout : String,
-        stateEvent : StateEvent
-    ) : Flow<DataState<ViewState>?> =  flow {
+    ) : Flow<DataState<Workout>?> =  flow {
+
+        emit(DataState.loading())
 
         val cacheResult = safeCacheCall(IO){
             workoutCacheDataSource.getWorkoutById(idWorkout)
         }
 
-        val response = object : CacheResponseHandler<ViewState, Workout>(
-            response = cacheResult,
-            stateEvent = stateEvent
+        val response = object : CacheResponseHandler<Workout, Workout>(
+            response = cacheResult
         ){
-            override suspend fun handleSuccess(resultObj: Workout): DataState<ViewState>? {
-
-                val viewState = when(ViewState::class){
-                    WorkoutViewState::class -> WorkoutViewState(workoutSelected = resultObj)
-                    WorkoutInProgressViewState:: class -> WorkoutInProgressViewState(workout = resultObj)
-                    else -> null
-                }
+            override suspend fun handleSuccess(resultObj: Workout): DataState<Workout> {
 
                 return DataState.data(
-                    response = Response(
-                        message = GET_WORKOUT_BY_ID_SUCCESS,
-                        uiComponentType = UIComponentType.None(),
-                        messageType = MessageType.Success()
-                        ),
-                    data = viewState as ViewState,
-                    stateEvent = stateEvent)
+                    message = GenericMessageInfo.Builder()
+                        .id("GetWorkoutById.Success")
+                        .title("")
+                        .description(GET_WORKOUT_BY_ID_SUCCESS)
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = resultObj)
             }
         }.getResult()
 
+        /*if(response?.data == null){
+            emit(DataState.error(
+                message = GenericMessageInfo.Builder()
+                    .id("GetWorkoutById.Error")
+                    .title("")
+                    .description(GET_WORKOUT_BY_ID_FAILED)
+                    .messageType(MessageType.Error)
+                    .uiComponentType(UIComponentType.Toast))
+            )
+        }else{}*/
         emit(response)
+
     }
-*/
+
     companion object{
         val GET_WORKOUT_BY_ID_SUCCESS = "Successfully retrieved workout by id."
+        val GET_WORKOUT_BY_ID_FAILED  = "Failed retrieving workout by id."
     }
 
 }

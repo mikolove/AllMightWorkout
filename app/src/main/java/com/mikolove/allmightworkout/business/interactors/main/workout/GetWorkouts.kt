@@ -44,7 +44,7 @@ class GetWorkouts(
                                 .id("GetWorkouts.Success")
                                 .title("GetWorkouts no result")
                                 .description(GET_WORKOUTS_NO_MATCHING_RESULTS)
-                                .uiComponentType(UIComponentType.Toast)
+                                .uiComponentType(UIComponentType.None)
                                 .messageType(MessageType.Success),
                             data = ArrayList(resultObj)
                         )

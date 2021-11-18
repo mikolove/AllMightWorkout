@@ -12,44 +12,42 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
-class RemoveWorkout<ViewState>(
+class RemoveWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource
 ) {
 
-  /*  fun removeWorkout(
+   fun execute(
         workout : Workout,
-        stateEvent : StateEvent
-    ) : Flow<DataState<ViewState>?> = flow {
+    ) : Flow<DataState<Int>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
             workoutCacheDataSource.removeWorkout(workout.idWorkout)
         }
 
-        val response = object : CacheResponseHandler<ViewState, Int>(
+        val response = object : CacheResponseHandler<Int, Int>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<ViewState>? {
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                 return if( resultObj > 0){
                     DataState.data(
-                        response = Response(
-                            message = DELETE_WORKOUT_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent)
+                        message = GenericMessageInfo.Builder()
+                            .id("RemoveWorkout.Success")
+                            .title("")
+                            .description(DELETE_WORKOUT_SUCCESS)
+                            .messageType(MessageType.Success)
+                            .uiComponentType(UIComponentType.Toast),
+                        data = null)
 
                 }else{
-                    DataState.data(
-                        response = Response(
-                            message = DELETE_WORKOUT_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent)
+                    DataState.error(
+                        message = GenericMessageInfo.Builder()
+                            .id("RemoveWorkout.Error")
+                            .title("")
+                            .description(DELETE_WORKOUT_FAILED)
+                            .messageType(MessageType.Error)
+                            .uiComponentType(UIComponentType.Toast),
+                        )
                 }
             }
         }.getResult()
@@ -57,8 +55,7 @@ class RemoveWorkout<ViewState>(
         emit(response)
 
         //Update network
-        updateNetwork(response?.message?.response?.message, workout)
-
+        updateNetwork(response?.message?.description, workout)
     }
 
     private suspend fun updateNetwork(cacheResponse : String?, deletedWorkout : Workout) {
@@ -71,7 +68,7 @@ class RemoveWorkout<ViewState>(
                 workoutNetworkDataSource.insertDeleteWorkout(deletedWorkout)
             }
         }
-    }*/
+    }
 
     companion object{
         val DELETE_WORKOUT_SUCCESS = "Successfully deleted workout"

@@ -45,7 +45,7 @@ object InteractorsModule {
             getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
             insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
             updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource),
-            //removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
+            removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
             removeMultipleWorkouts = RemoveMultipleWorkouts(workoutCacheDataSource,workoutNetworkDataSource),
             addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
             removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),

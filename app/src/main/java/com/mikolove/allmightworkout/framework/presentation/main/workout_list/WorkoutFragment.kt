@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -189,15 +190,12 @@ class WorkoutFragment
 
             listAdapter?.apply {
                 submitList(list = state.listWorkouts)
+                if(itemCount > 0){
+                    showList()
+                }else{
+                    hideList()
+                }
             }
-
-            /*     state.listWorkouts.let { list ->
-                     if(list.isEmpty()){
-                         hideList()
-                     }else{
-                         showList()
-                     }
-                 }*/
 
             state.insertedWorkout?.let {
 
@@ -574,7 +572,7 @@ class WorkoutFragment
     private fun addWorkout(){
 
         val message = GenericMessageInfo.Builder()
-            .id("WorkoutListViewModel.AddWorkoutDialog")
+            .id("WorkoutListFragment.AddWorkoutDialog")
             .title(getString(R.string.fragment_choose_workout_add_name))
             .messageType(MessageType.Success)
             .uiComponentType(
@@ -593,7 +591,7 @@ class WorkoutFragment
 
     private fun deleteWorkouts(){
 
-        printLogD("WorkoutFragment","Launch remove delete workout")
+        printLogD("WorkoutListFragment","Launch remove delete workout")
         val message = GenericMessageInfo.Builder()
             .id("WorkoutFragment.LaunchDelete")
             .title(DELETE_WORKOUTS_ARE_YOU_SURE)
@@ -688,8 +686,10 @@ class WorkoutFragment
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveWorkoutFromSelectedList(item)
         }else{
-            /*viewModel.setWorkoutSelected(item)
-            selectionNavigateToManageWorkout(containerView)*/
+
+            val bundle = bundleOf("idWorkout" to item.idWorkout)
+            findNavController().navigate(R.id.action_workout_fragment_to_workout_detail_fragment, bundle)
+            //selectionNavigateToManageWorkout(containerView)
         }
     }
 

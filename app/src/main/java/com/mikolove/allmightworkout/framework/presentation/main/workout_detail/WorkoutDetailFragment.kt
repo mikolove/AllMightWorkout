@@ -6,7 +6,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +16,13 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
+import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
@@ -24,38 +30,36 @@ import com.mikolove.allmightworkout.databinding.FragmentWorkoutDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.WorkoutExercisesAdapter
 import com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutInteractionState.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WorkoutDetailFragment:
-    BaseFragment(R.layout.fragment_workout_detail){/*,
+    BaseFragment(R.layout.fragment_workout_detail),
     WorkoutExercisesAdapter.Interaction {
 
-    val viewModel : WorkoutViewModel by activityViewModels()
+    val viewModel : WorkoutDetailViewModel by viewModels()
 
     private var binding : FragmentWorkoutDetailBinding? = null
     private var listAdapter : WorkoutExercisesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
 
-       *//*sharedElementEnterTransition = MaterialContainerTransform().apply {
+/*       sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
             duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
-        }*//*
+        }*/
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        *//*
-            Load Fragment
-        *//*
+
         setHasOptionsMenu(true)
         binding = FragmentWorkoutDetailBinding.bind(view)
 
@@ -65,9 +69,6 @@ class WorkoutDetailFragment:
 
         setupUI()
 
-        *//*
-            Bind listener
-         *//*
         binding?.fragmentManageWorkoutEditName?.setOnClickListener{
             onClickWorkoutEditName()
         }
@@ -81,8 +82,7 @@ class WorkoutDetailFragment:
         }
 
         binding?.fragmentManageWorkoutButtonLaunch?.setOnClickListener {
-            val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
-            idWorkout?.let {
+            viewModel.state.value?.workout?.idWorkout?.let { idWorkout ->
                 val action = WorkoutDetailFragmentDirections.actionWorkoutDetailFragmentToWorkoutInProgressFragment(idWorkout)
                 findNavController().navigate(action)
             }
@@ -97,15 +97,15 @@ class WorkoutDetailFragment:
         super.onDestroyView()
     }
 
-    *//********************************************************************
+    /*******************************************************************
     MENU INTERACTIONS
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout_detail, menu)
 
         val menuValidate = menu.findItem(R.id.toolbar_manage_workout_validate)
-        setMenuVisibility(menuValidate,viewModel.getIsUpdatePending())
+        menuValidate.isVisible = viewModel.state.value?.isUpdatePending ?: false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -116,7 +116,10 @@ class WorkoutDetailFragment:
                 true
             }
             R.id.toolbar_manage_workout_validate -> {
-                updateWorkout()
+                if (viewModel.checkEditState()) {
+                    quitEditState()
+                }
+                viewModel.onTriggerEvent(WorkoutDetailEvents.UpdateWorkout)
                 true
             }
             R.id.toolbar_manage_workout_delete -> {
@@ -127,13 +130,9 @@ class WorkoutDetailFragment:
         }
     }
 
-    private fun setMenuVisibility(menuItem: MenuItem, isVisible : Boolean){
-        menuItem.setVisible(isVisible)
-    }
-
-    *//********************************************************************
-        SETUP
-    *********************************************************************//*
+    /*******************************************************************
+    SETUP
+     ********************************************************************/
 
     private fun setupUI(){
         binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
@@ -153,12 +152,52 @@ class WorkoutDetailFragment:
 
 
 
-    *//********************************************************************
-        OBSERVERS
-    *********************************************************************//*
+    /*******************************************************************
+    OBSERVERS
+     ********************************************************************/
 
     private fun subscribeObservers(){
 
+
+        viewModel.state.observe(viewLifecycleOwner, { state ->
+
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            if(state.queue.peek()?.description == DELETE_WORKOUT_SUCCESS){
+                findNavController().popBackStack()
+            }else{
+                processQueue(
+                    context = context,
+                    queue = state.queue,
+                    stateMessageCallback = object: StateMessageCallback {
+                        override fun removeMessageFromQueue() {
+                            viewModel.onTriggerEvent(WorkoutDetailEvents.OnRemoveHeadFromQueue)
+                        }
+                    })
+            }
+            printLogD("WorkoutDetailFragment","${state.workout}")
+            state.workout?.let { workout ->
+
+                printLogD("WorkoutDetailFragment","${workout}")
+                setWorkoutUi(workout)
+
+                listAdapter?.apply {
+                    workout.exercises?.let { exercises ->
+                        submitList(exercises)
+                    }
+                    if(itemCount >0){
+                        showList()
+                    }else{
+                        hideList()
+                    }
+                }
+            }
+            state.isUpdatePending.let {
+                requireActivity().invalidateOptionsMenu()
+            }
+        })
+
+/*
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if(viewState != null){
@@ -183,9 +222,6 @@ class WorkoutDetailFragment:
             }
         })
 
-        viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer {
-            uiController.displayProgressBar(it)
-        })
 
         viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
 
@@ -256,6 +292,7 @@ class WorkoutDetailFragment:
             }
 
         })
+*/
 
         viewModel.workoutNameInteractionState.observe(viewLifecycleOwner, Observer { state ->
 
@@ -264,7 +301,7 @@ class WorkoutDetailFragment:
                 is EditState -> {
                     binding?.fragmentManageWorkoutEditName?.enableContentInteraction()
                     view?.showKeyboard()
-                    viewModel.setIsUpdatePending(true)
+                    viewModel.onTriggerEvent(WorkoutDetailEvents.OnUpdateIsPending(true))
                 }
 
                 is DefaultState -> {
@@ -279,82 +316,71 @@ class WorkoutDetailFragment:
             when(state){
 
                 is EditState -> {
-                    viewModel.setIsUpdatePending(true)
-                }
+                    viewModel.onTriggerEvent(WorkoutDetailEvents.OnUpdateIsPending(true))                }
                 is DefaultState -> { }
             }
         })
 
     }
 
-    *//********************************************************************
-        SETTERS - GETTERS - ACTIONS
-    *********************************************************************//*
+    /*******************************************************************
+    SETTERS - GETTERS - ACTIONS
+     ********************************************************************/
 
     private fun deleteWorkout() {
-        viewModel.setStateEvent(
-            CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = RemoveWorkout.DELETE_WORKOUT_ARE_YOU_SURE,
-                        uiComponentType = UIComponentType.AreYouSureDialog(
-                            object : AreYouSureCallback {
-                                override fun proceed() {
-                                    viewModel.setStateEvent(RemoveWorkoutEvent())
-                                }
-                                override fun cancel() {}
-                            }
-                        ),
-                        messageType = MessageType.Info()
-                    )
+
+        val message = GenericMessageInfo.Builder()
+            .id("WorkoutDetailFragment.DeleteWorkout")
+            .title(DELETE_WORKOUT_ARE_YOU_SURE)
+            .description("")
+            .messageType(MessageType.Success)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {
+                        viewModel.onTriggerEvent(WorkoutDetailEvents.RemoveWorkout)
+                    }
                 )
             )
-        )
-    }
-
-    private fun areYouSureToRemoveExerciseFromWorkout(item : Exercise) {
-        viewModel.setStateEvent(
-            CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = RemoveExerciseFromWorkout.REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE,
-                        uiComponentType = UIComponentType.AreYouSureDialog(
-                            object : AreYouSureCallback {
-                                override fun proceed() {
-                                    removeExerciseFromWorkout(item)
-                                }
-                                override fun cancel() {}
-                            }
-                        ),
-                        messageType = MessageType.Info()
-                    )
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Cancel",
+                    onNegativeAction = {}
                 )
             )
-        )
+
+        launchDialog(message)
+
+    }
+    private fun launchDialog( message : GenericMessageInfo.Builder){
+        viewModel.onTriggerEvent(WorkoutDetailEvents.LaunchDialog(message))
     }
 
-    private fun removeExerciseFromWorkout(exercise: Exercise){
-        val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
-        idWorkout?.let {
-            viewModel.removeExerciseFromWorkout(
-                exercise.idExercise,
-                idWorkout)
-        }
-    }
+    private fun removeExerciseFromWorkout(item : Exercise) {
 
-    private fun reloadWorkoutSelected(){
-        quitEditState()
-        viewModel.setIsUpdatePending(false)
-        viewModel.reloadWorkoutSelected()
-    }
+        val message = GenericMessageInfo.Builder()
+            .id("WorkoutDetailFragment.RemoveExercise")
+            .title(REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE)
+            .description("")
+            .messageType(MessageType.Success)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {
+                        viewModel.onTriggerEvent(WorkoutDetailEvents.DeleteExercise(item.idExercise))
+                    }
+                )
+            )
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Cancel",
+                    onNegativeAction = {}
+                )
+            )
 
-    private fun updateWorkout() {
-        if(viewModel.getIsUpdatePending()){
-            if (viewModel.checkEditState()) {
-                quitEditState()
-            }
-            viewModel.updateWorkout()
-        }
+        launchDialog(message)
     }
 
     private fun quitEditState(){
@@ -408,12 +434,16 @@ class WorkoutDetailFragment:
 
     private fun updateNameInViewModel(){
         if(viewModel.isEditingName()){
-            viewModel.updateWorkoutName(getWorkoutName())
+            viewModel.onTriggerEvent(
+                WorkoutDetailEvents.OnUpdateWorkout(getWorkoutName(),getWorkoutIsActive())
+            )
         }
     }
     private fun updateIsActiveInViewModel(){
         if(viewModel.isEditingIsActive()){
-            viewModel.updateWorkoutIsActive(getWorkoutIsActive())
+            viewModel.onTriggerEvent(
+                WorkoutDetailEvents.OnUpdateWorkout(getWorkoutName(),getWorkoutIsActive())
+            )
         }
     }
 
@@ -425,27 +455,23 @@ class WorkoutDetailFragment:
         return binding?.fragmentManageWorkoutSwitchIsActive?.isChecked ?: false
     }
 
-    *//********************************************************************
+    /*******************************************************************
     Adapter interaction
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onClickDelete(item: Exercise) {
-        areYouSureToRemoveExerciseFromWorkout(item)
+        removeExerciseFromWorkout(item)
     }
 
-    *//********************************************************************
-        BACK BUTTON PRESS
-    *********************************************************************//*
+    /*******************************************************************
+    BACK BUTTON PRESS
+     ********************************************************************/
 
     private fun onBackPressed() {
         printLogD("ManageWorkoutFragment","ON BACK PRESSED")
         if (viewModel.checkEditState()) {
             quitEditState()
-         }else{
-
-            viewModel.setWorkoutSelected(null)
-            viewModel.setIsUpdatePending(false)
-
+        }else{
             findNavController().popBackStack()
         }
     }
@@ -458,5 +484,4 @@ class WorkoutDetailFragment:
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-*/
 }

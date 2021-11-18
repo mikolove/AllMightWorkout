@@ -80,7 +80,7 @@ class UpdateWorkoutTest {
         )
 
         //Launch update process
-        updateWorkout.updateWorkout(
+        updateWorkout.execute(
             workout = updatedWorkout,
             stateEvent = UpdateWorkoutEvent()
         ).collect(object : FlowCollector<DataState<WorkoutViewState>?> {
@@ -115,7 +115,7 @@ class UpdateWorkoutTest {
         )
 
         //Try to update it but it not exist
-        updateWorkout.updateWorkout(
+        updateWorkout.execute(
             workout = newWorkout,
             stateEvent = UpdateWorkoutEvent()
         ).collect( object :FlowCollector<DataState<WorkoutViewState>?>{
@@ -149,7 +149,7 @@ class UpdateWorkoutTest {
             created_at = null
         )
 
-        updateWorkout.updateWorkout(
+        updateWorkout.execute(
             workout = updatedWorkout,
             stateEvent = UpdateWorkoutEvent()
         ).collect(object : FlowCollector<DataState<WorkoutViewState>?> {

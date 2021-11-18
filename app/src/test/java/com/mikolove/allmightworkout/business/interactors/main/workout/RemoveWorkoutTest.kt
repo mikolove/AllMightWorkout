@@ -67,7 +67,7 @@ class RemoveWorkoutTest {
         val removedWorkout = workoutCacheDataSource.getWorkouts("","",1).get(0)
 
         //Remove it
-        removeWorkout.removeWorkout(
+        removeWorkout.execute(
             workout = removedWorkout,
             stateEvent = RemoveWorkoutEvent()
         ).collect(object :FlowCollector<DataState<WorkoutViewState>?>{
@@ -107,7 +107,7 @@ class RemoveWorkoutTest {
          var beforeWorkoutsInCache = workoutCacheDataSource.getTotalWorkout()
 
          //Remove it
-         removeWorkout.removeWorkout(
+         removeWorkout.execute(
              workout = workoutToDelete,
              stateEvent = RemoveWorkoutEvent()
          ).collect(object :FlowCollector<DataState<WorkoutViewState>?>{
@@ -147,7 +147,7 @@ class RemoveWorkoutTest {
         //Before
         var beforeWorkoutsInCache = workoutCacheDataSource.getTotalWorkout()
 
-        removeWorkout.removeWorkout(
+        removeWorkout.execute(
             workout = workoutToDelete,
             stateEvent = RemoveWorkoutEvent()
         ).collect(object :FlowCollector<DataState<WorkoutViewState>?>{
