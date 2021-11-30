@@ -8,35 +8,37 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 import com.mikolove.allmightworkout.business.interactors.main.workout.AddExerciseToWorkout.Companion.INSERT_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentAddExerciseToWorkoutBinding
-import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
+import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddExerciseToWorkoutFragment():
-    BaseFragment(R.layout.fragment_add_exercise_to_workout) {/*,
+class WorkoutExerciseFragment():
+    BaseFragment(R.layout.fragment_add_exercise_to_workout) ,
     AddExerciseAdapter.Interaction {
 
-    val viewModel : WorkoutViewModel by activityViewModels()
+    val viewModel : WorkoutExerciseViewModel by viewModels()
 
     private var listAdapter : AddExerciseAdapter? = null
     private var binding : FragmentAddExerciseToWorkoutBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +47,7 @@ class AddExerciseToWorkoutFragment():
         setHasOptionsMenu(true)
         binding = FragmentAddExerciseToWorkoutBinding.bind(view)
 
-        init()
+        //init()
         setupOnBackPressDispatcher()
         setupRecyclerView()
         setupSwipeRefresh()
@@ -54,8 +56,7 @@ class AddExerciseToWorkoutFragment():
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadTotalExercises()
-        viewModel.refreshExerciseSearchQuery()
+
     }
 
     override fun onDestroyView() {
@@ -65,13 +66,38 @@ class AddExerciseToWorkoutFragment():
         super.onDestroyView()
     }
 
-    *//********************************************************************
+    /********************************************************************
         OBSERVERS
-     *********************************************************************//*
+     *********************************************************************/
 
     private fun subscribeObservers(){
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
+
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(WorkoutExerciseEvents.OnRemoveHeadFromQueue)
+                    }
+                })
+
+            listAdapter?.apply {
+                submitList(list = state.listWorkoutExercises)
+                printLogD("WorkoutExerciseFragment","Loading items ${state.listWorkoutExercises}-> ${itemCount}")
+                if(itemCount > 0){
+                    showList()
+                }else{
+                    hideList()
+                }
+            }
+
+        })
+
+/*        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if (viewState != null) {
 
@@ -135,20 +161,20 @@ class AddExerciseToWorkoutFragment():
                     }
                 }
             }
-        })
+        })*/
     }
 
-    *//********************************************************************
+    /********************************************************************
         Setup UI
-     *********************************************************************//*
+     *********************************************************************/
 
-    private fun init(){
+/*    private fun init(){
         viewModel?.getWorkoutSelected()?.let { workout ->
             workout.exercises?.forEach { exercise ->
                 viewModel.addOrRemoveExerciseFromSelectedList(exercise)
             }
         }
-    }
+    }*/
 
     private fun showList(){
         if(binding?.fragmentAddExerciseToWorkoutSwiperefreshlayout?.isVisible == false) {
@@ -166,7 +192,7 @@ class AddExerciseToWorkoutFragment():
 
     private fun setupSwipeRefresh(){
         binding?.fragmentAddExerciseToWorkoutSwiperefreshlayout?.setOnRefreshListener {
-            startNewSearch()
+            viewModel.onTriggerEvent(WorkoutExerciseEvents.NewSearch)
             binding?.fragmentAddExerciseToWorkoutSwiperefreshlayout?.isRefreshing = false
         }
     }
@@ -179,20 +205,20 @@ class AddExerciseToWorkoutFragment():
             addItemDecoration(topSpacingDecorator)
 
             listAdapter = AddExerciseAdapter(
-                this@AddExerciseToWorkoutFragment,
-                viewLifecycleOwner,
-                viewModel.exerciseListInteractionManager.selectedItems
+                this@WorkoutExerciseFragment
             )
-
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastPosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastPosition == listAdapter?.itemCount?.minus(1)) {
-                        printLogD("AddExerciseToFragment", "launching nextPage")
-                        viewModel.nextPageExercises()
+                    if (
+                        lastPosition == listAdapter?.itemCount?.minus(1) &&
+                        viewModel.state.value?.isLoading == false &&
+                        viewModel.state.value?.isQueryExhausted == false
+                    ) {
+                        viewModel.onTriggerEvent(WorkoutExerciseEvents.NextPage)
                     }
                 }
             })
@@ -200,17 +226,17 @@ class AddExerciseToWorkoutFragment():
         }
     }
 
-    *//********************************************************************
+    /********************************************************************
         MENU INTERACTIONS
-     *********************************************************************//*
+     *********************************************************************/
 
-    private fun startNewSearch(){
+/*    private fun startNewSearch(){
         viewModel.exercisesStartNewSearch()
-    }
+    }*/
 
-    *//********************************************************************
+    /********************************************************************
         MENU INTERACTIONS
-     *********************************************************************//*
+     *********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_add_workout_exercise, menu)
@@ -226,9 +252,10 @@ class AddExerciseToWorkoutFragment():
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                viewModel.setQueryExercises("")
+                viewModel.onTriggerEvent(WorkoutExerciseEvents.UpdateQuery(""))
                 viewModel.setIsSearchActive(false)
-                startNewSearch()
+                viewModel.onTriggerEvent(WorkoutExerciseEvents.NewSearch)
+                viewModel.setIsSearchActive(false)
                 return true
             }
         })
@@ -239,8 +266,8 @@ class AddExerciseToWorkoutFragment():
             if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
                 || actionId == EditorInfo.IME_ACTION_SEARCH ) {
                 val searchQuery = v.text.toString()
-                viewModel.setQueryExercises(searchQuery)
-                startNewSearch()
+                viewModel.onTriggerEvent(WorkoutExerciseEvents.UpdateQuery(searchQuery))
+                viewModel.onTriggerEvent(WorkoutExerciseEvents.NewSearch)
                 viewModel.setIsSearchActive(true)
             }
             true
@@ -249,7 +276,7 @@ class AddExerciseToWorkoutFragment():
         //Expand if search isActive on menu reload
         if(viewModel.isSearchActive()){
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.getSearchQueryExercises(),false)
+            searchView.setQuery(viewModel.getSearchQuery(),false)
         }
 
     }
@@ -265,8 +292,8 @@ class AddExerciseToWorkoutFragment():
     }
 
     private fun onBackPressed() {
-        viewModel.updateWorkoutExercises(viewModel.getSelectedExercises())
-        viewModel.clearSelectedExercises()
+/*        viewModel.updateWorkoutExercises(viewModel.getSelectedExercises())
+        viewModel.clearSelectedExercises()*/
         findNavController().popBackStack()
     }
 
@@ -280,11 +307,11 @@ class AddExerciseToWorkoutFragment():
     }
 
 
-    *//********************************************************************
+    /********************************************************************
         ADAPTER INTERACTIONS
-     *********************************************************************//*
+     *********************************************************************/
 
-    private fun addExerciseToWorkout(exercise: Exercise){
+/*    private fun addExerciseToWorkout(exercise: Exercise){
         val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
         idWorkout?.let {
             viewModel.addExerciseToWorkout(
@@ -300,22 +327,20 @@ class AddExerciseToWorkoutFragment():
                 exercise.idExercise,
                 idWorkout)
         }
-    }
+    }*/
 
-    override fun onItemSelected(item: Exercise) {
-        viewModel.addOrRemoveExerciseFromSelectedList(item)
-        if(isExerciseSelected(item)){
+    override fun onItemSelected(item: WorkoutExercise) {
+        //viewModel.addOrRemoveExerciseFromSelectedList(item)
+        if(item.selected){
             printLogD("AddExercise","remove")
-            addExerciseToWorkout(item)
+            viewModel.onTriggerEvent(WorkoutExerciseEvents.RemoveExerciseFromWorkout(item.exercise.idExercise))
+            //addExerciseToWorkout(item)
 
         }else{
-            removeExerciseFromWorkout(item)
+            viewModel.onTriggerEvent(WorkoutExerciseEvents.AddExerciseToWorkout(item.exercise.idExercise))
+            //removeExerciseFromWorkout(item)
             printLogD("AddExercise","add")
         }
     }
 
-    override fun isExerciseSelected(exercise: Exercise): Boolean {
-        return viewModel.isExerciseSelected(exercise)
-    }
-*/
 }

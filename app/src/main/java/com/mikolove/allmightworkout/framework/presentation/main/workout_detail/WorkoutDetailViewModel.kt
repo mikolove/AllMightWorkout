@@ -23,12 +23,16 @@ constructor(
 
     val state: MutableLiveData<WorkoutDetailState> = MutableLiveData(WorkoutDetailState())
 
+/*
     init {
+
+        printLogD("WorkoutDetailViewModel","Init WorkoutDetailViewModel")
         savedStateHandle.get<String>("idWorkout")?.let { idWorkout ->
             printLogD("WorkoutDetailViewModel","Launch Get workout by id ${idWorkout}")
             onTriggerEvent(WorkoutDetailEvents.GetWorkoutById(idWorkout = idWorkout))
         }
     }
+*/
 
     private val workoutInteractionManager: WorkoutInteractionManager = WorkoutInteractionManager()
 
@@ -79,6 +83,14 @@ constructor(
         state.value?.let { state ->
             val updatedWorkout = state.workout?.copy(name = name, isActive = isActive)
             this.state.value = state.copy(workout = updatedWorkout)
+        }
+    }
+
+    fun onLoadDetail(){
+        //savestate this should persist let's see.
+        savedStateHandle.get<String>("idWorkout")?.let { idWorkout ->
+            printLogD("WorkoutDetailViewModel","Launch Get workout by id ${idWorkout}")
+            onTriggerEvent(WorkoutDetailEvents.GetWorkoutById(idWorkout = idWorkout))
         }
     }
 

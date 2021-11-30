@@ -101,7 +101,7 @@ class AddExerciseToWorkoutTest {
         val workoutToFill = workoutCacheDataSource.getWorkoutById("idWorkout1")!!
 
         //Add exercise to workout
-        addExerciseToWorkout.addExerciseToWorkout(
+        addExerciseToWorkout.execute(
             idExercise = exerciseToAdd?.idExercise,
             idWorkout =  workoutToFill?.idWorkout,
             stateEvent = AddExerciseToWorkoutEvent(
@@ -147,7 +147,7 @@ class AddExerciseToWorkoutTest {
         workoutToFill.idWorkout = FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION
 
         //Add exercise to workout
-        addExerciseToWorkout.addExerciseToWorkout(
+        addExerciseToWorkout.execute(
             idExercise = exerciseToAdd?.idExercise,
             idWorkout =  workoutToFill?.idWorkout,
             stateEvent = AddExerciseToWorkoutEvent(
@@ -199,7 +199,7 @@ class AddExerciseToWorkoutTest {
         val workoutToFill = workoutCacheDataSource.getWorkoutById("idWorkout1")!!
 
         //Add exercise to workout
-        addExerciseToWorkout.addExerciseToWorkout(
+        addExerciseToWorkout.execute(
             idExercise = exerciseToAdd?.idExercise,
             idWorkout =  workoutToFill?.idWorkout,
             stateEvent = AddExerciseToWorkoutEvent(
@@ -244,7 +244,7 @@ class AddExerciseToWorkoutTest {
         val workoutToFill = workoutCacheDataSource.getWorkoutById("idWorkout1")!!
 
         //Add exercise to workout
-        addExerciseToWorkout.addExerciseToWorkout(
+        addExerciseToWorkout.execute(
             idExercise = exerciseToAdd?.idExercise,
             idWorkout =  workoutToFill?.idWorkout,
             stateEvent = AddExerciseToWorkoutEvent(

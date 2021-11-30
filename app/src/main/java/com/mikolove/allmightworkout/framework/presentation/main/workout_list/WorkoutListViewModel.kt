@@ -60,6 +60,9 @@ constructor(
             is NextPage->{
                 nextPage()
             }
+            is LoadWorkouts->{
+                getWorkouts()
+            }
             is UpdateQuery->{
                 onUpdateQuery(event.query)
             }
@@ -94,21 +97,15 @@ constructor(
     /*
         Functions
      */
-    fun search(){
+    private fun search(){
         resetPage()
         onUpdateQueryExhausted(false)
         getWorkouts()
     }
 
-    fun nextPage(){
+    private fun nextPage(){
         incrementPageNumber()
         getWorkouts()
-    }
-
-    fun clearList(){
-        state.value?.let { state ->
-            this.state.value = state.copy(listWorkouts = listOf())
-        }
     }
 
     fun resetPage(){

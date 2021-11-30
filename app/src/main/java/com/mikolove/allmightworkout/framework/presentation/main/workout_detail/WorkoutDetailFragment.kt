@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -59,13 +60,15 @@ class WorkoutDetailFragment:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setHasOptionsMenu(true)
         binding = FragmentWorkoutDetailBinding.bind(view)
 
         setupRecyclerView()
         setupOnBackPressDispatcher()
         subscribeObservers()
+
+        //Loading workout from savestatehandle in viewmodel
+        viewModel.onLoadDetail()
 
         setupUI()
 
@@ -78,7 +81,10 @@ class WorkoutDetailFragment:
         }
 
         binding?.fragmentManageWorkoutButtonAddExercise?.setOnClickListener {
-            findNavController().navigate(R.id.action_workout_detail_fragment_to_add_exercise_to_workout_fragment)
+            viewModel.state.value?.workout?.idWorkout?.let {
+                val bundle = bundleOf("idWorkout" to it)
+                findNavController().navigate(R.id.action_workout_detail_fragment_to_add_exercise_to_workout_fragment, bundle)
+            }
         }
 
         binding?.fragmentManageWorkoutButtonLaunch?.setOnClickListener {
@@ -175,10 +181,8 @@ class WorkoutDetailFragment:
                         }
                     })
             }
-            printLogD("WorkoutDetailFragment","${state.workout}")
             state.workout?.let { workout ->
 
-                printLogD("WorkoutDetailFragment","${workout}")
                 setWorkoutUi(workout)
 
                 listAdapter?.apply {

@@ -94,7 +94,7 @@ class RemoveExerciseFromWorkoutTest {
         val exerciseToRemove = workout.exercises?.get(0)!!
 
         //Remove it
-        removeExerciseFromWorkout.removeExerciseFromWorkout(
+        removeExerciseFromWorkout.execute(
             idExercise = exerciseToRemove.idExercise,
             idWorkout = workout.idWorkout,
             stateEvent = RemoveExerciseFromWorkoutEvent(
@@ -138,7 +138,7 @@ class RemoveExerciseFromWorkoutTest {
         val beforeCacheRemove = exerciseCacheDataSource.getExercisesByWorkout(workout.idWorkout)
 
         //Remove it
-        removeExerciseFromWorkout.removeExerciseFromWorkout(
+        removeExerciseFromWorkout.execute(
             idExercise = exerciseToRemove.idExercise,
             idWorkout = workout.idWorkout,
             stateEvent = RemoveExerciseFromWorkoutEvent(
@@ -194,7 +194,7 @@ class RemoveExerciseFromWorkoutTest {
         val beforeCacheRemove = exerciseCacheDataSource.getExercisesByWorkout(workout.idWorkout)
 
         //Remove it
-        removeExerciseFromWorkout.removeExerciseFromWorkout(
+        removeExerciseFromWorkout.execute(
             idExercise = exercise.idExercise,
             idWorkout = workout.idWorkout,
             stateEvent = RemoveExerciseFromWorkoutEvent(
@@ -243,7 +243,7 @@ class RemoveExerciseFromWorkoutTest {
         val beforeCacheRemove = exerciseCacheDataSource.getExercisesByWorkout(workout.idWorkout)
 
         //Remove it
-        removeExerciseFromWorkout.removeExerciseFromWorkout(
+        removeExerciseFromWorkout.execute(
             idExercise = exercise.idExercise,
             idWorkout = workout.idWorkout,
             stateEvent = RemoveExerciseFromWorkoutEvent(

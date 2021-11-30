@@ -77,6 +77,7 @@ class WorkoutFragment
         setupSwipeRefresh()
         subscribeObservers()
 
+        viewModel.onTriggerEvent(LoadWorkouts)
 /*        MaterialDialog(requireActivity())
             .show{
                 title(text = "Test")
@@ -190,6 +191,7 @@ class WorkoutFragment
 
             listAdapter?.apply {
                 submitList(list = state.listWorkouts)
+                printLogD("WorkoutFragment","state.list.size ${state.listWorkouts.size} - itemcount ${itemCount}")
                 if(itemCount > 0){
                     showList()
                 }else{
@@ -281,15 +283,15 @@ class WorkoutFragment
 
     private fun showList(){
         if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == false) {
-            binding?.fragmentWorkoutSwiperefreshlayout?.fadeIn()
-            binding?.fragmentWorkoutNoWorkout?.fadeOut()
+            binding?.fragmentWorkoutSwiperefreshlayout?.visible()
+            binding?.fragmentWorkoutNoWorkout?.invisible()
         }
     }
 
     private fun hideList(){
         if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == true){
-            binding?.fragmentWorkoutSwiperefreshlayout?.fadeOut()
-            binding?.fragmentWorkoutNoWorkout?.fadeIn()
+            binding?.fragmentWorkoutSwiperefreshlayout?.invisible()
+            binding?.fragmentWorkoutNoWorkout?.visible()
         }
     }
 

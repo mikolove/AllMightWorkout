@@ -68,13 +68,16 @@
     </fragment>
     <fragment
         android:id="@+id/add_exercise_to_workout_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.AddExerciseToWorkoutFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.WorkoutExerciseFragment"
         android:label="AddExerciseToWorkoutFragment" >
         <action
             android:id="@+id/action_add_exercise_to_workout_fragment_to_workout_detail_fragment"
             app:destination="@id/workout_detail_fragment"
             app:popUpTo="@id/workout_detail_fragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="idWorkout"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_history_fragment"

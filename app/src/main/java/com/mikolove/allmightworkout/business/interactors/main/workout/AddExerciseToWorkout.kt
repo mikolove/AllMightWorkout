@@ -21,11 +21,10 @@ class AddExerciseToWorkout(
     private val dateUtil: DateUtil
 ) {
 
-  /*  fun addExerciseToWorkout(
+    fun execute(
         idWorkout : String,
-        idExercise : String,
-        stateEvent : StateEvent
-    ) : Flow<DataState<WorkoutViewState>?> = flow {
+        idExercise : String
+    ) : Flow<DataState<Long>?> = flow {
 
         //Update exerciseIds
         val updatedExerciseIdsDate = dateUtil.getCurrentTimestamp()
@@ -34,17 +33,14 @@ class AddExerciseToWorkout(
         //If it fails stop the process
         if(isExerciseIdsUpdated == 0){
 
-            val response = DataState.data(
-                response = Response(
-                    message = RemoveExerciseFromWorkout.REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED,
-                    uiComponentType = UIComponentType.Toast(),
-                    messageType = MessageType.Error()
-                ),
-                data = null,
-                stateEvent = stateEvent
-            ) as DataState<WorkoutViewState>?
-
-            emit(response)
+            emit(DataState<Long>(
+                message = GenericMessageInfo.Builder()
+                    .id("AddExerciseToWorkout.UpdateFail")
+                    .title("AddExerciseToWorkout update fail")
+                    .description(INSERT_WORKOUT_EXERCISE_UPDATE_FAILED)
+                    .uiComponentType(UIComponentType.Toast)
+                    .messageType(MessageType.Error)
+            ))
 
         //If not continue
         }else{
@@ -53,45 +49,38 @@ class AddExerciseToWorkout(
                 exerciseCacheDataSource.addExerciseToWorkout(idWorkout,idExercise)
             }
 
-            val response = object : CacheResponseHandler<WorkoutViewState, Long>(
-                response = cacheResult,
-                stateEvent = stateEvent
+            val response = object : CacheResponseHandler<Long, Long>(
+                response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Long): DataState<WorkoutViewState>? {
+                override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
 
                     return if(resultObj>0){
-
-                        val viewState = WorkoutViewState(lastWorkoutExerciseState = true)
-                        DataState.data(
-                            response = Response(
-                                message = INSERT_WORKOUT_EXERCISE_SUCCESS,
-                                uiComponentType = UIComponentType.None(),
-                                messageType = MessageType.Success()
-                            ),
-                            data = viewState,
-                            stateEvent = stateEvent
+                        DataState<Long>(
+                            message = GenericMessageInfo.Builder()
+                                .id("AddExerciseToWorkout.Success")
+                                .title("AddExerciseToWorkout success")
+                                .description(INSERT_WORKOUT_EXERCISE_SUCCESS)
+                                .uiComponentType(UIComponentType.None)
+                                .messageType(MessageType.Success),
+                            data = resultObj
                         )
 
                     }else{
-
-                        val viewState = WorkoutViewState(lastWorkoutExerciseState = false)
-                        DataState.data(
-                            response = Response(
-                                message = INSERT_WORKOUT_EXERCISE_FAILED,
-                                uiComponentType = UIComponentType.Toast(),
-                                messageType = MessageType.Error()
-                            ),
-                            data = viewState,
-                            stateEvent = stateEvent
+                        DataState<Long>(
+                            message = GenericMessageInfo.Builder()
+                                .id("AddExerciseToWorkout.Failed")
+                                .title("AddExerciseToWorkout failed")
+                                .description(INSERT_WORKOUT_EXERCISE_FAILED)
+                                .uiComponentType(UIComponentType.Toast)
+                                .messageType(MessageType.Error)
                         )
-
                     }
                 }
             }.getResult()
 
             emit(response)
 
-            updateNetwork(response?.message?.response?.message,idWorkout,idExercise,updatedExerciseIdsDate)
+            updateNetwork(response?.message?.description,idWorkout,idExercise,updatedExerciseIdsDate)
         }
 
     }
@@ -103,14 +92,12 @@ class AddExerciseToWorkout(
         }
 
         val cacheResponse = object : CacheResponseHandler<Int,Int>(
-            response = cacheResult,
-            stateEvent = null
+            response = cacheResult
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = null,
+                    data = resultObj
                 )
             }
         }.getResult()
@@ -128,7 +115,7 @@ class AddExerciseToWorkout(
             }
         }
     }
-*/
+
     companion object{
         val INSERT_WORKOUT_EXERCISE_SUCCESS  = "Successfully inserted added exercise to workout."
         val INSERT_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."

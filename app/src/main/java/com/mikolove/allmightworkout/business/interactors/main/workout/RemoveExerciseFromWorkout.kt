@@ -21,12 +21,10 @@ class RemoveExerciseFromWorkout(
     private val dateUtil: DateUtil
 ) {
 
-   /* fun removeExerciseFromWorkout(
+    fun execute(
         idExercise : String,
         idWorkout: String,
-        stateEvent : StateEvent
-    ) : Flow<DataState<WorkoutViewState>?> = flow {
-
+    ) : Flow<DataState<Int>?> = flow {
 
         //Update exerciseIds
         val updatedExerciseIdsDate = dateUtil.getCurrentTimestamp()
@@ -34,19 +32,14 @@ class RemoveExerciseFromWorkout(
 
         //If it fails stop the process
         if(isExerciseIdsUpdated == 0){
-
-            val response = DataState.data(
-                response = Response(
-                    message = REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED,
-                    uiComponentType = UIComponentType.Toast(),
-                    messageType = MessageType.Error()
-                ),
-                data = null,
-                stateEvent = stateEvent
-            ) as DataState<WorkoutViewState>?
-
-            emit(response)
-
+            emit(DataState<Int>(
+                message = GenericMessageInfo.Builder()
+                    .id("RemoveExerciseFromWorkout.UpdateFail")
+                    .title("RemoveExerciseFromWorkout update fail")
+                    .description(REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED)
+                    .uiComponentType(UIComponentType.Toast)
+                    .messageType(MessageType.Error)
+            ))
         //If not continue
         }else{
 
@@ -54,38 +47,35 @@ class RemoveExerciseFromWorkout(
                 exerciseCacheDataSource.removeExerciseFromWorkout(idWorkout,idExercise)
             }
 
-            val response = object : CacheResponseHandler<WorkoutViewState,Int>(
-                response = cacheResult,
-                stateEvent = stateEvent
+            val response = object : CacheResponseHandler<Int,Int>(
+                response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Int): DataState<WorkoutViewState>? {
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
                     return if(resultObj>0){
-                        DataState.data(
-                            response = Response(
-                                message = REMOVE_WORKOUT_EXERCISE_SUCCESS,
-                                uiComponentType = UIComponentType.None(),
-                                messageType = MessageType.Success()
-                            ),
-                            data = null,
-                            stateEvent = stateEvent
-                        )
+                        DataState<Int>(
+                            message = GenericMessageInfo.Builder()
+                                .id("RemoveExerciseFromWorkout.Success")
+                                .title("RemoveExerciseFromWorkout success")
+                                .description(REMOVE_WORKOUT_EXERCISE_SUCCESS)
+                                .uiComponentType(UIComponentType.None)
+                                .messageType(MessageType.Success),
+                            data = resultObj)
                     }else{
-                        DataState.data(
-                            response = Response(
-                                message = REMOVE_WORKOUT_EXERCISE_FAILED,
-                                uiComponentType = UIComponentType.Toast(),
-                                messageType = MessageType.Error()
-                            ),
-                            data = null,
-                            stateEvent = stateEvent
-                        )
+
+                        DataState<Int>(
+                            message = GenericMessageInfo.Builder()
+                                .id("RemoveExerciseFromWorkout.Failed")
+                                .title("RemoveExerciseFromWorkout failed")
+                                .description(REMOVE_WORKOUT_EXERCISE_FAILED)
+                                .uiComponentType(UIComponentType.Toast)
+                                .messageType(MessageType.Error))
                     }
                 }
             }.getResult()
 
             emit(response)
 
-            updateNetwork(response?.message?.response?.message, idWorkout,idExercise,updatedExerciseIdsDate)
+            updateNetwork(response?.message?.description, idWorkout,idExercise,updatedExerciseIdsDate)
 
         }
     }
@@ -97,14 +87,12 @@ class RemoveExerciseFromWorkout(
         }
 
         val cacheResponse = object : CacheResponseHandler<Int,Int>(
-            response = cacheResult,
-            stateEvent = null
+            response = cacheResult
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = null,
+                    data = resultObj
                 )
             }
         }.getResult()
@@ -122,7 +110,7 @@ class RemoveExerciseFromWorkout(
             }
         }
     }
-*/
+
     companion object{
         val REMOVE_WORKOUT_EXERCISE_SUCCESS  = "Successfully deleted added exercise to workout."
         val REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE  = "Are you sure to remove this exercise from workout ?"

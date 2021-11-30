@@ -6,6 +6,8 @@ sealed class WorkoutListEvents {
 
     object NewSearch : WorkoutListEvents()
 
+    object LoadWorkouts : WorkoutListEvents()
+
     object NextPage : WorkoutListEvents()
 
     data class UpdateQuery(val query : String) : WorkoutListEvents()

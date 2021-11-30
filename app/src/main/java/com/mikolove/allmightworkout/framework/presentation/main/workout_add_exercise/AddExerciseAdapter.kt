@@ -14,19 +14,19 @@ import com.mikolove.allmightworkout.framework.presentation.main.exercise.Exercis
 
 class AddExerciseAdapter(
     private val interaction: Interaction? = null,
-    private val lifecycleOwner : LifecycleOwner,
-    private val selectedExercises : LiveData<ArrayList<Exercise>>
+    /*private val lifecycleOwner : LifecycleOwner,
+    private val selectedExercises : LiveData<ArrayList<Exercise>>*/
 ) : RecyclerView.Adapter<AddExerciseAdapter.AddExerciseViewHolder>() {
 
-    private val exercises = mutableListOf<Exercise>()
+    private val exercises = mutableListOf<WorkoutExercise>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddExerciseViewHolder {
 
         return AddExerciseViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false),
-            interaction,
+            interaction/*,
             lifecycleOwner,
-            selectedExercises
+            selectedExercises*/
         )
     }
 
@@ -38,9 +38,9 @@ class AddExerciseAdapter(
         return exercises.size
     }
 
-    fun submitList(list: List<Exercise>) {
+    fun submitList(list: List<WorkoutExercise>) {
 
-        val diffCallback = ExerciseDiffCallBack(exercises,list)
+        val diffCallback = WorkoutExerciseDiffCallBack(exercises,list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
         exercises.clear()
@@ -50,15 +50,15 @@ class AddExerciseAdapter(
     class AddExerciseViewHolder
     constructor(
         itemView: View,
-        private val interaction: Interaction?,
+        private val interaction: Interaction?/*,
         private val lifecycleOwner: LifecycleOwner,
-        private val selectedExercises: LiveData<ArrayList<Exercise>>
+        private val selectedExercises: LiveData<ArrayList<Exercise>>*/
     ) : RecyclerView.ViewHolder(itemView) {
 
         //Maybe change place for this
         val binding =  ItemExerciseBinding.bind(itemView)
 
-        fun bind(item: Exercise) = with(itemView) {
+        fun bind(item: WorkoutExercise) = with(itemView) {
 
             //Add clicklisteners
             itemView.setOnClickListener {
@@ -66,9 +66,13 @@ class AddExerciseAdapter(
             }
 
             //Bind values
-            binding.itemExerciseTextTitle.text = item.name
-            binding.itemExerciseTextSubtitle.text = "${item.sets.size} ${item.exerciseType} sets - Bodypart : ${item.bodyPart?.name}"
-            selectedExercises.observe(lifecycleOwner, { exercises ->
+            binding.itemExerciseTextTitle.text = item.exercise.name
+            binding.itemExerciseTextSubtitle.text = "${item.exercise.sets.size} ${item.exercise.exerciseType} sets - Bodypart : ${item.exercise.bodyPart?.name}"
+
+            //Checked
+            binding.itemExerciseContainer.setChecked(item.selected)
+
+/*            selectedExercises.observe(lifecycleOwner, { exercises ->
 
                 if(!exercises.isNullOrEmpty()){
 
@@ -81,13 +85,11 @@ class AddExerciseAdapter(
                     binding.itemExerciseContainer.setChecked(false)
                 }
 
-            })
+            })*/
         }
     }
 
     interface Interaction {
-        fun onItemSelected(item: Exercise)
-
-        fun isExerciseSelected(exercise : Exercise): Boolean
+        fun onItemSelected(item: WorkoutExercise)
     }
 }

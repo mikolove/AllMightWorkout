@@ -63,7 +63,7 @@ class GetExercisesTest {
         val query = ""
         var results : ArrayList<Exercise>? = null
 
-        getExercises.getExercises<ExerciseViewState>(
+        getExercises.execute<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -99,7 +99,7 @@ class GetExercisesTest {
         val query = "einzeoineoinzefoizenf"
         var results: ArrayList<Exercise>? = null
 
-        getExercises.getExercises<ExerciseViewState>(
+        getExercises.execute<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
@@ -132,7 +132,7 @@ class GetExercisesTest {
 
         val query = FORCE_SEARCH_EXERCISES_EXCEPTION
         var results: ArrayList<Exercise>? = null
-        getExercises.getExercises<ExerciseViewState>(
+        getExercises.execute<ExerciseViewState>(
             query = query,
             filterAndOrder = EXERCISE_ORDER_BY_ASC_DATE_CREATED,
             page = 1,
