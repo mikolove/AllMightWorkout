@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,18 +22,18 @@ import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
-import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.common.TopSpacingItemDecoration
+import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class WorkoutInProgressFragment():
-    BaseFragment(R.layout.fragment_workout_in_progress){/*,
+    BaseFragment(R.layout.fragment_workout_in_progress),
     WorkoutInProgressAdapter.Interaction{
 
-    val viewModel : WorkoutInProgressViewModel by activityViewModels()
+    val viewModel : WorkoutInProgressViewModel by viewModels()
 
     @Inject
     lateinit var dateUtil: DateUtil
@@ -48,7 +50,6 @@ class WorkoutInProgressFragment():
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,17 +59,26 @@ class WorkoutInProgressFragment():
 
         binding = FragmentWorkoutInProgressBinding.bind(view)
 
-        loadWorkout(getIdWorkout())
         setupRecyclerView()
         setupOnBackPressDispatcher()
         subscribeObservers()
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Exercise>(
+            EXERCISE_UPDATED
+        )?.observe(viewLifecycleOwner) { shouldRefresh ->
+            shouldRefresh?.run {
+                viewModel.onTriggerEvent(WorkoutInProgressEvents.UpdateExercise(exercise = this))
+                findNavController().currentBackStackEntry?.savedStateHandle?.set(EXERCISE_UPDATED, null)
+            }
+        }
+
+
         binding?.wipWorkoutButtonEnd?.setOnClickListener {
-            if(viewModel.isWorkoutDone()){
+/*            if(viewModel.isWorkoutDone()){
                 quitWorkoutAndSave()
             }else{
                 areYouSureToQuitWorkout()
-            }
+            }*/
         }
 
     }
@@ -87,7 +97,33 @@ class WorkoutInProgressFragment():
 
     private fun subscribeObservers(){
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+
+        viewModel.state.observe(viewLifecycleOwner,{ state ->
+
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(WorkoutInProgressEvents.OnRemoveHeadFromQueue)
+                    }
+                })
+
+            state.workout?.let { workout ->
+
+                setupUI(workout.name,workout?.startedAt)
+
+                workout.exercises?.let { exercises ->
+                    listAdapter?.apply {
+                        submitList(exercises)
+                    }
+                }
+            }
+        })
+
+       /* viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if(viewState != null) {
 
@@ -144,12 +180,15 @@ class WorkoutInProgressFragment():
                 }
             }
 
-        })
+        })*/
     }
 
-    private fun setupUI(){
-        binding?.wipWorkoutTitle?.text = getWorkout()?.name
-        binding?.wipWorkoutCreatedAt?.text = getString(R.string.wip_started_at,getWorkout()?.startedAt).replaceFirstChar { it.uppercase() }
+    private fun setupUI(name : String, startedAt : String?){
+        binding?.wipWorkoutTitle?.text = name
+        binding?.wipWorkoutCreatedAt?.text = getString(
+            R.string.wip_started_at,
+            startedAt)
+            .replaceFirstChar { it.uppercase() }
     }
 
     private fun setupRecyclerView(){
@@ -169,56 +208,37 @@ class WorkoutInProgressFragment():
         }
     }
 
-    private fun loadWorkout(idWorkout : String){
-        viewModel.getWorkoutById(idWorkout)
-    }
-
-    private fun getIdWorkout() : String{
-        return args.idWorkout
-    }
-
-    private fun getWorkout() : Workout? {
-        return viewModel.getWorkout()
-    }
-
-    private fun getExerciseList() : List<Exercise> {
-        return viewModel.getExerciseList()
-    }
 
     private fun quitWorkoutAndSave(){
 
         //saveWorkout
-        val workout = viewModel.getWorkout()
+    /*    val workout = viewModel.getWorkout()
         val exerciseList = viewModel.getExerciseList()
         if(workout!=null && exerciseList != null){
             saveWorkout(workout,exerciseList)
         }
-
+*/
     }
 
-    private fun navigateToExercise(item : Exercise){
+    private fun navigateToExercise(idExercise : String){
 
-        val updateExercise = item.copy(
-            startedAt = dateUtil.getCurrentTimestamp()
-        )
-        viewModel.setExercise(updateExercise)
-
-        findNavController().navigate(R.id.action_workoutInProgressFragment_to_exerciseInProgressFragment)
+        val bundle = bundleOf("idExercise" to idExercise)
+        findNavController().navigate(R.id.action_workoutInProgressFragment_to_exerciseInProgressFragment,bundle)
     }
 
     override fun onItemSelected(item: Exercise) {
         if(item.endedAt == null){
-            navigateToExercise(item)
+            navigateToExercise(item.idExercise)
         }
     }
 
     private fun saveWorkout(workout : Workout, exercises : List<Exercise>){
 
-        viewModel.saveWorkout(workout, exercises)
+        //viewModel.saveWorkout(workout, exercises)
     }
 
     private fun areYouSureToQuitWorkout(){
-        viewModel.setStateEvent(
+/*        viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
@@ -239,11 +259,11 @@ class WorkoutInProgressFragment():
                     )
                 )
             )
-        )
+        )*/
     }
 
-*//*    private fun areYouSureToQuitWithoutSaving(){
-        viewModel.setStateEvent(
+    private fun areYouSureToQuitWithoutSaving(){
+        /*viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
@@ -262,12 +282,12 @@ class WorkoutInProgressFragment():
                     )
                 )
             )
-        )
+        )*/
     }
-*//*
+
     private fun showToastHistorySaved(text : String){
 
-        uiController.onResponseReceived(
+ /*       uiController.onResponseReceived(
             response = Response(
                 message = text,
                 uiComponentType = UIComponentType.Toast(),
@@ -278,18 +298,15 @@ class WorkoutInProgressFragment():
                     viewModel.clearStateMessage()
                 }
             }
-        )
+        )*/
     }
 
 
-    *//********************************************************************
+    /********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************//*
+     *********************************************************************/
 
     private fun onBackPressed() {
-        viewModel.setWorkout(null)
-        viewModel.setExerciseList(null)
-        viewModel.setIsWorkoutDone(null)
         findNavController().popBackStack()
     }
 
@@ -302,5 +319,4 @@ class WorkoutInProgressFragment():
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-*/
 }

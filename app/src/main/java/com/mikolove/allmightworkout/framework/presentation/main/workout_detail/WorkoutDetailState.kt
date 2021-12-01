@@ -11,6 +11,7 @@ data class WorkoutDetailState(
 
     val listExercises : List<Exercise> = listOf(),
     val isUpdatePending : Boolean = false,
+    val isUpdateDone : Boolean  = false,
 
     //Loading
     val isLoading: Boolean? = false,

@@ -6,6 +6,8 @@ sealed class WorkoutDetailEvents {
 
     data class GetWorkoutById(val idWorkout : String) : WorkoutDetailEvents()
 
+    object ReloadWorkout : WorkoutDetailEvents()
+
     object UpdateWorkout : WorkoutDetailEvents()
 
     object RemoveWorkout : WorkoutDetailEvents()
@@ -13,6 +15,8 @@ sealed class WorkoutDetailEvents {
     data class DeleteExercise(val idExercise : String) : WorkoutDetailEvents()
 
     data class OnUpdateWorkout(val name : String, val isActive :Boolean) : WorkoutDetailEvents()
+
+    object OnUpdateDone : WorkoutDetailEvents()
 
     data class OnUpdateIsPending(val isPending : Boolean) : WorkoutDetailEvents()
 

@@ -12,12 +12,13 @@ data class WorkoutExerciseState(
 
     //Loading
     val isLoading: Boolean? = false,
+    val isUpdateDone : Boolean = false,
 
     //Search option
-    var searchActive : Boolean = false,
-    var query: String = "",
-    var page: Int = 1,
-    var isQueryExhausted: Boolean = false,
+    val searchActive : Boolean = false,
+    val query: String = "",
+    val page: Int = 1,
+    val isQueryExhausted: Boolean = false,
 
     //Queue
     val queue: Queue<GenericMessageInfo> = Queue(mutableListOf()),

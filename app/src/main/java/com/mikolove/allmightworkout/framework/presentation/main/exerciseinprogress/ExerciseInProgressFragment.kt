@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
+package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,8 +9,7 @@ import android.widget.Chronometer
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
@@ -18,18 +17,16 @@ import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentExerciseInProgressBinding
-import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.common.invisible
-import com.mikolove.allmightworkout.framework.presentation.common.visible
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerButtonState
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
+import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.WIP_ARE_YOU_SURE_STOP_EXERCISE
+import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_progress){/*
+class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_progress){
 
-    val viewModel : WorkoutInProgressViewModel by activityViewModels()
+    val viewModel : ExerciseInProgressViewModel by viewModels()
     var binding : FragmentExerciseInProgressBinding? = null
 
     private var chronometer: Chronometer? = null
@@ -41,7 +38,6 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
     }
 
     override fun onDestroyView() {
@@ -60,13 +56,15 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
         binding = FragmentExerciseInProgressBinding.bind(view)
 
-        init()
+        chronometer = binding?.eipChronometer
+        countDownTimer = binding?.eipCountdowntimer
+
         setupOnBackPressDispatcher()
         subscribeObservers()
 
         binding?.eipButtonStartStop?.setOnClickListener {
 
-            viewModel.getActualSet()?.let { set ->
+            viewModel.state.value?.actualSet?.let { set ->
                 if(viewModel.chronometerManager.isStartButtonActive()){
 
                     if(viewModel.chronometerManager.isIdleState()){
@@ -83,7 +81,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         }
 
         binding?.epiButtonReset?.setOnClickListener{
-            viewModel.getActualSet()?.let { set ->
+            viewModel.state.value?.actualSet?.let { set ->
                 if(viewModel.chronometerManager.isRunningState()){
                     resetSet(set)
                 }
@@ -100,11 +98,12 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
     private fun quitExercise(){
         if(viewModel.chronometerManager.isEndButtonActive()){
-            val actualSet = viewModel.getActualSet()
-            if( actualSet?.order == 1 && actualSet.startedAt == null){
-                navigateBack()
-            }else{
-                areYouSureToQuitExercise()
+            viewModel.state.value?.actualSet?.let { actualSet ->
+                if( actualSet.order == 1 && actualSet.startedAt == null){
+                    navigateBack()
+                }else{
+                    areYouSureToQuitExercise()
+                }
             }
         }
     }
@@ -122,63 +121,89 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
     }
 
     private fun saveAndNavigateback(){
-        saveExercise()
+        //saveExercise()
         setChronometerState(ChronometerState.CloseState())
         navigateBack()
     }
 
     private fun navigateBack(){
-        viewModel.setExercise(null)
-        viewModel.setExerciseSetList(null)
+        viewModel.state.value?.exercise?.let { exercise ->
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                EXERCISE_UPDATED,
+                exercise
+            )
+        }
         findNavController().popBackStack()
-    }
-
-    private fun init(){
-
-        viewModel.getExercise()?.let { exercise ->
-            val sets = exercise.sets
-            viewModel.setExerciseSetList(sets)
-            sets.minWithOrNull(compareBy { it.order })?.let { set ->
-                viewModel.setActualSet(set)
-            }
-
-            chronometer = binding?.eipChronometer
-            countDownTimer = binding?.eipCountdowntimer
-
-        } ?: navigateBackToastError()
-
     }
 
     private fun subscribeObservers(){
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
 
-            viewState.actualSet?.let { set ->
-                updateUi(set)
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(ExerciseInProgressEvents.OnRemoveHeadFromQueue)
+                    }
+                })
+
+            state.exercise?.let { exercise ->
+
+                state.actualSet?.let { actualSet ->
+
+                    updateUi(
+                        order = actualSet.order,
+                        totalSets = exercise.sets.size,
+                        time = actualSet.time,
+                        restTime = actualSet.restTime,
+                        exerciseType = exercise.exerciseType,
+                        reps = actualSet.reps,
+                        weight = actualSet.weight
+                    )
+                }
+
             }
+
+
         })
 
-        viewModel.chronometerState.observe(viewLifecycleOwner, Observer { chronometerState ->
+        viewModel.chronometerState.observe(viewLifecycleOwner,  { chronometerState ->
 
             switchClock(chronometerState)
 
+            printLogD("ExerciseInProgressFragment","chronometer state ${chronometerState}")
+
             when(chronometerState){
+
                 is ChronometerState.StopState -> {
-                    viewModel.getActualSet()?.let { set ->
-                        if(viewModel.geTotalSets() > set.order){
-                            startRestChronometer(set.restTime)
+                    viewModel.state.value?.actualSet?.let { set ->
+                        viewModel.state.value?.exercise?.let { exercise ->
+                            if(exercise.sets.size >= set.order){
+                                startRestChronometer(set.restTime)
+                            }
                         }
                     }
                 }
                 is ChronometerState.SaveState -> {
-                    viewModel.getActualSet()?.let { set ->
-                        if(set.startedAt != null && set.endedAt != null){
-                            viewModel.saveSet(set)
-                            val nextSetExist = viewModel.loadNextSet(set)
-                            if(!nextSetExist){
-                                saveAndNavigateback()
-                            }else{
-                                setChronometerState(ChronometerState.IdleState())
+                    viewModel.state.value?.actualSet?.let { set ->
+                        viewModel.state.value?.exercise?.let { exercise ->
+                            if(set.startedAt != null && set.endedAt != null){
+                                printLogD("ExerciseInProgressFragment","actual set order ${set.order} - exercise size ${exercise.sets.size}")
+                                //viewModel.saveSet(set)
+                                //val nextSetExist = viewModel.loadNextSet(set)
+                                viewModel.onTriggerEvent(ExerciseInProgressEvents.UpdateExerciseSet(set))
+                                if(set.order == exercise.sets.size){
+                                    saveAndNavigateback()
+                                }else{
+                                    printLogD("ExerciseInProgressFragment","LoadNextSet")
+                                    viewModel.onTriggerEvent(ExerciseInProgressEvents.LoadNextSet)
+                                    setChronometerState(ChronometerState.IdleState())
+                                }
+
                             }
                         }
                     }
@@ -200,7 +225,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                     binding?.eipButtonStartStop?.isEnabled = false
                 }
             }
-         })
+        })
 
         viewModel.chronometerManager.resetButtonState.observe(viewLifecycleOwner, { state ->
             when(state){
@@ -224,30 +249,6 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                     binding?.eipButtonEnd?.isEnabled = false
                 }
             }
-        })
-
-        viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
-
-            stateMessage?.response?.let { response ->
-
-                when(response.message){
-
-                    //If another we quit so we clear Message Stack
-                    else -> {
-
-                        uiController.onResponseReceived(
-                            response = stateMessage.response,
-                            stateMessageCallback = object: StateMessageCallback {
-                                override fun removeMessageFromStack() {
-                                    viewModel.clearStateMessage()
-                                }
-                            }
-                        )
-
-                    }
-                }
-            }
-
         })
 
     }
@@ -281,32 +282,61 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         }
     }
 
-    private fun updateUi(set : ExerciseSet){
+    private fun updateUi(
+        order : Int,
+        totalSets : Int,
+        time : Int,
+        restTime : Int,
+        exerciseType : ExerciseType,
+        reps : Int,
+        weight : Int
+    ){
 
-        binding?.eipTitleSets?.text =  "Set : ${set.order}/${viewModel.getSets().size}"
+        binding?.eipTitleSets?.text =  "Set : ${order}/${totalSets}"
 
-        binding?.eipTextRest?.text = "${set.restTime} sec"
+        binding?.eipTextRest?.text = "${restTime} sec"
 
-        viewModel.getExercise()?.let {
-            binding?.eipTextRep?.text = when(it.exerciseType){
+        binding?.eipTextRep?.text = when(exerciseType){
 
-                ExerciseType.TIME_EXERCISE -> {
-                    "${set.time} sec"
-                }
+            ExerciseType.TIME_EXERCISE -> { "${time} sec" }
 
-                ExerciseType.REP_EXERCISE -> {
-                    "${set.reps} rep"
-                }
-            }
-
-            binding?.eipTextWeight?.text = "${set.weight} kg"
-
+            ExerciseType.REP_EXERCISE -> { "${reps} rep" }
         }
+
+        binding?.eipTextWeight?.text = "${weight} kg"
 
     }
 
+    private fun launchDialog(message : GenericMessageInfo.Builder){
+        viewModel.onTriggerEvent(ExerciseInProgressEvents.LaunchDialog(message))
+    }
+
     private fun areYouSureToQuitExercise(){
-        viewModel.setStateEvent(
+
+        val message = GenericMessageInfo.Builder()
+            .id("ExerciseInProgressFragment.AreYouSureToQuit")
+            .title(WIP_ARE_YOU_SURE_STOP_EXERCISE)
+            .description("")
+            .messageType(MessageType.None)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {
+                        saveAndNavigateback()
+                    }
+                )
+            )
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Cancel",
+                    onNegativeAction = {}
+                )
+            )
+
+        launchDialog(message)
+
+/*        viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
@@ -325,10 +355,10 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                     )
                 )
             )
-        )
+        )*/
     }
 
-    private fun navigateBackToastError(){
+/*    private fun navigateBackToastError(){
         viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
@@ -341,33 +371,36 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             )
         )
         navigateBack()
-    }
+    }*/
 
 
+/*
     private fun saveExercise(){
-        viewModel.saveExercise()
+        //viewModel.saveExercise()
+        //viewModel.onTriggerEvent(ExerciseInProgressEvents.Upda)
     }
+*/
 
-    *//*
+    /*
         Set management
-     *//*
+     */
 
     private fun startSet(set : ExerciseSet){
 
         val updatedSet = set.copy(startedAt = dateUtil.getCurrentTimestamp())
-        viewModel.setActualSet(updatedSet)
+        viewModel.onTriggerEvent(ExerciseInProgressEvents.UpdateActualSet(updatedSet))
         startChronometer()
     }
 
     private fun resetSet(set : ExerciseSet){
         val updatedSet = set.copy(startedAt = null)
-        viewModel.setActualSet(updatedSet)
+        viewModel.onTriggerEvent(ExerciseInProgressEvents.UpdateActualSet(updatedSet))
         resetChronometer()
     }
 
     private fun stopSet(set : ExerciseSet){
         val updatedSet = set.copy(endedAt = dateUtil.getCurrentTimestamp())
-        viewModel.setActualSet(updatedSet)
+        viewModel.onTriggerEvent(ExerciseInProgressEvents.UpdateActualSet(updatedSet))
         stopChronometer()
     }
 
@@ -377,9 +410,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         timer?.cancel()
     }
 
-    *//*
+    /*
         Chronometer
-     *//*
+     */
 
     private fun setChronometerState(state : ChronometerState){
         viewModel.chronometerManager.setChronometerState(state)
@@ -388,7 +421,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
     private fun startChronometer(){
         setChronometerState(ChronometerState.RunningState())
         chronometer?.base = SystemClock.elapsedRealtime()
-         chronometer?.onChronometerTickListener = null
+        chronometer?.onChronometerTickListener = null
         chronometer?.start()
     }
 
@@ -431,9 +464,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         setChronometerState(ChronometerState.IdleState())
     }
 
-    *//********************************************************************
+    /********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************//*
+     *********************************************************************/
 
     private fun onBackPressed() {
         quitExercise()
@@ -447,5 +480,5 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-*/
+
 }

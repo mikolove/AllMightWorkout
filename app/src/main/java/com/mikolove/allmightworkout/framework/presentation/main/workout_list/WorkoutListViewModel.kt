@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
@@ -60,7 +58,7 @@ constructor(
             is NextPage->{
                 nextPage()
             }
-            is LoadWorkouts->{
+            is Refresh->{
                 getWorkouts()
             }
             is UpdateQuery->{

@@ -95,8 +95,9 @@ object InteractorsModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutListInteractors(
+    fun provideInProgressListInteractors(
         workoutCacheDataSource : WorkoutCacheDataSource,
+        exerciseCacheDataSource : ExerciseCacheDataSource,
         historyWorkoutFactory : HistoryWorkoutFactory,
         historyExerciseFactory : HistoryExerciseFactory,
         historyExerciseSetFactory : HistoryExerciseSetFactory,
@@ -107,17 +108,15 @@ object InteractorsModule {
         historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
         historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
         workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
-    ): WorkoutInProgressListInteractors{
+    ): InProgressListInteractors{
 
-        return WorkoutInProgressListInteractors(
+        return InProgressListInteractors(
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
+            getExerciseById = GetExerciseById(exerciseCacheDataSource),
             insertHistory = InsertHistory(
                 historyWorkoutCacheDataSource,historyExerciseCacheDataSource,historyExerciseSetCacheDataSource,
                 historyWorkoutNetworkDataSource,historyExerciseNetworkDataSource, historyExerciseSetNetworkDataSource,
-                workoutTypeCacheDataSource,historyWorkoutFactory,historyExerciseFactory,historyExerciseSetFactory),
-            insertHistoryWorkout = InsertHistoryWorkout(historyWorkoutCacheDataSource,historyWorkoutFactory),
-            insertHistoryExercise = InsertHistoryExercise(historyExerciseCacheDataSource,historyExerciseFactory),
-            insertHistoryExerciseSet = InsertHistoryExerciseSet(historyExerciseSetCacheDataSource,historyExerciseSetFactory)
+                workoutTypeCacheDataSource,historyWorkoutFactory,historyExerciseFactory,historyExerciseSetFactory)
         )
     }
 

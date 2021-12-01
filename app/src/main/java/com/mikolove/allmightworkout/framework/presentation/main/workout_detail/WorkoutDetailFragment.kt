@@ -8,7 +8,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,21 +16,13 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_ARE_YOU_SURE
 import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise.WorkoutExercisesAdapter
 import com.mikolove.allmightworkout.framework.presentation.main.workout_detail.WorkoutInteractionState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -68,7 +59,12 @@ class WorkoutDetailFragment:
         subscribeObservers()
 
         //Loading workout from savestatehandle in viewmodel
-        viewModel.onLoadDetail()
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(SHOULD_REFRESH)?.observe(viewLifecycleOwner) { shouldRefresh ->
+            shouldRefresh?.run {
+                findNavController().currentBackStackEntry?.savedStateHandle?.set(SHOULD_REFRESH, null)
+                viewModel.onTriggerEvent(WorkoutDetailEvents.ReloadWorkout)
+            }
+        }
 
         setupUI()
 
@@ -81,16 +77,16 @@ class WorkoutDetailFragment:
         }
 
         binding?.fragmentManageWorkoutButtonAddExercise?.setOnClickListener {
-            viewModel.state.value?.workout?.idWorkout?.let {
-                val bundle = bundleOf("idWorkout" to it)
+            viewModel.state.value?.workout?.idWorkout?.let {idWorkout ->
+                val bundle = bundleOf("idWorkout" to idWorkout)
                 findNavController().navigate(R.id.action_workout_detail_fragment_to_add_exercise_to_workout_fragment, bundle)
             }
         }
 
         binding?.fragmentManageWorkoutButtonLaunch?.setOnClickListener {
             viewModel.state.value?.workout?.idWorkout?.let { idWorkout ->
-                val action = WorkoutDetailFragmentDirections.actionWorkoutDetailFragmentToWorkoutInProgressFragment(idWorkout)
-                findNavController().navigate(action)
+                val bundle = bundleOf("idWorkout" to idWorkout)
+                findNavController().navigate(R.id.action_workout_detail_fragment_to_workoutInProgressFragment, bundle)
             }
         }
     }
@@ -128,10 +124,10 @@ class WorkoutDetailFragment:
                 viewModel.onTriggerEvent(WorkoutDetailEvents.UpdateWorkout)
                 true
             }
-            R.id.toolbar_manage_workout_delete -> {
+            /*R.id.toolbar_manage_workout_delete -> {
                 deleteWorkout()
                 true
-            }
+            }*/
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -472,10 +468,19 @@ class WorkoutDetailFragment:
      ********************************************************************/
 
     private fun onBackPressed() {
-        printLogD("ManageWorkoutFragment","ON BACK PRESSED")
         if (viewModel.checkEditState()) {
             quitEditState()
         }else{
+            viewModel.state.value?.let { state ->
+                printLogD("WorkoutDetailFragment","${state}")
+
+                if(state.isUpdateDone){
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                        SHOULD_REFRESH,
+                        true
+                    )
+                }
+            }
             findNavController().popBackStack()
         }
     }

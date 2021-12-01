@@ -1,16 +1,10 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
+package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
-import android.os.CountDownTimer
-import android.os.SystemClock
-import android.widget.Chronometer
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerButtonState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState.StopState
-import com.mikolove.allmightworkout.util.printLogD
-import kotlin.concurrent.timer
+import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ChronometerButtonState.*
+import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ChronometerState.*
+import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ChronometerState.StopState
 
 class ChronometerManager() {
 

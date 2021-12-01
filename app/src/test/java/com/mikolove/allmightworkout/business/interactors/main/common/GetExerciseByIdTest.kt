@@ -59,7 +59,7 @@ class GetExerciseByIdTest {
         var exerciseRetrieved : Exercise? = null
 
         //Search it
-        getExerciseById.getExerciseById<ExerciseViewState>(
+        getExerciseById.execute<ExerciseViewState>(
             idExercise = idExercise,
             stateEvent = ExerciseStateEvent.GetExerciseByIdEvent(idExercise = idExercise)
         ).collect( object  : FlowCollector<DataState<ExerciseViewState>?> {
@@ -92,7 +92,7 @@ class GetExerciseByIdTest {
         var exerciseRetrieved : Exercise? = null
 
         //Search it
-        getExerciseById.getExerciseById<ExerciseViewState>(
+        getExerciseById.execute<ExerciseViewState>(
             idExercise = idExercise,
             stateEvent = ExerciseStateEvent.GetExerciseByIdEvent(idExercise = idExercise)
         ).collect( object  : FlowCollector<DataState<ExerciseViewState>?> {
@@ -124,7 +124,7 @@ class GetExerciseByIdTest {
         var exerciseRetrieved : Exercise? = null
 
         //Search it
-        getExerciseById.getExerciseById<ExerciseViewState>(
+        getExerciseById.execute<ExerciseViewState>(
             idExercise = idExercise,
             stateEvent = ExerciseStateEvent.GetExerciseByIdEvent(idExercise = idExercise)
         ).collect( object  : FlowCollector<DataState<ExerciseViewState>?> {

@@ -129,12 +129,15 @@
     </fragment>
     <fragment
         android:id="@+id/exerciseInProgressFragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.ExerciseInProgressFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ExerciseInProgressFragment"
         android:label="ExerciseInProgressFragment" >
         <action
             android:id="@+id/action_exerciseInProgressFragment_to_workoutInProgressFragment"
             app:destination="@id/workoutInProgressFragment"
             app:popUpTo="@id/workoutInProgressFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="idExercise"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
+package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
 sealed class ChronometerState {
 

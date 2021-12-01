@@ -6,7 +6,7 @@ sealed class WorkoutListEvents {
 
     object NewSearch : WorkoutListEvents()
 
-    object LoadWorkouts : WorkoutListEvents()
+    object Refresh : WorkoutListEvents()
 
     object NextPage : WorkoutListEvents()
 

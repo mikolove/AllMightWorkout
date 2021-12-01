@@ -51,6 +51,9 @@ constructor(
             is WorkoutExerciseEvents.NextPage->{
                 nextPage()
             }
+            is WorkoutExerciseEvents.UpdateDone->{
+                onUpdateDone()
+            }
             is WorkoutExerciseEvents.UpdateQuery->{
                 onUpdateQuery(event.query)
             }
@@ -101,6 +104,12 @@ constructor(
     private fun onUpdateQueryExhausted(isExhausted: Boolean) {
         state.value?.let { state ->
             this.state.value = state.copy(isQueryExhausted = isExhausted)
+        }
+    }
+
+    private fun onUpdateDone(){
+        state.value?.let { state ->
+            this.state.value = state.copy(isUpdateDone = true)
         }
     }
 
@@ -195,6 +204,7 @@ constructor(
                     this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                     dataState?.data?.let {
+                        onTriggerEvent(WorkoutExerciseEvents.UpdateDone)
                         onTriggerEvent(WorkoutExerciseEvents.GetWorkoutById(workout.idWorkout))
                     }
 
@@ -218,6 +228,7 @@ constructor(
                     this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                     dataState?.data?.let {
+                        onTriggerEvent(WorkoutExerciseEvents.UpdateDone)
                         onTriggerEvent(WorkoutExerciseEvents.GetWorkoutById(workout.idWorkout))
                     }
 

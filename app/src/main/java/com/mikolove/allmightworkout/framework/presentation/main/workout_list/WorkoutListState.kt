@@ -8,21 +8,21 @@ import com.mikolove.allmightworkout.business.domain.state.Queue
 data class WorkoutListState(
 
     //Workout relative info
-    var listWorkouts: List<Workout> = listOf(),
-    var totalWorkouts: Int = 0,
+    val listWorkouts: List<Workout> = listOf(),
+    val totalWorkouts: Int = 0,
 
     //Insert workout
-    var insertedWorkout : String? = null,
+    val insertedWorkout : String? = null,
 
     //Load and store filters for each list
-    var list_filter: WorkoutFilterOptions = WorkoutFilterOptions.FILTER_NAME,
-    var list_order: WorkoutOrderOptions = WorkoutOrderOptions.ASC,
+    val list_filter: WorkoutFilterOptions = WorkoutFilterOptions.FILTER_NAME,
+    val list_order: WorkoutOrderOptions = WorkoutOrderOptions.ASC,
 
     //Search option
-    var searchActive : Boolean = false,
-    var query: String = "",
-    var page: Int = 1,
-    var isQueryExhausted: Boolean = false,
+    val searchActive : Boolean = false,
+    val query: String = "",
+    val page: Int = 1,
+    val isQueryExhausted: Boolean = false,
 
     //Loading
     val isLoading: Boolean? = false,

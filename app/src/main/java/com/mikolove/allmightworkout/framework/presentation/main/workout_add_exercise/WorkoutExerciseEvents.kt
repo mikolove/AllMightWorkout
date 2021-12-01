@@ -10,6 +10,8 @@ sealed class WorkoutExerciseEvents {
 
     object NextPage : WorkoutExerciseEvents()
 
+    object UpdateDone : WorkoutExerciseEvents()
+
     data class UpdateQuery(val query : String) : WorkoutExerciseEvents()
 
     data class GetWorkoutById(val idWorkout : String) : WorkoutExerciseEvents()

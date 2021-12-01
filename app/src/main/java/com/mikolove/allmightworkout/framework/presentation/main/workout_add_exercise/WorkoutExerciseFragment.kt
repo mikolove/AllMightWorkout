@@ -294,6 +294,14 @@ class WorkoutExerciseFragment():
     private fun onBackPressed() {
 /*        viewModel.updateWorkoutExercises(viewModel.getSelectedExercises())
         viewModel.clearSelectedExercises()*/
+        viewModel.state.value?.isUpdateDone?.let { isTrue ->
+            if(isTrue){
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    SHOULD_REFRESH,
+                    true
+                )
+            }
+        }
         findNavController().popBackStack()
     }
 

@@ -37,7 +37,7 @@ class RemoveWorkout(
                             .description(DELETE_WORKOUT_SUCCESS)
                             .messageType(MessageType.Success)
                             .uiComponentType(UIComponentType.Toast),
-                        data = null)
+                        data = resultObj)
 
                 }else{
                     DataState.error(

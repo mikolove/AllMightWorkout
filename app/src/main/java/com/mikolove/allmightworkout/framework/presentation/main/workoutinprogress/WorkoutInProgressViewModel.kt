@@ -1,15 +1,18 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import androidx.lifecycle.viewModelScope
+import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.WorkoutInProgressListInteractors
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerManager
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.ChronometerState
+import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InProgressListInteractors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
@@ -22,67 +25,148 @@ const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? I
 class WorkoutInProgressViewModel
 @Inject
 constructor(
-    private val workoutInProgressListInteractors: WorkoutInProgressListInteractors,
+    private val inProgressListInteractors: InProgressListInteractors,
+    private val savedStateHandle: SavedStateHandle,
     private val dateUtil: DateUtil
-    ) : ViewModel()/*BaseViewModel<WorkoutInProgressViewState>()*/ {
+    ) : ViewModel() {
 
 
-   /* override fun handleNewData(data: WorkoutInProgressViewState) {
-        data.let { viewState ->
+    /*
+    Observable data
+   */
+    val state: MutableLiveData<WorkoutInProgressState> = MutableLiveData(WorkoutInProgressState())
 
-            viewState.workout?.let { workout ->
-                workout.startedAt = dateUtil.getCurrentTimestamp()
-                setWorkout(workout)
-            }
-
+    init {
+        savedStateHandle.get<String>("idWorkout")?.let { idWorkout ->
+            onTriggerEvent(WorkoutInProgressEvents.GetWorkoutById(idWorkout = idWorkout))
         }
     }
 
-    override fun setStateEvent(stateEvent: StateEvent) {
+    fun onTriggerEvent(event : WorkoutInProgressEvents){
+        when(event){
 
-        val job : Flow<DataState<WorkoutInProgressViewState>?> = when(stateEvent) {
-
-            is GetWorkoutByIdEvent -> {
-                workoutInProgressListInteractors.getWorkoutById.execute(
-                    idWorkout= stateEvent.idWorkout,
-                    stateEvent = stateEvent
-                )
+            is WorkoutInProgressEvents.GetWorkoutById->{
+                getWorkoutById(event.idWorkout)
             }
-
-            is InsertHistoryEvent -> {
-                workoutInProgressListInteractors.insertHistory.insertHistory(
-                    workout = stateEvent.workout,
-                    idHistoryWorkout = null,
-                    stateEvent = stateEvent
-                )
+            is WorkoutInProgressEvents.InsertHistory->{
+                insertHistory()
             }
-
-            is CreateStateMessageEvent -> {
-                emitStateMessageEvent(
-                    stateMessage = stateEvent.stateMessage,
-                    stateEvent = stateEvent
-                )
+            is WorkoutInProgressEvents.UpdateExercise->{
+                updateExercise(event.exercise)
             }
-
-            else -> {
-                emitInvalidStateEvent(stateEvent)
+            is WorkoutInProgressEvents.LaunchDialog ->{
+                appendToMessageQueue(event.message)
             }
-
+            is WorkoutInProgressEvents.Error -> {
+                appendToMessageQueue(event.message)
+            }
+            is WorkoutInProgressEvents.OnRemoveHeadFromQueue ->{
+                removeHeadFromQueue()
+            }
         }
-
-        launchJob(stateEvent,job)
     }
 
-    override fun initNewViewState(): WorkoutInProgressViewState {
-        return WorkoutInProgressViewState()
+    /*
+        Functions
+     */
+
+    private fun updateExercise(exercise : Exercise){
+        state.value?.let { state ->
+
+            state.workout?.let { workout ->
+
+                val updatedWorkout = workout.copy()
+
+                updatedWorkout.exercises?.find { it.idExercise == exercise.idExercise}?.apply {
+                    sets = exercise.sets
+                    startedAt = exercise.startedAt
+                    endedAt = exercise.endedAt
+                }
+
+                this.state.value = state.copy(workout = updatedWorkout)
+            }
+        }
     }
 
 
-    *//*
+    /*
+        Interactors
+     */
+
+    private fun getWorkoutById(idWorkout: String){
+        state.value?.let { state ->
+
+            inProgressListInteractors.getWorkoutById
+                .execute(idWorkout)
+                .onEach { dataState ->
+
+                    dataState?.data?.let { workout ->
+                        workout.startedAt = dateUtil.getCurrentTimestamp()
+                        this.state.value = state.copy(workout = workout)
+                    }
+
+                    dataState?.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+                }.launchIn(viewModelScope)
+        }
+    }
+
+    private fun insertHistory(){
+        state.value?.let { state ->
+            state.workout?.let { workout ->
+                inProgressListInteractors.insertHistory
+                    .execute(workout)
+                    .onEach { dataState ->
+
+                        dataState?.isLoading?.let { this.state.value = state.copy(isLoading = it) }
+
+                        dataState?.data?.let { idHistory ->
+                        }
+
+                        dataState?.message?.let {  message ->
+                            appendToMessageQueue(message)
+                        }
+                    }.launchIn(viewModelScope)
+            }
+        }
+    }
+    /*
+    Queue managing
+    */
+
+    private fun removeHeadFromQueue(){
+        state.value?.let { state ->
+            try {
+                val queue = state.queue
+                queue.remove() // can throw exception if empty
+                this.state.value = state.copy(queue = queue)
+            }catch (e: Exception){
+            }
+        }
+    }
+
+    private fun appendToMessageQueue(message: GenericMessageInfo.Builder){
+        state.value?.let { state ->
+            val queue = state.queue
+            val messageBuild = message.build()
+            if(!messageBuild.doesMessageAlreadyExistInQueue(queue = queue)){
+                if(messageBuild.uiComponentType !is UIComponentType.None){
+                    queue.add(messageBuild)
+                    this.state.value = state.copy(queue = queue)
+                }
+            }
+        }
+    }
+
+
+
+    /*
 
     Workout In Progress
-    *//*
+    */
 
+/*
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workout ?: null
     fun getExerciseList() : List<Exercise> = getCurrentViewStateOrNew().exerciseList ?: ArrayList()
 
@@ -97,10 +181,6 @@ constructor(
         }?:false
     }
 
-
-    fun getWorkoutById(idWorkout : String) {
-        setStateEvent(GetWorkoutByIdEvent(idWorkout = idWorkout))
-    }
 
     fun setExerciseList(exercises : List<Exercise>?){
         val update = getCurrentViewStateOrNew()
@@ -199,4 +279,5 @@ constructor(
         setStateEvent(InsertHistoryEvent(workout = updateWorkout))
     }
 */
+
 }

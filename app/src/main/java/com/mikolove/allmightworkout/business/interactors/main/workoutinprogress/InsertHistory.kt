@@ -16,6 +16,8 @@ import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class InsertHistory(
@@ -31,13 +33,14 @@ class InsertHistory(
     private val historyExerciseSetFactory: HistoryExerciseSetFactory
 ) {
 
-/*
+
     //This parameter is bad only used for test should change
-    fun insertHistory(
+    fun execute(
         workout : Workout,
-        idHistoryWorkout : String? = null,
-        stateEvent : StateEvent
-    ) : Flow<DataState<WorkoutInProgressViewState>?> = flow {
+        idHistoryWorkout : String? = null
+    ) : Flow<DataState<String>?> = flow {
+
+        emit(DataState.loading<String>())
 
         var listHistoryExerciseSaved : ArrayList<HistoryExercise> = ArrayList()
         var listHistoryExerciseSetSaved : ArrayList<HistoryExerciseSet>
@@ -46,7 +49,7 @@ class InsertHistory(
 
         //Convert Workout into HistoryWorkout
         val historyWorkout = historyWorkoutFactory.createHistoryWorkout(
-            idHistoryWorkout = idHistoryWorkout,
+            idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
             name = workout.name,
             historyExercises = null,
             started_at = workout.startedAt,
@@ -117,27 +120,7 @@ class InsertHistory(
 
             }
             historyWorkout.historyExercises = listHistoryExerciseSaved
-        }
 
-        if(errorOccurred(cacheResponse)){
-            //Delete inserted content if added
-            safeCacheCall(IO){
-                historyWorkoutCacheDataSource.deleteHistoryWorkout(historyWorkout.idHistoryWorkout)
-            }
-
-            //Emit error InsertHistory
-            emit(
-                DataState.data(
-                    response = Response(
-                        message = INSERT_HISTORY_FAILED,
-                        messageType = MessageType.Error(),
-                        uiComponentType = UIComponentType.None()
-                    ),
-                    data = null,
-                    stateEvent = stateEvent
-                ) as DataState<WorkoutInProgressViewState>?
-            )
-        }else{
 
             //Update network
             updateNetworkHistoryWorkout(historyWorkout)
@@ -145,17 +128,31 @@ class InsertHistory(
             //Emit success InsertHistory
             emit(
                 DataState.data(
-                    response = Response(
-                        message = INSERT_HISTORY_SUCCESS,
-                        messageType = MessageType.Success(),
-                        uiComponentType = UIComponentType.None()
-                    ),
-                    data = WorkoutInProgressViewState(idHistoryWorkoutInserted = historyWorkout.idHistoryWorkout),
-                    stateEvent = stateEvent
-                )as DataState<WorkoutInProgressViewState>?
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertHistory.Success")
+                        .title("Insert history success")
+                        .description(INSERT_HISTORY_SUCCESS)
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = historyWorkout.idHistoryWorkout,)
+            )
+
+        }
+        else{
+            safeCacheCall(IO){
+                historyWorkoutCacheDataSource.deleteHistoryWorkout(historyWorkout.idHistoryWorkout)
+            }
+
+            emit(
+                DataState.error<String>(
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertHistory.Failed")
+                        .title("Insert history failed")
+                        .description(INSERT_HISTORY_FAILED)
+                        .messageType(MessageType.Error)
+                        .uiComponentType(UIComponentType.Toast),)
             )
         }
-
     }
 
     private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): DataState<Long>? {
@@ -164,14 +161,17 @@ class InsertHistory(
         }
 
         return object : CacheResponseHandler<Long, Long>(
-            cacheInsertHWorkout,
-            null
+            cacheInsertHWorkout
         ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = GenericMessageInfo.Builder()
+                        .id("")
+                        .title("")
+                        .description("")
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = resultObj
                 )
             }
         }.getResult()
@@ -188,13 +188,16 @@ class InsertHistory(
 
         return object : CacheResponseHandler<Long, Long>(
             cacheInsertExercise,
-            null
         ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = GenericMessageInfo.Builder()
+                        .id("")
+                        .title("")
+                        .description("")
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = resultObj
                 )
             }
         }.getResult()
@@ -214,13 +217,16 @@ class InsertHistory(
 
         return object : CacheResponseHandler<Long, Long>(
             cacheInsertExerciseSet,
-            null
         ) {
             override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = GenericMessageInfo.Builder()
+                        .id("")
+                        .title("")
+                        .description("")
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = resultObj
                 )
             }
         }.getResult()
@@ -233,14 +239,17 @@ class InsertHistory(
         }
         val response = object : CacheResponseHandler<WorkoutType,WorkoutType>(
             cacheResult,
-            null
         ){
             override suspend fun handleSuccess(resultObj: WorkoutType): DataState<WorkoutType> {
 
                 return DataState.data(
-                    response = null,
+                    message = GenericMessageInfo.Builder()
+                        .id("")
+                        .title("")
+                        .description("")
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
                     data = resultObj,
-                    stateEvent = null
                 )
             }
         }.getResult()
@@ -277,7 +286,6 @@ class InsertHistory(
             }
         }
     }
-*/
 
     companion object{
 

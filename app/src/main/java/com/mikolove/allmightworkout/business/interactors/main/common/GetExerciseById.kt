@@ -9,41 +9,40 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetExerciseById
-    (val exerciseCacheDataSource: ExerciseCacheDataSource){
+class GetExerciseById(
+    val exerciseCacheDataSource: ExerciseCacheDataSource
+) {
 
-     /*   inline fun <reified ViewState> getExerciseById(
-            idExercise : String,
-            stateEvent : StateEvent
-        ) : Flow<DataState<ViewState>?> = flow {
+        fun execute(
+            idExercise : String
+        ): Flow<DataState<Exercise>?> = flow {
+
+            emit(DataState.loading())
 
             val cacheResult = safeCacheCall(IO){
                 exerciseCacheDataSource.getExerciseById(idExercise)
             }
 
-            val response  = object : CacheResponseHandler<ViewState, Exercise>(
-                response = cacheResult,
-                stateEvent = stateEvent
+            val response  = object : CacheResponseHandler<Exercise, Exercise>(
+                response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Exercise): DataState<ViewState>? {
-
-                    val viewState = ExerciseViewState(exerciseSelected = resultObj)
+                override suspend fun handleSuccess(resultObj: Exercise): DataState<Exercise>? {
 
                     return DataState.data(
-                        response = Response(
-                            message= GET_EXERCISE_BY_ID_SUCCESS,
-                            uiComponentType = UIComponentType.None(),
-                            messageType = MessageType.Success(),
-                        ),
-                        data = viewState as ViewState,
-                        stateEvent = stateEvent
+                        message = GenericMessageInfo.Builder()
+                            .id("GetExerciseById.Success")
+                            .title("Get exercise by id")
+                            .description(GET_EXERCISE_BY_ID_SUCCESS)
+                            .messageType(MessageType.Success)
+                            .uiComponentType(UIComponentType.None),
+                        data = resultObj,
                     )
                 }
             }.getResult()
 
             emit(response)
         }
-*/
+
     companion object{
         val GET_EXERCISE_BY_ID_SUCCESS = "Successfully retrieved exercise by id."
     }

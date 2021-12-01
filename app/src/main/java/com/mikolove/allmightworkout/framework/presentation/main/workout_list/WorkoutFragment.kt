@@ -77,7 +77,17 @@ class WorkoutFragment
         setupSwipeRefresh()
         subscribeObservers()
 
-        viewModel.onTriggerEvent(LoadWorkouts)
+        // If an update occurred from UpdateBlogFragment, refresh the BlogPost
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+            SHOULD_REFRESH)?.observe(viewLifecycleOwner) { shouldRefresh ->
+            shouldRefresh?.run {
+                printLogD("WorkoutFragment","Launch refresh")
+                viewModel.onTriggerEvent(Refresh)
+                findNavController().currentBackStackEntry?.savedStateHandle?.set(SHOULD_REFRESH, null)
+            }
+        }
+
+
 /*        MaterialDialog(requireActivity())
             .show{
                 title(text = "Test")
@@ -191,16 +201,11 @@ class WorkoutFragment
 
             listAdapter?.apply {
                 submitList(list = state.listWorkouts)
-                printLogD("WorkoutFragment","state.list.size ${state.listWorkouts.size} - itemcount ${itemCount}")
                 if(itemCount > 0){
                     showList()
                 }else{
                     hideList()
                 }
-            }
-
-            state.insertedWorkout?.let {
-
             }
         })
 

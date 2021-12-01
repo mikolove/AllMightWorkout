@@ -1,4 +1,22 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state
+package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
+
+import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+
+sealed class WorkoutInProgressEvents{
+
+    data class GetWorkoutById(val idWorkout : String) : WorkoutInProgressEvents()
+
+    object InsertHistory : WorkoutInProgressEvents()
+
+    data class UpdateExercise(val exercise : Exercise) : WorkoutInProgressEvents()
+
+    class LaunchDialog(val message : GenericMessageInfo.Builder) : WorkoutInProgressEvents()
+
+    data class Error(val message: GenericMessageInfo.Builder): WorkoutInProgressEvents()
+
+    object OnRemoveHeadFromQueue: WorkoutInProgressEvents()
+}
 
 /*
 import com.mikolove.allmightworkout.business.domain.model.Workout

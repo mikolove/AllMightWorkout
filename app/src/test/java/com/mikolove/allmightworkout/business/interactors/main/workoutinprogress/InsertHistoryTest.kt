@@ -96,7 +96,7 @@ class InsertHistoryTest {
 
         val totalSize = historyExerciseCacheDataSource.getTotalHistoryExercise()
 
-        insertHistory.insertHistory(
+        insertHistory.execute(
             workout = workout,
             stateEvent = InsertHistoryEvent(workout)
         ).collect(object : FlowCollector<DataState<WorkoutInProgressViewState>?>{
@@ -130,7 +130,7 @@ class InsertHistoryTest {
         val workout = generateWorkoutWithExerciseAndSet()
         var idHistoryWorkout : String? = ""
 
-        insertHistory.insertHistory(
+        insertHistory.execute(
             workout = workout,
             idHistoryWorkout = FORCE_GENERAL_FAILURE,
             stateEvent = InsertHistoryEvent(workout)

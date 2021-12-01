@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_detail
 
+import androidx.datastore.dataStore
 import androidx.lifecycle.*
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
@@ -23,16 +24,15 @@ constructor(
 
     val state: MutableLiveData<WorkoutDetailState> = MutableLiveData(WorkoutDetailState())
 
-/*
+
     init {
 
         printLogD("WorkoutDetailViewModel","Init WorkoutDetailViewModel")
         savedStateHandle.get<String>("idWorkout")?.let { idWorkout ->
-            printLogD("WorkoutDetailViewModel","Launch Get workout by id ${idWorkout}")
             onTriggerEvent(WorkoutDetailEvents.GetWorkoutById(idWorkout = idWorkout))
         }
     }
-*/
+
 
     private val workoutInteractionManager: WorkoutInteractionManager = WorkoutInteractionManager()
 
@@ -44,6 +44,7 @@ constructor(
 
 
     fun onTriggerEvent(event: WorkoutDetailEvents){
+        printLogD("WorkoutDetailViewModel","Launching event $event")
         when(event){
             is WorkoutDetailEvents.GetWorkoutById->{
                 getWorkoutById(event.idWorkout)
@@ -51,11 +52,20 @@ constructor(
             is WorkoutDetailEvents.UpdateWorkout->{
                 updateWorkout()
             }
+            is WorkoutDetailEvents.ReloadWorkout->{
+                reloadWorkout()
+            }
             is WorkoutDetailEvents.RemoveWorkout->{
                 removeWorkout()
             }
+            is WorkoutDetailEvents.DeleteExercise->{
+                deleteExercise(event.idExercise)
+            }
             is WorkoutDetailEvents.OnUpdateWorkout->{
                 onUpdateWorkout(event.name,event.isActive)
+            }
+            is WorkoutDetailEvents.OnUpdateDone->{
+                onUpdateDone()
             }
             is WorkoutDetailEvents.OnUpdateIsPending ->{
                 onUpdateIsPending(event.isPending)
@@ -73,6 +83,12 @@ constructor(
     }
 
 
+    private fun reloadWorkout(){
+        onTriggerEvent(WorkoutDetailEvents.OnUpdateDone)
+        state.value?.workout?.let { workout ->
+            onTriggerEvent(WorkoutDetailEvents.GetWorkoutById(workout.idWorkout))
+        }
+    }
     private fun onUpdateIsPending(isPending : Boolean){
         state.value?.let { state ->
             this.state.value = state.copy(isUpdatePending = isPending)
@@ -86,11 +102,10 @@ constructor(
         }
     }
 
-    fun onLoadDetail(){
-        //savestate this should persist let's see.
-        savedStateHandle.get<String>("idWorkout")?.let { idWorkout ->
-            printLogD("WorkoutDetailViewModel","Launch Get workout by id ${idWorkout}")
-            onTriggerEvent(WorkoutDetailEvents.GetWorkoutById(idWorkout = idWorkout))
+    private fun onUpdateDone(){
+        state.value?.let { state ->
+            this.state.value = state.copy(isUpdateDone = true)
+            printLogD("WorkoutDetailViewModel","${this.state.value}")
         }
     }
 
@@ -128,6 +143,7 @@ constructor(
                     this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                     dataState?.data?.let {
+                        onTriggerEvent(WorkoutDetailEvents.OnUpdateDone)
                         onTriggerEvent(WorkoutDetailEvents.OnUpdateIsPending(false))
                     }
 
@@ -145,6 +161,27 @@ constructor(
                 workoutInteractors.removeWorkout.execute(
                     workout = workout
                 ).onEach { dataState ->
+                    dataState?.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+
+                }.launchIn(viewModelScope)
+            }
+        }
+    }
+
+    private fun deleteExercise(idExercise : String){
+        state.value?.let { state ->
+            state.workout?.let { workout ->
+                workoutInteractors.removeExerciseFromWorkout.execute(
+                    idExercise = idExercise,
+                    idWorkout = workout.idWorkout
+                ).onEach { dataState ->
+
+                    dataState?.data?.let {
+                        onTriggerEvent(WorkoutDetailEvents.ReloadWorkout)
+                    }
+
                     dataState?.message?.let { message ->
                         appendToMessageQueue(message)
                     }
