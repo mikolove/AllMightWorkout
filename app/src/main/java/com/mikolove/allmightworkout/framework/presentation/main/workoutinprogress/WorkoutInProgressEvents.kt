@@ -11,6 +11,10 @@ sealed class WorkoutInProgressEvents{
 
     data class UpdateExercise(val exercise : Exercise) : WorkoutInProgressEvents()
 
+    object UpdateWorkoutEnded : WorkoutInProgressEvents()
+
+    object UpdateWorkoutDone : WorkoutInProgressEvents()
+
     class LaunchDialog(val message : GenericMessageInfo.Builder) : WorkoutInProgressEvents()
 
     data class Error(val message: GenericMessageInfo.Builder): WorkoutInProgressEvents()

@@ -54,6 +54,12 @@ constructor(
             is WorkoutInProgressEvents.UpdateExercise->{
                 updateExercise(event.exercise)
             }
+            is WorkoutInProgressEvents.UpdateWorkoutEnded->{
+                updateWorkoutEnded()
+            }
+            is WorkoutInProgressEvents.UpdateWorkoutDone->{
+                updateWorkoutDone()
+            }
             is WorkoutInProgressEvents.LaunchDialog ->{
                 appendToMessageQueue(event.message)
             }
@@ -88,6 +94,24 @@ constructor(
         }
     }
 
+    private fun updateWorkoutDone(){
+        state.value?.let { state ->
+            state.workout?.exercises?.let { exercises ->
+                if(exercises.all { it.endedAt != null }){
+                    this.state.value = state.copy(isWorkoutDone = true)
+                }
+            }
+        }
+    }
+
+    private fun updateWorkoutEnded(){
+        state.value?.let { state ->
+            state.workout?.let { workout ->
+                val updateWorkout = workout.copy(endedAt = dateUtil.getCurrentTimestamp())
+                this.state.value = state.copy(workout = updateWorkout)
+            }
+        }
+    }
 
     /*
         Interactors

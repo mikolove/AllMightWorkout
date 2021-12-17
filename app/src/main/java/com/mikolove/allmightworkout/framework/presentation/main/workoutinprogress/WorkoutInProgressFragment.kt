@@ -23,6 +23,7 @@ import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ExerciseInProgressEvents
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,7 @@ class WorkoutInProgressFragment():
     @Inject
     lateinit var dateUtil: DateUtil
 
-    val args: WorkoutInProgressFragmentArgs by navArgs()
+    //val args: WorkoutInProgressFragmentArgs by navArgs()
     var binding : FragmentWorkoutInProgressBinding? = null
     var listAdapter : WorkoutInProgressAdapter? = null
 
@@ -68,17 +69,21 @@ class WorkoutInProgressFragment():
         )?.observe(viewLifecycleOwner) { shouldRefresh ->
             shouldRefresh?.run {
                 viewModel.onTriggerEvent(WorkoutInProgressEvents.UpdateExercise(exercise = this))
-                findNavController().currentBackStackEntry?.savedStateHandle?.set(EXERCISE_UPDATED, null)
+                viewModel.onTriggerEvent(WorkoutInProgressEvents.UpdateWorkoutDone)
+                //findNavController().currentBackStackEntry?.savedStateHandle?.set(EXERCISE_UPDATED, null)
+                findNavController().currentBackStackEntry?.savedStateHandle?.remove<Exercise>(SHOULD_REFRESH)
             }
         }
 
 
         binding?.wipWorkoutButtonEnd?.setOnClickListener {
-/*            if(viewModel.isWorkoutDone()){
-                quitWorkoutAndSave()
-            }else{
-                areYouSureToQuitWorkout()
-            }*/
+            viewModel.state.value?.isWorkoutDone?.let { isDone ->
+                if(isDone){
+                    quitWorkoutAndSave()
+                }else{
+                    areYouSureToQuitWorkout()
+                }
+            }
         }
 
     }
@@ -210,14 +215,8 @@ class WorkoutInProgressFragment():
 
 
     private fun quitWorkoutAndSave(){
-
-        //saveWorkout
-    /*    val workout = viewModel.getWorkout()
-        val exerciseList = viewModel.getExerciseList()
-        if(workout!=null && exerciseList != null){
-            saveWorkout(workout,exerciseList)
-        }
-*/
+        viewModel.onTriggerEvent(WorkoutInProgressEvents.UpdateWorkoutEnded)
+        viewModel.onTriggerEvent(WorkoutInProgressEvents.InsertHistory)
     }
 
     private fun navigateToExercise(idExercise : String){
@@ -238,28 +237,34 @@ class WorkoutInProgressFragment():
     }
 
     private fun areYouSureToQuitWorkout(){
-/*        viewModel.setStateEvent(
-            WorkoutInProgressStateEvent.CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = WIP_ARE_YOU_SURE_STOP_EXERCISE,
-                        uiComponentType = UIComponentType.AreYouSureSaveDialog(
-                            object : AreYouSureSaveCallback {
 
-                                override fun proceedSave() {
-                                    quitWorkoutAndSave()
-                                }
-
-                                override fun proceedNotSave() {
-                                    onBackPressed()
-                                }
-                            }
-                        ),
-                        messageType = MessageType.Info()
-                    )
+        val message = GenericMessageInfo.Builder()
+            .id("WorkoutInProgressFragment.AreYouSureToQuitWorkout")
+            .title("Abort workout")
+            .description(WIP_ARE_YOU_SURE_STOP_EXERCISE)
+            .messageType(MessageType.None)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "Save",
+                    onPositiveAction = {
+                        quitWorkoutAndSave()
+                    }
                 )
             )
-        )*/
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Abort workout",
+                    onNegativeAction = {
+                        onBackPressed()
+                    }
+                )
+            )
+        launchDialog(message)
+    }
+
+    private fun launchDialog(message : GenericMessageInfo.Builder){
+        viewModel.onTriggerEvent(WorkoutInProgressEvents.LaunchDialog(message))
     }
 
     private fun areYouSureToQuitWithoutSaving(){

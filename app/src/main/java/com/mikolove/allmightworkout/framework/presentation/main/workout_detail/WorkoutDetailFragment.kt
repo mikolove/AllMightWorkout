@@ -61,7 +61,8 @@ class WorkoutDetailFragment:
         //Loading workout from savestatehandle in viewmodel
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(SHOULD_REFRESH)?.observe(viewLifecycleOwner) { shouldRefresh ->
             shouldRefresh?.run {
-                findNavController().currentBackStackEntry?.savedStateHandle?.set(SHOULD_REFRESH, null)
+                //findNavController().currentBackStackEntry?.savedStateHandle?.set(SHOULD_REFRESH, null)
+                findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>(SHOULD_REFRESH)
                 viewModel.onTriggerEvent(WorkoutDetailEvents.ReloadWorkout)
             }
         }
