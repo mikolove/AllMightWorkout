@@ -317,7 +317,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             .id("ExerciseInProgressFragment.AreYouSureToQuit")
             .title(WIP_ARE_YOU_SURE_STOP_EXERCISE)
             .description("")
-            .messageType(MessageType.None)
+            .messageType(MessageType.Info)
             .uiComponentType(UIComponentType.Dialog)
             .positive(
                 PositiveAction(

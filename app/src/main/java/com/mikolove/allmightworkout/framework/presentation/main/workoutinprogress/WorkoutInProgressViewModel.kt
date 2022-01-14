@@ -104,6 +104,12 @@ constructor(
         }
     }
 
+    private fun updateExitWorkout(){
+        state.value?.let { state ->
+            this.state.value = state.copy(exitWorkout = true)
+        }
+    }
+
     private fun updateWorkoutEnded(){
         state.value?.let { state ->
             state.workout?.let { workout ->
@@ -149,6 +155,7 @@ constructor(
                         }
 
                         dataState?.message?.let {  message ->
+                            updateExitWorkout()
                             appendToMessageQueue(message)
                         }
                     }.launchIn(viewModelScope)

@@ -1,21 +1,27 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout_list
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
+import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_FILTER
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_ORDER
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
+import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
+import com.mikolove.allmightworkout.business.interactors.main.workout.GetWorkouts
+import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
+import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.InsertWorkout
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutFilterOptions
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutOrderOptions
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -24,86 +30,78 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WorkoutListViewModel
+class ExerciseListViewModel
 @Inject
 constructor(
-    private val workoutInteractors: WorkoutInteractors,
+    private val exerciseInteractors: ExerciseInteractors,
     private val appDataStoreManager: AppDataStore,
+) : ViewModel() {
 
-    ) : ViewModel() {
-    
-    /*
-        Observable data
-     */
-    val state: MutableLiveData<WorkoutListState> = MutableLiveData(WorkoutListState())
+    val state: MutableLiveData<ExerciseListState> = MutableLiveData(ExerciseListState())
 
-    val workoutListInteractionManager = ListInteractionManager<Workout>()
+    val exerciseListInteractionManager = ListInteractionManager<Exercise>()
 
-    val workoutToolbarState: LiveData<ListToolbarState>
-        get() = workoutListInteractionManager.toolbarState
+    val exerciseToolbarState: LiveData<ListToolbarState>
+        get() = exerciseListInteractionManager.toolbarState
 
     init {
-        printLogD("WorkoutListViewModel","Launch get and order")
-        onTriggerEvent(GetOrderAndFilter)
+        printLogD("ExerciseListViewModel","Launch get and order")
+        onTriggerEvent(ExerciseListEvents.GetOrderAndFilter)
     }
 
-    /*
-        Event
-     */
-    fun onTriggerEvent(event: WorkoutListEvents){
+
+    fun onTriggerEvent(event: ExerciseListEvents){
         when(event) {
-            is NewSearch ->{
+            is ExerciseListEvents.NewSearch ->{
                 search()
             }
-            is NextPage->{
+            is ExerciseListEvents.NextPage ->{
                 nextPage()
             }
-            is Refresh->{
-                getWorkouts()
+            is ExerciseListEvents.Refresh ->{
+                getExercises()
             }
-            is UpdateQuery->{
+            is ExerciseListEvents.UpdateQuery ->{
                 onUpdateQuery(event.query)
             }
-            is UpdateFilter->{
+            is ExerciseListEvents.UpdateFilter ->{
                 onUpdateFilter(event.filter)
             }
-            is UpdateOrder->{
+            is ExerciseListEvents.UpdateOrder ->{
                 onUpdateOrder(event.order)
             }
-            is GetOrderAndFilter->{
+            is ExerciseListEvents.GetOrderAndFilter ->{
                 getOrderAndFilter()
             }
-            is InsertWorkout->{
-                insertWorkout(event.name)
+            is ExerciseListEvents.RemoveSelectedExercises ->{
+                removeSelectedExercises()
             }
-            is RemoveSelectedWorkouts->{
-                removeSelectedWorkouts()
-            }
-            is LaunchDialog->{
+            is ExerciseListEvents.LaunchDialog ->{
                 appendToMessageQueue(event.message)
             }
-            is Error -> {
+            is ExerciseListEvents.Error -> {
                 appendToMessageQueue(event.message)
             }
-            is OnRemoveHeadFromQueue ->{
+            is ExerciseListEvents.OnRemoveHeadFromQueue ->{
                 removeHeadFromQueue()
             }
         }
 
     }
 
+
     /*
-        Functions
-     */
+      Functions
+   */
     private fun search(){
         resetPage()
         onUpdateQueryExhausted(false)
-        getWorkouts()
+        getExercises()
     }
 
     private fun nextPage(){
         incrementPageNumber()
-        getWorkouts()
+        getExercises()
     }
 
     fun resetPage(){
@@ -128,14 +126,14 @@ constructor(
         }
     }
 
-    private fun onUpdateFilter(filter : WorkoutFilterOptions){
+    private fun onUpdateFilter(filter : ExerciseFilterOptions){
         state.value?.let { state ->
             this.state.value = state.copy(list_filter = filter)
             saveFilterOptions(filter.value, state.list_order.value)
         }
     }
 
-    private fun onUpdateOrder(order : WorkoutOrderOptions){
+    private fun onUpdateOrder(order : ExerciseOrderOptions){
         state.value?.let { state ->
             this.state.value = state.copy(list_order = order)
             saveFilterOptions(state.list_filter.value,order.value)
@@ -144,34 +142,34 @@ constructor(
 
     private fun saveFilterOptions(filter: String, order: String) {
         viewModelScope.launch {
-            appDataStoreManager.setValue(WORKOUT_FILTER, filter)
-            appDataStoreManager.setValue(WORKOUT_ORDER, order)
+            appDataStoreManager.setValue(DataStoreKeys.EXERCISE_FILTER, filter)
+            appDataStoreManager.setValue(DataStoreKeys.EXERCISE_ORDER, order)
         }
     }
 
     /*
-        Getters & Setters
-     */
+    Getters & Setters
+ */
 
     fun getSearchQuery(): String {
         return state.value?.query ?: return ""
     }
 
-    fun getSelectedWorkouts() = workoutListInteractionManager.getSelectedItems()
+    fun getSelectedExercises() = exerciseListInteractionManager.getSelectedItems()
 
-    fun setWorkoutToolbarState(state: ListToolbarState)
-            = workoutListInteractionManager.setToolbarState(state)
+    fun setExerciseToolbarState(state: ListToolbarState)
+            = exerciseListInteractionManager.setToolbarState(state)
 
-    fun isWorkoutMultiSelectionStateActive()
-            = workoutListInteractionManager.isMultiSelectionStateActive()
+    fun isExerciseMultiSelectionStateActive()
+            = exerciseListInteractionManager.isMultiSelectionStateActive()
 
-    fun addOrRemoveWorkoutFromSelectedList(workout: Workout)
-            = workoutListInteractionManager.addOrRemoveItemFromSelectedList(workout)
+    fun addOrRemoveExerciseFromSelectedList(exercise: Exercise)
+            = exerciseListInteractionManager.addOrRemoveItemFromSelectedList(exercise)
 
-    fun isWorkoutSelected(workout: Workout): Boolean
-            = workoutListInteractionManager.isItemSelected(workout)
+    fun isExerciseSelected(exercise: Exercise): Boolean
+            = exerciseListInteractionManager.isItemSelected(exercise)
 
-    fun clearSelectedWorkouts() = workoutListInteractionManager.clearSelectedItems()
+    fun clearSelectedExercises() = exerciseListInteractionManager.clearSelectedItems()
 
     fun setIsSearchActive(isActive : Boolean){
         state.value?.let { state ->
@@ -183,14 +181,13 @@ constructor(
         return state.value?.searchActive ?: return false
     }
 
-
     /*
-        Interactors
-     */
+       Interactors
+    */
 
     private fun getOrderAndFilter(){
         state.value?.let { state ->
-            workoutInteractors.getWorkoutOrderAndFilter.execute()
+            exerciseInteractors.getExerciseOrderAndFilter.execute()
                 .onEach { dataState ->
 
                     dataState.data?.let { orderAndFilter ->
@@ -200,7 +197,7 @@ constructor(
                             list_order = order,
                             list_filter = filter
                         )
-                        onTriggerEvent(NewSearch)
+                        onTriggerEvent(ExerciseListEvents.NewSearch)
                     }
 
                     dataState.message?.let { stateMessage ->
@@ -210,10 +207,10 @@ constructor(
         }
     }
 
-    private fun getWorkouts(){
+    private fun getExercises(){
         state.value?.let { state ->
 
-            workoutInteractors.getWorkouts.execute(
+            exerciseInteractors.getExercises.execute(
                 query = state.query,
                 filterAndOrder = state.list_order.value + state.list_filter.value,
                 page = state.page
@@ -221,13 +218,13 @@ constructor(
 
                 this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                dataState?.data?.let { listWorkout ->
-                    this.state.value = state.copy(listWorkouts = listWorkout)
+                dataState?.data?.let { listExercise ->
+                    this.state.value = state.copy(listExercises = listExercise)
                 }
 
                 dataState?.message?.let { message ->
 
-                    if(message.description.equals(GetWorkouts.GET_WORKOUTS_SUCCESS_END)){
+                    if(message.description.equals(GetExercises.GET_EXERCISES_SUCCESS_END)){
                         onUpdateQueryExhausted(true)
                     }
 
@@ -238,43 +235,24 @@ constructor(
         }
     }
 
-    private fun insertWorkout(name : String){
+
+    private fun removeSelectedExercises(){
         state.value?.let { state ->
-            workoutInteractors.insertWorkout.execute(
-                name = name
-            ).onEach { dataState ->
-
-                dataState?.data?.let{
-                    this.state.value = state.copy(insertedWorkout = it)
-                }
-
-                dataState?.message?.let { message ->
-                    appendToMessageQueue(message)
-                    if(message.description.equals(INSERT_WORKOUT_SUCCESS)){
-                        search()
-                    }
-                }
-            }.launchIn(viewModelScope)
-        }
-    }
-
-    private fun removeSelectedWorkouts(){
-        state.value?.let { state ->
-            workoutInteractors.removeMultipleWorkouts.execute(
-                workouts = getSelectedWorkouts()
+            exerciseInteractors.removeMultipleExercises.execute(
+                exercises = getSelectedExercises()
             ).onEach { dataState ->
 
                 this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                 dataState?.message?.let { message ->
 
-                    setWorkoutToolbarState(ListToolbarState.SelectionState())
-                    clearSelectedWorkouts()
+                    setExerciseToolbarState(ListToolbarState.SelectionState())
+                    clearSelectedExercises()
 
                     appendToMessageQueue(message)
 
-                    if(message.description.equals(DELETE_WORKOUTS_SUCCESS)){
-                        onTriggerEvent(NewSearch)
+                    if(message.description.equals(RemoveMultipleExercises.DELETE_EXERCISES_SUCCESS)){
+                        onTriggerEvent(ExerciseListEvents.NewSearch)
                     }
                 }
 
@@ -290,12 +268,12 @@ constructor(
         state.value?.let { state ->
             try {
                 val queue = state.queue
-                printLogD("WorkoutListViewModel","peek item ${queue.peek()?.id}")
+                printLogD("ExerciseListViewModel","peek item ${queue.peek()?.id}")
                 queue.remove() // can throw exception if empty
                 this.state.value = state.copy(queue = queue)
-                printLogD("WorkoutListViewModel","Removed from queue")
+                printLogD("ExerciseListViewModel","Removed from queue")
             }catch (e: Exception){
-                printLogD("WorkoutListViewModel","Nothing to remove from queue")
+                printLogD("ExerciseListViewModel","Nothing to remove from queue")
             }
         }
     }
@@ -306,7 +284,7 @@ constructor(
             val messageBuild = message.build()
             if(!messageBuild.doesMessageAlreadyExistInQueue(queue = queue)){
                 if(messageBuild.uiComponentType !is UIComponentType.None){
-                    printLogD("WorkoutListViewModel","Added to queue message")
+                    printLogD("ExerciseListViewModel","Added to queue message")
                     queue.add(messageBuild)
                     this.state.value = state.copy(queue = queue)
                 }

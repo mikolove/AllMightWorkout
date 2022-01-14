@@ -11,8 +11,8 @@ import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExis
 import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_SUCCESS_END
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseFilterOptions
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseOrderOptions
+import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
+import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

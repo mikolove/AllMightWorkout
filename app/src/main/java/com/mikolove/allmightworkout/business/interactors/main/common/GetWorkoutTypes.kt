@@ -13,12 +13,11 @@ class GetWorkoutTypes(
     val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
 ) {
 
-   /* inline fun <reified ViewState>  getWorkoutTypes(
+    fun execute(
         query : String,
         filterAndOrder : String,
         page : Int,
-        stateEvent : StateEvent
-    ): Flow<DataState<ViewState>?> = flow {
+    ): Flow<DataState<List<WorkoutType>>?> = flow {
 
         var updatedPage = page
         if(page <= 0) updatedPage = 1
@@ -31,40 +30,34 @@ class GetWorkoutTypes(
             )
         }
 
-        val response = object : CacheResponseHandler<ViewState, List<WorkoutType>>(
+        val response = object : CacheResponseHandler<List<WorkoutType>, List<WorkoutType>>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<ViewState>? {
+            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<List<WorkoutType>>? {
 
-                var message : String? = GET_WORKOUTTYPES_SUCCESS
-                var uiComponentType : UIComponentType = UIComponentType.None()
+                var message : String = GET_WORKOUTTYPES_SUCCESS
+                var uiComponentType : UIComponentType = UIComponentType.None
 
-                if(resultObj.size == 0){
+                if(resultObj.isEmpty()){
                     message = GET_WORKOUTTYPES_NO_MATCHING_RESULTS
-                    uiComponentType = UIComponentType.Toast()
-                }
-
-                val viewState = when(ViewState::class){
-                    WorkoutViewState::class -> WorkoutViewState(listWorkoutTypes = ArrayList(resultObj))
-                    ExerciseViewState::class -> ExerciseViewState(listWorkoutTypes = ArrayList(resultObj))
-                    else -> null
+                    uiComponentType = UIComponentType.Toast
                 }
 
                 return DataState.data(
-                    response = Response(
-                        message = message,
-                        uiComponentType = uiComponentType,
-                        messageType =  MessageType.Success()
-                    ),
-                    data = viewState as ViewState,
-                    stateEvent = stateEvent
+                    message = GenericMessageInfo.Builder()
+                        .id("GetWorkoutTypes.Success")
+                        .title("")
+                        .description(message)
+                        .uiComponentType(uiComponentType)
+                        .messageType(MessageType.Success)
+                    ,
+                    data = resultObj
                 )
             }
         }.getResult()
 
         emit(response)
-    }*/
+    }
 
     companion object{
         val GET_WORKOUTTYPES_SUCCESS = "Successfully retrieved list of workoutTypes."

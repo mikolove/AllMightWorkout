@@ -1,8 +1,8 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_set
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseSetInteractionState.*
+import com.mikolove.allmightworkout.framework.presentation.main.exercise_set.ExerciseSetInteractionState.*
 
 class ExerciseSetInteractionManager{
 

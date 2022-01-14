@@ -11,9 +11,7 @@ sealed class UIComponentType{
 
     object Dialog: UIComponentType()
 
-    class InputCaptureDialog(
-        val callback: DialogInputCaptureCallback
-    ) : UIComponentType()
+    class InputCaptureDialog(val callback: DialogInputCaptureCallback) : UIComponentType()
 
     //object AreYouSureDialog: UIComponentType()
 
@@ -32,9 +30,9 @@ sealed class MessageType{
 
     object Error: MessageType()
 
-    object None: MessageType()
+    object Info: MessageType()
 
-    //class Info: MessageType()
+    object None: MessageType()
 }
 
 

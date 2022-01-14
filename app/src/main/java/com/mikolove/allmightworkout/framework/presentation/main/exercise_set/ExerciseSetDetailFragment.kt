@@ -1,18 +1,7 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_set
 
-import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
-import com.mikolove.allmightworkout.databinding.FragmentExerciseSetDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseSetInteractionState.*
-import com.mikolove.allmightworkout.util.printLogD
 
 class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_detail) {
 

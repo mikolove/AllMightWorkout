@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import android.os.Bundle
 import android.view.*
@@ -6,9 +6,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -24,11 +26,13 @@ import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
 import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,11 +42,11 @@ import javax.inject.Inject
 const val EXERCISE_VIEW_STATE_BUNDLE_KEY = "com.mikolove.allmightworkout.framework.presentation.main.exercise.state"
 
 @AndroidEntryPoint
-class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
+class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     ExerciseListAdapter.Interaction,
-    FabController*/ {
+    FabController {
 
-  /*  val viewModel : ExerciseViewModel by activityViewModels()
+    val viewModel : ExerciseListViewModel by viewModels()
 
     @Inject
     lateinit var dateUtil: DateUtil
@@ -53,13 +57,12 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
     private var binding : FragmentExerciseBinding? = null
 
 
-    *//********************************************************************
+    /*******************************************************************
     LIFECYCLE MANANGEMENT
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,17 +78,23 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
         setupSwipeRefresh()
         subscribeObservers()
 
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
+        // If an update occurred from UpdateBlogFragment, refresh the BlogPost
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+            SHOULD_REFRESH)?.observe(viewLifecycleOwner) { shouldRefresh ->
+            shouldRefresh?.run {
+                viewModel.onTriggerEvent(ExerciseListEvents.Refresh)
+                findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>(SHOULD_REFRESH)
+                //findNavController().currentBackStackEntry?.savedStateHandle?.set(SHOULD_REFRESH, null)
+            }
+        }
+
+        /*postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }*/
 
     }
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.loadTotalExercises()
-        viewModel.loadWorkoutTypes()
-        viewModel.refreshExerciseSearchQuery()
     }
 
     override fun onDestroyView() {
@@ -102,18 +111,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
     }
 
 
-    *//********************************************************************
+    /*******************************************************************
     FRAGEMENT SAVEINSTANCE
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("ExerciseFragment","OnSaveInstanceState")
         super.onSaveInstanceState(outState)
     }
 
-    *//********************************************************************
+    /*******************************************************************
     SUBSCRIBE OBSERVERS
-     *********************************************************************//*
+     ********************************************************************/
 
     private fun subscribeObservers(){
 
@@ -132,7 +141,30 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
             }
         })
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
+
+            state.isLoading?.let { uiController.displayProgressBar(it) }
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(ExerciseListEvents.OnRemoveHeadFromQueue)
+                    }
+                })
+
+            listAdapter?.apply {
+                submitList(list = state.listExercises)
+                if(itemCount > 0){
+                    showList()
+                }else{
+                    hideList()
+                }
+            }
+        })
+
+/*        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if (viewState != null) {
 
@@ -190,25 +222,25 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
                 }
             }
 
-        })
+        })*/
     }
 
 
-    *//********************************************************************
+    /*******************************************************************
     SETUP
-     *********************************************************************//*
+     ********************************************************************/
 
     private fun showList(){
         if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == false) {
-            binding?.fragmentExerciseSwiperefreshlayout?.fadeIn()
-            binding?.fragmentExerciseNoExercise?.fadeOut()
+            binding?.fragmentExerciseSwiperefreshlayout?.visible()
+            binding?.fragmentExerciseNoExercise?.invisible()
         }
     }
 
     private fun hideList(){
         if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == true) {
-            binding?.fragmentExerciseSwiperefreshlayout?.fadeOut()
-            binding?.fragmentExerciseNoExercise?.fadeIn()
+            binding?.fragmentExerciseSwiperefreshlayout?.invisible()
+            binding?.fragmentExerciseNoExercise?.visible()
         }
     }
 
@@ -223,7 +255,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
 
     private fun setupSwipeRefresh(){
         binding?.fragmentExerciseSwiperefreshlayout?.setOnRefreshListener {
-            startNewSearch()
+            viewModel.onTriggerEvent(ExerciseListEvents.NewSearch)
             binding?.fragmentExerciseSwiperefreshlayout?.isRefreshing = false
         }
     }
@@ -248,8 +280,13 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
                     super.onScrollStateChanged(recyclerView, newState)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastPosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastPosition == listAdapter?.itemCount?.minus(1)) {
-                        viewModel.nextPageExercises()
+                    if (
+                        lastPosition == listAdapter?.itemCount?.minus(1) &&
+                        viewModel.state.value?.isLoading == false &&
+                        viewModel.state.value?.isQueryExhausted == false
+                    ) {
+                        printLogD("WorkoutFragment","Next Page")
+                        viewModel.onTriggerEvent(ExerciseListEvents.NextPage)
                     }
                 }
             })
@@ -260,22 +297,22 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
         }
     }
 
-    *//********************************************************************
+    /*******************************************************************
         NAVIGATION
-     *********************************************************************//*
+     ********************************************************************/
 
     private fun insertionNavigateToManageExercise(){
         findNavController().navigate(
             R.id.action_exercise_fragment_to_exercise_detail_fragment,
             null
         )
-        viewModel.setIsExistExercise(false)
+        //viewModel.setIsExistExercise(false)
     }
 
     private fun selectionNavigateToManageExercise(containerView : View){
 
-        viewModel.setIsExistExercise(true)
-        val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
+       //viewModel.setIsExistExercise(true)
+       /* val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
             R.id.action_exercise_fragment_to_exercise_detail_fragment,
@@ -289,87 +326,91 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = 300.toLong()
-        }
+        }*/
     }
 
-    *//********************************************************************
+    /*******************************************************************
     UI DIALOG
-     *********************************************************************//*
+     ********************************************************************/
 
     fun showFilterDialog(){
 
         activity?.let {
-            val dialog = MaterialDialog(it)
-                .noAutoDismiss()
-                .customView(R.layout.dialog_filter)
 
-            val view = dialog.getCustomView()
+            viewModel.state.value?.let { state ->
 
-            val filter = viewModel.getFilterExercises()
-            val order = viewModel.getOrderExercises()
+                val dialog = MaterialDialog(it)
+                    .noAutoDismiss()
+                    .customView(R.layout.dialog_filter)
 
-            view.findViewById<RadioGroup>(R.id.filter_group).apply {
-                when (filter) {
-                    EXERCISE_FILTER_DATE_CREATED -> check(R.id.filter_date)
-                    EXERCISE_FILTER_NAME -> check(R.id.filter_title)
+                val view = dialog.getCustomView()
+
+                val filter = state.list_filter.value
+                val order = state.list_order.value
+
+                view.findViewById<RadioGroup>(R.id.filter_group).apply {
+                    when (filter) {
+                        EXERCISE_FILTER_DATE_CREATED -> check(R.id.filter_date)
+                        EXERCISE_FILTER_NAME -> check(R.id.filter_title)
+                    }
                 }
-            }
 
-            view.findViewById<RadioGroup>(R.id.order_group).apply {
-                when (order) {
-                    EXERCISE_ORDER_ASC -> check(R.id.filter_asc)
-                    EXERCISE_ORDER_DESC -> check(R.id.filter_desc)
+                view.findViewById<RadioGroup>(R.id.order_group).apply {
+                    when (order) {
+                        EXERCISE_ORDER_ASC -> check(R.id.filter_asc)
+                        EXERCISE_ORDER_DESC -> check(R.id.filter_desc)
+                    }
                 }
-            }
 
-            view.findViewById<TextView>(R.id.positive_button).setOnClickListener {
+                view.findViewById<TextView>(R.id.positive_button).setOnClickListener {
 
-                val newFilter =
-                    when (view.findViewById<RadioGroup>(R.id.filter_group).checkedRadioButtonId) {
-                        R.id.filter_title -> EXERCISE_FILTER_NAME
-                        R.id.filter_date -> EXERCISE_FILTER_DATE_CREATED
-                        else -> EXERCISE_FILTER_DATE_CREATED
+                    val newFilter =
+                        when (view.findViewById<RadioGroup>(R.id.filter_group).checkedRadioButtonId) {
+                            R.id.filter_title -> EXERCISE_FILTER_NAME
+                            R.id.filter_date -> EXERCISE_FILTER_DATE_CREATED
+                            else -> EXERCISE_FILTER_DATE_CREATED
+                        }
+
+                    val newOrder =
+                        when (view.findViewById<RadioGroup>(R.id.order_group).checkedRadioButtonId) {
+                            R.id.filter_desc -> "-"
+                            else -> ""
+                        }
+
+                    viewModel.apply {
+                        onTriggerEvent(ExerciseListEvents.UpdateFilter(getFilterFromValue(newFilter)))
+                        onTriggerEvent(ExerciseListEvents.UpdateOrder(getOrderFromValue(newOrder)))
+                        onTriggerEvent(ExerciseListEvents.NewSearch)
                     }
 
-                val newOrder =
-                    when (view.findViewById<RadioGroup>(R.id.order_group).checkedRadioButtonId) {
-                        R.id.filter_desc -> "-"
-                        else -> ""
-                    }
-
-                viewModel.apply {
-                    saveFilterExercisesOptions(newFilter, newOrder)
-                    setExerciseListFilter(newFilter)
-                    setExerciseOrder(newOrder)
+                    //viewModel.onTriggerEvent(ExerciseListEvents.NewSearch)
+                    dialog.dismiss()
                 }
 
-                startNewSearch()
+                view.findViewById<TextView>(R.id.negative_button).setOnClickListener {
+                    dialog.dismiss()
+                }
 
-                dialog.dismiss()
+                dialog.show()
             }
 
-            view.findViewById<TextView>(R.id.negative_button).setOnClickListener {
-                dialog.dismiss()
             }
-
-            dialog.show()
         }
-    }
 
-    *//********************************************************************
+    /*******************************************************************
     UI FAB
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun fabOnClick() {
         //Generate exercise to create
-        val exercise = viewModel.createExercise()
+        /*val exercise = viewModel.createExercise()
         viewModel.setExerciseSelected(exercise)
-        insertionNavigateToManageExercise()
+        insertionNavigateToManageExercise()*/
     }
 
-    *//********************************************************************
+    /*******************************************************************
     ACTION MODE
-     *********************************************************************//*
+     ********************************************************************/
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -416,9 +457,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
         viewModel.clearSelectedExercises()
     }
 
-    *//********************************************************************
+    /*******************************************************************
     MENU
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise, menu)
@@ -434,9 +475,9 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                viewModel.setQueryExercises("")
+                viewModel.onTriggerEvent(ExerciseListEvents.UpdateQuery(""))
                 viewModel.setIsSearchActive(false)
-                startNewSearch()
+                viewModel.onTriggerEvent(ExerciseListEvents.NewSearch)
                 return true
             }
         })
@@ -447,17 +488,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
             if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED
                 || actionId == EditorInfo.IME_ACTION_SEARCH ) {
                 val searchQuery = v.text.toString()
-                viewModel.setQueryExercises(searchQuery)
-                startNewSearch()
+                viewModel.onTriggerEvent(ExerciseListEvents.UpdateQuery(searchQuery))
+                viewModel.onTriggerEvent(ExerciseListEvents.NewSearch)
                 viewModel.setIsSearchActive(true)
             }
             true
         }
 
         //Expand if search isActive on menu reload
+        //TODO : This .getSearchQuery could be out of the state logic
         if(viewModel.isSearchActive()){
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.getSearchQueryExercises(),false)
+            searchView.setQuery(viewModel.getSearchQuery(),false)
         }
 
     }
@@ -473,57 +515,47 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
     }
 
 
-    *//********************************************************************
+    /******************************************************************
         VIEWMODEL ACTIONS
-     *********************************************************************//*
+     ********************************************************************/
 
 
-    private fun startNewSearch(){
-        //viewModel.clearListExercises()
-        viewModel.exercisesStartNewSearch()
-    }
-
-    private fun onErrorNoNameSpecified(){
-        viewModel.setStateEvent(
-            ExerciseStateEvent.CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = INSERT_EXERCISE_ERROR_NO_NAME,
-                        uiComponentType = UIComponentType.Dialog(),
-                        messageType = MessageType.Error()
-                    )
-                )
-            )
-        )
-    }
     private fun deleteExercises(){
-        viewModel.setStateEvent(
-            ExerciseStateEvent.CreateStateMessageEvent(
-                stateMessage = StateMessage(
-                    response = Response(
-                        message = RemoveMultipleExercises.DELETE_EXERCISES_ARE_YOU_SURE,
-                        uiComponentType = UIComponentType.AreYouSureDialog(
-                            object : AreYouSureCallback {
-                                override fun proceed() {
-                                    viewModel.deleteExercises()
-                                }
 
-                                override fun cancel() {
-                                    // do nothing
-                                }
-                            }
-                        ),
-                        messageType = MessageType.Info()
-                    )
+        printLogD("ExerciseListFragment","Launch remove delete workout")
+        val message = GenericMessageInfo.Builder()
+            .id("ExerciseListFragment.LaunchDelete")
+            .title(RemoveMultipleExercises.DELETE_EXERCISES_ARE_YOU_SURE)
+            .description("")
+            .messageType(MessageType.Success)
+            .uiComponentType(UIComponentType.Dialog)
+            .positive(
+                PositiveAction(
+                    positiveBtnTxt = "OK",
+                    onPositiveAction = {
+                        viewModel.onTriggerEvent(ExerciseListEvents.RemoveSelectedExercises)
+                    }
                 )
             )
-        )
+            .negative(
+                NegativeAction(
+                    negativeBtnTxt = "Delete",
+                    onNegativeAction = {}
+                )
+            )
+
+        launchDialog(message)
     }
 
-    *//********************************************************************
-    OVERRIDE UI CONTROLLER TOAST SNACKBAR
-     *********************************************************************//*
+    private fun launchDialog( message : GenericMessageInfo.Builder){
+        viewModel.onTriggerEvent(ExerciseListEvents.LaunchDialog(message))
+    }
 
+    /*******************************************************************
+    OVERRIDE UI CONTROLLER TOAST SNACKBAR
+     ********************************************************************/
+
+/*
     private fun showToastDeleteExercises(){
 
         uiController.onResponseReceived(
@@ -577,17 +609,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
             }
         )
     }
+*/
 
-    *//********************************************************************
+   /*******************************************************************
     WORKOUT LIST ADAPTER INTERACTIONS
-     *********************************************************************//*
+     ********************************************************************/
 
     override fun onItemSelected(position: Int, item: Exercise, containerView: View) {
         if(isMultiSelectionModeEnabled()){
             viewModel.addOrRemoveExerciseFromSelectedList(item)
         }else{
-            viewModel.setExerciseSelected(item)
-            selectionNavigateToManageExercise(containerView)
+            val bundle = bundleOf("idExercise" to item.idExercise)
+            findNavController().navigate(R.id.action_exercise_fragment_to_exercise_detail_fragment, bundle)
         }
     }
 
@@ -600,16 +633,4 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise)/*,
     override fun isExerciseSelected(exercise: Exercise): Boolean {
         return viewModel.isExerciseSelected(exercise)
     }
-
-    *//********************************************************************
-    DEBUG
-     *********************************************************************//*
-
-    private fun printActiveJobs(){
-
-        for((index, job) in viewModel.getActiveJobs().withIndex()){
-            printLogD("ExerciseFragment", "${index}: ${job}")
-        }
-    }
-*/
 }

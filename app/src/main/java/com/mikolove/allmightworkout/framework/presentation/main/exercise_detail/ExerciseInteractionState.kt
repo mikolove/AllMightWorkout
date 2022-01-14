@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise.state
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 sealed class ExerciseInteractionState {
 

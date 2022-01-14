@@ -90,7 +90,7 @@ class RemoveMultipleExercisesTest {
                 break
         }
 
-        removeMultipleExercises?.removeMultipleExercises(
+        removeMultipleExercises?.execute(
             exercises = randomExercises,
             stateEvent = RemoveMultipleExercisesEvent(exercises = randomExercises)
         )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
@@ -142,7 +142,7 @@ class RemoveMultipleExercisesTest {
         }
 
         val exercisesToDelete = ArrayList(validExercises+invalidExercises)
-        removeMultipleExercises?.removeMultipleExercises(
+        removeMultipleExercises?.execute(
             exercises = exercisesToDelete,
             stateEvent = RemoveMultipleExercisesEvent(exercises = exercisesToDelete)
         )?.collect( object : FlowCollector<DataState<ExerciseViewState>?> {
@@ -195,7 +195,7 @@ class RemoveMultipleExercisesTest {
         invalidExercises.add(invalidExercise)
 
         val exercisesToDelete = ArrayList(validExercises + invalidExercises)
-        removeMultipleExercises?.removeMultipleExercises(
+        removeMultipleExercises?.execute(
             exercises = exercisesToDelete,
             stateEvent = RemoveMultipleExercisesEvent(exercises = exercisesToDelete)
         )?.collect(object : FlowCollector<DataState<ExerciseViewState>?> {

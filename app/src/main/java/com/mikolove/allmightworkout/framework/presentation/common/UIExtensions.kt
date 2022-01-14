@@ -5,6 +5,7 @@ import android.text.InputType
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.input.input
 import com.mikolove.allmightworkout.R
@@ -57,15 +58,6 @@ private fun Context.onResponseReceived(
                 stateMessageCallback = stateMessageCallback
             )
         }
-  /*      is UIComponentType.AreYouSureDialog -> {
-
-            areYouSureDialog(
-                message = message,
-                callback = message.uiComponentType.callback,
-                stateMessageCallback = stateMessageCallback
-            )
-        }*/
-
 
         is UIComponentType.None -> {
             // This would be a good place to send to your Error Reporting
@@ -76,96 +68,116 @@ private fun Context.onResponseReceived(
     }
 }
 
+private fun Context.displayDialog(
+    message: GenericMessageInfo,
+    stateMessageCallback: StateMessageCallback
+) {
 
-/*private fun Context.displayDialog(
-   message: GenericMessageInfo,
-   stateMessageCallback: StateMessageCallback
-){
-  when (message.messageType) {
+    when(message.messageType){
 
-       *//*is MessageType.Info -> {
-            displayInfoDialog(
-                message = message,
-                stateMessageCallback = stateMessageCallback
-            )
-        }*//*
-
-        is MessageType.Success -> {
+        is MessageType.Success ->{
             displaySuccessDialog(
-                message = message,
-                stateMessageCallback = stateMessageCallback
+                message,
+                stateMessageCallback
             )
         }
-
-        is MessageType.Error -> {
+        is MessageType.Error ->{
             displayErrorDialog(
-                message = message,
-                stateMessageCallback = stateMessageCallback
+                message,
+                stateMessageCallback
             )
         }
-
-        else -> {
+        is MessageType.Info ->{
+            displayInfoDialog(
+                message,
+                stateMessageCallback
+            )
+        }
+        else ->{
+            printLogD("UIExtensions", "onResponseReceived: ${message.id}")
             stateMessageCallback.removeMessageFromQueue()
         }
     }
-}*/
+}
 
-/*private fun Context.displaySuccessDialog(
-    message: GenericMessageInfo?,
+
+private fun Context.displaySuccessDialog(
+    message: GenericMessageInfo,
     stateMessageCallback: StateMessageCallback
-) {
+){
     MaterialDialog(this)
         .show{
-            title(text = message?.title)
-            message(text = message?.description)
-            positiveButton(text = message?.positiveAction?.positiveBtnTxt){
+            title(text = message.title)
+            message(text = message.description)
+            positiveButton(text = message.positiveAction?.positiveBtnTxt){
                 stateMessageCallback.removeMessageFromQueue()
+                message.positiveAction?.onPositiveAction?.let { it() }
                 dismiss()
             }
             onDismiss {
-            }
-            cancelable(false)
-        }
-}*/
-
-private fun Context.displayDialog(
-    message: GenericMessageInfo?,
-    stateMessageCallback: StateMessageCallback
-) {
-
-    MaterialDialog(this)
-        .show{
-            title(text = message?.title)
-            message(text = message?.description)
-            positiveButton(text = message?.positiveAction?.positiveBtnTxt){
-                stateMessageCallback.removeMessageFromQueue()
-                message?.positiveAction?.onPositiveAction?.let { it() }
-                dismiss()
-            }
-            negativeButton(text = message?.negativeAction?.negativeBtnTxt){
-                stateMessageCallback.removeMessageFromQueue()
-                message?.negativeAction?.onNegativeAction?.invoke()
-                dismiss()
-            }
-            onDismiss {
-                message?.onDismiss?.invoke()
-                //dismiss()
+                message.onDismiss?.invoke()
             }
             cancelable(false)
         }
 }
 
+private fun Context.displayErrorDialog(
+    message: GenericMessageInfo,
+    stateMessageCallback: StateMessageCallback
+){
+    MaterialDialog(this)
+        .show{
+            title(text = message.title)
+            message(text = message.description)
+            positiveButton(text = message.positiveAction?.positiveBtnTxt){
+                stateMessageCallback.removeMessageFromQueue()
+                message.positiveAction?.onPositiveAction?.let { it() }
+                dismiss()
+            }
+            onDismiss {
+                message.onDismiss?.invoke()
+            }
+            cancelable(false)
+        }
+}
+
+private fun Context.displayInfoDialog(
+    message: GenericMessageInfo,
+    stateMessageCallback: StateMessageCallback
+) {
+    MaterialDialog(this)
+        .show{
+            title(text = message.title)
+            message(text = message.description)
+            positiveButton(text = message.positiveAction?.positiveBtnTxt){
+                stateMessageCallback.removeMessageFromQueue()
+                message.positiveAction?.onPositiveAction?.let { it() }
+                dismiss()
+            }
+            negativeButton(text = message.negativeAction?.negativeBtnTxt){
+                stateMessageCallback.removeMessageFromQueue()
+                message.negativeAction?.onNegativeAction?.invoke()
+                dismiss()
+            }
+            onCancel {
+                stateMessageCallback.removeMessageFromQueue()
+            }
+            onDismiss {
+                message.onDismiss?.invoke()
+            }
+            cancelable(true)
+        }
+}
+
+
 private fun Context. displayInputCaptureDialog(
     message: GenericMessageInfo,
     stateMessageCallback : StateMessageCallback
 ){
-
-    //printLogD("UIExtensions","${message.uiComponentType.toString()}")
     when(message.uiComponentType){
 
         is UIComponentType.InputCaptureDialog -> {
 
-            printLogD("UIExtensions","Launch material dialog")
             MaterialDialog(this).show {
                 title(text = message.title)
                 input(
@@ -178,7 +190,11 @@ private fun Context. displayInputCaptureDialog(
                     stateMessageCallback.removeMessageFromQueue()
                     dismiss()
                 }
+                onCancel {
+                    stateMessageCallback.removeMessageFromQueue()
+                }
                 onDismiss {
+                    message.onDismiss?.invoke()
                 }
                 cancelable(true)
             }
@@ -190,45 +206,6 @@ private fun Context. displayInputCaptureDialog(
     }
 }
 
-private fun Context.displayInfoDialog(
-    message: GenericMessageInfo,
-    stateMessageCallback: StateMessageCallback
-) {
-    MaterialDialog(this)
-        .show{
-            title(text = message?.title)
-            message(text = message?.description)
-            positiveButton(text = message?.positiveAction?.positiveBtnTxt){
-                stateMessageCallback.removeMessageFromQueue()
-                dismiss()
-            }
-            onDismiss {
-            }
-            cancelable(false)
-        }
-}
-
-fun Context.areYouSureDialog(
-    message: GenericMessageInfo,
-    stateMessageCallback: StateMessageCallback
-) {
-    MaterialDialog(this)
-        .show{
-            title(text = message?.title)
-            message(text = message?.description)
-            negativeButton(text = message?.negativeAction?.negativeBtnTxt){
-                message?.negativeAction?.onNegativeAction?.invoke()
-                dismiss()
-            }
-            positiveButton(text = message?.positiveAction?.positiveBtnTxt){
-                message?.positiveAction?.onPositiveAction?.invoke()
-                dismiss()
-            }
-            onDismiss {
-            }
-            cancelable(false)
-        }
-}
 
 fun Context.displayToast(
     @StringRes message:Int,

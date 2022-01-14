@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.databinding.ItemWorkoutExerciseBinding
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseDiffCallBack
+import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseDiffCallBack
 
 class WorkoutExercisesAdapter(
     private val interaction: Interaction? = null

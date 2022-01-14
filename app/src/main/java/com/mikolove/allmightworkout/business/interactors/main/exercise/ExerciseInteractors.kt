@@ -22,6 +22,7 @@ class ExerciseInteractors(
     val getBodyParts: GetBodyParts,
     val getBodyPartsByWorkoutType: GetBodyPartsByWorkoutType,
     val getTotalBodyParts: GetTotalBodyParts,
-    val getTotalBodyPartsByWorkoutType: GetTotalBodyPartsByWorkoutType
+    val getTotalBodyPartsByWorkoutType: GetTotalBodyPartsByWorkoutType,
+    val getExerciseOrderAndFilter : GetExerciseOrderAndFilter
 ) {
 }

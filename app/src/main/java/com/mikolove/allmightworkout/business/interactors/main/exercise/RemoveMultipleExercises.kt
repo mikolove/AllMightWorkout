@@ -7,6 +7,7 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,13 +17,12 @@ class RemoveMultipleExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-   /* // set true if an error occurs when deleting any of the exercises from cache
+    // set true if an error occurs when deleting any of the exercises from cache
     private var onDeleteError: Boolean = false
 
-    fun removeMultipleExercises(
+    fun execute(
         exercises : List<Exercise>,
-        stateEvent : StateEvent
-    ): Flow<DataState<ExerciseViewState>?> = flow {
+    ): Flow<DataState<Int>?> = flow {
 
         val successfulDeletes : ArrayList<Exercise> = ArrayList()
 
@@ -32,11 +32,10 @@ class RemoveMultipleExercises(
                 exerciseCacheDataSource.removeExerciseById(exercise.idExercise)
             }
 
-            val response = object : CacheResponseHandler<ExerciseViewState, Int>(
-                response = cacheResult,
-                stateEvent = stateEvent
+            val response = object : CacheResponseHandler<Int, Int>(
+                response = cacheResult
             ) {
-                override suspend fun handleSuccess(resultObj: Int): DataState<ExerciseViewState>? {
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
                     if (resultObj < 0) { // error
                         onDeleteError = true
                     } else { // success
@@ -47,7 +46,7 @@ class RemoveMultipleExercises(
             }.getResult()
 
             //Check for random errors
-            if (response?.message?.response?.message?.contains(stateEvent.errorInfo()) == true) {
+            if (response?.message?.messageType is MessageType.Error) {
                 onDeleteError = true
             }
 
@@ -55,24 +54,24 @@ class RemoveMultipleExercises(
 
         if(onDeleteError){
             emit(
-                DataState.data<ExerciseViewState>(
-                    response = Response(
-                        message = DELETE_EXERCISES_ERRORS,
-                        uiComponentType = UIComponentType.Dialog(),
-                        messageType = MessageType.Error()),
-                    data = null,
-                    stateEvent = stateEvent
-                ))
+                DataState<Int>(
+                    message = GenericMessageInfo.Builder()
+                        .id("RemoveMultipleExercises.Error")
+                        .title("")
+                        .description(RemoveMultipleExercises.DELETE_EXERCISES_ERRORS)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Error))
+            )
         }else{
             emit(
-                DataState.data<ExerciseViewState>(
-                    response = Response(
-                        message = DELETE_EXERCISES_SUCCESS,
-                        uiComponentType = UIComponentType.Toast(),
-                        messageType = MessageType.Success()),
-                    data = null,
-                    stateEvent = stateEvent
-                ))
+                DataState<Int>(
+                    message = GenericMessageInfo.Builder()
+                        .id("RemoveMultipleExercises.Success")
+                        .title("")
+                        .description(RemoveMultipleExercises.DELETE_EXERCISES_SUCCESS)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Success))
+            )
         }
 
         updateNetwork(successfulDeletes)
@@ -91,7 +90,7 @@ class RemoveMultipleExercises(
         }
     }
 
-*/
+
     companion object{
         val DELETE_EXERCISES_SUCCESS = "Successfully deleted exercises."
         val DELETE_EXERCISES_ERRORS = "Not all the exercises were deleted. Errors occurs."

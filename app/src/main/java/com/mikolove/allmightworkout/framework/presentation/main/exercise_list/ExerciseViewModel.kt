@@ -1,27 +1,11 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Update
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
-import com.mikolove.allmightworkout.business.interactors.main.exercise.InsertExercise.Companion.INSERT_EXERCISE_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
-import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise
-import com.mikolove.allmightworkout.framework.datasource.cache.database.*
-import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseSetCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
-import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.*
-import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 const val EXERCISE_INCOMPLETE = "Exercise is incomplete, please fill the form values."
@@ -46,7 +30,7 @@ constructor(
     }
 
     */
-/********************************************************************
+    /********************************************************************
         LIVEDATA
      *********************************************************************//*
 
@@ -1173,7 +1157,7 @@ constructor(
 
 
     */
-/********************************************************************
+    /********************************************************************
     INTERACTIONS EXERCISE & SET STATE
      *********************************************************************//*
 

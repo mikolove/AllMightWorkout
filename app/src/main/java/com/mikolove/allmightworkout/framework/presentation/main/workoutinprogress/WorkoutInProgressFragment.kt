@@ -126,6 +126,12 @@ class WorkoutInProgressFragment():
                     }
                 }
             }
+
+            state.exitWorkout?.let { exitWorkout ->
+                if(exitWorkout){
+                    onBackPressed()
+                }
+            }
         })
 
        /* viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
@@ -242,7 +248,7 @@ class WorkoutInProgressFragment():
             .id("WorkoutInProgressFragment.AreYouSureToQuitWorkout")
             .title("Abort workout")
             .description(WIP_ARE_YOU_SURE_STOP_EXERCISE)
-            .messageType(MessageType.None)
+            .messageType(MessageType.Info)
             .uiComponentType(UIComponentType.Dialog)
             .positive(
                 PositiveAction(

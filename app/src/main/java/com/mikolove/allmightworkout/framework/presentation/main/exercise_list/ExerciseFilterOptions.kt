@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 enum class ExerciseFilterOptions(val value: String) {
     FILTER_NAME("name"),

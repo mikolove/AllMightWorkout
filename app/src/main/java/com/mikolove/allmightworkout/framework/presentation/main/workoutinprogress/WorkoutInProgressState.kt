@@ -12,6 +12,9 @@ data class WorkoutInProgressState(
     val isWorkoutDone : Boolean = false,
     val exerciseList : List<Exercise> = listOf(),
 
+    //close view
+    val exitWorkout : Boolean? = false,
+
     //Loading
     val isLoading: Boolean? = false,
 

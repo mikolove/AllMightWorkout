@@ -63,7 +63,7 @@ class GetWorkoutTypesTest {
         var results : ArrayList<WorkoutType>? = null
 
         //Get workoutTypes
-        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
+        getWorkoutTypes.execute<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,
@@ -100,7 +100,7 @@ class GetWorkoutTypesTest {
         var results : ArrayList<WorkoutType>? = null
 
         //Get workoutTypes
-        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
+        getWorkoutTypes.execute<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,
@@ -136,7 +136,7 @@ class GetWorkoutTypesTest {
         var query = FORCE_SEARCH_WORKOUTTYPE_EXCEPTION
         var results : ArrayList<WorkoutType>? = null
 
-        getWorkoutTypes.getWorkoutTypes<WorkoutViewState>(
+        getWorkoutTypes.execute<WorkoutViewState>(
             query = query,
             filterAndOrder = WORKOUTTYPE_ORDER_BY_ASC_NAME,
             page = 1,

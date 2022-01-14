@@ -68,6 +68,7 @@ object InteractorsModule {
         exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
         exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
         exerciseSetFactory: ExerciseSetFactory,
+        appDataStore: AppDataStore
     ) : ExerciseInteractors{
         return ExerciseInteractors(
             getExercises = GetExercises(exerciseCacheDataSource),
@@ -89,7 +90,9 @@ object InteractorsModule {
             getBodyParts = GetBodyParts(bodyPartCacheDataSource),
             getBodyPartsByWorkoutType = GetBodyPartsByWorkoutType(bodyPartCacheDataSource),
             getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
-            getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource)
+            getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource),
+            getExerciseOrderAndFilter = GetExerciseOrderAndFilter(appDataStoreManager = appDataStore)
+
         )
     }
 

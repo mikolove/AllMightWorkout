@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/exercise_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFragment"
         android:label="ExerciseFragment" >
         <action
             android:id="@+id/action_exercise_fragment_to_exercise_detail_fragment"
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/exercise_detail_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseDetailFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailFragment"
         android:label="ExerciseDetailFragment" >
         <action
             android:id="@+id/action_exercise_detail_fragment_to_exercise_fragment"
@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_exercise_detail_fragment_to_exercise_set_detail_fragment"
             app:destination="@id/exercise_set_detail_fragment" />
+        <argument
+            android:name="idExercise"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/history_fragment"
@@ -104,7 +107,7 @@
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/exercise_set_detail_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseSetDetailFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise_set.ExerciseSetDetailFragment"
         android:label="ExerciseSetDetailFragment" >
         <action
             android:id="@+id/action_exercise_set_detail_fragment_to_exercise_detail_fragment"

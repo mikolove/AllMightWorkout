@@ -442,8 +442,7 @@ class WorkoutFragment
                         onTriggerEvent(NewSearch)
                     }
 
-                    viewModel.onTriggerEvent(NewSearch)
-
+                    //viewModel.onTriggerEvent(NewSearch)
                     dialog.dismiss()
                 }
 
@@ -535,7 +534,6 @@ class WorkoutFragment
                 viewModel.onTriggerEvent(UpdateQuery(""))
                 viewModel.setIsSearchActive(false)
                 viewModel.onTriggerEvent(NewSearch)
-                viewModel.setIsSearchActive(false)
                 return true
             }
         })

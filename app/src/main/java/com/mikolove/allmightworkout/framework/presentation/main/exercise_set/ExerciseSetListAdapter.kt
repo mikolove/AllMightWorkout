@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_set
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemSetBinding
-import com.mikolove.allmightworkout.framework.presentation.common.Change
-import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload
 import com.mikolove.allmightworkout.util.printLogD
 
 class ExerciseSetListAdapter (

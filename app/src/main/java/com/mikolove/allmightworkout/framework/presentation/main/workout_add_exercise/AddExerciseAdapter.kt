@@ -3,14 +3,10 @@ package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exe
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.databinding.ItemExerciseBinding
-import com.mikolove.allmightworkout.framework.presentation.main.exercise.ExerciseDiffCallBack
 
 class AddExerciseAdapter(
     private val interaction: Interaction? = null,
