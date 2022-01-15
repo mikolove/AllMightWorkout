@@ -149,6 +149,7 @@ constructor(
 
             this.state.value = state.copy(exercise = newExercise)
 
+            onTriggerEvent(ExerciseDetailEvents.UpdateLoadInitialValues(true))
         }
     }
 

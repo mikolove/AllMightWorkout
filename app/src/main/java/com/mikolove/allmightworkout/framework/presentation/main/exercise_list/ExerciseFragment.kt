@@ -301,13 +301,6 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         NAVIGATION
      ********************************************************************/
 
-    private fun insertionNavigateToManageExercise(){
-        findNavController().navigate(
-            R.id.action_exercise_fragment_to_exercise_detail_fragment,
-            null
-        )
-        //viewModel.setIsExistExercise(false)
-    }
 
     private fun selectionNavigateToManageExercise(containerView : View){
 
@@ -403,9 +396,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
     override fun fabOnClick() {
         //Generate exercise to create
-        /*val exercise = viewModel.createExercise()
-        viewModel.setExerciseSelected(exercise)
-        insertionNavigateToManageExercise()*/
+        findNavController().navigate(R.id.action_exercise_fragment_to_exercise_detail_fragment, null)
     }
 
     /*******************************************************************

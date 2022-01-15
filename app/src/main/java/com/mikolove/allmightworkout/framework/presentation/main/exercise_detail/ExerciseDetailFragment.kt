@@ -19,6 +19,7 @@ import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentExerciseDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
+import com.mikolove.allmightworkout.framework.presentation.common.hideKeyboard
 import com.mikolove.allmightworkout.framework.presentation.common.processQueue
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_set.ExerciseSetListAdapter
 import com.mikolove.allmightworkout.util.printLogD
@@ -355,15 +356,15 @@ class ExerciseDetailFragment():
                           }
                       }
                   }
-              })
+              })*/
 
               viewModel.exerciseNameInteractionState.observe(viewLifecycleOwner,{ state ->
                   when(state){
-                      is DefaultState ->{
+                      is ExerciseInteractionState.DefaultState ->{
                           view?.hideKeyboard()
                           binding?.exerciseDetailTextName?.clearFocus()
                       }
-                      is EditState ->{
+                      is ExerciseInteractionState.EditState ->{
                           setUpdatePending()
                       }
                   }
@@ -371,8 +372,8 @@ class ExerciseDetailFragment():
 
               viewModel.exerciseIsActiveInteractionState.observe(viewLifecycleOwner,{ state ->
                   when(state){
-                      is DefaultState ->{ }
-                      is EditState ->{
+                      is ExerciseInteractionState.DefaultState ->{ }
+                      is ExerciseInteractionState.EditState ->{
                           setUpdatePending()
                       }
                   }
@@ -380,10 +381,10 @@ class ExerciseDetailFragment():
 
               viewModel.exerciseWorkoutTypeInteractionState.observe(viewLifecycleOwner,{ state ->
                   when(state){
-                      is DefaultState ->{
+                      is ExerciseInteractionState.DefaultState ->{
                           binding?.exerciseDetailWorkouttype?.clearFocus()
                       }
-                      is EditState ->{
+                      is ExerciseInteractionState.EditState ->{
                           setUpdatePending()
                       }
                   }
@@ -391,10 +392,10 @@ class ExerciseDetailFragment():
 
               viewModel.exerciseBodyPartInteractionState.observe(viewLifecycleOwner,{ state ->
                   when(state){
-                      is DefaultState ->{
+                      is ExerciseInteractionState.DefaultState ->{
                           binding?.exerciseDetailBodypart?.clearFocus()
                       }
-                      is EditState ->{
+                      is ExerciseInteractionState.EditState ->{
                           setUpdatePending()
                       }
                   }
@@ -402,14 +403,14 @@ class ExerciseDetailFragment():
 
               viewModel.exerciseTypeInteractionState.observe(viewLifecycleOwner,{ state ->
                   when(state){
-                      is DefaultState ->{
+                      is ExerciseInteractionState.DefaultState ->{
                           binding?.exerciseDetailExercisetype?.clearFocus()
                       }
-                      is EditState ->{
+                      is ExerciseInteractionState.EditState ->{
                           setUpdatePending()
                       }
                   }
-              })*/
+              })
 
     }
 
