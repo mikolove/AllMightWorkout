@@ -2,11 +2,14 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,18 +18,21 @@ import java.util.*
 class InsertExercise(
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
-    private val exerciseFactory: ExerciseFactory
+    private val exerciseFactory: ExerciseFactory,
+    private val exerciseSetCacheDataSource : ExerciseSetCacheDataSource,
+    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
+    private val exerciseSetFactory : ExerciseSetFactory
 ) {
-/*
 
-    fun insertExercise(
+    fun execute(
         idExercise: String? = null,
         name: String,
         sets: List<ExerciseSet>?,
         exerciseType: ExerciseType,
-        bodyPart: BodyPart,
-        stateEvent: StateEvent
-    ) : Flow<DataState<ExerciseViewState>?> = flow {
+        bodyPart: BodyPart?,
+    ) : Flow<DataState<Long>?> = flow {
+
+        emit(DataState.loading())
 
         val newExercise = exerciseFactory.createExercise(
             idExercise = idExercise ?: UUID.randomUUID().toString(),
@@ -41,56 +47,202 @@ class InsertExercise(
             exerciseCacheDataSource.insertExercise(newExercise)
         }
 
-        val response = object : CacheResponseHandler<ExerciseViewState,Long>(
+        val response = object : CacheResponseHandler<Long,Long>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<ExerciseViewState>? {
+            override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
                 return if(resultObj >0 ){
 
-                    val viewState = ExerciseViewState(exerciseSelected = newExercise, isExistExercise = true)
                     DataState.data(
-                        response = Response(
-                            message = INSERT_EXERCISE_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = viewState,
-                        stateEvent = stateEvent
-                    )
-
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertExercise.Success")
+                            .title("")
+                            .description(INSERT_EXERCISE_SUCCESS)
+                            .uiComponentType(UIComponentType.None)
+                            .messageType(MessageType.Success),
+                        data = resultObj)
                 }else{
 
                     DataState.data(
-                        response = Response(
-                            message = INSERT_EXERCISE_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent)
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertExercise.Error")
+                            .title("")
+                            .description(INSERT_EXERCISE_FAILED)
+                            .uiComponentType(UIComponentType.Toast)
+                            .messageType(MessageType.Error),
+                        data = null)
                 }
             }
         }.getResult()
 
         emit(response)
 
-        updateNetwork(response?.message?.response?.message, newExercise)
+        //updateNetwork(response?.message?.description, newExercise)
 
     }
 
-    suspend fun updateNetwork(cacheResponse : String?, exercise : Exercise){
-        if(cacheResponse.equals(INSERT_EXERCISE_SUCCESS)){
+    fun executeNew(
+        idExercise: String? = null,
+        name: String,
+        sets: List<ExerciseSet>?,
+        exerciseType: ExerciseType,
+        bodyPart: BodyPart?,
+    ) : Flow<DataState<Long>?> = flow {
+
+        emit(DataState.loading<Long>())
+
+        //Create exercise
+        val newExercise = exerciseFactory.createExercise(
+            idExercise = idExercise ?: UUID.randomUUID().toString(),
+            name = name,
+            sets = sets,
+            bodyPart = bodyPart,
+            exerciseType = exerciseType,
+            created_at = null
+        )
+
+        //Insert in cache
+        val cacheResultExercise = safeCacheCall(IO){
+            exerciseCacheDataSource.insertExercise(newExercise)
+        }
+
+        val responseExercise = object : CacheResponseHandler<Long,Long>(
+            response = cacheResultExercise,
+        ){
+            override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+                return if(resultObj >0 ){
+                    DataState.data(
+                        message = null,
+                        data = resultObj)
+                }else{
+
+                    DataState.error(
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertExercise.Error")
+                            .title("")
+                            .description(INSERT_EXERCISE_FAILED)
+                            .uiComponentType(UIComponentType.Toast)
+                            .messageType(MessageType.Error))
+                }
+            }
+        }.getResult()
+
+        //If error emit Message
+        if(responseExercise?.message?.messageType is MessageType.Error){
+
+            emit(responseExercise)
+
+        }else{
+
+            var errorOnInsert = false
+
+            newExercise.sets.forEach loopSet@{ set ->
+
+                val newExerciseSet = exerciseSetFactory.createExerciseSet(
+                    idExerciseSet = set.idExerciseSet,
+                    reps = set.reps,
+                    weight = set.weight,
+                    time = set.time,
+                    restTime = set.restTime,
+                    order = set.order,
+                    created_at = null
+                )
+
+                //Insert set
+                val cacheResultSet = safeCacheCall(IO){
+                    exerciseSetCacheDataSource.insertExerciseSet(exerciseSet = newExerciseSet, idExercise = newExercise.idExercise)
+                }
+
+                val cacheResponseSet = object :CacheResponseHandler<Long, Long>(
+                    response = cacheResultSet,
+                ){
+                    override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+                        return if(resultObj>0){
+
+                            DataState.data(
+                                message = null,
+                                data = resultObj)
+
+                        }else{
+
+                            errorOnInsert = true
+                            DataState.data(
+                                message = GenericMessageInfo.Builder()
+                                    .id("InsertExerciseSet.Error")
+                                    .title("")
+                                    .description(InsertExerciseSet.INSERT_EXERCISE_SET_FAILED)
+                                    .uiComponentType(UIComponentType.Toast)
+                                    .messageType(MessageType.Success),
+                                data = null)
+
+                        }
+                    }
+                }.getResult()
+
+                //if error break loop
+                if(cacheResponseSet?.message?.messageType is MessageType.Error){
+                    return@loopSet
+                }
+            }
+
+            if(errorOnInsert){
+
+                //check if error occured if yes delete exercise CASCADE prepare message
+                safeCacheCall(IO){
+                    exerciseCacheDataSource.removeExerciseById(newExercise.idExercise)
+                }
+
+                emit(
+                    DataState.error<Long>(
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertExercise.Error")
+                        .title("")
+                        .description(INSERT_EXERCISE_SETS_FAILED)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Error)
+                    ))
+
+            //If not prepare message success emit cache response
+            }else{
+
+                emit(
+                    DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertExercise.Success")
+                        .title("")
+                        .description(INSERT_EXERCISE_SUCCESS)
+                        .uiComponentType(UIComponentType.None)
+                        .messageType(MessageType.Success),
+                    data = responseExercise?.data)
+                )
+
+                //Update network
+                updateNetwork(newExercise)
+            }
+
+        }
+
+    }
+
+
+
+
+    suspend fun updateNetwork(exercise : Exercise){
             safeApiCall(IO){
                 exerciseNetworkDataSource.insertExercise(exercise)
             }
-        }
+
+            exercise.sets.forEach { set ->
+                safeApiCall(IO){
+                    exerciseSetNetworkDataSource.insertExerciseSet(set,exercise.idExercise)
+                }
+            }
     }
-*/
 
     companion object{
 
         val INSERT_EXERCISE_SUCCESS = "Successfully inserted new exercise."
-        val INSERT_EXERCISE_FAILED  = "Failed inserting new exercise."
+        val INSERT_EXERCISE_FAILED  = "Failed inserting new exercise. Error during exercise insertion"
+        val INSERT_EXERCISE_SETS_FAILED  = "Failed inserting new exercise. Error during set insertion"
     }
 }

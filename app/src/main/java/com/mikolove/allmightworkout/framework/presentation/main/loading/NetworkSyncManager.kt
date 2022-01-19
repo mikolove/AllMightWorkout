@@ -39,6 +39,7 @@ constructor(
         get() = _hasSyncBeenExecuted
 
     fun executeDataSync(coroutineScope: CoroutineScope){
+        _hasSyncBeenExecuted.value = true
        /* if(_hasSyncBeenExecuted.value!!){
             return
         }

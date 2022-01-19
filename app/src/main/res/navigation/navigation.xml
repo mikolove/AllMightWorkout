@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/history_fragment">
+    app:startDestination="@id/loading_fragment">
 
     <fragment
         android:id="@+id/workout_fragment"
@@ -107,12 +107,18 @@
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/exercise_set_detail_fragment"
-        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise_set.ExerciseSetDetailFragment"
+        android:name="com.mikolove.allmightworkout.framework.presentation.main.exercise_set_detail.ExerciseSetDetailFragment"
         android:label="ExerciseSetDetailFragment" >
         <action
             android:id="@+id/action_exercise_set_detail_fragment_to_exercise_detail_fragment"
             app:destination="@id/exercise_detail_fragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="exerciseSet"
+            app:argType="com.mikolove.allmightworkout.business.domain.model.ExerciseSet" />
+        <argument
+            android:name="exerciseType"
+            app:argType="com.mikolove.allmightworkout.business.domain.model.ExerciseType" />
     </fragment>
     <fragment
         android:id="@+id/workoutInProgressFragment"

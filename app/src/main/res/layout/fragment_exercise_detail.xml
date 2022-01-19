@@ -25,6 +25,7 @@
         app:layout_constraintEnd_toStartOf="@+id/exercise_detail_switch_isactive"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:helperTextEnabled="true"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText

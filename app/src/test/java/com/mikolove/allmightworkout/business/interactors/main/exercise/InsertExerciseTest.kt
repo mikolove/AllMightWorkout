@@ -87,7 +87,7 @@ class InsertExerciseTest {
             created_at = null
         )
 
-        insertExercise.insertExercise(
+        insertExercise.execute(
             idExercise = newExercise.idExercise,
             name = newExercise.name,
             exerciseType = exerciseType,
@@ -134,7 +134,7 @@ class InsertExerciseTest {
             created_at = null
         )
 
-        insertExercise.insertExercise(
+        insertExercise.execute(
             idExercise = newExercise.idExercise,
             name = newExercise.name,
             exerciseType = exerciseType,
@@ -180,7 +180,7 @@ class InsertExerciseTest {
             created_at = null
         )
 
-        insertExercise.insertExercise(
+        insertExercise.execute(
             idExercise = newExercise.idExercise,
             name = newExercise.name,
             exerciseType = exerciseType,

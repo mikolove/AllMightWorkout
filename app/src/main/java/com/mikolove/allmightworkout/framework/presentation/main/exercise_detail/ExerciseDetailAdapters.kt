@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.allmightworkout.business.domain.model.ExerciseType
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.util.printLogD
 
@@ -55,17 +56,59 @@ class BodyPartAdapter(
     private val mContext: Context,
     private val layoutResource : Int,
     private var bodyParts : List<BodyPart>
-) : ArrayAdapter<BodyPart>(mContext,layoutResource,bodyParts){
+) : ArrayAdapter<BodyPart>(mContext,layoutResource,bodyParts) {
 
-    fun getItems() : List<BodyPart>{
+    fun getItems(): List<BodyPart> {
         return bodyParts
     }
 
     override fun getCount(): Int {
         return bodyParts.size
     }
-    override fun getItem(position: Int):BodyPart {
+
+    override fun getItem(position: Int): BodyPart {
         return bodyParts[position]
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var convertView = convertView
+        if (convertView == null) {
+            convertView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
+        }
+        try {
+            val bodyPart: BodyPart = getItem(position)
+            val bodyPartAutoCompleteView =
+                convertView!!.findViewById<View>(R.id.autoCompleteTextBodyPart) as TextView
+            bodyPartAutoCompleteView.text = bodyPart.name.capitalize()
+        } catch (e: Exception) {
+            printLogD("BodyPartAdapter", "Error : ${e}")
+        }
+        return convertView!!
+    }
+
+    fun submitList(bodyParts: List<BodyPart>) {
+        clear()
+        addAll(bodyParts)
+        this.bodyParts = bodyParts
+        notifyDataSetChanged()
+    }
+}
+
+class ExerciseTypeAdapter(
+    private val mContext: Context,
+    private val layoutResource : Int,
+    private var exerciseTypes : List<ExerciseType>
+) : ArrayAdapter<ExerciseType>(mContext,layoutResource,exerciseTypes){
+
+    fun getItems() : List<ExerciseType>{
+        return exerciseTypes
+    }
+
+    override fun getCount(): Int {
+        return exerciseTypes.size
+    }
+    override fun getItem(position: Int):ExerciseType {
+        return exerciseTypes[position]
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
@@ -73,19 +116,19 @@ class BodyPartAdapter(
             convertView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
         }
         try {
-            val bodyPart : BodyPart = getItem(position)
-            val bodyPartAutoCompleteView = convertView!!.findViewById<View>(R.id.autoCompleteTextBodyPart) as TextView
-            bodyPartAutoCompleteView.text = bodyPart.name.capitalize()
+            val exerciseType : ExerciseType = getItem(position)
+            val exerciseTypeAutoCompleteView = convertView!!.findViewById<View>(R.id.autoCompleteTextExerciseType) as TextView
+            exerciseTypeAutoCompleteView.text = exerciseType.type.capitalize()
         } catch (e: Exception) {
-            printLogD("BodyPartAdapter","Error : ${e}")
+            printLogD("exerciseTypeAdapter","Error : ${e}")
         }
         return convertView!!
     }
 
-    fun submitList(bodyParts : List<BodyPart>){
+    fun submitList(exerciseTypes : List<ExerciseType>){
         clear()
-        addAll(bodyParts)
-        this.bodyParts = bodyParts
+        addAll(exerciseTypes)
+        this.exerciseTypes = exerciseTypes
         notifyDataSetChanged()
     }
 }

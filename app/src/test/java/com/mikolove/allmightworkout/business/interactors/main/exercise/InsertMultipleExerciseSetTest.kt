@@ -88,7 +88,7 @@ class InsertMultipleExerciseSetTest {
         }
 
         //Insert
-        insertMultipleExerciseSet?.insertMultipleExerciseSet(
+        insertMultipleExerciseSet?.execute(
             sets,
             idExercise,
             InsertMultipleExerciseSetEvent(sets, idExercise)
@@ -138,7 +138,7 @@ class InsertMultipleExerciseSetTest {
         sets.add(newExerciseInvalid)
 
         //Insert
-        insertMultipleExerciseSet?.insertMultipleExerciseSet(
+        insertMultipleExerciseSet?.execute(
             sets,
             idExercise,
             InsertMultipleExerciseSetEvent(sets, idExercise)

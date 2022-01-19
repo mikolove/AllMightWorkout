@@ -1,5 +1,8 @@
 package com.mikolove.allmightworkout.framework.presentation.common
 
+/*
+    Credit to : https://blog.undabot.com/recyclerview-time-to-animate-with-payloads-and-diffutil-4278beb8d4dd
+ */
 data class Change<out T>(
     val oldData: T,
     val newData: T

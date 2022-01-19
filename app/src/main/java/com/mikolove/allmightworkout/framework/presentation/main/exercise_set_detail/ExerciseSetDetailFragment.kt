@@ -1,17 +1,29 @@
-package com.mikolove.allmightworkout.framework.presentation.main.exercise_set
+package com.mikolove.allmightworkout.framework.presentation.main.exercise_set_detail
 
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
+import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.databinding.FragmentExerciseSetDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
+import com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailEvents
+import com.mikolove.allmightworkout.util.printLogD
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_detail) {
 
-    /*val viewModel : ExerciseViewModel by activityViewModels()
+    val viewModel : ExerciseSetDetailViewModel by viewModels()
 
     private var binding : FragmentExerciseSetDetailBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,29 +57,28 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
 
     private fun subscribeObservers(){
 
-        viewModel.viewState.observe(viewLifecycleOwner,{ viewState ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
 
-            if(viewState != null){
-
-                viewState.exerciseSetSelected?.let { exerciseSet ->
-                    printLogD("ExerciseSetDetailFragment","${exerciseSet}")
-                    setupUI(exerciseSet)
+            if(state.loadInitialValues){
+                state.set?.let {
+                    setupUI(it)
                 }
+                state.exerciseType?.let {
+                    setupActiveUI(it)
+                }
+                viewModel.onTriggerEvent(ExerciseSetDetailEvents.UpdateLoadInitialValues(false))
             }
-        })
 
-        viewModel.exerciseTypeState.observe(viewLifecycleOwner,{ exerciseType ->
-            setupActiveUI(exerciseType)
         })
 
         viewModel.repInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> {
+                is ExerciseSetInteractionState.EditState -> {
                     setUpdatePending()
                 }
 
-                is DefaultState ->{
+                is ExerciseSetInteractionState.DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextRep?.clearFocus()
                 }
             }
@@ -76,11 +87,11 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.weightInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> {
+                is ExerciseSetInteractionState.EditState -> {
                     setUpdatePending()
                 }
 
-                is DefaultState ->{
+                is ExerciseSetInteractionState.DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextWeight?.clearFocus()
                 }
             }
@@ -89,11 +100,11 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.timeInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> {
+                is ExerciseSetInteractionState.EditState -> {
                     setUpdatePending()
                 }
 
-                is DefaultState ->{
+                is ExerciseSetInteractionState.DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextTime?.clearFocus()
                 }
             }
@@ -102,11 +113,11 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.restInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
 
-                is EditState -> {
+                is ExerciseSetInteractionState.EditState -> {
                     setUpdatePending()
                 }
 
-                is DefaultState ->{
+                is ExerciseSetInteractionState.DefaultState ->{
                     binding?.fragmentExerciseSetDetailTextRest?.clearFocus()
                 }
             }
@@ -114,7 +125,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
 
     }
 
-    private fun setupUI(set :ExerciseSet){
+    private fun setupUI(set : ExerciseSet){
         setRep(set.reps)
         setWeight(set.weight)
         setTime(set.time)
@@ -139,7 +150,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     }
 
     private fun setRep(rep : Int){
-         binding?.fragmentExerciseSetDetailTextRep?.editText?.setText(rep.toString())
+        binding?.fragmentExerciseSetDetailTextRep?.editText?.setText(rep.toString())
     }
 
     private fun setWeight(weight : Int){
@@ -195,7 +206,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
             updateSetRestInViewModel()
             updateSetTimeInViewModel()
             updateSetWeightInViewModel()
-            viewModel.setInteractionRepState(EditState())
+            viewModel.setInteractionRepState(ExerciseSetInteractionState.EditState())
         }
     }
 
@@ -204,7 +215,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
             updateSetTimeInViewModel()
             updateSetRepInViewModel()
             updateSetRestInViewModel()
-            viewModel.setInteractionWeightState(EditState())
+            viewModel.setInteractionWeightState(ExerciseSetInteractionState.EditState())
         }
     }
     private fun onClickRest(){
@@ -212,7 +223,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
             updateSetRepInViewModel()
             updateSetTimeInViewModel()
             updateSetWeightInViewModel()
-            viewModel.setInteractionRestState(EditState())
+            viewModel.setInteractionRestState(ExerciseSetInteractionState.EditState())
         }
     }
 
@@ -221,38 +232,38 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
             updateSetRepInViewModel()
             updateSetRestInViewModel()
             updateSetWeightInViewModel()
-            viewModel.setInteractionTimeState(EditState())
+            viewModel.setInteractionTimeState(ExerciseSetInteractionState.EditState())
         }
     }
 
     private fun updateSetRepInViewModel(){
         if(viewModel.isEditingRep()){
-            viewModel.updateExerciseSetRep(getRep())
+            viewModel.onTriggerEvent(ExerciseSetDetailEvents.UpdateReps(getRep()))
         }
     }
 
     private fun updateSetTimeInViewModel(){
         if(viewModel.isEditingTime()){
-            viewModel.updateExerciseSetTime(getTime())
+            viewModel.onTriggerEvent(ExerciseSetDetailEvents.UpdateTime(getTime()))
         }
     }
 
     private fun updateSetWeightInViewModel(){
         if(viewModel.isEditingWeight()){
-            viewModel.updateExerciseSetWeight(getWeight())
+            viewModel.onTriggerEvent(ExerciseSetDetailEvents.UpdateWeight(getWeight()))
         }
     }
 
     private fun updateSetRestInViewModel(){
         if(viewModel.isEditingRest()){
-            viewModel.updateExerciseSetRest(getRest())
+            viewModel.onTriggerEvent(ExerciseSetDetailEvents.UpdateRestTime(getRest()))
         }
     }
 
     private fun getRep() : Int{
         val text = binding?.fragmentExerciseSetDetailTextRep?.editText?.text.toString()
         return when(val value = text.toIntOrNull()){
-            null -> 0
+            null -> 8
             else -> value
         }
     }
@@ -260,7 +271,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     private fun getTime(): Int{
         val text = binding?.fragmentExerciseSetDetailTextTime?.editText?.text.toString()
         return when(val value = text.toIntOrNull()){
-            null -> 0
+            null -> 60
             else -> value
         }
     }
@@ -268,7 +279,7 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     private fun getRest(): Int{
         val text = binding?.fragmentExerciseSetDetailTextRest?.editText?.text.toString()
         return when(val value = text.toIntOrNull()){
-            null -> 0
+            null -> 60
             else -> value
         }
     }
@@ -276,38 +287,45 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
     private fun getWeight(): Int{
         val text = binding?.fragmentExerciseSetDetailTextWeight?.editText?.text.toString()
         return when(val value = text.toIntOrNull()){
-            null -> 0
+            null -> 5
             else -> value
         }
     }
 
     private fun setUpdatePending(){
-        if(viewModel.isExistExercise()){
-            viewModel.setIsUpdatePending(true)
-        }
+        viewModel.onTriggerEvent(ExerciseSetDetailEvents.OnUpdateIsPending(true))
     }
 
-    *//********************************************************************
+    /********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************//*
+     *********************************************************************/
 
-    private fun quitEditState(){
+    private fun onBackPressed() {
+
         updateSetRepInViewModel()
         updateSetWeightInViewModel()
         updateSetRestInViewModel()
         updateSetTimeInViewModel()
         view?.hideKeyboard()
         viewModel.exitSetEditState()
+
+        viewModel.state.value?.let { state ->
+            if(state.isUpdatePending){
+                printLogD("ExerciseSetDetailFragment","Updated set")
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    EXERCISE_SET_UPDATED,
+                    state.set
+                )
+
+            }
+        }
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            SHOULD_REFRESH,
+            true
+        )
+        findNavController().popBackStack()
     }
 
-    private fun onBackPressed() {
-        if (viewModel.checkSetEditState()) {
-            quitEditState()
-        }else{
-            viewModel.setExerciseSetSelected(null)
-            findNavController().popBackStack()
-        }
-    }
     private fun setupOnBackPressDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -316,5 +334,5 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-*/
+
 }

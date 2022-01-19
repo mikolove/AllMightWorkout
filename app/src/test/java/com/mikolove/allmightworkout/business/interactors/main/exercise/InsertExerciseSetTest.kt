@@ -77,7 +77,7 @@ class InsertExerciseSetTest {
             created_at = null
         )
 
-        insertExerciseSet.insertExerciseSet(
+        insertExerciseSet.execute(
             idExerciseSet = newExerciseSet.idExerciseSet,
             reps = newExerciseSet.reps,
             weight = newExerciseSet.weight,
@@ -121,7 +121,7 @@ class InsertExerciseSetTest {
             created_at = null
         )
 
-        insertExerciseSet.insertExerciseSet(
+        insertExerciseSet.execute(
             idExerciseSet = newExerciseSet.idExerciseSet,
             reps = newExerciseSet.reps,
             weight = newExerciseSet.weight,
@@ -165,7 +165,7 @@ class InsertExerciseSetTest {
             created_at = null
         )
 
-        insertExerciseSet.insertExerciseSet(
+        insertExerciseSet.execute(
             idExerciseSet = newExerciseSet.idExerciseSet,
             reps = newExerciseSet.reps,
             weight = newExerciseSet.weight,

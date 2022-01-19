@@ -20,7 +20,7 @@ class InsertExerciseSet(
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 
-  /*  fun insertExerciseSet(
+    fun execute(
         idExerciseSet : String? = null,
         reps : Int,
         weight : Int,
@@ -28,8 +28,9 @@ class InsertExerciseSet(
         restTime : Int,
         order : Int,
         idExercise : String,
-        stateEvent: StateEvent
-    ) : Flow<DataState<ExerciseViewState>?> = flow {
+    ) : Flow<DataState<Long>?> = flow {
+
+        emit(DataState.loading())
 
         val newExerciseSet = exerciseSetFactory.createExerciseSet(
             idExerciseSet = idExerciseSet ?: UUID.randomUUID().toString(),
@@ -45,33 +46,31 @@ class InsertExerciseSet(
             exerciseSetCacheDataSource.insertExerciseSet(exerciseSet = newExerciseSet, idExercise = idExercise)
         }
 
-        val cacheResponse = object :CacheResponseHandler<ExerciseViewState, Long>(
+        val cacheResponse = object :CacheResponseHandler<Long, Long>(
             response = cacheResult,
-            stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<ExerciseViewState>? {
+            override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
                 return if(resultObj>0){
 
-                    val viewState = ExerciseViewState()
                     DataState.data(
-                        response = Response(
-                            message = INSERT_EXERCISE_SET_SUCCESS,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Success()
-                        ),
-                        data = viewState,
-                        stateEvent = stateEvent)
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertExerciseSet.Success")
+                            .title("")
+                            .description(INSERT_EXERCISE_SET_SUCCESS)
+                            .uiComponentType(UIComponentType.None)
+                            .messageType(MessageType.Success),
+                        data = resultObj)
 
                 }else{
 
                     DataState.data(
-                        response = Response(
-                            message = INSERT_EXERCISE_SET_FAILED,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Error()
-                        ),
-                        data = null,
-                        stateEvent = stateEvent)
+                        message = GenericMessageInfo.Builder()
+                            .id("InsertExerciseSet.Error")
+                            .title("")
+                            .description(INSERT_EXERCISE_SET_FAILED)
+                            .uiComponentType(UIComponentType.None)
+                            .messageType(MessageType.Success),
+                        data = null)
 
                 }
             }
@@ -79,18 +78,19 @@ class InsertExerciseSet(
 
         emit(cacheResponse)
 
-        updateNetwork(cacheResponse?.message?.response?.message, newExerciseSet,idExercise)
+        updateNetwork(cacheResponse?.message?.description, newExerciseSet,idExercise)
    }
 
     private suspend fun updateNetwork(cacheResponse : String?, newExerciseSet : ExerciseSet, idExercise: String){
         if(cacheResponse.equals(INSERT_EXERCISE_SET_SUCCESS)){
+
             safeApiCall(IO){
                 exerciseSetNetworkDataSource.insertExerciseSet(newExerciseSet,idExercise = idExercise)
             }
+
         }
     }
 
-*/
     companion object{
         val INSERT_EXERCISE_SET_SUCCESS = "Successfully inserted new exercise set."
         val INSERT_EXERCISE_SET_FAILED  = "Failed inserting new exercise set."

@@ -17,16 +17,17 @@ class InsertMultipleExerciseSet(
 ) {
 
     // set true if an error occurs when adding any of the sets
-   /* private var onAddError: Boolean = false
+    private var onAddError: Boolean = false
 
-    fun insertMultipleExerciseSet(
+    fun execute(
         sets : List<ExerciseSet>,
         idExercise : String,
-        stateEvent: StateEvent
-    ) : Flow<DataState<ExerciseViewState>?> = flow {
+    ) : Flow<DataState<List<Long>>?> = flow {
 
+        emit(DataState.loading<List<Long>>())
 
-        val successfulAdd : ArrayList<ExerciseSet> = ArrayList()
+        val successfullAdd = mutableListOf<ExerciseSet>()
+        val successfullInsert = mutableListOf<Long>()
 
         sets.forEach{ set ->
 
@@ -34,64 +35,63 @@ class InsertMultipleExerciseSet(
                 exerciseSetCacheDataSource.insertExerciseSet(set,idExercise)
             }
 
-            val response = object : CacheResponseHandler<ExerciseViewState,Long>(
+            val response = object : CacheResponseHandler<Long,Long>(
                 response = cacheResult,
-                stateEvent = stateEvent
             ){
-                override suspend fun handleSuccess(resultObj: Long): DataState<ExerciseViewState>? {
+                override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
                     //-1 if insert error occur
                     if(resultObj < 0){
                         onAddError = true
                     }else{
-                        successfulAdd.add(set)
+                        successfullAdd.add(set)
+                        successfullInsert.add(resultObj)
                     }
                     return null
                 }
             }.getResult()
 
-            if (response?.message?.response?.message?.contains(stateEvent.errorInfo()) == true){
+            if (response?.message?.messageType is MessageType.Error){
                 onAddError = true
             }
         }
 
         if(onAddError){
             emit(
-                DataState.data<ExerciseViewState>(
-                    response = Response(
-                        message = ADD_EXERCISE_SETS_ERRORS,
-                        uiComponentType = UIComponentType.Toast(),
-                        messageType = MessageType.Error()
-                    ),
-                    data = null,
-                    stateEvent = stateEvent
+                DataState.error<List<Long>>(
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertMultipleExerciseSet.Error")
+                        .title("")
+                        .description(ADD_EXERCISE_SETS_ERRORS)
+                        .uiComponentType(UIComponentType.Toast)
+                        .messageType(MessageType.Error)
                 )
             )
 
         }else{
             emit(
-                DataState.data<ExerciseViewState>(
-                    response = Response(
-                        message = ADD_EXERCISE_SETS_SUCCESS,
-                        uiComponentType = UIComponentType.Toast(),
-                        messageType = MessageType.Success()
-                    ),
-                    data = null,
-                    stateEvent = stateEvent
+                DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("InsertMultipleExerciseSet.Success")
+                        .title("")
+                        .description(ADD_EXERCISE_SETS_SUCCESS)
+                        .uiComponentType(UIComponentType.None)
+                        .messageType(MessageType.Success),
+                    data = successfullInsert.toList()
                 )
             )
         }
 
-        //updateNetwork(successfulAdd,idExercise)
+        updateNetwork(successfullAdd,idExercise)
 
     }
 
-    private suspend fun updateNetwork(successfulAdd : ArrayList<ExerciseSet>,idExercise : String){
+    private suspend fun updateNetwork(successfulAdd : List<ExerciseSet>,idExercise : String){
         successfulAdd.forEach{ set ->
             safeApiCall(IO){
                 exerciseSetNetworkDataSource.insertExerciseSet(exerciseSet = set,idExercise = idExercise)
             }
         }
-    }*/
+    }
 
     companion object{
         val ADD_EXERCISE_SETS_SUCCESS = "Successfully added exercise sets."

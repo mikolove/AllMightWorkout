@@ -7,10 +7,18 @@ import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
 import com.mikolove.allmightworkout.util.printLogD
+import com.squareup.okhttp.Dispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+const val ERROR_TOAST_DELETE_SET = "Your exercise should at least have 1 set."
 
 @HiltViewModel
 class ExerciseDetailViewModel
@@ -29,7 +37,7 @@ constructor(
         savedStateHandle.get<String>("idExercise")?.let { idExercise ->
             this.state.value = state.value?.copy(idExercise = idExercise)
         }
-
+        onTriggerEvent(ExerciseDetailEvents.GetExerciseTypes)
         onTriggerEvent(ExerciseDetailEvents.GetWorkoutTypes)
     }
 
@@ -43,6 +51,18 @@ constructor(
             }
             is ExerciseDetailEvents.GetWorkoutTypes->{
                 getWorkoutTypes()
+            }
+            is ExerciseDetailEvents.AddSet->{
+                addSet()
+            }
+            is ExerciseDetailEvents.RemoveSet->{
+                removeSet(event.set)
+            }
+            is ExerciseDetailEvents.UpdateSet->{
+                updateSet(event.set)
+            }
+            is ExerciseDetailEvents.GetExerciseTypes->{
+                getExerciseTypes()
             }
             is ExerciseDetailEvents.GetBodyParts->{
                 getBodyParts(event.idWorkoutType)
@@ -65,6 +85,12 @@ constructor(
             is ExerciseDetailEvents.UpdateWorkoutType->{
                 updateWorkoutType(event.workoutType)
             }
+            is ExerciseDetailEvents.InsertExercise->{
+                insertExercise()
+            }
+            is ExerciseDetailEvents.InsertExerciseSets->{
+                insertExerciseSets(event.sets,event.idExercise)
+            }
             is ExerciseDetailEvents.Error->{
 
             }
@@ -82,6 +108,36 @@ constructor(
     /********************************************************************
     INTERACTORS
      *********************************************************************/
+
+    private fun addSet(){
+        state.value?.let { state ->
+            state.exercise?.sets?.let { sets ->
+                val set = createExerciseSet(sets.size.plus(1))
+                val updatedSets = sets.toMutableList()
+                updatedSets.add(set)
+                val updateExercise = state.exercise.copy(sets = updatedSets)
+                this.state.value = state.copy(exercise = updateExercise)
+            }
+        }
+    }
+
+    private fun removeSet(set : ExerciseSet){
+        state.value?.let { state ->
+            state.exercise?.sets?.let { sets ->
+                val updatedSets = sets
+                    .filter { it.idExerciseSet != set.idExerciseSet }
+                    .map{ exerciseSet ->
+                        if(exerciseSet.order > set.order){
+                            exerciseSet.copy(order = exerciseSet.order.minus(1))
+                        }else{
+                            exerciseSet
+                        }
+                    }
+                val updatedExercise = state.exercise.copy(sets = updatedSets)
+                this.state.value = state.copy(exercise = updatedExercise)
+            }
+        }
+    }
 
     private fun updateExerciseName(name : String){
         state.value?.let { state ->
@@ -111,6 +167,18 @@ constructor(
         }
     }
 
+    private fun updateSet(set : ExerciseSet){
+        state.value?.let { state ->
+            state.exercise?.sets?.let { sets ->
+                val updatedSets = sets.toMutableList().map {
+                    if(it.idExerciseSet == set.idExerciseSet) set else it
+                }
+                val updatedExercise = state.exercise.copy(sets = updatedSets)
+                this.state.value = state.copy(exercise = updatedExercise)
+            }
+        }
+    }
+
     private fun updateWorkoutType(workoutType : String){
         //TODO : Could be unneeded
     }
@@ -125,7 +193,7 @@ constructor(
         return state.value?.let { state ->
             state.exercise?.let{ exercise ->
                 printLogD("ExerciseDetailViewModel","workoutTypes ${state.workoutTypes}")
-                 state.workoutTypes.find{
+                state.workoutTypes.find{
                     it.bodyParts?.contains(exercise.bodyPart) == true
                 }
             }
@@ -191,6 +259,53 @@ constructor(
         }
     }
 
+    private fun insertExercise(){
+        state.value?.let { state ->
+            state.exercise?.let{ exercise ->
+                exerciseInteractors.insertExercise
+                    .executeNew(
+                        idExercise = exercise.idExercise,
+                        name = exercise.name,
+                        sets = exercise.sets,
+                        exerciseType = exercise.exerciseType,
+                        bodyPart = exercise.bodyPart)
+                    .onEach { dataState ->
+                        this.state.value = state.copy(isLoading = dataState?.isLoading)
+
+                        dataState?.data?.let {
+                            printLogD("ExerciseDetailViewModel","Insert Success")
+                            //onTriggerEvent(ExerciseDetailEvents.InsertExerciseSets(exercise.sets,exercise.idExercise))
+                        }
+
+                        dataState?.message?.let { message ->
+                            appendToMessageQueue(message)
+                        }
+                    }
+                    .launchIn(viewModelScope)
+            }
+        }
+    }
+
+    private fun insertExerciseSets(sets : List<ExerciseSet>,idExercise: String){
+        state.value?.let { state ->
+            exerciseInteractors.insertMultipleExerciseSet
+                .execute(
+                    sets = sets,
+                    idExercise = idExercise
+                )
+                .onEach { dataState ->
+                    this.state.value = state.copy(isLoading = dataState?.isLoading)
+
+                    dataState?.data?.let {}
+
+                    dataState?.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+                }
+                .launchIn(viewModelScope)
+        }
+    }
+
     private fun getWorkoutTypes(){
         state.value?.let { state ->
             exerciseInteractors.getWorkoutTypes.execute(
@@ -218,45 +333,17 @@ constructor(
             }.launchIn(viewModelScope)
         }
     }
-
+    private fun getExerciseTypes(){
+        state.value?.let{ state ->
+            this.state.value = state.copy(exerciseTypes = ExerciseType.values().toList().sortedBy { it.type })
+        }
+    }
     private fun getBodyParts(idWorkoutType : String){
         state.value?.let { state ->
             //Reload
             if(state.workoutTypes.isNotEmpty()){
                 val bodyParts = state.workoutTypes.find { it.idWorkoutType == idWorkoutType }?.bodyParts ?: listOf()
                 this.state.value = state.copy(bodyParts = bodyParts.sortedBy { it.name })
-            }
-        }
-    }
-
-    /********************************************************************
-    QUEUE MANAGING
-     *********************************************************************/
-
-    private fun removeHeadFromQueue(){
-        state.value?.let { state ->
-            try {
-                val queue = state.queue
-                printLogD("WorkoutListViewModel","peek item ${queue.peek()?.id}")
-                queue.remove() // can throw exception if empty
-                this.state.value = state.copy(queue = queue)
-                printLogD("WorkoutListViewModel","Removed from queue")
-            }catch (e: Exception){
-                printLogD("WorkoutListViewModel","Nothing to remove from queue")
-            }
-        }
-    }
-
-    private fun appendToMessageQueue(message: GenericMessageInfo.Builder){
-        state.value?.let { state ->
-            val queue = state.queue
-            val messageBuild = message.build()
-            if(!messageBuild.doesMessageAlreadyExistInQueue(queue = queue)){
-                if(messageBuild.uiComponentType !is UIComponentType.None){
-                    printLogD("WorkoutListViewModel","Added to queue message")
-                    queue.add(messageBuild)
-                    this.state.value = state.copy(queue = queue)
-                }
             }
         }
     }
@@ -318,5 +405,35 @@ constructor(
     fun isEditingBodyPart() = exerciseInteractionManager.isEditingBodyPart()
 
     fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
+
+
+    /********************************************************************
+    QUEUE MANAGING
+     *********************************************************************/
+
+    private fun removeHeadFromQueue(){
+        state.value?.let { state ->
+            try {
+                val queue = state.queue
+                queue.remove() // can throw exception if empty
+                this.state.value = state.copy(queue = queue)
+            }catch (e: Exception){
+                printLogD("WorkoutListViewModel","Nothing to remove from queue")
+            }
+        }
+    }
+
+    private fun appendToMessageQueue(message: GenericMessageInfo.Builder){
+        state.value?.let { state ->
+            val queue = state.queue
+            val messageBuild = message.build()
+            if(!messageBuild.doesMessageAlreadyExistInQueue(queue = queue)){
+                if(messageBuild.uiComponentType !is UIComponentType.None){
+                    queue.add(messageBuild)
+                    this.state.value = state.copy(queue = queue)
+                }
+            }
+        }
+    }
 
 }
