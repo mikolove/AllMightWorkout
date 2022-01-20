@@ -81,7 +81,7 @@ object InteractorsModule {
             updateMultipleExerciseSet = UpdateMultipleExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             removeMultipleExerciseSet = RemoveMultipleExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             updateNetworkExerciseSets = UpdateNetworkExerciseSets(exerciseSetNetworkDataSource),
-            updateExercise = UpdateExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
+            updateExercise = UpdateExercise(exerciseCacheDataSource,exerciseNetworkDataSource,exerciseSetCacheDataSource,exerciseSetNetworkDataSource),
             updateExerciseSet = UpdateExerciseSet(exerciseSetCacheDataSource, exerciseSetNetworkDataSource),
             //removeExercise = RemoveExercise(exerciseCacheDataSource,exerciseNetworkDataSource),
             removeExerciseSet = RemoveExerciseSet(exerciseSetCacheDataSource,exerciseSetNetworkDataSource),

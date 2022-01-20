@@ -249,8 +249,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
     override fun setupFAB(){
-        uiController.loadFabController(this)
-        uiController.mainFabVisibility()
+        uiController.loadFabController(this@ExerciseFragment)
     }
 
     private fun setupSwipeRefresh(){

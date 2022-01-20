@@ -71,6 +71,5 @@ constructor(
     fun loadFabController(){
         printLogD("BaseFragment","LoadFabController")
         uiController.loadFabController(null)
-        uiController.mainFabVisibility()
     }
 }

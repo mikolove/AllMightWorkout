@@ -21,6 +21,8 @@ sealed class ExerciseDetailEvents {
 
     data class InsertExerciseSets(val sets : List<ExerciseSet>, val idExercise : String) : ExerciseDetailEvents()
 
+    data class UpdateIsInCache(val isInCache : Boolean) : ExerciseDetailEvents()
+
     data class UpdateExerciseName(val name : String) : ExerciseDetailEvents()
 
     data class UpdateExerciseIsActive(val isActive : Boolean) : ExerciseDetailEvents()

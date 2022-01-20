@@ -55,6 +55,9 @@ constructor(
             is ExerciseDetailEvents.AddSet->{
                 addSet()
             }
+            is ExerciseDetailEvents.UpdateIsInCache->{
+                updateIsInCache(event.isInCache)
+            }
             is ExerciseDetailEvents.RemoveSet->{
                 removeSet(event.set)
             }
@@ -88,9 +91,15 @@ constructor(
             is ExerciseDetailEvents.InsertExercise->{
                 insertExercise()
             }
-            is ExerciseDetailEvents.InsertExerciseSets->{
-                insertExerciseSets(event.sets,event.idExercise)
+            is ExerciseDetailEvents.UpdateExercise->{
+                updateExercise()
             }
+            is ExerciseDetailEvents.OnUpdateIsPending->{
+                onUpdateIsPending(event.isPending)
+            }
+/*            is ExerciseDetailEvents.InsertExerciseSets->{
+                insertExerciseSets(event.sets,event.idExercise)
+            }*/
             is ExerciseDetailEvents.Error->{
 
             }
@@ -116,7 +125,7 @@ constructor(
                 val updatedSets = sets.toMutableList()
                 updatedSets.add(set)
                 val updateExercise = state.exercise.copy(sets = updatedSets)
-                this.state.value = state.copy(exercise = updateExercise)
+                this.state.value = state.copy(exercise = updateExercise, isUpdatePending = true)
             }
         }
     }
@@ -134,10 +143,23 @@ constructor(
                         }
                     }
                 val updatedExercise = state.exercise.copy(sets = updatedSets)
-                this.state.value = state.copy(exercise = updatedExercise)
+                this.state.value = state.copy(exercise = updatedExercise, isUpdatePending = true)
             }
         }
     }
+
+    private fun updateIsInCache(isInCache : Boolean){
+        state.value?.let { state ->
+            this.state.value = state.copy(isInCache = isInCache)
+        }
+    }
+
+    private fun onUpdateIsPending(isPending : Boolean){
+        state.value?.let { state ->
+            this.state.value = state.copy(isUpdatePending = isPending)
+        }
+    }
+
 
     private fun updateExerciseName(name : String){
         state.value?.let { state ->
@@ -248,7 +270,7 @@ constructor(
                     getExerciseWorkoutType()?.let {
                         onTriggerEvent(ExerciseDetailEvents.GetBodyParts(it.idWorkoutType))
                     }
-
+                    onTriggerEvent(ExerciseDetailEvents.UpdateIsInCache(true))
                     onTriggerEvent(ExerciseDetailEvents.UpdateLoadInitialValues(true))
                 }
 
@@ -274,7 +296,7 @@ constructor(
 
                         dataState?.data?.let {
                             printLogD("ExerciseDetailViewModel","Insert Success")
-                            //onTriggerEvent(ExerciseDetailEvents.InsertExerciseSets(exercise.sets,exercise.idExercise))
+                            this.state.value = state.copy(isInCache = true, isUpdatePending = false)
                         }
 
                         dataState?.message?.let { message ->
@@ -286,25 +308,27 @@ constructor(
         }
     }
 
-    private fun insertExerciseSets(sets : List<ExerciseSet>,idExercise: String){
+    private fun updateExercise(){
         state.value?.let { state ->
-            exerciseInteractors.insertMultipleExerciseSet
-                .execute(
-                    sets = sets,
-                    idExercise = idExercise
-                )
-                .onEach { dataState ->
+            state.exercise?.let { exercise ->
+                exerciseInteractors.updateExercise.execute(
+                    exercise
+                ).onEach { dataState ->
                     this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                    dataState?.data?.let {}
+                    dataState?.data?.let {
+                        printLogD("ExerciseDetailViewModel","Update Success")
+                        this.state.value = state.copy(isUpdatePending = false)
+                    }
 
                     dataState?.message?.let { message ->
                         appendToMessageQueue(message)
                     }
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
+            }
         }
     }
+
 
     private fun getWorkoutTypes(){
         state.value?.let { state ->
@@ -347,6 +371,37 @@ constructor(
             }
         }
     }
+    fun isExerciseValid() : Boolean{
+
+        state.value?.let { state ->
+            state.exercise?.let { exercise ->
+                return !(exercise.name.isBlank() || exercise.bodyPart == null)
+            }
+        }
+
+        return false
+
+/*        val name = exercise.name
+        val bodyPart = exercise.bodyPart
+
+        if(name.isNullOrBlank() || bodyPart == null) {
+            setStateEvent(
+                CreateStateMessageEvent(
+                    stateMessage = StateMessage(
+                        response = Response(
+                            message = EXERCISE_INCOMPLETE,
+                            uiComponentType = UIComponentType.Toast(),
+                            messageType = MessageType.Info()
+                        )
+                    )
+                )
+            )
+            return false
+        }else{
+            return true
+        }*/
+    }
+
 
     /********************************************************************
     INTERACTIONS EXERCISE & SET STATE

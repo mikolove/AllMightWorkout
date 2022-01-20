@@ -11,6 +11,7 @@ data class ExerciseDetailState(
 
     val idExercise : String = "",
     val exercise : Exercise? = null,
+    val isInCache : Boolean = false,
 
     //Init values
     val loadInitialValues : Boolean = false,

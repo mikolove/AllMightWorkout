@@ -306,7 +306,6 @@ class WorkoutFragment
 
     override fun setupFAB(){
         uiController.loadFabController(this@WorkoutFragment)
-        uiController.mainFabVisibility()
     }
 
     private fun setupSwipeRefresh(){

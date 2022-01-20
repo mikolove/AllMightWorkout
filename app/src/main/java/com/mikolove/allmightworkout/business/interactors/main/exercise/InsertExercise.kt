@@ -109,10 +109,9 @@ class InsertExercise(
         val responseExercise = object : CacheResponseHandler<Long,Long>(
             response = cacheResultExercise,
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+            override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                 return if(resultObj >0 ){
                     DataState.data(
-                        message = null,
                         data = resultObj)
                 }else{
 
@@ -172,7 +171,7 @@ class InsertExercise(
                                     .title("")
                                     .description(InsertExerciseSet.INSERT_EXERCISE_SET_FAILED)
                                     .uiComponentType(UIComponentType.Toast)
-                                    .messageType(MessageType.Success),
+                                    .messageType(MessageType.Error),
                                 data = null)
 
                         }

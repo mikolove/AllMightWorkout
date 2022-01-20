@@ -23,6 +23,8 @@ import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentExerciseDetailBinding
+import com.mikolove.allmightworkout.framework.presentation.FabController
+import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseListEvents
 import com.mikolove.allmightworkout.util.printLogD
@@ -101,24 +103,30 @@ class ExerciseDetailFragment():
     MENU INTERACTIONS
      *********************************************************************/
 
+
+/*
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise_detail, menu)
-
-        /*      val menuUpdate = menu.findItem(R.id.toolbar_exercise_detail_update)
-              val menuDelete = menu.findItem(R.id.toolbar_exercise_detail_delete)
-              val menuCreate = menu.findItem(R.id.toolbar_exercise_detail_add)
-
-              if(!viewModel.isExistExercise()){
-                  setMenuVisibility(menuUpdate,false)
-                  setMenuVisibility(menuDelete,false)
-                  setMenuVisibility(menuCreate,true)
-              }else{
-                  setMenuVisibility(menuUpdate,viewModel.getIsUpdatePending())
-                  setMenuVisibility(menuDelete,true)
-                  setMenuVisibility(menuCreate,false)
-              }*/
-
     }
+*/
+
+/*
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        viewModel.state.value?.let { state ->
+            if(state.isInCache){
+                menu.findItem(R.id.toolbar_exercise_detail_update).setVisible(state.isUpdatePending)
+                menu.findItem(R.id.toolbar_exercise_detail_delete).setVisible(true)
+                menu.findItem(R.id.toolbar_exercise_detail_add).setVisible(false)
+            }else{
+                menu.findItem(R.id.toolbar_exercise_detail_update).setVisible(false)
+                menu.findItem(R.id.toolbar_exercise_detail_delete).setVisible(false)
+                menu.findItem(R.id.toolbar_exercise_detail_add).setVisible(true)
+            }
+        }
+    }
+*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -127,25 +135,20 @@ class ExerciseDetailFragment():
                 onBackPressed()
                 true
             }
-
-            R.id.toolbar_exercise_detail_add -> {
+/*            R.id.toolbar_exercise_detail_add -> {
                 viewModel.onTriggerEvent(ExerciseDetailEvents.InsertExercise)
                 true
             }
             R.id.toolbar_exercise_detail_update -> {
-                updateExercise()
+                viewModel.onTriggerEvent(ExerciseDetailEvents.UpdateExercise)
                 true
             }
             R.id.toolbar_exercise_detail_delete -> {
                 //deleteExercise()
                 true
-            }
+            }*/
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun setMenuVisibility(menuItem: MenuItem, isVisible : Boolean){
-        menuItem.setVisible(isVisible)
     }
 
 
@@ -154,7 +157,6 @@ class ExerciseDetailFragment():
      */
 
     private fun subscribeObservers(){
-
 
         viewModel.state.observe(viewLifecycleOwner, { state ->
 
@@ -185,7 +187,6 @@ class ExerciseDetailFragment():
             if(state.bodyParts.isNotEmpty()){
                 bodyPartAdapter?.apply {
                     if(!getItems().containsAll(state.bodyParts)){
-                        printLogD("ExerciseDetailFragment","Body parts ${state.bodyParts}")
                         submitList(state.bodyParts)
                         enableBodyParts(true)
                     }
@@ -197,7 +198,6 @@ class ExerciseDetailFragment():
             if(state.exerciseTypes.isNotEmpty()){
                 exerciseTypeAdapter?.apply {
                     if(!getItems().containsAll(state.exerciseTypes)){
-                        printLogD("ExerciseDetailFragment","ExerciseTypes ${state.exerciseTypes}")
                         submitList(state.exerciseTypes)
                     }
                 }
@@ -209,190 +209,12 @@ class ExerciseDetailFragment():
                 }
             }
 
+            binding?.exerciseDetailButtonValidate?.isEnabled = state.isUpdatePending && viewModel.isExerciseValid()
+            binding?.exerciseDetailButtonValidate?.text = if(state.isInCache) "Update" else "Add"
+
+            printLogD("ExerciseDetailFragment","Update pending ${state.isUpdatePending} - exercise valid ${viewModel.isExerciseValid()}")
             printLogD("ExerciseDetailFragment","Exercise state ${state.exercise?.name} ${state.exercise?.bodyPart} ${state.exercise?.exerciseType} ${state.exercise?.isActive}")
-
-
         })
-        /*      viewModel.viewState.observe(viewLifecycleOwner,{ viewState ->
-
-                  if(viewState != null){
-
-                      viewState.detailWorkoutTypes?.let {
-                          if(!viewModel.getDetailWorkoutTypesExhausted()){
-                              workoutTypeAdapter?.clear()
-                              workoutTypeAdapter?.addAll(it)
-                              viewModel.setDetailWorkoutTypesExhausted(true)
-                          }
-                      }
-
-                      viewState.detailBodyParts?.let {
-                          if(!viewModel.getDetailBodyPartExhausted()){
-                              bodyPartAdapter?.clear()
-                              bodyPartAdapter?.addAll(it)
-                              enableBodyParts(true)
-                              viewModel.setDetailBodyPartsExhausted(true)
-                          }
-                      }
-
-                      viewState.detailExerciseType?.let {
-                          if(!viewModel.getDetailExerciseTypesExhausted()){
-                              exerciseTypeAdapter?.clear()
-                              exerciseTypeAdapter?.addAll(it)
-                              viewModel.setDetailExerciseTypesExhausted(true)
-                          }
-                      }
-
-                      viewState.exerciseSelected?.let {
-
-                          //Update name and is Active
-                          setExerciseName(it.name)
-                          setExerciseIsActive(it.isActive)
-
-                          //Update LiveData for list
-                          viewModel.setExerciseTypeState(it.exerciseType)
-
-                          //Update sets
-                          val sortedList = it.sets.sortedBy { it.order }
-                          exerciseSetAdapter?.submitList(sortedList)
-                      }
-
-                  }
-
-                  viewState.isUpdatePending?.let { isUpdatePending ->
-                      activity?.invalidateOptionsMenu()
-                  }
-
-              })
-
-
-              viewModel.stateMessage.observe(viewLifecycleOwner, Observer { stateMessage ->
-
-                  stateMessage?.response?.let { response ->
-
-                      when(response.message){
-
-                          INSERT_EXERCISE_SUCCESS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object : StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  })
-
-                              insertSets()
-                              activity?.invalidateOptionsMenu()
-                          }
-
-                          UPDATE_EXERCISE_SUCCESS ->{
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object : StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  })
-                              viewModel.setIsUpdatePending(false)
-                              activity?.invalidateOptionsMenu()
-                          }
-
-                          DELETE_EXERCISE_SUCCESS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              findNavController().popBackStack()
-                          }
-
-                          ADD_EXERCISE_SETS_SUCCESS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          ADD_EXERCISE_SETS_ERRORS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          UPDATE_EXERCISE_SETS_SUCCESS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          UPDATE_EXERCISE_SETS_ERRORS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          DELETE_EXERCISE_SETS_SUCCESS -> {
-
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          DELETE_EXERCISE_SETS_ERRORS -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object: StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  }
-                              )
-                              loadCachedExerciseSets()
-                          }
-
-                          else -> {
-                              uiController.onResponseReceived(
-                                  response = stateMessage.response,
-                                  stateMessageCallback = object : StateMessageCallback {
-                                      override fun removeMessageFromStack() {
-                                          viewModel.clearStateMessage()
-                                      }
-                                  })
-                          }
-                      }
-                  }
-              })*/
 
         viewModel.exerciseNameInteractionState.observe(viewLifecycleOwner,{ state ->
             when(state){
@@ -455,35 +277,19 @@ class ExerciseDetailFragment():
      */
 
     private fun loadInitialValues(){
-        viewModel.state.value?.exercise?.let {
+        viewModel.state.value?.let{ state ->
+            state.exercise?.let {
+                //Static
+                binding?.exerciseDetailTextName?.editText?.setText(it.name)
+                setExerciseIsActive(it.isActive)
 
-            //Static
-            binding?.exerciseDetailTextName?.editText?.setText(it.name)
-            setExerciseIsActive(it.isActive)
-
-            //AutoComplete
-            val workoutType = viewModel.getExerciseWorkoutType()
-            (binding?.exerciseDetailWorkouttype?.editText as AutoCompleteTextView).setText(workoutType?.name?.capitalize(),false)
-            (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView).setText(it.bodyPart?.name?.capitalize(),false)
-            (binding?.exerciseDetailExercisetype?.editText as AutoCompleteTextView).setText(it.exerciseType.type.capitalize(),false)
+                //AutoComplete
+                val workoutType = viewModel.getExerciseWorkoutType()
+                (binding?.exerciseDetailWorkouttype?.editText as AutoCompleteTextView).setText(workoutType?.name?.capitalize(),false)
+                (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView).setText(it.bodyPart?.name?.capitalize(),false)
+                (binding?.exerciseDetailExercisetype?.editText as AutoCompleteTextView).setText(it.exerciseType.type.capitalize(),false)
+            }
         }
-    }
-
-    private fun loadCachedExerciseSets(){
-        /* val idExercise = viewModel.getExerciseSelected()?.idExercise ?: ""
-         viewModel.loadCachedExerciseSets(idExercise)*/
-    }
-
-    private fun loadDetailWorkoutTypes(list : ArrayList<WorkoutType>?){
-        /*     viewModel.setDetailWorkoutTypes(list)*/
-    }
-
-    private fun loadDetailBodyParts(list : ArrayList<BodyPart>?){
-/*        viewModel.setDetailBodyPart(list)
-        viewModel.setDetailBodyPartsExhausted(false)*/
-    }
-    private fun loadDetailExerciseTypes(list : ArrayList<ExerciseType>?){
-/*        viewModel.setDetailExerciseTypes(list)*/
     }
 
     private fun enableBodyParts(isEnable : Boolean){
@@ -492,11 +298,15 @@ class ExerciseDetailFragment():
 
     private fun setupButtonAction(){
 
-/*        if(!viewModel.isExistExercise()){
-            binding?.excerciseDetailButtonCreate?.setOnClickListener {
-                insertExercise()
+        binding?.exerciseDetailButtonValidate?.setOnClickListener {
+            viewModel.state.value?.let { state ->
+                if(state.isInCache){
+                    viewModel.onTriggerEvent(ExerciseDetailEvents.UpdateExercise)
+                }else{
+                    viewModel.onTriggerEvent(ExerciseDetailEvents.InsertExercise)
+                }
             }
-        }*/
+        }
 
         binding?.exerciseDetailButtonAdd?.setOnClickListener {
             viewModel.onTriggerEvent(ExerciseDetailEvents.AddSet)
@@ -556,52 +366,10 @@ class ExerciseDetailFragment():
         })
     }
 
-    private fun insertExercise(){
-        /*  if(viewModel.checkExerciseEditState()){
-              quitEditState()
-          }
-          viewModel.insertExercise()*/
-    }
-
-    private fun updateExercise(){
-        /*  if(viewModel.isExistExercise()){
-              quitEditState()
-          }
-
-          //Update exercise
-          viewModel.updateExercise()
-
-          //Update sets
-          viewModel.updateExerciseSets()*/
-
-    }
-
-    private fun insertSets(){
-        /*   if(viewModel.isExistExercise()){
-               viewModel.insertSets()
-           }*/
-    }
-
-    private fun addSet(){
-        /*viewModel.addSet()
-        if(viewModel.isExistExercise()){
-            setUpdatePending()
-        }*/
-    }
-
-    private fun removeSet(item : ExerciseSet){
-        /*  viewModel.removeSet(item)
-          setUpdatePending()*/
-    }
 
     override fun updateOrder(item: ExerciseSet, position: Int) {
     }
 
-    private fun setUpdatePending(){
-        /* if(viewModel.isExistExercise() && !viewModel.getIsUpdatePending()){
-             viewModel.setIsUpdatePending(true)
-         }*/
-    }
     private fun setupAdapters(){
 
         //WorkoutTypeAdapter
@@ -611,7 +379,7 @@ class ExerciseDetailFragment():
             workoutTypeAdapter?.getItem(position)?.idWorkoutType?.let {
                 viewModel.onTriggerEvent(ExerciseDetailEvents.GetBodyParts(it))
                 viewModel.onTriggerEvent(ExerciseDetailEvents.UpdateExerciseBodyPart(null))
-                setExerciseBodyPart("")
+                (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView).setText("",false)
             }
         }
 
@@ -663,14 +431,12 @@ class ExerciseDetailFragment():
     }
 
     private fun onClickIsActive(isChecked : Boolean){
-        //if(!viewModel.isEditingIsActive()){
         updateNameInViewModel()
         updateBodyPartInViewModel()
         updateExerciseTypeInViewModel()
         setExerciseIsActive(isChecked)
         viewModel.setInteractionIsActiveState(ExerciseInteractionState.EditState())
         updateIsActiveInViewModel()
-        //}
     }
 
     private fun onClickWorkoutType(){
@@ -731,10 +497,6 @@ class ExerciseDetailFragment():
         return binding?.exerciseDetailTextName?.editText?.text.toString()
     }
 
-    private fun setExerciseName(name : String){
-        binding?.exerciseDetailTextName?.editText?.setText(name)
-    }
-
     private fun getExerciseIsActive() : Boolean {
         return binding?.exerciseDetailSwitchIsactive?.isChecked ?: false
     }
@@ -742,46 +504,14 @@ class ExerciseDetailFragment():
     private fun setExerciseIsActive(isActive : Boolean) {
         binding?.exerciseDetailSwitchIsactive?.isChecked = isActive
     }
-    private fun setExerciseBodyPart(name :String){
-        (binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView).setText(name.capitalize(),false)
-    }
-
-    private fun getWorkoutTypeSelected() : WorkoutType? {
-        return viewModel.getExerciseWorkoutType()
-    }
 
     private fun getExerciseBodyPart() : BodyPart? {
         return viewModel.state.value?.exercise?.bodyPart
     }
 
-    private fun clearExerciseBodyPart(){
-        //(binding?.exerciseDetailBodypart?.editText as AutoCompleteTextView).text = null
-    }
-
     private fun getExerciseType() : ExerciseType {
         return viewModel.state.value?.exercise?.exerciseType ?: ExerciseType.REP_EXERCISE
     }
-
-    /*
-        Array Adapter position used to update item on state change
-
-    private fun getWorkoutTypePosition() : Int? = workoutTypePosition
-
-    private fun setWorkoutTypePosition(position : Int?){
-        workoutTypePosition = position
-    }
-
-    private fun getBodyPartPosition() : Int? = bodyPartPosition
-
-    private fun setBodyPartPosition(position: Int?){
-        bodyPartPosition = position
-    }
-
-    private fun getExerciseTypePosition() : Int? = exerciseTypePosition
-
-    private fun setExerciseTypePosition(position: Int?) {
-        exerciseTypePosition = position
-    } */
 
     /*
         Exercise Set Interactions
@@ -833,6 +563,7 @@ class ExerciseDetailFragment():
 
             findNavController().popBackStack()
         }*/
+        findNavController().popBackStack()
     }
 
     private fun setupOnBackPressDispatcher() {

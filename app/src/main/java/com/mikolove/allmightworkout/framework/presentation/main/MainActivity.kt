@@ -105,7 +105,6 @@ class MainActivity :
                 else -> false
             }
         }
-
         binding.floatingActionButton.setOnClickListener {
             mainFabController?.fabOnClick()
         }
@@ -116,14 +115,10 @@ class MainActivity :
     override fun loadFabController(fabController: FabController?) {
         printLogD("MainActivity","LoadFabController ${fabController}")
         mainFabController = fabController
-    }
-
-    override fun mainFabVisibility() {
         mainFabController?.let {
             binding.floatingActionButton.show()
         }?: binding.floatingActionButton.hide()
     }
-
 
     private fun navigateToHistory(){
         findNavController(R.id.main_fragment_container)

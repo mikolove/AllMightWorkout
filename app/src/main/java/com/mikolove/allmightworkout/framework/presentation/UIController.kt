@@ -25,7 +25,4 @@ interface UIController {
     )*/
 
     fun loadFabController(fabController: FabController?)
-
-    fun mainFabVisibility()
-
 }
