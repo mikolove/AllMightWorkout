@@ -78,6 +78,9 @@
 
 
     <!-- Exercise detail Fragment -->
+    <string name="fragment_exercise_detail_title">Manage exercise</string>
+    <string name="fragment_exercise_set_detail_title">Manage set</string>
+
     <string name="fragment_exercise_detail_label_name">Name</string>
     <string name="fragment_exercise_detail_label_workout_type">Workout type</string>
     <string name="fragment_exercise_detail_label_body_part">Body part</string>

@@ -19,8 +19,6 @@ sealed class ExerciseDetailEvents {
 
     object InsertExercise : ExerciseDetailEvents()
 
-    data class InsertExerciseSets(val sets : List<ExerciseSet>, val idExercise : String) : ExerciseDetailEvents()
-
     data class UpdateIsInCache(val isInCache : Boolean) : ExerciseDetailEvents()
 
     data class UpdateExerciseName(val name : String) : ExerciseDetailEvents()
@@ -30,8 +28,6 @@ sealed class ExerciseDetailEvents {
     data class UpdateExerciseBodyPart(val bodyPart : BodyPart?) : ExerciseDetailEvents()
 
     data class UpdateExerciseExerciseType(val exerciseType : ExerciseType) : ExerciseDetailEvents()
-
-    data class UpdateWorkoutType(val workoutType : String) : ExerciseDetailEvents()
 
     object CreateExercise : ExerciseDetailEvents()
 
@@ -43,13 +39,7 @@ sealed class ExerciseDetailEvents {
 
     data class GetBodyParts(val idWorkoutType : String) : ExerciseDetailEvents()
 
-    object ReloadExercise : ExerciseDetailEvents()
-
     object UpdateExercise : ExerciseDetailEvents()
-
-    data class DeleteExerciseSet(val idExerciseSet : String) : ExerciseDetailEvents()
-
-    object OnUpdateDone : ExerciseDetailEvents()
 
     data class OnUpdateIsPending(val isPending : Boolean) : ExerciseDetailEvents()
 

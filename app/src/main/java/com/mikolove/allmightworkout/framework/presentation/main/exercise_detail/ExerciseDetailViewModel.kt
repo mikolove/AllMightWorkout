@@ -18,7 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-const val ERROR_TOAST_DELETE_SET = "Your exercise should at least have 1 set."
+const val EXERCISE_DETAIL_EXIT_DIALOG_TITLE = "Exit exercise edition"
+const val EXERCISE_DETAIL_EXIT_DIALOG_CONTENT = "Modification are not saved. Are you sure to quit ? work will be lost."
 
 @HiltViewModel
 class ExerciseDetailViewModel
@@ -85,9 +86,6 @@ constructor(
             is ExerciseDetailEvents.UpdateExerciseExerciseType->{
                 updateExerciseExerciseType(event.exerciseType)
             }
-            is ExerciseDetailEvents.UpdateWorkoutType->{
-                updateWorkoutType(event.workoutType)
-            }
             is ExerciseDetailEvents.InsertExercise->{
                 insertExercise()
             }
@@ -97,9 +95,6 @@ constructor(
             is ExerciseDetailEvents.OnUpdateIsPending->{
                 onUpdateIsPending(event.isPending)
             }
-/*            is ExerciseDetailEvents.InsertExerciseSets->{
-                insertExerciseSets(event.sets,event.idExercise)
-            }*/
             is ExerciseDetailEvents.Error->{
 
             }
@@ -214,7 +209,6 @@ constructor(
     fun getExerciseWorkoutType() : WorkoutType? {
         return state.value?.let { state ->
             state.exercise?.let{ exercise ->
-                printLogD("ExerciseDetailViewModel","workoutTypes ${state.workoutTypes}")
                 state.workoutTypes.find{
                     it.bodyParts?.contains(exercise.bodyPart) == true
                 }
@@ -295,8 +289,7 @@ constructor(
                         this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                         dataState?.data?.let {
-                            printLogD("ExerciseDetailViewModel","Insert Success")
-                            this.state.value = state.copy(isInCache = true, isUpdatePending = false)
+                            this.state.value = state.copy(isInCache = true, isUpdatePending = false, isUpdateDone = true)
                         }
 
                         dataState?.message?.let { message ->
@@ -317,8 +310,7 @@ constructor(
                     this.state.value = state.copy(isLoading = dataState?.isLoading)
 
                     dataState?.data?.let {
-                        printLogD("ExerciseDetailViewModel","Update Success")
-                        this.state.value = state.copy(isUpdatePending = false)
+                        this.state.value = state.copy(isUpdatePending = false, isUpdateDone = true)
                     }
 
                     dataState?.message?.let { message ->
@@ -364,7 +356,6 @@ constructor(
     }
     private fun getBodyParts(idWorkoutType : String){
         state.value?.let { state ->
-            //Reload
             if(state.workoutTypes.isNotEmpty()){
                 val bodyParts = state.workoutTypes.find { it.idWorkoutType == idWorkoutType }?.bodyParts ?: listOf()
                 this.state.value = state.copy(bodyParts = bodyParts.sortedBy { it.name })
@@ -380,26 +371,6 @@ constructor(
         }
 
         return false
-
-/*        val name = exercise.name
-        val bodyPart = exercise.bodyPart
-
-        if(name.isNullOrBlank() || bodyPart == null) {
-            setStateEvent(
-                CreateStateMessageEvent(
-                    stateMessage = StateMessage(
-                        response = Response(
-                            message = EXERCISE_INCOMPLETE,
-                            uiComponentType = UIComponentType.Toast(),
-                            messageType = MessageType.Info()
-                        )
-                    )
-                )
-            )
-            return false
-        }else{
-            return true
-        }*/
     }
 
 
@@ -473,7 +444,7 @@ constructor(
                 queue.remove() // can throw exception if empty
                 this.state.value = state.copy(queue = queue)
             }catch (e: Exception){
-                printLogD("WorkoutListViewModel","Nothing to remove from queue")
+                printLogD("ExerciseDetailViewModel","Nothing to remove from queue")
             }
         }
     }

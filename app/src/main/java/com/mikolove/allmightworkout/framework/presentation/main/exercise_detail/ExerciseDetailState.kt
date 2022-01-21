@@ -16,12 +16,9 @@ data class ExerciseDetailState(
     //Init values
     val loadInitialValues : Boolean = false,
 
-    //quick bypass reload state
-    val reloadBodyPart : Boolean = false,
-
     //Update
     val isUpdatePending : Boolean = false,
-    val isUpdateDone : Boolean  = false,
+    val isUpdateDone : Boolean = false,
 
     //List
     val workoutTypes : List<WorkoutType> = listOf(),

@@ -9,9 +9,12 @@ import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseSetDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailEvents
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -311,12 +314,10 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
 
         viewModel.state.value?.let { state ->
             if(state.isUpdatePending){
-                printLogD("ExerciseSetDetailFragment","Updated set")
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     EXERCISE_SET_UPDATED,
                     state.set
                 )
-
             }
         }
         findNavController().previousBackStackEntry?.savedStateHandle?.set(

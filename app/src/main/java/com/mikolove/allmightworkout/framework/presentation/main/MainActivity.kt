@@ -168,8 +168,8 @@ class MainActivity :
             R.id.exercise_fragment -> View.VISIBLE
             R.id.workout_detail_fragment -> View.GONE
             R.id.exercise_detail_fragment -> View.GONE
-            R.id.add_exercise_to_workout_fragment -> View.GONE
             R.id.exercise_set_detail_fragment -> View.GONE
+            R.id.add_exercise_to_workout_fragment -> View.GONE
             R.id.workoutInProgressFragment -> View.GONE
             R.id.exerciseInProgressFragment -> View.GONE
             else -> View.VISIBLE
@@ -220,6 +220,8 @@ class MainActivity :
             R.id.history_fragment -> R.string.fragment_home_tab_layout_history
             R.id.workout_fragment -> R.string.fragment_home_tab_layout_workout
             R.id.exercise_fragment -> R.string.fragment_home_tab_layout_exercise
+            R.id.exercise_detail_fragment -> R.string.fragment_exercise_detail_title
+            R.id.exercise_set_detail_fragment -> R.string.fragment_exercise_set_detail_title
             R.id.workout_detail_fragment -> R.string.fragment_manage_workout_text_title
             R.id.workoutInProgressFragment -> R.string.wip_fragment_title
             R.id.exerciseInProgressFragment -> R.string.eip_fragment_title
