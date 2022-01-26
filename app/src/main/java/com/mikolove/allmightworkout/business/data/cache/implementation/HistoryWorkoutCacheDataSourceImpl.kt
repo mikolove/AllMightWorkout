@@ -10,20 +10,21 @@ class HistoryWorkoutCacheDataSourceImpl
 constructor(private val historyWorkoutDaoService : HistoryWorkoutDaoService)
     : HistoryWorkoutCacheDataSource {
 
-    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): Long = historyWorkoutDaoService.insertHistoryWorkout(historyWorkout)
+    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout, idUser : String): Long = historyWorkoutDaoService.insertHistoryWorkout(historyWorkout,idUser)
 
     override suspend fun deleteHistoryWorkout(idHistoryWorkout: String): Int = historyWorkoutDaoService.deleteHistoryWorkout(idHistoryWorkout)
 
     override suspend fun getHistoryWorkouts(
         query: String,
         filterAndOrder: String,
-        page: Int
+        page: Int,
+        idUser : String
     ): List<HistoryWorkout> {
 
-        return historyWorkoutDaoService.returnOrderedQuery(query, filterAndOrder, page)
+        return historyWorkoutDaoService.returnOrderedQuery(query, filterAndOrder, page, idUser)
     }
 
     override suspend fun getHistoryWorkoutById(historyWorkoutId: String): HistoryWorkout? = historyWorkoutDaoService.getHistoryWorkoutById(historyWorkoutId)
 
-    override suspend fun getTotalHistoryWorkout(): Int = historyWorkoutDaoService.getTotalHistoryWorkout()
+    override suspend fun getTotalHistoryWorkout(idUser : String): Int = historyWorkoutDaoService.getTotalHistoryWorkout(idUser)
 }

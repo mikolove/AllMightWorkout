@@ -84,6 +84,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         super.onViewCreated(view, savedInstanceState)
 
         setHasOptionsMenu(false)
+        //signOut()
         connectToFirebase()
     }
 

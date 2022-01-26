@@ -5,7 +5,14 @@ import java.util.*
 
 @Entity(
     tableName = "history_workouts",
-    indices = [Index("id_history_workout")]
+    indices = [Index("id_history_workout")],
+    foreignKeys = arrayOf(
+        ForeignKey(
+            entity = UserCacheEntity::class,
+            parentColumns = arrayOf("id_user"),
+            childColumns = arrayOf("fk_id_user")
+        )
+    )
 )
 data class HistoryWorkoutCacheEntity(
 
@@ -15,6 +22,9 @@ data class HistoryWorkoutCacheEntity(
 
     @ColumnInfo(name = "name")
     var name: String,
+
+    @ColumnInfo(name = "fk_id_user")
+    var idUser: String,
 
     @ColumnInfo(name ="started_at")
     var startedAt: Date,

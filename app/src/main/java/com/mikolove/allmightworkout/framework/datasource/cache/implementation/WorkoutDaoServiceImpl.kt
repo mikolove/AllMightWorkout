@@ -16,8 +16,9 @@ constructor(
     private val dateUtil: DateUtil
 ) : WorkoutDaoService{
 
-    override suspend fun insertWorkout(workout: Workout): Long {
-        return workoutDao.insertWorkout(workoutCacheMapper.mapToEntity(workout))
+    override suspend fun insertWorkout(workout: Workout, idUser : String): Long {
+        val entity = workoutCacheMapper.mapToEntity(workout).copy(idUser = idUser)
+        return workoutDao.insertWorkout(entity)
     }
 
     override suspend fun updateWorkout(
@@ -62,8 +63,8 @@ constructor(
         )
     }
 
-    override suspend fun getTotalWorkout(): Int {
-        return workoutDao.getTotalWorkout()
+    override suspend fun getTotalWorkout(idUser : String): Int {
+        return workoutDao.getTotalWorkout(idUser)
     }
 
     override suspend fun getWorkouts(): List<Workout> {
@@ -75,50 +76,51 @@ constructor(
     override suspend fun getWorkoutsOrderByDateDESC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-            workoutDao.getWorkoutsOrderByDateDESC(query, page)
+            workoutDao.getWorkoutsOrderByDateDESC(query, page, idUser)
         )
     }
 
     override suspend fun getWorkoutsOrderByDateASC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-            workoutDao.getWorkoutsOrderByDateASC(query, page)
+            workoutDao.getWorkoutsOrderByDateASC(query, page, idUser)
         )
     }
 
     override suspend fun getWorkoutsOrderByNameDESC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-            workoutDao.getWorkoutsOrderByNameDESC(query, page)
+            workoutDao.getWorkoutsOrderByNameDESC(query, page, idUser)
         )
     }
 
     override suspend fun getWorkoutsOrderByNameASC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-            workoutDao.getWorkoutsOrderByNameASC(query, page)
+            workoutDao.getWorkoutsOrderByNameASC(query, page, idUser)
         )
     }
 
     override suspend fun returnOrderedQuery(
         query: String,
         filterAndOrder: String,
-        page: Int
+        page: Int,
+        idUser: String
     ): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-             workoutDao.returnOrderedQuery(query, filterAndOrder, page)
+             workoutDao.returnOrderedQuery(query, filterAndOrder, page, idUser)
         )
     }
 }

@@ -7,6 +7,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.model.*
 import com.mikolove.allmightworkout.framework.datasource.cache.util.DateConverter
 
 @Database(entities = [
+    UserCacheEntity::class,
     WorkoutTypeCacheEntity::class,
     BodyPartCacheEntity::class,
     WorkoutCacheEntity::class,
@@ -18,7 +19,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.DateConverte
     WorkoutExerciseCacheEntity::class], version = 1)
 @TypeConverters(DateConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
-
+    abstract fun userDao() : UserDao
     abstract fun workoutDao()  : WorkoutDao
     abstract fun exerciseDao() : ExerciseDao
     abstract fun exerciseSetDao() : ExerciseSetDao

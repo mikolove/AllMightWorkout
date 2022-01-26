@@ -14,8 +14,9 @@ constructor(
     private val historyWorkoutWithExercisesCacheMapper: HistoryWorkoutWithExercisesCacheMapper
 ) : HistoryWorkoutDaoService{
 
-    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): Long {
-        return historyWorkoutDao.insertHistoryWorkout(historyWorkoutCacheMapper.mapToEntity(historyWorkout))
+    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout,idUser: String): Long {
+        val entity = historyWorkoutCacheMapper.mapToEntity(historyWorkout).copy(idUser = idUser)
+        return historyWorkoutDao.insertHistoryWorkout(entity)
     }
 
     override suspend fun deleteHistoryWorkout(idHistoryWorkout: String): Int {
@@ -28,63 +29,64 @@ constructor(
         }
     }
 
-    override suspend fun getTotalHistoryWorkout(): Int {
-        return historyWorkoutDao.getTotalHistoryWorkout()
+    override suspend fun getTotalHistoryWorkout(idUser: String): Int {
+        return historyWorkoutDao.getTotalHistoryWorkout(idUser)
     }
 
-    override suspend fun getHistoryWorkouts(): List<HistoryWorkout> {
+    override suspend fun getHistoryWorkouts(idUser: String): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.getHistoryWorkouts()
+            historyWorkoutDao.getHistoryWorkouts(idUser)
         )
     }
 
     override suspend fun getHistoryWorkoutOrderByDateDESC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.getHistoryWorkoutOrderByDateDESC(query, page)
+            historyWorkoutDao.getHistoryWorkoutOrderByDateDESC(query, page,idUser)
         )
     }
 
     override suspend fun getHistoryWorkoutOrderByDateASC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.getHistoryWorkoutOrderByDateASC(query, page)
+            historyWorkoutDao.getHistoryWorkoutOrderByDateASC(query, page, idUser)
         )
     }
 
     override suspend fun getHistoryWorkoutOrderByNameDESC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.getHistoryWorkoutOrderByNameDESC(query, page)
+            historyWorkoutDao.getHistoryWorkoutOrderByNameDESC(query, page, idUser)
         )
     }
 
     override suspend fun getHistoryWorkoutOrderByNameASC(
         query: String,
         page: Int,
-        pageSize: Int
+        idUser: String
     ): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.getHistoryWorkoutOrderByNameASC(query, page)
+            historyWorkoutDao.getHistoryWorkoutOrderByNameASC(query, page, idUser)
         )
     }
 
     override suspend fun returnOrderedQuery(
         query: String,
         filterAndOrder: String,
-        page: Int
+        page: Int,
+        idUser: String
     ): List<HistoryWorkout> {
         return historyWorkoutWithExercisesCacheMapper.entityListToDomainList(
-            historyWorkoutDao.returnOrderedQuery(query, filterAndOrder, page)
+            historyWorkoutDao.returnOrderedQuery(query, filterAndOrder, page,idUser)
         )
     }
 }

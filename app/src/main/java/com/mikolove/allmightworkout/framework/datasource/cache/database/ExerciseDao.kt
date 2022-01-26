@@ -51,8 +51,8 @@ interface ExerciseDao{
     @Query("SELECT * FROM exercises WHERE id_exercise = :primaryKey")
     suspend fun getExerciseById(primaryKey: String) : ExerciseWithSetsCacheEntity?
 
-    @Query("SELECT count(*) FROM exercises")
-    suspend fun getTotalExercises() : Int
+    @Query("SELECT count(*) FROM exercises WHERE fk_id_user = :idUser")
+    suspend fun getTotalExercises(idUser : String) : Int
 
     @Query("""
         SELECT 
@@ -73,43 +73,48 @@ interface ExerciseDao{
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
     suspend fun removeExercises(primaryKeys: List<String>)  : Int
 
-    @Query("SELECT * FROM exercises")
-    suspend fun getExercises() : List<ExerciseWithSetsCacheEntity>
+    @Query("SELECT * FROM exercises WHERE id_exercise = :idUser")
+    suspend fun getExercises(idUser : String) : List<ExerciseWithSetsCacheEntity>
 
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY created_at DESC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getExercisesOrderByDateDESC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
+    suspend fun getExercisesOrderByDateDESC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY created_at ASC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getExercisesOrderByDateASC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
+    suspend fun getExercisesOrderByDateASC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY name COLLATE NOCASE DESC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getExercisesOrderByNameDESC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
+    suspend fun getExercisesOrderByNameDESC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY name COLLATE NOCASE ASC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getExercisesOrderByNameASC(query: String, page: Int, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
+    suspend fun getExercisesOrderByNameASC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
 }
 
 suspend fun ExerciseDao.returnOrderedQuery(
     query: String,
     filterAndOrder: String,
-    page: Int
+    page: Int,
+    idUser: String
 ): List<ExerciseWithSetsCacheEntity>{
 
     when{
@@ -117,31 +122,36 @@ suspend fun ExerciseDao.returnOrderedQuery(
         filterAndOrder.contains(EXERCISE_ORDER_BY_DESC_DATE_CREATED) -> {
             return getExercisesOrderByDateDESC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(EXERCISE_ORDER_BY_ASC_DATE_CREATED) -> {
             return getExercisesOrderByDateASC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(EXERCISE_ORDER_BY_DESC_NAME) -> {
             return getExercisesOrderByNameDESC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(EXERCISE_ORDER_BY_ASC_NAME) -> {
             return getExercisesOrderByNameASC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         else -> {
             return getExercisesOrderByDateDESC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
     }

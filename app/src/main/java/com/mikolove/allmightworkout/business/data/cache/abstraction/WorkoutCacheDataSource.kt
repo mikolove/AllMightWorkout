@@ -4,7 +4,7 @@ import com.mikolove.allmightworkout.business.domain.model.Workout
 
 interface WorkoutCacheDataSource {
 
-    suspend fun insertWorkout(workout: Workout) : Long
+    suspend fun insertWorkout(workout: Workout, idUser : String) : Long
 
     suspend fun updateWorkout(
         primaryKey: String,
@@ -21,9 +21,9 @@ interface WorkoutCacheDataSource {
 
     suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?) : Int
 
-    suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int) : List<Workout>
+    suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int,idUser : String) : List<Workout>
 
     suspend fun getWorkoutById(primaryKey : String) : Workout?
 
-    suspend fun getTotalWorkout() : Int
+    suspend fun getTotalWorkout(idUser : String) : Int
 }

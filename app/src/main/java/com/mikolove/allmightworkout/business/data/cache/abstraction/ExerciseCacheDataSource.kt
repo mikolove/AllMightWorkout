@@ -5,7 +5,7 @@ import com.mikolove.allmightworkout.business.domain.model.Exercise
 
 interface ExerciseCacheDataSource {
 
-    suspend fun insertExercise(exercise: Exercise) : Long
+    suspend fun insertExercise(exercise: Exercise, idUser : String) : Long
 
     suspend fun updateExercise(
         primaryKey: String,
@@ -20,7 +20,7 @@ interface ExerciseCacheDataSource {
 
     suspend fun removeExercises(exercise: List<Exercise>)  : Int
 
-    suspend fun getExercises(query : String, filterAndOrder : String, page : Int) : List<Exercise>
+    suspend fun getExercises(query : String, filterAndOrder : String, page : Int, idUser : String) : List<Exercise>
 
     suspend fun getExerciseById(primaryKey: String) : Exercise?
 
@@ -32,5 +32,5 @@ interface ExerciseCacheDataSource {
 
     suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
 
-    suspend fun getTotalExercises() : Int
+    suspend fun getTotalExercises(idUser : String) : Int
 }

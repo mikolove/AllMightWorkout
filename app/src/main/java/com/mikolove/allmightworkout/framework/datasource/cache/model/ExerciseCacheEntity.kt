@@ -11,6 +11,11 @@ import java.util.*
             entity = BodyPartCacheEntity::class,
             parentColumns = arrayOf("id_body_part"),
             childColumns = arrayOf("fk_id_body_part")
+        ),
+        ForeignKey(
+            entity = UserCacheEntity::class,
+            parentColumns = arrayOf("id_user"),
+            childColumns = arrayOf("fk_id_user")
         )
     )
 )
@@ -31,6 +36,9 @@ data class ExerciseCacheEntity(
 
     @ColumnInfo(name = "is_active")
     var isActive: Boolean,
+
+    @ColumnInfo(name = "fk_id_user")
+    var idUser : String? = null,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt: Date,

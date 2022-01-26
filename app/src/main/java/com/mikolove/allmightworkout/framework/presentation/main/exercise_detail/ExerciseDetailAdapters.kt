@@ -120,7 +120,7 @@ class ExerciseTypeAdapter(
             val exerciseTypeAutoCompleteView = convertView!!.findViewById<View>(R.id.autoCompleteTextExerciseType) as TextView
             exerciseTypeAutoCompleteView.text = exerciseType.type.capitalize()
         } catch (e: Exception) {
-            printLogD("exerciseTypeAdapter","Error : ${e}")
+            printLogD("ExerciseTypeAdapter","Error : ${e}")
         }
         return convertView!!
     }

@@ -14,7 +14,7 @@ constructor(
     private val workoutExerciseDaoService : WorkoutExerciseDaoService)
     : ExerciseCacheDataSource {
 
-    override suspend fun insertExercise(exercise: Exercise): Long = exerciseDaoService.insertExercise(exercise)
+    override suspend fun insertExercise(exercise: Exercise, idUser: String): Long = exerciseDaoService.insertExercise(exercise, idUser)
 
     override suspend fun updateExercise(
         primaryKey: String,
@@ -31,16 +31,17 @@ constructor(
     override suspend fun getExercises(
         query: String,
         filterAndOrder: String,
-        page: Int
+        page: Int,
+        idUser : String
     ): List<Exercise> {
-        return exerciseDaoService.returnOrderedQuery(query,filterAndOrder,page)
+        return exerciseDaoService.returnOrderedQuery(query,filterAndOrder,page,idUser)
     }
 
     override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseDaoService.removeExercises(exercises)
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? = exerciseDaoService.getExerciseById(primaryKey)
 
-    override suspend fun getTotalExercises(): Int = exerciseDaoService.getTotalExercises()
+    override suspend fun getTotalExercises(idUser : String): Int = exerciseDaoService.getTotalExercises(idUser)
 
     override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? = exerciseDaoService.getExercisesByWorkout(idWorkout)
 

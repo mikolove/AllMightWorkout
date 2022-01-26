@@ -8,7 +8,7 @@ class WorkoutCacheDataSourceImpl
 constructor(
     private val workoutDaoService : WorkoutDaoService
 ) : WorkoutCacheDataSource {
-    override suspend fun insertWorkout(workout: Workout): Long = workoutDaoService.insertWorkout(workout)
+    override suspend fun insertWorkout(workout: Workout,idUser : String ): Long = workoutDaoService.insertWorkout(workout,idUser)
 
     override suspend fun updateWorkout(
         primaryKey: String,
@@ -26,12 +26,13 @@ constructor(
         exerciseIdsUpdatedAt
     )
 
-    override suspend fun getWorkouts(query: String, filterAndOrder: String, page: Int): List<Workout> {
+    override suspend fun getWorkouts(query: String, filterAndOrder: String, page: Int, idUser: String): List<Workout> {
 
         return workoutDaoService.returnOrderedQuery(
             query,
             filterAndOrder,
-            page
+            page,
+            idUser
         )
     }
 
@@ -39,5 +40,5 @@ constructor(
 
     override suspend fun getWorkoutById(primaryKey: String): Workout? = workoutDaoService.getWorkoutById(primaryKey)
 
-    override suspend fun getTotalWorkout(): Int = workoutDaoService.getTotalWorkout()
+    override suspend fun getTotalWorkout(idUser: String): Int = workoutDaoService.getTotalWorkout()
 }

@@ -44,11 +44,11 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE id_workout = :primaryKey")
     suspend fun getWorkoutById(primaryKey: String) : WorkoutWithExercisesCacheEntity?
 
-    @Query("SELECT count(*) FROM workouts")
-    suspend fun getTotalWorkout() : Int
+    @Query("SELECT count(*) FROM workouts WHERE fk_id_user = :idUser")
+    suspend fun getTotalWorkout(idUser: String) : Int
 
-    @Query("SELECT * FROM workouts")
-    suspend fun getWorkouts() : List<WorkoutWithExercisesCacheEntity>
+    @Query("SELECT * FROM workouts WHERE fk_id_user = :idUser")
+    suspend fun getWorkouts(idUser: String) : List<WorkoutWithExercisesCacheEntity>
 
 
     @Query("SELECT exercise_ids_updated_at FROM workouts WHERE id_workout = :idWorkout")
@@ -61,66 +61,76 @@ interface WorkoutDao {
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY created_at DESC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getWorkoutsOrderByDateDESC( query: String, page : Int, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
+    suspend fun getWorkoutsOrderByDateDESC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY created_at ASC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getWorkoutsOrderByDateASC( query: String, page : Int, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
+    suspend fun getWorkoutsOrderByDateASC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY name COLLATE NOCASE DESC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getWorkoutsOrderByNameDESC( query: String, page : Int, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
+    suspend fun getWorkoutsOrderByNameDESC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
+        AND fk_id_user = :idUser
         ORDER BY name COLLATE NOCASE ASC LIMIT ( :page * :pageSize)
     """)
-    suspend fun getWorkoutsOrderByNameASC( query: String, page : Int, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
+    suspend fun getWorkoutsOrderByNameASC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
 }
 
 suspend fun WorkoutDao.returnOrderedQuery(
     query: String,
     filterAndOrder: String,
-    page: Int
+    page: Int,
+    idUser : String
 ): List<WorkoutWithExercisesCacheEntity>{
     when{
         filterAndOrder.contains(WORKOUT_ORDER_BY_DESC_DATE_CREATED) -> {
             return getWorkoutsOrderByDateDESC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(WORKOUT_ORDER_BY_ASC_DATE_CREATED) -> {
             return getWorkoutsOrderByDateASC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(WORKOUT_ORDER_BY_DESC_NAME) -> {
             return getWorkoutsOrderByNameDESC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         filterAndOrder.contains(WORKOUT_ORDER_BY_ASC_NAME) -> {
             return getWorkoutsOrderByNameASC(
                 query = query,
-                page = page
+                page = page,
+                idUser = idUser
             )
         }
         else -> return getWorkoutsOrderByDateDESC(
             query = query,
-            page = page
+            page = page,
+            idUser = idUser
         )
     }
 }
