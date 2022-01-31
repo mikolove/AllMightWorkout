@@ -45,6 +45,9 @@ object ProductionModule {
         return FirebaseAuth.getInstance()
     }
 
+    /*
+        Unused
+     */
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences{

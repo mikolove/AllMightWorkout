@@ -1,5 +1,8 @@
 package com.mikolove.allmightworkout.framework.datasource.preferences
 
+/*
+    Unused
+ */
 class PreferenceKeys {
 
     //To store filter preferences of the user

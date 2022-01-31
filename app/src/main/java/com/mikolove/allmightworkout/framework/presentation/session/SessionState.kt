@@ -8,11 +8,11 @@ data class SessionState(
 
     val isLoading :Boolean = false,
 
-    val isAuth : Boolean = false,
+    val logged : SessionLoggedType? = SessionLoggedType.DISCONNECTED,
 
-    val lastUserId : String? = "",
+    val checkAuth : Boolean = false,
 
-    val user : User? = null,
+    val idUser : String? = null,
 
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
 )
