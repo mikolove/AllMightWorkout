@@ -24,7 +24,7 @@ data class HistoryWorkoutCacheEntity(
     var name: String,
 
     @ColumnInfo(name = "fk_id_user")
-    var idUser: String,
+    var idUser: String? = null,
 
     @ColumnInfo(name ="started_at")
     var startedAt: Date,

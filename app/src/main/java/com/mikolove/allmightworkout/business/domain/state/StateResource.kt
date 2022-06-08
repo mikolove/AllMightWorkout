@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.business.domain.state
 
 
 import android.view.View
-import com.mikolove.allmightworkout.util.TodoCallback
 
 
 sealed class UIComponentType{

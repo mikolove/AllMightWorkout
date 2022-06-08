@@ -12,10 +12,12 @@ class GetTotalWorkouts(
     private val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
-    fun execute() : Flow<DataState<Int>?> = flow {
+    fun execute(
+        idUser : String
+    ) : Flow<DataState<Int>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
-            workoutCacheDataSource.getTotalWorkout()
+            workoutCacheDataSource.getTotalWorkout(idUser)
         }
 
         val response = object : CacheResponseHandler<Int, Int>(

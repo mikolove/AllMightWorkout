@@ -8,7 +8,7 @@ data class User(
     var idUser : String,
     var name : String,
     var email : String,
-    var workouts : List<Workout>?,
+    var workouts : List<Workout>? = null,
     var createdAt: String,
     var updatedAt : String
 ) : Parcelable{

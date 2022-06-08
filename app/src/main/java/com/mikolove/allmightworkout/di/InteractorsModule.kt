@@ -11,6 +11,10 @@ import com.mikolove.allmightworkout.business.interactors.main.history.GetHistory
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.GetTotalHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
+import com.mikolove.allmightworkout.business.interactors.main.loading.GetAccountPreferences
+import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
+import com.mikolove.allmightworkout.business.interactors.main.session.GetSessionPreferences
+import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
 import dagger.Module
@@ -135,4 +139,25 @@ object InteractorsModule {
         )
     }
 
+    @Singleton
+    @Provides
+    fun provideLoadingInteractors(
+        userCacheDataSource: UserCacheDataSource,
+        userNetworkDataSource: UserNetworkDataSource,
+        appDataStore: AppDataStore
+    ) : LoadingInteractors{
+        return LoadingInteractors(
+            getAccountPreferences = GetAccountPreferences(appDataStore)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSessionInteractors(
+        appDataStore: AppDataStore
+    ) : SessionInteractors{
+        return SessionInteractors(
+            getSessionPreference = GetSessionPreferences(appDataStore)
+        )
+    }
 }

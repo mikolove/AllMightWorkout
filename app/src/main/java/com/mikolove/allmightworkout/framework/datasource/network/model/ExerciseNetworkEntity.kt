@@ -10,6 +10,7 @@ data class ExerciseNetworkEntity(
     var sets: List<ExerciseSetNetworkEntity>?,
     var bodyPart: BodyPartExerciseNetworkEntity?,
     var exerciseType: String,
+    //Boolean prefixed with is
     @field:JvmField
     var isActive: Boolean,
     var createdAt: Timestamp,

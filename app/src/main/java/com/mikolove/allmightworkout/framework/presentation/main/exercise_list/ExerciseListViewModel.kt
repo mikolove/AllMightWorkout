@@ -22,6 +22,7 @@ import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarSta
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutOrderOptions
+import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -33,6 +34,7 @@ import javax.inject.Inject
 class ExerciseListViewModel
 @Inject
 constructor(
+    private val sessionManager: SessionManager,
     private val exerciseInteractors: ExerciseInteractors,
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
@@ -210,28 +212,32 @@ constructor(
     private fun getExercises(){
         state.value?.let { state ->
 
-            exerciseInteractors.getExercises.execute(
-                query = state.query,
-                filterAndOrder = state.list_order.value + state.list_filter.value,
-                page = state.page
-            ).onEach { dataState ->
+            sessionManager.state.value?.idUser?.let { idUser ->
 
-                this.state.value = state.copy(isLoading = dataState?.isLoading)
+                exerciseInteractors.getExercises.execute(
+                    idUser = idUser,
+                    query = state.query,
+                    filterAndOrder = state.list_order.value + state.list_filter.value,
+                    page = state.page
+                ).onEach { dataState ->
 
-                dataState?.data?.let { listExercise ->
-                    this.state.value = state.copy(listExercises = listExercise)
-                }
+                    this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                dataState?.message?.let { message ->
-
-                    if(message.description.equals(GetExercises.GET_EXERCISES_SUCCESS_END)){
-                        onUpdateQueryExhausted(true)
+                    dataState?.data?.let { listExercise ->
+                        this.state.value = state.copy(listExercises = listExercise)
                     }
 
-                    appendToMessageQueue(message)
-                }
+                    dataState?.message?.let { message ->
 
-            }.launchIn(viewModelScope)
+                        if(message.description.equals(GetExercises.GET_EXERCISES_SUCCESS_END)){
+                            onUpdateQueryExhausted(true)
+                        }
+
+                        appendToMessageQueue(message)
+                    }
+
+                }.launchIn(viewModelScope)
+            }
         }
     }
 

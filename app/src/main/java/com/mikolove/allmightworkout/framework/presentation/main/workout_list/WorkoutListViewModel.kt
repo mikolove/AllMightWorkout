@@ -16,6 +16,7 @@ import com.mikolove.allmightworkout.framework.presentation.common.ListInteractio
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.InsertWorkout
+import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -27,9 +28,9 @@ import javax.inject.Inject
 class WorkoutListViewModel
 @Inject
 constructor(
+    private val sessionManager: SessionManager,
     private val workoutInteractors: WorkoutInteractors,
     private val appDataStoreManager: AppDataStore,
-
     ) : ViewModel() {
     
     /*
@@ -213,48 +214,54 @@ constructor(
     private fun getWorkouts(){
         state.value?.let { state ->
 
-            workoutInteractors.getWorkouts.execute(
-                query = state.query,
-                filterAndOrder = state.list_order.value + state.list_filter.value,
-                page = state.page
-            ).onEach { dataState ->
+            sessionManager.state.value?.idUser?.let { idUser ->
+                workoutInteractors.getWorkouts.execute(
+                    idUser = idUser,
+                    query = state.query,
+                    filterAndOrder = state.list_order.value + state.list_filter.value,
+                    page = state.page
+                ).onEach { dataState ->
 
-                this.state.value = state.copy(isLoading = dataState?.isLoading)
+                    this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                dataState?.data?.let { listWorkout ->
-                    this.state.value = state.copy(listWorkouts = listWorkout)
-                }
-
-                dataState?.message?.let { message ->
-
-                    if(message.description.equals(GetWorkouts.GET_WORKOUTS_SUCCESS_END)){
-                        onUpdateQueryExhausted(true)
+                    dataState?.data?.let { listWorkout ->
+                        this.state.value = state.copy(listWorkouts = listWorkout)
                     }
 
-                    appendToMessageQueue(message)
-                }
+                    dataState?.message?.let { message ->
 
-            }.launchIn(viewModelScope)
+                        if(message.description.equals(GetWorkouts.GET_WORKOUTS_SUCCESS_END)){
+                            onUpdateQueryExhausted(true)
+                        }
+
+                        appendToMessageQueue(message)
+                    }
+
+                }.launchIn(viewModelScope)
+            }
         }
     }
 
     private fun insertWorkout(name : String){
         state.value?.let { state ->
-            workoutInteractors.insertWorkout.execute(
-                name = name
-            ).onEach { dataState ->
+            sessionManager.state.value?.idUser?.let { idUser ->
+                workoutInteractors.insertWorkout.execute(
+                    idUser = idUser,
+                    name = name
+                ).onEach { dataState ->
 
-                dataState?.data?.let{
-                    this.state.value = state.copy(insertedWorkout = it)
-                }
-
-                dataState?.message?.let { message ->
-                    appendToMessageQueue(message)
-                    if(message.description.equals(INSERT_WORKOUT_SUCCESS)){
-                        search()
+                    dataState?.data?.let{
+                        this.state.value = state.copy(insertedWorkout = it)
                     }
-                }
-            }.launchIn(viewModelScope)
+
+                    dataState?.message?.let { message ->
+                        appendToMessageQueue(message)
+                        if(message.description.equals(INSERT_WORKOUT_SUCCESS)){
+                            search()
+                        }
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
 

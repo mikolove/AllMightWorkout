@@ -23,6 +23,7 @@ InsertWorkout(
     fun execute(
         idWorkout : String? = null,
         name : String,
+        idUser : String
     ) : Flow<DataState<String>?> = flow{
 
         val newWorkout = workoutFactory.createWorkout(
@@ -33,7 +34,7 @@ InsertWorkout(
         )
 
         val cacheResult = safeCacheCall(IO){
-            workoutCacheDataSource.insertWorkout(newWorkout)
+            workoutCacheDataSource.insertWorkout(newWorkout,idUser)
         }
 
         val cacheResponse = object : CacheResponseHandler<String, Long>(

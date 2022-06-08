@@ -23,6 +23,13 @@ object CacheModule {
 
     @Singleton
     @Provides
+    fun provideUserDao(allMightDatabase : AllMightWorkoutDatabase) : UserDao{
+        return allMightDatabase.userDao()
+    }
+
+
+    @Singleton
+    @Provides
     fun provideWorkoutDao(allMightDatabase : AllMightWorkoutDatabase) : WorkoutDao{
         return allMightDatabase.workoutDao()
     }
@@ -79,6 +86,12 @@ object CacheModule {
     /*
         Cache Mapper
      */
+
+    @Singleton
+    @Provides
+    fun provideUserCacheMapper(dateUtil: DateUtil) : UserCacheMapper{
+        return UserCacheMapper(dateUtil)
+    }
 
     @Singleton
     @Provides
@@ -162,6 +175,11 @@ object CacheModule {
         Dao service
      */
 
+    @Singleton
+    @Provides
+    fun provideUserDaoService(userDao : UserDao, userCacheMapper: UserCacheMapper) : UserDaoService{
+        return UserDaoServiceImpl(userDao, userCacheMapper)
+    }
 
     @Singleton
     @Provides
@@ -220,6 +238,12 @@ object CacheModule {
     /*
         Data Source
      */
+
+    @Singleton
+    @Provides
+    fun provideUserDataSource(userDaoService : UserDaoService) : UserCacheDataSource{
+        return UserCacheDataSourceImpl(userDaoService)
+    }
 
     @Singleton
     @Provides

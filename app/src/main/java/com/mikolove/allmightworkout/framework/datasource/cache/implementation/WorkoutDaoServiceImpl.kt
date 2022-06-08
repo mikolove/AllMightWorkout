@@ -67,9 +67,9 @@ constructor(
         return workoutDao.getTotalWorkout(idUser)
     }
 
-    override suspend fun getWorkouts(): List<Workout> {
+    override suspend fun getWorkouts(idUser: String): List<Workout> {
         return workoutWithExercisesCacheMapper.entityListToDomainList(
-            workoutDao.getWorkouts()
+            workoutDao.getWorkouts(idUser)
         )
     }
 

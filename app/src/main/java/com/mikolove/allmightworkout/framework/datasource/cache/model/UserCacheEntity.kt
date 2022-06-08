@@ -34,10 +34,9 @@ data class UserWithWorkoutAndExerciseCacheEntity(
     val userCacheEntity : UserCacheEntity,
 
     @Relation(
-        entity = WorkoutWithExercisesCacheEntity::class,
+        entity = WorkoutCacheEntity::class,
         parentColumn = "id_user",
         entityColumn = "fk_id_user" )
-
     val listOfWorkoutCacheEntity : List<WorkoutWithExercisesCacheEntity>?
 ){
 

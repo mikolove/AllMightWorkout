@@ -40,5 +40,5 @@ constructor(
 
     override suspend fun getWorkoutById(primaryKey: String): Workout? = workoutDaoService.getWorkoutById(primaryKey)
 
-    override suspend fun getTotalWorkout(idUser: String): Int = workoutDaoService.getTotalWorkout()
+    override suspend fun getTotalWorkout(idUser: String): Int = workoutDaoService.getTotalWorkout(idUser)
 }

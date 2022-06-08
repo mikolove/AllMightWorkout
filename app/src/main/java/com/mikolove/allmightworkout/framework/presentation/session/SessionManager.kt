@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.session
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.data.cache.abstraction.UserCacheDataSource
+import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStoreManager
 import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
@@ -25,7 +26,7 @@ class SessionManager
 constructor(
     private val sessionInteractors : SessionInteractors,
     private val firebaseAuth: FirebaseAuth,
-    private val appDataStoreManager: AppDataStoreManager){
+    private val appDataStoreManager: AppDataStore){
 
     private val sessionScope = CoroutineScope(Main)
 
@@ -45,7 +46,7 @@ constructor(
                 logout()
             }
             is SessionEvents.CheckAuth->{
-                checkAuth(event.idUser)
+                //checkAuth(event.idUser)
             }
             is SessionEvents.LoadSessionPreference->{
                 loadSessionPreference()
@@ -60,8 +61,8 @@ constructor(
         Fun
      */
 
-    fun isAuth() : Boolean{
-        return firebaseAuth.currentUser != null
+    fun checkAuth() : Boolean{
+        return firebaseAuth.currentUser != null && state.value?.idUser != null && state.value?.logged == SessionLoggedType.CONNECTED
     }
 
     private fun login(idUser : String){

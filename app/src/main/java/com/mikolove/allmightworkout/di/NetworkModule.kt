@@ -76,6 +76,7 @@ object NetworkModule {
         return HistoryWorkoutNetworkMapper(dateUtil)
     }
 
+
     /*
     Firestore service
      */

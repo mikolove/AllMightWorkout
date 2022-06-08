@@ -17,7 +17,8 @@ class GetExercises(
     fun execute(
         query: String,
         filterAndOrder: String,
-        page: Int
+        page: Int,
+        idUser : String
     ) : Flow<DataState<List<Exercise>>?> = flow{
 
         emit(DataState.loading())
@@ -29,7 +30,8 @@ class GetExercises(
             exerciseCacheDataSource.getExercises(
                 query = query,
                 filterAndOrder = filterAndOrder,
-                page = updatedPage
+                page = updatedPage,
+                idUser = idUser
             )
         }
 

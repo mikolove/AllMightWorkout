@@ -37,7 +37,8 @@ class InsertHistory(
     //This parameter is bad only used for test should change
     fun execute(
         workout : Workout,
-        idHistoryWorkout : String? = null
+        idHistoryWorkout : String? = null,
+        idUser : String
     ) : Flow<DataState<String>?> = flow {
 
         emit(DataState.loading<String>())
@@ -58,7 +59,7 @@ class InsertHistory(
         )
 
         //Insert workout
-        cacheResponse = insertHistoryWorkout(historyWorkout)
+        cacheResponse = insertHistoryWorkout(historyWorkout,idUser)
 
         //Insert exercise and set
         if(!errorOccurred(cacheResponse)){
@@ -155,9 +156,9 @@ class InsertHistory(
         }
     }
 
-    private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout): DataState<Long>? {
+    private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout,idUser: String): DataState<Long>? {
         val cacheInsertHWorkout = safeCacheCall(IO) {
-            historyWorkoutCacheDataSource.insertHistoryWorkout(historyWorkout)
+            historyWorkoutCacheDataSource.insertHistoryWorkout(historyWorkout, idUser)
         }
 
         return object : CacheResponseHandler<Long, Long>(

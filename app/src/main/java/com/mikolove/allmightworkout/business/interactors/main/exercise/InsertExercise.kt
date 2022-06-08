@@ -30,6 +30,7 @@ class InsertExercise(
         sets: List<ExerciseSet>?,
         exerciseType: ExerciseType,
         bodyPart: BodyPart?,
+        idUser : String
     ) : Flow<DataState<Long>?> = flow {
 
         emit(DataState.loading())
@@ -44,7 +45,7 @@ class InsertExercise(
         )
 
         val cacheResult = safeCacheCall(IO){
-            exerciseCacheDataSource.insertExercise(newExercise)
+            exerciseCacheDataSource.insertExercise(newExercise,idUser)
         }
 
         val response = object : CacheResponseHandler<Long,Long>(
@@ -87,6 +88,7 @@ class InsertExercise(
         sets: List<ExerciseSet>?,
         exerciseType: ExerciseType,
         bodyPart: BodyPart?,
+        idUser : String
     ) : Flow<DataState<Long>?> = flow {
 
         emit(DataState.loading<Long>())
@@ -103,7 +105,7 @@ class InsertExercise(
 
         //Insert in cache
         val cacheResultExercise = safeCacheCall(IO){
-            exerciseCacheDataSource.insertExercise(newExercise)
+            exerciseCacheDataSource.insertExercise(newExercise, idUser)
         }
 
         val responseExercise = object : CacheResponseHandler<Long,Long>(

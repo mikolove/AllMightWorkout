@@ -13,6 +13,7 @@ import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseI
 import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
+import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class WorkoutExerciseViewModel
 @Inject
 constructor(
+    private val sessionManager: SessionManager,
     private val workoutInteractors: WorkoutInteractors,
     private val exerciseInteractors: ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
@@ -160,35 +162,38 @@ constructor(
     private fun getWorkoutExercises(){
         state.value?.let { state ->
 
-            exerciseInteractors.getExercises.execute(
-                query = state.query,
-                filterAndOrder = ExerciseOrderOptions.ASC.value + ExerciseFilterOptions.FILTER_NAME.value,
-                page = state.page
-            ).onEach { dataState ->
+            sessionManager.state.value?.idUser?.let { idUser ->
+                exerciseInteractors.getExercises.execute(
+                    idUser = idUser,
+                    query = state.query,
+                    filterAndOrder = ExerciseOrderOptions.ASC.value + ExerciseFilterOptions.FILTER_NAME.value,
+                    page = state.page
+                ).onEach { dataState ->
 
-                this.state.value = state.copy(isLoading = dataState?.isLoading)
+                    this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                dataState?.data?.let { listExercise ->
+                    dataState?.data?.let { listExercise ->
 
-                    val listWorkoutExercise = listExercise.map { exercise ->
-                        WorkoutExercise(
-                            selected = isExerciseInWorkout(exercise),
-                            exercise = exercise
-                        )
-                    }.sortedBy { it.exercise.name }
+                        val listWorkoutExercise = listExercise.map { exercise ->
+                            WorkoutExercise(
+                                selected = isExerciseInWorkout(exercise),
+                                exercise = exercise
+                            )
+                        }.sortedBy { it.exercise.name }
 
-                    this.state.value = state.copy(listWorkoutExercises = listWorkoutExercise)
-                }
-
-                dataState?.message?.let { message ->
-
-                    if(message.description.equals(GET_EXERCISES_SUCCESS_END)){
-                        onUpdateQueryExhausted(true)
+                        this.state.value = state.copy(listWorkoutExercises = listWorkoutExercise)
                     }
 
-                    appendToMessageQueue(message)
-                }
-            }.launchIn(viewModelScope)
+                    dataState?.message?.let { message ->
+
+                        if(message.description.equals(GET_EXERCISES_SUCCESS_END)){
+                            onUpdateQueryExhausted(true)
+                        }
+
+                        appendToMessageQueue(message)
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
 

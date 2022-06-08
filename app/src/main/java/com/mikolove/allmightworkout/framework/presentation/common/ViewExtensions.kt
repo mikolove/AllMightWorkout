@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -33,7 +34,7 @@ fun View.gone() {
 }
 
 
-fun View.fadeIn() {
+fun View.fadeIn(callback: (() -> Unit)? = null) {
     val animationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
     apply {
         visible()
@@ -41,11 +42,15 @@ fun View.fadeIn() {
         animate()
             .alpha(1f)
             .setDuration(animationDuration.toLong())
-            .setListener(null)
+            .setListener(object : AnimatorListenerAdapter(){
+                override fun onAnimationEnd(animation: Animator?) {
+                    callback?.invoke()
+                }
+            })
     }
 }
 
-fun View.fadeOut(todoCallback: TodoCallback? = null){
+fun View.fadeOut(callback: (() -> Unit)? = null){
     val animationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
     apply {
         animate()
@@ -54,7 +59,7 @@ fun View.fadeOut(todoCallback: TodoCallback? = null){
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     invisible()
-                    todoCallback?.execute()
+                    callback?.invoke()
                 }
             })
     }

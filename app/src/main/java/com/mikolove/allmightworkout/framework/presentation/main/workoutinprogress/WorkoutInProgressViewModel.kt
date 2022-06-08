@@ -10,6 +10,7 @@ import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InProgressListInteractors
+import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,6 +26,7 @@ const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? I
 class WorkoutInProgressViewModel
 @Inject
 constructor(
+    private val sessionManager: SessionManager,
     private val inProgressListInteractors: InProgressListInteractors,
     private val savedStateHandle: SavedStateHandle,
     private val dateUtil: DateUtil
@@ -145,20 +147,25 @@ constructor(
     private fun insertHistory(){
         state.value?.let { state ->
             state.workout?.let { workout ->
-                inProgressListInteractors.insertHistory
-                    .execute(workout)
-                    .onEach { dataState ->
+                sessionManager.state.value?.idUser?.let { idUser ->
+                    inProgressListInteractors.insertHistory
+                        .execute(
+                            workout = workout,
+                            idUser = idUser
+                        )
+                        .onEach { dataState ->
 
-                        dataState?.isLoading?.let { this.state.value = state.copy(isLoading = it) }
+                            dataState?.isLoading?.let { this.state.value = state.copy(isLoading = it) }
 
-                        dataState?.data?.let { idHistory ->
-                        }
+                            dataState?.data?.let { idHistory ->
+                            }
 
-                        dataState?.message?.let {  message ->
-                            updateExitWorkout()
-                            appendToMessageQueue(message)
-                        }
-                    }.launchIn(viewModelScope)
+                            dataState?.message?.let {  message ->
+                                updateExitWorkout()
+                                appendToMessageQueue(message)
+                            }
+                        }.launchIn(viewModelScope)
+                }
             }
         }
     }

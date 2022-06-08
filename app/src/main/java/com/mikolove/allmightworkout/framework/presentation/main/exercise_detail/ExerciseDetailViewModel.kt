@@ -6,6 +6,7 @@ import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
 import com.squareup.okhttp.Dispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +26,7 @@ const val EXERCISE_DETAIL_EXIT_DIALOG_CONTENT = "Modification are not saved. Are
 class ExerciseDetailViewModel
 @Inject
 constructor(
+    private val sessionManager : SessionManager,
     private val exerciseFactory: ExerciseFactory,
     private val exerciseSetFactory: ExerciseSetFactory,
     private val exerciseInteractors : ExerciseInteractors,
@@ -277,26 +279,34 @@ constructor(
 
     private fun insertExercise(){
         state.value?.let { state ->
+
             state.exercise?.let{ exercise ->
-                exerciseInteractors.insertExercise
-                    .executeNew(
-                        idExercise = exercise.idExercise,
-                        name = exercise.name,
-                        sets = exercise.sets,
-                        exerciseType = exercise.exerciseType,
-                        bodyPart = exercise.bodyPart)
-                    .onEach { dataState ->
-                        this.state.value = state.copy(isLoading = dataState?.isLoading)
 
-                        dataState?.data?.let {
-                            this.state.value = state.copy(isInCache = true, isUpdatePending = false, isUpdateDone = true)
-                        }
+                sessionManager.state.value?.idUser?.let { idUser ->
 
-                        dataState?.message?.let { message ->
-                            appendToMessageQueue(message)
+                    exerciseInteractors.insertExercise
+                        .executeNew(
+                            idUser = idUser,
+                            idExercise = exercise.idExercise,
+                            name = exercise.name,
+                            sets = exercise.sets,
+                            exerciseType = exercise.exerciseType,
+                            bodyPart = exercise.bodyPart
+                        )
+                        .onEach { dataState ->
+                            this.state.value = state.copy(isLoading = dataState?.isLoading)
+
+                            dataState?.data?.let {
+                                this.state.value = state.copy(isInCache = true, isUpdatePending = false, isUpdateDone = true)
+                            }
+
+                            dataState?.message?.let { message ->
+                                appendToMessageQueue(message)
+                            }
                         }
-                    }
-                    .launchIn(viewModelScope)
+                        .launchIn(viewModelScope)
+
+                }
             }
         }
     }
