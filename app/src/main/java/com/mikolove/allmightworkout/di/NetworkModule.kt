@@ -60,6 +60,12 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideUserNetworkMapper(dateUtil: DateUtil) : UserNetworkMapper{
+        return UserNetworkMapper(dateUtil)
+    }
+
+    @Singleton
+    @Provides
     fun provideHistoryExerciseSetNetworkMapper(dateUtil: DateUtil) : HistoryExerciseSetNetworkMapper{
         return HistoryExerciseSetNetworkMapper(dateUtil)
     }
@@ -80,6 +86,23 @@ object NetworkModule {
     /*
     Firestore service
      */
+
+    @Singleton
+    @Provides
+    fun provideUserFirestoreService( firebaseAuth: FirebaseAuth, firestore : FirebaseFirestore,
+                                     userNetworkMapper : UserNetworkMapper,
+                                     workoutNetworkMapper: WorkoutNetworkMapper,
+                                     exerciseNetworkMapper: ExerciseNetworkMapper,
+                                     dateUtil: DateUtil) : UserFireStoreService{
+        return UserFireStoreServiceImpl(
+            firebaseAuth,
+            firestore,
+            userNetworkMapper,
+            workoutNetworkMapper,
+            exerciseNetworkMapper,
+            dateUtil
+        )
+    }
 
     @Singleton
     @Provides
@@ -173,5 +196,11 @@ object NetworkModule {
     @Provides
     fun provideHistoryExerciseSetNetworkDataSource ( historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource{
         return HistoryExerciseSetNetworkDataSourceImpl(historyExerciseSetFirestoreService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserNetworkDataSource( userNetworkFireStoreService: UserFireStoreService ) : UserNetworkDataSource {
+        return UserNetworkDataSourceImpl(userNetworkFireStoreService)
     }
 }

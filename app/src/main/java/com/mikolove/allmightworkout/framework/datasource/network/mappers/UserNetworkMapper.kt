@@ -20,6 +20,12 @@ constructor(private val dateUtil: DateUtil) : EntityMapper<UserNetworkEntity, Us
     }
 
     override fun mapToEntity(domainModel: User): UserNetworkEntity {
-
+        return UserNetworkEntity(
+            idUser = domainModel.idUser,
+            name = domainModel.name,
+            email = domainModel.email,
+            createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
+            updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
+        )
     }
 }

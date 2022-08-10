@@ -6,6 +6,7 @@ import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.UserFireStoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
+import com.mikolove.allmightworkout.framework.datasource.network.mappers.UserNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutNetworkMapper
 
 class UserFireStoreServiceImpl
