@@ -45,6 +45,10 @@ constructor(
             is LoadingEvents.OnRemoveHeadFromQueue->{
                 removeHeadFromQueue()
             }
+            LoadingEvents.Login -> {}
+            is LoadingEvents.RegisterUser -> {
+
+            }
         }
     }
 
@@ -58,6 +62,7 @@ constructor(
     Fun
      */
     private fun updateSplashScreen(){
+        printLogD("LoadingViewModel","Update splashScreen")
         state.value?.let { state ->
             this.state.value = state.copy(splashScreenDone = true)
         }
@@ -70,7 +75,8 @@ constructor(
 
                     dataState.data?.let { accountPreference ->
                         this.state.value = state.copy(accountPreference = accountPreference)
-                        updateSplashScreen()
+                        //updateSplashScreen()
+                        onTriggerEvent(LoadingEvents.CheckLastSessionStatus)
                     }
 
                     dataState.message?.let {  message ->

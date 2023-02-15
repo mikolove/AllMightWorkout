@@ -62,7 +62,7 @@ constructor(
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObjects(HistoryExerciseSetNetworkEntity::class.java)?.let {
+            .await().toObjects(HistoryExerciseSetNetworkEntity::class.java).let {
                 historyExerciseSetNetworkMapper.entityListToDomainList(it)
             }
 

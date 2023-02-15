@@ -30,7 +30,7 @@ constructor(
     }
 
     override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart> {
-        return bodyPartDao.getBodyPartsByWorkoutType(idWorkoutType)?.let {
+        return bodyPartDao.getBodyPartsByWorkoutType(idWorkoutType).let {
             bodyPartCacheMapper.entityListToDomainList(it)
         }
     }

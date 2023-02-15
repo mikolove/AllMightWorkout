@@ -49,6 +49,7 @@ class ExerciseInteractionManager {
                     _bodyPartState.value = DefaultState()
                     _exerciseTypeState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -63,6 +64,7 @@ class ExerciseInteractionManager {
                     _bodyPartState.value = DefaultState()
                     _exerciseTypeState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -77,6 +79,7 @@ class ExerciseInteractionManager {
                     _nameState.value = DefaultState()
                     _exerciseTypeState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -91,6 +94,7 @@ class ExerciseInteractionManager {
                     _bodyPartState.value = DefaultState()
                     _nameState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -105,6 +109,7 @@ class ExerciseInteractionManager {
                     _bodyPartState.value = DefaultState()
                     _nameState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }

@@ -212,6 +212,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 is ChronometerState.CloseState -> {
                     closeChronometer()
                 }
+                is ChronometerState.IdleState -> TODO()
+                is ChronometerState.RestTimeState -> TODO()
+                is ChronometerState.RunningState -> TODO()
             }
         })
 
@@ -224,6 +227,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 is ChronometerButtonState.PassiveButtonState ->{
                     binding?.eipButtonStartStop?.isEnabled = false
                 }
+                is ChronometerButtonState.RestButtonState -> TODO()
+                is ChronometerButtonState.StartButtonState -> TODO()
+                is ChronometerButtonState.StopButtonState -> TODO()
             }
         })
 
@@ -236,6 +242,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 is ChronometerButtonState.PassiveButtonState ->{
                     binding?.epiButtonReset?.isEnabled = false
                 }
+                is ChronometerButtonState.RestButtonState -> TODO()
+                is ChronometerButtonState.StartButtonState -> TODO()
+                is ChronometerButtonState.StopButtonState -> TODO()
             }
         })
 
@@ -248,6 +257,9 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 is ChronometerButtonState.PassiveButtonState ->{
                     binding?.eipButtonEnd?.isEnabled = false
                 }
+                is ChronometerButtonState.RestButtonState -> TODO()
+                is ChronometerButtonState.StartButtonState -> TODO()
+                is ChronometerButtonState.StopButtonState -> TODO()
             }
         })
 
@@ -279,6 +291,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 binding?.eipCountdowntimer?.invisible()
                 binding?.eipChronometer?.visible()
             }
+            is ChronometerState.CloseState -> TODO()
         }
     }
 

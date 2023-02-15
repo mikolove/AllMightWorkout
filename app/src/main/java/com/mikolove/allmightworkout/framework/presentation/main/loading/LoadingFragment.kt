@@ -11,10 +11,14 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.R
+import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 import com.mikolove.allmightworkout.databinding.FragmentLoadingBinding
+import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
+import com.mikolove.allmightworkout.framework.presentation.common.processQueue
+import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +43,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         binding = FragmentLoadingBinding.bind(view)
 
+        printLogD("Can U See Me","SEE MEEEEE")
         subscribeObservers()
 
         binding?.mainLogo?.fadeIn {
@@ -60,29 +65,46 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     private fun subscribeObservers(){
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
+
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object: StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(LoadingEvents.OnRemoveHeadFromQueue)
+                    }
+                })
+
+/*
             if (state.splashScreenDone) {
                 viewModel.onTriggerEvent(LoadingEvents.CheckLastSessionStatus)
             }
+*/
 
             state.lastSessionStatus?.let { sessionLoggedType ->
 
                 when(sessionLoggedType){
 
                     SessionLoggedType.CONNECTED ->{
+
+                        printLogD("LoadingFragment","CONNECTED STATUS ")
                         //Try reconnect
                         state.accountPreference?.let { accountPreference ->
-
-                            if(!accountPreference.email.isNullOrBlank() && !accountPreference.password.isNullOrBlank())
-                                connectUser(accountPreference.email,accountPreference.password)
-
+                            printLogD("LoadingFragment","email ${accountPreference.email} | ${accountPreference.password} ")
+                            if(!accountPreference.email.isNullOrBlank() && !accountPreference.password.isNullOrBlank()) {
+                                 connectUser(accountPreference.email,accountPreference.password)
+                            }
                         }
                     }
 
                     SessionLoggedType.DISCONNECTED->{
+                        printLogD("LoadingFragment","DISCONNECTED STATUS ")
                         //Show login screen
                     }
 
                     SessionLoggedType.OFFLINE ->{
+                        printLogD("LoadingFragment","OFFLINE STATUS ")
+
                         //No sync
                         //Launch next screen
                         //session is
@@ -98,6 +120,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     /*
         Firebase
      */
+
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -123,10 +146,11 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     }
 
 
+
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
-            // Successfully signed in
+            // Successfully signed in²
             //val user = firebaseAuth.currentUser
             connectToFirebase()
             // ...
@@ -165,8 +189,8 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     }
     private fun connectToFirebase(){
 
-/*        //signOut()
-        val currentUser = firebaseAuth.currentUser
+        //signOut()
+        val currentUser = mAuth.currentUser
         if( currentUser != null){
             printLogD("LoadingFragment","User logged")
             subscribeObservers()
@@ -174,7 +198,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         }else{
             createSignInIntent()
              printLogD("Loading","User not logged")
-             firebaseAuth.signInWithEmailAndPassword(
+            mAuth.signInWithEmailAndPassword(
                  FirestoreAuth.FIRESTORE_LOGIN,
                  FirestoreAuth.FIRESTORE_PASSWORD
              ).addOnCompleteListener{
@@ -186,7 +210,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                      //navigateToHistory()
                  }
              }
-        }*/
+        }
     }
 
 

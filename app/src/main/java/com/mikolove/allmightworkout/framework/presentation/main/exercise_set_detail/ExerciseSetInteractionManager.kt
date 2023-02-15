@@ -41,6 +41,7 @@ class ExerciseSetInteractionManager{
                     _restState.value = DefaultState()
 
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -54,6 +55,7 @@ class ExerciseSetInteractionManager{
                     _timeState.value = DefaultState()
                     _restState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -67,6 +69,7 @@ class ExerciseSetInteractionManager{
                     _weightState.value = DefaultState()
                     _restState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -80,6 +83,7 @@ class ExerciseSetInteractionManager{
                     _timeState.value = DefaultState()
                     _weightState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }

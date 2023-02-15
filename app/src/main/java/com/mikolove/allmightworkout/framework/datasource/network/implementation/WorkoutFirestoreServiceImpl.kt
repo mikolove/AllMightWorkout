@@ -130,7 +130,7 @@ constructor(
             .addOnFailureListener {
                 cLog(it.message)
             }
-            .await().toObjects(ExerciseNetworkEntity::class.java)?.let {
+            .await().toObjects(ExerciseNetworkEntity::class.java).let {
                 exerciseNetworkMapper.entityListToDomainList(it)
             }
 
@@ -179,7 +179,7 @@ constructor(
                 .addOnFailureListener {
                     cLog(it.message)
                 }
-                .await().toObjects(ExerciseNetworkEntity::class.java)?.let {
+                .await().toObjects(ExerciseNetworkEntity::class.java).let {
                     exerciseNetworkMapper.entityListToDomainList(it)
                 }
 
@@ -225,7 +225,7 @@ constructor(
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObjects(WorkoutNetworkEntity::class.java)?.let {
+            .await().toObjects(WorkoutNetworkEntity::class.java).let {
                 workoutNetworkMapper.entityListToDomainList(it)
             }
     }

@@ -43,7 +43,7 @@ fun View.fadeIn(callback: (() -> Unit)? = null) {
             .alpha(1f)
             .setDuration(animationDuration.toLong())
             .setListener(object : AnimatorListenerAdapter(){
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     callback?.invoke()
                 }
             })

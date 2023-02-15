@@ -59,6 +59,7 @@ class ChronometerManager() {
                 is SaveState ->{
 
                 }
+                is CloseState -> TODO()
             }
         }
     }

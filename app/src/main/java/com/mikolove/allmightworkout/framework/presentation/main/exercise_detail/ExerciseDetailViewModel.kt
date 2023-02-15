@@ -8,7 +8,6 @@ import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExis
 import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
-import com.squareup.okhttp.Dispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

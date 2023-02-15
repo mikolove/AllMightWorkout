@@ -27,6 +27,7 @@ class WorkoutInteractionManager{
                     //Switch other edit State
                     _workoutIsActiveState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }
@@ -39,6 +40,7 @@ class WorkoutInteractionManager{
                     //Switch other edit State
                     _workoutNameState.value = DefaultState()
                 }
+                is DefaultState -> TODO()
             }
         }
     }

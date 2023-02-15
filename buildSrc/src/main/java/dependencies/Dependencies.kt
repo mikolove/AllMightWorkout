@@ -48,12 +48,13 @@ object Dependencies {
     val firebase_bom = "com.google.firebase:firebase-bom:${Versions.firebase_bom}"
     val firebase_analytics_bom = "com.google.firebase:firebase-analytics-ktx"
     val firebase_crashlytics_bom = "com.google.firebase:firebase-crashlytics-ktx"
-    val firebase_auth_bom = "com.google.firebase:firebase-auth"
-    val firebase_firestore_bom = "com.google.firebase:firebase-firestore"
+    val firebase_auth_bom = "com.google.firebase:firebase-auth-ktx"
+    val firebase_firestore_bom = "com.google.firebase:firebase-firestore-ktx"
 
 
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit2_version}"
     val retrofit_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2_version}"
+
     val multidex = "androidx.multidex:multidex:${Versions.multidex_version}"
 
     val datastore = "androidx.datastore:datastore-preferences:${Versions.datastore}"

@@ -32,7 +32,7 @@ constructor(
                 cLog(it.message)
             }
             .await()
-            .toObjects(WorkoutTypeNetworkEntity::class.java)?.let {
+            .toObjects(WorkoutTypeNetworkEntity::class.java).let {
                 workoutTypeNetworkMapper.entityListToDomainList(it)
             }
 

@@ -8,7 +8,7 @@ object AndroidTestDependencies{
     val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso_core}"
     val idling_resource = "androidx.test.espresso:espresso-idling-resource:${Versions.espresso_idling_resource}"
     val test_runner = "androidx.test:runner:${Versions.test_runner}"
-    val test_rules = "androidx.test:rules:${Versions.test_runner}"
+    val test_rules = "androidx.test:rules:${Versions.test_rules}"
     val text_core_ktx = "androidx.test:core-ktx:${Versions.test_core}"
     val mockk_android = "io.mockk:mockk-android:${Versions.mockk_version}"
     val fragment_testing = "androidx.fragment:fragment-testing:${Versions.fragment_version}"

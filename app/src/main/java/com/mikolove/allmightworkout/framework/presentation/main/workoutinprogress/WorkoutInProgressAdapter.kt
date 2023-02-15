@@ -64,8 +64,8 @@ class WorkoutInProgressAdapter(
             }
 
             //Bind values
-            val sets = item.sets?.size
-            val setsDone = item.sets?.filter { it.endedAt != null }.size
+            val sets = item.sets.size
+            val setsDone = item.sets.filter { it.endedAt != null }.size
 
             binding.wipExerciseTitle.text = item.name
             binding.wipExerciseSets.text = "${setsDone}/${sets} Sets done."

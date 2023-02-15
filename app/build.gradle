@@ -7,32 +7,26 @@ import dependencies.Dependencies
 import dependencies.Java
 import dependencies.AndroidTestDependencies
 
-
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin : 'kotlin-parcelize'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: "androidx.navigation.safeargs.kotlin"
-
-apply plugin: 'dagger.hilt.android.plugin'
-
-apply plugin: 'com.google.gms.google-services'
-
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
 
 
 android {
 
-    compileSdkVersion  Versions.compilesdk
+    compileSdk 33
 
     defaultConfig {
         applicationId Application.id
-        minSdkVersion Versions.minsdk
-        targetSdkVersion Versions.targetsdk
+        minSdk 24
+        targetSdk 33
 
         versionCode Application.version_code
         versionName Application.version_name
@@ -44,12 +38,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = Java.java_version
-        targetCompatibility = Java.java_version
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = Java.java_version
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     sourceSets {
@@ -66,6 +60,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.mikolove.allmightworkout'
 
     /*buildTypes {
         release {
@@ -79,8 +74,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //Kotlin
-    implementation Dependencies.kotlin_standard_library
-    implementation Dependencies.kotlin_reflect
+    //implementation Dependencies.kotlin_standard_library
+    //implementation Dependencies.kotlin_reflect
     implementation Dependencies.ktx
 
     //firebase retrofit
@@ -89,10 +84,16 @@ dependencies {
     implementation Dependencies.firebase_crashlytics_bom
     implementation Dependencies.firebase_firestore_bom
     implementation Dependencies.firebase_auth_bom
-    implementation Dependencies.retrofit
-    implementation Dependencies.retrofit_gson
+    //implementation "com.google.firebase:firebase-auth-ktx:21.1.0"
     implementation Dependencies.firebase_auth_ui
 
+    //Android S fix auth immutable / mutable flag
+    implementation "com.google.android.gms:play-services-auth:20.4.0"
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofit_gson
     //Coroutines
     implementation Dependencies.kotlin_coroutines
     implementation Dependencies.kotlin_coroutines_android
@@ -104,7 +105,7 @@ dependencies {
     implementation SupportDependencies.material_design
     implementation SupportDependencies.swipe_refresh_layout
 
-    //Lifecycle
+    //Lifecycle -- seem outdated now
     implementation Dependencies.lifecycle_runtime
     implementation Dependencies.lifecycle_viewmodel
     implementation Dependencies.lifecycle_livedata
@@ -144,6 +145,7 @@ dependencies {
     //Data Store
     implementation Dependencies.datastore
 
+
     // Test
     testImplementation TestDependencies.mockk
     testImplementation TestDependencies.jupiter_api
@@ -170,6 +172,7 @@ dependencies {
     androidTestImplementation AndroidTestDependencies.test_runner
     androidTestImplementation AndroidTestDependencies.test_rules
     androidTestImplementation AndroidTestDependencies.text_core_ktx
+    androidTestImplementation AndroidTestDependencies.androidx_test_ext
     androidTestImplementation AndroidTestDependencies.navigation_testing
     debugImplementation AndroidTestDependencies.fragment_testing
 
@@ -180,6 +183,7 @@ dependencies {
     // Hilt for local unit test
     testImplementation AndroidTestDependencies.hilt_testing
     kaptTest AnnotationProcessing.hilt_compiler
+
 
     //Test core ktx and fragment scenario
     //debugImplementation AndroidTestDependencies.fragment_testing
@@ -192,6 +196,7 @@ kapt {
     correctErrorTypes true
 }
 
+/*
 repositories {
     mavenCentral()
-}
+}*/

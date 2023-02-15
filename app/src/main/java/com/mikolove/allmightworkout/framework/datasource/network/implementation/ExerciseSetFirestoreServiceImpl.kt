@@ -314,7 +314,7 @@ constructor(
                 // send error reports to Firebase Crashlytics
                 cLog(it.message)
             }
-            .await().toObjects(ExerciseSetNetworkEntity::class.java)?.let {
+            .await().toObjects(ExerciseSetNetworkEntity::class.java).let {
                 exerciseSetNetworkMapper.entityListToDomainList(it)
             }
     }

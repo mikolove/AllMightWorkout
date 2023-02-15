@@ -460,11 +460,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
 
         //Reload standard search when finish
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 return true
             }
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 viewModel.onTriggerEvent(ExerciseListEvents.UpdateQuery(""))
                 viewModel.setIsSearchActive(false)
                 viewModel.onTriggerEvent(ExerciseListEvents.NewSearch)

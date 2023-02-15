@@ -68,7 +68,7 @@ constructor(
             .addOnFailureListener{
                 cLog(it.message)
             }
-            .await().toObjects(HistoryExerciseNetworkEntity::class.java)?.let {
+            .await().toObjects(HistoryExerciseNetworkEntity::class.java).let {
                 historyExerciseNetworkMapper.entityListToDomainList(it)
             }
 
@@ -88,7 +88,7 @@ constructor(
                     .addOnFailureListener{
                         cLog(it.message)
                     }
-                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java)?.let {
+                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java).let {
                         historyExerciseSetNetworkMapper.entityListToDomainList(it)
                     }
 
