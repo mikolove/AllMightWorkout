@@ -43,7 +43,6 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         binding = FragmentLoadingBinding.bind(view)
 
-        printLogD("Can U See Me","SEE MEEEEE")
         subscribeObservers()
 
         binding?.mainLogo?.fadeIn {
@@ -102,13 +101,6 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                         //Show login screen
                     }
 
-                    SessionLoggedType.OFFLINE ->{
-                        printLogD("LoadingFragment","OFFLINE STATUS ")
-
-                        //No sync
-                        //Launch next screen
-                        //session is
-                    }
 
                 }
 

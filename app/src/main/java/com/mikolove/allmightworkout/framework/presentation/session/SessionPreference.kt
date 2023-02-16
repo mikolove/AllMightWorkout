@@ -7,15 +7,13 @@ data class SessionPreference(
 
 enum class SessionLoggedType(val value: String) {
     CONNECTED("connected"),
-    DISCONNECTED("disconnected"),
-    OFFLINE("offline")
+    DISCONNECTED("disconnected")
 }
 
 fun getSessionLoggedTypeFromValue(value: String?): SessionLoggedType {
     return when(value){
         SessionLoggedType.CONNECTED.value -> SessionLoggedType.CONNECTED
         SessionLoggedType.DISCONNECTED.value -> SessionLoggedType.DISCONNECTED
-        SessionLoggedType.OFFLINE.value -> SessionLoggedType.OFFLINE
         else -> SessionLoggedType.DISCONNECTED
     }
 }

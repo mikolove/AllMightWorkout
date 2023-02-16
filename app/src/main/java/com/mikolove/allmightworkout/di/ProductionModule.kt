@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -63,4 +64,13 @@ object ProductionModule {
         @ApplicationContext context: Context
     ): AppDataStore {
         return AppDataStoreManager(context)
-    }}
+    }
+
+    @Singleton
+    @Provides
+    fun provideConnectivityManager(
+        @ApplicationContext context: Context
+    ) :ConnectivityManager{
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+}

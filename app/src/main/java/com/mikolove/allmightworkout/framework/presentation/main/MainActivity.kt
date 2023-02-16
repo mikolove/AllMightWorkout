@@ -126,6 +126,8 @@ class MainActivity :
                     }
                 })
 
+            printLogD("MainActivity","Connectivity Status ${state.connectivityStatus.name}")
+
 /*            if (state.idUser == null && state.checkAuth) {
                 state.logged is SessionLoggedType.DISCONNECTED
                 onTriggerEvent(Logout())

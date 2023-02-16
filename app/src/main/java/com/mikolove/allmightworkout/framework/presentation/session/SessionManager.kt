@@ -1,5 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.data.cache.abstraction.UserCacheDataSource
@@ -12,9 +14,12 @@ import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExis
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
 import com.mikolove.allmightworkout.util.printLogD
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +29,7 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
+    @ApplicationContext context : Context,
     private val sessionInteractors : SessionInteractors,
     private val firebaseAuth: FirebaseAuth,
     private val appDataStoreManager: AppDataStore){
@@ -34,6 +40,7 @@ constructor(
 
     init {
         onTriggerEvent(SessionEvents.LoadSessionPreference)
+        updateConnectivityStatus()
     }
 
     fun onTriggerEvent(event : SessionEvents){
@@ -111,6 +118,22 @@ constructor(
                 }
         }
     }
+
+    private fun updateConnectivityStatus(){
+        state.value?.let { state ->
+            sessionInteractors.getSessionConnectivityStatus
+                .execute()
+                .onEach { dataState ->
+                    dataState.data?.let { data ->
+                        this.state.value = state.copy(connectivityStatus = data)
+                    }
+                    dataState.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+                }.launchIn(sessionScope)
+        }
+    }
+
     /*
         Queue managing
      */

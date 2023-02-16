@@ -14,5 +14,7 @@ data class SessionState(
 
     val idUser : String? = null,
 
+    val connectivityStatus: SessionConnectivityStatus = SessionConnectivityStatus.UNAVAILABLE,
+
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
 )

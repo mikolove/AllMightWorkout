@@ -1,5 +1,7 @@
 package com.mikolove.allmightworkout.di
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
@@ -9,6 +11,7 @@ import com.mikolove.allmightworkout.framework.presentation.main.loading.NetworkS
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.text.SimpleDateFormat
 import javax.inject.Singleton
@@ -17,6 +20,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object SyncModule {
 
+     @Singleton
+     @Provides
+     fun provideSyncNetworkConnectivity(
+        connectivity: ConnectivityManager
+     ) : SyncNetworkConnectivity {
+         return SyncNetworkConnectivity(connectivity)
+     }
 
     @Singleton
     @Provides

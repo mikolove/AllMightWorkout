@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.di
 
+import android.net.ConnectivityManager
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
@@ -17,6 +18,7 @@ import com.mikolove.allmightworkout.business.interactors.main.session.GetSession
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
+import com.mikolove.allmightworkout.business.interactors.sync.SyncNetworkConnectivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -154,10 +156,12 @@ object InteractorsModule {
     @Singleton
     @Provides
     fun provideSessionInteractors(
-        appDataStore: AppDataStore
+        appDataStore: AppDataStore,
+        connectivityManager : ConnectivityManager
     ) : SessionInteractors{
         return SessionInteractors(
-            getSessionPreference = GetSessionPreferences(appDataStore)
+            getSessionPreference = GetSessionPreferences(appDataStore),
+            getSessionConnectivityStatus = SyncNetworkConnectivity(connectivityManager)
         )
     }
 }
