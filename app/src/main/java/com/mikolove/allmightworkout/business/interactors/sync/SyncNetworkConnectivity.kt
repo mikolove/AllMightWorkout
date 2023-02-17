@@ -7,9 +7,11 @@ import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.framework.presentation.session.SessionConnectivityStatus
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class SyncNetworkConnectivity(
     private val connectivityManager: ConnectivityManager
@@ -20,19 +22,20 @@ class SyncNetworkConnectivity(
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
+                printLogD("SyncNetworkConnectivity","Network available ${network}")
                 trySend(
                     DataState.data(
                         message = GenericMessageInfo.Builder()
                             .id("SyncNetworkConnectivity.Available")
                             .title(SYNCNETWORK_TITLE)
                             .description(SYNCNETWORK_AVAILABLE)
-                            .uiComponentType(UIComponentType.Toast)
+                            .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
                         data = SessionConnectivityStatus.AVAILABLE
                     )
                 )
             }
-            override fun onLosing(network: Network, maxMsToLive: Int) {
+/*            override fun onLosing(network: Network, maxMsToLive: Int) {
                 super.onLosing(network, maxMsToLive)
                 trySend(
                     DataState.data(
@@ -40,12 +43,12 @@ class SyncNetworkConnectivity(
                             .id("SyncNetworkConnectivity.Losing")
                             .title(SYNCNETWORK_TITLE)
                             .description(SYNCNETWORK_LOSING)
-                            .uiComponentType(UIComponentType.Toast)
+                            .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
                         data = SessionConnectivityStatus.LOSING
                     )
                 )
-            }
+            }*/
 
             override fun onLost(network: Network) {
                 super.onLost(network)
@@ -55,7 +58,7 @@ class SyncNetworkConnectivity(
                             .id("SyncNetworkConnectivity.Lost")
                             .title(SYNCNETWORK_TITLE)
                             .description(SYNCNETWORK_LOST)
-                            .uiComponentType(UIComponentType.Toast)
+                            .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
                         data = SessionConnectivityStatus.LOST
                     )
@@ -70,7 +73,7 @@ class SyncNetworkConnectivity(
                             .id("SyncNetworkConnectivity.Unavailable")
                             .title(SYNCNETWORK_TITLE)
                             .description(SYNCNETWORK_UNAVAILABLE)
-                            .uiComponentType(UIComponentType.Toast)
+                            .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
                         data = SessionConnectivityStatus.UNAVAILABLE
                     )
@@ -83,7 +86,7 @@ class SyncNetworkConnectivity(
             connectivityManager.unregisterNetworkCallback(callback)
         }
 
-    }
+    }.distinctUntilChanged()
 
     companion object{
         val SYNCNETWORK_TITLE = "Connectivity Status"

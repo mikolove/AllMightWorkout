@@ -74,12 +74,6 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                     }
                 })
 
-/*
-            if (state.splashScreenDone) {
-                viewModel.onTriggerEvent(LoadingEvents.CheckLastSessionStatus)
-            }
-*/
-
             state.lastSessionStatus?.let { sessionLoggedType ->
 
                 when(sessionLoggedType){
