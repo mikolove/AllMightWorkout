@@ -1,26 +1,14 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.mikolove.allmightworkout.business.data.cache.abstraction.UserCacheDataSource
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
-import com.mikolove.allmightworkout.business.data.datastore.AppDataStoreManager
-import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
 import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +18,6 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
-    @ApplicationContext context : Context,
     private val sessionInteractors : SessionInteractors,
     private val firebaseAuth: FirebaseAuth,
     private val appDataStoreManager: AppDataStore){
@@ -40,13 +27,16 @@ constructor(
     val state : MutableLiveData<SessionState> = MutableLiveData(SessionState())
 
     init {
+        onTriggerEvent(SessionEvents.MonitorConnectivity)
         onTriggerEvent(SessionEvents.LoadSessionPreference)
-        updateConnectivityStatus()
     }
 
     fun onTriggerEvent(event : SessionEvents){
         when(event){
 
+            is SessionEvents.MonitorConnectivity->{
+                updateConnectivityStatus()
+            }
             is SessionEvents.Login->{
                 login(event.idUser)
             }
@@ -54,7 +44,7 @@ constructor(
                 logout()
             }
             is SessionEvents.CheckAuth->{
-                //checkAuth(event.idUser)
+                checkAuth(event.idUser)
             }
             is SessionEvents.LoadSessionPreference->{
                 loadSessionPreference()
@@ -69,8 +59,12 @@ constructor(
         Fun
      */
 
-    fun checkAuth() : Boolean{
-        return firebaseAuth.currentUser != null && state.value?.idUser != null && state.value?.logged == SessionLoggedType.CONNECTED
+    fun checkAuth(idUser: String) : Boolean{
+        val user = firebaseAuth.currentUser
+        return user != null &&
+                state.value?.idUser != null &&
+                user.uid == idUser
+                state.value?.logged == SessionLoggedType.CONNECTED
     }
 
     fun isNetworkAvailable() : Boolean = state.value?.connectivityStatus == SessionConnectivityStatus.AVAILABLE
@@ -123,7 +117,6 @@ constructor(
     }
 
     private fun updateConnectivityStatus(){
-        printLogD("SessionManager","connectivity started")
         state.value?.let { state ->
             sessionInteractors.getSessionConnectivityStatus
                 .execute()
@@ -135,7 +128,6 @@ constructor(
                         appendToMessageQueue(message)
                     }
                 }
-                .onEach { printLogD("SessionManager","One call Or Not") }
                 .launchIn(sessionScope)
         }
     }

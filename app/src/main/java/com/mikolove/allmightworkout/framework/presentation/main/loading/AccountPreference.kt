@@ -11,7 +11,7 @@ enum class AccountType(val value: String) {
     GOOGLE("google")
 }
 
-fun getAccountTypeFromValue(value: String?): AccountType {
+fun getAccountType(value: String?): AccountType {
     return when(value){
         AccountType.BASIC.value -> AccountType.BASIC
         AccountType.GOOGLE.value -> AccountType.GOOGLE

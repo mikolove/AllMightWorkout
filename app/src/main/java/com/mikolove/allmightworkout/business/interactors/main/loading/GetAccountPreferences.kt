@@ -8,7 +8,7 @@ import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
 import com.mikolove.allmightworkout.framework.presentation.main.loading.AccountPreference
 import com.mikolove.allmightworkout.framework.presentation.main.loading.AccountType
-import com.mikolove.allmightworkout.framework.presentation.main.loading.getAccountTypeFromValue
+import com.mikolove.allmightworkout.framework.presentation.main.loading.getAccountType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -19,8 +19,8 @@ constructor(private val appDataStoreManager: AppDataStore) {
     fun execute() : Flow<DataState<AccountPreference>> = flow{
 
         val accountType = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_TYPE)?.let { accountType ->
-            getAccountTypeFromValue(accountType)
-        }?: getAccountTypeFromValue(AccountType.BASIC.value)
+            getAccountType(accountType)
+        }?: AccountType.BASIC
 
         val email = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_EMAIL)
 

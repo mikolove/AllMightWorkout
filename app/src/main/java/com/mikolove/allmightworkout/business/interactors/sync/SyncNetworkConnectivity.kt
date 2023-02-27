@@ -17,7 +17,9 @@ class SyncNetworkConnectivity(
     private val connectivityManager: ConnectivityManager
 ) {
 
-    fun execute() : Flow<DataState<SessionConnectivityStatus>> = callbackFlow {
+    fun execute(
+
+    ) : Flow<DataState<SessionConnectivityStatus>> = callbackFlow {
 
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {

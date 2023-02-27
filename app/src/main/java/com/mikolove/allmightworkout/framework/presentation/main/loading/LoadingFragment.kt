@@ -45,9 +45,9 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         subscribeObservers()
 
-        binding?.mainLogo?.fadeIn {
-            viewModel.onTriggerEvent(LoadingEvents.GetAccountPreferences)
-        }
+        //binding?.mainLogo?.fadeIn {
+        viewModel.onTriggerEvent(LoadingEvents.GetAccountPreferences)
+        //}
 
     }
 
@@ -76,6 +76,8 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
             state.lastSessionStatus?.let { sessionLoggedType ->
 
+                printLogD("LoadingFrament","Account pref ${state.accountPreference}")
+                printLogD("LoadingFrament","Session info ${state.lastSessionStatus}")
                 when(sessionLoggedType){
 
                     SessionLoggedType.CONNECTED ->{
@@ -93,6 +95,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                     SessionLoggedType.DISCONNECTED->{
                         printLogD("LoadingFragment","DISCONNECTED STATUS ")
                         //Show login screen
+                        createSignInIntent()
                     }
 
 
@@ -124,6 +127,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         // Create and launch sign-in intent
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
+            .setIsSmartLockEnabled(false)
             .setAvailableProviders(providers)
             .setLogo(R.drawable.ic_mhalogo)
             .build()
@@ -137,14 +141,17 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in²
-            //val user = firebaseAuth.currentUser
-            connectToFirebase()
+            val user = mAuth.currentUser
+            //connectToFirebase()
             // ...
+            printLogD("LoadingFragment","Logged USER ID ${user?.uid}")
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
+            printLogD("LoadingFragment","ERROR not connected ${response?.getError()?.getErrorCode()}")
+
         }
     }
 

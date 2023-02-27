@@ -10,7 +10,7 @@ enum class SessionLoggedType(val value: String) {
     DISCONNECTED("disconnected")
 }
 
-fun getSessionLoggedTypeFromValue(value: String?): SessionLoggedType {
+fun getSessionLoggedType(value: String?): SessionLoggedType {
     return when(value){
         SessionLoggedType.CONNECTED.value -> SessionLoggedType.CONNECTED
         SessionLoggedType.DISCONNECTED.value -> SessionLoggedType.DISCONNECTED

@@ -17,8 +17,8 @@ constructor(private val appDataStoreManager: AppDataStore) {
     fun execute() : Flow<DataState<SessionPreference>> = flow{
 
         val logged = appDataStoreManager.readValue(DataStoreKeys.SESSION_LOGGED)?.let { loggedType ->
-            getSessionLoggedTypeFromValue(loggedType)
-        }?: getSessionLoggedTypeFromValue(SessionLoggedType.DISCONNECTED.value)
+            getSessionLoggedType(loggedType)
+        }?: getSessionLoggedType(SessionLoggedType.DISCONNECTED.value)
 
         val lastUserId = appDataStoreManager.readValue(DataStoreKeys.SESSION_LAST_USER_ID)
 
