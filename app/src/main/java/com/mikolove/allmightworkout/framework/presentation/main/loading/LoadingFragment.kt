@@ -19,6 +19,7 @@ import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
 import com.mikolove.allmightworkout.framework.presentation.common.processQueue
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,8 +34,11 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
     private var binding : FragmentLoadingBinding? = null
 
+
+   /*
+    Switch for Session manager
     @Inject
-    lateinit var mAuth : FirebaseAuth
+    lateinit var mAuth : FirebaseAuth*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,9 +49,23 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         subscribeObservers()
 
-        //binding?.mainLogo?.fadeIn {
-        viewModel.onTriggerEvent(LoadingEvents.GetAccountPreferences)
-        //}
+        binding?.mainLogo?.fadeIn {
+            if(!sessionManager.isAuth()){
+                createSignInIntent()
+            }
+        }
+
+        binding?.connectButton?.setOnClickListener {
+            if(!sessionManager.isAuth()){
+                createSignInIntent()
+            }
+        }
+
+        binding?.signoutButton?.setOnClickListener {
+            if(sessionManager.isAuth()){
+                sessionManager.onTriggerEvent(SessionEvents.Signout)
+            }
+        }
 
     }
 
@@ -61,50 +79,51 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     }
 
 
-    private fun subscribeObservers(){
+    private fun subscribeObservers() {
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
+        sessionManager.state.observe(viewLifecycleOwner) { sessionState ->
 
             processQueue(
                 context = context,
-                queue = state.queue,
-                stateMessageCallback = object: StateMessageCallback {
+                queue = sessionState.queue,
+                stateMessageCallback = object : StateMessageCallback {
                     override fun removeMessageFromQueue() {
-                        viewModel.onTriggerEvent(LoadingEvents.OnRemoveHeadFromQueue)
+                        sessionManager.onTriggerEvent(SessionEvents.OnRemoveHeadFromQueue)
                     }
                 })
 
-            state.lastSessionStatus?.let { sessionLoggedType ->
+            printLogD("LoadingFrament", "Session info ${sessionState.logged} current User : ${sessionManager.getUserId()}")
 
-                printLogD("LoadingFrament","Account pref ${state.accountPreference}")
-                printLogD("LoadingFrament","Session info ${state.lastSessionStatus}")
-                when(sessionLoggedType){
+            sessionState.logged?.let { sessionLoggedType ->
 
-                    SessionLoggedType.CONNECTED ->{
+                when (sessionLoggedType) {
 
-                        printLogD("LoadingFragment","CONNECTED STATUS ")
-                        //Try reconnect
-                        state.accountPreference?.let { accountPreference ->
-                            printLogD("LoadingFragment","email ${accountPreference.email} | ${accountPreference.password} ")
-                            if(!accountPreference.email.isNullOrBlank() && !accountPreference.password.isNullOrBlank()) {
-                                 connectUser(accountPreference.email,accountPreference.password)
-                            }
-                        }
+                    SessionLoggedType.CONNECTED -> {
+                        printLogD("LoadingFragment", "CONNECTED STATUS ")
+                        binding?.txtConnect?.text = "Status : Connected"
                     }
 
-                    SessionLoggedType.DISCONNECTED->{
-                        printLogD("LoadingFragment","DISCONNECTED STATUS ")
-                        //Show login screen
-                        createSignInIntent()
+                    SessionLoggedType.DISCONNECTED -> {
+                        printLogD("LoadingFragment", "DISCONNECTED STATUS ")
+                        binding?.txtConnect?.text = "Status : Disconnected"
                     }
-
-
                 }
+            }
+        }
+
+            viewModel.state.observe(viewLifecycleOwner) { state ->
+
+                processQueue(
+                    context = context,
+                    queue = state.queue,
+                    stateMessageCallback = object : StateMessageCallback {
+                        override fun removeMessageFromQueue() {
+                            viewModel.onTriggerEvent(LoadingEvents.OnRemoveHeadFromQueue)
+                        }
+                    })
 
             }
-
         }
-    }
 
     /*
         Firebase
@@ -141,10 +160,8 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in²
-            val user = mAuth.currentUser
-            //connectToFirebase()
-            // ...
-            printLogD("LoadingFragment","Logged USER ID ${user?.uid}")
+            printLogD("LoadingFragment","user is logged"+sessionManager.state.value?.logged.toString())
+
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -154,58 +171,6 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         }
     }
-
-    private fun connectUser(email : String, password : String){
-
-        val currentUser = mAuth.currentUser
-        if( currentUser != null){
-
-        }else{
-            mAuth.signInWithEmailAndPassword(
-                email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        /*Log.d(TAG, "signInWithEmail:success")
-                        val user = auth.currentUser
-                        updateUI(user)*/
-                    } else {
-                        // If sign in fails, display a message to the user.
-/*                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                            updateUI(null)*/
-                    }
-                }
-        }
-
-    }
-    private fun connectToFirebase(){
-
-        //signOut()
-        val currentUser = mAuth.currentUser
-        if( currentUser != null){
-            printLogD("LoadingFragment","User logged")
-            subscribeObservers()
-
-        }else{
-            createSignInIntent()
-             printLogD("Loading","User not logged")
-            mAuth.signInWithEmailAndPassword(
-                 FirestoreAuth.FIRESTORE_LOGIN,
-                 FirestoreAuth.FIRESTORE_PASSWORD
-             ).addOnCompleteListener{
-                 if(it.isSuccessful){
-                     printLogD("Loading","User is now logged")
-                     //subscribeObservers()
-                 }else{
-                     printLogD("Loading","Error logging user go to history")
-                     //navigateToHistory()
-                 }
-             }
-        }
-    }
-
 
 
     private fun navigateToHistory(){

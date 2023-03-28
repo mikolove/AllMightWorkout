@@ -8,12 +8,11 @@ import com.mikolove.allmightworkout.framework.presentation.session.SessionLogged
 data class LoadingState(
     val isLoading :Boolean = false,
 
-    val lastSessionStatus : SessionLoggedType? = null,
-
     val splashScreenDone : Boolean = false,
 
     val syncDone : Boolean = false,
 
+    //Useless information maybe delete
     val accountPreference: AccountPreference? = null,
 
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())

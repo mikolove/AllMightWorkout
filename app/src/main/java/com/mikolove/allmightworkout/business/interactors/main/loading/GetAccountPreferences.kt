@@ -18,18 +18,17 @@ constructor(private val appDataStoreManager: AppDataStore) {
 
     fun execute() : Flow<DataState<AccountPreference>> = flow{
 
-        val accountType = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_TYPE)?.let { accountType ->
+        /*val accountType = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_TYPE)?.let { accountType ->
             getAccountType(accountType)
-        }?: AccountType.BASIC
+        }?: AccountType.BASIC*/
 
         val email = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_EMAIL)
 
-        val password = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_PASSWORD)
+        //val password = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_PASSWORD)
 
         val accountPreference = AccountPreference(
-            accountType = accountType,
+            //accountType = accountType,
             email = email,
-            password = password
         )
 
         emit(

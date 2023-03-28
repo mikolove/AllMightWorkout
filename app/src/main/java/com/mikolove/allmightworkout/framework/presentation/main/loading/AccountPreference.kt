@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.main.loading
 
 data class AccountPreference(
-    val accountType : AccountType,
+    //val accountType : AccountType,
     val email : String?,
-    val password : String?
+    //val password : String?
 )
 
 enum class AccountType(val value: String) {

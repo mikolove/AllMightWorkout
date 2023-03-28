@@ -2,11 +2,13 @@ package com.mikolove.allmightworkout.framework.presentation.session
 
 sealed class SessionEvents {
 
+    object GetAuthState : SessionEvents()
+
     object MonitorConnectivity : SessionEvents()
 
     data class Login(val idUser : String) : SessionEvents()
 
-    object Logout : SessionEvents()
+    object Signout : SessionEvents()
 
     object LoadSessionPreference : SessionEvents()
 

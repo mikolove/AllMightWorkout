@@ -8,11 +8,11 @@ data class SessionState(
 
     val isLoading :Boolean = false,
 
-    val logged : SessionLoggedType? = SessionLoggedType.DISCONNECTED,
-
     val checkAuth : Boolean = false,
 
     val idUser : String? = null,
+
+    val logged : SessionLoggedType? = SessionLoggedType.DISCONNECTED,
 
     val connectivityStatus: SessionConnectivityStatus = SessionConnectivityStatus.UNAVAILABLE,
 

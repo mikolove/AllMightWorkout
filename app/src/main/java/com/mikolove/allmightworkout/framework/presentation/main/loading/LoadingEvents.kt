@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.framework.presentation.main.loading
 
-sealed class LoadingEvents {
+import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 
-    object CheckLastSessionStatus : LoadingEvents()
+sealed class LoadingEvents {
 
     object GetAccountPreferences : LoadingEvents()
 

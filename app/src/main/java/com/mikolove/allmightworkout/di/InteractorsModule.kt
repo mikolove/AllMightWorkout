@@ -1,11 +1,14 @@
 package com.mikolove.allmightworkout.di
 
 import android.net.ConnectivityManager
+import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.allmightworkout.business.interactors.main.auth.GetAuthState
+import com.mikolove.allmightworkout.business.interactors.main.auth.SignOut
 import com.mikolove.allmightworkout.business.interactors.main.common.*
 import com.mikolove.allmightworkout.business.interactors.main.exercise.*
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
@@ -156,10 +159,13 @@ object InteractorsModule {
     @Singleton
     @Provides
     fun provideSessionInteractors(
+        firebaseAuth: FirebaseAuth,
         appDataStore: AppDataStore,
         connectivityManager : ConnectivityManager
     ) : SessionInteractors{
         return SessionInteractors(
+            signOut = SignOut(firebaseAuth = firebaseAuth),
+            getAuthState = GetAuthState(firebaseAuth = firebaseAuth),
             getSessionPreference = GetSessionPreferences(appDataStore),
             getSessionConnectivityStatus = SyncNetworkConnectivity(connectivityManager)
         )

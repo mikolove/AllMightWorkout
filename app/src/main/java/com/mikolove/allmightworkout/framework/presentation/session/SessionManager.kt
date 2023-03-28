@@ -26,8 +26,10 @@ constructor(
 
     val state : MutableLiveData<SessionState> = MutableLiveData(SessionState())
 
+
     init {
         onTriggerEvent(SessionEvents.MonitorConnectivity)
+        onTriggerEvent(SessionEvents.GetAuthState)
         onTriggerEvent(SessionEvents.LoadSessionPreference)
     }
 
@@ -37,11 +39,14 @@ constructor(
             is SessionEvents.MonitorConnectivity->{
                 updateConnectivityStatus()
             }
+            is SessionEvents.GetAuthState->{
+                getAuthState()
+            }
             is SessionEvents.Login->{
                 login(event.idUser)
             }
-            is SessionEvents.Logout->{
-                logout()
+            is SessionEvents.Signout->{
+                signout()
             }
             is SessionEvents.CheckAuth->{
                 checkAuth(event.idUser)
@@ -64,10 +69,14 @@ constructor(
         return user != null &&
                 state.value?.idUser != null &&
                 user.uid == idUser
-                state.value?.logged == SessionLoggedType.CONNECTED
+        state.value?.logged == SessionLoggedType.CONNECTED
     }
 
     fun isNetworkAvailable() : Boolean = state.value?.connectivityStatus == SessionConnectivityStatus.AVAILABLE
+
+    fun isAuth() : Boolean = firebaseAuth.currentUser != null
+
+    fun getUserId() : String? = firebaseAuth.currentUser?.uid
 
     private fun login(idUser : String){
         state.value?.let { state ->
@@ -76,12 +85,7 @@ constructor(
         }
     }
 
-    private fun logout(){
-        state.value?.let { state ->
-            saveSessionPreference("",SessionLoggedType.DISCONNECTED)
-            this.state.value = state.copy(logged = SessionLoggedType.DISCONNECTED,idUser = null)
-        }
-    }
+
 
     private fun saveSessionPreference(idUser: String, logged : SessionLoggedType)
     {
@@ -123,6 +127,43 @@ constructor(
                 .onEach { dataState ->
                     dataState.data?.let { data ->
                         this.state.value = state.copy(connectivityStatus = data)
+                    }
+                    dataState.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+                }
+                .launchIn(sessionScope)
+        }
+    }
+
+    private fun getAuthState(){
+        state.value?.let { state ->
+            sessionInteractors.getAuthState
+                .execute()
+                .onEach{ dataState ->
+                    dataState.data?.let {
+                        this.state.value = state.copy(logged = dataState.data)
+                    }
+
+                    dataState.message?.let { message ->
+                        appendToMessageQueue(message)
+                    }
+                }
+                .launchIn(sessionScope)
+        }
+    }
+
+    private fun signout(){
+        //May be duplicated with GetAuthState Callback Flow
+        state.value?.let { state ->
+            sessionInteractors.signOut
+                .execute()
+                .onEach { dataState ->
+                    dataState.data?.let {result ->
+                        if (!result) {
+                            this.state.value = state.copy(logged = SessionLoggedType.DISCONNECTED, idUser = null)
+                            saveSessionPreference("",SessionLoggedType.DISCONNECTED)
+                        }
                     }
                     dataState.message?.let { message ->
                         appendToMessageQueue(message)
