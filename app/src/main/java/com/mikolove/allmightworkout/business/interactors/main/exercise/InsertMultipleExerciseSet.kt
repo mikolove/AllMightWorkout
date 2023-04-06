@@ -38,7 +38,7 @@ class InsertMultipleExerciseSet(
             val response = object : CacheResponseHandler<Long,Long>(
                 response = cacheResult,
             ){
-                override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+                override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                     //-1 if insert error occur
                     if(resultObj < 0){
                         onAddError = true
@@ -46,7 +46,10 @@ class InsertMultipleExerciseSet(
                         successfullAdd.add(set)
                         successfullInsert.add(resultObj)
                     }
-                    return null
+                    return DataState.data(
+                        message = null,
+                        data = resultObj
+                    )
                 }
             }.getResult()
 

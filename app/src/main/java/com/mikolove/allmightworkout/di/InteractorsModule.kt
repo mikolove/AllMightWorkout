@@ -16,6 +16,7 @@ import com.mikolove.allmightworkout.business.interactors.main.history.GetHistory
 import com.mikolove.allmightworkout.business.interactors.main.history.GetTotalHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
 import com.mikolove.allmightworkout.business.interactors.main.loading.GetAccountPreferences
+import com.mikolove.allmightworkout.business.interactors.main.loading.LoadUser
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
 import com.mikolove.allmightworkout.business.interactors.main.session.GetSessionPreferences
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
@@ -26,6 +27,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.text.SimpleDateFormat
 import javax.inject.Singleton
 
 @Module
@@ -149,9 +151,12 @@ object InteractorsModule {
     fun provideLoadingInteractors(
         userCacheDataSource: UserCacheDataSource,
         userNetworkDataSource: UserNetworkDataSource,
-        appDataStore: AppDataStore
+        appDataStore: AppDataStore,
+        userFactory: UserFactory,
+        dateUtil: DateUtil,
     ) : LoadingInteractors{
         return LoadingInteractors(
+            loadUser = LoadUser(userCacheDataSource,userNetworkDataSource, userFactory , dateUtil),
             getAccountPreferences = GetAccountPreferences(appDataStore)
         )
     }

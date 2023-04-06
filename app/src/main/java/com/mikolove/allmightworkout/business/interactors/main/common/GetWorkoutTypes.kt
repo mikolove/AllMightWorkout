@@ -33,7 +33,7 @@ class GetWorkoutTypes(
         val response = object : CacheResponseHandler<List<WorkoutType>, List<WorkoutType>>(
             response = cacheResult,
         ){
-            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<List<WorkoutType>>? {
+            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<List<WorkoutType>> {
 
                 var message : String = GET_WORKOUTTYPES_SUCCESS
                 var uiComponentType : UIComponentType = UIComponentType.None

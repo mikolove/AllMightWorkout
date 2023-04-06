@@ -26,7 +26,7 @@ class GetExerciseById(
             val response  = object : CacheResponseHandler<Exercise, Exercise>(
                 response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Exercise): DataState<Exercise>? {
+                override suspend fun handleSuccess(resultObj: Exercise): DataState<Exercise> {
 
                     return DataState.data(
                         message = GenericMessageInfo.Builder()

@@ -13,7 +13,7 @@ data class UserCacheEntity (
     var idUser :String,
 
     @ColumnInfo(name = "name")
-    var name :String,
+    var name :String?,
 
     @ColumnInfo(name = "email")
     var email : String,

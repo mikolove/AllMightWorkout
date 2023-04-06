@@ -1,10 +1,8 @@
 import dependencies.AnnotationProcessing
 import dependencies.SupportDependencies
 import dependencies.TestDependencies
-import dependencies.Versions
 import dependencies.Application
 import dependencies.Dependencies
-import dependencies.Java
 import dependencies.AndroidTestDependencies
 
 plugins {
@@ -56,6 +54,11 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE-notice.md")
+    }
+
     //Replaces Kotlin synthetics
     buildFeatures {
         viewBinding true
@@ -68,6 +71,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }*/
+
+
 }
 
 dependencies {
@@ -145,13 +150,23 @@ dependencies {
     //Data Store
     implementation Dependencies.datastore
 
-
-    // Test
-    testImplementation TestDependencies.mockk
+    // JUNIT Test
+    //testImplementation TestDependencies.mockk
     testImplementation TestDependencies.jupiter_api
+    testRuntimeOnly TestDependencies.jupiter_engine
     testImplementation TestDependencies.jupiter_params
     testImplementation TestDependencies.junit4
-    testRuntimeOnly TestDependencies.jupiter_engine
+
+
+    //ANDROID TEST
+    androidTestImplementation AndroidTestDependencies.test_core_ktx
+    androidTestImplementation AndroidTestDependencies.test_ext
+    androidTestImplementation AndroidTestDependencies.test_ext_truth
+    androidTestImplementation AndroidTestDependencies.junit_ktx
+    androidTestImplementation AndroidTestDependencies.test_runner
+    androidTestImplementation AndroidTestDependencies.test_orchestrator
+    androidTestImplementation AndroidTestDependencies.test_rules
+    debugImplementation AndroidTestDependencies.monitor
 
 
     /*
@@ -166,15 +181,13 @@ dependencies {
 
     androidTestImplementation AndroidTestDependencies.kotlin_test
     androidTestImplementation AndroidTestDependencies.espresso_core
-    androidTestImplementation AndroidTestDependencies.espresso_contrib
-    androidTestImplementation AndroidTestDependencies.idling_resource
     androidTestImplementation AndroidTestDependencies.mockk_android
-    androidTestImplementation AndroidTestDependencies.test_runner
-    androidTestImplementation AndroidTestDependencies.test_rules
-    androidTestImplementation AndroidTestDependencies.text_core_ktx
-    androidTestImplementation AndroidTestDependencies.androidx_test_ext
     androidTestImplementation AndroidTestDependencies.navigation_testing
-    debugImplementation AndroidTestDependencies.fragment_testing
+
+    //debugImplementation AndroidTestDependencies.fragment_testing
+    //androidTestImplementation AndroidTestDependencies.espresso_contrib
+    //androidTestImplementation AndroidTestDependencies.idling_resource
+
 
     // Hilt for instrumentation tests
     androidTestImplementation AndroidTestDependencies.hilt_testing

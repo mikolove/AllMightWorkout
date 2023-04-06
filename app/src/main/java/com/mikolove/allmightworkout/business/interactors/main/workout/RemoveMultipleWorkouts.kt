@@ -37,13 +37,16 @@ class RemoveMultipleWorkouts(
             val response = object : CacheResponseHandler<Int, Int>(
                 response = cacheResult
             ) {
-                override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                     if (resultObj < 0) { // error
                         onDeleteError = true
                     } else { // success
                         successfulDeletes.add(workout)
                     }
-                    return null
+                    return DataState.data(
+                        message = null,
+                        data = resultObj
+                    )
                 }
             }.getResult()
 

@@ -1,18 +1,13 @@
 package com.mikolove.allmightworkout.framework.presentation.main.loading
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
 import com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingEvents.*
-import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import com.mikolove.allmightworkout.framework.presentation.session.getSessionLoggedType
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -25,7 +20,7 @@ class LoadingViewModel
 constructor(
     private val loadingInteractors: LoadingInteractors,
     private val networkSyncManager: NetworkSyncManager
-    ) : ViewModel() {
+) : ViewModel() {
 
     val state : MutableLiveData<LoadingState> = MutableLiveData(LoadingState())
 
@@ -44,9 +39,11 @@ constructor(
             is OnRemoveHeadFromQueue->{
                 removeHeadFromQueue()
             }
-            is Login -> {}
-            is RegisterUser -> {
+            is Login -> {
 
+            }
+            is LoadUser -> {
+                loadUser(event.idUser,event.emailUser)
             }
         }
     }
@@ -67,6 +64,12 @@ constructor(
         }
     }*/
 
+    private fun updateLoadingStep(loadingStep: LoadingStep){
+        state.value?.let { state ->
+            this.state.value = state.copy(loadingStep = loadingStep)
+        }
+    }
+
     private fun getAccountPreferences(){
         state.value?.let { state ->
             loadingInteractors.getAccountPreferences.execute()
@@ -83,6 +86,27 @@ constructor(
         }
     }
 
+    private fun loadUser(idUser : String, email : String){
+        state.value?.let { state->
+            loadingInteractors
+                .loadUser
+                .execute(idUser,email)
+                .onEach { dataState ->
+
+                    this.state.value = state.copy(isLoading = dataState.isLoading)
+
+                    dataState.data?.let {user ->
+                        this.state.value = state.copy(user = user)
+                    }
+
+                    dataState.message?.let {message ->
+
+                        appendToMessageQueue(message)
+                    }
+                }
+                .launchIn(viewModelScope)
+        }
+    }
 /*state.accountPreference?.let{ accountPreference ->
 
     when(accountPreference.accountType){

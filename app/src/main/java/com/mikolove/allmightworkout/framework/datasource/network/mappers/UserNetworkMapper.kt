@@ -13,7 +13,7 @@ constructor(private val dateUtil: DateUtil) : EntityMapper<UserNetworkEntity, Us
             idUser = entity.idUser,
             name = entity.name,
             email = entity.email,
-            workouts = listOf(),
+            workouts = null,
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
             updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt)
         )

@@ -35,7 +35,7 @@ import kotlin.test.assertTrue
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ExerciseSetDaoServiceTest : BaseTest(){
 
-    //Sytem in test
+    /*  //Sytem in test
     private lateinit var exerciseSetDaoService: ExerciseSetDaoService
 
     @Inject
@@ -288,6 +288,9 @@ class ExerciseSetDaoServiceTest : BaseTest(){
         sets = null,
         exerciseType = ExerciseType.REP_EXERCISE,
         isActive = true,
-        created_at = null)
+        created_at = null)*/
+    override fun injectTest() {
+        TODO("Not yet implemented")
+    }
 
 }

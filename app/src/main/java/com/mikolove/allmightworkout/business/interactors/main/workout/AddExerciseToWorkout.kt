@@ -52,7 +52,7 @@ class AddExerciseToWorkout(
             val response = object : CacheResponseHandler<Long, Long>(
                 response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+                override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
 
                     return if(resultObj>0){
                         DataState<Long>(

@@ -2,10 +2,13 @@ package com.mikolove.allmightworkout.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
+import com.mikolove.allmightworkout.business.data.datastore.AppDataStoreManager
 import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import com.mikolove.allmightworkout.framework.datasource.data.WorkoutTypeDataFactory
@@ -82,5 +85,21 @@ object TestModule {
             PreferenceKeys.WORKOUT_LIST_PREFERENCES,
             Context.MODE_PRIVATE
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDataStoreManager(
+        @ApplicationContext context: Context
+    ): AppDataStore {
+        return AppDataStoreManager(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideConnectivityManager(
+        @ApplicationContext context: Context
+    ) : ConnectivityManager {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 }

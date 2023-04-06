@@ -78,6 +78,8 @@ constructor(
 
     fun getUserId() : String? = firebaseAuth.currentUser?.uid
 
+    fun getUserEmail() : String? = firebaseAuth.currentUser?.email
+
     private fun login(idUser : String){
         state.value?.let { state ->
             saveSessionPreference(idUser,SessionLoggedType.CONNECTED)

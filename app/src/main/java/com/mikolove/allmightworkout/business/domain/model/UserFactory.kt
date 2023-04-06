@@ -11,13 +11,13 @@ class UserFactory
 constructor(private val dateUtil: DateUtil){
 
     fun createUser(
-        idUser : String?,
-        name : String,
-        email : String
+        idUser : String,
+        email : String,
+        name : String?
     ) : User{
         return User(
-            idUser = idUser ?: UUID.randomUUID().toString(),
-            name = name,
+            idUser = idUser,
+            name = name ,
             email = email,
             createdAt = dateUtil.getCurrentTimestamp(),
             updatedAt = dateUtil.getCurrentTimestamp()

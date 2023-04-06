@@ -93,8 +93,8 @@ object NetworkModule {
                                      userNetworkMapper : UserNetworkMapper,
                                      workoutNetworkMapper: WorkoutNetworkMapper,
                                      exerciseNetworkMapper: ExerciseNetworkMapper,
-                                     dateUtil: DateUtil) : UserFireStoreService{
-        return UserFireStoreServiceImpl(
+                                     dateUtil: DateUtil) : UserFirestoreService{
+        return UserFirestoreServiceImpl(
             firebaseAuth,
             firestore,
             userNetworkMapper,
@@ -200,7 +200,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUserNetworkDataSource( userNetworkFireStoreService: UserFireStoreService ) : UserNetworkDataSource {
+    fun provideUserNetworkDataSource( userNetworkFireStoreService: UserFirestoreService ) : UserNetworkDataSource {
         return UserNetworkDataSourceImpl(userNetworkFireStoreService)
     }
 }

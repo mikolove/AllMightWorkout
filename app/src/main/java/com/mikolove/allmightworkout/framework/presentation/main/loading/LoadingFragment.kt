@@ -9,21 +9,17 @@ import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 import com.mikolove.allmightworkout.databinding.FragmentLoadingBinding
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 
 import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
 import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
 import com.mikolove.allmightworkout.framework.presentation.common.processQueue
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 const val LOADING_FRAGMENT_NO_SYNC = "User is not connected, could not sync data with firebase"
 
@@ -35,10 +31,10 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     private var binding : FragmentLoadingBinding? = null
 
 
-   /*
-    Switch for Session manager
-    @Inject
-    lateinit var mAuth : FirebaseAuth*/
+    /*
+     Switch for Session manager
+     @Inject
+     lateinit var mAuth : FirebaseAuth*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -111,19 +107,30 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
             }
         }
 
-            viewModel.state.observe(viewLifecycleOwner) { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
 
-                processQueue(
-                    context = context,
-                    queue = state.queue,
-                    stateMessageCallback = object : StateMessageCallback {
-                        override fun removeMessageFromQueue() {
-                            viewModel.onTriggerEvent(LoadingEvents.OnRemoveHeadFromQueue)
-                        }
-                    })
+            processQueue(
+                context = context,
+                queue = state.queue,
+                stateMessageCallback = object : StateMessageCallback {
+                    override fun removeMessageFromQueue() {
+                        viewModel.onTriggerEvent(LoadingEvents.OnRemoveHeadFromQueue)
+                    }
+                })
 
+            when(state.loadingStep) {
+
+                LoadingStep.INIT ->TODO()
+                LoadingStep.LOADING -> TODO()
+                LoadingStep.LOAD_USER -> TODO()
+                LoadingStep.LOADED_USER_CREATE -> TODO()
+                LoadingStep.LOADED_USER_SYNC -> TODO()
+                LoadingStep.LAUNCH_TOTAL_SYNC -> TODO()
+                LoadingStep.GO_TO_APP -> TODO()
             }
+
         }
+    }
 
     /*
         Firebase
@@ -159,8 +166,18 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
-            // Successfully signed in²
             printLogD("LoadingFragment","user is logged"+sessionManager.state.value?.logged.toString())
+
+            //Check if user exist in database if not create it and sync
+            sessionManager.isAuth().let {
+                val userId = sessionManager.getUserId()
+                val userEmail = sessionManager.getUserEmail()
+                if(userId != null && userEmail != null){
+                    viewModel.onTriggerEvent(
+                        LoadingEvents.LoadUser(userId, userEmail)
+                    )
+                }
+            }
 
         } else {
             // Sign in failed. If response is null the user canceled the

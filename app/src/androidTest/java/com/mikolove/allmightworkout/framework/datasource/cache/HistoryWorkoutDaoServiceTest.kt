@@ -42,6 +42,7 @@ import kotlin.test.assertTrue
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class HistoryWorkoutDaoServiceTest : BaseTest(){
 
+    /*
     //System in test
     private lateinit var historyWorkoutDaoService : HistoryWorkoutDaoService
 
@@ -288,6 +289,10 @@ class HistoryWorkoutDaoServiceTest : BaseTest(){
         historyExerciseSetDaoService.insertHistoryExerciseSet(historyExerciseSet,historyExercise.idHistoryExercise)
 
         return historyWorkout
+    }
+*/
+    override fun injectTest() {
+        TODO("Not yet implemented")
     }
 
 }

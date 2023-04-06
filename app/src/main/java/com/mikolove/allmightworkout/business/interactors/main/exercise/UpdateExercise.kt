@@ -173,7 +173,7 @@ class UpdateExercise(
                         val responseUpdateSet = object : CacheResponseHandler<Int, Int>(
                             response = cacheUpdateSet,
                         ) {
-                            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+                            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                                 return if (resultObj > 0) {
                                     DataState.data(
                                         data = resultObj
@@ -207,7 +207,7 @@ class UpdateExercise(
                         val responseInsertSet = object :CacheResponseHandler<Long, Long>(
                             response = cacheInsertSet,
                         ){
-                            override suspend fun handleSuccess(resultObj: Long): DataState<Long>? {
+                            override suspend fun handleSuccess(resultObj: Long): DataState<Long> {
                                 return if(resultObj>0){
                                     DataState.data(data = resultObj)
                                 }else{

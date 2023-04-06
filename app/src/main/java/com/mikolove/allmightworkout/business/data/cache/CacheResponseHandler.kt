@@ -7,10 +7,12 @@ import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 
 
+//T - result type of handle success expected to be contained in datastate
+//Data - result type coming from DB store in cacheResult
 abstract class CacheResponseHandler <T, Data>(
     private val response: CacheResult<Data?>
 ){
-    suspend fun getResult(): DataState<T>? {
+    suspend fun getResult(): DataState<T> {
 
         return when(response){
 
@@ -43,6 +45,6 @@ abstract class CacheResponseHandler <T, Data>(
         }
     }
 
-    abstract suspend fun handleSuccess(resultObj: Data): DataState<T>?
+    abstract suspend fun handleSuccess(resultObj: Data): DataState<T>
 
 }

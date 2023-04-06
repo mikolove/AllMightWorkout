@@ -6,13 +6,13 @@ import com.google.firebase.firestore.DocumentId
 data class UserNetworkEntity(
     @DocumentId
     var idUser : String,
-    var name : String,
+    var name : String?,
     var email : String,
     var createdAt : Timestamp,
     var updatedAt : Timestamp
 ){
     constructor() : this("",
-        "",
+        null,
         "",
         Timestamp.now(),
         Timestamp.now(),

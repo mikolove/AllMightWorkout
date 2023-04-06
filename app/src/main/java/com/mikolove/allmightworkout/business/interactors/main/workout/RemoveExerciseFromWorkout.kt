@@ -50,7 +50,7 @@ class RemoveExerciseFromWorkout(
             val response = object : CacheResponseHandler<Int,Int>(
                 response = cacheResult
             ){
-                override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                     return if(resultObj>0){
                         DataState<Int>(
                             message = GenericMessageInfo.Builder()

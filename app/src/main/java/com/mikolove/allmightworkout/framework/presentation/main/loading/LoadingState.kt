@@ -6,13 +6,13 @@ import com.mikolove.allmightworkout.business.domain.state.Queue
 import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 
 data class LoadingState(
+
     val isLoading :Boolean = false,
 
-    val splashScreenDone : Boolean = false,
+    val loadingStep : LoadingStep = LoadingStep.INIT,
 
-    val syncDone : Boolean = false,
+    val user : User? = null,
 
-    //Useless information maybe delete
     val accountPreference: AccountPreference? = null,
 
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
