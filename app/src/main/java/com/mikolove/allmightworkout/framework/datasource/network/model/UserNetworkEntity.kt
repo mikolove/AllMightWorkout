@@ -11,7 +11,8 @@ data class UserNetworkEntity(
     var createdAt : Timestamp,
     var updatedAt : Timestamp
 ){
-    constructor() : this("",
+    constructor() : this(
+        "",
         null,
         "",
         Timestamp.now(),

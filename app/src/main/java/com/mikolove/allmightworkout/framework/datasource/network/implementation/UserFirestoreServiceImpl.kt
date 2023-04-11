@@ -11,6 +11,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Workout
 import com.mikolove.allmightworkout.framework.datasource.network.model.UserNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
 
 class UserFirestoreServiceImpl
@@ -22,7 +23,7 @@ constructor(
     private val exerciseNetworkMapper: ExerciseNetworkMapper,
     private val dateUtil: DateUtil,
 )
-: UserFirestoreService{
+    : UserFirestoreService{
 
     override suspend fun insertUser(user: User) {
 
@@ -49,7 +50,7 @@ constructor(
                 .collection("users")
                 .document(primaryKey)
                 .update("name",name
-                ,"updatedAt",updatedAt)
+                    ,"updatedAt",updatedAt)
                 .addOnFailureListener {
                     cLog(it.message)
                 }
@@ -59,21 +60,26 @@ constructor(
 
     override suspend fun getUser(primaryKey: String): User? {
 
-        var user : User? = null
+        printLogD("UserFirestoreImpl","TRy TO GET USER ${primaryKey} ")
 
-        firebaseAuth.currentUser?.uid?.let { userId ->
+        var user : User? = null
+        firebaseAuth.currentUser?.uid?.let {
+
             firestore
                 .collection(USERS_COLLECTION)
                 .document(primaryKey)
                 .get()
                 .addOnFailureListener {
-                    cLog(it.message)
+                    printLogD("UserFirestoreImpl","LOG FAILURE"+it.message)
                 }
-                .await().toObject(UserNetworkEntity::class.java)?.let {
-                    user = userNetworkMapper.mapFromEntity(it)
+                .await()
+                .toObject(UserNetworkEntity::class.java)?.let {
+                        user = userNetworkMapper.mapFromEntity(it)
+                        printLogD("UserFirestoreImpl","user on success ${user}")
                 }
         }
 
+        printLogD("UserFirestoreImpl","User returned ${user} ")
         return user
     }
 

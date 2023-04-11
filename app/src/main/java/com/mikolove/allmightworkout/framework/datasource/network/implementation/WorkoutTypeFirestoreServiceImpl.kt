@@ -24,35 +24,39 @@ constructor(
     override suspend fun getWorkoutTypes(): List<WorkoutType> {
         var listOfWorkoutType : List<WorkoutType> = ArrayList()
 
-        //Get WorkoutTypes
-        listOfWorkoutType = firestore
-            .collection(WORKOUT_TYPE_COLLECTION)
-            .get()
-            .addOnFailureListener {
-                cLog(it.message)
-            }
-            .await()
-            .toObjects(WorkoutTypeNetworkEntity::class.java).let {
-                workoutTypeNetworkMapper.entityListToDomainList(it)
-            }
+        firebaseAuth.currentUser?.let{
 
-        //Get BodyParts for each workoutTypes
-        for(workoutType in listOfWorkoutType){
-
-            val bodyParts = firestore
+            //Get WorkoutTypes
+            listOfWorkoutType = firestore
                 .collection(WORKOUT_TYPE_COLLECTION)
-                .document(workoutType.idWorkoutType)
-                .collection(BODYPART_COLLECTION)
                 .get()
                 .addOnFailureListener {
                     cLog(it.message)
                 }
                 .await()
-                .toObjects(BodyPartNetworkEntity::class.java)?.let {
-                    bodyPartNetworkMapper.entityListToDomainList(it)
+                .toObjects(WorkoutTypeNetworkEntity::class.java).let {
+                    workoutTypeNetworkMapper.entityListToDomainList(it)
                 }
 
-            workoutType.bodyParts = bodyParts
+            //Get BodyParts for each workoutTypes
+            for(workoutType in listOfWorkoutType){
+
+                val bodyParts = firestore
+                    .collection(WORKOUT_TYPE_COLLECTION)
+                    .document(workoutType.idWorkoutType)
+                    .collection(BODYPART_COLLECTION)
+                    .get()
+                    .addOnFailureListener {
+                        cLog(it.message)
+                    }
+                    .await()
+                    .toObjects(BodyPartNetworkEntity::class.java)?.let {
+                        bodyPartNetworkMapper.entityListToDomainList(it)
+                    }
+
+                workoutType.bodyParts = bodyParts
+
+            }
 
         }
 

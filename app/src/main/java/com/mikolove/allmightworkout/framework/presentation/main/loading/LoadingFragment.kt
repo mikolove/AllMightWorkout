@@ -12,10 +12,8 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
 import com.mikolove.allmightworkout.databinding.FragmentLoadingBinding
+import com.mikolove.allmightworkout.framework.presentation.common.*
 
-import com.mikolove.allmightworkout.framework.presentation.common.BaseFragment
-import com.mikolove.allmightworkout.framework.presentation.common.fadeIn
-import com.mikolove.allmightworkout.framework.presentation.common.processQueue
 import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 import com.mikolove.allmightworkout.util.printLogD
@@ -43,14 +41,6 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         binding = FragmentLoadingBinding.bind(view)
 
-        subscribeObservers()
-
-        binding?.mainLogo?.fadeIn {
-            if(!sessionManager.isAuth()){
-                createSignInIntent()
-            }
-        }
-
         binding?.connectButton?.setOnClickListener {
             if(!sessionManager.isAuth()){
                 createSignInIntent()
@@ -62,6 +52,16 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                 sessionManager.onTriggerEvent(SessionEvents.Signout)
             }
         }
+
+        if(sessionManager.isAuth()){
+            val userId = sessionManager.getUserId()
+            val userEmail = sessionManager.getUserEmail()
+            if(userId != null && userEmail != null){
+                viewModel.onTriggerEvent(LoadingEvents.LoadUser(userId, userEmail))
+            }
+        }
+
+        subscribeObservers()
 
     }
 
@@ -90,24 +90,11 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
             printLogD("LoadingFrament", "Session info ${sessionState.logged} current User : ${sessionManager.getUserId()}")
 
-            sessionState.logged?.let { sessionLoggedType ->
-
-                when (sessionLoggedType) {
-
-                    SessionLoggedType.CONNECTED -> {
-                        printLogD("LoadingFragment", "CONNECTED STATUS ")
-                        binding?.txtConnect?.text = "Status : Connected"
-                    }
-
-                    SessionLoggedType.DISCONNECTED -> {
-                        printLogD("LoadingFragment", "DISCONNECTED STATUS ")
-                        binding?.txtConnect?.text = "Status : Disconnected"
-                    }
-                }
-            }
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
+
+            printLogD("LoadingFragment","Viewmodel state change")
 
             processQueue(
                 context = context,
@@ -118,15 +105,16 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                     }
                 })
 
-            when(state.loadingStep) {
+            showProgressbar(state.isLoading)
 
-                LoadingStep.INIT ->TODO()
-                LoadingStep.LOADING -> TODO()
-                LoadingStep.LOAD_USER -> TODO()
-                LoadingStep.LOADED_USER_CREATE -> TODO()
-                LoadingStep.LOADED_USER_SYNC -> TODO()
-                LoadingStep.LAUNCH_TOTAL_SYNC -> TODO()
-                LoadingStep.GO_TO_APP -> TODO()
+            when(state.loadingStep) {
+                LoadingStep.INIT -> {
+                    showInit(state.loadingStep.loadingMessage)
+                }
+                else -> {
+                    showLoadingStep(state.loadingStep.loadingMessage)
+                }
+
             }
 
         }
@@ -173,9 +161,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                 val userId = sessionManager.getUserId()
                 val userEmail = sessionManager.getUserEmail()
                 if(userId != null && userEmail != null){
-                    viewModel.onTriggerEvent(
-                        LoadingEvents.LoadUser(userId, userEmail)
-                    )
+                    viewModel.onTriggerEvent(LoadingEvents.LoadUser(userId, userEmail))
                 }
             }
 
@@ -185,10 +171,29 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
             // response.getError().getErrorCode() and handle the error.
             // ...
             printLogD("LoadingFragment","ERROR not connected ${response?.getError()?.getErrorCode()}")
-
+            viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
         }
     }
 
+    private fun showLoadingStep(loadingMessage : String){
+        binding?.txtConnect?.text = loadingMessage
+        binding?.connectButton?.invisible()
+        binding?.signoutButton?.invisible()
+    }
+
+    private fun showInit(loadingMessage : String){
+        binding?.txtConnect?.text = loadingMessage
+        binding?.connectButton?.visible()
+        binding?.signoutButton?.visible()
+    }
+
+    private fun showProgressbar(isLoading : Boolean){
+        if(isLoading){
+            binding?.mainProgressBar?.visible()
+        }else{
+            binding?.mainProgressBar?.invisible()
+        }
+    }
 
     private fun navigateToHistory(){
         findNavController().navigate(R.id.action_global_history_fragment)

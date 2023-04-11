@@ -15,6 +15,7 @@ import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,8 +52,7 @@ class LoadUser(
         val userRegisteredOnline = userExistOnline(idUser)
         val userRegisteredLocal  = userExistInCache(idUser)
 
-        if(userRegisteredOnline.message?.messageType?.equals(MessageType.Error) == true ||
-            userRegisteredLocal.message?.messageType?.equals(MessageType.Error) == true){
+        if(userRegisteredOnline.message?.messageType?.equals(MessageType.Error) == true){
 
             emit(
                 DataState.error(
@@ -87,7 +87,7 @@ class LoadUser(
                         message = GenericMessageInfo.Builder()
                             .id("CreateUser.Success")
                             .title(LOAD_USER_TITLE)
-                            .description(LOAD_USER_SUCCESS)
+                            .description(LOAD_USER_SUCCESS_SYNC)
                             .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
                         data = userLoaded

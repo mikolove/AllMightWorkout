@@ -9,6 +9,8 @@ data class LoadingState(
 
     val isLoading :Boolean = false,
 
+    val loadStatusText : String = "",
+
     val loadingStep : LoadingStep = LoadingStep.INIT,
 
     val user : User? = null,
