@@ -13,6 +13,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -34,22 +35,23 @@ class SyncWorkoutTypesAndBodyPart(
 ) {
 
 
-    fun execute() : Flow<DataState<SyncState>> = flow {
+    suspend fun execute() :DataState<SyncState> {
 
-        emit(DataState.loading())
+        printLogD("TestFlow","WORKOUT TYPES FLOW LAUNCHED")
+
 
         val networkWorkoutTypes = getNetworkWorkoutTypes().data ?: listOf()
         val cachedWorkoutTypes = getCachedWorkoutTypes().data ?: listOf()
 
         if(networkWorkoutTypes.isEmpty()){
-            emit(DataState.error(
+            return DataState.error(
                 message = GenericMessageInfo.Builder()
                     .id("SyncWorkoutTypesAndBodyPart.GlobalError")
                     .title(SYNC_WKT_BDP_GERROR_TITLE)
                     .description(SYNC_WKT_BDP_GERROR_DESCRIPTION)
                     .messageType(MessageType.Error)
                     .uiComponentType(UIComponentType.Dialog)
-            ))
+            )
         }else{
 
             try{
@@ -85,7 +87,9 @@ class SyncWorkoutTypesAndBodyPart(
                     }
                 }
 
-                emit(DataState.data(
+                printLogD("TestFlow","WORKOUT TYPES FLOW ENDED")
+
+                return DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutTypesAndBodyPart.Success")
                         .title(SYNC_WKT_BDP_TITLE)
@@ -93,19 +97,23 @@ class SyncWorkoutTypesAndBodyPart(
                         .messageType(MessageType.Success)
                         .uiComponentType(UIComponentType.None),
                     data = SyncState.SUCCESS
-                ))
+                )
 
             }catch (exception : Exception){
-                emit(DataState.error(
+                printLogD("TestFlow","WORKOUT TYPES FLOW ENDED")
+
+                return DataState.error(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutTypesAndBodyPart.GlobalError")
                         .title(SYNC_WKT_BDP_GERROR_TITLE)
                         .description(SYNC_WKT_BDP_GERROR_DESCRIPTION)
                         .messageType(MessageType.Error)
                         .uiComponentType(UIComponentType.Dialog)
-                ))
+                )
             }
         }
+
+
     }
 
 /*

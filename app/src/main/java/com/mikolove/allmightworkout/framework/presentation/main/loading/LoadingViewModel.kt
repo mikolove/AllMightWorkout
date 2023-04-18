@@ -13,6 +13,7 @@ import com.mikolove.allmightworkout.business.interactors.sync.*
 import com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingEvents.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -128,12 +129,14 @@ constructor(
 
                             LOAD_USER_SUCCESS_CREATE -> {
                                 updateLoadingStep(LoadingStep.LOADED_USER_CREATE)
-                                onTriggerEvent(SyncWorkoutTypesAndBodyParts)
+                                //onTriggerEvent(testFlow())
+                                testFlow()
                             }
 
                             LOAD_USER_SUCCESS_SYNC -> {
                                 updateLoadingStep(LoadingStep.LOADED_USER_SYNC)
-                                onTriggerEvent(SyncWorkoutTypesAndBodyParts)
+                                testFlow()
+                                //onTriggerEvent(testFlow())
                             }
                             else ->{
                                 updateLoadingStep(LoadingStep.INIT)
@@ -150,28 +153,25 @@ constructor(
     private fun syncWorkoutTypesAndBodyParts(){
 
         state.value?.let { state ->
-            syncWorkoutTypesAndBodyPart.execute()
-                .onEach { dataState ->
-                    this.state.value = state.copy(isLoading = dataState.isLoading)
 
-                    dataState.data?.let { SyncState ->
+        }
+    }
 
-                        when(SyncState){
+    fun testFlow(){
 
-                            com.mikolove.allmightworkout.business.interactors.sync.SyncState.SUCCESS ->{
-                                updateLoadingStep(LoadingStep.SYNC_DELETED_EXERCISESETS)
-                            }
+        state.value?.let { state ->
 
-                            com.mikolove.allmightworkout.business.interactors.sync.SyncState.FAILURE ->{
+            val testFlow = TestFlow(
+                syncWorkoutTypesAndBodyPart = syncWorkoutTypesAndBodyPart,
+                syncDeletedExerciseSets = syncDeletedExerciseSets,
+                coroutineScope = viewModelScope)
 
-                            }
-                        }
-                    }
-
-                    dataState.message?.let { message ->
-                        appendToMessageQueue(message)
-                    }
-                }.launchIn(viewModelScope)
+            testFlow
+                .execute()
+                .onEach { datastate ->
+                    printLogD("LoadingViewModel"," loading : ${datastate.isLoading}  data : ${datastate.data} message : ${datastate.message?.description}")
+                }
+                .launchIn(viewModelScope)
         }
     }
 /*state.accountPreference?.let{ accountPreference ->

@@ -8,8 +8,13 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
 import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.MessageType
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 //TODO : don't call it FireStore has changed
 class SyncDeletedExerciseSets(
@@ -18,8 +23,9 @@ class SyncDeletedExerciseSets(
 ) {
 
 
-/*
-    suspend fun syncDeletedExerciseSets(){
+     suspend fun execute() : DataState<SyncState> {
+
+        printLogD("TestFlow","DELETED SETS TYPES FLOW LAUNCHED")
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(Dispatchers.IO){
@@ -28,18 +34,16 @@ class SyncDeletedExerciseSets(
 
         val response = object : ApiResponseHandler<List<ExerciseSet>, List<ExerciseSet>>(
             response = apiResult,
-            stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: List<ExerciseSet>): DataState<List<ExerciseSet>>? {
+            override suspend fun handleSuccess(resultObj: List<ExerciseSet>): DataState<List<ExerciseSet>> {
                 return DataState.data(
-                    response = null,
+                    message = null,
                     data = resultObj,
-                    stateEvent = null
                 )
             }
         }.getResult()
 
-        val deletedExercisesFromNetwork = response?.data ?: ArrayList()
+        val deletedExercisesFromNetwork = response.data ?: listOf()
 
         //Delete them from cache
         val cacheResult = safeCacheCall(Dispatchers.IO){
@@ -47,20 +51,39 @@ class SyncDeletedExerciseSets(
         }
 
         object : CacheResponseHandler<Int, Int>(
-            response = cacheResult,
-            stateEvent = null
+            response = cacheResult
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
                 printLogD("SyncDeletedExerciseSets","exercise sets deleted : ${resultObj}")
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = null,
+                    data = resultObj
                 )
             }
         }.getResult()
+
+         printLogD("TestFlow","DELETED SETS TYPES FLOW ENDED")
+         return DataState.data(
+             message = GenericMessageInfo.Builder()
+                 .id("SyncDeletedExerciseSets.Success")
+                 .title(SYNC_DES_TITLE)
+                 .description(SYNC_DES_DESCRIPTION)
+                 .messageType(MessageType.Success)
+                 .uiComponentType(UIComponentType.None),
+             data = SyncState.SUCCESS
+         )
+
+
     }
-*/
 
 
+    companion object{
+
+        val SYNC_DES_TITLE = "Sync success"
+        val SYNC_DES_DESCRIPTION = "Successfully sync deleted exercises sets"
+
+        val SYNC_DES_GERROR_TITLE = "Sync error"
+        val SYNC_DES_GERROR_DESCRIPTION = "Failed retrieving exercises sets. Check internet or try again later."
+
+    }
 }
