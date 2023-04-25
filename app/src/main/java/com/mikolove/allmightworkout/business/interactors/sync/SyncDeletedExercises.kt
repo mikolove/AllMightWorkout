@@ -8,6 +8,9 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.MessageType
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 
@@ -16,7 +19,7 @@ class SyncDeletedExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-   /* suspend fun syncDeletedExercises(){
+    suspend fun execute() : DataState<SyncState>{
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(IO){
@@ -25,37 +28,44 @@ class SyncDeletedExercises(
 
         val response = object : ApiResponseHandler<List<Exercise>,List<Exercise>>(
             response = apiResult,
-            stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<List<Exercise>>? {
+            override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<List<Exercise>> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = null,
+                    data = resultObj
                 )
             }
         }.getResult()
 
-        val deletedExercisesFromNetwork = response?.data ?: ArrayList()
+        val deletedExercisesFromNetwork = response.data ?: listOf()
 
         //Delete them from cache
         val cacheResult = safeCacheCall(IO){
             exerciseCacheDataSource.removeExercises(deletedExercisesFromNetwork)
         }
 
-        object :CacheResponseHandler<Int,Int>(
+        val cacheResponse = object :CacheResponseHandler<Int,Int>(
             response = cacheResult,
-            stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int>? {
-                printLogD("SyncDeletedExercises","exercises deleted : ${resultObj}")
+            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
+
                 return DataState.data(
-                    response = null,
+                    message = null,
                     data = resultObj,
-                    stateEvent = null
                 )
             }
         }.getResult()
-    }*/
+
+        return  DataState.data(
+            message = GenericMessageInfo.Builder()
+                .id("SyncDeletedExercise.Success")
+                .title(SyncDeletedExerciseSets.SYNC_DES_TITLE)
+                .description(SyncDeletedExerciseSets.SYNC_DES_DESCRIPTION)
+                .messageType(MessageType.Success)
+                .uiComponentType(UIComponentType.None),
+            da
+
+
+    }
 
 }

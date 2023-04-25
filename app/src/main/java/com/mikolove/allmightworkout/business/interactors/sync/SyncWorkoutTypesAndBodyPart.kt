@@ -37,9 +37,6 @@ class SyncWorkoutTypesAndBodyPart(
 
     suspend fun execute() :DataState<SyncState> {
 
-        printLogD("TestFlow","WORKOUT TYPES FLOW LAUNCHED")
-
-
         val networkWorkoutTypes = getNetworkWorkoutTypes().data ?: listOf()
         val cachedWorkoutTypes = getCachedWorkoutTypes().data ?: listOf()
 
@@ -87,8 +84,6 @@ class SyncWorkoutTypesAndBodyPart(
                     }
                 }
 
-                printLogD("TestFlow","WORKOUT TYPES FLOW ENDED")
-
                 return DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutTypesAndBodyPart.Success")
@@ -100,8 +95,6 @@ class SyncWorkoutTypesAndBodyPart(
                 )
 
             }catch (exception : Exception){
-                printLogD("TestFlow","WORKOUT TYPES FLOW ENDED")
-
                 return DataState.error(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutTypesAndBodyPart.GlobalError")
@@ -115,65 +108,6 @@ class SyncWorkoutTypesAndBodyPart(
 
 
     }
-
-/*
-    suspend fun syncNetworkWithCache(cachedWorkoutTypes : List<WorkoutType>)
-            = withContext(IO){
-
-        val networkResult = safeApiCall(IO){
-            workoutTypeNetworkDataSource.getAllWorkoutTypes()
-        }
-
-        val response = object : ApiResponseHandler<List<WorkoutType>, List<WorkoutType>>(
-            response = networkResult
-        ){
-            override suspend fun handleSuccess(resultObj: List<WorkoutType>): DataState<List<WorkoutType>> {
-                return DataState.data(
-                    message = null,
-                    data = resultObj
-                )
-            }
-        }.getResult()
-
-
-        val networkWorkoutTypes = response.data ?: ArrayList()
-        val job = launch {
-            for(networkWorkoutType in networkWorkoutTypes){
-
-                when(val cachedWorkoutType = workoutTypeCacheDataSource.getWorkoutTypeById(networkWorkoutType.idWorkoutType)) {
-
-                    //WorkoutType don't exist - Insert it and linked bodyPart
-                    null -> {
-                        workoutTypeCacheDataSource.insertWorkoutType(networkWorkoutType)
-                        networkWorkoutType.bodyParts?.let { bodyParts ->
-                            bodyParts.forEach { bodyPart ->
-                                bodyPartCacheDataSource.insertBodyPart(bodyPart,networkWorkoutType.idWorkoutType)
-                            }
-                        }
-                    }
-
-                    //WorkoutType exist - Check it and linked bodyPart
-                    else -> {
-                        checkIfWorkoutTypeCacheRequiresUpdate(cachedWorkoutType, networkWorkoutType)
-                        networkWorkoutType.bodyParts?.let {  networkBodyParts ->
-                            networkBodyParts.forEach { networkBodyPart ->
-                                val cachedBodyPart = bodyPartCacheDataSource.getBodyPartById(networkBodyPart.idBodyPart)
-                                cachedBodyPart?.let {
-                                    checkIfBodyPartCacheRequiresUpdate(cachedBodyPart, networkBodyPart)
-                                }?:bodyPartCacheDataSource.insertBodyPart(networkBodyPart,networkWorkoutType.idWorkoutType)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //Not sure if usefull to wait for the end.
-        //This could be a mistake to not wait and launching other sync job
-        //job.join()
-    }
-
-
-*/
 
 
     suspend fun getNetworkWorkoutTypes() : DataState<List<WorkoutType>>{

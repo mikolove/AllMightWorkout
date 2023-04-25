@@ -23,9 +23,7 @@ class SyncDeletedExerciseSets(
 ) {
 
 
-     suspend fun execute() : DataState<SyncState> {
-
-        printLogD("TestFlow","DELETED SETS TYPES FLOW LAUNCHED")
+    suspend fun execute() : DataState<SyncState> {
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(Dispatchers.IO){
@@ -43,37 +41,42 @@ class SyncDeletedExerciseSets(
             }
         }.getResult()
 
+        if(response.data?.isEmpty()){
+
+
+        }else{
+
+
+        }
         val deletedExercisesFromNetwork = response.data ?: listOf()
 
-        //Delete them from cache
-        val cacheResult = safeCacheCall(Dispatchers.IO){
-            exerciseSetCacheDataSource.removeExerciseSets(deletedExercisesFromNetwork)
+        if(!deletedExercisesFromNetwork.isEmpty()){
+            //Delete them from cache
+            val cacheResult = safeCacheCall(Dispatchers.IO){
+                exerciseSetCacheDataSource.removeExerciseSets(deletedExercisesFromNetwork)
+            }
+
+            object : CacheResponseHandler<Int, Int>(
+                response = cacheResult
+            ){
+                override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
+                    return DataState.data(
+                        message = null,
+                        data = resultObj
+                    )
+                }
+            }.getResult()
         }
 
-        object : CacheResponseHandler<Int, Int>(
-            response = cacheResult
-        ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
-                printLogD("SyncDeletedExerciseSets","exercise sets deleted : ${resultObj}")
-                return DataState.data(
-                    message = null,
-                    data = resultObj
-                )
-            }
-        }.getResult()
-
-         printLogD("TestFlow","DELETED SETS TYPES FLOW ENDED")
-         return DataState.data(
-             message = GenericMessageInfo.Builder()
-                 .id("SyncDeletedExerciseSets.Success")
-                 .title(SYNC_DES_TITLE)
-                 .description(SYNC_DES_DESCRIPTION)
-                 .messageType(MessageType.Success)
-                 .uiComponentType(UIComponentType.None),
-             data = SyncState.SUCCESS
-         )
-
-
+        return DataState.data(
+            message = GenericMessageInfo.Builder()
+                .id("SyncDeletedExerciseSets.Success")
+                .title(SYNC_DES_TITLE)
+                .description(SYNC_DES_DESCRIPTION)
+                .messageType(MessageType.Success)
+                .uiComponentType(UIComponentType.None),
+            data = SyncState.SUCCESS
+        )
     }
 
 
