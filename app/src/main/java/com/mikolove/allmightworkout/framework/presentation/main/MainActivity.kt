@@ -40,27 +40,27 @@ class MainActivity :
     @Inject
     lateinit var sessionManager: SessionManager
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    /*private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var bottomNavBar : BottomNavigationView
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding*/
     private var dialogInView: MaterialDialog? = null
     private var mainFabController: FabController? = null
 
     //FIX leak android Q maybe
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         if(isTaskRoot && navHostFragment.childFragmentManager.backStackEntryCount == 0) {
             finishAfterTransition()
         }else {
             super.onBackPressed()
         }
-    }
+    }*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+/*        binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -109,7 +109,7 @@ class MainActivity :
             mainFabController?.fabOnClick()
         }
 
-        subscribeObserver()
+        subscribeObserver()*/
     }
 
     override fun onStart() {
@@ -141,11 +141,12 @@ class MainActivity :
     }
 
     override fun loadFabController(fabController: FabController?) {
-        printLogD("MainActivity","LoadFabController ${fabController}")
+    //LETS GO JETPACK COMPOSE
+    /*printLogD("MainActivity","LoadFabController ${fabController}")
         mainFabController = fabController
         mainFabController?.let {
             binding.floatingActionButton.show()
-        }?: binding.floatingActionButton.hide()
+        }?: binding.floatingActionButton.hide()*/
     }
 
     private fun navigateToLoading(){
@@ -169,24 +170,27 @@ class MainActivity :
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.main_fragment_container)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return super.onSupportNavigateUp()
+        //LETS GO COMPOSE
+        /*val navController = findNavController(R.id.main_fragment_container)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()*/
     }
 
     override fun displayAppBar() {
-        val navController = findNavController(R.id.main_fragment_container)
+    //LETS GO JETPACK COMPOSE
+    /*        val navController = findNavController(R.id.main_fragment_container)
         val visibility = when(navController.currentDestination?.id) {
             R.id.loading_fragment -> View.GONE
             else -> View.VISIBLE
         }
 
         if(binding.appBarLayout.visibility != visibility)
-            binding.appBarLayout.visibility = visibility
+            binding.appBarLayout.visibility = visibility*/
     }
 
     override fun displayBottomNavigation() {
-
-        val container = binding.mainActivityContainer
+//LETS GO JETPACK COMPOSE
+/*        val container = binding.mainActivityContainer
         val slide = Slide()
         slide.duration = 200
         slide.addTarget(bottomNavBar)
@@ -209,27 +213,28 @@ class MainActivity :
         }
 
         if(bottomNavBar.visibility != visibility)
-            bottomNavBar.visibility = visibility
+            bottomNavBar.visibility = visibility*/
     }
 
     private fun setupProgressLinearIndicator(){
-        binding.mainProgressBar.hide()
-        binding.mainProgressBar.setVisibilityAfterHide(View.INVISIBLE)
+    //LETS GO JETPACK COMPOSE
+    /*  binding.mainProgressBar.hide()
+        binding.mainProgressBar.setVisibilityAfterHide(View.INVISIBLE)*/
     }
 
     override fun displayProgressBar(isDisplayed: Boolean) {
-        if(isDisplayed) {
+/*        if(isDisplayed) {
             //binding.mainProgressBar.visible()
             binding.mainProgressBar.show()
         }else {
             //binding.mainProgressBar.invisible()
             binding.mainProgressBar.hide()
-        }
+        }*/
     }
 
     override fun displayAppBarTitle() {
 
-        val navController = findNavController(R.id.main_fragment_container)
+/*        val navController = findNavController(R.id.main_fragment_container)
         printLogD("MainActivity","Current destination ${navController.currentDestination?.id}")
         val appTitle = when(navController.currentDestination?.id) {
 
@@ -244,25 +249,25 @@ class MainActivity :
             else -> R.string.app_bar_title_default
         }
         supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setTitle(appTitle)
+        supportActionBar?.setTitle(appTitle)*/
     }
 
 
     override fun hideSoftKeyboard() {
-        if (currentFocus != null) {
+       /* if (currentFocus != null) {
             val inputMethodManager = getSystemService(
                 Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager
                 .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
-        }
+        }*/
     }
 
     override fun onPause() {
         super.onPause()
-        if(dialogInView != null){
+/*        if(dialogInView != null){
             (dialogInView as MaterialDialog).dismiss()
             dialogInView = null
-        }
+        }*/
     }
 
 }

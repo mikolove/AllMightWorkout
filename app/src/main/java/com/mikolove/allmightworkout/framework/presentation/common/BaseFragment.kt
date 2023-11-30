@@ -77,7 +77,8 @@ constructor(
     }
 
     fun loadFabController(){
-        printLogD("BaseFragment","LoadFabController")
-        uiController.loadFabController(null)
+        //COMMENTED LETS GO COMPOSE
+        /*printLogD("BaseFragment","LoadFabController")
+        uiController.loadFabController(null)*/
     }
 }
