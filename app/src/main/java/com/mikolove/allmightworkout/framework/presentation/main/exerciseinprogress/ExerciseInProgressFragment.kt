@@ -138,14 +138,14 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
     private fun subscribeObservers(){
 
-        viewModel.state.observe(viewLifecycleOwner, { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
 
             state.isLoading?.let { uiController.displayProgressBar(it) }
 
             processQueue(
                 context = context,
                 queue = state.queue,
-                stateMessageCallback = object: StateMessageCallback {
+                stateMessageCallback = object : StateMessageCallback {
                     override fun removeMessageFromQueue() {
                         viewModel.onTriggerEvent(ExerciseInProgressEvents.OnRemoveHeadFromQueue)
                     }
@@ -169,37 +169,45 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             }
 
 
-        })
+        }
 
-        viewModel.chronometerState.observe(viewLifecycleOwner,  { chronometerState ->
+        viewModel.chronometerState.observe(viewLifecycleOwner) { chronometerState ->
 
             switchClock(chronometerState)
 
-            printLogD("ExerciseInProgressFragment","chronometer state ${chronometerState}")
+            printLogD("ExerciseInProgressFragment", "chronometer state ${chronometerState}")
 
-            when(chronometerState){
+            when (chronometerState) {
 
                 is ChronometerState.StopState -> {
                     viewModel.state.value?.actualSet?.let { set ->
                         viewModel.state.value?.exercise?.let { exercise ->
-                            if(exercise.sets.size >= set.order){
+                            if (exercise.sets.size >= set.order) {
                                 startRestChronometer(set.restTime)
                             }
                         }
                     }
                 }
+
                 is ChronometerState.SaveState -> {
                     viewModel.state.value?.actualSet?.let { set ->
                         viewModel.state.value?.exercise?.let { exercise ->
-                            if(set.startedAt != null && set.endedAt != null){
-                                printLogD("ExerciseInProgressFragment","actual set order ${set.order} - exercise size ${exercise.sets.size}")
+                            if (set.startedAt != null && set.endedAt != null) {
+                                printLogD(
+                                    "ExerciseInProgressFragment",
+                                    "actual set order ${set.order} - exercise size ${exercise.sets.size}"
+                                )
                                 //viewModel.saveSet(set)
                                 //val nextSetExist = viewModel.loadNextSet(set)
-                                viewModel.onTriggerEvent(ExerciseInProgressEvents.UpdateExerciseSet(set))
-                                if(set.order == exercise.sets.size){
+                                viewModel.onTriggerEvent(
+                                    ExerciseInProgressEvents.UpdateExerciseSet(
+                                        set
+                                    )
+                                )
+                                if (set.order == exercise.sets.size) {
                                     saveAndNavigateback()
-                                }else{
-                                    printLogD("ExerciseInProgressFragment","LoadNextSet")
+                                } else {
+                                    printLogD("ExerciseInProgressFragment", "LoadNextSet")
                                     viewModel.onTriggerEvent(ExerciseInProgressEvents.LoadNextSet)
                                     setChronometerState(ChronometerState.IdleState())
                                 }
@@ -212,56 +220,74 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 is ChronometerState.CloseState -> {
                     closeChronometer()
                 }
-                is ChronometerState.IdleState -> TODO()
-                is ChronometerState.RestTimeState -> TODO()
-                is ChronometerState.RunningState -> TODO()
-            }
-        })
+                else ->{
 
-        viewModel.chronometerManager.startButtonState.observe(viewLifecycleOwner, { state ->
-            when(state){
+                }
+                //TO DO ?
+            /*    is ChronometerState.IdleState -> {}
+                is ChronometerState.RestTimeState -> {}
+                is ChronometerState.RunningState -> {}*/
+            }
+        }
+
+        viewModel.chronometerManager.startButtonState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is ChronometerButtonState.ActiveButtonState -> {
                     binding?.eipButtonStartStop?.isEnabled = true
 
                 }
-                is ChronometerButtonState.PassiveButtonState ->{
+
+                is ChronometerButtonState.PassiveButtonState -> {
                     binding?.eipButtonStartStop?.isEnabled = false
                 }
-                is ChronometerButtonState.RestButtonState -> TODO()
-                is ChronometerButtonState.StartButtonState -> TODO()
-                is ChronometerButtonState.StopButtonState -> TODO()
-            }
-        })
 
-        viewModel.chronometerManager.resetButtonState.observe(viewLifecycleOwner, { state ->
-            when(state){
+                else ->{
+
+                }
+                /*   is ChronometerButtonState.RestButtonState -> TODO()
+                   is ChronometerButtonState.StartButtonState -> TODO()
+                   is ChronometerButtonState.StopButtonState -> TODO()*/
+            }
+        }
+
+        viewModel.chronometerManager.resetButtonState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is ChronometerButtonState.ActiveButtonState -> {
                     binding?.epiButtonReset?.isEnabled = true
 
                 }
-                is ChronometerButtonState.PassiveButtonState ->{
+
+                is ChronometerButtonState.PassiveButtonState -> {
                     binding?.epiButtonReset?.isEnabled = false
                 }
-                is ChronometerButtonState.RestButtonState -> TODO()
-                is ChronometerButtonState.StartButtonState -> TODO()
-                is ChronometerButtonState.StopButtonState -> TODO()
-            }
-        })
 
-        viewModel.chronometerManager.endButtonState.observe(viewLifecycleOwner, { state ->
-            when(state){
+                else -> {
+
+                }
+                /*                is ChronometerButtonState.RestButtonState -> TODO()
+                                is ChronometerButtonState.StartButtonState -> TODO()
+                                is ChronometerButtonState.StopButtonState -> TODO()*/
+            }
+        }
+
+        viewModel.chronometerManager.endButtonState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is ChronometerButtonState.ActiveButtonState -> {
                     binding?.eipButtonEnd?.isEnabled = true
 
                 }
-                is ChronometerButtonState.PassiveButtonState ->{
+
+                is ChronometerButtonState.PassiveButtonState -> {
                     binding?.eipButtonEnd?.isEnabled = false
                 }
-                is ChronometerButtonState.RestButtonState -> TODO()
+                else ->{
+
+                }
+           /*     is ChronometerButtonState.RestButtonState -> TODO()
                 is ChronometerButtonState.StartButtonState -> TODO()
-                is ChronometerButtonState.StopButtonState -> TODO()
+                is ChronometerButtonState.StopButtonState -> TODO()*/
             }
-        })
+        }
 
     }
 
@@ -291,7 +317,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 binding?.eipCountdowntimer?.invisible()
                 binding?.eipChronometer?.visible()
             }
-            is ChronometerState.CloseState -> TODO()
+            is ChronometerState.CloseState -> {}
         }
     }
 

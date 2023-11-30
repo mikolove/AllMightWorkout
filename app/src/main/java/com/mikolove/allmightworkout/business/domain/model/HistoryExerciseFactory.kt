@@ -27,7 +27,7 @@ constructor(private val dateUtil: DateUtil){
             name = name ?: "New history exercise",
             bodyPart = bodyPart ?: "New bodypart",
             workoutType = workoutType?: "New workouttype",
-            historySets = historySets ?: null,
+            historySets = historySets ?: listOf(),
             exerciseType = exerciseType ?: "New history exercise",
             startedAt = started_at ?: dateUtil.getCurrentTimestamp(),
             endedAt = ended_at ?: dateUtil.getCurrentTimestamp(),

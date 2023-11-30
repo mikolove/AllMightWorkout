@@ -21,7 +21,7 @@ constructor(private val dateUtil: DateUtil) {
         return HistoryWorkout(
             idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
             name = name ?: "New history workout",
-            historyExercises = historyExercises ?: null,
+            historyExercises = historyExercises,
             startedAt = started_at ?: dateUtil.getCurrentTimestamp(),
             endedAt = ended_at ?: dateUtil.getCurrentTimestamp(),
             createdAt = created_at ?: dateUtil.getCurrentTimestamp(),

@@ -2,6 +2,8 @@ package com.mikolove.allmightworkout.business.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.util.Locale
+
 @Parcelize
 data class WorkoutType(
     var idWorkoutType: String,
@@ -30,6 +32,6 @@ data class WorkoutType(
     }
 
     override fun toString(): String {
-        return "${name.capitalize()}"
+        return "${name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}"
     }
 }

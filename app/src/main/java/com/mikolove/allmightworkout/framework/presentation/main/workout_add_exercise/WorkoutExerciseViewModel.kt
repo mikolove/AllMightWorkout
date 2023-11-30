@@ -162,7 +162,7 @@ constructor(
     private fun getWorkoutExercises(){
         state.value?.let { state ->
 
-            sessionManager.state.value?.idUser?.let { idUser ->
+            sessionManager.getUserId()?.let { idUser ->
                 exerciseInteractors.getExercises.execute(
                     idUser = idUser,
                     query = state.query,

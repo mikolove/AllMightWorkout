@@ -44,7 +44,8 @@ class LoadUser(
 
     fun execute(
         idUser : String,
-        email : String
+        email : String?,
+        name : String?
     ) : Flow<DataState<User?>> = flow {
 
         emit(DataState.loading())
@@ -123,7 +124,7 @@ class LoadUser(
                 //New user
                 userOnline == null && userLocal == null -> {
 
-                    val newUser = userFactory.createUser(idUser = idUser, email = email, name = null)
+                    val newUser = userFactory.createUser(idUser = idUser, email = email, name = name)
                     val isCreated = createUser(newUser)
 
                     if(isCreated.message?.description == CREATE_SUCCESS){

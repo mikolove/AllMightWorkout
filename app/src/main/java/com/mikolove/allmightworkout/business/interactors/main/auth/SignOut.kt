@@ -5,17 +5,18 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
-class SignOut(
-    private val firebaseAuth: FirebaseAuth
-) {
+class SignOut() {
 
-    fun execute(): Flow<DataState<Boolean>> = flow {
+    fun execute(
+        googleAuthUiClient: GoogleAuthUiClient
+    ): Flow<DataState<Boolean>> = flow {
         try {
-            firebaseAuth.signOut().apply {
+            googleAuthUiClient.signOut().apply {
                 emit(
                     DataState.data(
                         message = GenericMessageInfo.Builder()

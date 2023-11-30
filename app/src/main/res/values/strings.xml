@@ -2,6 +2,7 @@
 
     <string name="app_name">All Might Workout</string>
 
+    <string name="web_client_id">1086211893348-rher580u42hhh9lem27j3358tlb5f4ks.apps.googleusercontent.com</string>
 
     <!-- test words -->
     <string name="test_workout_item_transition_name">test_workout_item_transition_name_%1$s</string>

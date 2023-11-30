@@ -1,8 +1,12 @@
 package com.mikolove.allmightworkout.framework.presentation.main.loading
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
@@ -10,10 +14,10 @@ import com.mikolove.allmightworkout.business.interactors.main.loading.LoadUser.C
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadUser.Companion.LOAD_USER_SUCCESS_SYNC
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
 import com.mikolove.allmightworkout.business.interactors.sync.*
+import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything
 import com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingEvents.*
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -23,27 +27,31 @@ class LoadingViewModel
 @Inject
 constructor(
     private val loadingInteractors: LoadingInteractors,
-    private val networkSyncManager: NetworkSyncManager,
     private val syncWorkoutTypesAndBodyPart: SyncWorkoutTypesAndBodyPart,
     private val syncDeletedExerciseSets: SyncDeletedExerciseSets,
     private val syncDeletedExercises: SyncDeletedExercises,
     private val syncDeletedWorkouts: SyncDeletedWorkouts,
     private val syncHistory: SyncHistory,
     private val syncExercises: SyncExercises,
-    private val syncWorkouts: SyncWorkouts,
+    private val syncWorkouts : SyncWorkouts,
     private val syncWorkoutExercises: SyncWorkoutExercises
 ) : ViewModel() {
 
-    val state : MutableLiveData<LoadingState> = MutableLiveData(LoadingState())
+    val state : MutableState<LoadingState> = mutableStateOf(LoadingState())
 
-    init {
-    }
+    init {}
 
     fun onTriggerEvent(event : LoadingEvents){
         when(event){
 
+            is Login ->{
+
+            }
+            is LoadingEvents.SyncEverything ->{
+                syncEverything(event.user)
+            }
             is GetAccountPreferences->{
-                getAccountPreferences()
+                //getAccountPreferences()
             }
             is UpdateSplashScreen->{
                 //updateSplashScreen()
@@ -51,36 +59,18 @@ constructor(
             is OnRemoveHeadFromQueue->{
                 removeHeadFromQueue()
             }
-            is Login -> {
-
+            is SignInResult -> {
+                signInResult(dataState= event.dataState)
             }
             is LoadStep -> {
                 updateLoadingStep(loadingStep = event.loadingStep)
             }
             is LoadUser -> {
-                loadUser(event.idUser,event.emailUser)
+                loadUser(event.idUser,event.emailUser,event.name)
             }
-            is SyncWorkoutTypesAndBodyParts->{
-                syncWorkoutTypesAndBodyParts()
-            }
+
         }
     }
-
-    fun hasSyncBeenExecuted() = networkSyncManager.hasSyncBeenExecuted
-
-    private fun syncCacheWithNetwork() {
-        networkSyncManager.executeDataSync(viewModelScope)
-    }
-
-    /*
-    Fun
-     */
-/*    private fun updateSplashScreen(){
-        printLogD("LoadingViewModel","Update splashScreen")
-        state.value?.let { state ->
-            this.state.value = state.copy(splashScreenDone = true)
-        }
-    }*/
 
     private fun updateLoadingStep(loadingStep: LoadingStep){
         state.value?.let { state ->
@@ -88,37 +78,33 @@ constructor(
         }
     }
 
-    private fun getAccountPreferences(){
-
+    private fun signInResult(dataState : DataState<User>){
         state.value?.let { state ->
-            loadingInteractors.getAccountPreferences.execute()
-                .onEach { dataState ->
 
-                    dataState.data?.let { accountPreference ->
-                        this.state.value = state.copy(accountPreference = accountPreference)
-                    }
+            this.state.value = state.copy(isLoading = dataState.isLoading)
 
-                    dataState.message?.let {  message ->
-                        appendToMessageQueue(message)
-                    }
-                }.launchIn(viewModelScope)
+            dataState.data?.let { user ->
+                onTriggerEvent(LoadUser(user.idUser,user.email,user.name))
+            }
+
+            dataState.message?.let { message -> appendToMessageQueue(message) }
         }
     }
 
-    private fun loadUser(idUser : String, email : String){
+    private fun loadUser(idUser : String, email : String?,name : String?){
 
         //updateLoadingStep(LoadingStep.LOAD_USER)
 
         state.value?.let { state->
             loadingInteractors
                 .loadUser
-                .execute(idUser,email)
+                .execute(idUser,email,name)
                 .onEach { dataState ->
 
                     this.state.value = state.copy(isLoading = dataState.isLoading)
 
                     dataState.data?.let {user ->
-                        this.state.value = state.copy(user = user)
+                        onTriggerEvent(LoadingEvents.SyncEverything(user))
                     }
 
                     dataState.message?.let {message ->
@@ -128,18 +114,14 @@ constructor(
                         when(message.description){
 
                             LOAD_USER_SUCCESS_CREATE -> {
-                                updateLoadingStep(LoadingStep.LOADED_USER_CREATE)
-                                //onTriggerEvent(testFlow())
-                                testFlow()
+                                onTriggerEvent(LoadStep(LoadingStep.LOADED_USER_CREATE))
                             }
 
                             LOAD_USER_SUCCESS_SYNC -> {
-                                updateLoadingStep(LoadingStep.LOADED_USER_SYNC)
-                                testFlow()
-                                //onTriggerEvent(testFlow())
+                                onTriggerEvent(LoadStep(LoadingStep.LOADED_USER_SYNC))
                             }
                             else ->{
-                                updateLoadingStep(LoadingStep.INIT)
+                                onTriggerEvent(LoadStep(LoadingStep.INIT))
                             }
                         }
 
@@ -150,42 +132,45 @@ constructor(
         }
     }
 
-    private fun syncWorkoutTypesAndBodyParts(){
+
+    private fun syncEverything(user : User){
 
         state.value?.let { state ->
 
-        }
-    }
+            printLogD("LoadingViewModel","testFlow ${user}")
+            val userId = user.idUser
 
-    fun testFlow(){
+            printLogD("LoadingViewModel","User ID go SYNC ${userId}")
 
-        state.value?.let { state ->
-
-            val testFlow = TestFlow(
-                syncWorkoutTypesAndBodyPart = syncWorkoutTypesAndBodyPart,
+            val syncEverything = SyncEverything(
+                syncWorkoutTypesAndBodyPart =  syncWorkoutTypesAndBodyPart,
                 syncDeletedExerciseSets = syncDeletedExerciseSets,
-                coroutineScope = viewModelScope)
+                syncDeletedExercises= syncDeletedExercises,
+                syncDeletedWorkouts= syncDeletedWorkouts,
+                syncHistory= syncHistory,
+                syncExercises= syncExercises,
+                syncWorkouts = syncWorkouts,
+                syncWorkoutExercises=syncWorkoutExercises)
 
-            testFlow
-                .execute()
-                .onEach { datastate ->
-                    printLogD("LoadingViewModel"," loading : ${datastate.isLoading}  data : ${datastate.data} message : ${datastate.message?.description}")
+            syncEverything(userId)
+                .onEach { dataState ->
+
+                    this.state.value = state.copy(isLoading = dataState.isLoading)
+
+                    dataState.data?.let { data ->
+                        if(data == SyncState.SUCCESS){
+                            onTriggerEvent(LoadStep(LoadingStep.GO_TO_APP))
+                        }
+                    }
+
+                    dataState.message?.let {  message ->
+                        appendToMessageQueue(message)
+                    }
                 }
                 .launchIn(viewModelScope)
         }
+
     }
-/*state.accountPreference?.let{ accountPreference ->
-
-    when(accountPreference.accountType){
-
-        AccountType.BASIC ->{
-
-        }
-        AccountType.GOOGLE->{
-
-        }
-        else -> { }
-    }*/
 
     /*
     Queue managing

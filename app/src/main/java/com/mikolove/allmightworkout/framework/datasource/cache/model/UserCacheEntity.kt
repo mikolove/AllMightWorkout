@@ -16,7 +16,7 @@ data class UserCacheEntity (
     var name :String?,
 
     @ColumnInfo(name = "email")
-    var email : String,
+    var email : String?,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt : Date,

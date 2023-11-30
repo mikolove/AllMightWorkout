@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
@@ -11,10 +10,10 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
+import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import java.lang.Exception
 
 //TODO : don't call it FireStore has changed
 class SyncDeletedExerciseSets(
@@ -41,42 +40,54 @@ class SyncDeletedExerciseSets(
             }
         }.getResult()
 
-        if(response.data?.isEmpty()){
+        if(response.message?.messageType == MessageType.Error){
 
+            return DataState.data(
+                message = GenericMessageInfo.Builder()
+                    .id("SyncDeletedExerciseSets.Error")
+                    .title(SYNC_GERROR_TITLE)
+                    .description(SYNC_GERROR_DESCRIPTION)
+                    .messageType(MessageType.Error)
+                    .uiComponentType(UIComponentType.None),
+                data = SyncState.FAILURE
+            )
 
         }else{
 
+            try {
+                val deletedExercisesFromNetwork = response.data ?: listOf()
 
-        }
-        val deletedExercisesFromNetwork = response.data ?: listOf()
-
-        if(!deletedExercisesFromNetwork.isEmpty()){
-            //Delete them from cache
-            val cacheResult = safeCacheCall(Dispatchers.IO){
-                exerciseSetCacheDataSource.removeExerciseSets(deletedExercisesFromNetwork)
-            }
-
-            object : CacheResponseHandler<Int, Int>(
-                response = cacheResult
-            ){
-                override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
-                    return DataState.data(
-                        message = null,
-                        data = resultObj
-                    )
+                if (deletedExercisesFromNetwork.isNotEmpty()) {
+                    //Delete them from cache
+                    safeCacheCall(Dispatchers.IO) {
+                        exerciseSetCacheDataSource.removeExerciseSets(deletedExercisesFromNetwork)
+                    }
                 }
-            }.getResult()
-        }
 
-        return DataState.data(
-            message = GenericMessageInfo.Builder()
-                .id("SyncDeletedExerciseSets.Success")
-                .title(SYNC_DES_TITLE)
-                .description(SYNC_DES_DESCRIPTION)
-                .messageType(MessageType.Success)
-                .uiComponentType(UIComponentType.None),
-            data = SyncState.SUCCESS
-        )
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncDeletedExerciseSets.Success")
+                        .title(SYNC_DES_TITLE)
+                        .description(SYNC_DES_DESCRIPTION)
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = SyncState.SUCCESS
+                )
+
+            }catch (e : Exception){
+
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncDeletedExerciseSets.Error")
+                        .title(SYNC_DES_ERROR_TITLE)
+                        .description(SYNC_DES_ERROR_DESCRIPTION)
+                        .messageType(MessageType.Error)
+                        .uiComponentType(UIComponentType.None),
+                    data = SyncState.FAILURE
+                )
+
+            }
+        }
     }
 
 
@@ -85,8 +96,8 @@ class SyncDeletedExerciseSets(
         val SYNC_DES_TITLE = "Sync success"
         val SYNC_DES_DESCRIPTION = "Successfully sync deleted exercises sets"
 
-        val SYNC_DES_GERROR_TITLE = "Sync error"
-        val SYNC_DES_GERROR_DESCRIPTION = "Failed retrieving exercises sets. Check internet or try again later."
+        val SYNC_DES_ERROR_TITLE = "Sync error"
+        val SYNC_DES_ERROR_DESCRIPTION = "Failed retrieving exercises sets. Check internet or try again later."
 
     }
 }

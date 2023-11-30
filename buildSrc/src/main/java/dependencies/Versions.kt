@@ -6,12 +6,12 @@ object Versions {
     val compilesdk = 31
     val minsdk = 24
     val targetsdk = 31
-    val kotlin = "1.8.20"
+    val kotlin = "1.8.22"
     val recycler_view = "1.2.1"
     val safe_args = "2.5.3"
     val ktx = "1.9.0"
     val hilt = "2.44"
-    val hilt_jetpack = "1.0.0"
+    val hilt_jetpack = "1.1.0"
     val nav_components = "2.5.3"
     val material_dialogs = "3.3.0"
     val room = "2.5.0"
@@ -20,7 +20,7 @@ object Versions {
     val constraintlayout = "2.1.4"
     val material_design = "1.8.0"
     val play_core = "1.8.0"
-    val play_services = "4.3.15"
+    val play_services = "4.4.0"
     val build_firebase_crashlytics = "2.5.1"
     val leak_canary = "2.10"
     val swipe_refresh_layout = "1.1.0-alpha03"
@@ -29,7 +29,7 @@ object Versions {
     val firebase_crashlytics = "2.10.1"
     val firebase_ui_auth = "8.0.2"
     val firebase_auth = "21.1.0"
-    val firebase_bom = "31.2.1"
+    val firebase_bom = "32.5.0"
     val coroutines_version = "1.6.4"
     val coroutines_play_services = "1.6.4"
     val lifecycle_version = "2.5.1"
@@ -53,4 +53,6 @@ object Versions {
     val orchestrator ="1.4.2"
     val junit_ktx ="1.1.5"
 
+    val compose_bom = "2023.01.00"
+    val material3 = "material3"
 }

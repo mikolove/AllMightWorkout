@@ -28,7 +28,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                     message = GenericMessageInfo.Builder()
                         .id("ApiResponseHandler.NetworkError")
                         .title("Api response error")
-                        .description("Reason: Reason: ${NETWORK_ERROR}")
+                        .description("Reason: ${NETWORK_ERROR}")
                         .uiComponentType(UIComponentType.Dialog)
                         .messageType(MessageType.Error)
                 )
@@ -42,7 +42,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                             .title("Api data null")
                             .description("Reason: ${NETWORK_DATA_NULL}")
                             .uiComponentType(UIComponentType.Dialog)
-                            .messageType(MessageType.Error)
+                            .messageType(MessageType.Success) // might be a problem to change this lets try
                     )
                 }
                 else{

@@ -12,12 +12,12 @@ constructor(private val dateUtil: DateUtil){
 
     fun createUser(
         idUser : String,
-        email : String,
+        email : String? = null,
         name : String?
     ) : User{
         return User(
             idUser = idUser,
-            name = name ,
+            name = name,
             email = email,
             createdAt = dateUtil.getCurrentTimestamp(),
             updatedAt = dateUtil.getCurrentTimestamp()

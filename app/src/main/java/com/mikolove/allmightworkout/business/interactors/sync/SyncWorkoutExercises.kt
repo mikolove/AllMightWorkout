@@ -11,6 +11,9 @@ import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Exercise
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.MessageType
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers
@@ -25,45 +28,149 @@ class SyncWorkoutExercises(
     private val dateUtil: DateUtil
 ) {
 
-/*
-    *//*
+    /*
         LOGIC HERE IS NOT HAVE TO REDO THIS
         IF LAST UPDATE IS NULL WHEN SYNC ANOTHER DEVICE TRYING TO SYNC BEFORE A MODIFICATION IS DONE
         THE NEW DEVICE WILL NEVER GET THE LINKED EXERCISES
 
-     *//*
-    suspend fun syncWorkoutExercises() {
+     */
 
-        val cachedWorkouts = ArrayList(getCachedWorkouts())
+    suspend fun execute(
+        idUser : String,
+    ) : DataState<SyncState>{
 
-        syncCacheAndNetwork(cachedWorkouts)
-    }
+        val cachedWorkouts = getCachedWorkouts(idUser)
 
-    private suspend fun getCachedWorkouts(): List<Workout> {
-
-        val cacheResult = safeCacheCall(Dispatchers.IO) {
-            workoutCacheDataSource.getWorkouts("", "", 1)
+        val apiResult = safeApiCall(IO) {
+            workoutNetworkDataSource.getWorkouts()
         }
 
-        val response = object : CacheResponseHandler<List<Workout>, List<Workout>>(
-            response = cacheResult,
-            stateEvent = null
+        val apiResponse = object : ApiResponseHandler<List<Workout>, List<Workout>>(
+            response = apiResult,
         ) {
-            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>>? {
+            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {
                 return DataState.data(
-                    response = null,
+                    message = null,
                     data = resultObj,
-                    stateEvent = null
                 )
             }
         }.getResult()
 
-        return response?.data ?: ArrayList()
+        if(apiResponse.message?.messageType == MessageType.Error) {
+
+            return DataState.data(
+                message = GenericMessageInfo.Builder()
+                    .id("SyncWorkoutExercises.GlobalError")
+                    .title(SyncEverything.SYNC_GERROR_TITLE)
+                    .description(SyncEverything.SYNC_GERROR_DESCRIPTION)
+                    .messageType(MessageType.Error)
+                    .uiComponentType(UIComponentType.Dialog),
+                data = SyncState.FAILURE
+            )
+
+        }else{
+            try{
+
+                val networkWorkouts = apiResponse.data ?: ArrayList()
+
+                for (networkWorkout in networkWorkouts) {
+
+                    val cacheWorkout = cachedWorkouts.find { it.idWorkout == networkWorkout.idWorkout }
+
+                    val networkUpdatedAt = networkWorkout.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
+                    val cacheUpdatedAt = cacheWorkout?.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToDate(it) }
+
+                    //If one or the other is not null
+                    if (networkUpdatedAt != null || cacheUpdatedAt != null) {
+
+                        if (cacheUpdatedAt == null && networkUpdatedAt != null) {
+
+                            //Update cache with network
+                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+
+                        } else if (cacheUpdatedAt != null && networkUpdatedAt == null) {
+
+                            //Update network with cache
+                            updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout,networkWorkout.exercises, cacheWorkout?.exercises)
+
+                        } else if (cacheUpdatedAt != null && networkUpdatedAt != null) {
+
+                            //Compare them
+                            if (networkUpdatedAt != cacheUpdatedAt) {
+
+                                if (networkUpdatedAt.after(cacheUpdatedAt)) {
+
+                                    //Update cache with network
+                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                }
+
+                                if (networkUpdatedAt.before(cacheUpdatedAt)) {
+
+                                    //Update network with cache
+                                    updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                }
+
+                                //Update cache with network when this is a new installation
+                            }else if(networkUpdatedAt.equals(cacheUpdatedAt)){
+
+                                val cacheExerciseSize = cacheWorkout.exercises?.size ?: 0
+                                val networkExerciseSize = networkWorkout.exercises?.size ?:0
+                                if(cacheExerciseSize == 0 && networkExerciseSize >0){
+                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncWorkoutExercises.Success")
+                        .title(SYNC_WE_TITLE)
+                        .description(SYNC_WE_DESCRIPTION)
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = SyncState.SUCCESS
+                )
+
+            }catch (e : Exception){
+
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncWorkoutExercises.Error")
+                        .title(SYNC_WE_ERROR_TITLE)
+                        .description(SYNC_WE_ERROR_DESCRIPTION)
+                        .messageType(MessageType.Error)
+                        .uiComponentType(UIComponentType.Dialog),
+                    data = SyncState.FAILURE
+                )
+            }
+        }
+
+    }
+
+    private suspend fun getCachedWorkouts(idUser : String) : List<Workout>{
+
+        val cacheResult = safeCacheCall(IO){
+            workoutCacheDataSource.getWorkouts("","",1,idUser)
+        }
+
+        val response = object :CacheResponseHandler<List<Workout>,List<Workout>>(
+            response = cacheResult,
+        ){
+            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {
+                return DataState.data(
+                    message = null,
+                    data = resultObj,
+                )
+            }
+        }.getResult()
+
+        return response.data ?: ArrayList()
     }
 
     private suspend fun syncCacheAndNetwork(cachedWorkouts: ArrayList<Workout>) = withContext(IO) {
 
-        printLogD("SyncWorkoutExercises","Start")
         //Get all network workouts
         val apiResult = safeApiCall(IO) {
             workoutNetworkDataSource.getWorkouts()
@@ -71,18 +178,16 @@ class SyncWorkoutExercises(
 
         val apiResponse = object : ApiResponseHandler<List<Workout>, List<Workout>>(
             response = apiResult,
-            stateEvent = null
         ) {
-            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>>? {
+            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {
                 return DataState.data(
-                    response = null,
+                    message = null,
                     data = resultObj,
-                    stateEvent = null
                 )
             }
         }.getResult()
 
-        val networkWorkouts = apiResponse?.data ?: ArrayList()
+        val networkWorkouts = apiResponse.data ?: ArrayList()
 
         for (networkWorkout in networkWorkouts) {
 
@@ -99,10 +204,10 @@ class SyncWorkoutExercises(
             //If one or the other is not null
             if (networkUpdatedAt != null || cacheUpdatedAt != null) {
 
-               // printLogD("SyncWorkoutExercises","networkUpdatedAt != null || cacheUpdatedAt != null")
+                // printLogD("SyncWorkoutExercises","networkUpdatedAt != null || cacheUpdatedAt != null")
 
                 if (cacheUpdatedAt == null && networkUpdatedAt != null) {
-                   // printLogD("SyncWorkoutExercises","cacheUpdatedAt == null && networkUpdatedAt != null")
+                    // printLogD("SyncWorkoutExercises","cacheUpdatedAt == null && networkUpdatedAt != null")
 
                     //Update cache with network
                     updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
@@ -138,7 +243,7 @@ class SyncWorkoutExercises(
 
                         }
 
-                    //Update cache with network when this is a new installation
+                        //Update cache with network when this is a new installation
                     }else if(networkUpdatedAt.equals(cacheUpdatedAt)){
 
                         printLogD("SyncWorkoutExercises","networkUpdatedAt.equals(cacheUpdatedAt)")
@@ -153,9 +258,9 @@ class SyncWorkoutExercises(
 
                 }
 
-            //First if end
+                //First if end
             }
-         //Foor loop end
+            //Foor loop end
         }
     }
 
@@ -175,16 +280,16 @@ class SyncWorkoutExercises(
             exerciseCacheDataSource.addExerciseToWorkout(idWorkout, exerciseNetwork.idExercise)
         }
 
-        *//*if(cacheExercises.isNullOrEmpty()){
+        if(cacheExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{*//*
+        }else{
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
-        //}
+        }
     }
 
     private suspend fun updateWorkoutExerciseInNetworkWithCache(
@@ -204,17 +309,26 @@ class SyncWorkoutExercises(
             exerciseNetworkDataSource.addExerciseToWorkout(idWorkout, exerciseCache.idExercise)
         }
 
-        *//*if(networkExercises.isNullOrEmpty()){
+        if(networkExercises.isNullOrEmpty()){
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to null")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,null)
-        }else{*//*
+        }else{
             val updatedAt = dateUtil.getCurrentTimestamp()
             printLogD("SyncWorkoutExercises","Update exerciseIdsUpdatedAt to ${updatedAt}")
             workoutCacheDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
             workoutNetworkDataSource.updateExerciseIdsUpdatedAt(idWorkout,updatedAt)
-        //}
+        }
 
-    }*/
+    }
+
+    companion object{
+        val SYNC_WE_TITLE = "Sync success"
+        val SYNC_WE_DESCRIPTION = "Successfully sync workouts and exercises"
+
+        val SYNC_WE_ERROR_TITLE = "Sync error"
+        val SYNC_WE_ERROR_DESCRIPTION = "Failed retrieving workouts. Check internet or try again later."
+
+    }
 
 }

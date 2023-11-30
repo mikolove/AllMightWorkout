@@ -10,7 +10,7 @@ data class HistoryExercise(
     var bodyPart: String,
     var workoutType: String,
     var exerciseType: String,
-    var historySets: List<HistoryExerciseSet>?,
+    var historySets: List<HistoryExerciseSet>,
     var startedAt: String,
     var endedAt: String,
     var createdAt: String,
@@ -42,7 +42,7 @@ data class HistoryExercise(
         result = 31 * result + bodyPart.hashCode()
         result = 31 * result + workoutType.hashCode()
         result = 31 * result + exerciseType.hashCode()
-        result = 31 * result + (historySets?.hashCode() ?: 0)
+        result = 31 * result + (historySets.hashCode() ?: 0)
         result = 31 * result + startedAt.hashCode()
         result = 31 * result + endedAt.hashCode()
         result = 31 * result + createdAt.hashCode()

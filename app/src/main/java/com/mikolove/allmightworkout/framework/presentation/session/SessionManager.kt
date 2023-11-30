@@ -1,16 +1,22 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
+import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
+import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
+import com.mikolove.allmightworkout.business.domain.model.UserFactory
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
+import com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingState
 import com.mikolove.allmightworkout.util.printLogD
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,19 +24,27 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
+    @ApplicationContext context : Context,
     private val sessionInteractors : SessionInteractors,
     private val firebaseAuth: FirebaseAuth,
-    private val appDataStoreManager: AppDataStore){
+    private val userFactory: UserFactory,){
 
     private val sessionScope = CoroutineScope(Main)
 
-    val state : MutableLiveData<SessionState> = MutableLiveData(SessionState())
+    val state : MutableState<SessionState> = mutableStateOf(SessionState())
 
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            serverClientId = context.getString(R.string.web_client_id),
+            oneTapClient = Identity.getSignInClient(context),
+            auth = firebaseAuth,
+            userFactory =userFactory
+        )
+    }
 
     init {
         onTriggerEvent(SessionEvents.MonitorConnectivity)
         onTriggerEvent(SessionEvents.GetAuthState)
-        onTriggerEvent(SessionEvents.LoadSessionPreference)
     }
 
     fun onTriggerEvent(event : SessionEvents){
@@ -42,17 +56,8 @@ constructor(
             is SessionEvents.GetAuthState->{
                 getAuthState()
             }
-            is SessionEvents.Login->{
-                login(event.idUser)
-            }
             is SessionEvents.Signout->{
-                signout()
-            }
-            is SessionEvents.CheckAuth->{
-                checkAuth(event.idUser)
-            }
-            is SessionEvents.LoadSessionPreference->{
-                loadSessionPreference()
+                signOut()
             }
             is SessionEvents.OnRemoveHeadFromQueue->{
                 removeHeadFromQueue()
@@ -64,63 +69,15 @@ constructor(
         Fun
      */
 
-    fun checkAuth(idUser: String) : Boolean{
-        val user = firebaseAuth.currentUser
-        return user != null &&
-                state.value?.idUser != null &&
-                user.uid == idUser
-        state.value?.logged == SessionLoggedType.CONNECTED
-    }
-
     fun isNetworkAvailable() : Boolean = state.value?.connectivityStatus == SessionConnectivityStatus.AVAILABLE
 
-    fun isAuth() : Boolean = firebaseAuth.currentUser != null
+    fun isAuth() : Boolean = state.value?.user != null
 
-    fun getUserId() : String? = firebaseAuth.currentUser?.uid
+    fun getUserId() : String? = state.value?.user?.idUser
 
-    fun getUserEmail() : String? = firebaseAuth.currentUser?.email
+    fun getUserEmail() : String? = state.value?.user?.email
 
-    private fun login(idUser : String){
-        state.value?.let { state ->
-            saveSessionPreference(idUser,SessionLoggedType.CONNECTED)
-            this.state.value = state.copy(logged = SessionLoggedType.CONNECTED,idUser = idUser)
-        }
-    }
-
-
-
-    private fun saveSessionPreference(idUser: String, logged : SessionLoggedType)
-    {
-        sessionScope.launch {
-            appDataStoreManager.setValue(DataStoreKeys.SESSION_LOGGED,logged.value)
-            appDataStoreManager.setValue(DataStoreKeys.SESSION_LAST_USER_ID, idUser)
-        }
-    }
-
-    private fun updateCheckAuth(){
-        state.value?.let { state ->
-            this.state.value = state.copy(checkAuth = true)
-        }
-    }
-
-    private fun loadSessionPreference(){
-        state.value?.let { state ->
-            sessionInteractors.getSessionPreference
-                .execute()
-                .onEach { dataState ->
-                    dataState.data?.let { data ->
-                        this.state.value = state.copy(logged = data.logged, idUser = data.lastUserId)
-                        data.lastUserId?.let {
-                            onTriggerEvent(SessionEvents.CheckAuth(it))
-                        }?: updateCheckAuth()
-
-                    }
-                    dataState.message?.let { message ->
-                        appendToMessageQueue(message)
-                    }
-                }
-        }
-    }
+    fun getFirstLaunch() : Boolean = state.value?.firstLaunch ?: true
 
     private fun updateConnectivityStatus(){
         state.value?.let { state ->
@@ -143,8 +100,9 @@ constructor(
             sessionInteractors.getAuthState
                 .execute()
                 .onEach{ dataState ->
-                    dataState.data?.let {
-                        this.state.value = state.copy(logged = dataState.data)
+
+                    dataState.data?.let {user ->
+                        this.state.value = state.copy(user = user, firstLaunch = false)
                     }
 
                     dataState.message?.let { message ->
@@ -155,16 +113,14 @@ constructor(
         }
     }
 
-    private fun signout(){
-        //May be duplicated with GetAuthState Callback Flow
+    private fun signOut(){
         state.value?.let { state ->
             sessionInteractors.signOut
-                .execute()
+                .execute(googleAuthUiClient)
                 .onEach { dataState ->
                     dataState.data?.let {result ->
-                        if (!result) {
-                            this.state.value = state.copy(logged = SessionLoggedType.DISCONNECTED, idUser = null)
-                            saveSessionPreference("",SessionLoggedType.DISCONNECTED)
+                        if (result) {
+                            this.state.value = state.copy(user = null)
                         }
                     }
                     dataState.message?.let { message ->

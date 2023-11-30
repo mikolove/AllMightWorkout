@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.business.interactors.main.loading
 
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
@@ -18,9 +19,11 @@ constructor(private val appDataStoreManager: AppDataStore) {
 
     fun execute() : Flow<DataState<AccountPreference>> = flow{
 
-        /*val accountType = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_TYPE)?.let { accountType ->
+        */
+/*val accountType = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_TYPE)?.let { accountType ->
             getAccountType(accountType)
-        }?: AccountType.BASIC*/
+        }?: AccountType.BASIC*//*
+
 
         val email = appDataStoreManager.readValue(DataStoreKeys.ACCOUNT_EMAIL)
 
@@ -59,4 +62,4 @@ constructor(private val appDataStoreManager: AppDataStore) {
         val GET_ACCOUNT_PREFERENCE_SUCCESS = "Session preference successfully retrieved from datastore."
         val GET_ACCOUNT_PREFERENCE_FAILED = "Error loading session preference from datastore."
     }
-}
+}*/

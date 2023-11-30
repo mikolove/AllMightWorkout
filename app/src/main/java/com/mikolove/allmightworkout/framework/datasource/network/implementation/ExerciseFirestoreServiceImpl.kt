@@ -29,97 +29,124 @@ constructor(
 
     override suspend fun insertExercise(exercise: Exercise) {
 
-        val entity = exerciseNetworkMapper.mapToEntity(exercise)
+        firebaseAuth.currentUser?.let { currentUser ->
 
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .document(entity.idExercise)
-            .set(entity)
-            .addOnFailureListener {
-                cLog(it.message)
-            }
-            .await()
+            val entity = exerciseNetworkMapper.mapToEntity(exercise)
 
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .document(entity.idExercise)
+                .set(entity)
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun updateExercise(exercise: Exercise) {
 
-        val entity = exerciseNetworkMapper.mapToEntity(exercise)
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .document(entity.idExercise)
-            .update(
-                "name", entity.name,
-                "bodyPart",entity.bodyPart,
-                "exerciseType",entity.exerciseType,
-                "isActive",entity.isActive,
-                "updatedAt",entity.updatedAt
-            )
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            val entity = exerciseNetworkMapper.mapToEntity(exercise)
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .document(entity.idExercise)
+                .update(
+                    "name", entity.name,
+                    "bodyPart", entity.bodyPart,
+                    "exerciseType", entity.exerciseType,
+                    "isActive", entity.isActive,
+                    "updatedAt", entity.updatedAt
+                )
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun removeExerciseById(primaryKey: String) {
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .document(primaryKey)
-            .delete()
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .document(primaryKey)
+                .delete()
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun getExercises(): List<Exercise> {
-        //Get exercises and Sets
-        return firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .get()
-            .addOnFailureListener {
-                cLog(it.message)
-            }
-            .await()
-            .toObjects(ExerciseNetworkEntity::class.java).let {
-                exerciseNetworkMapper.entityListToDomainList(it)
-            }
+
+        var listOfExercise = listOf<Exercise>()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            //Get exercises and Sets
+            listOfExercise = firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await()
+                .toObjects(ExerciseNetworkEntity::class.java).let {
+                    exerciseNetworkMapper.entityListToDomainList(it)
+                }
+        }
+
+        return listOfExercise
     }
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? {
 
-        //Get exercise
-        return firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .document(primaryKey)
-            .get()
-            .addOnFailureListener {
-                cLog(it.message)
-            }
-            .await().toObject(ExerciseNetworkEntity::class.java)?.let {
-                exerciseNetworkMapper.mapFromEntity(it)
-            }
+        var exercise :Exercise? = null
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            //Get exercise
+            exercise = firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .document(primaryKey)
+                .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await().toObject(ExerciseNetworkEntity::class.java)?.let {
+                    exerciseNetworkMapper.mapFromEntity(it)
+                }
+        }
+
+        return exercise
     }
 
     override suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>? {
 
         //Get workout it contains exercise list
-        var exercises : ArrayList<Exercise> = ArrayList()
+        var exercises = mutableListOf<Exercise>()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(currentUser.uid)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .get()
@@ -130,7 +157,7 @@ constructor(
                 workoutNetworkEntity.exerciseIds?.forEach {  idExercise ->
                     firestore
                         .collection(USERS_COLLECTION)
-                        .document(FIRESTORE_USER_ID)
+                        .document(currentUser.uid)
                         .collection(EXERCISES_COLLECTION)
                         .document(idExercise)
                         .get()
@@ -139,46 +166,58 @@ constructor(
                         }
                 }
             }
+        }
         return exercises
     }
 
     override suspend fun getTotalExercises(): Int {
         var totalExercise : Int = 0
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(EXERCISES_COLLECTION)
-            .get()
-            .addOnSuccessListener { document ->
-                totalExercise = document.size()
-            }
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(EXERCISES_COLLECTION)
+                .get()
+                .addOnSuccessListener { document ->
+                    totalExercise = document.size()
+                }
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
+
         return totalExercise
     }
 
     override suspend fun addExerciseToWorkout(idWorkout: String, idExercise: String) {
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(WORKOUTS_COLLECTION)
-            .document(idWorkout)
-            .update("exerciseIds",FieldValue.arrayUnion(idExercise))
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(WORKOUTS_COLLECTION)
+                .document(idWorkout)
+                .update("exerciseIds", FieldValue.arrayUnion(idExercise))
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun removeExerciseFromWorkout(idWorkout: String, idExercise: String) {
 
+        firebaseAuth.currentUser?.let { currentUser ->
+
         firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(currentUser.uid)
             .collection(WORKOUTS_COLLECTION)
             .document(idWorkout)
             .update("exerciseIds",FieldValue.arrayRemove(idExercise))
@@ -187,35 +226,43 @@ constructor(
                 cLog(it.message)
             }
             .await()
+        }
     }
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Int {
         var isExerciseInWorkout  = 0
 
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(WORKOUTS_COLLECTION)
-            .document(idWorkout)
-            .get()
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await().toObject(WorkoutNetworkEntity::class.java)?.let { workoutNetworkEntity ->
-                workoutNetworkEntity.exerciseIds?.let {
-                    if(idExercise in it)
-                        isExerciseInWorkout = 1
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(WORKOUTS_COLLECTION)
+                .document(idWorkout)
+                .get()
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
                 }
-            }
+                .await().toObject(WorkoutNetworkEntity::class.java)?.let { workoutNetworkEntity ->
+                    workoutNetworkEntity.exerciseIds?.let {
+                        if (idExercise in it)
+                            isExerciseInWorkout = 1
+                    }
+                }
+        }
 
         return isExerciseInWorkout
     }
 
     override suspend fun getDeletedExercises(): List<Exercise> {
-        return firestore
+        var listOfExercise = listOf<Exercise>()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+        listOfExercise = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(currentUser.uid)
             .collection(REMOVED_EXERCISES_COLLECTION)
             .get()
             .addOnFailureListener {
@@ -223,33 +270,42 @@ constructor(
                 cLog(it.message)
             }
             .await().toObjects(ExerciseNetworkEntity::class.java).let {
-               exerciseNetworkMapper.entityListToDomainList(it)
+                exerciseNetworkMapper.entityListToDomainList(it)
             }
+        }
+        return listOfExercise
     }
 
     override suspend fun insertDeletedExercise(exercise: Exercise) {
-       val entity = exerciseNetworkMapper.mapToEntity(exercise)
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(REMOVED_EXERCISES_COLLECTION)
-            .document(entity.idExercise)
-            .set(entity)
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            val entity = exerciseNetworkMapper.mapToEntity(exercise)
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(REMOVED_EXERCISES_COLLECTION)
+                .document(entity.idExercise)
+                .set(entity)
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun insertDeletedExercises(exercises: List<Exercise>) {
+
+        firebaseAuth.currentUser?.let { currentUser ->
+
         if(exercises.size > 500){
             throw Exception("Cannot delete more than 500 exercises at a time in firestore.")
         }
 
         val collectionRef = firestore
             .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
+            .document(currentUser.uid)
             .collection(REMOVED_EXERCISES_COLLECTION)
 
         firestore.runBatch { batch ->
@@ -258,10 +314,11 @@ constructor(
                 batch.set(documentRef, exerciseNetworkMapper.mapToEntity(exercise))
             }
         }
-        .addOnFailureListener {
-            // send error reports to Firebase Crashlytics
-            cLog(it.message)
+            .addOnFailureListener {
+                // send error reports to Firebase Crashlytics
+                cLog(it.message)
+            }
+            .await()
         }
-        .await()
     }
 }

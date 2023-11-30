@@ -1,5 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
+import android.provider.ContactsContract.Data
 import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
@@ -10,6 +11,9 @@ import com.mikolove.allmightworkout.business.data.util.safeApiCall
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Workout
 import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.allmightworkout.business.domain.state.MessageType
+import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
@@ -23,35 +27,11 @@ class SyncWorkouts(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
- /*   suspend fun syncWorkouts(){
-        val cachedWorkouts = ArrayList(getCachedWorkouts())
+    suspend fun execute(
+        idUser: String
+    ) : DataState<SyncState>{
 
-        syncCacheAndNetwork(cachedWorkouts)
-    }
-
-    suspend fun getCachedWorkouts() : List<Workout>{
-
-        val cacheResult = safeCacheCall(IO){
-            workoutCacheDataSource.getWorkouts("","",1)
-        }
-
-        val response = object :CacheResponseHandler<List<Workout>,List<Workout>>(
-            response = cacheResult,
-            stateEvent = null
-        ){
-            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>>? {
-                return DataState.data(
-                    response =  null,
-                    data = resultObj,
-                    stateEvent = null
-                )
-            }
-        }.getResult()
-
-        return response?.data ?: ArrayList()
-    }
-
-    private suspend fun syncCacheAndNetwork(cachedWorkouts : ArrayList<Workout>) = withContext(IO){
+        val cachedWorkouts = getCachedWorkouts(idUser).toMutableList()
 
         //Get all network workouts
         val apiResult = safeApiCall(IO){
@@ -60,50 +40,112 @@ class SyncWorkouts(
 
         val apiResponse = object : ApiResponseHandler<List<Workout>, List<Workout>>(
             response =  apiResult,
-            stateEvent = null
         ){
-            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>>? {
+            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {
                 return DataState.data(
-                    response = null,
-                    data = resultObj,
-                    stateEvent = null
+                    message = null,
+                    data = resultObj
                 )
             }
         }.getResult()
 
-        val networkWorkouts = apiResponse?.data ?: ArrayList()
+        if(apiResponse.message?.messageType == MessageType.Error){
 
-        //val job = launch {
-            //Compare workout in network with cache and proceed update if needed
-            for(networkWorkout in networkWorkouts){
+            return DataState.data(
+                message = GenericMessageInfo.Builder()
+                    .id("SyncExercises.GlobalError")
+                    .title(SyncEverything.SYNC_GERROR_TITLE)
+                    .description(SyncEverything.SYNC_GERROR_DESCRIPTION)
+                    .messageType(MessageType.Error)
+                    .uiComponentType(UIComponentType.Dialog),
+                data = SyncState.FAILURE
+            )
 
-                workoutCacheDataSource.getWorkoutById(networkWorkout.idWorkout)?.also { cacheWorkout ->
-                    //Update core workout
-                    cachedWorkouts.remove(cacheWorkout)
-                    updateWorkoutIfNeeded(networkWorkout,cacheWorkout)
+        }else{
+            try{
 
-                    *//*
-                        TODO : Update link between exercises and workout need to figure how will it work with firebase and room relational model
-                        cacheWorkout.exercises?.forEach{ cacheExercise ->
-                       }
-                    *//*
+                val networkWorkouts = apiResponse.data ?: mutableListOf()
 
-                }?: insertWorkoutInCache(networkWorkout)
+                //val job = launch {
+                //Compare workout in network with cache and proceed update if needed
+                for(networkWorkout in networkWorkouts){
+
+                    workoutCacheDataSource.getWorkoutById(networkWorkout.idWorkout)?.also { cacheWorkout ->
+                        //Update core workout
+                        cachedWorkouts.remove(cacheWorkout)
+                        updateWorkoutIfNeeded(networkWorkout,cacheWorkout)
+
+                        /*
+                         TODO : Update link between exercises and workout need to figure how will it work with firebase and room relational model
+                         cacheWorkout.exercises?.forEach{ cacheExercise ->
+                         }
+                        */
+
+                    }?: insertWorkoutInCache(networkWorkout, idUser = idUser )
+                }
+                //}
+
+                //job.join()
+
+                //if workout from network not found in cache insert it in network
+                for(notFoundWorkout in cachedWorkouts){
+                    printLogD("SyncWorkouts","Insert into network")
+                    workoutNetworkDataSource.insertWorkout(notFoundWorkout)
+                }
+
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncWorkouts.Success")
+                        .title(SYNC_W_TITLE)
+                        .description(SYNC_W_DESCRIPTION)
+                        .messageType(MessageType.Success)
+                        .uiComponentType(UIComponentType.None),
+                    data = SyncState.SUCCESS
+                )
+
+            }catch (e : Exception){
+
+                return DataState.data(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncWorkouts.Error")
+                        .title(SYNC_W_ERROR_TITLE)
+                        .description(SYNC_W_ERROR_DESCRIPTION)
+                        .messageType(MessageType.Error)
+                        .uiComponentType(UIComponentType.Dialog),
+                    data = SyncState.FAILURE
+                )
             }
-        //}
-
-        //job.join()
-
-        //if workout from network not found in cache insert it in network
-        for(notFoundWorkout in cachedWorkouts){
-            printLogD("SyncWorkouts","Insert into network")
-            workoutNetworkDataSource.insertWorkout(notFoundWorkout)
         }
+
     }
 
-    private suspend fun insertWorkoutInCache(networkWorkout : Workout) {
+    private suspend fun getCachedWorkouts(idUser : String) : List<Workout>{
+
+        val cacheResult = safeCacheCall(IO){
+            workoutCacheDataSource.getWorkouts("","",1,idUser)
+        }
+
+        val response = object :CacheResponseHandler<List<Workout>,List<Workout>>(
+            response = cacheResult,
+        ){
+            override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {
+                return DataState.data(
+                    message = null,
+                    data = resultObj,
+                )
+            }
+        }.getResult()
+
+        return response.data ?: ArrayList()
+    }
+
+    private suspend fun syncCacheAndNetwork(cachedWorkouts : ArrayList<Workout>) = withContext(IO){
+
+    }
+
+    private suspend fun insertWorkoutInCache(networkWorkout : Workout,idUser : String) {
         printLogD("SyncWorkouts","Insert into cache")
-        workoutCacheDataSource.insertWorkout(networkWorkout)
+        workoutCacheDataSource.insertWorkout(networkWorkout,idUser)
     }
 
     private suspend fun updateWorkoutIfNeeded(networkWorkout : Workout, cacheWorkout : Workout){
@@ -134,5 +176,14 @@ class SyncWorkouts(
                 )
             }
         }
-    }*/
+    }
+
+    companion object{
+        val SYNC_W_TITLE = "Sync success"
+        val SYNC_W_DESCRIPTION = "Successfully sync workouts"
+
+        val SYNC_W_ERROR_TITLE = "Sync error"
+        val SYNC_W_ERROR_DESCRIPTION = "Failed retrieving workouts. Check internet or try again later."
+
+    }
 }

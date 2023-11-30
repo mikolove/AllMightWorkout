@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.business.interactors.main.session
 
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
@@ -55,4 +56,4 @@ constructor(private val appDataStoreManager: AppDataStore) {
         val GET_SESSION_PREFERENCE_SUCCESS = "Session preference successfully retrieved from datastore."
         val GET_SESSION_PREFERENCE_FAILED = "Error loading session preference from datastore."
     }
-}
+}*/

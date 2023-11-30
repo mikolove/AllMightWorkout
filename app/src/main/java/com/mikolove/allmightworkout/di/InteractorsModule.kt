@@ -15,10 +15,8 @@ import com.mikolove.allmightworkout.business.interactors.main.history.GetHistory
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.GetTotalHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
-import com.mikolove.allmightworkout.business.interactors.main.loading.GetAccountPreferences
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadUser
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
-import com.mikolove.allmightworkout.business.interactors.main.session.GetSessionPreferences
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
@@ -157,7 +155,7 @@ object InteractorsModule {
     ) : LoadingInteractors{
         return LoadingInteractors(
             loadUser = LoadUser(userCacheDataSource,userNetworkDataSource, userFactory , dateUtil),
-            getAccountPreferences = GetAccountPreferences(appDataStore)
+            //getAccountPreferences = GetAccountPreferences(appDataStore)
         )
     }
 
@@ -165,13 +163,16 @@ object InteractorsModule {
     @Provides
     fun provideSessionInteractors(
         firebaseAuth: FirebaseAuth,
+        userFactory: UserFactory,
         appDataStore: AppDataStore,
         connectivityManager : ConnectivityManager
     ) : SessionInteractors{
         return SessionInteractors(
-            signOut = SignOut(firebaseAuth = firebaseAuth),
-            getAuthState = GetAuthState(firebaseAuth = firebaseAuth),
-            getSessionPreference = GetSessionPreferences(appDataStore),
+            signOut = SignOut(),
+            getAuthState = GetAuthState(
+                firebaseAuth = firebaseAuth,
+                userFactory = userFactory),
+            //getSessionPreference = GetSessionPreferences(appDataStore),
             getSessionConnectivityStatus = SyncNetworkConnectivity(connectivityManager)
         )
     }

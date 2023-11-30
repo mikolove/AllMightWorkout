@@ -14,7 +14,7 @@ constructor(
         return HistoryExercise(
             idHistoryExercise = entity.idHistoryExercise,
             name = entity.name,
-            historySets = null,
+            historySets = listOf(),
             bodyPart = entity.bodyPart,
             workoutType = entity.workoutType,
             exerciseType = entity.exerciseType,

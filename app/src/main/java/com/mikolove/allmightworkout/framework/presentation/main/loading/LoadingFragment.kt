@@ -2,39 +2,107 @@ package com.mikolove.allmightworkout.framework.presentation.main.loading
 
 
 import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.viewModels
+import android.view.ViewGroup
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
+import com.mikolove.allmightworkout.business.domain.model.UserFactory
 import com.mikolove.allmightworkout.databinding.FragmentLoadingBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-
-import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
-import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
+import com.mikolove.allmightworkout.framework.presentation.main.compose.LoadingScreen
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val LOADING_FRAGMENT_NO_SYNC = "User is not connected, could not sync data with firebase"
 
 @AndroidEntryPoint
 class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
-    val viewModel: LoadingViewModel by viewModels()
+    @Inject
+    lateinit var userFactory: UserFactory
+
+    private val googleAuthUiClient by lazy {
+        sessionManager.googleAuthUiClient
+    }
+
+
 
     private var binding : FragmentLoadingBinding? = null
 
+    /*private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        if(result.resultCode == RESULT_OK) {
+            lifecycleScope.launch {
+                val signInResult = googleAuthUiClient.signInWithIntent(
+                    intent = result.data ?: return@launch
+                )
+                //Update sign in state here
+                printLogD("LoadingFragment","User ${signInResult}")
+                viewModel.onTriggerEvent(LoadingEvents.SignInResult(signInResult))
+            }
+        }else{
+            viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
+        }
+    }*/
 
-    /*
-     Switch for Session manager
-     @Inject
-     lateinit var mAuth : FirebaseAuth*/
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+
+                val viewModel: LoadingViewModel = hiltViewModel()
+
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                    onResult = { result ->
+                        if(result.resultCode == RESULT_OK) {
+                            lifecycleScope.launch {
+                                val signInResult = googleAuthUiClient.signInWithIntent(
+                                    intent = result.data ?: return@launch
+                                )
+                                //Update sign in state here
+                                printLogD("LoadingFragment","User ${signInResult}")
+                                viewModel.onTriggerEvent(LoadingEvents.SignInResult(signInResult))
+                            }
+                        }else{
+                            viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
+                        }
+                    }
+                )
+
+                LoadingScreen(
+                    sessionManager,
+                    viewModel
+                ) {
+                    /*lifecycleScope.launch {
+                        val signInIntentSender = googleAuthUiClient.signIn()
+                        launcher.launch {
+                            IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build()
+                        }
+                    }*/
+                }
+            }
+        }
+    }
+
+
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setHasOptionsMenu(false)
@@ -42,28 +110,33 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         binding = FragmentLoadingBinding.bind(view)
 
         binding?.connectButton?.setOnClickListener {
-            if(!sessionManager.isAuth()){
-                createSignInIntent()
+            lifecycleScope.launch{
+
+                viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.LOAD_USER))
+
+                val signInIntenSender = googleAuthUiClient.signIn()
+                this@LoadingFragment.signInLauncher.launch(
+                    IntentSenderRequest.Builder(
+                        signInIntenSender ?: return@launch
+                    ).build()
+                )
             }
         }
 
-        binding?.signoutButton?.setOnClickListener {
-            if(sessionManager.isAuth()){
-                sessionManager.onTriggerEvent(SessionEvents.Signout)
+/*        binding?.signoutButton?.setOnClickListener {
+            lifecycleScope.launch {
+                googleAuthUiClient.signOut()
             }
-        }
+        }*/
 
-        if(sessionManager.isAuth()){
-            val userId = sessionManager.getUserId()
-            val userEmail = sessionManager.getUserEmail()
-            if(userId != null && userEmail != null){
-                viewModel.onTriggerEvent(LoadingEvents.LoadUser(userId, userEmail))
-            }
+        val user = sessionManager.googleAuthUiClient.getSignedInUser()
+        if( user != null){
+            viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.LAUNCH_SYNC))
+            viewModel.onTriggerEvent(LoadingEvents.SyncEverything(user))
         }
 
         subscribeObservers()
-
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -75,22 +148,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     }
 
 
-    private fun subscribeObservers() {
-
-        sessionManager.state.observe(viewLifecycleOwner) { sessionState ->
-
-            processQueue(
-                context = context,
-                queue = sessionState.queue,
-                stateMessageCallback = object : StateMessageCallback {
-                    override fun removeMessageFromQueue() {
-                        sessionManager.onTriggerEvent(SessionEvents.OnRemoveHeadFromQueue)
-                    }
-                })
-
-            printLogD("LoadingFrament", "Session info ${sessionState.logged} current User : ${sessionManager.getUserId()}")
-
-        }
+    /*private fun subscribeObservers() {
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
 
@@ -111,87 +169,41 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                 LoadingStep.INIT -> {
                     showInit(state.loadingStep.loadingMessage)
                 }
-                else -> {
+                LoadingStep.LOAD_USER,
+                LoadingStep.LOADED_USER_CREATE,
+                LoadingStep.LOADED_USER_SYNC,
+                LoadingStep.LAUNCH_SYNC,->{
                     showLoadingStep(state.loadingStep.loadingMessage)
                 }
-
+                LoadingStep.GO_TO_APP -> {
+                    navigateToHistory()
+                }
+                else -> {}
             }
 
         }
     }
-
+*/
     /*
         Firebase
      */
-
-
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { res ->
-        this.onSignInResult(res)
-    }
-
-    private fun createSignInIntent() {
-        // [START auth_fui_create_intent]
-        // Choose authentication providers
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build())
-
-        // Create and launch sign-in intent
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setIsSmartLockEnabled(false)
-            .setAvailableProviders(providers)
-            .setLogo(R.drawable.ic_mhalogo)
-            .build()
-        signInLauncher.launch(signInIntent)
-        // [END auth_fui_create_intent]
-    }
-
-
-
-    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        val response = result.idpResponse
-        if (result.resultCode == RESULT_OK) {
-            printLogD("LoadingFragment","user is logged"+sessionManager.state.value?.logged.toString())
-
-            //Check if user exist in database if not create it and sync
-            sessionManager.isAuth().let {
-                val userId = sessionManager.getUserId()
-                val userEmail = sessionManager.getUserEmail()
-                if(userId != null && userEmail != null){
-                    viewModel.onTriggerEvent(LoadingEvents.LoadUser(userId, userEmail))
-                }
-            }
-
-        } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            printLogD("LoadingFragment","ERROR not connected ${response?.getError()?.getErrorCode()}")
-            viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
-        }
-    }
-
     private fun showLoadingStep(loadingMessage : String){
         binding?.txtConnect?.text = loadingMessage
-        binding?.connectButton?.invisible()
-        binding?.signoutButton?.invisible()
+        binding?.connectButton?.fadeOut()
+        //binding?.signoutButton?.invisible()
     }
 
     private fun showInit(loadingMessage : String){
         binding?.txtConnect?.text = loadingMessage
-        binding?.connectButton?.visible()
-        binding?.signoutButton?.visible()
+        binding?.connectButton?.fadeIn()
+        //binding?.signoutButton?.fadeIn()
     }
 
     private fun showProgressbar(isLoading : Boolean){
         if(isLoading){
-            binding?.mainProgressBar?.visible()
+            binding?.mainProgressBar?.fadeIn()
         }else{
-            binding?.mainProgressBar?.invisible()
+            binding?.mainProgressBar?.fadeOut()
         }
     }
 

@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import androidx.room.Room
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.datastore.AppDataStoreManager
+import com.mikolove.allmightworkout.business.domain.model.UserFactory
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
+import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,6 +36,7 @@ object ProductionModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
 
     @Singleton
     @Provides

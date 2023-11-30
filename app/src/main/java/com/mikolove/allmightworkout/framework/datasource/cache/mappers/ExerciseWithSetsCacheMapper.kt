@@ -14,13 +14,12 @@ constructor(
 
     override fun mapFromEntity(entity: ExerciseWithSetsCacheEntity): Exercise {
 
-        var exercise = exerciseCacheMapper.mapFromEntity(entity.exerciseCacheEntity)
-        var bodyPart = entity.bodyPartCacheEntity?.let { bodyPartCacheMapper.mapFromEntity(it) }
-        var listOfSets : List<ExerciseSet>?
-        if(!entity.listOfExerciseSetCacheEntity.isNullOrEmpty()){
-            listOfSets = entity.listOfExerciseSetCacheEntity.let { exerciseSetCacheMapper.entityListToDomainList(it) }
+        val exercise = exerciseCacheMapper.mapFromEntity(entity.exerciseCacheEntity)
+        val bodyPart = entity.bodyPartCacheEntity?.let { bodyPartCacheMapper.mapFromEntity(it) }
+        val listOfSets : List<ExerciseSet> = if(!entity.listOfExerciseSetCacheEntity.isNullOrEmpty()){
+            entity.listOfExerciseSetCacheEntity.let { exerciseSetCacheMapper.entityListToDomainList(it) }
         }else{
-            listOfSets = listOf()
+            listOf()
         }
 
         exercise.bodyPart = bodyPart

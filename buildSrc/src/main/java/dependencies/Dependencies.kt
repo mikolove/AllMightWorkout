@@ -21,6 +21,7 @@ object Dependencies {
     val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
 
     val hilt_jetpack_navigation = "androidx.hilt:hilt-navigation-fragment:${Versions.hilt_jetpack}"
+    val hilt_jetpack_compose = "androidx.hilt:hilt-navigation-compose:${Versions.hilt_jetpack}"
     val hilt_workmanager = "androidx.hilt:hilt-work:${Versions.hilt_jetpack}"
 
     val fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragment_version}"
@@ -59,4 +60,9 @@ object Dependencies {
 
     val datastore = "androidx.datastore:datastore-preferences:${Versions.datastore}"
 
+
+    val compose_bom = "androidx.compose:compose-bom:${Versions.compose_bom}"
+    val compose_material3 = "androidx.compose.material3:${Versions.material3}"
+    val compose_uitooling_preview = "androidx.compose.ui:ui-tooling-preview"
+    val compose_uitooling = "androidx.compose.ui:ui-tooling"
 }

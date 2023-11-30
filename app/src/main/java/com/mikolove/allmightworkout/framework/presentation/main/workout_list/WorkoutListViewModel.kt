@@ -214,7 +214,7 @@ constructor(
     private fun getWorkouts(){
         state.value?.let { state ->
 
-            sessionManager.state.value?.idUser?.let { idUser ->
+            sessionManager.getUserId()?.let { idUser ->
                 workoutInteractors.getWorkouts.execute(
                     idUser = idUser,
                     query = state.query,
@@ -244,7 +244,7 @@ constructor(
 
     private fun insertWorkout(name : String){
         state.value?.let { state ->
-            sessionManager.state.value?.idUser?.let { idUser ->
+            sessionManager.getUserId()?.let { idUser ->
                 workoutInteractors.insertWorkout.execute(
                     idUser = idUser,
                     name = name

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +27,7 @@ import com.mikolove.allmightworkout.framework.presentation.session.SessionLogged
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -86,7 +88,10 @@ class MainActivity :
 
             when(item.itemId){
                 R.id.page_1 -> {
-                    navigateToHistory()
+                    lifecycleScope.launch{
+                        sessionManager.onTriggerEvent(SessionEvents.Signout)
+                    }
+                    //navigateToHistory()
                     true
                 }
                 R.id.page_2 -> {
@@ -114,7 +119,7 @@ class MainActivity :
 
     fun subscribeObserver(){
 
-        sessionManager.state.observe(this) { state ->
+        /*sessionManager.state.observe(this) { state ->
 
             displayProgressBar(state.isLoading)
 
@@ -127,18 +132,12 @@ class MainActivity :
                     }
                 })
 
+            printLogD("MainActivity","Session manager observer ${sessionManager.isAuth()}")
 
-/*            if (state.idUser == null && state.checkAuth) {
-                state.logged is SessionLoggedType.DISCONNECTED
-                onTriggerEvent(Logout())
+            if(!state.firstLaunch && state.user == null){
                 navigateToLoading()
             }
-
-            if( state.logged == SessionLoggedType.DISCONNECTED){
-                sessionManager.onTriggerEvent(SessionEvents.Logout)
-            }*/
-
-        }
+        }*/
     }
 
     override fun loadFabController(fabController: FabController?) {
@@ -266,5 +265,5 @@ class MainActivity :
         }
     }
 
-
 }
+

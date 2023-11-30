@@ -13,6 +13,8 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
+import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -41,14 +43,17 @@ class SyncWorkoutTypesAndBodyPart(
         val cachedWorkoutTypes = getCachedWorkoutTypes().data ?: listOf()
 
         if(networkWorkoutTypes.isEmpty()){
-            return DataState.error(
+
+            return DataState.data(
                 message = GenericMessageInfo.Builder()
                     .id("SyncWorkoutTypesAndBodyPart.GlobalError")
-                    .title(SYNC_WKT_BDP_GERROR_TITLE)
-                    .description(SYNC_WKT_BDP_GERROR_DESCRIPTION)
+                    .title(SYNC_GERROR_TITLE)
+                    .description(SYNC_GERROR_DESCRIPTION)
                     .messageType(MessageType.Error)
-                    .uiComponentType(UIComponentType.Dialog)
+                    .uiComponentType(UIComponentType.Dialog),
+                data = SyncState.FAILURE
             )
+
         }else{
 
             try{
@@ -95,13 +100,14 @@ class SyncWorkoutTypesAndBodyPart(
                 )
 
             }catch (exception : Exception){
-                return DataState.error(
+                return DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutTypesAndBodyPart.GlobalError")
-                        .title(SYNC_WKT_BDP_GERROR_TITLE)
-                        .description(SYNC_WKT_BDP_GERROR_DESCRIPTION)
+                        .title(SYNC_WKT_BDP_ERROR_TITLE)
+                        .description(SYNC_WKT_BDP_ERROR_DESCRIPTION)
                         .messageType(MessageType.Error)
-                        .uiComponentType(UIComponentType.Dialog)
+                        .uiComponentType(UIComponentType.Dialog),
+                    data = SyncState.FAILURE
                 )
             }
         }
@@ -173,8 +179,8 @@ class SyncWorkoutTypesAndBodyPart(
         val SYNC_WKT_BDP_TITLE = "Sync success"
         val SYNC_WKT_BDP_DESCRIPTION = "Successfully sync workouts types and body parts"
 
-        val SYNC_WKT_BDP_GERROR_TITLE = "Sync error"
-        val SYNC_WKT_BDP_GERROR_DESCRIPTION = "Failed retrieving workouts types and body parts. Check internet or try again later."
+        val SYNC_WKT_BDP_ERROR_TITLE = "Sync error"
+        val SYNC_WKT_BDP_ERROR_DESCRIPTION = "Failed retrieving workouts types and body parts. Check internet or try again later."
 
 
     }

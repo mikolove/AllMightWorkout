@@ -147,7 +147,7 @@ constructor(
     private fun insertHistory(){
         state.value?.let { state ->
             state.workout?.let { workout ->
-                sessionManager.state.value?.idUser?.let { idUser ->
+                sessionManager.getUserId()?.let { idUser ->
                     inProgressListInteractors.insertHistory
                         .execute(
                             workout = workout,

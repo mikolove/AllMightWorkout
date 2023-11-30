@@ -13,13 +13,12 @@ constructor(
 
     override fun mapFromEntity(entity: HistoryWorkoutWithExercisesCacheEntity): HistoryWorkout {
         val historyWorkout = historyWorkoutCacheMapper.mapFromEntity(entity.historyWorkoutCacheEntity)
-        val historyExercises : List<HistoryExercise>?
-        if(!entity.listOfHistoryExercisesCacheEntity.isNullOrEmpty()){
-            historyExercises = entity.listOfHistoryExercisesCacheEntity?.let {
+        val historyExercises : List<HistoryExercise>? = if(!entity.listOfHistoryExercisesCacheEntity.isNullOrEmpty()){
+            entity.listOfHistoryExercisesCacheEntity.let {
                 historyExerciseWithSetsCacheMapper.entityListToDomainList(it)
-                }
+            }
         }else{
-            historyExercises = null
+            null
         }
 
 

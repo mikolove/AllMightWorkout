@@ -13,9 +13,5 @@ data class LoadingState(
 
     val loadingStep : LoadingStep = LoadingStep.INIT,
 
-    val user : User? = null,
-
-    val accountPreference: AccountPreference? = null,
-
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
 )

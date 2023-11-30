@@ -7,7 +7,6 @@ import com.mikolove.allmightworkout.business.interactors.sync.SyncNetworkConnect
 class SessionInteractors(
     val signOut: SignOut,
     val getAuthState: GetAuthState,
-    val getSessionPreference : GetSessionPreferences,
     val getSessionConnectivityStatus: SyncNetworkConnectivity
 ){
 }

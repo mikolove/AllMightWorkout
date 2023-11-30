@@ -30,121 +30,134 @@ constructor(
         historyExercise: HistoryExercise,
         idHistoryWorkout: String
     ) {
-        val entity = historyExerciseNetworkMapper.mapToEntity(historyExercise)
 
-        val historyExerciseEntity = hashMapOf(
-            "name" to entity.name,
-            "bodyPart" to entity.bodyPart,
-            "workoutType" to entity.workoutType,
-            "exerciseType" to entity.exerciseType,
-            "startedAt" to entity.startedAt,
-            "endedAt" to entity.endedAt,
-            "createdAt" to entity.createdAt,
-            "updatedAt" to entity.updatedAt
-         )
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(HISTORY_WORKOUTS_COLLECTION)
-            .document(idHistoryWorkout)
-            .collection(HISTORY_EXERCISES_COLLECTION)
-            .document(entity.idHistoryExercise)
-            .set(historyExerciseEntity)
-            .addOnFailureListener {
-                // send error reports to Firebase Crashlytics
-                cLog(it.message)
-            }
-            .await()
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            val entity = historyExerciseNetworkMapper.mapToEntity(historyExercise)
+
+            val historyExerciseEntity = hashMapOf(
+                "name" to entity.name,
+                "bodyPart" to entity.bodyPart,
+                "workoutType" to entity.workoutType,
+                "exerciseType" to entity.exerciseType,
+                "startedAt" to entity.startedAt,
+                "endedAt" to entity.endedAt,
+                "createdAt" to entity.createdAt,
+                "updatedAt" to entity.updatedAt
+            )
+            firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(HISTORY_WORKOUTS_COLLECTION)
+                .document(idHistoryWorkout)
+                .collection(HISTORY_EXERCISES_COLLECTION)
+                .document(entity.idHistoryExercise)
+                .set(historyExerciseEntity)
+                .addOnFailureListener {
+                    // send error reports to Firebase Crashlytics
+                    cLog(it.message)
+                }
+                .await()
+        }
     }
 
     override suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId: String): List<HistoryExercise> {
-        val historyExercises =  firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(HISTORY_WORKOUTS_COLLECTION)
-            .document(workoutId)
-            .collection(HISTORY_EXERCISES_COLLECTION)
-            .get()
-            .addOnFailureListener{
-                cLog(it.message)
-            }
-            .await().toObjects(HistoryExerciseNetworkEntity::class.java).let {
-                historyExerciseNetworkMapper.entityListToDomainList(it)
-            }
 
-        historyExercises?.let { listOfHistoryExercise ->
+        var listOfHistoryExercises : List<HistoryExercise> = listOf()
 
-            listOfHistoryExercise.forEach { historyExercise ->
+        firebaseAuth.currentUser?.let { currentUser ->
 
-                val sets  : List<HistoryExerciseSet> = firestore
+            listOfHistoryExercises = firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(HISTORY_WORKOUTS_COLLECTION)
+                .document(workoutId)
+                .collection(HISTORY_EXERCISES_COLLECTION)
+                .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await().toObjects(HistoryExerciseNetworkEntity::class.java).let {
+                    historyExerciseNetworkMapper.entityListToDomainList(it)
+                }
+
+            listOfHistoryExercises.onEach { historyExercise ->
+
+                val sets: List<HistoryExerciseSet> = firestore
                     .collection(USERS_COLLECTION)
-                    .document(FIRESTORE_USER_ID)
+                    .document(currentUser.uid)
                     .collection(HISTORY_WORKOUTS_COLLECTION)
                     .document(workoutId)
                     .collection(HISTORY_EXERCISES_COLLECTION)
                     .document(historyExercise.idHistoryExercise)
                     .collection(HISTORY_EXERCISES_SETS_COLLECTION)
                     .get()
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         cLog(it.message)
                     }
                     .await().toObjects(HistoryExerciseSetNetworkEntity::class.java).let {
                         historyExerciseSetNetworkMapper.entityListToDomainList(it)
                     }
 
-                if(sets.isNullOrEmpty()){
-                    historyExercise.historySets = null
-                }else{
+                if (sets.isEmpty()) {
+                    historyExercise.historySets = listOf()
+                } else {
                     historyExercise.historySets = sets
                 }
             }
         }
 
-        return historyExercises
+
+        return listOfHistoryExercises
     }
 
     override suspend fun getHistoryExerciseById(primaryKey: String, idHistoryWorkout: String): HistoryExercise? {
 
-        val historyExercise =  firestore
-            .collection(USERS_COLLECTION)
-            .document(FIRESTORE_USER_ID)
-            .collection(HISTORY_WORKOUTS_COLLECTION)
-            .document(idHistoryWorkout)
-            .collection(HISTORY_EXERCISES_COLLECTION)
-            .document(primaryKey)
-            .get()
-            .addOnFailureListener{
-                cLog(it.message)
-            }
-            .await().toObject(HistoryExerciseNetworkEntity::class.java)?.let {
-                historyExerciseNetworkMapper.mapFromEntity(it)
-            }
+        var historyExercise : HistoryExercise? = null
 
-        historyExercise?.let { hExercise ->
+        firebaseAuth.currentUser?.let { currentUser ->
+
+            historyExercise = firestore
+                .collection(USERS_COLLECTION)
+                .document(currentUser.uid)
+                .collection(HISTORY_WORKOUTS_COLLECTION)
+                .document(idHistoryWorkout)
+                .collection(HISTORY_EXERCISES_COLLECTION)
+                .document(primaryKey)
+                .get()
+                .addOnFailureListener {
+                    cLog(it.message)
+                }
+                .await().toObject(HistoryExerciseNetworkEntity::class.java)?.let {
+                    historyExerciseNetworkMapper.mapFromEntity(it)
+                }
+
+            historyExercise?.apply {
 
                 val sets = firestore
                     .collection(USERS_COLLECTION)
-                    .document(FIRESTORE_USER_ID)
+                    .document(currentUser.uid)
                     .collection(HISTORY_WORKOUTS_COLLECTION)
                     .document(idHistoryWorkout)
                     .collection(HISTORY_EXERCISES_COLLECTION)
-                    .document(hExercise.idHistoryExercise)
+                    .document(idHistoryExercise)
                     .collection(HISTORY_EXERCISES_SETS_COLLECTION)
                     .get()
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         cLog(it.message)
                     }
-                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java)?.let {
+                    .await().toObjects(HistoryExerciseSetNetworkEntity::class.java).let {
                         historyExerciseSetNetworkMapper.entityListToDomainList(it)
                     }
 
 
-            if(sets.isNullOrEmpty()){
-                historyExercise.historySets = null
-            }else{
-                historyExercise.historySets = sets
-            }
+                if (sets.isEmpty()) {
+                    historySets = listOf()
+                } else {
+                    historySets = sets
+                }
 
+            }
         }
 
         return historyExercise

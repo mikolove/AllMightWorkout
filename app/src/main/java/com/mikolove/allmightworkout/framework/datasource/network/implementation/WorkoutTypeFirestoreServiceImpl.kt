@@ -50,7 +50,7 @@ constructor(
                         cLog(it.message)
                     }
                     .await()
-                    .toObjects(BodyPartNetworkEntity::class.java)?.let {
+                    .toObjects(BodyPartNetworkEntity::class.java).let {
                         bodyPartNetworkMapper.entityListToDomainList(it)
                     }
 

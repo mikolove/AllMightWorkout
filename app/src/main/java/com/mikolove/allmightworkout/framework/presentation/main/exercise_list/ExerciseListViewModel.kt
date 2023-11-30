@@ -212,7 +212,7 @@ constructor(
     private fun getExercises(){
         state.value?.let { state ->
 
-            sessionManager.state.value?.idUser?.let { idUser ->
+            sessionManager.getUserId()?.let { idUser ->
 
                 exerciseInteractors.getExercises.execute(
                     idUser = idUser,

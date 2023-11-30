@@ -281,7 +281,7 @@ constructor(
 
             state.exercise?.let{ exercise ->
 
-                sessionManager.state.value?.idUser?.let { idUser ->
+                sessionManager.getUserId()?.let { idUser ->
 
                     exerciseInteractors.insertExercise
                         .executeNew(
