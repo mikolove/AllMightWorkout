@@ -6,7 +6,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.framework.presentation.session.SessionConnectivityStatus
+import com.mikolove.allmightworkout.framework.presentation.network.NetworkStatus
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class SyncNetworkConnectivity(
     private val connectivityManager: ConnectivityManager
 ) {
 
-    fun execute() : Flow<DataState<SessionConnectivityStatus>> = callbackFlow {
+    fun execute() : Flow<DataState<NetworkStatus>> = callbackFlow {
 
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -31,7 +31,7 @@ class SyncNetworkConnectivity(
                             .description(SYNCNETWORK_AVAILABLE)
                             .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
-                        data = SessionConnectivityStatus.AVAILABLE
+                        data = NetworkStatus.AVAILABLE
                     )
                 )
             }
@@ -60,7 +60,7 @@ class SyncNetworkConnectivity(
                             .description(SYNCNETWORK_LOST)
                             .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
-                        data = SessionConnectivityStatus.LOST
+                        data = NetworkStatus.LOST
                     )
                 )
             }
@@ -75,7 +75,7 @@ class SyncNetworkConnectivity(
                             .description(SYNCNETWORK_UNAVAILABLE)
                             .uiComponentType(UIComponentType.None)
                             .messageType(MessageType.Success),
-                        data = SessionConnectivityStatus.UNAVAILABLE
+                        data = NetworkStatus.UNAVAILABLE
                     )
                 )
             }

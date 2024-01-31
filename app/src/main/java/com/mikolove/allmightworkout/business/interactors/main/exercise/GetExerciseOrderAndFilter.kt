@@ -32,7 +32,7 @@ class GetExerciseOrderAndFilter(private val appDataStoreManager : AppDataStore
                 .uiComponentType(UIComponentType.None),
             data = ExerciseOrderAndFilter(order = order, filter = filter)
         ))
-    }.catch { e ->
+    }.catch { _ ->
         emit(
             DataState.error(
             message = GenericMessageInfo.Builder()

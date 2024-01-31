@@ -52,7 +52,7 @@ constructor(
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        printLogD("BaseFragment","OnAttach")
+  /*      printLogD("BaseFragment","OnAttach")
         activity?.let {
             if(it is MainActivity){
                 try {
@@ -61,7 +61,7 @@ constructor(
                     e.printStackTrace()
                 }
             }
-        }
+        }*/
     }
 
     fun displayAppBar(){

@@ -206,8 +206,8 @@ object CacheModule {
     }
     @Singleton
     @Provides
-    fun provideWorkoutExerciseDaoService(workoutExerciseDao : WorkoutExerciseDao) : WorkoutExerciseDaoService{
-        return WorkoutExerciseDaoServiceImpl(workoutExerciseDao)
+    fun provideWorkoutExerciseDaoService(workoutExerciseDao : WorkoutExerciseDao, dateUtil: DateUtil) : WorkoutExerciseDaoService{
+        return WorkoutExerciseDaoServiceImpl(workoutExerciseDao,dateUtil)
     }
 
     @Singleton

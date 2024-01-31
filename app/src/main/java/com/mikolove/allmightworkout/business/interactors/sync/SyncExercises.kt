@@ -263,24 +263,28 @@ class SyncExercises(
             printLogD("SyncExercises","Try to update exercise")
 
             //If network has newest data
-            if(networkUpdatedAt.after(cacheUpdatedAt)){
-                printLogD("SyncExercises","Exercises in cache updated ${cacheExercise.idExercise}")
-                exerciseCacheDataSource.updateExercise(
-                    networkExercise.idExercise,
-                    networkExercise.name,
-                    networkExercise.bodyPart,
-                    networkExercise.isActive,
-                    networkExercise.exerciseType.name,
-                    networkExercise.updatedAt
-                )
+            if (networkUpdatedAt != null) {
+                if(networkUpdatedAt.after(cacheUpdatedAt)){
+                    printLogD("SyncExercises","Exercises in cache updated ${cacheExercise.idExercise}")
+                    exerciseCacheDataSource.updateExercise(
+                        networkExercise.idExercise,
+                        networkExercise.name,
+                        networkExercise.bodyPart,
+                        networkExercise.isActive,
+                        networkExercise.exerciseType.name,
+                        networkExercise.updatedAt
+                    )
 
+                }
             }
             //If cache has newest data
-            if(networkUpdatedAt.before(cacheUpdatedAt)) {
-                printLogD("SyncExercises", "Exercises in network updated ${cacheExercise.idExercise}")
-                exerciseNetworkDataSource.updateExercise(
-                    cacheExercise
-                )
+            if (networkUpdatedAt != null) {
+                if(networkUpdatedAt.before(cacheUpdatedAt)) {
+                    printLogD("SyncExercises", "Exercises in network updated ${cacheExercise.idExercise}")
+                    exerciseNetworkDataSource.updateExercise(
+                        cacheExercise
+                    )
+                }
             }
         }
     }
@@ -294,32 +298,36 @@ class SyncExercises(
             printLogD("SyncExercises", "Try to update exercise set")
 
             //If network has newest data
-            if (networkUpdatedAt.after(cacheUpdatedAt)) {
-                printLogD(
-                    "SyncExercises",
-                    "Exercise set in cache updated ${cacheExerciseSet.idExerciseSet}"
-                )
-                exerciseSetCacheDataSource.updateExerciseSet(
-                    networkExerciseSet.idExerciseSet,
-                    networkExerciseSet.reps,
-                    networkExerciseSet.weight,
-                    networkExerciseSet.time,
-                    networkExerciseSet.restTime,
-                    networkExerciseSet.order,
-                    networkExerciseSet.updatedAt,
-                    idExercise
-                )
+            if (networkUpdatedAt != null) {
+                if (networkUpdatedAt.after(cacheUpdatedAt)) {
+                    printLogD(
+                        "SyncExercises",
+                        "Exercise set in cache updated ${cacheExerciseSet.idExerciseSet}"
+                    )
+                    exerciseSetCacheDataSource.updateExerciseSet(
+                        networkExerciseSet.idExerciseSet,
+                        networkExerciseSet.reps,
+                        networkExerciseSet.weight,
+                        networkExerciseSet.time,
+                        networkExerciseSet.restTime,
+                        networkExerciseSet.order,
+                        networkExerciseSet.updatedAt,
+                        idExercise
+                    )
+                }
             }
             //If cache has newest data
-            if (networkUpdatedAt.before(cacheUpdatedAt)) {
-                printLogD(
-                    "SyncExercises",
-                    "Exercise set in network updated ${cacheExerciseSet.idExerciseSet}"
-                )
-                exerciseSetNetworkDataSource.updateExerciseSet(
-                    cacheExerciseSet,
-                    idExercise
-                )
+            if (networkUpdatedAt != null) {
+                if (networkUpdatedAt.before(cacheUpdatedAt)) {
+                    printLogD(
+                        "SyncExercises",
+                        "Exercise set in network updated ${cacheExerciseSet.idExerciseSet}"
+                    )
+                    exerciseSetNetworkDataSource.updateExerciseSet(
+                        cacheExerciseSet,
+                        idExercise
+                    )
+                }
             }
         }
     }

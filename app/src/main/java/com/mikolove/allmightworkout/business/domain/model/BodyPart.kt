@@ -10,6 +10,6 @@ data class BodyPart(
 
 
     override fun toString(): String {
-        return "${name.capitalize()}"
+        return name.replaceFirstChar { it.uppercaseChar() }
     }
 }

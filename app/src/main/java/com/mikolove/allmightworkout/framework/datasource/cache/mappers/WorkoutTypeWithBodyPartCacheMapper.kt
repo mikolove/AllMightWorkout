@@ -16,7 +16,7 @@ constructor(
         var workoutType = workoutTypeCacheMapper.mapFromEntity(entity.workoutTypeCacheEntity)
         var bodyParts : List<BodyPart>?
         if(!entity.listOfBodyPartCacheEntity.isNullOrEmpty()){
-            bodyParts = entity.listOfBodyPartCacheEntity?.let {
+            bodyParts = entity.listOfBodyPartCacheEntity.let {
                     bodyPartCacheMapper.entityListToDomainList(it)
                 }
         }else{
@@ -34,7 +34,7 @@ constructor(
 
     override fun entityListToDomainList(entities: List<WorkoutTypeWithBodyPartCacheEntity>): List<WorkoutType> {
         val list : ArrayList<WorkoutType> = ArrayList()
-        entities?.forEach { entity ->
+        entities.forEach { entity ->
             list.add(mapFromEntity(entity))
         }
         return list

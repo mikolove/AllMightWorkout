@@ -89,7 +89,7 @@ constructor(
         }
     }
 
-    override suspend fun updateExerciseSets(exerciseSet: List<ExerciseSet>, idExercise: String) {
+    override suspend fun updateExerciseSets(exerciseSets: List<ExerciseSet>, idExercise: String) {
 
         firebaseAuth.currentUser?.let { currentUser ->
 
@@ -109,7 +109,7 @@ constructor(
             exercise?.let {
 
                 //Update entity
-                it.sets = exerciseSet
+                it.sets = exerciseSets
 
                 val updatedEntity = exerciseNetworkMapper.mapToEntity(it)
                 firestore
@@ -292,7 +292,6 @@ constructor(
 
         firebaseAuth.currentUser?.let { currentUser ->
 
-            var exerciseSets: List<ExerciseSet>? = null
             val exercise = firestore
                 .collection(USERS_COLLECTION)
                 .document(currentUser.uid)

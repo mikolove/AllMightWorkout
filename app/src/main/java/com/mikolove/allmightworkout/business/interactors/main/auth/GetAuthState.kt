@@ -44,7 +44,7 @@ class GetAuthState(
                         .id("GetAuthState.Disconnected")
                         .title(GETAUTHSTATE_TITLE)
                         .description(GETAUTHSTATE_DISCONNECTED)
-                        .uiComponentType(UIComponentType.None)
+                        .uiComponentType(UIComponentType.Toast)
                         .messageType(MessageType.Success),
                     data = null
                 ))

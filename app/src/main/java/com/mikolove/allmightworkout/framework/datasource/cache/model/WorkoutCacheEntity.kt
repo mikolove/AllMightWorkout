@@ -29,7 +29,7 @@ data class WorkoutCacheEntity(
     @ColumnInfo(name = "exercise_ids_updated_at")
     var exerciseIdsUpdatedAt: Date?,
 
-    @ColumnInfo(name = "fk_id_user")
+    @ColumnInfo(name = "fk_id_user", index = true)
     var idUser: String? = null,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")

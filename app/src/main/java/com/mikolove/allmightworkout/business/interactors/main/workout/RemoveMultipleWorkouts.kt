@@ -51,7 +51,7 @@ class RemoveMultipleWorkouts(
             }.getResult()
 
             //Check for random errors
-            if (response?.message?.messageType is MessageType.Error) {
+            if (response.message?.messageType is MessageType.Error) {
                 onDeleteError = true
             }
 

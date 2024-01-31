@@ -91,7 +91,7 @@ class SyncWorkoutExercises(
                         } else if (cacheUpdatedAt != null && networkUpdatedAt == null) {
 
                             //Update network with cache
-                            updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout,networkWorkout.exercises, cacheWorkout?.exercises)
+                            updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout,networkWorkout.exercises, cacheWorkout.exercises)
 
                         } else if (cacheUpdatedAt != null && networkUpdatedAt != null) {
 
@@ -101,13 +101,13 @@ class SyncWorkoutExercises(
                                 if (networkUpdatedAt.after(cacheUpdatedAt)) {
 
                                     //Update cache with network
-                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
                                 }
 
                                 if (networkUpdatedAt.before(cacheUpdatedAt)) {
 
                                     //Update network with cache
-                                    updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                    updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
                                 }
 
                                 //Update cache with network when this is a new installation
@@ -116,7 +116,7 @@ class SyncWorkoutExercises(
                                 val cacheExerciseSize = cacheWorkout.exercises?.size ?: 0
                                 val networkExerciseSize = networkWorkout.exercises?.size ?:0
                                 if(cacheExerciseSize == 0 && networkExerciseSize >0){
-                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                                    updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
                                 }
                             }
                         }
@@ -135,6 +135,7 @@ class SyncWorkoutExercises(
 
             }catch (e : Exception){
 
+                printLogD("SyncWorkoutExercises","Exception : ${e}")
                 return DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("SyncWorkoutExercises.Error")
@@ -217,7 +218,7 @@ class SyncWorkoutExercises(
 
                     //Update network with cache
                     updateWorkoutExerciseInNetworkWithCache(
-                        cacheWorkout.idWorkout,networkWorkout.exercises, cacheWorkout?.exercises)
+                        cacheWorkout.idWorkout,networkWorkout.exercises, cacheWorkout.exercises)
 
                 } else if (cacheUpdatedAt != null && networkUpdatedAt != null) {
 
@@ -231,7 +232,7 @@ class SyncWorkoutExercises(
                             //printLogD("SyncWorkoutExercises","networkUpdatedAt.after(cacheUpdatedAt)")
 
                             //Update cache with network
-                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
 
                         }
 
@@ -239,7 +240,7 @@ class SyncWorkoutExercises(
                             //printLogD("SyncWorkoutExercises","networkUpdatedAt.before(cacheUpdatedAt)")
 
                             //Update network with cache
-                            updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                            updateWorkoutExerciseInNetworkWithCache(cacheWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
 
                         }
 
@@ -252,7 +253,7 @@ class SyncWorkoutExercises(
                         val networkExerciseSize = networkWorkout.exercises?.size ?:0
                         if(cacheExerciseSize == 0 && networkExerciseSize >0){
                             printLogD("SyncWorkoutExercises","cache size ${cacheExerciseSize} network size ${networkExerciseSize}")
-                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout?.exercises)
+                            updateWorkoutExerciseInCacheWithNetwork(networkWorkout.idWorkout, networkWorkout.exercises, cacheWorkout.exercises)
                         }
                     }
 

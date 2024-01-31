@@ -16,7 +16,7 @@ constructor(
         var workout = workoutCacheMapper.mapFromEntity(entity.workoutCacheEntity)
         var exercisesWithSets : List<Exercise>?
         if(!entity.listOfExerciseCacheEntity.isNullOrEmpty()) {
-            exercisesWithSets = entity.listOfExerciseCacheEntity?.let {
+            exercisesWithSets = entity.listOfExerciseCacheEntity.let {
                 exerciseWithSetsCacheMapper.entityListToDomainList(it)
             }
         }

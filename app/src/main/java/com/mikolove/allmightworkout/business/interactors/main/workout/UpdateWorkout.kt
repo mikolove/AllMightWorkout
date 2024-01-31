@@ -62,7 +62,7 @@ class UpdateWorkout(
 
         emit(response)
 
-        updateNetwork(response?.message?.description, workout)
+        updateNetwork(response.message?.description, workout)
 
     }
 

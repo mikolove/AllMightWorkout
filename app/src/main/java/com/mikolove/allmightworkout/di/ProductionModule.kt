@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,6 +38,12 @@ object ProductionModule {
             .build()
     }
 
+
+    @Singleton
+    @Provides
+    fun provideWorkManager(@ApplicationContext context : Context) : WorkManager{
+        return WorkManager.getInstance(context)
+    }
 
     @Singleton
     @Provides

@@ -23,8 +23,6 @@ class SyncWorkouts(
     private val dateFormat: SimpleDateFormat,
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
-    private val exerciseCacheDataSource: ExerciseCacheDataSource,
-    private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
     suspend fun execute(
@@ -139,10 +137,6 @@ class SyncWorkouts(
         return response.data ?: ArrayList()
     }
 
-    private suspend fun syncCacheAndNetwork(cachedWorkouts : ArrayList<Workout>) = withContext(IO){
-
-    }
-
     private suspend fun insertWorkoutInCache(networkWorkout : Workout,idUser : String) {
         printLogD("SyncWorkouts","Insert into cache")
         workoutCacheDataSource.insertWorkout(networkWorkout,idUser)
@@ -158,22 +152,26 @@ class SyncWorkouts(
             printLogD("SyncWorkouts","Try to update workout")
 
             //If network has newest data
-            if(networkUpdatedAt.after(cacheUpdatedAt)){
-                printLogD("SyncWorkouts","Workout in cache updated ${cacheWorkout.idWorkout}")
-                workoutCacheDataSource.updateWorkout(
-                    networkWorkout.idWorkout,
-                    networkWorkout.name,
-                    networkWorkout.isActive,
-                    networkWorkout.updatedAt
-                )
+            if (networkUpdatedAt != null) {
+                if(networkUpdatedAt.after(cacheUpdatedAt)){
+                    printLogD("SyncWorkouts","Workout in cache updated ${cacheWorkout.idWorkout}")
+                    workoutCacheDataSource.updateWorkout(
+                        networkWorkout.idWorkout,
+                        networkWorkout.name,
+                        networkWorkout.isActive,
+                        networkWorkout.updatedAt
+                    )
 
+                }
             }
             //If cache has newest data
-            if(networkUpdatedAt.before(cacheUpdatedAt)) {
-                printLogD("SyncWorkouts","Workout in network updated ${cacheWorkout.idWorkout}")
-                workoutNetworkDataSource.updateWorkout(
-                    cacheWorkout
-                )
+            if (networkUpdatedAt != null) {
+                if(networkUpdatedAt.before(cacheUpdatedAt)) {
+                    printLogD("SyncWorkouts","Workout in network updated ${cacheWorkout.idWorkout}")
+                    workoutNetworkDataSource.updateWorkout(
+                        cacheWorkout
+                    )
+                }
             }
         }
     }

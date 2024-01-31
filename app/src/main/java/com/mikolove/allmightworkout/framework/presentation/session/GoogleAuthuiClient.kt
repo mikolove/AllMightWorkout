@@ -6,6 +6,7 @@ import android.content.IntentSender
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -19,11 +20,11 @@ import com.mikolove.allmightworkout.business.domain.state.UIComponentType
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 
+
 class GoogleAuthUiClient(
     private val serverClientId: String,
     private val oneTapClient: SignInClient,
-    private val auth : FirebaseAuth,
-    private val userFactory: UserFactory
+    private val auth : FirebaseAuth
 ) {
 
     suspend fun signIn(): IntentSender? {
@@ -39,7 +40,7 @@ class GoogleAuthUiClient(
         return result?.pendingIntent?.intentSender
     }
 
-    suspend fun signInWithIntent(intent: Intent): DataState<User> {
+    suspend fun signInWithIntent(intent: Intent): DataState<FirebaseUser> {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
@@ -53,11 +54,7 @@ class GoogleAuthUiClient(
                         .description("Google auth successfully retrieve user")
                         .messageType(MessageType.Success)
                         .uiComponentType(UIComponentType.None),
-                    data = userFactory.createUser(
-                            idUser = it.uid,
-                            name = it.displayName,
-                            email = it.email
-                        )
+                    data = it
                 )
             } ?: DataState.error(
                 message = GenericMessageInfo.Builder()
@@ -92,14 +89,6 @@ class GoogleAuthUiClient(
         }
     }
 
-    fun getSignedInUser(): User? = auth.currentUser?.run {
-        userFactory.createUser(
-            idUser = uid,
-            name = displayName,
-            email = email
-        )
-    }
-
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.Builder()
             .setPasswordRequestOptions(
@@ -113,7 +102,7 @@ class GoogleAuthUiClient(
                     .setServerClientId(serverClientId)
                     .build()
             )
-            .setAutoSelectEnabled(true)
+            .setAutoSelectEnabled(false)
             .build()
     }
 }

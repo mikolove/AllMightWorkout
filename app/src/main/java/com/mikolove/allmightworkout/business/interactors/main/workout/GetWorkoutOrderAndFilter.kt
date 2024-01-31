@@ -31,7 +31,7 @@ class GetWorkoutOrderAndFilter(
                 .uiComponentType(UIComponentType.None),
             data = WorkoutOrderAndFilter(order = order, filter = filter)
         ))
-    }.catch { e ->
+    }.catch {_ ->
         emit(DataState.error(
             message = GenericMessageInfo.Builder()
                 .id("GetWorkoutOrderAndFilter.Error")

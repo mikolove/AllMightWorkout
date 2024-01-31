@@ -2,7 +2,6 @@ package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_PAGINATION_PAGE_SIZE
 
 interface ExerciseDaoService {
 
@@ -25,7 +24,7 @@ interface ExerciseDaoService {
 
     suspend fun getExercisesByWorkout(idWorkout: String): List<Exercise>?
 
-    suspend fun removeExercises(exercise: List<Exercise>)  : Int
+    suspend fun removeExercises(exercises: List<Exercise>)  : Int
 
     suspend fun getExercises(idUser : String) : List<Exercise>
 

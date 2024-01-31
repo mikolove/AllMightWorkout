@@ -1,9 +1,11 @@
 import org.gradle.kotlin.dsl.`kotlin-dsl`
 
-plugins {
-    `kotlin-dsl`
-}
-// Required since Gradle 4.10+.
 repositories {
     mavenCentral()
+}
+
+plugins {
+    `java-gradle-plugin`
+    `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
 }

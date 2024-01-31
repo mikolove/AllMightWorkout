@@ -53,7 +53,7 @@ class InsertMultipleExerciseSet(
                 }
             }.getResult()
 
-            if (response?.message?.messageType is MessageType.Error){
+            if (response.message?.messageType is MessageType.Error){
                 onAddError = true
             }
         }

@@ -197,9 +197,6 @@ constructor(
         }
     }
 
-    private fun updateWorkoutType(workoutType : String){
-        //TODO : Could be unneeded
-    }
 
     private fun updateLoadInitialValue(load : Boolean){
         state.value?.let {  state ->

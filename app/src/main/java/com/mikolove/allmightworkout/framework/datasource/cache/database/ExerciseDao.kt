@@ -1,8 +1,10 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.database
 
 import androidx.room.Dao
+import androidx.room.Ignore
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseWithSetsCacheEntity
 import java.util.*
@@ -48,12 +50,14 @@ interface ExerciseDao{
     @Query("DELETE FROM exercises WHERE id_exercise = :primaryKey")
     suspend fun removeExerciseById(primaryKey :String) : Int
 
+    @Transaction
     @Query("SELECT * FROM exercises WHERE id_exercise = :primaryKey")
     suspend fun getExerciseById(primaryKey: String) : ExerciseWithSetsCacheEntity?
 
     @Query("SELECT count(*) FROM exercises WHERE fk_id_user = :idUser")
     suspend fun getTotalExercises(idUser : String) : Int
 
+    @Transaction
     @Query("""
         SELECT 
             exercises.id_exercise,
@@ -61,6 +65,7 @@ interface ExerciseDao{
             exercises.fk_id_body_part,
             exercises.exercise_type,
             exercises.is_active,
+            exercises.fk_id_user,
             exercises.created_at,
             exercises.updated_at
         FROM exercises, workouts, workouts_exercises 
@@ -70,12 +75,15 @@ interface ExerciseDao{
     """)
     suspend fun getExercisesByWorkout(idWorkout: String): List<ExerciseWithSetsCacheEntity>?
 
+    @Transaction
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
     suspend fun removeExercises(primaryKeys: List<String>)  : Int
 
+    @Transaction
     @Query("SELECT * FROM exercises WHERE id_exercise = :idUser")
     suspend fun getExercises(idUser : String) : List<ExerciseWithSetsCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
@@ -84,6 +92,7 @@ interface ExerciseDao{
     """)
     suspend fun getExercisesOrderByDateDESC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
@@ -92,6 +101,7 @@ interface ExerciseDao{
     """)
     suspend fun getExercisesOrderByDateASC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'
@@ -100,6 +110,7 @@ interface ExerciseDao{
     """)
     suspend fun getExercisesOrderByNameDESC(query: String, page: Int, idUser : String, pageSize: Int = EXERCISE_PAGINATION_PAGE_SIZE): List<ExerciseWithSetsCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM exercises
         WHERE name LIKE '%' || :query || '%'

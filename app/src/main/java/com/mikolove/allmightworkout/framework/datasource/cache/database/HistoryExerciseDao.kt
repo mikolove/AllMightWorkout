@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseWithSetsCacheEntity
 
@@ -12,9 +13,11 @@ interface HistoryExerciseDao {
     @Insert
     suspend fun insertHistoryExercise(historyExercise: HistoryExerciseCacheEntity) : Long
 
+    @Transaction
     @Query("SELECT * FROM history_exercises WHERE fk_id_history_workout = :idHistoryWorkout")
     suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExerciseWithSetsCacheEntity>?
 
+    @Transaction
     @Query("SELECT * FROM history_exercises WHERE id_history_exercise = :primaryKey")
     suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExerciseWithSetsCacheEntity?
 

@@ -60,7 +60,7 @@ constructor(
 
     override suspend fun getUser(primaryKey: String): User? {
 
-        printLogD("UserFirestoreImpl","TRy TO GET USER ${primaryKey} ")
+        //printLogD("UserFirestoreImpl","TRy TO GET USER ${primaryKey} ")
 
         var user : User? = null
         firebaseAuth.currentUser?.uid?.let {
@@ -70,16 +70,16 @@ constructor(
                 .document(primaryKey)
                 .get()
                 .addOnFailureListener {
-                    printLogD("UserFirestoreImpl","LOG FAILURE"+it.message)
+                    //printLogD("UserFirestoreImpl","LOG FAILURE"+it.message)
                 }
                 .await()
                 .toObject(UserNetworkEntity::class.java)?.let {
                         user = userNetworkMapper.mapFromEntity(it)
-                        printLogD("UserFirestoreImpl","user on success ${user}")
+                        //printLogD("UserFirestoreImpl","user on success ${user}")
                 }
         }
 
-        printLogD("UserFirestoreImpl","User returned ${user} ")
+        //printLogD("UserFirestoreImpl","User returned ${user} ")
         return user
     }
 

@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutWithExercisesCacheEntity
 
@@ -24,6 +25,7 @@ interface HistoryWorkoutDao{
     @Insert
     suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkoutCacheEntity) : Long
 
+    @Transaction
     @Query("""
         SELECT * 
         FROM history_workouts
@@ -37,9 +39,12 @@ interface HistoryWorkoutDao{
     @Query("SELECT count(*) FROM history_workouts WHERE fk_id_user = :idUser")
     suspend fun getTotalHistoryWorkout(idUser : String) : Int
 
+    @Transaction
     @Query("SELECT * FROM history_workouts WHERE fk_id_user = :idUser")
     suspend fun getHistoryWorkouts(idUser: String) : List<HistoryWorkoutWithExercisesCacheEntity>
 
+
+    @Transaction
     @Query("""
         SELECT * 
         FROM history_workouts
@@ -54,6 +59,7 @@ interface HistoryWorkoutDao{
         pageSize: Int = HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
     ): List<HistoryWorkoutWithExercisesCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * 
         FROM history_workouts
@@ -68,6 +74,8 @@ interface HistoryWorkoutDao{
         pageSize: Int = HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
     ): List<HistoryWorkoutWithExercisesCacheEntity>
 
+
+    @Transaction
     @Query("""
         SELECT * 
         FROM history_workouts
@@ -82,6 +90,8 @@ interface HistoryWorkoutDao{
         pageSize: Int = HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
     ): List<HistoryWorkoutWithExercisesCacheEntity>
 
+
+    @Transaction
     @Query("""
         SELECT * 
         FROM history_workouts

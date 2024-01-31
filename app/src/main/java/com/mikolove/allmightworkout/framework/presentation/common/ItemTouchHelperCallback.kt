@@ -29,7 +29,7 @@ constructor(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        itemTouchHelperAdapter.onItemSwiped(viewHolder.adapterPosition)
+        itemTouchHelperAdapter.onItemSwiped(viewHolder.bindingAdapterPosition)
     }
 
     override fun isLongPressDragEnabled(): Boolean {

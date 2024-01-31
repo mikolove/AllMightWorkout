@@ -16,7 +16,7 @@ constructor(
     override fun mapFromEntity(entity: ExerciseNetworkEntity): Exercise {
 
         val sets     = entity.sets?.let { exerciseSetNetworkMapper.entityListToDomainList(it) } ?: listOf()
-        val bodyPart = entity.bodyPart?.let { bodyPartExerciseNetworkMapper.mapFromEntity(it) } ?: null
+        val bodyPart = entity.bodyPart?.let { bodyPartExerciseNetworkMapper.mapFromEntity(it) }
 
         return Exercise(
             idExercise = entity.idExercise,
@@ -34,7 +34,7 @@ constructor(
 
     override fun mapToEntity(domainModel: Exercise): ExerciseNetworkEntity {
 
-        val sets = domainModel.sets?.let { exerciseSetNetworkMapper.domainListToEntityList(it) } ?: listOf()
+        val sets = domainModel.sets.let { exerciseSetNetworkMapper.domainListToEntityList(it) }
         val bodyPart = domainModel.bodyPart?.let { bodyPartExerciseNetworkMapper.mapToEntity(it) }
         return ExerciseNetworkEntity(
             idExercise = domainModel.idExercise,

@@ -1,9 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.loading
 
-import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.Queue
-import com.mikolove.allmightworkout.framework.presentation.session.SessionLoggedType
 
 data class LoadingState(
 
@@ -11,7 +9,7 @@ data class LoadingState(
 
     val loadStatusText : String = "",
 
-    val loadingStep : LoadingStep = LoadingStep.INIT,
+    val loadingStep : LoadingStep = LoadingStep.FIRST_LAUNCH,
 
     val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
 )

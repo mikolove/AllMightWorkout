@@ -21,7 +21,7 @@ data class HistoryExerciseSetCacheEntity(
     @ColumnInfo(name = "id_history_exercise_set")
     var idHistoryExerciseSet: String,
 
-    @ColumnInfo(name = "fk_id_history_exercise")
+    @ColumnInfo(name = "fk_id_history_exercise",index = true)
     var idHistoryExercise: String?,
 
     @ColumnInfo(name = "reps")

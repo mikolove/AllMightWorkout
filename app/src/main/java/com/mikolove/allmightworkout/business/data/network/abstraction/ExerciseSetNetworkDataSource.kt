@@ -8,7 +8,7 @@ interface ExerciseSetNetworkDataSource {
 
     suspend fun updateExerciseSet(exerciseSet: ExerciseSet, idExercise: String)
 
-    suspend fun updateExerciseSets(exerciseSet: List<ExerciseSet>, idExercise: String)
+    suspend fun updateExerciseSets(exerciseSets: List<ExerciseSet>, idExercise: String)
 
     suspend fun removeExerciseSetById(primaryKey :String, idExercise: String)
 

@@ -129,7 +129,7 @@ class InsertExercise(
         }.getResult()
 
         //If error emit Message
-        if(responseExercise?.message?.messageType is MessageType.Error){
+        if(responseExercise.message?.messageType is MessageType.Error){
 
             emit(responseExercise)
 
@@ -181,7 +181,7 @@ class InsertExercise(
                 }.getResult()
 
                 //if error break loop
-                if(cacheResponseSet?.message?.messageType is MessageType.Error){
+                if(cacheResponseSet.message?.messageType is MessageType.Error){
                     return@loopSet
                 }
             }
@@ -214,7 +214,7 @@ class InsertExercise(
                         .description(INSERT_EXERCISE_SUCCESS)
                         .uiComponentType(UIComponentType.None)
                         .messageType(MessageType.Success),
-                    data = responseExercise?.data)
+                    data = responseExercise.data)
                 )
 
                 //Update network

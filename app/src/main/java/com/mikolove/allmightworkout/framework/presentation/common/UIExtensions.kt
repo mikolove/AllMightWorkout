@@ -19,7 +19,7 @@ fun processQueue(
 ) {
     context?.let { ctx ->
         if(!queue.isEmpty()){
-            printLogD("UIExtensions","Queue content ${queue.items.mapIndexed { index, message -> message.id }}")
+            printLogD("UIExtensions","Queue content ${queue.items.mapIndexed { _, message -> message.id }}")
             queue.peek()?.let { message ->
                 ctx.onResponseReceived(
                     message = message,

@@ -39,7 +39,7 @@ class FakeExerciseSetNetworkDataSourceImpl(
         }
     }
 
-    override suspend fun updateExerciseSets(exerciseSet: List<ExerciseSet>, idExercise: String) {
+    override suspend fun updateExerciseSets(exerciseSets: List<ExerciseSet>, idExercise: String) {
         TODO("Not yet implemented")
     }
 

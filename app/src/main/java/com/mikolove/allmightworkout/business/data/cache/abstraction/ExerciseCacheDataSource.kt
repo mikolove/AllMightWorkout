@@ -18,7 +18,7 @@ interface ExerciseCacheDataSource {
 
     suspend fun removeExerciseById(primaryKey :String) : Int
 
-    suspend fun removeExercises(exercise: List<Exercise>)  : Int
+    suspend fun removeExercises(exercises: List<Exercise>)  : Int
 
     suspend fun getExercises(query : String, filterAndOrder : String, page : Int, idUser : String) : List<Exercise>
 

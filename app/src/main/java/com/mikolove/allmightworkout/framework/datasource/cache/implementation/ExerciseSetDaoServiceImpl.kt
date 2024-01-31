@@ -42,7 +42,7 @@ constructor(
     }
 
     override suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>): Int {
-        val ids = exerciseSets.mapIndexed{ index,exerciseSets -> exerciseSets.idExerciseSet }
+        val ids = exerciseSets.mapIndexed{ _ ,exerciseSet -> exerciseSet.idExerciseSet }
         return exerciseSetDao.removeExerciseSets(ids)
     }
 
@@ -51,7 +51,7 @@ constructor(
     }
 
     override suspend fun getExerciseSetById(primaryKey: String, idExercise: String): ExerciseSet? {
-        return exerciseSetDao.getExerciseSetById(primaryKey,idExercise)?.let {
+        return exerciseSetDao.getExerciseSetById(primaryKey,idExercise).let {
             exerciseSetCacheMapper.mapFromEntity(it)
         }
     }

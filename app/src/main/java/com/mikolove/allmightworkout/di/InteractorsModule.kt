@@ -20,7 +20,16 @@ import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInt
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
+import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExerciseSets
+import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExercises
+import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedWorkouts
+import com.mikolove.allmightworkout.business.interactors.sync.SyncExercises
+import com.mikolove.allmightworkout.business.interactors.sync.SyncHistory
+import com.mikolove.allmightworkout.business.interactors.sync.SyncInteractors
 import com.mikolove.allmightworkout.business.interactors.sync.SyncNetworkConnectivity
+import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutExercises
+import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutTypesAndBodyPart
+import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkouts
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -149,7 +158,6 @@ object InteractorsModule {
     fun provideLoadingInteractors(
         userCacheDataSource: UserCacheDataSource,
         userNetworkDataSource: UserNetworkDataSource,
-        appDataStore: AppDataStore,
         userFactory: UserFactory,
         dateUtil: DateUtil,
     ) : LoadingInteractors{
@@ -164,7 +172,6 @@ object InteractorsModule {
     fun provideSessionInteractors(
         firebaseAuth: FirebaseAuth,
         userFactory: UserFactory,
-        appDataStore: AppDataStore,
         connectivityManager : ConnectivityManager
     ) : SessionInteractors{
         return SessionInteractors(
@@ -174,6 +181,40 @@ object InteractorsModule {
                 userFactory = userFactory),
             //getSessionPreference = GetSessionPreferences(appDataStore),
             getSessionConnectivityStatus = SyncNetworkConnectivity(connectivityManager)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideSyncInteractors(
+        connectivityManager: ConnectivityManager,
+        @SimpleDateFormatLocal dateFormat: SimpleDateFormat,
+        dateUtil: DateUtil,
+        bodyPartCacheDataSource : BodyPartCacheDataSource,
+        historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
+        historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
+        historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
+        historyWorkoutNetworkDataSource: HistoryWorkoutNetworkDataSource,
+        exerciseCacheDataSource: ExerciseCacheDataSource,
+        exerciseNetworkDataSource: ExerciseNetworkDataSource,
+        exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
+        exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
+        workoutCacheDataSource: WorkoutCacheDataSource,
+        workoutNetworkDataSource: WorkoutNetworkDataSource,
+        workoutTypeCacheDataSource: WorkoutTypeCacheDataSource,
+        workoutTypeNetworkDataSource: WorkoutTypeNetworkDataSource
+    ) : SyncInteractors{
+        return SyncInteractors(
+            SyncNetworkConnectivity(connectivityManager = connectivityManager),
+            syncDeletedExercises = SyncDeletedExercises( exerciseCacheDataSource, exerciseNetworkDataSource),
+            syncDeletedExerciseSets = SyncDeletedExerciseSets(exerciseSetCacheDataSource, exerciseSetNetworkDataSource),
+            syncDeletedWorkouts = SyncDeletedWorkouts(workoutCacheDataSource,workoutNetworkDataSource),
+            syncExercises = SyncExercises(dateFormat,exerciseCacheDataSource, exerciseNetworkDataSource, exerciseSetCacheDataSource, exerciseSetNetworkDataSource),
+            syncHistory = SyncHistory(historyWorkoutCacheDataSource, historyExerciseCacheDataSource, historyExerciseSetCacheDataSource, historyWorkoutNetworkDataSource),
+            syncWorkouts = SyncWorkouts(dateFormat,workoutCacheDataSource, workoutNetworkDataSource),
+            syncWorkoutExercises = SyncWorkoutExercises(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
+            syncWorkoutTypesAndBodyPart = SyncWorkoutTypesAndBodyPart(workoutTypeCacheDataSource,workoutTypeNetworkDataSource, bodyPartCacheDataSource)
+
         )
     }
 }

@@ -4,6 +4,7 @@ import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType
 import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -38,6 +39,7 @@ constructor(
 
         for ( (idSync, sync) in listOfSync.toSortedMap()){
 
+            printLogD("SyncEverything","Process list ${idSync} - ${sync}")
             val dataState : DataState<SyncState> = when(sync){
                 "workoutandbp" ->  syncWorkoutTypesAndBodyPart.execute()
                 "deletedsets" ->   syncDeletedExerciseSets.execute()
@@ -60,8 +62,8 @@ constructor(
                 }
             }
 
-            emit(dataState)
-
+            //emit(dataState)
+            printLogD("SyncEverything","${dataState.message?.title}  - ${dataState.message?.description} - ${dataState.data}")
             if(dataState.data == SyncState.FAILURE){
                 errorOccured = true
                 break
@@ -80,6 +82,16 @@ constructor(
                     data = SyncState.SUCCESS
                 )
             )
+        }else{
+            emit(
+                DataState.error(
+                    message = GenericMessageInfo.Builder()
+                        .id("SyncEverything.Error")
+                        .title(SYNC_GERROR_TITLE)
+                        .description(SYNC_GERROR_DESCRIPTION)
+                        .messageType(MessageType.Error)
+                        .uiComponentType(UIComponentType.Toast),
+                ))
         }
 
     }

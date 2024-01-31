@@ -26,7 +26,7 @@ data class WorkoutExerciseCacheEntity(
     @ColumnInfo(name = "id_workout")
     var idWorkout: String,
 
-    @ColumnInfo(name = "id_exercise")
+    @ColumnInfo(name = "id_exercise",index = true)
     var idExercise: String,
 
     @ColumnInfo(name = "created_at")

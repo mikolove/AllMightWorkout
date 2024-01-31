@@ -29,19 +29,19 @@ class WorkoutTypeAdapter(
         return workoutTypes[position]
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        if (convertView == null) {
+        var convertedView = convertView
+        if (convertedView == null) {
             val inflater = LayoutInflater.from(mContext)
-            convertView = inflater.inflate(layoutResource, parent, false)
+            convertedView = inflater.inflate(layoutResource, parent, false)
         }
         try {
             val workoutType : WorkoutType = getItem(position)
-            val workoutTypeAutoCompleteView = convertView!!.findViewById<View>(R.id.autoCompleteTextWorkoutType) as TextView
-            workoutTypeAutoCompleteView.text = workoutType.name.capitalize()
+            val workoutTypeAutoCompleteView = convertedView!!.findViewById<View>(R.id.autoCompleteTextWorkoutType) as TextView
+            workoutTypeAutoCompleteView.text = workoutType.name.replaceFirstChar { it.uppercaseChar() }
         } catch (e: Exception) {
             printLogD("WorkoutTypeAdapter","Error : ${e}")
         }
-        return convertView!!
+        return convertedView!!
     }
 
     fun submitList(workoutTypes : List<WorkoutType>){
@@ -71,19 +71,19 @@ class BodyPartAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
+        var convertedView = convertView
+        if (convertedView == null) {
+            convertedView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
         }
         try {
             val bodyPart: BodyPart = getItem(position)
             val bodyPartAutoCompleteView =
-                convertView!!.findViewById<View>(R.id.autoCompleteTextBodyPart) as TextView
-            bodyPartAutoCompleteView.text = bodyPart.name.capitalize()
+                convertedView!!.findViewById<View>(R.id.autoCompleteTextBodyPart) as TextView
+            bodyPartAutoCompleteView.text = bodyPart.name.replaceFirstChar { it.uppercaseChar() }
         } catch (e: Exception) {
             printLogD("BodyPartAdapter", "Error : ${e}")
         }
-        return convertView!!
+        return convertedView!!
     }
 
     fun submitList(bodyParts: List<BodyPart>) {
@@ -111,18 +111,18 @@ class ExerciseTypeAdapter(
         return exerciseTypes[position]
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
+        var converedtView = convertView
+        if (converedtView == null) {
+            converedtView = LayoutInflater.from(mContext).inflate(layoutResource, parent, false)
         }
         try {
             val exerciseType : ExerciseType = getItem(position)
-            val exerciseTypeAutoCompleteView = convertView!!.findViewById<View>(R.id.autoCompleteTextExerciseType) as TextView
-            exerciseTypeAutoCompleteView.text = exerciseType.type.capitalize()
+            val exerciseTypeAutoCompleteView = converedtView!!.findViewById<View>(R.id.autoCompleteTextExerciseType) as TextView
+            exerciseTypeAutoCompleteView.text = exerciseType.type.replaceFirstChar { it.uppercaseChar() }
         } catch (e: Exception) {
             printLogD("ExerciseTypeAdapter","Error : ${e}")
         }
-        return convertView!!
+        return converedtView!!
     }
 
     fun submitList(exerciseTypes : List<ExerciseType>){

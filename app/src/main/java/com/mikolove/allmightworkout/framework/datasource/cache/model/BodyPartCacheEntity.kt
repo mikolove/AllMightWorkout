@@ -23,7 +23,7 @@ data class BodyPartCacheEntity(
     @ColumnInfo(name = "name")
     var name : String,
 
-    @ColumnInfo(name = "fk_id_workout_type")
+    @ColumnInfo(name = "fk_id_workout_type", index = true )
     var idWorkoutType : String?,
 
     ){}

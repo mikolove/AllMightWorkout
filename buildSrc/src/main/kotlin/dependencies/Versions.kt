@@ -1,16 +1,16 @@
 package dependencies
 
 object Versions {
-    val gradle = "7.4.2"
+    val gradle = "8.2.2"
     val agp ="7.4.1"
     val compilesdk = 31
     val minsdk = 24
     val targetsdk = 31
-    val kotlin = "1.8.22"
+    val kotlin = "1.9.20"//"1.8.22"
     val recycler_view = "1.2.1"
     val safe_args = "2.5.3"
     val ktx = "1.9.0"
-    val hilt = "2.44"
+    val hilt = "2.50"
     val hilt_jetpack = "1.1.0"
     val nav_components = "2.5.3"
     val material_dialogs = "3.3.0"
@@ -32,7 +32,7 @@ object Versions {
     val firebase_bom = "32.5.0"
     val coroutines_version = "1.6.4"
     val coroutines_play_services = "1.6.4"
-    val lifecycle_version = "2.5.1"
+    val lifecycle_version = "2.7.0"
     val retrofit2_version = "2.9.0"
     val multidex_version = "2.0.1"
     val datastore = "1.0.0"
@@ -49,10 +49,17 @@ object Versions {
     val monitor = "1.6.1"
     val androidx_test_ext = "1.1.5"
     val androidx_test_ext_truth = "1.5.0"
-    val hilt_testing = "2.44"
+    val hilt_testing = "2.50"
     val orchestrator ="1.4.2"
     val junit_ktx ="1.1.5"
 
     val compose_bom = "2023.01.00"
-    val material3 = "material3"
+    val compose_nav = "2.5.3"
+    val material3 = "material3-android:1.2.0-rc01"
+    //val material3 = "material3"
+
+    val ksp = "1.8.22-1.0.11"
+    val compose_destination = "1.9.55"
+
+    val workmanager_coroutine ="2.9.0"
 }

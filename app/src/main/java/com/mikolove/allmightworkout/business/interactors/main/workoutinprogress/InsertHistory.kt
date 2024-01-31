@@ -255,7 +255,7 @@ class InsertHistory(
             }
         }.getResult()
 
-        return response?.data
+        return response.data
     }
 
     private fun errorOccurred(cacheResponse : DataState<Long>?) : Boolean{
@@ -277,7 +277,7 @@ class InsertHistory(
                     idHistoryWorkout = historyWorkout.idHistoryWorkout)
             }
 
-            historyExercise.historySets?.forEach{ historyExerciseSet ->
+            historyExercise.historySets.forEach{ historyExerciseSet ->
                 safeApiCall(IO){
                     historyExerciseSetNetworkDataSource.insertHistoryExerciseSet(
                         historyExerciseSet= historyExerciseSet,

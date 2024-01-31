@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutWithExercisesCacheEntity
 import java.util.*
@@ -41,12 +42,14 @@ interface WorkoutDao {
     @Query("DELETE FROM workouts WHERE id_workout IN (:ids)")
     suspend fun removeWorkouts(ids : List<String>) : Int
 
+    @Transaction
     @Query("SELECT * FROM workouts WHERE id_workout = :primaryKey")
     suspend fun getWorkoutById(primaryKey: String) : WorkoutWithExercisesCacheEntity?
 
     @Query("SELECT count(*) FROM workouts WHERE fk_id_user = :idUser")
     suspend fun getTotalWorkout(idUser: String) : Int
 
+    @Transaction
     @Query("SELECT * FROM workouts WHERE fk_id_user = :idUser")
     suspend fun getWorkouts(idUser: String) : List<WorkoutWithExercisesCacheEntity>
 
@@ -58,6 +61,7 @@ interface WorkoutDao {
     suspend fun updateExerciseIdsUpdatedAt(idWorkout : String, exerciseIdsUpdatedAt: Date?) : Int
 
 
+    @Transaction
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
@@ -66,6 +70,7 @@ interface WorkoutDao {
     """)
     suspend fun getWorkoutsOrderByDateDESC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
@@ -74,6 +79,7 @@ interface WorkoutDao {
     """)
     suspend fun getWorkoutsOrderByDateASC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'
@@ -82,6 +88,7 @@ interface WorkoutDao {
     """)
     suspend fun getWorkoutsOrderByNameDESC( query: String, page : Int, idUser : String, pageSize : Int = WORKOUT_PAGINATION_PAGE_SIZE) : List<WorkoutWithExercisesCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT * FROM workouts
         WHERE name LIKE '%' || :query || '%'

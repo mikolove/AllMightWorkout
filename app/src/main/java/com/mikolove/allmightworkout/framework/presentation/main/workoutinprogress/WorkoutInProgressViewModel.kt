@@ -157,7 +157,7 @@ constructor(
 
                             dataState?.isLoading?.let { this.state.value = state.copy(isLoading = it) }
 
-                            dataState?.data?.let { idHistory ->
+                            dataState?.data?.let { _ ->
                             }
 
                             dataState?.message?.let {  message ->

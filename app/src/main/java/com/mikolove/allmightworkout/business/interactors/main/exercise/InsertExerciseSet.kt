@@ -78,7 +78,7 @@ class InsertExerciseSet(
 
         emit(cacheResponse)
 
-        updateNetwork(cacheResponse?.message?.description, newExerciseSet,idExercise)
+        updateNetwork(cacheResponse.message?.description, newExerciseSet,idExercise)
    }
 
     private suspend fun updateNetwork(cacheResponse : String?, newExerciseSet : ExerciseSet, idExercise: String){

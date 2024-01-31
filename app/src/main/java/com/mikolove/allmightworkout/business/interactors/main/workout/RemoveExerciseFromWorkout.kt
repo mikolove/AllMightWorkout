@@ -75,7 +75,7 @@ class RemoveExerciseFromWorkout(
 
             emit(response)
 
-            updateNetwork(response?.message?.description, idWorkout,idExercise,updatedExerciseIdsDate)
+            updateNetwork(response.message?.description, idWorkout,idExercise,updatedExerciseIdsDate)
 
         }
     }
@@ -97,7 +97,7 @@ class RemoveExerciseFromWorkout(
             }
         }.getResult()
 
-        return cacheResponse?.data ?: 0
+        return cacheResponse.data ?: 0
     }
 
     private suspend fun updateNetwork(message : String?, idWorkout: String, idExercise: String, dateUpdated : String){

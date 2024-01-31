@@ -13,7 +13,7 @@ import com.mikolove.allmightworkout.business.domain.state.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.Cache
+
 
 class UpdateExercise(
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
@@ -75,7 +75,7 @@ class UpdateExercise(
         exercise : Exercise,
     ) : Flow<DataState<Int>?> = flow{
 
-        emit(DataState.loading<Int>())
+        emit(DataState.loading())
 
 
         //Get cached exercise
@@ -93,14 +93,14 @@ class UpdateExercise(
             }
         }.getResult()
 
-        responseExercise?.message?.let { message ->
+        responseExercise.message?.let { message ->
             if(message.messageType is MessageType.Error){
-                emit(DataState.error<Int>(message = message))
+                emit(DataState.error(message = message))
                 return@flow
             }
         }
 
-        var cachedExercise : Exercise? = responseExercise?.data
+        val cachedExercise : Exercise? = responseExercise.data
         /*if(cachedExercise == null){
             return@flow
         }*/
@@ -138,14 +138,14 @@ class UpdateExercise(
             }
         }.getResult()
 
-        if(responseUpdateExercise?.message?.messageType is MessageType.Error){
+        if(responseUpdateExercise.message?.messageType is MessageType.Error){
             emit(responseUpdateExercise)
 
             //Else deal with sets
         }else{
 
             var error = false
-            var deletedSets = mutableListOf<ExerciseSet>()
+            val deletedSets = mutableListOf<ExerciseSet>()
             val sets = exercise.sets
 
             //Update Insert or Delete sets break if any error
@@ -191,7 +191,7 @@ class UpdateExercise(
                             }
                         }.getResult()
 
-                        if(responseUpdateSet?.message?.messageType is MessageType.Error){
+                        if(responseUpdateSet.message?.messageType is MessageType.Error){
                             return@updateLoop
                         }
 
@@ -223,7 +223,7 @@ class UpdateExercise(
                             }
                         }.getResult()
 
-                        if(responseInsertSet?.message?.messageType is MessageType.Error){
+                        if(responseInsertSet.message?.messageType is MessageType.Error){
                             return@updateLoop
                         }
                     }
@@ -259,7 +259,7 @@ class UpdateExercise(
                             }
                         }.getResult()
 
-                        if(reponseDeleteSet?.message?.messageType is MessageType.Error){
+                        if(reponseDeleteSet.message?.messageType is MessageType.Error){
                             return@updateLoop
                         }
 

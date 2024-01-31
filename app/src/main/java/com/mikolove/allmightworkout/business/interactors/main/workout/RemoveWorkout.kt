@@ -55,7 +55,7 @@ class RemoveWorkout(
         emit(response)
 
         //Update network
-        updateNetwork(response?.message?.description, workout)
+        updateNetwork(response.message?.description, workout)
     }
 
     private suspend fun updateNetwork(cacheResponse : String?, deletedWorkout : Workout) {

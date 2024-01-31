@@ -62,7 +62,19 @@ object Dependencies {
 
 
     val compose_bom = "androidx.compose:compose-bom:${Versions.compose_bom}"
+    val compose_lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle_version}"
+    val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle_version}"
+    val compose_lvm_ss = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle_version}"
+
     val compose_material3 = "androidx.compose.material3:${Versions.material3}"
     val compose_uitooling_preview = "androidx.compose.ui:ui-tooling-preview"
     val compose_uitooling = "androidx.compose.ui:ui-tooling"
+    val compose_navigation = "androidx.navigation:navigation-compose:${Versions.compose_nav}"
+
+    //Librarie to navigation
+    val compose_destination_core = "io.github.raamcosta.compose-destinations:core:${Versions.compose_destination}"
+    val compose_destination_ksp = "io.github.raamcosta.compose-destinations:ksp:${Versions.compose_destination}"
+
+    //Work Manager
+    val workmanager_coroutine = "androidx.work:work-runtime-ktx:${Versions.workmanager_coroutine}"
 }

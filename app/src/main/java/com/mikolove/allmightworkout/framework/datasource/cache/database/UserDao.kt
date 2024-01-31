@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.UserCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.UserWithWorkoutAndExerciseCacheEntity
 
@@ -18,6 +19,7 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE id_user = :primaryKey")
     suspend fun getUser(primaryKey: String) : UserCacheEntity?
 
+    @Transaction
     @Query("SELECT * FROM users WHERE id_user = :primaryKey")
     suspend fun getUserWithWorkout(primaryKey: String) : UserWithWorkoutAndExerciseCacheEntity?
 }

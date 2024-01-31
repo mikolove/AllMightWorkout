@@ -40,7 +40,7 @@ constructor(
     }
 
     override suspend fun removeWorkouts(workouts: List<Workout>): Int {
-        val ids = workouts.mapIndexed { index, workout -> workout.idWorkout }
+        val ids = workouts.mapIndexed { _, workout -> workout.idWorkout }
         return workoutDao.removeWorkouts(ids)
     }
 
@@ -51,7 +51,7 @@ constructor(
     }
 
     override suspend fun getExerciseIdsUpdate(idWorkout: String): String? {
-        return workoutDao.getExerciseIdsUpdate(idWorkout)?.let {
+        return workoutDao.getExerciseIdsUpdate(idWorkout).let {
             dateUtil.convertDateToStringDate(it)
         }
     }

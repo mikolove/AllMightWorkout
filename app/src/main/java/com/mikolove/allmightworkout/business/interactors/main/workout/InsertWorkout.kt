@@ -68,7 +68,7 @@ InsertWorkout(
 
         emit(cacheResponse)
 
-        updateNetwork(cacheResponse?.message?.description, newWorkout)
+        updateNetwork(cacheResponse.message?.description, newWorkout)
     }
 
 

@@ -3,6 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.cache.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeCacheEntity
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeWithBodyPartCacheEntity
 
@@ -31,6 +32,7 @@ interface WorkoutTypeDao{
     @Query("DELETE FROM workout_types WHERE id_workout_type = :primaryKey")
     suspend fun removeWorkoutType(primaryKey: String) : Int
 
+    @Transaction
     @Query("""
         SELECT workout_types.id_workout_type, workout_types.name
         FROM workout_types, body_parts
@@ -39,15 +41,18 @@ interface WorkoutTypeDao{
     """)
     suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?) : WorkoutTypeWithBodyPartCacheEntity?
 
+    @Transaction
     @Query("SELECT * FROM workout_types WHERE id_workout_type = :primaryKey")
     suspend fun getWorkoutTypeById(primaryKey: String) : WorkoutTypeWithBodyPartCacheEntity?
 
+    @Transaction
     @Query("SELECT * FROM workout_types")
     suspend fun getWorkoutTypes() : List<WorkoutTypeWithBodyPartCacheEntity>
 
     @Query("SELECT count(*) FROM workout_types")
     suspend fun getTotalWorkoutTypes() : Int
 
+    @Transaction
     @Query("""
         SELECT *
         FROM workout_types
@@ -60,6 +65,7 @@ interface WorkoutTypeDao{
         pageSize: Int = WORKOUTTYPE_PAGINATION_PAGE_SIZE
     ): List<WorkoutTypeWithBodyPartCacheEntity>
 
+    @Transaction
     @Query("""
         SELECT *
         FROM workout_types

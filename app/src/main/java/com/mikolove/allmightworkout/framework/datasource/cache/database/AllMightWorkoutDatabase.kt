@@ -16,7 +16,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.DateConverte
     HistoryWorkoutCacheEntity::class,
     HistoryExerciseCacheEntity::class,
     HistoryExerciseSetCacheEntity::class,
-    WorkoutExerciseCacheEntity::class], version = 2)
+    WorkoutExerciseCacheEntity::class], version = 3, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun userDao() : UserDao

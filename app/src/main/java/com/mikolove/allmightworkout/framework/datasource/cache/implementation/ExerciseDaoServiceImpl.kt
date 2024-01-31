@@ -62,8 +62,8 @@ constructor(
         }
     }
 
-    override suspend fun removeExercises(exercise: List<Exercise>): Int {
-        val ids = exercise.mapIndexed { index, exercise -> exercise.idExercise }
+    override suspend fun removeExercises(exercises: List<Exercise>): Int {
+        val ids = exercises.mapIndexed { _, exercise -> exercise.idExercise }
         return exerciseDao.removeExercises(ids)
     }
 

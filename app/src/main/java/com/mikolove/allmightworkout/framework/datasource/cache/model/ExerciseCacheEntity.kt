@@ -28,7 +28,7 @@ data class ExerciseCacheEntity(
     @ColumnInfo(name = "name")
     var name: String,
 
-    @ColumnInfo(name = "fk_id_body_part")
+    @ColumnInfo(name = "fk_id_body_part" ,index = true)
     var idBodyPart: String?,
 
     @ColumnInfo(name = "exercise_type")
@@ -37,7 +37,7 @@ data class ExerciseCacheEntity(
     @ColumnInfo(name = "is_active")
     var isActive: Boolean,
 
-    @ColumnInfo(name = "fk_id_user")
+    @ColumnInfo(name = "fk_id_user",index = true)
     var idUser : String? = null,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")

@@ -2,13 +2,11 @@ package com.mikolove.allmightworkout.framework.presentation.main.loading
 
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -19,7 +17,7 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.model.UserFactory
 import com.mikolove.allmightworkout.databinding.FragmentLoadingBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.compose.LoadingScreen
+import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.LoadingScreen
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,9 +31,9 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
     @Inject
     lateinit var userFactory: UserFactory
 
-    private val googleAuthUiClient by lazy {
+/*    private val googleAuthUiClient by lazy {
         sessionManager.googleAuthUiClient
-    }
+    }*/
 
 
 
@@ -68,7 +66,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
                 val viewModel: LoadingViewModel = hiltViewModel()
 
-                val launcher = rememberLauncherForActivityResult(
+   /*             val launcher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.StartIntentSenderForResult(),
                     onResult = { result ->
                         if(result.resultCode == RESULT_OK) {
@@ -84,19 +82,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
                             viewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
                         }
                     }
-                )
-
-                LoadingScreen(
-                    sessionManager,
-                    viewModel
-                ) {
-                    /*lifecycleScope.launch {
-                        val signInIntentSender = googleAuthUiClient.signIn()
-                        launcher.launch {
-                            IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build()
-                        }
-                    }*/
-                }
+                )*/
             }
         }
     }

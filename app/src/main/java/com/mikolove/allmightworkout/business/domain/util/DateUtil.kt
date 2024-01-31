@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.domain.util
 
 import com.google.firebase.Timestamp
+import com.mikolove.allmightworkout.util.printLogD
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,8 +19,11 @@ constructor(
     }
 
     fun convertStringDateToFirebaseTimestamp(date: String): Timestamp{
-        return Timestamp(dateFormatUs.parse(date))
+        dateFormatUs.parse(date)?.let {
+            return Timestamp(it)
+        } ?: return Timestamp.now()
     }
+
 
     /*
     Room String - Date
@@ -29,7 +33,8 @@ constructor(
     }
 
     fun convertStringDateToDate(date : String) : Date{
-        return dateFormatUs.parse(date)
+
+        return dateFormatUs.parse(date) ?: getCurrentDate()
     }
 
     /*
