@@ -19,12 +19,14 @@ class GetAuthState(
 
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
 
-            auth.currentUser?.run{
+            val authUser = auth.currentUser
+            
+            if(authUser != null ){
 
                 val user = userFactory.createUser(
-                    idUser = uid,
-                    email = email,
-                    name = displayName,
+                    idUser = authUser.uid,
+                    email = authUser.email,
+                    name = authUser.displayName,
                 )
 
                 trySend(DataState.data(
@@ -37,14 +39,14 @@ class GetAuthState(
                     data = user
                 ))
 
-            } ?: {
+            } else{
 
                 trySend(DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("GetAuthState.Disconnected")
                         .title(GETAUTHSTATE_TITLE)
                         .description(GETAUTHSTATE_DISCONNECTED)
-                        .uiComponentType(UIComponentType.Toast)
+                        .uiComponentType(UIComponentType.None)
                         .messageType(MessageType.Success),
                     data = null
                 ))

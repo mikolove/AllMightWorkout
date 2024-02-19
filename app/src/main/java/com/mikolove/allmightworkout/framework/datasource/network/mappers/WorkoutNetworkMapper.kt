@@ -18,6 +18,7 @@ constructor(private val dateUtil: DateUtil)
             isActive = entity.isActive,
             startedAt = null,
             endedAt = null,
+            groups = null,
             exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt?.let { dateUtil.convertFirebaseTimestampToStringData(it) },
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
             updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt)
@@ -31,6 +32,7 @@ constructor(private val dateUtil: DateUtil)
             exerciseIds = null,
             isActive = domainModel.isActive,
             exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt?.let { dateUtil.convertStringDateToFirebaseTimestamp(it) },
+            groupIds = null,
             createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
         )

@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import android.os.Bundle
@@ -54,9 +55,11 @@ class WorkoutFragment
     private var binding : FragmentWorkoutBinding? = null
 
 
-    /********************************************************************
+    */
+/********************************************************************
     LIFECYCLE MANANGEMENT
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +91,7 @@ class WorkoutFragment
         }
 
 
+*/
 /*        MaterialDialog(requireActivity())
             .show{
                 title(text = "Test")
@@ -102,10 +106,13 @@ class WorkoutFragment
                     dismiss()
                 }
                 cancelable(false)
-            }*/
-        /*  postponeEnterTransition()
+            }*//*
+
+        */
+/*  postponeEnterTransition()
           view.doOnPreDraw { startPostponedEnterTransition() }
-  */
+  *//*
+
     }
 
     override fun onResume() {
@@ -133,12 +140,15 @@ class WorkoutFragment
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     FRAGEMENT SAVEINSTANCE
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("WorkoutFragment","OnSaveInstanceState")
+*/
 /*        val viewState = viewModel.viewState.value
 
         viewState?.listWorkouts =  ArrayList()
@@ -151,22 +161,27 @@ class WorkoutFragment
         outState.putParcelable(
             WORKOUT_VIEW_STATE_BUNDLE_KEY,
             viewState
-        )*/
+        )*//*
+
         super.onSaveInstanceState(outState)
     }
 
     private fun restoreInstanceState(savedInstanceState: Bundle?){
         printLogD("WorkoutFragment","restoreInstanceState")
-        /*savedInstanceState?.let { inState ->
+        */
+/*savedInstanceState?.let { inState ->
             (inState[WORKOUT_VIEW_STATE_BUNDLE_KEY] as WorkoutViewState?)?.let { viewState ->
                 viewModel.setViewState(viewState)
             }
-        }*/
+        }*//*
+
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     SUBSCRIBE OBSERVERS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun subscribeObservers(){
 
@@ -209,7 +224,8 @@ class WorkoutFragment
             }
         })
 
-        /* viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        */
+/* viewModel.state.observe(viewLifecycleOwner, Observer { state ->
 
             if (state != null) {
 
@@ -229,17 +245,21 @@ class WorkoutFragment
                viewState.workoutToInsert?.let { insertedWorkout ->
                     printLogD("WorkoutFragment","INSERTED WORKOUT OBSERVED IN FRAGMENT")
                     viewModel.getWorkoutById(insertedWorkout.idWorkout)
-                }*/
+                }*//*
 
-        /*viewState.workoutSelected?.let { _ ->
+
+        */
+/*viewState.workoutSelected?.let { _ ->
             if(viewModel.getWorkoutToInsert() != null) {
                 insertionNavigateToManageWorkout()
             }
         }
     }
-})*/
+})*//*
 
-        /*viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
+
+        */
+/*viewModel.shouldDisplayProgressBar.observe(viewLifecycleOwner, Observer { isLoading ->
             printActiveJobs()
             uiController.displayProgressBar(isLoading)
         })
@@ -278,13 +298,16 @@ class WorkoutFragment
                 }
             }
 
-        })*/
+        })*//*
+
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     SETUP
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun showList(){
         if(binding?.fragmentWorkoutSwiperefreshlayout?.isVisible == false) {
@@ -351,17 +374,21 @@ class WorkoutFragment
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     NAVIGATION
-     *********************************************************************/
+     *********************************************************************//*
 
+
+*/
 /*    private fun insertionNavigateToManageWorkout(){
         findNavController().navigate(
             R.id.action_workout_fragment_to_workout_detail_fragment,
             null
         )
         viewModel.setInsertedWorkout(null)
-    }*/
+    }*//*
+
 
     private fun selectionNavigateToManageWorkout(containerView : View?){
 
@@ -369,6 +396,7 @@ class WorkoutFragment
             R.id.action_workout_fragment_to_workout_detail_fragment,
             null
         )
+*/
 /*        val itemDetailTransitionName = getString(R.string.test_workout_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
@@ -383,12 +411,15 @@ class WorkoutFragment
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = 300.toLong()
-        }*/
+        }*//*
+
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     UI DIALOG
-     *********************************************************************/
+     *********************************************************************//*
+
 
 
     fun showFilterDialog(){
@@ -455,17 +486,21 @@ class WorkoutFragment
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     UI FAB
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun fabOnClick() {
         addWorkout()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     ACTION MODE
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -512,9 +547,11 @@ class WorkoutFragment
         viewModel.clearSelectedWorkouts()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     MENU
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout, menu)
@@ -568,9 +605,11 @@ class WorkoutFragment
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     VIEWMODEL ACTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
 
     private fun addWorkout(){
@@ -624,10 +663,13 @@ class WorkoutFragment
         viewModel.onTriggerEvent(LaunchDialog(message))
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     OVERRIDE UI CONTROLLER TOAST SNACKBAR
-     *********************************************************************/
+     *********************************************************************//*
 
+
+*/
 /*    private fun showToastDeleteWorkouts(){
 
         uiController.onResponseReceived(
@@ -680,11 +722,14 @@ class WorkoutFragment
                 }
             }
         )
-    }*/
+    }*//*
 
-    /********************************************************************
+
+    */
+/********************************************************************
     WORKOUT LIST ADAPTER INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun onItemSelected(position: Int?, item: Workout, containerView: View?) {
         if(isMultiSelectionModeEnabled()){
@@ -706,4 +751,4 @@ class WorkoutFragment
     }
 
 
-}
+}*/

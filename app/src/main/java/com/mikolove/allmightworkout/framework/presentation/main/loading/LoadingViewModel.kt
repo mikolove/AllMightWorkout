@@ -96,6 +96,7 @@ constructor(
                 } ?:   onTriggerEvent(LoadStep(LoadingStep.NOT_CONNECTED))
 
             }else{
+
                 if(state.loadingStep != LoadingStep.FIRST_LAUNCH)
                     onTriggerEvent(LoadStep(LoadingStep.FIRST_LAUNCH))
             }

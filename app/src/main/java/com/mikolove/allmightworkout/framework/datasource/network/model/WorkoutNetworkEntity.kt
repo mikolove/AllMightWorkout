@@ -9,6 +9,7 @@ data class WorkoutNetworkEntity (
     var name: String,
     var exerciseIds : List<String>?,
     var exerciseIdsUpdatedAt : Timestamp?,
+    var groupIds : List<String>?,
     @field:JvmField
     var isActive: Boolean,
     var createdAt: Timestamp,
@@ -19,6 +20,7 @@ data class WorkoutNetworkEntity (
         "",
         listOf(),
         null,
+        listOf(),
         true,
         Timestamp.now(),
         Timestamp.now()

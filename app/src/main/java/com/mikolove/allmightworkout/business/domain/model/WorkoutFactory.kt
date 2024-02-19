@@ -11,10 +11,11 @@ class WorkoutFactory
 constructor(private val dateUtil: DateUtil){
 
     fun createWorkout(
-        idWorkout : String? ,
+        idWorkout : String?,
         name : String?,
         exercises : List<Exercise>?,
         isActive : Boolean? = true,
+        collection : List<WorkoutGroup>? = null,
         created_at : String?
     ) : Workout {
         return Workout(
@@ -25,6 +26,7 @@ constructor(private val dateUtil: DateUtil){
             startedAt = null,
             endedAt = null,
             exerciseIdsUpdatedAt = null,
+            groups = collection,
             createdAt = created_at?: dateUtil.getCurrentTimestamp(),
             updatedAt = dateUtil.getCurrentTimestamp()
         )

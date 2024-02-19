@@ -1,10 +1,13 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
 import android.content.Context
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
@@ -13,8 +16,10 @@ import com.mikolove.allmightworkout.framework.workers.SyncEverythingWorker
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,6 +44,9 @@ constructor(
 
         when(event){
 
+            is SessionEvents.UpdateFirstLaunch->{
+                updateFirstLaunch()
+            }
             is SessionEvents.GetAuthState->{
                 getAuthState()
             }
@@ -60,18 +68,31 @@ constructor(
     /*
         Fun
      */
-
-    fun isAuth() : Boolean = _state.value.user != null
     fun getUser() : User? = _state.value.user
     fun getUserId() : String? = _state.value.user?.idUser
+
+    private fun updateFirstLaunch(){
+        _state.value.let { state ->
+            this._state.value = state.copy(firstLaunch = false)
+        }
+    }
 
     private fun syncEverything(){
         _state.value.let { state ->
             state.user?.let { user ->
+
+                val constraints  = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+
                 val workRequest = OneTimeWorkRequestBuilder<SyncEverythingWorker>()
                     .setInputData(workDataOf("USER_ID" to user.idUser))
+                    .setConstraints(constraints)
                     .build()
+
                 workManager.enqueue(workRequest)
+
                 this._state.value = state.copy(syncUUID = workRequest.id)
             }
         }
@@ -114,11 +135,13 @@ constructor(
                 .execute()
                 .onEach{ dataState ->
 
-                    this._state.value = dataState.data?.let { user ->
+                    var userM : User? = null
+                    dataState.data?.let { user ->
                         //CHANGE THIS SHIT JUST FOR TEST
-                        val userM = user.copy(createdAt = "", updatedAt = "")
-                        state.copy(user = userM, firstLaunch = false)
-                    } ?:   state.copy(firstLaunch = false)
+                        userM = user.copy(createdAt = "", updatedAt = "")
+                    }
+
+                    this._state.value = state.copy(user = userM, firstLaunch = false)
 
                     dataState.message?.let { message ->
                         appendToMessageQueue(message)

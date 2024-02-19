@@ -172,7 +172,6 @@ object InteractorsModule {
     fun provideSessionInteractors(
         firebaseAuth: FirebaseAuth,
         userFactory: UserFactory,
-        connectivityManager : ConnectivityManager
     ) : SessionInteractors{
         return SessionInteractors(
             signOut = SignOut(),
@@ -180,7 +179,6 @@ object InteractorsModule {
                 firebaseAuth = firebaseAuth,
                 userFactory = userFactory),
             //getSessionPreference = GetSessionPreferences(appDataStore),
-            getSessionConnectivityStatus = SyncNetworkConnectivity(connectivityManager)
         )
     }
 

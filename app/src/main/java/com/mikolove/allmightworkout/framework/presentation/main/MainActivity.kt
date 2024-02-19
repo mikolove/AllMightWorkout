@@ -10,11 +10,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -33,11 +35,14 @@ import com.mikolove.allmightworkout.framework.presentation.main.destinations.Loa
 import com.mikolove.allmightworkout.framework.presentation.network.NetworkEvents
 import com.mikolove.allmightworkout.framework.presentation.network.NetworkManager
 import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
+import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents.*
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
+import com.mikolove.allmightworkout.framework.presentation.session.SessionState
 import com.mikolove.allmightworkout.util.printLogD
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -67,10 +72,6 @@ class MainActivity : ComponentActivity(), UIController{
         )
     }
 
-
-    /*private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var bottomNavBar : BottomNavigationView
-    private lateinit var binding : ActivityMainBinding*/
     private var dialogInView: MaterialDialog? = null
     private var mainFabController: FabController? = null
 
@@ -92,19 +93,9 @@ class MainActivity : ComponentActivity(), UIController{
             else -> true
         }
 
-    //FIX leak android Q maybe
-    /*override fun onBackPressed() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
-        if(isTaskRoot && navHostFragment.childFragmentManager.backStackEntryCount == 0) {
-            finishAfterTransition()
-        }else {
-            super.onBackPressed()
-        }
-    }*/
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent{
             AllMightTheme {
 
@@ -117,6 +108,7 @@ class MainActivity : ComponentActivity(), UIController{
 
                 val sessionManagerState by sessionManager.state.collectAsStateWithLifecycle()
                 val networkManagerState by networkManager.state.collectAsStateWithLifecycle()
+
 
                 sessionManagerState.syncUUID?.let {
                     workManager.getWorkInfoByIdFlow(it)
@@ -161,7 +153,7 @@ class MainActivity : ComponentActivity(), UIController{
                         snackbarHostState = snackbarHostState,
                         progressBarState = sessionManagerState.isLoading,) { }
 
-                    QueueProcessing(
+                   QueueProcessing(
                         name ="NetworkManager",
                         queue = networkManagerState.queue,
                         onRemoveHeadFromQueue = { networkManager.onTriggerEvent(NetworkEvents.OnRemoveHeadFromQueue) },
@@ -182,59 +174,9 @@ class MainActivity : ComponentActivity(), UIController{
                         startRoute = startRoute
                     )
 
+                    diconnectedGoToLoading(sessionManagerState,navController)
 
                 }
-                /* NavHost(navController = navController, startDestination = loadingHomeRoute){
-
-                     LoadingGraph(
-                         navController= navController,
-                         startDestination = loadingRoute,
-                         route = loadingHomeRoute)
-
-                     composable("loading"){
-
-                         val loadingViewModel : LoadingViewModel = hiltViewModel()
-
-                         val launcher = rememberLauncherForActivityResult(
-                             contract = ActivityResultContracts.StartIntentSenderForResult(),
-                             onResult = { result ->
-                                 if(result.resultCode == RESULT_OK) {
-                                     lifecycleScope.launch {
-                                         val signInResult = googleAuthUiClient.signInWithIntent(
-                                             intent = result.data ?: return@launch
-                                         )
-                                         loadingViewModel.onTriggerEvent(LoadingEvents.SignInResult(signInResult))
-                                     }
-                                 }else{
-                                     loadingViewModel.onTriggerEvent(LoadingEvents.LoadStep(LoadingStep.INIT))
-                                 }
-                             }
-                         )
-
-                         LoadingScreen(
-                             sessionManager = sessionManager,
-                             viewModel = loadingViewModel,
-                             onSignInClick = {
-                                 lifecycleScope.launch {
-                                     printLogD("MainActivity","Clicked")
-                                     val signInIntentSender = googleAuthUiClient.signIn()
-                                     launcher.launch(
-                                         IntentSenderRequest.Builder(
-                                             signInIntentSender ?: return@launch
-                                         ).build()
-                                     )
-                                 }
-                             },
-                             onNavigateTo = { navController.navigate(it) }
-                         )
-                     }
-
-                     composable("home"){
-
-                     }
-
-                 }
- */
             }
         }
 
@@ -290,6 +232,20 @@ class MainActivity : ComponentActivity(), UIController{
          subscribeObserver()*/
     }
 
+    @Composable
+    private fun diconnectedGoToLoading(
+        sessionState : SessionState,
+        navController: NavController
+    ){
+        val currentDestination by navController.appCurrentDestinationAsState()
+
+        if(!sessionState.firstLaunch && sessionState.user == null && currentDestination != LoadingScreenDestination){
+            navController.navigate(LoadingScreenDestination) {
+                launchSingleTop = true
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 //Launch sessionManager checkAuth
@@ -297,6 +253,7 @@ class MainActivity : ComponentActivity(), UIController{
 
     override fun onResume() {
         super.onResume()
+        //sessionManager.onTriggerEvent(GetAuthState)
     }
 
     fun subscribeObserver(){

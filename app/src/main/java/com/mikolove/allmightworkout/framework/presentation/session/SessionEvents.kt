@@ -5,6 +5,8 @@ import com.mikolove.allmightworkout.business.domain.model.User
 
 sealed class SessionEvents {
 
+    object UpdateFirstLaunch : SessionEvents()
+
     object GetAuthState : SessionEvents()
 
     object SyncEverything : SessionEvents()

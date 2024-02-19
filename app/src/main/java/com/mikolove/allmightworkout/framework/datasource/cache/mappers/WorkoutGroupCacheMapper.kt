@@ -1,37 +1,31 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.allmightworkout.business.domain.model.WorkoutGroup
 import com.mikolove.allmightworkout.business.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
+import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutGroupCacheEntity
 
-class WorkoutCacheMapper
+class WorkoutGroupCacheMapper
 constructor(
     private val dateUtil: DateUtil
 )
-: EntityMapper<WorkoutCacheEntity,Workout> {
+    : EntityMapper<WorkoutGroupCacheEntity, WorkoutGroup> {
 
-    override fun mapFromEntity(entity: WorkoutCacheEntity): Workout {
-        return Workout(
-            idWorkout = entity.idWorkout,
+    override fun mapFromEntity(entity: WorkoutGroupCacheEntity): WorkoutGroup {
+        return WorkoutGroup(
+            idGroup = entity.idGroup,
             name = entity.name,
-            exercises = null,
-            isActive = entity.isActive,
-            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt?.let { dateUtil.convertDateToStringDate(it) },
-            groups = null,
-            startedAt = null,
-            endedAt = null,
             createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
             updatedAt = dateUtil.convertDateToStringDate(entity.updatedAt)
         )
     }
 
-    override fun mapToEntity(domainModel: Workout): WorkoutCacheEntity {
-        return WorkoutCacheEntity(
-            idWorkout = domainModel.idWorkout,
+    override fun mapToEntity(domainModel: WorkoutGroup): WorkoutGroupCacheEntity {
+        return WorkoutGroupCacheEntity(
+            idGroup = domainModel.idGroup,
             name = domainModel.name,
-            isActive = domainModel.isActive,
-            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt?.let{ dateUtil.convertStringDateToDate(it)},
             createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
             updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
         )

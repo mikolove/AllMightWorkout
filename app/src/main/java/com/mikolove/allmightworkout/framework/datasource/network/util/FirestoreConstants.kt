@@ -6,6 +6,7 @@ object FirestoreConstants {
     const val BODYPART_COLLECTION = "body_parts"
     const val WORKOUT_TYPE_COLLECTION = "workout_types"
     const val WORKOUTS_COLLECTION = "workouts"
+    const val WORKOUT_GROUPS = "workout_groups"
     const val EXERCISES_COLLECTION = "exercises"
     const val EXERCISE_SETS_COLLECTION = "exercise_sets"
     const val HISTORY_WORKOUTS_COLLECTION = "history_workouts"
