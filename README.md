@@ -2,6 +2,13 @@
 
 This project is a work in progress.
 
+To Do :
+
+    _ Migrate to compose all views
+    _ Switch to modular design
+    _ Migrate to version control
+    - Re Do tests, make the whole code/features more lightweight
+
 Done :
 
     - Domain model
@@ -9,13 +16,6 @@ Done :
     - Dao implementation / test
     - Hilt implementation / test
     - Firestore Implementation / test
-
-To Do :
-
-    - Update Datachannel manager to simpler and cleaner queueing method.
-    _ Update Error message management to GenericInfoMessage
-    _ Change all files accordingly
-    - Implementing auth after with session manager
 
 # AllMightWorkout
 
