@@ -17,7 +17,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.util.DateConverte
     HistoryExerciseCacheEntity::class,
     HistoryExerciseSetCacheEntity::class,
     WorkoutExerciseCacheEntity::class,
-   WorkoutGroupCacheEntity::class], version = 4, exportSchema = false)
+   GroupCacheEntity::class], version = 5, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun userDao() : UserDao
@@ -30,7 +30,7 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun historyExerciseDao() : HistoryExerciseDao
     abstract fun historyExerciseSetDao() : HistoryExerciseSetDao
     abstract fun workoutExerciseDao() : WorkoutExerciseDao
-    abstract fun workoutGroupDao() : WorkoutGroupDao
+    abstract fun workoutGroupDao() : GroupDao
     companion object{
         val DATABASE_NAME : String = "allmightworkout_db"
     }

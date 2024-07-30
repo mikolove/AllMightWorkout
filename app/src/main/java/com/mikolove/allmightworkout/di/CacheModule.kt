@@ -21,6 +21,11 @@ object CacheModule {
         DAO
      */
 
+    @Provides
+    @Singleton
+    fun provideWorkoutGroupDao(allMightDatabase: AllMightWorkoutDatabase) : GroupDao{
+        return allMightDatabase.workoutGroupDao()
+    }
     @Singleton
     @Provides
     fun provideUserDao(allMightDatabase : AllMightWorkoutDatabase) : UserDao{
@@ -170,11 +175,20 @@ object CacheModule {
         return  WorkoutTypeWithBodyPartCacheMapper(workoutTypeCacheMapper,bodyPartCacheMapper)
     }
 
-
+    @Singleton
+    @Provides
+    fun provideWorkoutGroupCacheMapper(dateUtil: DateUtil) : GroupCacheMapper{
+        return GroupCacheMapper(dateUtil)
+    }
     /*
         Dao service
      */
 
+    @Singleton
+    @Provides
+    fun provideWorkoutGroupDaoService(groupDao: GroupDao, groupCacheMapper: GroupCacheMapper, dateUtil: DateUtil) : GroupDaoService{
+        return GroupDaoServiceImpl(groupDao,groupCacheMapper, dateUtil)
+    }
     @Singleton
     @Provides
     fun provideUserDaoService(userDao : UserDao, userCacheMapper: UserCacheMapper) : UserDaoService{
@@ -290,5 +304,10 @@ object CacheModule {
     @Provides
     fun provideHistoryExerciseSetCacheDataSource(historyExerciseSetDaoService : HistoryExerciseSetDaoService) : HistoryExerciseSetCacheDataSource{
         return HistoryExerciseSetCacheDataSourceImpl(historyExerciseSetDaoService)
+    }
+    @Singleton
+    @Provides
+    fun provideWorkoutGroupCacheDataSource(groupDaoService : GroupDaoService) : GroupCacheDataSource{
+        return GroupCacheDataSourceImpl(groupDaoService)
     }
 }

@@ -8,6 +8,7 @@ class SyncInteractors(
      val syncDeletedWorkouts: SyncDeletedWorkouts,
      val syncHistory: SyncHistory,
      val syncExercises: SyncExercises,
+    val syncWorkoutGroups: SyncWorkoutGroups,
      val syncWorkouts : SyncWorkouts,
      val syncWorkoutExercises: SyncWorkoutExercises
 )

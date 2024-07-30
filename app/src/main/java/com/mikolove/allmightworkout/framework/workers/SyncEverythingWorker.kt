@@ -39,8 +39,9 @@ class SyncEverythingWorker @AssistedInject constructor(
                 3 to "deletedworkouts",
                 4 to "history",
                 5 to "exercises",
-                6 to "workouts",
-                7 to "workoutexercises"
+                6 to "workoutgroups",
+                7 to "workouts",
+                8 to "workoutexercises"
             )
 
             for (  sync in listOfSync){
@@ -54,6 +55,7 @@ class SyncEverythingWorker @AssistedInject constructor(
                     "deletedworkouts" -> syncInteractors.syncDeletedWorkouts.execute()
                     "history" -> syncInteractors.syncHistory.execute(idUser = idUser)
                     "exercises" -> syncInteractors.syncExercises.execute(idUser = idUser)
+                    "workoutgroups" -> syncInteractors.syncWorkoutGroups.execute()
                     "workouts" -> syncInteractors.syncWorkouts.execute(idUser = idUser)
                     "workoutexercises" -> syncInteractors.syncWorkoutExercises.execute(idUser = idUser)
                     else -> {

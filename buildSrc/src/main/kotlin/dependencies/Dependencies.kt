@@ -77,4 +77,7 @@ object Dependencies {
 
     //Work Manager
     val workmanager_coroutine = "androidx.work:work-runtime-ktx:${Versions.workmanager_coroutine}"
+
+    val paging = "androidx.paging:paging-runtime:${Versions.paging}"
+    val paging_compose = "androidx.paging:paging-compose:${Versions.paging}"
 }

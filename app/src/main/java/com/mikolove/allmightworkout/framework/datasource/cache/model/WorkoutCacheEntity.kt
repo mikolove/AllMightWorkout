@@ -67,3 +67,4 @@ data class WorkoutWithExercisesCacheEntity(
         entityColumn = "id_user" )
     val userCacheEntity : UserCacheEntity?
 )
+

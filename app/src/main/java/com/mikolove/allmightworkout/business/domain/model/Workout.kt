@@ -11,7 +11,7 @@ data class Workout(
     var exerciseIdsUpdatedAt : String?,
     var startedAt: String?,
     var endedAt: String?,
-    var groups: List<WorkoutGroup>?,
+    var groups: List<Group>?,
     var createdAt: String,
     var updatedAt: String
 ) : Parcelable{

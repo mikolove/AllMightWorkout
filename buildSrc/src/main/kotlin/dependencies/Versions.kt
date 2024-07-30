@@ -1,3 +1,4 @@
+
 package dependencies
 
 object Versions {
@@ -62,4 +63,7 @@ object Versions {
     val compose_destination = "1.9.55"
 
     val workmanager_coroutine ="2.9.0"
+
+    val paging = "3.2.1"
+    val paging_compose = "3.3.0-beta01"
 }

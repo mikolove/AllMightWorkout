@@ -19,6 +19,11 @@ import javax.inject.Singleton
 object NetworkModule {
 
 
+    @Singleton
+    @Provides
+    fun provideGroupNetworkMapper(dateUtil: DateUtil) : GroupNetworkMapper{
+        return GroupNetworkMapper(dateUtil)
+    }
     /*
     Network mapper
      */
@@ -152,10 +157,21 @@ object NetworkModule {
         return HistoryExerciseSetFirestoreServiceImpl(firebaseAuth,firestore, historyExerciseSetNetworkMapper)
     }
 
+    @Singleton
+    @Provides
+    fun provideGroupFirestoreService(firebaseAuth: FirebaseAuth, firestore:FirebaseFirestore, groupNetworkMapper: GroupNetworkMapper, dateUtil: DateUtil) : GroupFirestoreService{
+        return GroupFirestoreServiceImpl(firebaseAuth,firestore,groupNetworkMapper,dateUtil)
+    }
+
     /*
     Network data source
      */
 
+    @Singleton
+    @Provides
+    fun provideGroupNetworkDataSource(groupFirestoreService: GroupFirestoreService) : GroupNetworkDataSource{
+        return GroupNetworkDataSourceImpl(groupFirestoreService)
+    }
     @Singleton
     @Provides
     fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource{

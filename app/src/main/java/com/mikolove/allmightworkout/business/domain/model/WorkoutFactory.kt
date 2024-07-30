@@ -15,7 +15,7 @@ constructor(private val dateUtil: DateUtil){
         name : String?,
         exercises : List<Exercise>?,
         isActive : Boolean? = true,
-        collection : List<WorkoutGroup>? = null,
+        collection : List<Group>? = null,
         created_at : String?
     ) : Workout {
         return Workout(

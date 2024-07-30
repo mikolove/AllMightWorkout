@@ -32,7 +32,7 @@ data class WorkoutListState(
     //WorkoutType filter chip
     val listWorkoutTypeFilter : List<WorkoutTypeFilter> = listOf(),
 
-    //WorkoutCollection
+    //WorkoutCollection By Group
     val listWorkoutCollection : List<WorkoutCollection> = listOf(),
 
     //Queue
