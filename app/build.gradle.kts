@@ -7,16 +7,17 @@ import dependencies.AndroidTestDependencies
 plugins {
     //    id ("com.android.application")
    //     id ("org.jetbrains.kotlin.android")
-    alias(libs.plugins.allmightworkout.android.application)
-    id ("kotlin-kapt")
-    id ("com.google.dagger.hilt.android")
-    id ("kotlin-parcelize")
+    //alias(libs.plugins.allmightworkout.android.application)
+    alias(libs.plugins.allmightworkout.android.application.compose)
+    alias(libs.plugins.allmightworkout.android.hilt)
+    alias(libs.plugins.allmightworkout.android.room)
+    //id ("kotlin-parcelize")
     //id ("androidx.navigation.safeargs.kotlin") // View Fragment only
     id ("com.google.gms.google-services")
     id ("com.google.firebase.crashlytics")
 
     /*used for Lib destination - have to match kotlin version*/
-    id ("com.google.devtools.ksp")
+    //id ("com.google.devtools.ksp")
 
 }
 
@@ -27,7 +28,6 @@ android {
 
     defaultConfig {
 
-        multiDexEnabled = false
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -35,23 +35,6 @@ android {
         testInstrumentationRunner = AndroidTestDependencies.instrumentation_runner
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.5"//"1.4.8"
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -141,8 +124,11 @@ dependencies {
     //implementation(Dependencies.lifecycle_livedata)
 
     //Navigation component
-    implementation(libs.compose.destination.core)
-    ksp(libs.compose.destination.ksp)
+
+    //In convention plugin
+    // implementation(libs.compose.destination.core)
+    //ksp(libs.compose.destination.ksp)
+
     //implementation(Dependencies.navigation_fragment)
     //implementation(Dependencies.navigation_ui)
     //implementation(Dependencies.navigation_dynamic)
@@ -154,9 +140,9 @@ dependencies {
     //implementation(Dependencies.fragment_ktx)
 
     //Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
+    //implementation(libs.room.runtime)
+    //implementation(libs.room.ktx)
+    //ksp(libs.room.compiler)
     //implementation("androidx.compose.foundation:foundation-android:1.5.4")
 
     //Material dialog
@@ -243,13 +229,15 @@ dependencies {
 
 
     //Jetpack compose
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    //Injected from convention Plugin
+    // val composeBom = platform(libs.androidx.compose.bom)
+    //implementation(composeBom)
+    //androidTestImplementation(composeBom)
+    //debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+
     implementation(libs.material)
     api(libs.androidx.compose.material3)
     implementation(libs.androidx.material.icons.extended)

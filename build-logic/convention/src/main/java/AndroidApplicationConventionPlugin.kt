@@ -1,4 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.mikolove.convention.ExtensionType
+import com.mikolove.convention.configureBuildTypes
 import com.mikolove.convention.configureKotlinAndroid
 import com.mikolove.convention.libs
 import org.gradle.api.Plugin
@@ -12,12 +14,14 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
              pluginManager.run {
                  apply("com.android.application")
                  apply("org.jetbrains.kotlin.android")
+                 apply("org.jetbrains.kotlin.plugin.parcelize")
              }
 
              extensions.configure<ApplicationExtension>{
 
                  defaultConfig {
-
+                    //Required for minSdkVersion to 20 or lower
+                     // multiDexEnabled = true
                      applicationId = libs.findVersion("projectApplicationId").get().toString()
                      targetSdk = libs.findVersion("projectTargetSdkVersion").get().toString().toInt()
 
@@ -26,6 +30,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                  }
 
                  configureKotlinAndroid(this)
+
+                 configureBuildTypes(this, ExtensionType.APPLICATION)
              }
          }
     }

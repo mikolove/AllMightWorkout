@@ -12,6 +12,7 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.8.0"
 activityCompose = "1.9.0"
 composeBom = "2024.02.02"
+composeCompiler = "1.5.14"
 materialIconsExtended = "1.6.3"
 #navigationCompose = "2.7.7"
 securityCryptoKtx = "1.1.0-alpha06"
@@ -128,11 +129,31 @@ android-gms-google-services = {id = "com.google.gms.google-services", version.re
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics"}
 
-
 allmightworkout-android-application = {id ="allmightworkout.android.application", version = "unspecified"}
+allmightworkout-android-application-compose = {id ="allmightworkout.android.application.compose", version = "unspecified"}
+allmightworkout-android-library = {id ="allmightworkout.android.library", version = "unspecified"}
+allmightworkout-android-library-compose = {id ="allmightworkout.android.library.compose", version = "unspecified"}
+allmightworkout-android-feature-ui = {id ="allmightworkout.android.feature.ui", version = "unspecified"}
+allmightworkout-android-room = {id ="allmightworkout.android.room", version = "unspecified"}
+allmightworkout-jvm-library = {id ="allmightworkout.jvm.library", version = "unspecified"}
+allmightworkout-android-hilt = {id ="allmightworkout.android.hilt", version = "unspecified"}
+
+[bundles]
+compose = [
+    "androidx-activity-compose",
+    "androidx-lifecycle-runtime-compose",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-compose-material3",
+    "androidx-compose-ui",
+    "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling-preview"
+]
+compose-debug = [
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-test-manifest"
+]

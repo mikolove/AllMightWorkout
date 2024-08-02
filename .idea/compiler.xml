@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="19" />
+    <bytecodeTargetLevel target="11">
+      <module name="AllMightWorkout.analytics.data" target="19" />
+      <module name="AllMightWorkout.analytics.presentation" target="19" />
+      <module name="AllMightWorkout.app" target="19" />
+      <module name="AllMightWorkout.auth.data" target="19" />
+      <module name="AllMightWorkout.auth.presentation" target="19" />
+      <module name="AllMightWorkout.buildSrc" target="19" />
+      <module name="AllMightWorkout.buildSrc.main" target="19" />
+      <module name="AllMightWorkout.buildSrc.test" target="19" />
+      <module name="AllMightWorkout.core.data" target="19" />
+      <module name="AllMightWorkout.core.database" target="19" />
+      <module name="AllMightWorkout.core.network" target="19" />
+      <module name="AllMightWorkout.core.presentation.designsystem" target="19" />
+      <module name="AllMightWorkout.core.presentation.ui" target="19" />
+      <module name="AllMightWorkout.exercise.data" target="19" />
+      <module name="AllMightWorkout.exercise.presentation" target="19" />
+      <module name="AllMightWorkout.workout.data" target="19" />
+      <module name="AllMightWorkout.workout.presentation" target="19" />
+      <module name="build-logic.convention" target="19" />
+      <module name="build-logic.convention.main" target="19" />
+      <module name="build-logic.convention.test" target="19" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -22,5 +22,34 @@ gradlePlugin{
             id ="allmightworkout.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        register("androidApplicationCompose"){
+            id ="allmightworkout.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibrary"){
+            id ="allmightworkout.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose"){
+            id ="allmightworkout.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidFeatureUi"){
+            id ="allmightworkout.android.feature.ui"
+            implementationClass = "AndroidFeatureUiConventionPlugin"
+        }
+        register("androidRoom"){
+            id ="allmightworkout.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
+        register("jvmLibrary"){
+            id ="allmightworkout.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("androidHilt"){
+            id ="allmightworkout.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
+
     }
 }

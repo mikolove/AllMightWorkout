@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 //Function for android application/librairies modules
 internal fun Project.configureKotlinAndroid(
-    commonExtension: com.android.build.api.dsl.CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ){
 
     commonExtension.apply {
