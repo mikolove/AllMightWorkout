@@ -6,7 +6,7 @@ To Do :
 
     _ Migrate to compose all views
     _ Switch to modular design
-    _ Migrate to version control
+    _ Migrate to version catalog
     - Re Do tests, make the whole code/features more lightweight
 
 Done :
@@ -19,7 +19,10 @@ Done :
 
 # AllMightWorkout
 
-Android Workout personal application learning Clean Architecture from course at codingwithmitch.com
+Android Workout personal application learning Clean Architecture from course at:
+
+- Mitch Taiban codingwithmitch.com
+- Phillip Lackner  pl-coding.com
 
 App feature content :
 

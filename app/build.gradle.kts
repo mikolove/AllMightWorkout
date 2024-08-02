@@ -5,8 +5,9 @@ import dependencies.Dependencies
 import dependencies.AndroidTestDependencies
 
 plugins {
-    id ("com.android.application")
-    id ("org.jetbrains.kotlin.android")
+    //    id ("com.android.application")
+   //     id ("org.jetbrains.kotlin.android")
+    alias(libs.plugins.allmightworkout.android.application)
     id ("kotlin-kapt")
     id ("com.google.dagger.hilt.android")
     id ("kotlin-parcelize")
@@ -16,21 +17,16 @@ plugins {
 
     /*used for Lib destination - have to match kotlin version*/
     id ("com.google.devtools.ksp")
+
 }
 
 
 android {
 
     namespace = "com.mikolove.allmightworkout"
-    compileSdk = 34
 
     defaultConfig {
 
-        applicationId = "com.mikolove.allmightworkout"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
         multiDexEnabled = false
         vectorDrawables {
             useSupportLibrary = true
@@ -49,14 +45,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         viewBinding = true
         compose = true
@@ -270,13 +258,13 @@ dependencies {
     //implementation(platform("androidx.compose:compose-bom:2024.01.00"))
     //androidTestImplementation(platform("androidx.compose:compose-bom:2024.01.00"))
 
-    implementation(Dependencies.compose_material3)
-    implementation(Dependencies.compose_uitooling_preview)
-    debugImplementation(Dependencies.compose_uitooling)
+    //implementation(Dependencies.compose_material3)
+    //implementation(Dependencies.compose_uitooling_preview)
+    //debugImplementation(Dependencies.compose_uitooling)
 
-    implementation(Dependencies.compose_lifecycle_runtime)
-    implementation(Dependencies.compose_viewmodel)
-    implementation(Dependencies.compose_lvm_ss)
+   //implementation(Dependencies.compose_lifecycle_runtime)
+    //implementation(Dependencies.compose_viewmodel)
+    //implementation(Dependencies.compose_lvm_ss)
 
     //implementation(Dependencies.paging)
     //implementation(Dependencies.paging_compose)
