@@ -186,8 +186,8 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutGroupDaoService(groupDao: GroupDao, groupCacheMapper: GroupCacheMapper, dateUtil: DateUtil) : GroupDaoService{
-        return GroupDaoServiceImpl(groupDao,groupCacheMapper, dateUtil)
+    fun provideWorkoutGroupDaoService(groupDao: GroupDao, groupCacheMapper: GroupCacheMapper, groupsWithWorkoutsCacheMapper: GroupsWithWorkoutsCacheMapper, dateUtil: DateUtil) : GroupDaoService{
+        return GroupDaoServiceImpl(groupDao,groupCacheMapper,groupsWithWorkoutsCacheMapper, dateUtil)
     }
     @Singleton
     @Provides

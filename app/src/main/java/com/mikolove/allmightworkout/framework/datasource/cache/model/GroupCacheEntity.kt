@@ -31,12 +31,11 @@ data class GroupCacheEntity (
 
 data class GroupsWithWorkoutsCacheEntity(
 
-    @Embedded
-    val groupCacheEntity : GroupCacheEntity,
+    @Embedded  val groupCacheEntity : GroupCacheEntity,
 
     @Relation(
         entity = WorkoutCacheEntity::class,
-        parentColumn = "id_workout",
+        parentColumn = "id_group",
         entityColumn = "id_workout",
         associateBy = Junction(WorkoutGroupCacheEntity::class)
     )

@@ -4,10 +4,10 @@ import android.content.Context
 import android.text.InputType
 import android.widget.Toast
 import androidx.annotation.StringRes
-import com.afollestad.materialdialogs.MaterialDialog
+/*import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.callbacks.onDismiss
-import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.input.input*/
 import com.mikolove.allmightworkout.R
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.util.printLogD
@@ -105,7 +105,7 @@ private fun Context.displaySuccessDialog(
     message: GenericMessageInfo,
     stateMessageCallback: StateMessageCallback
 ){
-    MaterialDialog(this)
+/*    MaterialDialog(this)
         .show{
             title(text = message.title)
             message(text = message.description)
@@ -118,14 +118,14 @@ private fun Context.displaySuccessDialog(
                 message.onDismiss?.invoke()
             }
             cancelable(false)
-        }
+        }*/
 }
 
 private fun Context.displayErrorDialog(
     message: GenericMessageInfo,
     stateMessageCallback: StateMessageCallback
 ){
-    MaterialDialog(this)
+/*    MaterialDialog(this)
         .show{
             title(text = message.title)
             message(text = message.description)
@@ -138,14 +138,14 @@ private fun Context.displayErrorDialog(
                 message.onDismiss?.invoke()
             }
             cancelable(false)
-        }
+        }*/
 }
 
 private fun Context.displayInfoDialog(
     message: GenericMessageInfo,
     stateMessageCallback: StateMessageCallback
 ) {
-    MaterialDialog(this)
+/*    MaterialDialog(this)
         .show{
             title(text = message.title)
             message(text = message.description)
@@ -166,7 +166,7 @@ private fun Context.displayInfoDialog(
                 message.onDismiss?.invoke()
             }
             cancelable(true)
-        }
+        }*/
 }
 
 
@@ -178,7 +178,7 @@ private fun Context. displayInputCaptureDialog(
 
         is UIComponentType.InputCaptureDialog -> {
 
-            MaterialDialog(this).show {
+       /*     MaterialDialog(this).show {
                 title(text = message.title)
                 input(
                     waitForPositiveButton = true,
@@ -197,7 +197,7 @@ private fun Context. displayInputCaptureDialog(
                     message.onDismiss?.invoke()
                 }
                 cancelable(true)
-            }
+            }*/
         }
 
         else -> {

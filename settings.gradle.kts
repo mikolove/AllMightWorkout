@@ -14,9 +14,12 @@ dependencyResolutionManagement {
     }
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 
 rootProject.name = "AllMightWorkout"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
 include(":auth:data")
 include(":auth:domain")
@@ -26,6 +29,7 @@ include(":core:presentation:ui")
 include(":core:domain")
 include(":core:data")
 include(":core:database")
+include(":core:network")
 include(":workout:data")
 include(":workout:domain")
 include(":workout:presentation")
@@ -35,4 +39,3 @@ include(":exercise:domain")
 include(":analytics:data")
 include(":analytics:presentation")
 include(":analytics:domain")
-include(":core:network")

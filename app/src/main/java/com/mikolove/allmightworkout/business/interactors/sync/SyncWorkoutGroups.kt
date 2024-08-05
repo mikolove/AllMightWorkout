@@ -84,7 +84,7 @@ class SyncWorkoutGroups(
                 //update more recent
                 if (cacheUpdatedAt.before(networkUpdatedAt)) {
                     //network group is more recent
-                    groupCacheDataSource.updateWorkoutGroup(networkGroup)
+                    groupCacheDataSource.upsertWorkoutGroup(networkGroup)
                 } else {
                     //cache more recent
                     groupNetworkDataSource.updateWorkoutGroup(cacheGroup)
@@ -93,7 +93,7 @@ class SyncWorkoutGroups(
             //}  else{
             } ?: run {
                 //not exist ? insert network in cache
-                groupCacheDataSource.insertWorkoutGroup(networkGroup)
+                groupCacheDataSource.upsertWorkoutGroup(networkGroup)
             }
 
         }

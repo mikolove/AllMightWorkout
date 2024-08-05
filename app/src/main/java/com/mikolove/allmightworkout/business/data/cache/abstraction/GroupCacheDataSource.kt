@@ -8,9 +8,7 @@ interface GroupCacheDataSource {
 
     suspend fun getGroup(groupId : String) : Group
 
-    suspend fun insertWorkoutGroup(group : Group) : Long
-
-    suspend fun updateWorkoutGroup(group : Group) : Int
+    suspend fun upsertWorkoutGroup(group : Group) : Long
 
     suspend fun deleteWorkoutGroup(groups : Group) : Int
 }

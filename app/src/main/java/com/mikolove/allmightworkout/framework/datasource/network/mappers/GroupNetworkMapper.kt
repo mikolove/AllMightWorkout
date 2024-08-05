@@ -13,6 +13,7 @@ class GroupNetworkMapper(
         return Group(
             idGroup = entity.idWorkoutGroup,
             name = entity.name,
+            workouts = listOf(),
             createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
             updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt),
         )

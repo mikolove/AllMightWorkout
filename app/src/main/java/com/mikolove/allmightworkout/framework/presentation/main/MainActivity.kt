@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.afollestad.materialdialogs.MaterialDialog
+
 import com.example.compose.AllMightTheme
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.Firebase
@@ -30,8 +30,7 @@ import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.BaseScaffold
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.BottomBar
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.QueueProcessing
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.Destination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.LoadingScreenDestination
+
 import com.mikolove.allmightworkout.framework.presentation.network.NetworkEvents
 import com.mikolove.allmightworkout.framework.presentation.network.NetworkManager
 import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
@@ -72,7 +71,7 @@ class MainActivity : ComponentActivity(), UIController{
         )
     }
 
-    private var dialogInView: MaterialDialog? = null
+    //private var dialogInView: MaterialDialog? = null
     private var mainFabController: FabController? = null
 
     private val Destination.shouldShowTopBar : Boolean

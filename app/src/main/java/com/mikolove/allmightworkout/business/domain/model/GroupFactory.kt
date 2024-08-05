@@ -18,6 +18,7 @@ constructor(private val dateUtil: DateUtil){
         return Group(
             idGroup = idGroup,
             name = name,
+            workouts = listOf(),
             createdAt = createdAt ?: currentDate,
             updatedAt = updatedAt ?: currentDate
         )

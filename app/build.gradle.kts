@@ -1,9 +1,3 @@
-import dependencies.AnnotationProcessing
-import dependencies.SupportDependencies
-import dependencies.TestDependencies
-import dependencies.Dependencies
-import dependencies.AndroidTestDependencies
-
 plugins {
     //    id ("com.android.application")
    //     id ("org.jetbrains.kotlin.android")
@@ -11,8 +5,8 @@ plugins {
     alias(libs.plugins.allmightworkout.android.application.compose)
     alias(libs.plugins.allmightworkout.android.hilt)
     alias(libs.plugins.allmightworkout.android.room)
-    //id ("kotlin-parcelize")
-    //id ("androidx.navigation.safeargs.kotlin") // View Fragment only
+    id ("kotlin-parcelize")
+    id ("androidx.navigation.safeargs.kotlin") // View Fragment only
     id ("com.google.gms.google-services")
     id ("com.google.firebase.crashlytics")
 
@@ -27,12 +21,10 @@ android {
     namespace = "com.mikolove.allmightworkout"
 
     defaultConfig {
-
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        testInstrumentationRunner = AndroidTestDependencies.instrumentation_runner
     }
 
     packaging {
@@ -40,10 +32,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    sourceSets.getByName("androidTest") {
-        res.setSrcDirs(listOf("src/test/res"))
-    }
-
     /*tasks.test {
         useJUnitPlatform()
     }*/
@@ -69,7 +57,7 @@ dependencies {
     //implementation Dependencies.kotlin_standard_library
     //implementation Dependencies.kotlin_reflect
     //implementation(Dependencies.ktx)
-    implementation(libs.desugar.jdk.libs)
+    //implementation(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
 
     //Firebase
@@ -125,6 +113,10 @@ dependencies {
 
     //Navigation component
 
+    //temporary
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
     //In convention plugin
     // implementation(libs.compose.destination.core)
     //ksp(libs.compose.destination.ksp)
@@ -151,11 +143,12 @@ dependencies {
 
     //Di
     //Versions are different for hilt and jetpack tools
-    implementation(libs.dagger.hilt)
-    implementation(libs.dagger.hilt.navigation.compose)
-    implementation(libs.dagger.hilt.workmanager)
-    kapt(libs.dagger.hilt.compiler)
-    kapt(libs.dagger.hilt.jetpack.compiler)
+    //In convention plugin
+//    implementation(libs.dagger.hilt)
+//    implementation(libs.dagger.hilt.navigation.compose)
+//    implementation(libs.dagger.hilt.workmanager)
+//    kapt(libs.dagger.hilt.compiler)
+//    kapt(libs.dagger.hilt.jetpack.compiler)
 
     //Jetpack tools
     //implementation(Dependencies.hilt_jetpack_navigation)
@@ -216,12 +209,12 @@ dependencies {
 
 
     // Hilt for instrumentation tests
-    androidTestImplementation(libs.dagger.hilt.testing)
-    kaptAndroidTest(libs.dagger.hilt.compiler)
+//    androidTestImplementation(libs.dagger.hilt.testing)
+//    kaptAndroidTest(libs.dagger.hilt.compiler)
 
     // Hilt for local unit test
-    testImplementation(libs.dagger.hilt.testing)
-    kaptTest(libs.dagger.hilt.compiler)
+//    testImplementation(libs.dagger.hilt.testing)
+//    kaptTest(libs.dagger.hilt.compiler)
 
     //Test core ktx and fragment scenario
     //debugImplementation AndroidTestDependencies.fragment_testing

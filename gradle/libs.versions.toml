@@ -12,7 +12,7 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.8.0"
 activityCompose = "1.9.0"
 composeBom = "2024.02.02"
-composeCompiler = "1.5.14"
+composeCompiler = "1.5.9"
 materialIconsExtended = "1.6.3"
 #navigationCompose = "2.7.7"
 securityCryptoKtx = "1.1.0-alpha06"
@@ -132,6 +132,7 @@ kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics"}
 
 allmightworkout-android-application = {id ="allmightworkout.android.application", version = "unspecified"}

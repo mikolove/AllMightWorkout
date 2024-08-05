@@ -21,7 +21,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
                  defaultConfig {
                     //Required for minSdkVersion to 20 or lower
-                     // multiDexEnabled = true
+                     multiDexEnabled = true
                      applicationId = libs.findVersion("projectApplicationId").get().toString()
                      targetSdk = libs.findVersion("projectTargetSdkVersion").get().toString().toInt()
 

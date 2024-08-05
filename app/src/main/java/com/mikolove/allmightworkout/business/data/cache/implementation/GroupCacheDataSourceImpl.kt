@@ -13,10 +13,7 @@ class GroupCacheDataSourceImpl(
 
     override suspend fun getGroup(groupId: String): Group = groupDaoService.getGroup(groupId)
 
-    override suspend fun insertWorkoutGroup(group: Group): Long  = groupDaoService.insertWorkoutGroup(group)
-
-    override suspend fun updateWorkoutGroup(group: Group): Int =
-        groupDaoService.updateWorkoutGroup(group)
+    override suspend fun upsertWorkoutGroup(group: Group): Long = groupDaoService.upsertWorkoutGroup(group)
 
     override suspend fun deleteWorkoutGroup(groups : Group): Int = groupDaoService.deleteWorkoutGroup(groups)
 }

@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import java.util.Date
 
 @Entity(
-    tableName = "workout_by_group",
+    tableName = "workout_group",
     primaryKeys = [ "id_workout" , "id_group" ],
     foreignKeys = arrayOf(
         ForeignKey(
@@ -27,7 +27,7 @@ data class WorkoutGroupCacheEntity(
     @ColumnInfo(name = "id_workout")
     var idWorkout : String,
 
-    @ColumnInfo(name = "id_group")
+    @ColumnInfo(name = "id_group", index = true)
     var idGroup : String,
 
     @ColumnInfo(name ="created_at")
