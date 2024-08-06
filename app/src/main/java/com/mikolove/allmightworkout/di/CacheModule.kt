@@ -180,6 +180,15 @@ object CacheModule {
     fun provideWorkoutGroupCacheMapper(dateUtil: DateUtil) : GroupCacheMapper{
         return GroupCacheMapper(dateUtil)
     }
+
+    @Singleton
+    @Provides
+    fun provideGroupsWithWorkoutsCacheMapper(workoutWithExercisesCacheMapper: WorkoutWithExercisesCacheMapper,dateUtil: DateUtil) : GroupsWithWorkoutsCacheMapper{
+        return GroupsWithWorkoutsCacheMapper(
+            workoutWithExercisesCacheMapper = workoutWithExercisesCacheMapper,
+            dateUtil = dateUtil
+        )
+    }
     /*
         Dao service
      */

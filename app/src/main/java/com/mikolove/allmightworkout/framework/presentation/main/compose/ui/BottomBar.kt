@@ -13,18 +13,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.framework.presentation.main.NavGraphs
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.DirectionDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.ExerciseScreenDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.HomeScreenDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.WorkoutScreenDestination
+import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.generated.destinations.ExerciseScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.WorkoutScreenDestination
+
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.navigation.popUpTo
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 
 enum class NavigationBarItem(
-    val direction: DirectionDestination,
+    val direction: DirectionDestinationSpec,
     val icon: ImageVector,
     @StringRes val label: Int
 ) {

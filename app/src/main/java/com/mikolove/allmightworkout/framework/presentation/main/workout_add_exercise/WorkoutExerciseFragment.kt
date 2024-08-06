@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import android.os.Bundle
@@ -66,9 +67,11 @@ class WorkoutExerciseFragment():
         super.onDestroyView()
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         OBSERVERS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun subscribeObservers(){
 
@@ -97,6 +100,7 @@ class WorkoutExerciseFragment():
 
         })
 
+*/
 /*        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if (viewState != null) {
@@ -161,20 +165,25 @@ class WorkoutExerciseFragment():
                     }
                 }
             }
-        })*/
+        })*//*
+
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         Setup UI
-     *********************************************************************/
+     *********************************************************************//*
 
+
+*/
 /*    private fun init(){
         viewModel?.getWorkoutSelected()?.let { workout ->
             workout.exercises?.forEach { exercise ->
                 viewModel.addOrRemoveExerciseFromSelectedList(exercise)
             }
         }
-    }*/
+    }*//*
+
 
     private fun showList(){
         if(binding?.fragmentAddExerciseToWorkoutSwiperefreshlayout?.isVisible == false) {
@@ -226,17 +235,23 @@ class WorkoutExerciseFragment():
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
         MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
+
+*/
 /*    private fun startNewSearch(){
         viewModel.exercisesStartNewSearch()
-    }*/
+    }*//*
 
-    /********************************************************************
+
+    */
+/********************************************************************
         MENU INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_add_workout_exercise, menu)
@@ -292,8 +307,10 @@ class WorkoutExerciseFragment():
     }
 
     private fun onBackPressed() {
+*/
 /*        viewModel.updateWorkoutExercises(viewModel.getSelectedExercises())
-        viewModel.clearSelectedExercises()*/
+        viewModel.clearSelectedExercises()*//*
+
         viewModel.state.value?.isUpdateDone?.let { isTrue ->
             if(isTrue){
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
@@ -315,10 +332,13 @@ class WorkoutExerciseFragment():
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
         ADAPTER INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
+
+*/
 /*    private fun addExerciseToWorkout(exercise: Exercise){
         val idWorkout = viewModel.getWorkoutSelected()?.idWorkout
         idWorkout?.let {
@@ -335,7 +355,8 @@ class WorkoutExerciseFragment():
                 exercise.idExercise,
                 idWorkout)
         }
-    }*/
+    }*//*
+
 
     override fun onItemSelected(item: WorkoutExercise) {
         //viewModel.addOrRemoveExerciseFromSelectedList(item)
@@ -351,4 +372,4 @@ class WorkoutExerciseFragment():
         }
     }
 
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_detail
 
 import android.os.Bundle
@@ -39,12 +40,14 @@ class WorkoutDetailFragment:
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+*/
 /*       sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.main_fragment_container
             duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.backgroundColor))
-        }*/
+        }*//*
+
     }
 
 
@@ -100,9 +103,11 @@ class WorkoutDetailFragment:
         super.onDestroyView()
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     MENU INTERACTIONS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_workout_detail, menu)
@@ -125,17 +130,21 @@ class WorkoutDetailFragment:
                 viewModel.onTriggerEvent(WorkoutDetailEvents.UpdateWorkout)
                 true
             }
-            /*R.id.toolbar_manage_workout_delete -> {
+            */
+/*R.id.toolbar_manage_workout_delete -> {
                 deleteWorkout()
                 true
-            }*/
+            }*//*
+
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     SETUP
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun setupUI(){
         binding?.fragmentManageWorkoutEditName?.disableContentInteraction()
@@ -155,9 +164,11 @@ class WorkoutDetailFragment:
 
 
 
-    /*******************************************************************
+    */
+/*******************************************************************
     OBSERVERS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun subscribeObservers(){
 
@@ -198,6 +209,7 @@ class WorkoutDetailFragment:
             }
         })
 
+*/
 /*
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
@@ -293,7 +305,8 @@ class WorkoutDetailFragment:
             }
 
         })
-*/
+*//*
+
 
         viewModel.workoutNameInteractionState.observe(viewLifecycleOwner, Observer { state ->
 
@@ -324,9 +337,11 @@ class WorkoutDetailFragment:
 
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     SETTERS - GETTERS - ACTIONS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun deleteWorkout() {
 
@@ -456,17 +471,21 @@ class WorkoutDetailFragment:
         return binding?.fragmentManageWorkoutSwitchIsActive?.isChecked ?: false
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     Adapter interaction
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onClickDelete(item: Exercise) {
         removeExerciseFromWorkout(item)
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     BACK BUTTON PRESS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun onBackPressed() {
         if (viewModel.checkEditState()) {
@@ -494,4 +513,4 @@ class WorkoutDetailFragment:
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-}
+}*/

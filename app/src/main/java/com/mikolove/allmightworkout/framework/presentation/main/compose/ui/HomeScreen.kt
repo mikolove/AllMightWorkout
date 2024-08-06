@@ -8,10 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
 import kotlinx.coroutines.launch
 
 
-@Destination
+@Destination<RootGraph>
 @Composable
 fun HomeScreen(
     navController: NavController,

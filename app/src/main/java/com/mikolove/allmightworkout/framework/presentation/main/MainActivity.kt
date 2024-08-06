@@ -11,6 +11,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,9 +41,13 @@ import com.mikolove.allmightworkout.framework.presentation.session.SessionManage
 import com.mikolove.allmightworkout.framework.presentation.session.SessionState
 import com.mikolove.allmightworkout.util.printLogD
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.generated.destinations.LoadingScreenDestination
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine
+import com.ramcosta.composedestinations.spec.DestinationSpec
+import com.ramcosta.composedestinations.utils.currentDestinationAsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -74,19 +79,19 @@ class MainActivity : ComponentActivity(), UIController{
     //private var dialogInView: MaterialDialog? = null
     private var mainFabController: FabController? = null
 
-    private val Destination.shouldShowTopBar : Boolean
+    private val DestinationSpec.shouldShowTopBar : Boolean
         get() = when(this){
             is LoadingScreenDestination -> false
             else -> true
         }
 
-    private val Destination.shouldShowBottomBar : Boolean
+    private val DestinationSpec.shouldShowBottomBar : Boolean
         get() = when(this){
             is LoadingScreenDestination -> false
             else -> true
         }
 
-    private val Destination.shouldShowFloatingButton : Boolean
+    private val DestinationSpec.shouldShowFloatingButton : Boolean
         get() = when(this){
             is LoadingScreenDestination -> false
             else -> true
@@ -236,7 +241,7 @@ class MainActivity : ComponentActivity(), UIController{
         sessionState : SessionState,
         navController: NavController
     ){
-        val currentDestination by navController.appCurrentDestinationAsState()
+        val currentDestination by navController.currentDestinationAsState()
 
         if(!sessionState.firstLaunch && sessionState.user == null && currentDestination != LoadingScreenDestination){
             navController.navigate(LoadingScreenDestination) {

@@ -11,15 +11,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.Destination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.ExerciseScreenDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.HomeScreenDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.LoadingScreenDestination
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.WorkoutScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.ExerciseScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.LoadingScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.WorkoutScreenDestination
+import com.ramcosta.composedestinations.spec.DestinationSpec
 
 @Composable
 fun TopBar(
-    destination: Destination,
+    destination: DestinationSpec,
     navBackStackEntry: NavBackStackEntry?
 ) {
     TopAppBar(
@@ -35,7 +35,7 @@ fun TopBar(
 
 
 @Composable
-fun Destination.topBarTitle(navBackStackEntry: NavBackStackEntry?): String {
+fun DestinationSpec.topBarTitle(navBackStackEntry: NavBackStackEntry?): String {
     return when (this) {
         /*TaskScreenDestination -> {
             // Here you can also call another Composable on another file like TaskScreenTopBar
@@ -57,7 +57,10 @@ fun Destination.topBarTitle(navBackStackEntry: NavBackStackEntry?): String {
             }
             "${task?.title ?: ""}: ${step?.title ?: ""}"
         }*/
-        LoadingScreenDestination, HomeScreenDestination, WorkoutScreenDestination, ExerciseScreenDestination -> javaClass.simpleName.removeSuffix("Destination")
+        LoadingScreenDestination,
+        HomeScreenDestination,
+        WorkoutScreenDestination,
+        ExerciseScreenDestination -> javaClass.simpleName.removeSuffix("Destination")
         else -> ""
         //TaskListScreenDestination -> javaClass.simpleName.removeSuffix("Destination")
     }

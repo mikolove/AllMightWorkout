@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import android.view.LayoutInflater
@@ -10,8 +11,10 @@ import com.mikolove.allmightworkout.databinding.ItemExerciseBinding
 
 class AddExerciseAdapter(
     private val interaction: Interaction? = null,
-    /*private val lifecycleOwner : LifecycleOwner,
-    private val selectedExercises : LiveData<ArrayList<Exercise>>*/
+    */
+/*private val lifecycleOwner : LifecycleOwner,
+    private val selectedExercises : LiveData<ArrayList<Exercise>>*//*
+
 ) : RecyclerView.Adapter<AddExerciseAdapter.AddExerciseViewHolder>() {
 
     private val exercises = mutableListOf<WorkoutExercise>()
@@ -20,9 +23,11 @@ class AddExerciseAdapter(
 
         return AddExerciseViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false),
-            interaction/*,
+            interaction*/
+/*,
             lifecycleOwner,
-            selectedExercises*/
+            selectedExercises*//*
+
         )
     }
 
@@ -46,9 +51,11 @@ class AddExerciseAdapter(
     class AddExerciseViewHolder
     constructor(
         itemView: View,
-        private val interaction: Interaction?/*,
+        private val interaction: Interaction?*/
+/*,
         private val lifecycleOwner: LifecycleOwner,
-        private val selectedExercises: LiveData<ArrayList<Exercise>>*/
+        private val selectedExercises: LiveData<ArrayList<Exercise>>*//*
+
     ) : RecyclerView.ViewHolder(itemView) {
 
         //Maybe change place for this
@@ -68,6 +75,7 @@ class AddExerciseAdapter(
             //Checked
             binding.itemExerciseContainer.setChecked(item.selected)
 
+*/
 /*            selectedExercises.observe(lifecycleOwner, { exercises ->
 
                 if(!exercises.isNullOrEmpty()){
@@ -81,7 +89,8 @@ class AddExerciseAdapter(
                     binding.itemExerciseContainer.setChecked(false)
                 }
 
-            })*/
+            })*//*
+
         }
     }
 
@@ -89,3 +98,4 @@ class AddExerciseAdapter(
         fun onItemSelected(item: WorkoutExercise)
     }
 }
+*/

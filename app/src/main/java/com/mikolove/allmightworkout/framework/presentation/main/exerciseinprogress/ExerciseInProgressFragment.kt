@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
 import android.os.Bundle
@@ -224,9 +225,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
                 }
                 //TO DO ?
-            /*    is ChronometerState.IdleState -> {}
+            */
+/*    is ChronometerState.IdleState -> {}
                 is ChronometerState.RestTimeState -> {}
-                is ChronometerState.RunningState -> {}*/
+                is ChronometerState.RunningState -> {}*//*
+
             }
         }
 
@@ -244,9 +247,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 else ->{
 
                 }
-                /*   is ChronometerButtonState.RestButtonState -> TODO()
+                */
+/*   is ChronometerButtonState.RestButtonState -> TODO()
                    is ChronometerButtonState.StartButtonState -> TODO()
-                   is ChronometerButtonState.StopButtonState -> TODO()*/
+                   is ChronometerButtonState.StopButtonState -> TODO()*//*
+
             }
         }
 
@@ -264,9 +269,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 else -> {
 
                 }
-                /*                is ChronometerButtonState.RestButtonState -> TODO()
+                */
+/*                is ChronometerButtonState.RestButtonState -> TODO()
                                 is ChronometerButtonState.StartButtonState -> TODO()
-                                is ChronometerButtonState.StopButtonState -> TODO()*/
+                                is ChronometerButtonState.StopButtonState -> TODO()*//*
+
             }
         }
 
@@ -283,9 +290,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                 else ->{
 
                 }
-           /*     is ChronometerButtonState.RestButtonState -> TODO()
+           */
+/*     is ChronometerButtonState.RestButtonState -> TODO()
                 is ChronometerButtonState.StartButtonState -> TODO()
-                is ChronometerButtonState.StopButtonState -> TODO()*/
+                is ChronometerButtonState.StopButtonState -> TODO()*//*
+
             }
         }
 
@@ -375,6 +384,7 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
 
         launchDialog(message)
 
+*/
 /*        viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
@@ -394,9 +404,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
                     )
                 )
             )
-        )*/
+        )*//*
+
     }
 
+*/
 /*    private fun navigateBackToastError(){
         viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
@@ -410,19 +422,24 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
             )
         )
         navigateBack()
-    }*/
+    }*//*
 
 
+
+*/
 /*
     private fun saveExercise(){
         //viewModel.saveExercise()
         //viewModel.onTriggerEvent(ExerciseInProgressEvents.Upda)
     }
-*/
+*//*
 
-    /*
+
+    */
+/*
         Set management
-     */
+     *//*
+
 
     private fun startSet(set : ExerciseSet){
 
@@ -449,9 +466,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         timer?.cancel()
     }
 
-    /*
+    */
+/*
         Chronometer
-     */
+     *//*
+
 
     private fun setChronometerState(state : ChronometerState){
         viewModel.chronometerManager.setChronometerState(state)
@@ -503,9 +522,11 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         setChronometerState(ChronometerState.IdleState())
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun onBackPressed() {
         quitExercise()
@@ -520,4 +541,4 @@ class ExerciseInProgressFragment(): BaseFragment(R.layout.fragment_exercise_in_p
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-}
+}*/

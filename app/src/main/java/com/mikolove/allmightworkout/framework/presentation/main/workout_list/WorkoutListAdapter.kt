@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import androidx.recyclerview.widget.RecyclerView
@@ -148,3 +149,4 @@ class WorkoutListAdapter(
 
 
 }
+*/

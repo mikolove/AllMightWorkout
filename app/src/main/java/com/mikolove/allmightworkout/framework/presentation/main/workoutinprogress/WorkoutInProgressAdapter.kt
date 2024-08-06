@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import android.view.LayoutInflater
@@ -75,7 +76,8 @@ class WorkoutInProgressAdapter(
 
             binding.wipExerciseType.text = "${item.bodyPart?.name}".replaceFirstChar { it.uppercase() }
 
-            /*if (sets == setsDone){
+            */
+/*if (sets == setsDone){
                 val startedAt = item?.startedAt
                 val endedAt = item?.endedAt
                 if(startedAt != null && endedAt != null){
@@ -90,7 +92,8 @@ class WorkoutInProgressAdapter(
             }else{
                 binding.wipExerciseTextDone.text = ""
                 binding.wipExerciseDone.invisible()
-            }*/
+            }*//*
+
         }
     }
 
@@ -100,3 +103,4 @@ class WorkoutInProgressAdapter(
 
 
 }
+*/

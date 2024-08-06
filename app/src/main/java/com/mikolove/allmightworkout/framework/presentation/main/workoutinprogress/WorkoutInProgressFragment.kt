@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import android.os.Bundle
@@ -134,7 +135,8 @@ class WorkoutInProgressFragment():
             }
         })
 
-       /* viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+       */
+/* viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if(viewState != null) {
 
@@ -191,7 +193,8 @@ class WorkoutInProgressFragment():
                 }
             }
 
-        })*/
+        })*//*
+
     }
 
     private fun setupUI(name : String, startedAt : String?){
@@ -274,7 +277,8 @@ class WorkoutInProgressFragment():
     }
 
     private fun areYouSureToQuitWithoutSaving(){
-        /*viewModel.setStateEvent(
+        */
+/*viewModel.setStateEvent(
             WorkoutInProgressStateEvent.CreateStateMessageEvent(
                 stateMessage = StateMessage(
                     response = Response(
@@ -293,12 +297,14 @@ class WorkoutInProgressFragment():
                     )
                 )
             )
-        )*/
+        )*//*
+
     }
 
     private fun showToastHistorySaved(text : String){
 
- /*       uiController.onResponseReceived(
+ */
+/*       uiController.onResponseReceived(
             response = Response(
                 message = text,
                 uiComponentType = UIComponentType.Toast(),
@@ -309,13 +315,16 @@ class WorkoutInProgressFragment():
                     viewModel.clearStateMessage()
                 }
             }
-        )*/
+        )*//*
+
     }
 
 
-    /********************************************************************
+    */
+/********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun onBackPressed() {
         findNavController().popBackStack()
@@ -330,4 +339,4 @@ class WorkoutInProgressFragment():
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-}
+}*/

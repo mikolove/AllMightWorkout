@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import android.os.Bundle
@@ -19,9 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryFragment(): BaseFragment(R.layout.fragment_history)/*,
-        HistoryListAdapter.Interaction*/
+class HistoryFragment(): BaseFragment(R.layout.fragment_history)*/
+/*,
+        HistoryListAdapter.Interaction*//*
+
 {
+*/
 /*    @Inject
     lateinit var dateUtil: DateUtil
 
@@ -29,9 +33,13 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history)/*,
     private var binding : FragmentHistoryBinding? = null
     private var listAdapter : HistoryListAdapter? = null
 
-    *//********************************************************************
+    *//*
+*/
+/********************************************************************
     LIFECYCLE MANANGEMENT
      *********************************************************************//*
+*/
+/*
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +77,13 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history)/*,
         binding = null
     }
 
-    *//********************************************************************
+    *//*
+*/
+/********************************************************************
         SUBSCRIBE OBSERVERS
      *********************************************************************//*
+*/
+/*
 
     private fun subscribeObservers(){
 
@@ -121,9 +133,13 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history)/*,
         })
     }
 
-    *//********************************************************************
+    *//*
+*/
+/********************************************************************
     SETUP
      *********************************************************************//*
+*/
+/*
 
     private fun showList(){
         if(binding?.fragmentHistorySwiperefreshlayout?.isVisible == false) {
@@ -188,21 +204,30 @@ class HistoryFragment(): BaseFragment(R.layout.fragment_history)/*,
     }
 
 
-    *//********************************************************************
+    *//*
+*/
+/********************************************************************
     INTERACTION
      *********************************************************************//*
+*/
+/*
 
     override fun onItemSelected(position: Int?, item: HistoryWorkout) {
     }
 
-    *//********************************************************************
+    *//*
+*/
+/********************************************************************
     DEBUG
      *********************************************************************//*
+*/
+/*
 
     private fun printActiveJobs(){
 
         for((index, job) in viewModel.getActiveJobs().withIndex()){
             printLogD("WorkoutFragment", "${index}: ${job}")
         }
-    }*/
-}
+    }*//*
+
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import android.view.LayoutInflater
@@ -37,6 +38,7 @@ class ExerciseSetListAdapter (
         holder.bind(sets.get(position))
     }
 
+*/
 /*    override fun onBindViewHolder(holder: ExerciseSetViewHolder, position: Int, payloads: MutableList<Any>) {
 
         if(payloads.isEmpty()){
@@ -61,7 +63,8 @@ class ExerciseSetListAdapter (
                 interaction?.onDeleteClick(newSet)
             }
         }
-    }*/
+    }*//*
+
 
 
     override fun getItemCount(): Int {
@@ -130,4 +133,4 @@ class ExerciseSetListAdapter (
 
         fun updateOrder(item : ExerciseSet,position: Int)
     }
-}
+}*/

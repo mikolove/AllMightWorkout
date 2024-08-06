@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_set_detail
 
 import android.os.Bundle
@@ -299,9 +300,11 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         viewModel.onTriggerEvent(ExerciseSetDetailEvents.OnUpdateIsPending(true))
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     BACK BUTTON PRESS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun onBackPressed() {
 
@@ -336,4 +339,4 @@ class ExerciseSetDetailFragment : BaseFragment(R.layout.fragment_exercise_set_de
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-}
+}*/

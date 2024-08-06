@@ -51,9 +51,10 @@ import com.mikolove.allmightworkout.framework.presentation.main.workout_list.Wor
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListViewModel
 import com.mikolove.allmightworkout.util.FakeData
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
 
 
-@Destination
+@Destination<RootGraph>
 @Composable
 fun WorkoutScreen(
     navController: NavController,

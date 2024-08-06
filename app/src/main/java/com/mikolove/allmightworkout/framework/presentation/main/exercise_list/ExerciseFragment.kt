@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import android.os.Bundle
@@ -57,9 +58,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     private var binding : FragmentExerciseBinding? = null
 
 
-    /*******************************************************************
+    */
+/*******************************************************************
     LIFECYCLE MANANGEMENT
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,8 +91,10 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             }
         }
 
-        /*postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }*/
+        */
+/*postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }*//*
+
 
     }
 
@@ -111,18 +116,22 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
 
-    /*******************************************************************
+    */
+/*******************************************************************
     FRAGEMENT SAVEINSTANCE
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         printLogD("ExerciseFragment","OnSaveInstanceState")
         super.onSaveInstanceState(outState)
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     SUBSCRIBE OBSERVERS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun subscribeObservers(){
 
@@ -164,6 +173,7 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             }
         })
 
+*/
 /*        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
 
             if (viewState != null) {
@@ -222,13 +232,16 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
                 }
             }
 
-        })*/
+        })*//*
+
     }
 
 
-    /*******************************************************************
+    */
+/*******************************************************************
     SETUP
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun showList(){
         if(binding?.fragmentExerciseSwiperefreshlayout?.isVisible == false) {
@@ -296,15 +309,18 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         }
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
         NAVIGATION
-     ********************************************************************/
+     ********************************************************************//*
+
 
 
     private fun selectionNavigateToManageExercise(containerView : View){
 
        //viewModel.setIsExistExercise(true)
-       /* val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
+       */
+/* val itemDetailTransitionName = getString(R.string.test_exercise_item_detail_transition_name)
         val extras = FragmentNavigatorExtras(containerView to itemDetailTransitionName)
         findNavController().navigate(
             R.id.action_exercise_fragment_to_exercise_detail_fragment,
@@ -318,12 +334,15 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         }
         reenterTransition = MaterialElevationScale(true).apply {
             duration = 300.toLong()
-        }*/
+        }*//*
+
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     UI DIALOG
-     ********************************************************************/
+     ********************************************************************//*
+
 
     fun showFilterDialog(){
 
@@ -389,18 +408,22 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             }
         }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     UI FAB
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun fabOnClick() {
         //Generate exercise to create
         findNavController().navigate(R.id.action_exercise_fragment_to_exercise_detail_fragment, null)
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     ACTION MODE
-     ********************************************************************/
+     ********************************************************************//*
+
 
     private fun createActionModeCallBack() : ActionMode.Callback = object : ActionMode.Callback{
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -447,9 +470,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         viewModel.clearSelectedExercises()
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     MENU
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_exercise, menu)
@@ -505,9 +530,11 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     }
 
 
-    /******************************************************************
+    */
+/******************************************************************
         VIEWMODEL ACTIONS
-     ********************************************************************/
+     ********************************************************************//*
+
 
 
     private fun deleteExercises(){
@@ -541,10 +568,13 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
         viewModel.onTriggerEvent(ExerciseListEvents.LaunchDialog(message))
     }
 
-    /*******************************************************************
+    */
+/*******************************************************************
     OVERRIDE UI CONTROLLER TOAST SNACKBAR
-     ********************************************************************/
+     ********************************************************************//*
 
+
+*/
 /*
     private fun showToastDeleteExercises(){
 
@@ -599,11 +629,14 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
             }
         )
     }
-*/
+*//*
 
-   /*******************************************************************
+
+   */
+/*******************************************************************
     WORKOUT LIST ADAPTER INTERACTIONS
-     ********************************************************************/
+     ********************************************************************//*
+
 
     override fun onItemSelected(position: Int, item: Exercise, containerView: View) {
         if(isMultiSelectionModeEnabled()){
@@ -623,4 +656,4 @@ class ExerciseFragment(): BaseFragment(R.layout.fragment_exercise),
     override fun isExerciseSelected(exercise: Exercise): Boolean {
         return viewModel.isExerciseSelected(exercise)
     }
-}
+}*/

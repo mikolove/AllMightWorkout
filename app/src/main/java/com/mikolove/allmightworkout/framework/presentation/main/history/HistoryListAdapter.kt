@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import android.view.LayoutInflater
@@ -93,4 +94,4 @@ class HistoryListAdapter(
         fun onItemSelected(position: Int?, item: HistoryWorkout)
     }
 
-}
+}*/

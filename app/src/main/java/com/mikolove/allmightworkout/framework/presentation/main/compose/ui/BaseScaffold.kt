@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import com.mikolove.allmightworkout.framework.presentation.main.appCurrentDestinationAsState
-import com.mikolove.allmightworkout.framework.presentation.main.destinations.Destination
-import com.mikolove.allmightworkout.framework.presentation.main.startAppDestination
+import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.Route
+import com.ramcosta.composedestinations.utils.currentDestinationAsState
+import com.ramcosta.composedestinations.utils.startDestination
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,14 +22,14 @@ import com.ramcosta.composedestinations.spec.Route
 fun BaseScaffold(
     startRoute: Route,
     navController: NavHostController,
-    topBar: @Composable (Destination, NavBackStackEntry?) -> Unit,
-    bottomBar: @Composable (Destination) -> Unit,
-    floatingActionButton : @Composable (Destination) -> Unit,
+    topBar: @Composable (DestinationSpec, NavBackStackEntry?) -> Unit,
+    bottomBar: @Composable (DestinationSpec) -> Unit,
+    floatingActionButton : @Composable (DestinationSpec) -> Unit,
     snackbarHostState: SnackbarHostState,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    val destination = navController.appCurrentDestinationAsState().value
-        ?: startRoute.startAppDestination
+    val destination = navController.currentDestinationAsState().value
+        ?: startRoute.startDestination
     val navBackStackEntry = navController.currentBackStackEntry
 
     navController.currentBackStack.collectAsState().value.print()
