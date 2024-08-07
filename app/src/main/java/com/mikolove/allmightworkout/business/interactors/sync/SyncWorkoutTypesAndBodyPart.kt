@@ -1,26 +1,21 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutTypeNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
-import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /*
     - We can get everything workoutypes and bodyPart are really small amount of data
@@ -37,7 +32,7 @@ class SyncWorkoutTypesAndBodyPart(
 ) {
 
 
-    suspend fun execute() :DataState<SyncState> {
+    suspend fun execute() : DataState<SyncState> {
 
         val networkWorkoutTypes = getNetworkWorkoutTypes().data ?: listOf()
         val cachedWorkoutTypes = getCachedWorkoutTypes().data ?: listOf()
@@ -116,7 +111,7 @@ class SyncWorkoutTypesAndBodyPart(
     }
 
 
-    suspend fun getNetworkWorkoutTypes() : DataState<List<WorkoutType>>{
+    suspend fun getNetworkWorkoutTypes() : DataState<List<WorkoutType>> {
         val networkResult = safeApiCall(IO){
             workoutTypeNetworkDataSource.getAllWorkoutTypes()
         }
@@ -135,7 +130,7 @@ class SyncWorkoutTypesAndBodyPart(
         return response
     }
 
-    suspend fun getCachedWorkoutTypes() : DataState<List<WorkoutType>>{
+    suspend fun getCachedWorkoutTypes() : DataState<List<WorkoutType>> {
 
         val cacheResult = safeCacheCall(IO){
             workoutTypeCacheDataSource.getWorkoutTypes("","",1)

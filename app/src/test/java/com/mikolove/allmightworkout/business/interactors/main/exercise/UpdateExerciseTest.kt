@@ -1,20 +1,21 @@
 package com.mikolove.allmightworkout.business.interactors.main.exercise
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_EXERCISE_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.exercise.usecase.UpdateExercise.Companion.UPDATE_EXERCISE_FAILED
+import com.mikolove.core.domain.exercise.usecase.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
+import com.mikolove.core.domain.exercise.usecase.UpdateExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

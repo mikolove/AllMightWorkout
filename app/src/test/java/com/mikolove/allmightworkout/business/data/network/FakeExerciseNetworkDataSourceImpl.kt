@@ -1,13 +1,13 @@
 package com.mikolove.allmightworkout.business.data.network
 
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.workout.Workout
 
 class FakeExerciseNetworkDataSourceImpl(
     private val workoutsData : HashMap<String, Workout>,
     private val exercisesData : HashMap<String, Exercise>,
-    private val deletedExercises: HashMap<String,Exercise>
+    private val deletedExercises: HashMap<String, Exercise>
 ) : ExerciseNetworkDataSource {
 
     override suspend fun insertExercise(exercise: Exercise) {

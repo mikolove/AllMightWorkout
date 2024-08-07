@@ -1,14 +1,7 @@
 package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseFactory
-import com.mikolove.allmightworkout.business.domain.state.*
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import java.util.*
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 
 class InsertHistoryExercise(
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,

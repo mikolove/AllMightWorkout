@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryWorkoutDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryWorkoutDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
@@ -14,7 +14,7 @@ constructor(
     private val historyWorkoutWithExercisesCacheMapper: HistoryWorkoutWithExercisesCacheMapper
 ) : HistoryWorkoutDaoService{
 
-    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout,idUser: String): Long {
+    override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout, idUser: String): Long {
         val entity = historyWorkoutCacheMapper.mapToEntity(historyWorkout).copy(idUser = idUser)
         return historyWorkoutDao.insertHistoryWorkout(entity)
     }

@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 
 class HistoryWorkoutDiffCallBack(private val oldList : List<HistoryWorkout>, private val newList : List<HistoryWorkout>) : DiffUtil.Callback(){

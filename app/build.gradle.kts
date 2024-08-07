@@ -5,14 +5,11 @@ plugins {
     alias(libs.plugins.allmightworkout.android.application.compose)
     alias(libs.plugins.allmightworkout.android.hilt)
     alias(libs.plugins.allmightworkout.android.room)
+    alias(libs.plugins.allmightworkout.android.firebase)
     id ("kotlin-parcelize")
     id ("androidx.navigation.safeargs.kotlin") // View Fragment only
-    id ("com.google.gms.google-services")
-    id ("com.google.firebase.crashlytics")
-
     /*used for Lib destination - have to match kotlin version*/
     //id ("com.google.devtools.ksp")
-
 }
 
 
@@ -61,11 +58,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     //Firebase
-    val firebaseBom = platform(libs.firebase.bom)
-    implementation(firebaseBom)
-
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.auth.ui)

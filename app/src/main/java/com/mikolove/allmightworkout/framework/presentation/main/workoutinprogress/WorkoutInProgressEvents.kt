@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.GenericMessageInfo
 
 sealed class WorkoutInProgressEvents{
 
@@ -23,7 +23,7 @@ sealed class WorkoutInProgressEvents{
 }
 
 /*
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 

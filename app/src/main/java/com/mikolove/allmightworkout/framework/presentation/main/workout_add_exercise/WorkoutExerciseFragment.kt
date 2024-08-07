@@ -17,11 +17,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
-import com.mikolove.allmightworkout.business.interactors.main.workout.AddExerciseToWorkout.Companion.INSERT_WORKOUT_EXERCISE_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.workout.AddExerciseToWorkout.Companion.INSERT_WORKOUT_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentAddExerciseToWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents

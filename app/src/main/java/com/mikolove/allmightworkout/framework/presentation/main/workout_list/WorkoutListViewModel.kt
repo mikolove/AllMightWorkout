@@ -1,25 +1,25 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.data.datastore.AppDataStore
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.workout.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout.Companion.INSERT_WORKOUT_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_FILTER
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_ORDER
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutCollection
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
-import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.framework.presentation.session.SessionState
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.interactors.workout.WorkoutInteractors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +33,7 @@ class WorkoutListViewModel
 @Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val workoutInteractors: WorkoutInteractors,
+    private val workoutInteractors: com.mikolove.core.interactors.workout.WorkoutInteractors,
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
 

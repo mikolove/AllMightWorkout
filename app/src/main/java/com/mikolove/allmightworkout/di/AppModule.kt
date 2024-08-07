@@ -2,7 +2,13 @@ package com.mikolove.allmightworkout.di
 
 import android.content.SharedPreferences
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseSetFactory
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.workout.WorkoutFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,7 +44,7 @@ object AppModule {
     @Provides
     fun provideDateUtil(
         @SimpleDateFormatUS dateFormatUs: SimpleDateFormat,
-        @SimpleDateFormatLocal dateFormatLocal : SimpleDateFormat ) : DateUtil{
+        @SimpleDateFormatLocal dateFormatLocal : SimpleDateFormat ) : DateUtil {
         return DateUtil(
             dateFormatUs,
             dateFormatLocal
@@ -53,7 +59,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutFactory(dateUtil: DateUtil) : WorkoutFactory{
+    fun provideWorkoutFactory(dateUtil: DateUtil) : WorkoutFactory {
         return WorkoutFactory(dateUtil)
     }
 
@@ -65,7 +71,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideExerciseSetFactory(dateUtil: DateUtil) : ExerciseSetFactory{
+    fun provideExerciseSetFactory(dateUtil: DateUtil) : ExerciseSetFactory {
         return ExerciseSetFactory(dateUtil)
     }
 
@@ -83,19 +89,19 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutFactory(dateUtil: DateUtil) : HistoryWorkoutFactory{
+    fun provideHistoryWorkoutFactory(dateUtil: DateUtil) : HistoryWorkoutFactory {
         return HistoryWorkoutFactory(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseFactory(dateUtil: DateUtil) : HistoryExerciseFactory{
+    fun provideHistoryExerciseFactory(dateUtil: DateUtil) : HistoryExerciseFactory {
         return HistoryExerciseFactory(dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetFactory(dateUtil: DateUtil) : HistoryExerciseSetFactory{
+    fun provideHistoryExerciseSetFactory(dateUtil: DateUtil) : HistoryExerciseSetFactory {
         return HistoryExerciseSetFactory(dateUtil)
     }
 

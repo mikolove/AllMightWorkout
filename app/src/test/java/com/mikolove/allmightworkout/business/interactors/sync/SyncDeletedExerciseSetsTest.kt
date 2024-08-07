@@ -1,9 +1,8 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExerciseSets
+import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
@@ -49,7 +48,7 @@ class SyncDeletedExerciseSetsTest {
         val networkExerciseSets1 = exerciseSetNetworkDataSource.getExerciseSetByIdExercise("idExercise1")!!
         val networkExerciseSets2 = exerciseSetNetworkDataSource.getExerciseSetByIdExercise("idExercise2")!!
 
-        val exerciseSetToDelete : HashMap<String,ExerciseSet> = HashMap()
+        val exerciseSetToDelete : HashMap<String, ExerciseSet> = HashMap()
         for( eS in networkExerciseSets1) {
             exerciseSetToDelete.put("idExercise1",eS)
             exerciseSetNetworkDataSource.insertDeletedExerciseSet(eS)

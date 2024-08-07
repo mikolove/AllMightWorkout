@@ -2,9 +2,9 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 /*
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 

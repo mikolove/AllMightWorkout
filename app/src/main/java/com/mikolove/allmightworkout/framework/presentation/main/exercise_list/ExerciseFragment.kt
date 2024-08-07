@@ -22,12 +22,12 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.transition.MaterialElevationScale
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
-import com.mikolove.allmightworkout.business.interactors.main.exercise.RemoveMultipleExercises
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
+import com.mikolove.core.domain.exercise.usecase.RemoveMultipleExercises
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController

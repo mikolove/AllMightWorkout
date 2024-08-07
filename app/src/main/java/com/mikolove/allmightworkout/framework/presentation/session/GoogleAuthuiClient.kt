@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -8,15 +7,10 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.domain.model.UserFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 

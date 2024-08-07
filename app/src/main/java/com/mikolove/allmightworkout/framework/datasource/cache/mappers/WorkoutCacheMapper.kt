@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
 
 class WorkoutCacheMapper
 constructor(
     private val dateUtil: DateUtil
 )
-: EntityMapper<WorkoutCacheEntity,Workout> {
+: EntityMapper<WorkoutCacheEntity, Workout> {
 
     override fun mapFromEntity(entity: WorkoutCacheEntity): Workout {
         return Workout(

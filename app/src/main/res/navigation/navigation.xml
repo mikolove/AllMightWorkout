@@ -115,10 +115,10 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="exerciseSet"
-            app:argType="com.mikolove.allmightworkout.business.domain.model.ExerciseSet" />
+            app:argType="com.mikolove.core.domain.exercise.ExerciseSet" />
         <argument
             android:name="exerciseType"
-            app:argType="com.mikolove.allmightworkout.business.domain.model.ExerciseType" />
+            app:argType="com.mikolove.core.domain.exercise.ExerciseType" />
     </fragment>
     <fragment
         android:id="@+id/workoutInProgressFragment"

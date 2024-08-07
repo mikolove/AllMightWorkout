@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.exercise.Exercise
 
 class WorkoutInProgressDiffCallBack (private val oldList : List<Exercise>, private val newList : List<Exercise>) : DiffUtil.Callback(){
 

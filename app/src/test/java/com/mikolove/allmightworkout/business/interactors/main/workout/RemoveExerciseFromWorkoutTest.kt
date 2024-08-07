@@ -1,24 +1,25 @@
 package com.mikolove.allmightworkout.business.interactors.main.workout
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.ExerciseFactory
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_FAILED
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -52,7 +53,7 @@ Test cases:
 class RemoveExerciseFromWorkoutTest {
 
     //System in test
-    private val removeExerciseFromWorkout : RemoveExerciseFromWorkout
+    private val removeExerciseFromWorkout : com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -74,7 +75,7 @@ class RemoveExerciseFromWorkoutTest {
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
         exerciseFactory = dependencyContainer.exerciseFactory
         bodyPartCacheDataState = dependencyContainer.bodyPartCacheDataSource
-        removeExerciseFromWorkout = RemoveExerciseFromWorkout(
+        removeExerciseFromWorkout = com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout(
             workoutCacheDataSource,
             workoutNetworkDataSource,
             exerciseCacheDataSource,

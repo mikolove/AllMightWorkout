@@ -1,11 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.network
 
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.interactors.sync.SyncNetworkConnectivity
-import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
-import com.mikolove.allmightworkout.framework.presentation.session.SessionState
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

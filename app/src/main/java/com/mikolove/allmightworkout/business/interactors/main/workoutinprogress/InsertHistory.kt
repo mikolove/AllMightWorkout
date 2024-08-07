@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
@@ -8,11 +8,21 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeC
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryExerciseSetNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.analytics.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSet
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.workout.Workout
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -156,7 +166,7 @@ class InsertHistory(
         }
     }
 
-    private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout,idUser: String): DataState<Long>? {
+    private suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout, idUser: String): DataState<Long>? {
         val cacheInsertHWorkout = safeCacheCall(IO) {
             historyWorkoutCacheDataSource.insertHistoryWorkout(historyWorkout, idUser)
         }
@@ -238,7 +248,7 @@ class InsertHistory(
         val cacheResult = safeCacheCall(IO){
             workoutTypeCacheDataSource.getWorkoutTypeBydBodyPartId(bodyPart?.idBodyPart)
         }
-        val response = object : CacheResponseHandler<WorkoutType,WorkoutType>(
+        val response = object : CacheResponseHandler<WorkoutType, WorkoutType>(
             cacheResult,
         ){
             override suspend fun handleSuccess(resultObj: WorkoutType): DataState<WorkoutType> {

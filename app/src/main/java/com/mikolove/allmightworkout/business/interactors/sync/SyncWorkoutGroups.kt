@@ -1,17 +1,17 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.GroupCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.GroupNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.Group
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.util.DateUtil
 import kotlinx.coroutines.Dispatchers.IO
 
 class SyncWorkoutGroups(
@@ -20,7 +20,7 @@ class SyncWorkoutGroups(
     private val dateUtil: DateUtil
     ) {
 
-    suspend fun execute() : DataState<SyncState>{
+    suspend fun execute() : DataState<SyncState> {
 
         val networkGroupsCall = safeApiCall(IO){
             groupNetworkDataSource.getWorkoutGroups()
@@ -43,7 +43,7 @@ class SyncWorkoutGroups(
             groupCacheDataSource.getWorkoutGroups()
         }
 
-        val responseCacheGroupsCall = object : CacheResponseHandler<List<Group>,List<Group>>(
+        val responseCacheGroupsCall = object : CacheResponseHandler<List<Group>, List<Group>>(
             response = cacheGroupsCall
         ){
             override suspend fun handleSuccess(resultObj: List<Group>): DataState<List<Group>> {

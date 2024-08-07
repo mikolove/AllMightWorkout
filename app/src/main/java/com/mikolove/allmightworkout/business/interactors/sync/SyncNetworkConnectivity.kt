@@ -2,10 +2,10 @@ package com.mikolove.allmightworkout.business.interactors.sync
 
 import android.net.ConnectivityManager
 import android.net.Network
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.allmightworkout.framework.presentation.network.NetworkStatus
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.channels.awaitClose

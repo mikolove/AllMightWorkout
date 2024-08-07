@@ -9,8 +9,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemExerciseBinding
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload

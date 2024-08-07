@@ -14,14 +14,12 @@ class AndroidFirebaseConventionPlugin : Plugin<Project> {
                 apply("com.google.firebase.crashlytics")
             }
 
-            extensions.configure<RoomExtension>{
-                schemaDirectory("$projectDir/schemas")
-            }
-
             dependencies{
-                "implementation"(libs.findLibrary("room.runtime").get())
-                "implementation"(libs.findLibrary("room.ktx").get())
-                "ksp"(libs.findLibrary("room.compiler").get())
+                val bom = libs.findLibrary("firebase-bom").get()
+                "implementation"(platform(bom))
+
+                "implementation"(libs.findLibrary("firebase-analytics").get())
+                "implementation"(libs.findLibrary("firebase-crashlytics").get())
             }
         }
     }

@@ -1,13 +1,14 @@
 package com.mikolove.allmightworkout.business.interactors.main.exercise
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
-import com.mikolove.allmightworkout.business.interactors.main.exercise.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
+import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
+import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking

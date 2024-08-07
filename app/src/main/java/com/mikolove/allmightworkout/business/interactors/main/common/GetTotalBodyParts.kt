@@ -1,12 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.state.*
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class GetTotalBodyParts(
     val bodyPartCacheDataSource: BodyPartCacheDataSource

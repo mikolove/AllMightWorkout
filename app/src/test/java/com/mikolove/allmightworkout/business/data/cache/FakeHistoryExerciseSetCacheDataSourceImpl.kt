@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
+import com.mikolove.core.domain.analytics.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExerciseSet
 
 const val FORCE_NEW_HISTORY_EXERCISE_SET_EXCEPTION = "FORCE_NEW_HISTORY_EXERCISE_SET_EXCEPTION"
 
 class FakeHistoryExerciseSetCacheDataSourceImpl
 constructor(
     private val historyExercisesData: HashMap<String, HistoryExercise>,
-    private val historyExerciseSetsData: HashMap<String,HistoryExerciseSet>
+    private val historyExerciseSetsData: HashMap<String, HistoryExerciseSet>
 ) : HistoryExerciseSetCacheDataSource{
 
     override suspend fun insertHistoryExerciseSet(

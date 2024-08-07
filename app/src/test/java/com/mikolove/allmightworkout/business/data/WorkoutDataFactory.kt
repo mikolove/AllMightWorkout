@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 
 //No context in Test so create a Classloader to get the ressources
 class WorkoutDataFactory(

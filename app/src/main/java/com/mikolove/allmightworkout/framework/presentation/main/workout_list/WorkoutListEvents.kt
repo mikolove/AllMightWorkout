@@ -1,8 +1,5 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
-
 sealed class WorkoutListEvents {
 
     //object NewSearch : WorkoutListEvents()

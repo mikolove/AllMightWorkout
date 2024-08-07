@@ -6,6 +6,10 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorko
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.di.DependencyContainer
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -1,16 +1,17 @@
 package com.mikolove.allmightworkout.business.interactors.main.workout
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_WORKOUT_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.interactors.workout.RemoveWorkout.Companion.DELETE_WORKOUT_FAILED
+import com.mikolove.core.interactors.workout.RemoveWorkout.Companion.DELETE_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
+import com.mikolove.core.interactors.workout.RemoveWorkout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -40,7 +41,7 @@ Test cases:
 @InternalCoroutinesApi
 class RemoveWorkoutTest {
 
-    private val removeWorkout: RemoveWorkout<WorkoutViewState>
+    private val removeWorkout: com.mikolove.core.interactors.workout.RemoveWorkout<WorkoutViewState>
 
     //Dependencies
     private val dependencyContainer: DependencyContainer
@@ -55,9 +56,10 @@ class RemoveWorkoutTest {
         workoutCacheDataSource = dependencyContainer.workoutCacheDataSource
         workoutNetworkDataSource = dependencyContainer.workoutNetworkDataSource
         workoutFactory = dependencyContainer.workoutFactory
-        removeWorkout = RemoveWorkout(
+        removeWorkout = com.mikolove.core.interactors.workout.RemoveWorkout(
             workoutCacheDataSource,
-            workoutNetworkDataSource)
+            workoutNetworkDataSource
+        )
     }
 
     @Test

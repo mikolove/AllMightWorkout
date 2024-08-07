@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutWithExercisesCacheEntity
 
 class WorkoutWithExercisesCacheMapper
 constructor(
     private val workoutCacheMapper: WorkoutCacheMapper,
     private val exerciseWithSetsCacheMapper: ExerciseWithSetsCacheMapper
-): EntityMapper<WorkoutWithExercisesCacheEntity, Workout>{
+): EntityMapper<WorkoutWithExercisesCacheEntity, Workout> {
 
     override fun mapFromEntity(entity: WorkoutWithExercisesCacheEntity): Workout {
 

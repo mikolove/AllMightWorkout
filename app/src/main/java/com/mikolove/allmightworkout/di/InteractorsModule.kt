@@ -3,14 +3,13 @@ package com.mikolove.allmightworkout.di
 import android.net.ConnectivityManager
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
-import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
+import com.mikolove.core.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.auth.GetAuthState
 import com.mikolove.allmightworkout.business.interactors.main.auth.SignOut
 import com.mikolove.allmightworkout.business.interactors.main.common.*
-import com.mikolove.allmightworkout.business.interactors.main.exercise.*
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkoutDetail
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.history.GetTotalHistoryWorkouts
@@ -18,7 +17,6 @@ import com.mikolove.allmightworkout.business.interactors.main.history.HistoryLis
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadUser
 import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
-import com.mikolove.allmightworkout.business.interactors.main.workout.*
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.*
 import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExerciseSets
 import com.mikolove.allmightworkout.business.interactors.sync.SyncDeletedExercises
@@ -31,6 +29,39 @@ import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutExercis
 import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutGroups
 import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutTypesAndBodyPart
 import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkouts
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetFactory
+import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.domain.exercise.usecase.GetExerciseOrderAndFilter
+import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise
+import com.mikolove.core.domain.exercise.usecase.InsertExercise
+import com.mikolove.core.domain.exercise.usecase.InsertExerciseSet
+import com.mikolove.core.domain.exercise.usecase.InsertMultipleExerciseSet
+import com.mikolove.core.domain.exercise.usecase.RemoveExerciseSet
+import com.mikolove.core.domain.exercise.usecase.RemoveMultipleExerciseSet
+import com.mikolove.core.domain.exercise.usecase.RemoveMultipleExercises
+import com.mikolove.core.domain.exercise.usecase.UpdateExercise
+import com.mikolove.core.domain.exercise.usecase.UpdateExerciseSet
+import com.mikolove.core.domain.exercise.usecase.UpdateMultipleExerciseSet
+import com.mikolove.core.domain.exercise.usecase.UpdateNetworkExerciseSets
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.interactors.workout.AddExerciseToWorkout
+import com.mikolove.core.interactors.workout.GetTotalWorkouts
+import com.mikolove.core.interactors.workout.GetWorkoutOrderAndFilter
+import com.mikolove.core.interactors.workout.GetWorkouts
+import com.mikolove.core.interactors.workout.InsertWorkout
+import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
+import com.mikolove.core.interactors.workout.RemoveWorkout
+import com.mikolove.core.interactors.workout.UpdateWorkout
+import com.mikolove.core.interactors.workout.WorkoutInteractors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,24 +86,53 @@ object InteractorsModule {
         appDataStore: AppDataStore,
         workoutFactory: WorkoutFactory,
         dateUtil: DateUtil
-    ) : WorkoutInteractors {
-        return WorkoutInteractors(
-            getWorkouts = GetWorkouts(workoutCacheDataSource),
+    ) : com.mikolove.core.interactors.workout.WorkoutInteractors {
+        return com.mikolove.core.interactors.workout.WorkoutInteractors(
+            getWorkouts = com.mikolove.core.interactors.workout.GetWorkouts(workoutCacheDataSource),
             getExercises = GetExercises(exerciseCacheDataSource),
             getWorkoutById = GetWorkoutById(workoutCacheDataSource),
-            getTotalWorkouts = GetTotalWorkouts(workoutCacheDataSource),
+            getTotalWorkouts = com.mikolove.core.interactors.workout.GetTotalWorkouts(
+                workoutCacheDataSource
+            ),
             getTotalExercises = GetTotalExercises(exerciseCacheDataSource),
-            insertWorkout = InsertWorkout(workoutCacheDataSource,workoutNetworkDataSource,workoutFactory),
-            updateWorkout = UpdateWorkout(workoutCacheDataSource,workoutNetworkDataSource),
-            removeWorkout = RemoveWorkout(workoutCacheDataSource,workoutNetworkDataSource),
-            removeMultipleWorkouts = RemoveMultipleWorkouts(workoutCacheDataSource,workoutNetworkDataSource),
-            addExerciseToWorkout = AddExerciseToWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
-            removeExerciseFromWorkout = RemoveExerciseFromWorkout(workoutCacheDataSource,workoutNetworkDataSource,exerciseCacheDataSource,exerciseNetworkDataSource,dateUtil),
+            insertWorkout = com.mikolove.core.interactors.workout.InsertWorkout(
+                workoutCacheDataSource,
+                workoutNetworkDataSource,
+                workoutFactory
+            ),
+            updateWorkout = com.mikolove.core.interactors.workout.UpdateWorkout(
+                workoutCacheDataSource,
+                workoutNetworkDataSource
+            ),
+            removeWorkout = com.mikolove.core.interactors.workout.RemoveWorkout(
+                workoutCacheDataSource,
+                workoutNetworkDataSource
+            ),
+            removeMultipleWorkouts = com.mikolove.core.interactors.workout.RemoveMultipleWorkouts(
+                workoutCacheDataSource,
+                workoutNetworkDataSource
+            ),
+            addExerciseToWorkout = com.mikolove.core.interactors.workout.AddExerciseToWorkout(
+                workoutCacheDataSource,
+                workoutNetworkDataSource,
+                exerciseCacheDataSource,
+                exerciseNetworkDataSource,
+                dateUtil
+            ),
+            removeExerciseFromWorkout = com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout(
+                workoutCacheDataSource,
+                workoutNetworkDataSource,
+                exerciseCacheDataSource,
+                exerciseNetworkDataSource,
+                dateUtil
+            ),
             getWorkoutTypes = GetWorkoutTypes(workoutTypeCacheDataSource),
             getBodyParts = GetBodyParts(bodyPartCacheDataSource),
             getTotalBodyParts = GetTotalBodyParts(bodyPartCacheDataSource),
             getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(bodyPartCacheDataSource),
-            getWorkoutOrderAndFilter = GetWorkoutOrderAndFilter(appDataStoreManager = appDataStore)
+            getWorkoutOrderAndFilter = com.mikolove.core.interactors.workout.GetWorkoutOrderAndFilter(
+                appDataStoreManager = appDataStore
+            )
         )
     }
 
@@ -88,7 +148,7 @@ object InteractorsModule {
         exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
         exerciseSetFactory: ExerciseSetFactory,
         appDataStore: AppDataStore
-    ) : ExerciseInteractors{
+    ) : ExerciseInteractors {
         return ExerciseInteractors(
             getExercises = GetExercises(exerciseCacheDataSource),
             getExerciseById = GetExerciseById(exerciseCacheDataSource),

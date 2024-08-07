@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_BODYPART_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

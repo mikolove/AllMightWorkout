@@ -1,14 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import androidx.lifecycle.ViewModel
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
-import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_FILTER_NAME
-import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_ORDER_BY_DESC_DATE_CREATED
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel

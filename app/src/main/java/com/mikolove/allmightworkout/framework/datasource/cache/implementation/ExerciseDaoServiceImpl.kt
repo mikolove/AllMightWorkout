@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.ExerciseDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery
@@ -17,7 +17,7 @@ constructor(
     private val dateUtil: DateUtil
 ) : ExerciseDaoService{
 
-    override suspend fun insertExercise(exercise: Exercise,idUser : String): Long {
+    override suspend fun insertExercise(exercise: Exercise, idUser : String): Long {
         val entity = exerciseCacheMapper.mapToEntity(exercise).copy(idUser=idUser)
         return exerciseDao.insertExercise(entity)
     }

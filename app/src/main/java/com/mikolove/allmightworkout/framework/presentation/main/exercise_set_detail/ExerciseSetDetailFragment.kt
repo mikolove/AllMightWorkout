@@ -8,10 +8,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseSetDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailEvents

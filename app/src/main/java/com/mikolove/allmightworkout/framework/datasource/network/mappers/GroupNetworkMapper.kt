@@ -1,13 +1,13 @@
 package com.mikolove.allmightworkout.framework.datasource.network.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.Group
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.GroupNetworkEntity
 
 class GroupNetworkMapper(
     private val dateUtil: DateUtil
-) : EntityMapper<GroupNetworkEntity,Group>{
+) : EntityMapper<GroupNetworkEntity, Group> {
 
     override fun mapFromEntity(entity: GroupNetworkEntity): Group {
         return Group(

@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_EXERCISE_BY_ID_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState

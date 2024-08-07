@@ -3,7 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.UserFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.UserNetworkMapper
@@ -11,7 +11,6 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Workout
 import com.mikolove.allmightworkout.framework.datasource.network.model.UserNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
-import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.tasks.await
 
 class UserFirestoreServiceImpl

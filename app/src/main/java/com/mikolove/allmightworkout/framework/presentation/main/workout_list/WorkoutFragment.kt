@@ -19,10 +19,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ARE_YOU_SURE
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_DATE_CREATED
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_FILTER_NAME

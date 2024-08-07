@@ -12,6 +12,7 @@
       <module name="AllMightWorkout.buildSrc.test" target="19" />
       <module name="AllMightWorkout.core.data" target="19" />
       <module name="AllMightWorkout.core.database" target="19" />
+      <module name="AllMightWorkout.core.interactors" target="19" />
       <module name="AllMightWorkout.core.network" target="19" />
       <module name="AllMightWorkout.core.presentation.designsystem" target="19" />
       <module name="AllMightWorkout.core.presentation.ui" target="19" />

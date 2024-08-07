@@ -1,10 +1,9 @@
 package com.mikolove.allmightworkout.framework.datasource.network
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.UserFactory
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.UserFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.UserFirestoreServiceImpl
@@ -20,7 +19,6 @@ import org.junit.*
 import org.junit.runners.MethodSorters
 import java.util.*
 import javax.inject.Inject
-import kotlin.concurrent.thread
 import kotlin.test.assertEquals
 
 @HiltAndroidTest

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.GenericMessageInfo
 
 sealed class WorkoutExerciseEvents {
 

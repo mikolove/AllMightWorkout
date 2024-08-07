@@ -2,9 +2,10 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

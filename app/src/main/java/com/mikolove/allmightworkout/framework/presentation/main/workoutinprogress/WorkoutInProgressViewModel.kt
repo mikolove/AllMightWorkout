@@ -4,11 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InProgressListInteractors
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel

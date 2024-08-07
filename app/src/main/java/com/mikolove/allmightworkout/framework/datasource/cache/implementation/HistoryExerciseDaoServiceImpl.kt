@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExercise
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryExerciseDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HistoryExerciseDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.HistoryExerciseCacheMapper

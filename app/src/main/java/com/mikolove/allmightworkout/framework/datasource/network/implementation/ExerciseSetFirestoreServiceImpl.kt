@@ -3,7 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseSetFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseSetNetworkMapper

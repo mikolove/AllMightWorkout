@@ -13,10 +13,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentExerciseInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.WIP_ARE_YOU_SURE_STOP_EXERCISE

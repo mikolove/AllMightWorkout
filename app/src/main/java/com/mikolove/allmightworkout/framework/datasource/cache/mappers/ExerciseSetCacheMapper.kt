@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseSetCacheEntity
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class ExerciseSetCacheMapper
 @Inject
 constructor(
     private val dateUtil: DateUtil
-): EntityMapper<ExerciseSetCacheEntity,ExerciseSet>{
+): EntityMapper<ExerciseSetCacheEntity, ExerciseSet> {
     override fun mapFromEntity(entity: ExerciseSetCacheEntity): ExerciseSet {
         return ExerciseSet(
             idExerciseSet = entity.idExerciseSet,

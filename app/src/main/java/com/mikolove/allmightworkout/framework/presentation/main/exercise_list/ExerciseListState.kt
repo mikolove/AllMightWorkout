@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.Queue
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.Queue
 
 data class ExerciseListState(
 

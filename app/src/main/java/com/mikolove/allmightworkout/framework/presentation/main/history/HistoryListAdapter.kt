@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemHistoryWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload

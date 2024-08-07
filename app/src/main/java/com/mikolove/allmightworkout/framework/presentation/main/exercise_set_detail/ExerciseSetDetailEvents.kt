@@ -1,8 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_set_detail
 
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailEvents
+import com.mikolove.core.domain.state.GenericMessageInfo
 
 sealed class ExerciseSetDetailEvents {
 

@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.util
 
-import androidx.compose.runtime.Composable
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutCollection
 import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutTypeFilter

@@ -6,8 +6,23 @@ import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.util.isUnitTest
+import com.mikolove.core.domain.analytics.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSet
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetFactory
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -92,7 +107,7 @@ class DependencyContainer {
 
         historyExerciseFactory = HistoryExerciseFactory(dateUtil)
 
-        historyWorkoutFactory =HistoryWorkoutFactory(dateUtil)
+        historyWorkoutFactory = HistoryWorkoutFactory(dateUtil)
 
         workoutNetworkDataSource = FakeWorkoutNetworkDataSourceImpl(
             workoutsData = workoutDataFactory.produceHashMapOfT(

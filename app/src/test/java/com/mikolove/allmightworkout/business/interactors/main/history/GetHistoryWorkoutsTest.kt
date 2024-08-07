@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.business.interactors.main.history
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

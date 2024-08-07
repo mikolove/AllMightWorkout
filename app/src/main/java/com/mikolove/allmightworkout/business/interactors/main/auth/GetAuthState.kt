@@ -3,10 +3,10 @@ package com.mikolove.allmightworkout.business.interactors.main.auth
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.model.UserFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -29,7 +29,8 @@ class GetAuthState(
                     name = authUser.displayName,
                 )
 
-                trySend(DataState.data(
+                trySend(
+                    DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("GetAuthState.Connected")
                         .title(GETAUTHSTATE_TITLE)
@@ -41,7 +42,8 @@ class GetAuthState(
 
             } else{
 
-                trySend(DataState.data(
+                trySend(
+                    DataState.data(
                     message = GenericMessageInfo.Builder()
                         .id("GetAuthState.Disconnected")
                         .title(GETAUTHSTATE_TITLE)

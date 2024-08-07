@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.util.DateUtil
 
 const val FORCE_NEW_EXERCISESET_EXCEPTION = "FORCE_NEW_EXERCISESET_EXCEPTION"
 const val FORCE_NEW_EXERCISESETS_EXCEPTION = "FORCE_NEW_EXERCISESETS_EXCEPTION"
@@ -14,9 +14,9 @@ const val FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION = "FORCE_GET_EXERCISE_
 class FakeExerciseSetCacheDataSourceImpl(
     private val exerciseDatas: HashMap<String, Exercise>,
     private val dateUtil: DateUtil
-) : ExerciseSetCacheDataSource{
+) : ExerciseSetCacheDataSource {
 
-    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet,idExercise: String): Long {
+    override suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String): Long {
         if(exerciseSet.idExerciseSet.equals(FORCE_NEW_EXERCISESET_EXCEPTION)){
             throw Exception("Something went wrong inserting exercise Set")
         }
@@ -58,7 +58,7 @@ class FakeExerciseSetCacheDataSourceImpl(
         }
 
         //Get Set for create date
-        var exerciseSet :ExerciseSet? = exerciseDatas[idExercise]?.sets?.find {  set ->
+        var exerciseSet : ExerciseSet? = exerciseDatas[idExercise]?.sets?.find { set ->
             set.idExerciseSet == primaryKey
         }?: null
 

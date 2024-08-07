@@ -1,10 +1,13 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.cache.CacheResponseHandler
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow

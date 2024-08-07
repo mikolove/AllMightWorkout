@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
 import com.mikolove.allmightworkout.business.domain.model.Group
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.GroupDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.GroupDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.GroupCacheMapper

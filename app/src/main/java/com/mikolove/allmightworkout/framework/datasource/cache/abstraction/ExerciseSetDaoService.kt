@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseSet
 
 interface ExerciseSetDaoService {
 

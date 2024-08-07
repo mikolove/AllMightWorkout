@@ -3,9 +3,13 @@ package com.mikolove.allmightworkout.di
 import android.net.ConnectivityManager
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutTypesAndBodyPart
 import com.mikolove.allmightworkout.business.interactors.sync.*
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

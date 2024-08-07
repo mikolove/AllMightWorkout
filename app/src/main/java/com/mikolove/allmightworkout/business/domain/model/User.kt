@@ -1,6 +1,7 @@
 package com.mikolove.allmightworkout.business.domain.model
 
 import android.os.Parcelable
+import com.mikolove.core.domain.workout.Workout
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

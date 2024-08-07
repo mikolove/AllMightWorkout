@@ -1,12 +1,10 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_detail
 
-import androidx.datastore.dataStore
 import androidx.lifecycle.*
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.interactors.workout.WorkoutInteractors
 import com.mikolove.allmightworkout.util.printLogD
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +16,7 @@ import javax.inject.Inject
 class WorkoutDetailViewModel
 @Inject
 constructor(
-    private val workoutInteractors : WorkoutInteractors,
+    private val workoutInteractors : com.mikolove.core.interactors.workout.WorkoutInteractors,
     private val savedStateHandle: SavedStateHandle,
 ): ViewModel(){
 

@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WorkoutDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery

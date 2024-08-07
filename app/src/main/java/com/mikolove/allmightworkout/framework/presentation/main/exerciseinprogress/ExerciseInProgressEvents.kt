@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.state.GenericMessageInfo
 
 sealed class ExerciseInProgressEvents {
 

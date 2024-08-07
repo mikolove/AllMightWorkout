@@ -1,14 +1,12 @@
 package com.mikolove.allmightworkout.business.interactors.main.auth
 
-import com.google.firebase.auth.FirebaseAuth
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
 
 class SignOut() {
 
@@ -30,7 +28,8 @@ class SignOut() {
                 )
             }
         } catch (e: Exception) {
-            emit(DataState.data(
+            emit(
+                DataState.data(
                 message = GenericMessageInfo.Builder()
                     .id("SignOut.Failed")
                     .title(SIGNOUT_TITLE)

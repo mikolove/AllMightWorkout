@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.ExerciseSetDaoService
 
 class ExerciseSetCacheDataSourceImpl

@@ -1,16 +1,17 @@
 package com.mikolove.allmightworkout.business.interactors.main.workout
 
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_WORKOUT_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_ERRORS
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts.Companion.DELETE_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -51,7 +52,7 @@ Test cases:
 @InternalCoroutinesApi
 class RemoveMultipleWorkoutsTest {
 
-    private var removeMultipleWorkouts : RemoveMultipleWorkouts? = null
+    private var removeMultipleWorkouts : com.mikolove.core.interactors.workout.RemoveMultipleWorkouts? = null
 
     //Dependencies
     private lateinit var dependencyContainer : DependencyContainer
@@ -72,7 +73,7 @@ class RemoveMultipleWorkoutsTest {
         workoutNetworkDataSource = dependencyContainer.workoutNetworkDataSource
         workoutFactory = dependencyContainer.workoutFactory
 
-        removeMultipleWorkouts = RemoveMultipleWorkouts(
+        removeMultipleWorkouts = com.mikolove.core.interactors.workout.RemoveMultipleWorkouts(
             workoutCacheDataSource,
             workoutNetworkDataSource
         )

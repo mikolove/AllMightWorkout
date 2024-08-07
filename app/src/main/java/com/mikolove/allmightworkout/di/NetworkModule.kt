@@ -4,10 +4,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.allmightworkout.business.data.network.implementation.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.*
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.*
+import com.mikolove.core.data.workout.WorkoutNetworkDataSourceImpl
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -98,7 +100,8 @@ object NetworkModule {
                                      userNetworkMapper : UserNetworkMapper,
                                      workoutNetworkMapper: WorkoutNetworkMapper,
                                      exerciseNetworkMapper: ExerciseNetworkMapper,
-                                     dateUtil: DateUtil) : UserFirestoreService{
+                                     dateUtil: DateUtil
+    ) : UserFirestoreService{
         return UserFirestoreServiceImpl(
             firebaseAuth,
             firestore,
@@ -111,7 +114,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil ) : WorkoutFirestoreService{
+    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil) : WorkoutFirestoreService{
         return WorkoutFirestoreServiceImpl(firebaseAuth,firestore  ,workoutNetworkMapper  ,exerciseNetworkMapper, dateUtil )
     }
 
@@ -141,7 +144,8 @@ object NetworkModule {
                                               historyWorkoutNetworkMapper: HistoryWorkoutNetworkMapper,
                                               historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,
                                               historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper,
-                                              dateUtil : DateUtil) : HistoryWorkoutFirestoreService {
+                                              dateUtil : DateUtil
+    ) : HistoryWorkoutFirestoreService {
         return HistoryWorkoutFirestoreServiceImpl(firebaseAuth,firestore,historyWorkoutNetworkMapper,historyExerciseNetworkMapper,historyExerciseSetNetworkMapper,dateUtil)
     }
 
@@ -180,7 +184,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutNetworkDataSource( workoutFirestoreService: WorkoutFirestoreService) : WorkoutNetworkDataSource{
+    fun provideWorkoutNetworkDataSource( workoutFirestoreService: WorkoutFirestoreService) : WorkoutNetworkDataSource {
         return WorkoutNetworkDataSourceImpl(workoutFirestoreService)
     }
 

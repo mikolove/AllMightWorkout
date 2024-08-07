@@ -1,9 +1,8 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.Group
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.GroupCacheEntity
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.GroupsWithWorkoutsCacheEntity
 
 class GroupsWithWorkoutsCacheMapper

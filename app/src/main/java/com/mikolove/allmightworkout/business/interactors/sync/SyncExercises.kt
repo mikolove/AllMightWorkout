@@ -1,22 +1,21 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
 import kotlin.collections.ArrayList
@@ -42,7 +41,7 @@ class SyncExercises(
             exerciseNetworkDataSource.getExercises()
         }
 
-        val networkResponse = object : ApiResponseHandler<List<Exercise>,List<Exercise>>(
+        val networkResponse = object : ApiResponseHandler<List<Exercise>, List<Exercise>>(
             response = networkResult,
         ){
             override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<List<Exercise>> {
@@ -159,7 +158,7 @@ class SyncExercises(
             exerciseCacheDataSource.getExercises("","",1, idUser = idUser)
         }
 
-        val response = object : CacheResponseHandler<List<Exercise>,List<Exercise>>(
+        val response = object : CacheResponseHandler<List<Exercise>, List<Exercise>>(
             response = cacheResult
         ){
             override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<List<Exercise>> {
@@ -332,7 +331,7 @@ class SyncExercises(
         }
     }
 
-    private suspend fun insertExerciseToCache(exercise : Exercise,idUser: String){
+    private suspend fun insertExerciseToCache(exercise : Exercise, idUser: String){
         printLogD("SyncExercises","insertExerciseToCache ${exercise.idExercise}")
         exerciseCacheDataSource.insertExercise(exercise,idUser)
 

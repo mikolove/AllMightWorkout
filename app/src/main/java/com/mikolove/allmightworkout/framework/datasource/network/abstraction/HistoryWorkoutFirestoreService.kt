@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkout
 
 interface HistoryWorkoutFirestoreService {
 

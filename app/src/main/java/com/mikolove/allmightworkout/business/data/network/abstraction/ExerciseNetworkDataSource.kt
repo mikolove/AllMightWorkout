@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.exercise.Exercise
 
 interface ExerciseNetworkDataSource {
 

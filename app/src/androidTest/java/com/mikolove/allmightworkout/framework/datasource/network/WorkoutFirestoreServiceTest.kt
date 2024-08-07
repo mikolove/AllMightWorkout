@@ -3,8 +3,7 @@ package com.mikolove.allmightworkout.framework.datasource.network
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.di.ProductionModule
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.WorkoutFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.WorkoutFirestoreServiceImpl
@@ -13,8 +12,9 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Workout
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_LOGIN
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_PASSWORD
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.workout.WorkoutFactory
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.junit.Before

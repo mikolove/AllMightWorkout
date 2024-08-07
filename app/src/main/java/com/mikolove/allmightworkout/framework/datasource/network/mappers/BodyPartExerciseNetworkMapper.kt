@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.datasource.network.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.BodyPartExerciseNetworkEntity
 
 class BodyPartExerciseNetworkMapper : EntityMapper<BodyPartExerciseNetworkEntity, BodyPart> {

@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSet
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.analytics.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExerciseSet
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseWithSetsCacheEntity
 
 class HistoryExerciseWithSetsCacheMapper
 constructor(
     private val historyExerciseCacheMapper: HistoryExerciseCacheMapper,
     private val historyExerciseSetCacheMapper: HistoryExerciseSetCacheMapper
-) : EntityMapper<HistoryExerciseWithSetsCacheEntity, HistoryExercise>{
+) : EntityMapper<HistoryExerciseWithSetsCacheEntity, HistoryExercise> {
 
     override fun mapFromEntity(entity: HistoryExerciseWithSetsCacheEntity): HistoryExercise {
 

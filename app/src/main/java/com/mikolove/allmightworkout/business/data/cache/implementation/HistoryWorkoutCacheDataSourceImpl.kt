@@ -1,10 +1,8 @@
 package com.mikolove.allmightworkout.business.data.cache.implementation
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.HistoryWorkoutDaoService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryWorkoutCacheDataSourceImpl
 constructor(private val historyWorkoutDaoService : HistoryWorkoutDaoService)

@@ -1,13 +1,13 @@
 package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

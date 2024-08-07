@@ -1,13 +1,14 @@
 package com.mikolove.allmightworkout.framework.datasource.network.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.HistoryWorkoutNetworkEntity
 
 class HistoryWorkoutNetworkMapper
 constructor(
-    private val dateUtil: DateUtil) : EntityMapper<HistoryWorkoutNetworkEntity,HistoryWorkout>{
+    private val dateUtil: DateUtil
+) : EntityMapper<HistoryWorkoutNetworkEntity, HistoryWorkout> {
 
     override fun mapFromEntity(entity: HistoryWorkoutNetworkEntity): HistoryWorkout {
 

@@ -14,11 +14,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.RemoveMultipleWorkouts
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_FAILED
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS

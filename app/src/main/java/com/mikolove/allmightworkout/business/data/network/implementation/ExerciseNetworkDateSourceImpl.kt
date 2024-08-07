@@ -1,10 +1,8 @@
 package com.mikolove.allmightworkout.business.data.network.implementation
 
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseFirestoreService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 class ExerciseNetworkDateSourceImpl

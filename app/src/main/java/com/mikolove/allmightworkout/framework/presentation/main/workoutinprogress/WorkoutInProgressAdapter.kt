@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.ItemWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.invisible
 import com.mikolove.allmightworkout.framework.presentation.common.visible

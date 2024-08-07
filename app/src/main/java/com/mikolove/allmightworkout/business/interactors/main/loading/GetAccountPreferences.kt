@@ -1,7 +1,7 @@
 /*
 package com.mikolove.allmightworkout.business.interactors.main.loading
 
-import com.mikolove.allmightworkout.business.data.datastore.AppDataStore
+import com.mikolove.core.data.datastore.AppDataStore
 import com.mikolove.allmightworkout.business.domain.state.DataState
 import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
 import com.mikolove.allmightworkout.business.domain.state.MessageType

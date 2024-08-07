@@ -1,26 +1,21 @@
 package com.mikolove.allmightworkout.business.interactors.main.loading
 
-import android.provider.BlockedNumberContract
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.UserCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.UserNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.User
 import com.mikolove.allmightworkout.business.domain.model.UserFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workout.InsertWorkout
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 
 /*
 
@@ -84,7 +79,8 @@ class LoadUser(
                     }
 
                     //Send success
-                    emit(DataState.data(
+                    emit(
+                        DataState.data(
                         message = GenericMessageInfo.Builder()
                             .id("CreateUser.Success")
                             .title(LOAD_USER_TITLE)
@@ -100,7 +96,8 @@ class LoadUser(
 
                     val userCreated = createUser(userOnline)
                     if(userCreated.message?.description != CREATE_SUCCESS){
-                        emit(DataState.error(
+                        emit(
+                            DataState.error(
                             message = GenericMessageInfo.Builder()
                                 .id("LoadUserSync.Error")
                                 .title(LOAD_USER_TITLE)
@@ -109,7 +106,8 @@ class LoadUser(
                                 .messageType(MessageType.Error),
                         ))
                     }else{
-                        emit(DataState.data(
+                        emit(
+                            DataState.data(
                             message = GenericMessageInfo.Builder()
                                 .id("LoadUserSync.Success")
                                 .title(LOAD_USER_TITLE)
@@ -129,7 +127,8 @@ class LoadUser(
 
                     if(isCreated.message?.description == CREATE_SUCCESS){
 
-                        emit(DataState.data(
+                        emit(
+                            DataState.data(
                             message = GenericMessageInfo.Builder()
                                 .id("LoadUserCreate.Success")
                                 .title(LOAD_USER_TITLE)
@@ -143,7 +142,8 @@ class LoadUser(
 
                     }else{
 
-                        emit(DataState.error(
+                        emit(
+                            DataState.error(
                             message = GenericMessageInfo.Builder()
                                 .id("LoadUserCreate.Error")
                                 .title(LOAD_USER_TITLE)
@@ -166,12 +166,12 @@ class LoadUser(
 
     }
 
-    private suspend  fun userExistInCache(idUser: String) : DataState<User?>{
+    private suspend  fun userExistInCache(idUser: String) : DataState<User?> {
         val userExist = safeCacheCall(Dispatchers.IO){
             userCacheDataSource.getUser(idUser)
         }
 
-        val response = object : CacheResponseHandler<User?,User?>(
+        val response = object : CacheResponseHandler<User?, User?>(
             response = userExist
         ){
             override suspend fun handleSuccess(resultObj: User?): DataState<User?> {
@@ -186,13 +186,13 @@ class LoadUser(
         return response
     }
 
-    private suspend fun userExistOnline(idUser : String) : DataState<User?>{
+    private suspend fun userExistOnline(idUser : String) : DataState<User?> {
 
         val userExistOnlineCall = safeApiCall(Dispatchers.IO){
             userNetworkDataSource.getUser(idUser)
         }
 
-        val userExistOnlineResponse = object : ApiResponseHandler<User?,User?>(
+        val userExistOnlineResponse = object : ApiResponseHandler<User?, User?>(
             userExistOnlineCall
         ){
             override suspend fun handleSuccess(resultObj: User?): DataState<User?> {
@@ -214,12 +214,12 @@ class LoadUser(
         }
     }
 
-    private suspend fun createUser(newUser : User) : DataState<Long?>{
+    private suspend fun createUser(newUser : User) : DataState<Long?> {
         val createUser = safeCacheCall(Dispatchers.IO){
             userCacheDataSource.insertUser(newUser)
         }
 
-        val response = object : CacheResponseHandler<Long?,Long>(
+        val response = object : CacheResponseHandler<Long?, Long>(
             response = createUser
         ){
             override suspend fun handleSuccess(resultObj: Long): DataState<Long?> {

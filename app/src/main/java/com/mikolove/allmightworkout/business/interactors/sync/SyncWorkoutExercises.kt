@@ -1,22 +1,21 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.util.printLogD
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -37,7 +36,7 @@ class SyncWorkoutExercises(
 
     suspend fun execute(
         idUser : String,
-    ) : DataState<SyncState>{
+    ) : DataState<SyncState> {
 
         val cachedWorkouts = getCachedWorkouts(idUser)
 
@@ -156,7 +155,7 @@ class SyncWorkoutExercises(
             workoutCacheDataSource.getWorkouts("","",1,idUser)
         }
 
-        val response = object :CacheResponseHandler<List<Workout>,List<Workout>>(
+        val response = object : CacheResponseHandler<List<Workout>, List<Workout>>(
             response = cacheResult,
         ){
             override suspend fun handleSuccess(resultObj: List<Workout>): DataState<List<Workout>> {

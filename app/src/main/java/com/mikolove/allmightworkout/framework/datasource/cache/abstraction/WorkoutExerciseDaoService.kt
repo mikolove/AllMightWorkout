@@ -1,8 +1,5 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.Workout
-
 interface WorkoutExerciseDaoService {
 
     //suspend fun getExercisesFromWorkoutId(workoutId: String) : List<Exercise>?

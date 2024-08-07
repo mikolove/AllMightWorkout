@@ -1,20 +1,19 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.CacheResponseHandler
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 /*
@@ -41,7 +40,7 @@ class SyncHistory(
             historyWorkoutNetworkDataSource.getLastHistoryWorkouts()
         }
 
-        val response = object : ApiResponseHandler<List<HistoryWorkout>,List<HistoryWorkout>>(
+        val response = object : ApiResponseHandler<List<HistoryWorkout>, List<HistoryWorkout>>(
             response = networkResult
         ){
             override suspend fun handleSuccess(resultObj: List<HistoryWorkout>): DataState<List<HistoryWorkout>> {
@@ -131,7 +130,7 @@ class SyncHistory(
     }
 
 
-    private suspend fun insertHistoryWorkoutToCache(historyWorkout : HistoryWorkout,idUser : String){
+    private suspend fun insertHistoryWorkoutToCache(historyWorkout : HistoryWorkout, idUser : String){
 
         //Insert History Workout
         historyWorkoutCacheDataSource.insertHistoryWorkout(historyWorkout,idUser)

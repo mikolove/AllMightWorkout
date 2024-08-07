@@ -3,13 +3,12 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.ExerciseFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseSetNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
 import com.mikolove.allmightworkout.framework.datasource.network.model.WorkoutNetworkEntity
-import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth.FIRESTORE_USER_ID
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.EXERCISES_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.REMOVED_EXERCISES_COLLECTION
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreConstants.USERS_COLLECTION
@@ -115,7 +114,7 @@ constructor(
 
     override suspend fun getExerciseById(primaryKey: String): Exercise? {
 
-        var exercise :Exercise? = null
+        var exercise : Exercise? = null
 
         firebaseAuth.currentUser?.let { currentUser ->
 

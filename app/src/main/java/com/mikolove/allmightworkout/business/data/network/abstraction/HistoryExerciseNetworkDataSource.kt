@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExercise
 
 interface HistoryExerciseNetworkDataSource {
 

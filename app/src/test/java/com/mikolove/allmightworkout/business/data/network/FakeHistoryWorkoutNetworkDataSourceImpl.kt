@@ -1,16 +1,13 @@
 package com.mikolove.allmightworkout.business.data.network
 
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.util.DateUtil
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class FakeHistoryWorkoutNetworkDataSourceImpl(
-    private val historyWorkoutsData : HashMap<String,HistoryWorkout>,
+    private val historyWorkoutsData : HashMap<String, HistoryWorkout>,
     private val dateUtil : DateUtil
 ) : HistoryWorkoutNetworkDataSource{
 

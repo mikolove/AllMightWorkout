@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 /*
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.StateEvent
 import com.mikolove.allmightworkout.business.domain.state.StateMessage
 

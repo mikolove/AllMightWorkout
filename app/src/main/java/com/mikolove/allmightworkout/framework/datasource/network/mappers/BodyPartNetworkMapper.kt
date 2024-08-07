@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.framework.datasource.network.mappers
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.BodyPartNetworkEntity
 
-class BodyPartNetworkMapper : EntityMapper<BodyPartNetworkEntity,BodyPart>{
+class BodyPartNetworkMapper : EntityMapper<BodyPartNetworkEntity, BodyPart> {
 
     override fun mapFromEntity(entity: BodyPartNetworkEntity): BodyPart {
         return BodyPart(

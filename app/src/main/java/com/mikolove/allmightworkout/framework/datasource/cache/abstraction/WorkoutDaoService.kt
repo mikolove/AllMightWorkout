@@ -1,11 +1,10 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
-import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUT_PAGINATION_PAGE_SIZE
+import com.mikolove.core.domain.workout.Workout
 
 interface WorkoutDaoService {
 
-    suspend fun insertWorkout(workout: Workout,idUser : String) : Long
+    suspend fun insertWorkout(workout: Workout, idUser : String) : Long
 
     suspend fun updateWorkout(primaryKey: String, name : String, updatedAt : String, isActive : Boolean) : Int
 

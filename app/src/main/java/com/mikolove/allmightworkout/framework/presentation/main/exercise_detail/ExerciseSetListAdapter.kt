@@ -9,8 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.allmightworkout.databinding.ItemSetBinding
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 import com.mikolove.allmightworkout.framework.presentation.common.createCombinedPayload

@@ -1,11 +1,12 @@
 package com.mikolove.allmightworkout.business.interactors.main.workout
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.WorkoutFactory
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
+import com.mikolove.core.interactors.workout.GetTotalWorkouts
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -24,7 +25,7 @@ Test cases:
 class GetTotalWorkoutsTest {
 
     //System in test
-    private val getTotalWorkouts : GetTotalWorkouts
+    private val getTotalWorkouts : com.mikolove.core.interactors.workout.GetTotalWorkouts
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -36,7 +37,7 @@ class GetTotalWorkoutsTest {
         dependencyContainer.build()
         workoutCacheDataSource = dependencyContainer.workoutCacheDataSource
         workoutFactory = dependencyContainer.workoutFactory
-        getTotalWorkouts = GetTotalWorkouts(
+        getTotalWorkouts = com.mikolove.core.interactors.workout.GetTotalWorkouts(
             workoutCacheDataSource
         )
     }
@@ -52,7 +53,7 @@ class GetTotalWorkoutsTest {
             override suspend fun emit(value: DataState<WorkoutViewState>?) {
                 assertEquals(
                     value?.message?.response?.message,
-                    GetTotalWorkouts.GET_TOTAL_WORKOUT_SUCCESS
+                    com.mikolove.core.interactors.workout.GetTotalWorkouts.GET_TOTAL_WORKOUT_SUCCESS
                 )
 
                 totalWorkouts = value?.data?.totalWorkouts ?:0

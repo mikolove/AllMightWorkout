@@ -2,20 +2,19 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import androidx.lifecycle.*
 import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.exercise.ExerciseFactory
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseSetFactory
+import com.mikolove.core.domain.exercise.ExerciseType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 const val EXERCISE_DETAIL_EXIT_DIALOG_TITLE = "Exit exercise edition"

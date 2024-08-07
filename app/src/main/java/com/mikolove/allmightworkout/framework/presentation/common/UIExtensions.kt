@@ -1,16 +1,18 @@
 package com.mikolove.allmightworkout.framework.presentation.common
 
 import android.content.Context
-import android.text.InputType
 import android.widget.Toast
 import androidx.annotation.StringRes
 /*import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.input.input*/
-import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.Queue
+import com.mikolove.core.domain.state.StateMessageCallback
+import com.mikolove.core.domain.state.UIComponentType
 
 fun processQueue(
     context: Context?,

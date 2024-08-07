@@ -1,14 +1,12 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress
 
 import androidx.lifecycle.*
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InProgressListInteractors
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.WorkoutInProgressEvents
-import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.WorkoutInProgressState
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

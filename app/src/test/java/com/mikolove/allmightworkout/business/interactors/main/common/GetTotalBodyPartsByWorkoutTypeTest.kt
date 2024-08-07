@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalBodyPartsByWorkoutType.Companion.GET_TOTAL_BODYPART_BY_WORKOUTTYPE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*

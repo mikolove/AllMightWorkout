@@ -1,9 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mikolove.allmightworkout.business.domain.model.ExerciseSet
-import com.mikolove.allmightworkout.framework.presentation.common.Change
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.exercise.ExerciseSet
 
 class ExerciseSetDiffCallBack(
     private val oldList : List<ExerciseSet>,

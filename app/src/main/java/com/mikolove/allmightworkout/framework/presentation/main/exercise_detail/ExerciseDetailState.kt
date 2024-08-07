@@ -1,11 +1,11 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.Queue
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.Queue
 
 data class ExerciseDetailState(
 

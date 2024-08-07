@@ -1,15 +1,15 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.ApiResponseHandler
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.data.util.safeApiCall
+import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
 import kotlinx.coroutines.Dispatchers.IO
@@ -20,14 +20,14 @@ class SyncDeletedExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    suspend fun execute() : DataState<SyncState>{
+    suspend fun execute() : DataState<SyncState> {
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(IO){
             exerciseNetworkDataSource.getDeletedExercises()
         }
 
-        val response = object : ApiResponseHandler<List<Exercise>,List<Exercise>>(
+        val response = object : ApiResponseHandler<List<Exercise>, List<Exercise>>(
             response = apiResult,
         ){
             override suspend fun handleSuccess(resultObj: List<Exercise>): DataState<List<Exercise>> {

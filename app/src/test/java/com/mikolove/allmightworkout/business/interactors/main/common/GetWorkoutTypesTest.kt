@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.CacheErrors
+import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_WORKOUTTYPE_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_NO_MATCHING_RESULTS
 import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

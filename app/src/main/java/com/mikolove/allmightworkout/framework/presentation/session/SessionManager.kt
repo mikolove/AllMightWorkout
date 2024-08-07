@@ -1,25 +1,23 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
-import android.content.Context
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything
 import com.mikolove.allmightworkout.framework.workers.SyncEverythingWorker
 import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 

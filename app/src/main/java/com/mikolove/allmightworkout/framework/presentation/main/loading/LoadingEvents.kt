@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.loading
 
 import com.google.firebase.auth.FirebaseUser
 import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.domain.state.DataState
+import com.mikolove.core.domain.state.DataState
 
 sealed class LoadingEvents {
 

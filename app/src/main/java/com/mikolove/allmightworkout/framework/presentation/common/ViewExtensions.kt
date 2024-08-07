@@ -5,13 +5,11 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import com.mikolove.allmightworkout.business.domain.state.StateMessageCallback
-import com.mikolove.allmightworkout.util.TodoCallback
+import com.mikolove.core.domain.state.StateMessageCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

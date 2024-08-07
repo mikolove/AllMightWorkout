@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout.framework.datasource.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseFactory
-import com.mikolove.allmightworkout.business.domain.model.HistoryExerciseSetFactory
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkoutFactory
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryWorkoutFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.HistoryWorkoutFirestoreServiceImpl

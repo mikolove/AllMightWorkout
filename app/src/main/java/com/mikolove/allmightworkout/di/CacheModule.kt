@@ -2,11 +2,15 @@ package com.mikolove.allmightworkout.di
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.*
 import com.mikolove.allmightworkout.business.data.cache.implementation.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.implementation.*
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.*
+import com.mikolove.core.data.workout.WorkoutCacheDataSourceImpl
+import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.workout.WorkoutCacheDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -281,19 +285,19 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutCacheDataSource(workoutDaoService : WorkoutDaoService): WorkoutCacheDataSource{
+    fun provideWorkoutCacheDataSource(workoutDaoService : WorkoutDaoService): WorkoutCacheDataSource {
         return WorkoutCacheDataSourceImpl(workoutDaoService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseCacheDataSource(exerciseDaoService : ExerciseDaoService, workoutExerciseDaoService : WorkoutExerciseDaoService) : ExerciseCacheDataSource{
+    fun provideExerciseCacheDataSource(exerciseDaoService : ExerciseDaoService, workoutExerciseDaoService : WorkoutExerciseDaoService) : ExerciseCacheDataSource {
         return ExerciseCacheDataSourceImpl(exerciseDaoService, workoutExerciseDaoService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseSetCacheDataSource(exerciseSetDaoService : ExerciseSetDaoService) : ExerciseSetCacheDataSource{
+    fun provideExerciseSetCacheDataSource(exerciseSetDaoService : ExerciseSetDaoService) : ExerciseSetCacheDataSource {
         return ExerciseSetCacheDataSourceImpl(exerciseSetDaoService)
     }
 

@@ -4,13 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
-import com.mikolove.allmightworkout.business.domain.state.doesMessageAlreadyExistInQueue
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_SUCCESS_END
-import com.mikolove.allmightworkout.business.interactors.main.exercise.ExerciseInteractors
-import com.mikolove.allmightworkout.business.interactors.main.workout.WorkoutInteractors
+import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.interactors.workout.WorkoutInteractors
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
@@ -24,7 +24,7 @@ class WorkoutExerciseViewModel
 @Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val workoutInteractors: WorkoutInteractors,
+    private val workoutInteractors: com.mikolove.core.interactors.workout.WorkoutInteractors,
     private val exerciseInteractors: ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
     ): ViewModel() {

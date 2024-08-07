@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.compose.ui
 
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 
 data class WorkoutCollection(
     val id : String,

@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.business.data.cache
 
 import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryWorkout
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_PAGINATION_PAGE_SIZE
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap

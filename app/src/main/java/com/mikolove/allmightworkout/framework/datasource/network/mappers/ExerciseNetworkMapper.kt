@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.framework.datasource.network.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.Exercise
-import com.mikolove.allmightworkout.business.domain.model.ExerciseType
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.domain.util.EntityMapper
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseType
+import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.network.model.ExerciseNetworkEntity
 
 class ExerciseNetworkMapper
@@ -11,7 +11,7 @@ constructor(
     private val dateUtil: DateUtil,
     private val bodyPartExerciseNetworkMapper : BodyPartExerciseNetworkMapper,
     private val exerciseSetNetworkMapper: ExerciseSetNetworkMapper
-) : EntityMapper<ExerciseNetworkEntity,Exercise>{
+) : EntityMapper<ExerciseNetworkEntity, Exercise> {
 
     override fun mapFromEntity(entity: ExerciseNetworkEntity): Exercise {
 

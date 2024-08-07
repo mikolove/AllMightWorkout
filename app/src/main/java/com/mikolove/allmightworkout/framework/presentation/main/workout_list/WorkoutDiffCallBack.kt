@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mikolove.allmightworkout.business.domain.model.Workout
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.framework.presentation.common.Change
 
 class WorkoutDiffCallBack(

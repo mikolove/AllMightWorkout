@@ -1,10 +1,8 @@
 package com.mikolove.allmightworkout.business.data.network.implementation
 
 import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.HistoryExercise
+import com.mikolove.core.domain.analytics.HistoryExercise
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.HistoryExerciseFirestoreService
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class HistoryExerciseNetworkDataSourceImpl
 constructor(private val historyExerciseFirestoreService : HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource{
