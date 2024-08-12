@@ -5,13 +5,15 @@ import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.interactors.exercise.ExerciseInteractors
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.exercise.ExerciseType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +29,7 @@ constructor(
     private val sessionManager : SessionManager,
     private val exerciseFactory: ExerciseFactory,
     private val exerciseSetFactory: ExerciseSetFactory,
-    private val exerciseInteractors : ExerciseInteractors,
+    private val exerciseInteractors : com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel()
 {

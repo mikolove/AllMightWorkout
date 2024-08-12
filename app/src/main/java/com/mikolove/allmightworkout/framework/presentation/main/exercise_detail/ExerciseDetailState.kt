@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseType
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.Queue
 

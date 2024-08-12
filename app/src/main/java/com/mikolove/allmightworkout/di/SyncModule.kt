@@ -1,15 +1,22 @@
 package com.mikolove.allmightworkout.di
 
 import android.net.ConnectivityManager
-import com.mikolove.allmightworkout.business.data.cache.abstraction.*
-import com.mikolove.allmightworkout.business.data.network.abstraction.*
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.business.interactors.sync.SyncWorkoutTypesAndBodyPart
 import com.mikolove.allmightworkout.business.interactors.sync.*
+import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
 import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

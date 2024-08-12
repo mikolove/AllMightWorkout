@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.ExerciseType
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.util.printLogD
 
 class WorkoutTypeAdapter(
@@ -25,7 +25,7 @@ class WorkoutTypeAdapter(
     override fun getCount(): Int {
         return workoutTypes.size
     }
-    override fun getItem(position: Int):WorkoutType {
+    override fun getItem(position: Int): WorkoutType {
         return workoutTypes[position]
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

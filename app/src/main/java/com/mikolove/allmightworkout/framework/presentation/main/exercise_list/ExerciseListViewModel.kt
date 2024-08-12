@@ -9,9 +9,9 @@ import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
-import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
-import com.mikolove.core.domain.exercise.usecase.RemoveMultipleExercises
+import com.mikolove.core.interactors.common.GetExercises
+import com.mikolove.core.interactors.exercise.ExerciseInteractors
+import com.mikolove.core.interactors.exercise.RemoveMultipleExercises
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
@@ -28,7 +28,7 @@ class ExerciseListViewModel
 @Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val exerciseInteractors: ExerciseInteractors,
+    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
 
@@ -222,7 +222,7 @@ constructor(
 
                     dataState?.message?.let { message ->
 
-                        if(message.description.equals(GetExercises.GET_EXERCISES_SUCCESS_END)){
+                        if(message.description.equals(com.mikolove.core.interactors.common.GetExercises.GET_EXERCISES_SUCCESS_END)){
                             onUpdateQueryExhausted(true)
                         }
 
@@ -250,7 +250,7 @@ constructor(
 
                     appendToMessageQueue(message)
 
-                    if(message.description.equals(RemoveMultipleExercises.DELETE_EXERCISES_SUCCESS)){
+                    if(message.description.equals(com.mikolove.core.interactors.exercise.RemoveMultipleExercises.DELETE_EXERCISES_SUCCESS)){
                         onTriggerEvent(ExerciseListEvents.NewSearch)
                     }
                 }

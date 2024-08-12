@@ -16,6 +16,7 @@ import com.mikolove.allmightworkout.framework.datasource.network.mappers.Exercis
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.WorkoutNetworkMapper
 import com.mikolove.allmightworkout.framework.datasource.network.util.FirestoreAuth
 import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.bodypart.BodyPartFactory
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSet

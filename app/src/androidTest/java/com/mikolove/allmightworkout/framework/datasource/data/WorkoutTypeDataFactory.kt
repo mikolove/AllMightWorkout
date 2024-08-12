@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.res.AssetManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
+import com.mikolove.core.domain.bodypart.BodyPart
+import com.mikolove.core.domain.workouttype.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import java.io.IOException
 import java.io.InputStream
 

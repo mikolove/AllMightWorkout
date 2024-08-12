@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPart
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_PAGINATION_PAGE_SIZE
 
 
@@ -17,7 +17,7 @@ class FakeBodyPartCacheDataSourceImpl
 constructor(
     private val workoutTypesData : HashMap<String, WorkoutType>,
     private val bodyPartsData : HashMap<String, BodyPart>
-) : BodyPartCacheDataSource{
+) : BodyPartCacheDataSource {
 
     override suspend fun insertBodyPart(bodyPart: BodyPart, idWorkoutType: String): Long {
         if(bodyPart.idBodyPart.equals(FORCE_NEW_BODYPART_EXCEPTION)){

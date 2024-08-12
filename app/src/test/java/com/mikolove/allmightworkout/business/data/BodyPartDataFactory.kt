@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 
 class BodyPartDataFactory(testClassLoader: ClassLoader,
 filename: String

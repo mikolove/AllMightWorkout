@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.WorkoutTypeNetworkDataSource
-import com.mikolove.allmightworkout.business.domain.model.BodyPartFactory
-import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
+import com.mikolove.core.domain.bodypart.BodyPartFactory
+import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue

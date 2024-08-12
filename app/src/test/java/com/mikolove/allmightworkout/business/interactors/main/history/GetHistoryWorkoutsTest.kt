@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout.business.interactors.main.history
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_HISTORY_WORKOUTS_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.history.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_SUCCESS
+import com.mikolove.core.interactors.analytics.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_NO_MATCHING_RESULTS
+import com.mikolove.core.interactors.analytics.GetHistoryWorkouts.Companion.GET_HISTORY_WORKOUTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.HISTORY_WORKOUT_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.history.state.HistoryStateEvent.*
@@ -41,7 +41,7 @@ Test cases:
 class GetHistoryWorkoutsTest {
 
     //System in test
-    private val getHistoryWorkouts : GetHistoryWorkouts
+    private val getHistoryWorkouts : com.mikolove.core.interactors.analytics.GetHistoryWorkouts
 
     //Dependecies
     private val dependencyContainer : DependencyContainer
@@ -51,7 +51,7 @@ class GetHistoryWorkoutsTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         historyWorkoutCacheDataSource = dependencyContainer.historyWorkoutCacheDataSource
-        getHistoryWorkouts = GetHistoryWorkouts(
+        getHistoryWorkouts = com.mikolove.core.interactors.analytics.GetHistoryWorkouts(
             historyWorkoutCacheDataSource
         )
     }

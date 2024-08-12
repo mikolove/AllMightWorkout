@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mikolove.core.data.datastore.AppDataStore
 import com.mikolove.core.data.datastore.AppDataStoreManager
-import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
+import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import com.mikolove.allmightworkout.framework.datasource.cache.database.AllMightWorkoutDatabase
 import com.mikolove.allmightworkout.framework.datasource.data.WorkoutTypeDataFactory
 import com.mikolove.allmightworkout.framework.datasource.preferences.PreferenceKeys
@@ -67,7 +67,8 @@ object TestModule {
     @Provides
     fun provideWorkoutTypeDataFactory(
         @ApplicationContext context: Context,
-        workoutTypeFactory : WorkoutTypeFactory) : WorkoutTypeDataFactory{
+        workoutTypeFactory : WorkoutTypeFactory
+    ) : WorkoutTypeDataFactory{
 
         return WorkoutTypeDataFactory(
             application = context,

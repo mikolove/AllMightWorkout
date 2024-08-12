@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network
 
-import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.core.domain.util.DateUtil
 import kotlin.collections.ArrayList
@@ -9,7 +9,7 @@ import kotlin.collections.HashMap
 class FakeHistoryWorkoutNetworkDataSourceImpl(
     private val historyWorkoutsData : HashMap<String, HistoryWorkout>,
     private val dateUtil : DateUtil
-) : HistoryWorkoutNetworkDataSource{
+) : HistoryWorkoutNetworkDataSource {
 
     override suspend fun insertHistoryWorkout(historyWorkout: HistoryWorkout) {
         historyWorkoutsData.put(historyWorkout.idHistoryWorkout,historyWorkout)

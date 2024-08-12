@@ -6,8 +6,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.interactors.main.session.SessionInteractors
+import com.mikolove.core.domain.user.User
+import com.mikolove.core.interactors.session.SessionInteractors
 import com.mikolove.allmightworkout.business.interactors.sync.SyncEverything
 import com.mikolove.allmightworkout.framework.workers.SyncEverythingWorker
 import com.mikolove.allmightworkout.util.printLogD
@@ -26,7 +26,7 @@ class SessionManager
 @Inject
 constructor(
     private val workManager: WorkManager,
-    private val sessionInteractors : SessionInteractors,
+    private val sessionInteractors : com.mikolove.core.interactors.session.SessionInteractors,
 ){
 
     private val sessionScope = CoroutineScope(Main)

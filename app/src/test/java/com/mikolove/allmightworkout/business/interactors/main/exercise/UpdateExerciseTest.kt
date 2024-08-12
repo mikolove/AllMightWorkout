@@ -3,19 +3,19 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.exercise.usecase.UpdateExercise.Companion.UPDATE_EXERCISE_FAILED
-import com.mikolove.core.domain.exercise.usecase.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_FAILED
+import com.mikolove.core.interactors.exercise.UpdateExercise.Companion.UPDATE_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.domain.exercise.usecase.UpdateExercise
+import com.mikolove.core.interactors.exercise.UpdateExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -45,7 +45,7 @@ Test cases:
 @InternalCoroutinesApi
 class UpdateExerciseTest {
 
-    private val updateExercise : UpdateExercise
+    private val updateExercise : com.mikolove.core.interactors.exercise.UpdateExercise
 
     //Dependencies
     private val dependencyContainer: DependencyContainer
@@ -62,7 +62,7 @@ class UpdateExerciseTest {
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
         exerciseFactory = dependencyContainer.exerciseFactory
-        updateExercise = UpdateExercise(
+        updateExercise = com.mikolove.core.interactors.exercise.UpdateExercise(
             exerciseCacheDataSource,
             exerciseNetworkDataSource
         )

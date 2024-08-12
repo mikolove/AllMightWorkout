@@ -5,15 +5,15 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_EXERCISESET_EXCEPTION
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.exercise.usecase.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_FAILED
-import com.mikolove.core.domain.exercise.usecase.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_SUCCESS
+import com.mikolove.core.interactors.exercise.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_FAILED
+import com.mikolove.core.interactors.exercise.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.domain.exercise.usecase.UpdateExerciseSet
+import com.mikolove.core.interactors.exercise.UpdateExerciseSet
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -43,7 +43,7 @@ Test cases:
 class UpdateExerciseSetTest {
 
     //System in test
-    private val updateExerciseSet : UpdateExerciseSet
+    private val updateExerciseSet : com.mikolove.core.interactors.exercise.UpdateExerciseSet
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -63,7 +63,7 @@ class UpdateExerciseSetTest {
         exerciseSetCacheDataSource = dependencyContainer.exerciseSetCacheDataSource
         exerciseSetNetworkDataSource = dependencyContainer.exerciseSetNetworkDataSource
         exerciseSetFactory = dependencyContainer.exerciseSetFactory
-        updateExerciseSet = UpdateExerciseSet(
+        updateExerciseSet = com.mikolove.core.interactors.exercise.UpdateExerciseSet(
             exerciseSetCacheDataSource,
             exerciseSetNetworkDataSource
         )

@@ -3,13 +3,13 @@ package com.mikolove.allmightworkout.framework.presentation.main.loading
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.mikolove.allmightworkout.business.domain.model.User
-import com.mikolove.allmightworkout.business.domain.model.UserFactory
+import com.mikolove.core.domain.user.User
+import com.mikolove.core.domain.user.UserFactory
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.interactors.main.loading.LoadingInteractors
+import com.mikolove.core.interactors.loading.LoadingInteractors
 import com.mikolove.allmightworkout.framework.presentation.main.loading.LoadingEvents.*
 import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
@@ -27,7 +27,7 @@ class LoadingViewModel
 @Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val loadingInteractors: LoadingInteractors,
+    private val loadingInteractors: com.mikolove.core.interactors.loading.LoadingInteractors,
     private val userFactory: UserFactory
 ) : ViewModel() {
 

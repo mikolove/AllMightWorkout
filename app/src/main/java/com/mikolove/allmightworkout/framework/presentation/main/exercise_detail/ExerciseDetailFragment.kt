@@ -17,10 +17,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikolove.allmightworkout.R
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseType
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.databinding.FragmentExerciseDetailBinding

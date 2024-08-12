@@ -8,8 +8,8 @@ import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_SUCCESS_END
-import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.interactors.common.GetExercises.Companion.GET_EXERCISES_SUCCESS_END
+import com.mikolove.core.interactors.exercise.ExerciseInteractors
 import com.mikolove.core.interactors.workout.WorkoutInteractors
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
@@ -25,7 +25,7 @@ class WorkoutExerciseViewModel
 constructor(
     private val sessionManager: SessionManager,
     private val workoutInteractors: com.mikolove.core.interactors.workout.WorkoutInteractors,
-    private val exerciseInteractors: ExerciseInteractors,
+    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
     ): ViewModel() {
 

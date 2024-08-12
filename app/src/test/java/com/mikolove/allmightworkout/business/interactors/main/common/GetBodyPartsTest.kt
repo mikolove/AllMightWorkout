@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_BODYPART_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.common.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
+import com.mikolove.core.interactors.common.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS
+import com.mikolove.core.interactors.common.GetBodyParts.Companion.GET_BODYPARTS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
@@ -40,7 +40,7 @@ Test cases:
 class GetBodyPartsTest {
 
     //System in test
-    private val getBodyParts : GetBodyParts
+    private val getBodyParts : com.mikolove.core.interactors.common.GetBodyParts
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -50,7 +50,7 @@ class GetBodyPartsTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
-        getBodyParts = GetBodyParts(
+        getBodyParts = com.mikolove.core.interactors.common.GetBodyParts(
             bodyPartCacheDataSource
         )
     }

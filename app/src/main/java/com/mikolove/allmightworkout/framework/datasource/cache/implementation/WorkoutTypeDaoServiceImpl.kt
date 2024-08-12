@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutTypeDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WorkoutTypeDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery

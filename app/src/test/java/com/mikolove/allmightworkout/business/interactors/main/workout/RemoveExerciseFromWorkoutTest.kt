@@ -4,10 +4,10 @@ import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_REMOVE_EXERCISE_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType

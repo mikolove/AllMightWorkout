@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyPartDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.BodyPartDao
 import com.mikolove.allmightworkout.framework.datasource.cache.database.returnOrderedQuery

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data
 
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 
 class WorkoutTypeDataFactory(
     testClassLoader: ClassLoader,

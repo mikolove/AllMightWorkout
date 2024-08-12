@@ -4,12 +4,12 @@ import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_EXERCISE_EXCEPTION
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_FAILED
+import com.mikolove.core.interactors.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
@@ -45,7 +45,7 @@ Test cases:
 class InsertHistoryExerciseTest {
 
     //System in test
-    private val insertHistoryExercise : InsertHistoryExercise
+    private val insertHistoryExercise : com.mikolove.core.interactors.workoutinprogress.InsertHistoryExercise
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -62,10 +62,11 @@ class InsertHistoryExerciseTest {
         workoutTypeCacheDataSource = dependencyContainer.workoutTypeCacheDataSource
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         historyExerciseFactory = dependencyContainer.historyExerciseFactory
-        insertHistoryExercise =InsertHistoryExercise(
-            historyExerciseCacheDataSource,
-            historyExerciseFactory
-        )
+        insertHistoryExercise =
+            com.mikolove.core.interactors.workoutinprogress.InsertHistoryExercise(
+                historyExerciseCacheDataSource,
+                historyExerciseFactory
+            )
     }
 
     @Test

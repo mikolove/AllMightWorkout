@@ -4,11 +4,11 @@ import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_EXERCISE_SET_BY_ID_EXERCISE_EXCEPTION
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseSet
-import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
-import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.exercise.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_NO_RESULT
+import com.mikolove.core.interactors.exercise.GetExerciseSetByIdExercise.Companion.GET_EXERCISE_SET_BY_ID_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.core.domain.exercise.usecase.GetExerciseSetByIdExercise
+import com.mikolove.core.interactors.exercise.GetExerciseSetByIdExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
@@ -36,7 +36,7 @@ Test cases:
 @InternalCoroutinesApi
 class GetExerciseSetByIdExerciseTest {
 
-    private val getExerciseSetByIdExercise : GetExerciseSetByIdExercise
+    private val getExerciseSetByIdExercise : com.mikolove.core.interactors.exercise.GetExerciseSetByIdExercise
 
     private val dependencyContainer : DependencyContainer
     private val exerciseSetCacheDataSource : ExerciseSetCacheDataSource
@@ -46,9 +46,10 @@ class GetExerciseSetByIdExerciseTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         exerciseSetCacheDataSource = dependencyContainer.exerciseSetCacheDataSource
-        getExerciseSetByIdExercise = GetExerciseSetByIdExercise(
-            exerciseSetCacheDataSource
-        )
+        getExerciseSetByIdExercise =
+            com.mikolove.core.interactors.exercise.GetExerciseSetByIdExercise(
+                exerciseSetCacheDataSource
+            )
     }
 
     @Test

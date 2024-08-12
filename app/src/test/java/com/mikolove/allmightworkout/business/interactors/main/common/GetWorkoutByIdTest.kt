@@ -5,7 +5,7 @@ import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_WORKOUT_BY_ID_
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
+import com.mikolove.core.interactors.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
@@ -36,7 +36,7 @@ Test cases:
 class GetWorkoutByIdTest {
 
     //System in test
-    private val getWorkoutById : GetWorkoutById
+    private val getWorkoutById : com.mikolove.core.interactors.common.GetWorkoutById
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -46,7 +46,7 @@ class GetWorkoutByIdTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         workoutCacheDataSource =dependencyContainer.workoutCacheDataSource
-        getWorkoutById = GetWorkoutById(
+        getWorkoutById = com.mikolove.core.interactors.common.GetWorkoutById(
             workoutCacheDataSource
         )
     }

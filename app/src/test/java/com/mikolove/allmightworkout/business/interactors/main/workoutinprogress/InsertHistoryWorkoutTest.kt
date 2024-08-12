@@ -3,12 +3,12 @@ package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_WORKOUT_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout.Companion.INSERT_HISTORY_WORKOUT_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistoryWorkout.Companion.INSERT_HISTORY_WORKOUT_SUCCESS
+import com.mikolove.core.interactors.workoutinprogress.InsertHistoryWorkout.Companion.INSERT_HISTORY_WORKOUT_FAILED
+import com.mikolove.core.interactors.workoutinprogress.InsertHistoryWorkout.Companion.INSERT_HISTORY_WORKOUT_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
@@ -44,7 +44,7 @@ Test cases:
 class InsertHistoryWorkoutTest {
 
     //System in test
-    private val insertHistoryWorkout : InsertHistoryWorkout
+    private val insertHistoryWorkout : com.mikolove.core.interactors.workoutinprogress.InsertHistoryWorkout
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -59,7 +59,7 @@ class InsertHistoryWorkoutTest {
         historyWorkoutCacheDataSource = dependencyContainer.historyWorkoutCacheDataSource
         workoutCacheDataSource = dependencyContainer.workoutCacheDataSource
         historyWorkoutFactory = dependencyContainer.historyWorkoutFactory
-        insertHistoryWorkout =InsertHistoryWorkout(
+        insertHistoryWorkout = com.mikolove.core.interactors.workoutinprogress.InsertHistoryWorkout(
             historyWorkoutCacheDataSource,
             historyWorkoutFactory
         )

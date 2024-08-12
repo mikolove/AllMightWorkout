@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.implementation
 
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.UserDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.database.UserDao
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.UserCacheMapper

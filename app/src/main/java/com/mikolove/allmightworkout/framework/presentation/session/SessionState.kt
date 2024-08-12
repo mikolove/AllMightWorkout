@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.Queue
 import java.util.UUID

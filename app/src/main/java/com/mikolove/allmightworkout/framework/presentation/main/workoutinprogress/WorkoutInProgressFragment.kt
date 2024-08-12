@@ -19,9 +19,9 @@ import com.mikolove.core.domain.workout.Workout
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_FAILED
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS
+import com.mikolove.core.interactors.workoutinprogress.InsertHistory
+import com.mikolove.core.interactors.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_FAILED
+import com.mikolove.core.interactors.workoutinprogress.InsertHistory.Companion.INSERT_HISTORY_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ExerciseInProgressEvents

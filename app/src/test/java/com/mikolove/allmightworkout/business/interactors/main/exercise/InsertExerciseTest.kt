@@ -3,16 +3,16 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.domain.exercise.usecase.InsertExercise
+import com.mikolove.core.interactors.exercise.InsertExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -44,7 +44,7 @@ Test cases:
 @InternalCoroutinesApi
 class InsertExerciseTest {
 
-    private val insertExercise : InsertExercise
+    private val insertExercise : com.mikolove.core.interactors.exercise.InsertExercise
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -64,10 +64,11 @@ class InsertExerciseTest {
 
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
 
-        insertExercise = InsertExercise(
+        insertExercise = com.mikolove.core.interactors.exercise.InsertExercise(
             exerciseCacheDataSource,
             exerciseNetworkDataSource,
-            exerciseFactory)
+            exerciseFactory
+        )
     }
 
     @Test
@@ -100,7 +101,7 @@ class InsertExerciseTest {
 
                 Assertions.assertEquals(
                     value?.message?.response?.message,
-                    InsertExercise.INSERT_EXERCISE_SUCCESS
+                    com.mikolove.core.interactors.exercise.InsertExercise.INSERT_EXERCISE_SUCCESS
                 )
 
             }
@@ -147,7 +148,7 @@ class InsertExerciseTest {
 
                 Assertions.assertEquals(
                     value?.message?.response?.message,
-                    InsertExercise.INSERT_EXERCISE_FAILED
+                    com.mikolove.core.interactors.exercise.InsertExercise.INSERT_EXERCISE_FAILED
                 )
 
             }

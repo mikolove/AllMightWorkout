@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExercise
 import com.mikolove.core.domain.analytics.HistoryExerciseSet
 
@@ -10,7 +10,7 @@ class FakeHistoryExerciseSetCacheDataSourceImpl
 constructor(
     private val historyExercisesData: HashMap<String, HistoryExercise>,
     private val historyExerciseSetsData: HashMap<String, HistoryExerciseSet>
-) : HistoryExerciseSetCacheDataSource{
+) : HistoryExerciseSetCacheDataSource {
 
     override suspend fun insertHistoryExerciseSet(
         historyExerciseSet: HistoryExerciseSet,

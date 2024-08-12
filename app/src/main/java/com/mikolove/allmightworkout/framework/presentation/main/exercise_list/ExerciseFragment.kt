@@ -25,8 +25,8 @@ import com.mikolove.allmightworkout.R
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises
-import com.mikolove.core.domain.exercise.usecase.RemoveMultipleExercises
+import com.mikolove.core.interactors.common.GetExercises
+import com.mikolove.core.interactors.exercise.RemoveMultipleExercises
 import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseBinding
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*

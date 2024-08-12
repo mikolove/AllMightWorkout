@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.framework.datasource.cache
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.BodyPartFactory
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
-import com.mikolove.allmightworkout.business.domain.model.WorkoutTypeFactory
+import com.mikolove.core.domain.bodypart.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPartFactory
+import com.mikolove.core.domain.workouttype.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import com.mikolove.allmightworkout.framework.BaseTest
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.BodyPartDaoService
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.WorkoutTypeDaoService

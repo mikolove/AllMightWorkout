@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.GenericMessageInfo

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 
 interface UserDaoService {
 

@@ -1,7 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
 import androidx.work.WorkInfo
-import com.mikolove.allmightworkout.business.domain.model.User
 
 sealed class SessionEvents {
 

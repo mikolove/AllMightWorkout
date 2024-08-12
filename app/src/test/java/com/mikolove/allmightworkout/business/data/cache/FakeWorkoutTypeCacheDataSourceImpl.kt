@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
 
 const val FORCE_NEW_WORKOUTTYPE_EXCEPTION = "FORCE_NEW_WORKOUTTYPE_EXCEPTION"
@@ -12,8 +12,8 @@ const val FORCE_SEARCH_WORKOUTTYPE_EXCEPTION = "FORCE_SEARCH_WORKOUTTYPE_EXCEPTI
 
 
 class FakeWorkoutTypeCacheDataSourceImpl(
-    private val workoutTypeDatas : HashMap<String,WorkoutType>
-) : WorkoutTypeCacheDataSource{
+    private val workoutTypeDatas : HashMap<String, WorkoutType>
+) : WorkoutTypeCacheDataSource {
 
     override suspend fun insertWorkoutType(workoutType: WorkoutType): Long {
         if(workoutType.idWorkoutType.equals(FORCE_NEW_WORKOUTTYPE_EXCEPTION)){

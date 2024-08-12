@@ -4,15 +4,15 @@ import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_EXERCISESET_EXCEPTION
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.exercise.usecase.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_FAILED
-import com.mikolove.core.domain.exercise.usecase.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_SUCCESS
+import com.mikolove.core.interactors.exercise.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_FAILED
+import com.mikolove.core.interactors.exercise.RemoveExerciseSet.Companion.DELETE_EXERCISE_SET_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.domain.exercise.usecase.RemoveExerciseSet
+import com.mikolove.core.interactors.exercise.RemoveExerciseSet
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -41,7 +41,7 @@ Test cases:
 class RemoveExerciseSetTest {
 
     //System in test
-    private val removeExerciseSet : RemoveExerciseSet
+    private val removeExerciseSet : com.mikolove.core.interactors.exercise.RemoveExerciseSet
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -58,7 +58,7 @@ class RemoveExerciseSetTest {
         exerciseSetCacheDataSource = dependencyContainer.exerciseSetCacheDataSource
         exerciseSetNetworkDataSource = dependencyContainer.exerciseSetNetworkDataSource
         exerciseSetFactory = dependencyContainer.exerciseSetFactory
-        removeExerciseSet = RemoveExerciseSet(
+        removeExerciseSet = com.mikolove.core.interactors.exercise.RemoveExerciseSet(
             exerciseSetCacheDataSource,
             exerciseSetNetworkDataSource
         )

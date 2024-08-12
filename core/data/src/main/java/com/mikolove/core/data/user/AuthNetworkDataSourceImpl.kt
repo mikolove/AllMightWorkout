@@ -1,0 +1,19 @@
+package com.mikolove.core.data.user
+
+import com.mikolove.core.domain.user.AuthNetworkDataSource
+import com.mikolove.allmightworkout.framework.datasource.network.abstraction.AuthFirestoreService
+
+class AuthNetworkDataSourceImpl
+constructor(
+    private val firebaseAuthService : AuthFirestoreService
+) : AuthNetworkDataSource {
+
+    override fun isUserAuthenticated() : Boolean = firebaseAuthService.isUserAuthenticated()
+
+    override suspend fun signIn() = firebaseAuthService.signIn()
+
+    override suspend fun signOut() = firebaseAuthService.signOut()
+
+    override fun getAuthState() = firebaseAuthService.getAuthState()
+
+}

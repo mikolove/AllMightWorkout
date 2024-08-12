@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.framework.datasource.network.implementation
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.UserFirestoreService
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.ExerciseNetworkMapper

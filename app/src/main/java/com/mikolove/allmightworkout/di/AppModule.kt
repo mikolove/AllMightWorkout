@@ -1,14 +1,15 @@
 package com.mikolove.allmightworkout.di
 
 import android.content.SharedPreferences
-import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
 import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
+import com.mikolove.core.domain.bodypart.BodyPartFactory
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -77,13 +78,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideBodyPartFactory() : BodyPartFactory{
+    fun provideBodyPartFactory() : BodyPartFactory {
         return BodyPartFactory()
     }
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeFactory() : WorkoutTypeFactory{
+    fun provideWorkoutTypeFactory() : WorkoutTypeFactory {
         return WorkoutTypeFactory()
     }
 

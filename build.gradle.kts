@@ -27,5 +27,6 @@ plugins {
     alias(libs.plugins.room) apply false
     alias(libs.plugins.android.gms.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }

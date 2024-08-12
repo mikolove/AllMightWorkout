@@ -1,12 +1,12 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.GroupCacheDataSource
+import com.mikolove.core.domain.workout.GroupCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.allmightworkout.business.data.network.abstraction.GroupNetworkDataSource
+import com.mikolove.core.domain.workout.GroupNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.Group
+import com.mikolove.core.domain.workout.Group
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType

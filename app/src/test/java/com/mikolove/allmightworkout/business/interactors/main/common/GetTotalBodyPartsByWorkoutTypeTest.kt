@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalBodyPartsByWorkoutType.Companion.GET_TOTAL_BODYPART_BY_WORKOUTTYPE_SUCCESS
+import com.mikolove.core.interactors.common.GetTotalBodyPartsByWorkoutType.Companion.GET_TOTAL_BODYPART_BY_WORKOUTTYPE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
@@ -24,7 +24,7 @@ Test cases:
 class GetTotalBodyPartsByWorkoutTypeTest {
 
     //System in test
-    private val getTotalBodyPartsByWorkoutType : GetTotalBodyPartsByWorkoutType
+    private val getTotalBodyPartsByWorkoutType : com.mikolove.core.interactors.common.GetTotalBodyPartsByWorkoutType
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -34,9 +34,10 @@ class GetTotalBodyPartsByWorkoutTypeTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
-        getTotalBodyPartsByWorkoutType = GetTotalBodyPartsByWorkoutType(
-            bodyPartCacheDataSource
-        )
+        getTotalBodyPartsByWorkoutType =
+            com.mikolove.core.interactors.common.GetTotalBodyPartsByWorkoutType(
+                bodyPartCacheDataSource
+            )
     }
 
     @Test

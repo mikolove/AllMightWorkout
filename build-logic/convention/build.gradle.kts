@@ -14,6 +14,8 @@ dependencies{
     compileOnly(libs.kapt.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.hilt.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
 }
 
 gradlePlugin{

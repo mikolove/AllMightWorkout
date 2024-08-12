@@ -2,14 +2,28 @@ package com.mikolove.allmightworkout.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mikolove.allmightworkout.business.data.network.abstraction.*
-import com.mikolove.allmightworkout.business.data.network.implementation.*
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.network.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.network.implementation.*
 import com.mikolove.allmightworkout.framework.datasource.network.mappers.*
+import com.mikolove.core.data.analytics.HistoryExerciseNetworkDataSourceImpl
+import com.mikolove.core.data.analytics.HistoryExerciseSetNetworkDataSourceImpl
+import com.mikolove.core.data.analytics.HistoryWorkoutNetworkDataSourceImpl
+import com.mikolove.core.data.exercise.ExerciseNetworkDateSourceImpl
+import com.mikolove.core.data.exercise.ExerciseSetNetworkDataSourceImpl
+import com.mikolove.core.data.user.UserNetworkDataSourceImpl
+import com.mikolove.core.data.workout.GroupNetworkDataSourceImpl
 import com.mikolove.core.data.workout.WorkoutNetworkDataSourceImpl
+import com.mikolove.core.data.workouttype.WorkoutTypeNetworkDataSourceImpl
+import com.mikolove.core.domain.analytics.HistoryExerciseNetworkDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseSetNetworkDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.user.UserNetworkDataSource
+import com.mikolove.core.domain.workout.GroupNetworkDataSource
 import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -173,12 +187,12 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGroupNetworkDataSource(groupFirestoreService: GroupFirestoreService) : GroupNetworkDataSource{
+    fun provideGroupNetworkDataSource(groupFirestoreService: GroupFirestoreService) : GroupNetworkDataSource {
         return GroupNetworkDataSourceImpl(groupFirestoreService)
     }
     @Singleton
     @Provides
-    fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource{
+    fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource {
         return WorkoutTypeNetworkDataSourceImpl(workoutTypeFirestoreService)
     }
 
@@ -202,19 +216,19 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutNetworkDataSource ( historyWorkoutFirestoreService : HistoryWorkoutFirestoreService) : HistoryWorkoutNetworkDataSource{
+    fun provideHistoryWorkoutNetworkDataSource ( historyWorkoutFirestoreService : HistoryWorkoutFirestoreService) : HistoryWorkoutNetworkDataSource {
         return HistoryWorkoutNetworkDataSourceImpl(historyWorkoutFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseNetworkDataSource ( historyExerciseFirestoreService : HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource{
+    fun provideHistoryExerciseNetworkDataSource ( historyExerciseFirestoreService : HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource {
         return HistoryExerciseNetworkDataSourceImpl(historyExerciseFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetNetworkDataSource ( historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource{
+    fun provideHistoryExerciseSetNetworkDataSource ( historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource {
         return HistoryExerciseSetNetworkDataSourceImpl(historyExerciseSetFirestoreService)
     }
 

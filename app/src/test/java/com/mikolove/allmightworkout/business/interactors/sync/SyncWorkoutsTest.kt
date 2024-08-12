@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.sync
 
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workout.WorkoutFactory

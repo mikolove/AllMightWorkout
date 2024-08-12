@@ -8,8 +8,11 @@ import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress.state.WorkoutInProgressViewState
+import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
+import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseFactory
@@ -18,6 +21,7 @@ import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
@@ -48,7 +52,7 @@ Test cases:
 class InsertHistoryTest {
 
     //System in test
-    private val insertHistory : InsertHistory
+    private val insertHistory : com.mikolove.core.interactors.workoutinprogress.InsertHistory
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -87,14 +91,15 @@ class InsertHistoryTest {
         historyExerciseFactory = dependencyContainer.historyExerciseFactory
         historyExerciseSetFactory = dependencyContainer.historyExerciseSetFactory
 
-        insertHistory =InsertHistory(
+        insertHistory = com.mikolove.core.interactors.workoutinprogress.InsertHistory(
             historyWorkoutCacheDataSource,
             historyExerciseCacheDataSource,
             historyExerciseSetCacheDataSource,
             workoutTypeCacheDataSource,
             historyWorkoutFactory,
             historyExerciseFactory,
-            historyExerciseSetFactory)
+            historyExerciseSetFactory
+        )
     }
 
 
@@ -114,7 +119,7 @@ class InsertHistoryTest {
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 Assertions.assertEquals(
                     value?.message?.response?.message,
-                    InsertHistory.INSERT_HISTORY_SUCCESS
+                    com.mikolove.core.interactors.workoutinprogress.InsertHistory.INSERT_HISTORY_SUCCESS
                 )
 
                 idHistoryWorkout = value?.data?.idHistoryWorkoutInserted
@@ -149,7 +154,7 @@ class InsertHistoryTest {
             override suspend fun emit(value: DataState<WorkoutInProgressViewState>?) {
                 Assertions.assertEquals(
                     value?.message?.response?.message,
-                    InsertHistory.INSERT_HISTORY_FAILED
+                    com.mikolove.core.interactors.workoutinprogress.InsertHistory.INSERT_HISTORY_FAILED
                 )
 
                 idHistoryWorkout = value?.data?.idHistoryWorkoutInserted

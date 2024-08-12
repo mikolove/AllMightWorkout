@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import androidx.lifecycle.ViewModel
-import com.mikolove.allmightworkout.business.interactors.main.history.HistoryListInteractors
+import com.mikolove.core.interactors.analytics.HistoryListInteractors
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class HistoryViewModel
 @Inject
 constructor(
-    private val historyListInteractors: HistoryListInteractors
+    private val historyListInteractors: com.mikolove.core.interactors.analytics.HistoryListInteractors
 ) : ViewModel() { /*: BaseViewModel<HistoryViewState>(){
 
     override fun initNewViewState(): HistoryViewState {

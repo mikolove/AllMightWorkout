@@ -2,14 +2,14 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_EXERCISESET_EXCEPTION
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
-import com.mikolove.core.domain.exercise.usecase.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_ERRORS
-import com.mikolove.core.domain.exercise.usecase.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_SUCCESS
+import com.mikolove.core.interactors.exercise.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_ERRORS
+import com.mikolove.core.interactors.exercise.InsertMultipleExerciseSet.Companion.ADD_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.core.domain.exercise.usecase.InsertMultipleExerciseSet
+import com.mikolove.core.interactors.exercise.InsertMultipleExerciseSet
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
@@ -40,7 +40,7 @@ Test cases:
 @InternalCoroutinesApi
 class InsertMultipleExerciseSetTest {
 
-    private var insertMultipleExerciseSet: InsertMultipleExerciseSet? = null
+    private var insertMultipleExerciseSet: com.mikolove.core.interactors.exercise.InsertMultipleExerciseSet? = null
 
     //Dependencies
     private lateinit var dependencyContainer: DependencyContainer
@@ -64,10 +64,11 @@ class InsertMultipleExerciseSetTest {
         exerciseSetNetworkDataSource = dependencyContainer.exerciseSetNetworkDataSource
         exerciseSetFactory = dependencyContainer.exerciseSetFactory
 
-        insertMultipleExerciseSet = InsertMultipleExerciseSet(
-            exerciseSetCacheDataSource,
-            exerciseSetNetworkDataSource
-        )
+        insertMultipleExerciseSet =
+            com.mikolove.core.interactors.exercise.InsertMultipleExerciseSet(
+                exerciseSetCacheDataSource,
+                exerciseSetNetworkDataSource
+            )
     }
 
     @Test

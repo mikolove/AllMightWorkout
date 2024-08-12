@@ -2,18 +2,18 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_EXERCISE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.exercise.usecase.RemoveExercise.Companion.DELETE_EXERCISE_FAILED
-import com.mikolove.core.domain.exercise.usecase.RemoveExercise.Companion.DELETE_EXERCISE_SUCCESS
+import com.mikolove.core.interactors.exercise.RemoveExercise.Companion.DELETE_EXERCISE_FAILED
+import com.mikolove.core.interactors.exercise.RemoveExercise.Companion.DELETE_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.domain.exercise.usecase.RemoveExercise
+import com.mikolove.core.interactors.exercise.RemoveExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
@@ -43,7 +43,7 @@ Test cases:
 class RemoveExerciseTest {
 
     //System in test
-    private val removeExercise : RemoveExercise<ExerciseViewState>
+    private val removeExercise : com.mikolove.core.interactors.exercise.RemoveExercise<ExerciseViewState>
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -60,7 +60,7 @@ class RemoveExerciseTest {
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
         exerciseFactory = dependencyContainer.exerciseFactory
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
-        removeExercise = RemoveExercise(
+        removeExercise = com.mikolove.core.interactors.exercise.RemoveExercise(
             exerciseCacheDataSource,
             exerciseNetworkDataSource
         )

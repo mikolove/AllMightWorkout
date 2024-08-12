@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.HistoryWorkoutNetworkDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
 import com.mikolove.allmightworkout.business.domain.model.*
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory

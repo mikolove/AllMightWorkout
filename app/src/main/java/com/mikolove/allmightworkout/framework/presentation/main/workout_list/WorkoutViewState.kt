@@ -2,10 +2,10 @@ package com.mikolove.allmightworkout.framework.presentation.main.workout_list
 
 /*
 import android.os.Parcelable
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.business.domain.state.ViewState
 import kotlinx.parcelize.Parcelize
 

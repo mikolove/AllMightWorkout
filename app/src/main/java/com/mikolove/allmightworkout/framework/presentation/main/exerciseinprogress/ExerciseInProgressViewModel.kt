@@ -6,7 +6,7 @@ import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.allmightworkout.business.interactors.main.workoutinprogress.InProgressListInteractors
+import com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ExerciseInProgressViewModel
 @Inject
 constructor(
-    private val inProgressListInteractors: InProgressListInteractors,
+    private val inProgressListInteractors: com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors,
     private val savedStateHandle: SavedStateHandle,
     private val dateUtil: DateUtil
 ) : ViewModel(){

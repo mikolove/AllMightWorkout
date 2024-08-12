@@ -3,7 +3,7 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.domain.exercise.usecase.ExerciseInteractors
+import com.mikolove.core.interactors.exercise.ExerciseInteractors
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ const val INSERT_EXERCISE_ERROR_NO_NAME = "You must set a name to create an exer
 class ExerciseViewModel
 @Inject
 constructor(
-    private val exerciseInteractors: ExerciseInteractors,
+    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences,
     private val exerciseFactory: ExerciseFactory,

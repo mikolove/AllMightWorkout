@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
+import com.mikolove.core.domain.bodypart.BodyPart
 
 interface BodyPartFirestoreService {
 

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.datasource.cache.mappers
 
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.allmightworkout.framework.datasource.cache.model.UserCacheEntity

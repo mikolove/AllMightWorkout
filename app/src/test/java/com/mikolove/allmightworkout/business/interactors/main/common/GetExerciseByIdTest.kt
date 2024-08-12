@@ -36,7 +36,7 @@ Test cases:
 class GetExerciseByIdTest {
 
     //System in test
-    private val getExerciseById : GetExerciseById
+    private val getExerciseById : com.mikolove.core.interactors.common.GetExerciseById
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -46,7 +46,7 @@ class GetExerciseByIdTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
-        getExerciseById = GetExerciseById(
+        getExerciseById = com.mikolove.core.interactors.common.GetExerciseById(
             exerciseCacheDataSource
         )
     }
@@ -68,7 +68,7 @@ class GetExerciseByIdTest {
 
                 Assertions.assertEquals(
                     value?.message?.response?.message,
-                    GetExerciseById.GET_EXERCISE_BY_ID_SUCCESS
+                    com.mikolove.core.interactors.common.GetExerciseById.GET_EXERCISE_BY_ID_SUCCESS
                 )
 
                 exerciseRetrieved = value?.data?.exerciseSelected ?: null

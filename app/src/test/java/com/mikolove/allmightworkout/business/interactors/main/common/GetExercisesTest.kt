@@ -6,8 +6,8 @@ import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.common.GetExercises.Companion.GET_EXERCISES_SUCCESS
+import com.mikolove.core.interactors.common.GetExercises.Companion.GET_EXERCISES_NO_MATCHING_RESULTS
+import com.mikolove.core.interactors.common.GetExercises.Companion.GET_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_ORDER_BY_ASC_DATE_CREATED
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
@@ -40,7 +40,7 @@ Test cases:
 class GetExercisesTest {
 
     //System in test
-    private val getExercises : GetExercises
+    private val getExercises : com.mikolove.core.interactors.common.GetExercises
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -52,7 +52,7 @@ class GetExercisesTest {
         dependencyContainer.build()
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         exerciseFactory = dependencyContainer.exerciseFactory
-        getExercises = GetExercises(
+        getExercises = com.mikolove.core.interactors.common.GetExercises(
             exerciseCacheDataSource
         )
     }

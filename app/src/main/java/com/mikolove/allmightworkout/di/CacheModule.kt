@@ -1,16 +1,30 @@
 package com.mikolove.allmightworkout.di
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.*
-import com.mikolove.allmightworkout.business.data.cache.implementation.*
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.allmightworkout.framework.datasource.cache.abstraction.*
 import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.datasource.cache.implementation.*
 import com.mikolove.allmightworkout.framework.datasource.cache.mappers.*
+import com.mikolove.core.data.analytics.HistoryExerciseCacheDataSourceImpl
+import com.mikolove.core.data.analytics.HistoryExerciseSetCacheDataSourceImpl
+import com.mikolove.core.data.analytics.HistoryWorkoutCacheDataSourceImpl
+import com.mikolove.core.data.bodypart.BodyPartCacheDataSourceImpl
+import com.mikolove.core.data.exercise.ExerciseCacheDataSourceImpl
+import com.mikolove.core.data.exercise.ExerciseSetCacheDataSourceImpl
+import com.mikolove.core.data.user.UserCacheDataSourceImpl
+import com.mikolove.core.data.workout.GroupCacheDataSourceImpl
 import com.mikolove.core.data.workout.WorkoutCacheDataSourceImpl
+import com.mikolove.core.data.workouttype.WorkoutTypeCacheDataSourceImpl
+import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.user.UserCacheDataSource
+import com.mikolove.core.domain.workout.GroupCacheDataSource
 import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -268,18 +282,18 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideUserDataSource(userDaoService : UserDaoService) : UserCacheDataSource{
+    fun provideUserDataSource(userDaoService : UserDaoService) : UserCacheDataSource {
         return UserCacheDataSourceImpl(userDaoService)
     }
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeDataSource(workoutTypeDaoService : WorkoutTypeDaoService) : WorkoutTypeCacheDataSource{
+    fun provideWorkoutTypeDataSource(workoutTypeDaoService : WorkoutTypeDaoService) : WorkoutTypeCacheDataSource {
         return WorkoutTypeCacheDataSourceImpl(workoutTypeDaoService)
     }
     @Singleton
     @Provides
-    fun provideBodyPartCacheDataSource(bodyPartDaoService : BodyPartDaoService) : BodyPartCacheDataSource{
+    fun provideBodyPartCacheDataSource(bodyPartDaoService : BodyPartDaoService) : BodyPartCacheDataSource {
         return BodyPartCacheDataSourceImpl(bodyPartDaoService)
     }
 
@@ -303,24 +317,24 @@ object CacheModule {
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutCacheDataSource(historyWorkoutDaoService : HistoryWorkoutDaoService) : HistoryWorkoutCacheDataSource{
+    fun provideHistoryWorkoutCacheDataSource(historyWorkoutDaoService : HistoryWorkoutDaoService) : HistoryWorkoutCacheDataSource {
         return HistoryWorkoutCacheDataSourceImpl(historyWorkoutDaoService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseCacheDataSource(historyExerciseDaoService : HistoryExerciseDaoService) : HistoryExerciseCacheDataSource{
+    fun provideHistoryExerciseCacheDataSource(historyExerciseDaoService : HistoryExerciseDaoService) : HistoryExerciseCacheDataSource {
         return HistoryExerciseCacheDataSourceImpl(historyExerciseDaoService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetCacheDataSource(historyExerciseSetDaoService : HistoryExerciseSetDaoService) : HistoryExerciseSetCacheDataSource{
+    fun provideHistoryExerciseSetCacheDataSource(historyExerciseSetDaoService : HistoryExerciseSetDaoService) : HistoryExerciseSetCacheDataSource {
         return HistoryExerciseSetCacheDataSourceImpl(historyExerciseSetDaoService)
     }
     @Singleton
     @Provides
-    fun provideWorkoutGroupCacheDataSource(groupDaoService : GroupDaoService) : GroupCacheDataSource{
+    fun provideWorkoutGroupCacheDataSource(groupDaoService : GroupDaoService) : GroupCacheDataSource {
         return GroupCacheDataSourceImpl(groupDaoService)
     }
 }

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.main.compose.ui
 
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutType
 
 data class WorkoutTypeFilter(
     val workoutTypeId : String,

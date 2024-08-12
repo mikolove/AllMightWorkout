@@ -1,10 +1,10 @@
 package com.mikolove.allmightworkout.framework.datasource.network.abstraction
 
-import com.mikolove.allmightworkout.business.domain.model.User
+import com.mikolove.core.domain.user.User
 
 interface UserFirestoreService {
 
-    suspend fun insertUser(user :User)
+    suspend fun insertUser(user : User)
 
     suspend fun updateName(name : String,primaryKey : String)
 

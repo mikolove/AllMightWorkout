@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_WORKOUTTYPE_EXCEPTION
-import com.mikolove.allmightworkout.business.data.cache.abstraction.WorkoutTypeCacheDataSource
-import com.mikolove.allmightworkout.business.domain.model.WorkoutType
+import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_NO_MATCHING_RESULTS
-import com.mikolove.allmightworkout.business.interactors.main.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_SUCCESS
+import com.mikolove.core.interactors.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_NO_MATCHING_RESULTS
+import com.mikolove.core.interactors.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_ORDER_BY_ASC_NAME
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
@@ -39,7 +39,7 @@ Test cases:
 class GetWorkoutTypesTest {
 
     //System in test
-    private val getWorkoutTypes : GetWorkoutTypes
+    private val getWorkoutTypes : com.mikolove.core.interactors.common.GetWorkoutTypes
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -50,7 +50,7 @@ class GetWorkoutTypesTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         workoutTypesCacheDataSource = dependencyContainer.workoutTypeCacheDataSource
-        getWorkoutTypes = GetWorkoutTypes(
+        getWorkoutTypes = com.mikolove.core.interactors.common.GetWorkoutTypes(
             workoutTypesCacheDataSource
         )
     }

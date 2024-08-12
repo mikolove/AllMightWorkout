@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.allmightworkout.business.interactors.main.common.GetTotalExercises.Companion.GET_TOTAL_EXERCISES_SUCCESS
+import com.mikolove.core.interactors.common.GetTotalExercises.Companion.GET_TOTAL_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
@@ -24,7 +24,7 @@ Test cases:
 class GetTotalExercisesTest {
 
     //System in test
-    private val getTotalExercises : GetTotalExercises
+    private val getTotalExercises : com.mikolove.core.interactors.common.GetTotalExercises
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -34,7 +34,7 @@ class GetTotalExercisesTest {
         dependencyContainer = DependencyContainer()
         dependencyContainer.build()
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
-        getTotalExercises = GetTotalExercises(
+        getTotalExercises = com.mikolove.core.interactors.common.GetTotalExercises(
             exerciseCacheDataSource
         )
     }
