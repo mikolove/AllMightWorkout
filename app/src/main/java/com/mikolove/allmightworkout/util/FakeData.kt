@@ -2,9 +2,9 @@ package com.mikolove.allmightworkout.util
 
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workouttype.WorkoutType
-import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutCollection
-import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutTypeFilter
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListState
+import com.mikolove.workout.presentation.WorkoutCollection
+import com.mikolove.workout.presentation.WorkoutTypeFilter
+import com.mikolove.workout.presentation.WorkoutListState
 import java.util.UUID
 
 /*

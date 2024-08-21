@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout_list
+package com.mikolove.workout.presentation
 
 enum class WorkoutOrderOptions(val value: String) {
     ASC(""),

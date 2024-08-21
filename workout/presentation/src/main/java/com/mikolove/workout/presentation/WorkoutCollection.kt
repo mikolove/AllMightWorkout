@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.compose.ui
+package com.mikolove.workout.presentation
 
 import com.mikolove.core.domain.workout.Workout
 

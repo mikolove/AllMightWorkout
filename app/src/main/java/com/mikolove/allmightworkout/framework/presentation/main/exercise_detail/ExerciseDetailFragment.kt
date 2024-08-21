@@ -28,7 +28,7 @@ import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseListEvents
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.workout.presentation.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

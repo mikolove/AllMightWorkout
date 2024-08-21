@@ -33,7 +33,7 @@ import com.mikolove.allmightworkout.framework.datasource.cache.database.*
 import com.mikolove.allmightworkout.framework.presentation.FabController
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.workout.presentation.WorkoutListEvents
 
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint

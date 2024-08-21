@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.compose.ui
+package com.mikolove.workout.presentation
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -41,10 +41,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListState
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListViewModel
-import com.mikolove.allmightworkout.util.FakeData
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 
@@ -57,7 +53,6 @@ fun WorkoutScreen(
 
     val viewModel : WorkoutListViewModel = hiltViewModel()
 
-    val sessionManagerState by viewModel.sessionManagerState.collectAsStateWithLifecycle()
     val workoutListState by viewModel.state.collectAsStateWithLifecycle()
 
     WorkoutScreenContent(

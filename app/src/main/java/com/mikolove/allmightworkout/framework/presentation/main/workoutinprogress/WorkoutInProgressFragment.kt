@@ -25,7 +25,7 @@ import com.mikolove.core.interactors.workoutinprogress.InsertHistory.Companion.I
 import com.mikolove.allmightworkout.databinding.FragmentWorkoutInProgressBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exerciseinprogress.ExerciseInProgressEvents
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.workout.presentation.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

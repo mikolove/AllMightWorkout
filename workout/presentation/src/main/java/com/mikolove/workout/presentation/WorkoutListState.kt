@@ -1,9 +1,7 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout_list
+package com.mikolove.workout.presentation
 
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.Queue
-import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutCollection
-import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutTypeFilter
 
 
 data class WorkoutListState(

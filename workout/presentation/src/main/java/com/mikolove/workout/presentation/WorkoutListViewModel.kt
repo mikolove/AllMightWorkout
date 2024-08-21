@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.framework.presentation.main.workout_list
+package com.mikolove.workout.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,6 @@ import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.
 import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_ORDER
 import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
 import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.compose.ui.WorkoutCollection
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.framework.presentation.session.SessionState
@@ -240,31 +239,38 @@ constructor(
 
                     dataState?.data?.let { listWorkout ->
 
-                        val workoutCollection : List<WorkoutCollection> = listOf(WorkoutCollection(
+                        val workoutCollection : List<WorkoutCollection> = listOf(
+                            WorkoutCollection(
                             "ID1",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID1455",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID2231",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID11",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID41",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID13",
                             "COLLECTION NAME 1",
                             listWorkout
-                        ),WorkoutCollection(
+                        ),
+                            WorkoutCollection(
                             "ID21",
                             "COLLECTION NAME 1",
                             listWorkout

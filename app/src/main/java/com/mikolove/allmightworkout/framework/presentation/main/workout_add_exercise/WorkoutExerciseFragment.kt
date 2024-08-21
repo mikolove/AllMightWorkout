@@ -24,7 +24,7 @@ import com.mikolove.core.interactors.workout.AddExerciseToWorkout.Companion.INSE
 import com.mikolove.core.interactors.workout.RemoveExerciseFromWorkout.Companion.REMOVE_WORKOUT_EXERCISE_SUCCESS
 import com.mikolove.allmightworkout.databinding.FragmentAddExerciseToWorkoutBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.workout.presentation.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 

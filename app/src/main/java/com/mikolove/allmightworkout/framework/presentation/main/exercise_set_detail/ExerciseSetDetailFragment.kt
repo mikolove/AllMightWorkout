@@ -15,7 +15,7 @@ import com.mikolove.core.interactors.workout.RemoveMultipleWorkouts
 import com.mikolove.allmightworkout.databinding.FragmentExerciseSetDetailBinding
 import com.mikolove.allmightworkout.framework.presentation.common.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_detail.ExerciseDetailEvents
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents
+import com.mikolove.workout.presentation.WorkoutListEvents
 import com.mikolove.allmightworkout.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
