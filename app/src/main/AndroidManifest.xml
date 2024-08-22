@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".framework.presentation.BaseApplication">
+        android:name=".BaseApplication">
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -26,7 +26,7 @@
         </provider>
 
         <activity
-            android:name="com.mikolove.allmightworkout.framework.presentation.main.MainActivity"
+            android:name="com.mikolove.allmightworkout.MainActivity"
             android:exported ="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

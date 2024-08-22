@@ -31,7 +31,7 @@ import kotlin.collections.ArrayList
 class SyncHistoryTest {
 
     //System in test
-    private val syncHistory : SyncHistory
+    private val syncHistory : com.mikolove.core.interactors.sync.SyncHistory
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -61,7 +61,7 @@ class SyncHistoryTest {
         historyExerciseSetFactory = dependencyContainer.historyExerciseSetFactory
 
 
-        syncHistory = SyncHistory(
+        syncHistory = com.mikolove.core.interactors.sync.SyncHistory(
             historyWorkoutCacheDataSource,
             historyExerciseCacheDataSource,
             historyExerciseSetCacheDataSource,

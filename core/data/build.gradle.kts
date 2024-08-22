@@ -11,7 +11,10 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.database)
+    implementation(projects.core.interactors)
     implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.androidx.work)
 
     implementation(libs.squareup.retrofit)
 }

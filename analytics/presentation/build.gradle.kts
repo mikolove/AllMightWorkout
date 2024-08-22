@@ -5,6 +5,10 @@ plugins {
 android {
     namespace = "com.mikolove.analytics.presentation"
 
+    ksp{
+        arg("compose-destinations.moduleName", "analytics")
+        arg("compose-destinations.mode", "destinations")
+    }
 }
 
 dependencies {

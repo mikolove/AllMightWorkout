@@ -44,7 +44,7 @@ class SyncWorkoutExercisesTest
 {
 
     //System in test
-    private val syncWorkoutExercises : SyncWorkoutExercises
+    private val syncWorkoutExercises : com.mikolove.core.interactors.sync.SyncWorkoutExercises
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -71,7 +71,7 @@ class SyncWorkoutExercisesTest
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
 
-        syncWorkoutExercises = SyncWorkoutExercises(
+        syncWorkoutExercises = com.mikolove.core.interactors.sync.SyncWorkoutExercises(
             workoutCacheDataSource,
             workoutNetworkDataSource,
             exerciseCacheDataSource,

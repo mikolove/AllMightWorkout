@@ -43,7 +43,7 @@ In all those case check Exercise and Exercise Set
 class SyncExercisesTest {
 
     //Sytem in test
-    private val syncExercises : SyncExercises
+    private val syncExercises : com.mikolove.core.interactors.sync.SyncExercises
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -82,7 +82,7 @@ class SyncExercisesTest {
         exerciseFactory = dependencyContainer.exerciseFactory
         exerciseSetFactory = dependencyContainer.exerciseSetFactory
 
-        syncExercises = SyncExercises(
+        syncExercises = com.mikolove.core.interactors.sync.SyncExercises(
             dateFormat,
             exerciseCacheDataSource,
             exerciseNetworkDataSource,

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0"
+agp = "8.5.1"
 androidTools = "31.2.2"
 coreSplashscreen = "1.0.1"
 coilCompose = "2.6.0"
@@ -14,7 +14,7 @@ activityCompose = "1.9.0"
 composeBom = "2024.02.02"
 composeCompiler = "1.5.9"
 materialIconsExtended = "1.6.3"
-#navigationCompose = "2.7.7"
+navigationCompose = "2.8.0-beta07"
 securityCryptoKtx = "1.1.0-alpha06"
 timber = "5.0.1"
 ksp = "1.9.22-1.0.17"
@@ -38,6 +38,7 @@ retrofit = "2.11.0"
 datastore = "1.0.0"
 multidex ="2.0.1"
 leakcanary ="2.10"
+serialization = "1.6.3"
 
 # Project versions
 projectApplicationId = "com.mikolove.allmightworkout"
@@ -53,7 +54,8 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
-#androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 androidx-security-crypto-ktx = { module = "androidx.security:security-crypto-ktx", version.ref = "securityCryptoKtx" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines"}
@@ -100,15 +102,10 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx"}
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
-firebase-performance-gradle = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-
-compose-destination-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestination" }
-compose-destination-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
-
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -124,8 +121,8 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 kapt-gradlePlugin = { group = "org.jetbrains.kotlin.kapt", name = "org.jetbrains.kotlin.kapt.gradle.plugin", version.ref = "kotlin" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltGradlePlugin" }
-firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlytics" }
-firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
+firebase-crashlytics-gradlePlugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlytics" }
+firebase-performance-gradlePlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerfPlugin" }
 
 [plugins]
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
@@ -150,7 +147,7 @@ allmightworkout-android-feature-ui = {id ="allmightworkout.android.feature.ui", 
 allmightworkout-android-room = {id ="allmightworkout.android.room", version = "unspecified"}
 allmightworkout-jvm-library = {id ="allmightworkout.jvm.library", version = "unspecified"}
 allmightworkout-android-hilt = {id ="allmightworkout.android.hilt", version = "unspecified"}
-allmightworkout-android-firebase = {id ="allmightworkout.android.firebase", version = "unspecified"}
+allmightworkout-android-application-firebase = {id ="allmightworkout.android.application.firebase", version = "unspecified"}
 
 [bundles]
 compose = [

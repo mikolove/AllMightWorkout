@@ -3,9 +3,9 @@ package com.mikolove.allmightworkout.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.allmightworkout.framework.datasource.network.abstraction.*
-import com.mikolove.allmightworkout.framework.datasource.network.implementation.*
-import com.mikolove.allmightworkout.framework.datasource.network.mappers.*
+import com.mikolove.core.network.abstraction.*
+import com.mikolove.core.network.implementation.*
+import com.mikolove.core.network.mappers.*
 import com.mikolove.core.data.analytics.HistoryExerciseNetworkDataSourceImpl
 import com.mikolove.core.data.analytics.HistoryExerciseSetNetworkDataSourceImpl
 import com.mikolove.core.data.analytics.HistoryWorkoutNetworkDataSourceImpl

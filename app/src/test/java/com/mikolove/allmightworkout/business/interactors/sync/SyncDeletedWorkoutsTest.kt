@@ -20,7 +20,7 @@ Test cases:
 class SyncDeletedWorkoutsTest {
 
     //System in test
-    private val syncDeletedWorkouts : SyncDeletedWorkouts
+    private val syncDeletedWorkouts : com.mikolove.core.interactors.sync.SyncDeletedWorkouts
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -32,7 +32,7 @@ class SyncDeletedWorkoutsTest {
         dependencyContainer.build()
         workoutCacheDataSource = dependencyContainer.workoutCacheDataSource
         workoutNetworkDataSource = dependencyContainer.workoutNetworkDataSource
-        syncDeletedWorkouts = SyncDeletedWorkouts(
+        syncDeletedWorkouts = com.mikolove.core.interactors.sync.SyncDeletedWorkouts(
             workoutCacheDataSource,
             workoutNetworkDataSource
         )

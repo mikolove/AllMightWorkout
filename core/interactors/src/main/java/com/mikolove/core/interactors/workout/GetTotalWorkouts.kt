@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetTotalWorkouts(
-    private val workoutCacheDataSource: WorkoutCacheDataSource
+    private val workoutCacheDataSource: WorkoutCacheDataSource,
+
 ) {
 
     fun execute(

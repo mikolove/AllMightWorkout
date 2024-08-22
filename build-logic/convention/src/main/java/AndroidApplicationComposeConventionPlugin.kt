@@ -11,7 +11,6 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
 
             pluginManager.run{
                 apply("allmightworkout.android.application")
-                apply("com.google.devtools.ksp")
             }
 
             val extension = extensions.getByType<ApplicationExtension>()

@@ -5,9 +5,10 @@ plugins {
     alias(libs.plugins.allmightworkout.android.application.compose)
     alias(libs.plugins.allmightworkout.android.hilt)
     alias(libs.plugins.allmightworkout.android.room)
-    alias(libs.plugins.allmightworkout.android.firebase)
-    id ("kotlin-parcelize")
-    id ("androidx.navigation.safeargs.kotlin") // View Fragment only
+    alias(libs.plugins.allmightworkout.android.application.firebase)
+    alias(libs.plugins.kotlin.serialization)
+    //id ("kotlin-parcelize")
+    //id ("androidx.navigation.safeargs.kotlin") // View Fragment only
     /*used for Lib destination - have to match kotlin version*/
     //id ("com.google.devtools.ksp")
 }
@@ -105,9 +106,12 @@ dependencies {
 
     //Navigation component
 
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+
     //temporary
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    //implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    //implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     //In convention plugin
     // implementation(libs.compose.destination.core)
@@ -260,6 +264,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.database)
     implementation(projects.core.network)
+    implementation(projects.core.interactors)
 
     implementation(projects.auth.presentation)
     implementation(projects.auth.data)

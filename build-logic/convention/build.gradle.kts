@@ -52,9 +52,9 @@ gradlePlugin{
             id ="allmightworkout.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
-        register("androidFirebase"){
-            id ="allmightworkout.android.firebase"
-            implementationClass = "AndroidFirebaseConventionPlugin"
+        register("androidApplicationFirebase"){
+            id ="allmightworkout.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
 
     }

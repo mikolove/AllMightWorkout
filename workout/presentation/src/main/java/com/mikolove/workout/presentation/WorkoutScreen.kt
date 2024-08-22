@@ -42,10 +42,21 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mikolove.core.domain.workout.Workout
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.ExternalModuleGraph
+import com.ramcosta.composedestinations.annotation.NavGraph
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.annotation.parameters.CodeGenVisibility
 
+@NavGraph<ExternalModuleGraph>
+internal annotation class WorkoutGraph
 
-@Destination<RootGraph>
+object WorkoutNavGraphs
+
+@Destination<WorkoutGraph>(
+    start = true,
+    navArgs = WorkoutNavGraphs::class,
+    visibility = CodeGenVisibility.INTERNAL
+)
 @Composable
 fun WorkoutScreen(
     navController: NavController,

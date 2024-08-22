@@ -12,36 +12,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
-import com.mikolove.core.presentation.designsystem.R
-
-
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popBackStack
-import com.ramcosta.composedestinations.navigation.popUpTo
-import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
-import com.ramcosta.composedestinations.utils.isRouteOnBackStack
+import com.mikolove.allmightworkout.R
 
 enum class NavigationBarItem(
-    val direction: DirectionDestinationSpec,
     val icon: ImageVector,
     @StringRes val label: Int
 ) {
-    Home(HomeScreenDestination, Icons.Default.Person, R.string.home_menu_title),
-    Workout(WorkoutScreenDestination, Icons.AutoMirrored.Filled.List, R.string.workout_menu_title),
-    Exercise(ExerciseScreenDestination, Icons.AutoMirrored.Filled.List, R.string.exercise_menu_title)
+    Home( Icons.Default.Person, R.string.fragment_home_tab_layout_history),
+    Workout(Icons.AutoMirrored.Filled.List, R.string.fragment_home_tab_layout_workout),
+    Exercise(Icons.AutoMirrored.Filled.List, R.string.fragment_home_tab_layout_exercise)
 }
 
 @Composable
 fun BottomBar(
-    navController: NavHostController
+    navController: NavHostController,
+
 ) {
     NavigationBar {
-
-        val isCurrentDestOnBackStack = navController.isRouteOnBackStack(destination.direction)
-
-        NavigationBarItem(
-            selected =
-        )
         NavigationBarItem.values().forEach { destination ->
             val isCurrentDestOnBackStack = navController.isRouteOnBackStack(destination.direction)
             NavigationBarItem(

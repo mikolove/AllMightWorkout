@@ -38,7 +38,7 @@ In all those case check Workout
 class SyncWorkoutsTest {
 
     //System in test
-    private val syncWorkouts : SyncWorkouts
+    private val syncWorkouts : com.mikolove.core.interactors.sync.SyncWorkouts
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -65,7 +65,7 @@ class SyncWorkoutsTest {
         workoutNetworkDataSource = dependencyContainer.workoutNetworkDataSource
         exerciseCacheDataSource = dependencyContainer.exerciseCacheDataSource
         exerciseNetworkDataSource = dependencyContainer.exerciseNetworkDataSource
-        syncWorkouts = SyncWorkouts(
+        syncWorkouts = com.mikolove.core.interactors.sync.SyncWorkouts(
             dateFormat,
             workoutCacheDataSource,
             workoutNetworkDataSource,

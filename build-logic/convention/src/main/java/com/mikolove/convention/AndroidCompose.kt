@@ -23,9 +23,6 @@ internal fun Project.configureAndroidCompose(
             "androidTestImplementation"(platform(bom))
             "debugImplementation"(libs.findLibrary("androidx.compose.ui.tooling.preview").get())
 
-            //Navigation
-            "implementation"(project.libs.findLibrary("compose.destination.core").get())
-            "ksp"(project.libs.findLibrary("compose.destination.ksp").get())
         }
     }
 }

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
 class SyncWorkoutTypeAndBodyPartTest {
 
     //System in test
-    private val syncWorkoutTypesAndBodyPart : SyncWorkoutTypesAndBodyPart
+    private val syncWorkoutTypesAndBodyPart : com.mikolove.core.interactors.sync.SyncWorkoutTypesAndBodyPart
 
     //Dependencies
     private val dependencyContainer : DependencyContainer
@@ -41,11 +41,12 @@ class SyncWorkoutTypeAndBodyPartTest {
         bodyPartCacheDataSource = dependencyContainer.bodyPartCacheDataSource
         workoutTypeFactory = dependencyContainer.workoutTypeFactory
         bodyPartFactory = dependencyContainer.bodyPartFactory
-        syncWorkoutTypesAndBodyPart = SyncWorkoutTypesAndBodyPart(
-            workoutTypeCacheDataSource,
-            workoutTypeNetworkDataSource,
-            bodyPartCacheDataSource
-        )
+        syncWorkoutTypesAndBodyPart =
+            com.mikolove.core.interactors.sync.SyncWorkoutTypesAndBodyPart(
+                workoutTypeCacheDataSource,
+                workoutTypeNetworkDataSource,
+                bodyPartCacheDataSource
+            )
     }
 
     @Test
