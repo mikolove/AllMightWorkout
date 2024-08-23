@@ -1,7 +1,7 @@
 package com.mikolove.core.domain.exercise
 
-import com.mikolove.allmightworkout.business.domain.model.BodyPart
-import com.mikolove.allmightworkout.business.domain.model.Exercise
+import com.mikolove.core.domain.bodypart.BodyPart
+
 
 interface ExerciseCacheDataSource {
 

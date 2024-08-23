@@ -1,36 +1,33 @@
 package com.mikolove.core.domain.exercise
 
-import com.mikolove.core.domain.util.DateUtil
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.collections.ArrayList
+import com.mikolove.core.domain.bodypart.BodyPart
+import java.time.ZonedDateTime
 
-@Singleton
-class ExerciseFactory
-@Inject
-constructor(private val dateUtil: DateUtil){
+import java.util.UUID
+
+
+class ExerciseFactory {
 
     fun createExercise(
-        idExercise: String?,
-        name: String?,
-        sets: List<ExerciseSet>?,
-        bodyPart: BodyPart?,
+        idExercise: String = UUID.randomUUID().toString(),
+        name: String,
+        sets: List<ExerciseSet> = listOf(),
+        bodyPart: List<BodyPart> = listOf(),
         exerciseType: ExerciseType,
-        isActive: Boolean? = true,
-        created_at: String?
+        isActive: Boolean = true,
     ) : Exercise {
+        val zdt = ZonedDateTime.now()
         return Exercise(
-            idExercise = idExercise ?: UUID.randomUUID().toString(),
-            name = name ?: "New exercise",
-            sets =  sets ?: ArrayList(),
+            idExercise = idExercise,
+            name = name ,
+            sets =  sets ,
             bodyPart = bodyPart,
             exerciseType = exerciseType,
-            isActive = isActive ?: true,
+            isActive = isActive,
             startedAt = null,
             endedAt = null,
-            createdAt = created_at ?: dateUtil.getCurrentTimestamp(),
-            updatedAt = dateUtil.getCurrentTimestamp()
+            createdAt = zdt,
+            updatedAt = zdt
         )
     }
 }

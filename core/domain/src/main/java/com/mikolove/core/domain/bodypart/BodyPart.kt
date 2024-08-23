@@ -1,13 +1,10 @@
 package com.mikolove.core.domain.bodypart
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
-@Parcelize
 data class BodyPart(
-    var idBodyPart: String,
-    var name: String) : Parcelable{
-
+    var idBodyPart: String = UUID.randomUUID().toString(),
+    var name: String) {
 
     override fun toString(): String {
         return name.replaceFirstChar { it.uppercaseChar() }

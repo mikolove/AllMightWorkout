@@ -1,7 +1,5 @@
 package com.mikolove.core.domain.user
 
-import com.mikolove.allmightworkout.business.domain.model.User
-
 interface UserNetworkDataSource {
 
     suspend fun insertUser(user : User)

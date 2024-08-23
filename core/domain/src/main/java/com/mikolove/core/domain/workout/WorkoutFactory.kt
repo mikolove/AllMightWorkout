@@ -1,35 +1,30 @@
 package com.mikolove.core.domain.workout
 
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.Exercise
+import java.time.ZonedDateTime
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class WorkoutFactory
-@Inject
-constructor(private val dateUtil: DateUtil){
+class WorkoutFactory{
 
     fun createWorkout(
-        idWorkout : String?,
-        name : String?,
-        exercises : List<Exercise>?,
-        isActive : Boolean? = true,
-        collection : List<Group>? = null,
-        created_at : String?
+        idWorkout : String = UUID.randomUUID().toString(),
+        name : String,
+        exercises : List<Exercise> = listOf(),
+        isActive : Boolean = true,
+        collection : List<Group> = listOf(),
     ) : Workout {
+        val zdt = ZonedDateTime.now()
         return Workout(
-            idWorkout = idWorkout ?: UUID.randomUUID().toString(),
-            name = name ?: "New workout",
+            idWorkout = idWorkout,
+            name = name,
             exercises = exercises,
-            isActive = isActive ?: true,
+            isActive = isActive,
             startedAt = null,
             endedAt = null,
             exerciseIdsUpdatedAt = null,
             groups = collection,
-            createdAt = created_at?: dateUtil.getCurrentTimestamp(),
-            updatedAt = dateUtil.getCurrentTimestamp()
+            createdAt = zdt,
+            updatedAt = zdt
         )
     }
-
 }

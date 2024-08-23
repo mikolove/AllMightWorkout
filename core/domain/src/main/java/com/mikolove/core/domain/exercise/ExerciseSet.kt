@@ -1,29 +1,29 @@
 package com.mikolove.core.domain.exercise
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-@Parcelize
+import java.time.ZonedDateTime
+import java.util.UUID
+
 data class ExerciseSet(
-    var idExerciseSet: String,
-    var reps: Int,
-    var weight: Int,
-    var time: Int,
-    var restTime: Int,
+    var idExerciseSet: String = UUID.randomUUID().toString(),
+    var reps: Int = 8,
+    var weight: Int = 8,
+    var time: Int = 45,
+    var restTime: Int = 45,
     var order : Int,
-    var startedAt: String?,
-    var endedAt: String?,
-    var createdAt: String,
-    var updatedAt: String,
-) : Parcelable{
+    var startedAt: ZonedDateTime? = null,
+    var endedAt: ZonedDateTime? = null,
+    var createdAt: ZonedDateTime,
+    var updatedAt: ZonedDateTime,
+){
 
 
 
-    fun start(date : String){
-        startedAt = date
+    fun start(){
+        startedAt = ZonedDateTime.now()
     }
 
-    fun stop(date : String){
-        endedAt = date
+    fun stop(){
+        endedAt = ZonedDateTime.now()
     }
 
     override fun equals(other: Any?): Boolean {

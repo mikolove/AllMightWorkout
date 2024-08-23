@@ -157,9 +157,9 @@ class HistoryExerciseSetFirestoreServiceTest  : BaseTest(){
         workoutType = "abs",
         exerciseType = "rep_ex",
         historySets = null,
-        started_at = dateUtil.getCurrentTimestamp(),
-        ended_at = dateUtil.getCurrentTimestamp(),
-        created_at = dateUtil.getCurrentTimestamp()
+        startedAt = dateUtil.getCurrentTimestamp(),
+        endedAt = dateUtil.getCurrentTimestamp(),
+        createdAt = dateUtil.getCurrentTimestamp()
     )
 
     private fun createHistoryExerciseSet() : HistoryExerciseSet = historyExerciseSetFactory.createHistoryExerciseSet(

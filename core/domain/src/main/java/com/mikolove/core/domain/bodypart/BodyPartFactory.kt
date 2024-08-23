@@ -1,23 +1,18 @@
 package com.mikolove.core.domain.bodypart
 
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.util.UUID
 
 
-@Singleton
 class BodyPartFactory
-@Inject
-constructor()
 {
 
     fun createBodyPart(
-        idBodyPart : String?,
-        name : String?
+        idBodyPart : String = UUID.randomUUID().toString(),
+        name : String
     ) : BodyPart {
         return BodyPart(
-            idBodyPart = idBodyPart ?: "",
-            name = name ?: "New bodyPart"
+            idBodyPart = idBodyPart ,
+            name = name
         )
     }
 

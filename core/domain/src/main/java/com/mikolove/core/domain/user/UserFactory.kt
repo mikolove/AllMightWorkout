@@ -1,25 +1,22 @@
 package com.mikolove.core.domain.user
 
-import com.mikolove.core.domain.util.DateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.time.ZonedDateTime
 
-@Singleton
 class UserFactory
-@Inject
-constructor(private val dateUtil: DateUtil){
+constructor(private val createdAt : String){
 
     fun createUser(
         idUser : String,
         email : String? = null,
         name : String?
     ) : User {
+        val zdt = ZonedDateTime.now()
         return User(
             idUser = idUser,
             name = name,
             email = email,
-            createdAt = dateUtil.getCurrentTimestamp(),
-            updatedAt = dateUtil.getCurrentTimestamp()
+            createdAt = zdt,
+            updatedAt = zdt
         )
     }
 }

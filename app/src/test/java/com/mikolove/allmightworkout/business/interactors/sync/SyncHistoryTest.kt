@@ -89,9 +89,9 @@ class SyncHistoryTest {
                     workoutType = null,
                     exerciseType = null,
                     historySets = historySets,
-                    started_at = null,
-                    ended_at = null,
-                    created_at = null))
+                    startedAt = null,
+                    endedAt = null,
+                    createdAt = null))
 
             val newHistoryWorkout = historyWorkoutFactory.createHistoryWorkout(
                 idHistoryWorkout = UUID.randomUUID().toString(),

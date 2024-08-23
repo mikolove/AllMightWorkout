@@ -1,15 +1,12 @@
 package com.mikolove.core.domain.workout
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.time.ZonedDateTime
+import java.util.UUID
 
-@Parcelize
 data class Group (
-    var idGroup : String,
+    var idGroup : String = UUID.randomUUID().toString(),
     var name : String,
-    var workouts : List<Workout>?,
-    var createdAt: String,
-    var updatedAt: String
-) : Parcelable{
-
-}
+    var workouts : List<Workout> = listOf(),
+    var createdAt: ZonedDateTime,
+    var updatedAt: ZonedDateTime
+)

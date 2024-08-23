@@ -1,11 +1,9 @@
 package com.mikolove.core.domain.analytics
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
-@Parcelize
 data class HistoryExerciseSet(
-    var idHistoryExerciseSet: String,
+    var idHistoryExerciseSet: String = UUID.randomUUID().toString(),
     var reps: Int,
     var weight: Int,
     var time: Int,
@@ -13,8 +11,7 @@ data class HistoryExerciseSet(
     var startedAt: String,
     var endedAt: String,
     var createdAt: String,
-    var updatedAt: String
-) : Parcelable {
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

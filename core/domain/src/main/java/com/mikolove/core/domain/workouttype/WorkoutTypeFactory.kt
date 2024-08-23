@@ -1,25 +1,19 @@
 package com.mikolove.core.domain.workouttype
 
 import com.mikolove.core.domain.bodypart.BodyPart
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.util.UUID
 
-@Singleton
-class WorkoutTypeFactory
-@Inject
-constructor()
-{
+
+class WorkoutTypeFactory {
     fun createWorkoutType(
-        idWorkoutType : String?,
-        name : String?,
-        bodyParts : List<BodyPart>?
+        idWorkoutType : String = UUID.randomUUID().toString(),
+        name : String,
+        bodyParts : List<BodyPart> = listOf()
     ) : WorkoutType {
         return WorkoutType(
-            idWorkoutType = idWorkoutType ?: UUID.randomUUID().toString(),
-            name = name ?: "New bodyGroup",
+            idWorkoutType = idWorkoutType,
+            name = name,
             bodyParts = bodyParts
         )
     }
-
 }

@@ -1,31 +1,27 @@
 package com.mikolove.core.domain.analytics
 
-import com.mikolove.core.domain.util.DateUtil
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.time.ZonedDateTime
+import java.util.UUID
 
-@Singleton
-class HistoryWorkoutFactory
-@Inject
-constructor(private val dateUtil: DateUtil) {
+
+class HistoryWorkoutFactory {
 
     fun createHistoryWorkout(
-        idHistoryWorkout: String?,
-        name: String?,
-        historyExercises : List<HistoryExercise>?,
-        started_at : String?,
-        ended_at : String?,
-        created_at: String?
+        idHistoryWorkout: String = UUID.randomUUID().toString(),
+        name: String,
+        historyExercises : List<HistoryExercise> = listOf(),
+        startedAt : ZonedDateTime,
+        endedAt : ZonedDateTime,
+        createdAt: ZonedDateTime
     ): HistoryWorkout {
         return HistoryWorkout(
-            idHistoryWorkout = idHistoryWorkout ?: UUID.randomUUID().toString(),
-            name = name ?: "New history workout",
+            idHistoryWorkout = idHistoryWorkout,
+            name = name ,
             historyExercises = historyExercises,
-            startedAt = started_at ?: dateUtil.getCurrentTimestamp(),
-            endedAt = ended_at ?: dateUtil.getCurrentTimestamp(),
-            createdAt = created_at ?: dateUtil.getCurrentTimestamp(),
-            updatedAt = dateUtil.getCurrentTimestamp())
+            startedAt = startedAt ,
+            endedAt = endedAt ,
+            createdAt = createdAt ,
+            )
     }
 
 }

@@ -1,26 +1,22 @@
 package com.mikolove.core.domain.workout
 
-import com.mikolove.core.domain.util.DateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.time.ZonedDateTime
+import java.util.UUID
 
-@Singleton
-class GroupFactory
-@Inject
-constructor(private val dateUtil: DateUtil){
+class GroupFactory{
+
     fun createGroup(
-        idGroup : String ,
+        idGroup : String = UUID.randomUUID().toString(),
         name : String,
-        createdAt : String,
-        updatedAt : String,
+        workouts : List<Workout> = listOf(),
     ) : Group {
-        val currentDate = dateUtil.getCurrentTimestamp()
+        val zdt = ZonedDateTime.now()
         return Group(
             idGroup = idGroup,
             name = name,
-            workouts = listOf(),
-            createdAt = createdAt ?: currentDate,
-            updatedAt = updatedAt ?: currentDate
+            workouts = workouts,
+            createdAt = zdt,
+            updatedAt = zdt
         )
     }
 }

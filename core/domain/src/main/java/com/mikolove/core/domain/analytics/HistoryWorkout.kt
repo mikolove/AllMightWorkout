@@ -1,18 +1,16 @@
 package com.mikolove.core.domain.analytics
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.time.ZonedDateTime
+import java.util.UUID
 
-@Parcelize
 data class HistoryWorkout(
-    var idHistoryWorkout: String,
+    var idHistoryWorkout: String = UUID.randomUUID().toString(),
     var name: String,
-    var historyExercises: List<HistoryExercise>?,
-    var startedAt: String,
-    var endedAt: String,
-    var createdAt: String,
-    var updatedAt: String
-) : Parcelable{
+    var historyExercises: List<HistoryExercise> = listOf(),
+    var startedAt: ZonedDateTime,
+    var endedAt: ZonedDateTime,
+    var createdAt: ZonedDateTime,
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

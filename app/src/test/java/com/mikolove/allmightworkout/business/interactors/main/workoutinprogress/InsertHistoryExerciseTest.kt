@@ -89,9 +89,9 @@ class InsertHistoryExerciseTest {
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
-            started_at = exercise.startedAt,
-            ended_at = exercise.endedAt,
-            created_at = null
+            startedAt = exercise.startedAt,
+            endedAt = exercise.endedAt,
+            createdAt = null
         )
 
         //Insert history exercise
@@ -134,9 +134,9 @@ class InsertHistoryExerciseTest {
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
-            started_at = exercise.startedAt,
-            ended_at = exercise.endedAt,
-            created_at = null
+            startedAt = exercise.startedAt,
+            endedAt = exercise.endedAt,
+            createdAt = null
         )
 
         //Insert history exercise
@@ -178,9 +178,9 @@ class InsertHistoryExerciseTest {
             workoutType = workoutType?.name,
             exerciseType = exercise.exerciseType.name,
             historySets = null,
-            started_at = exercise.startedAt,
-            ended_at = exercise.endedAt,
-            created_at = null
+            startedAt = exercise.startedAt,
+            endedAt = exercise.endedAt,
+            createdAt = null
         )
 
         //Insert history exercise

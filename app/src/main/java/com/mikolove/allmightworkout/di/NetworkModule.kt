@@ -115,7 +115,7 @@ object NetworkModule {
                                      workoutNetworkMapper: WorkoutNetworkMapper,
                                      exerciseNetworkMapper: ExerciseNetworkMapper,
                                      dateUtil: DateUtil
-    ) : UserFirestoreService{
+    ) : com.mikolove.allmightworkout.firebase.abstraction.UserFirestoreService {
         return UserFirestoreServiceImpl(
             firebaseAuth,
             firestore,
@@ -128,27 +128,37 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil) : WorkoutFirestoreService{
+    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil) : com.mikolove.allmightworkout.firebase.abstraction.WorkoutFirestoreService {
         return WorkoutFirestoreServiceImpl(firebaseAuth,firestore  ,workoutNetworkMapper  ,exerciseNetworkMapper, dateUtil )
     }
 
     @Singleton
     @Provides
-    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseFirestoreService{
-        return ExerciseFirestoreServiceImpl(firebaseAuth,firestore, exerciseNetworkMapper,exerciseSetNetworkMapper)
+    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : com.mikolove.allmightworkout.firebase.abstraction.ExerciseFirestoreService {
+        return com.mikolove.allmightworkout.firebase.implementation.ExerciseFirestoreServiceImpl(
+            firebaseAuth,
+            firestore,
+            exerciseNetworkMapper,
+            exerciseSetNetworkMapper
+        )
     }
 
     @Singleton
     @Provides
     fun provideExerciseSetFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore,
                                             exerciseNetworkMapper: ExerciseNetworkMapper,
-                                            exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseSetFirestoreService {
-        return ExerciseSetFirestoreServiceImpl(firebaseAuth,firestore,exerciseNetworkMapper,exerciseSetNetworkMapper)
+                                            exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : com.mikolove.allmightworkout.firebase.abstraction.ExerciseSetFirestoreService {
+        return com.mikolove.allmightworkout.firebase.implementation.ExerciseSetFirestoreServiceImpl(
+            firebaseAuth,
+            firestore,
+            exerciseNetworkMapper,
+            exerciseSetNetworkMapper
+        )
     }
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper, bodyPartNetworkMapper: BodyPartNetworkMapper) : WorkoutTypeFirestoreService{
+    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper, bodyPartNetworkMapper: BodyPartNetworkMapper) : com.mikolove.allmightworkout.firebase.abstraction.WorkoutTypeFirestoreService {
         return WorkoutTypeFirestoreServiceImpl(firebaseAuth,firestore,workoutTypeNetworkMapper,bodyPartNetworkMapper)
     }
 
@@ -159,26 +169,36 @@ object NetworkModule {
                                               historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,
                                               historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper,
                                               dateUtil : DateUtil
-    ) : HistoryWorkoutFirestoreService {
+    ) : com.mikolove.allmightworkout.firebase.abstraction.HistoryWorkoutFirestoreService {
         return HistoryWorkoutFirestoreServiceImpl(firebaseAuth,firestore,historyWorkoutNetworkMapper,historyExerciseNetworkMapper,historyExerciseSetNetworkMapper,dateUtil)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper) : HistoryExerciseFirestoreService{
-        return HistoryExerciseFirestoreServiceImpl(firebaseAuth,firestore,historyExerciseNetworkMapper,historyExerciseSetNetworkMapper)
+    fun provideHistoryExerciseFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, historyExerciseNetworkMapper: HistoryExerciseNetworkMapper,historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper) : com.mikolove.allmightworkout.firebase.abstraction.HistoryExerciseFirestoreService {
+        return com.mikolove.allmightworkout.firebase.implementation.HistoryExerciseFirestoreServiceImpl(
+            firebaseAuth,
+            firestore,
+            historyExerciseNetworkMapper,
+            historyExerciseSetNetworkMapper
+        )
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetFirestoreService(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper) : HistoryExerciseSetFirestoreService{
+    fun provideHistoryExerciseSetFirestoreService(firebaseAuth: FirebaseAuth,firestore: FirebaseFirestore,historyExerciseSetNetworkMapper: HistoryExerciseSetNetworkMapper) : com.mikolove.allmightworkout.firebase.abstraction.HistoryExerciseSetFirestoreService {
         return HistoryExerciseSetFirestoreServiceImpl(firebaseAuth,firestore, historyExerciseSetNetworkMapper)
     }
 
     @Singleton
     @Provides
-    fun provideGroupFirestoreService(firebaseAuth: FirebaseAuth, firestore:FirebaseFirestore, groupNetworkMapper: GroupNetworkMapper, dateUtil: DateUtil) : GroupFirestoreService{
-        return GroupFirestoreServiceImpl(firebaseAuth,firestore,groupNetworkMapper,dateUtil)
+    fun provideGroupFirestoreService(firebaseAuth: FirebaseAuth, firestore:FirebaseFirestore, groupNetworkMapper: GroupNetworkMapper, dateUtil: DateUtil) : com.mikolove.allmightworkout.firebase.abstraction.GroupFirestoreService {
+        return com.mikolove.allmightworkout.firebase.implementation.GroupFirestoreServiceImpl(
+            firebaseAuth,
+            firestore,
+            groupNetworkMapper,
+            dateUtil
+        )
     }
 
     /*
@@ -187,54 +207,54 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGroupNetworkDataSource(groupFirestoreService: GroupFirestoreService) : GroupNetworkDataSource {
+    fun provideGroupNetworkDataSource(groupFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.GroupFirestoreService) : GroupNetworkDataSource {
         return GroupNetworkDataSourceImpl(groupFirestoreService)
     }
     @Singleton
     @Provides
-    fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource {
+    fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource {
         return WorkoutTypeNetworkDataSourceImpl(workoutTypeFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideWorkoutNetworkDataSource( workoutFirestoreService: WorkoutFirestoreService) : WorkoutNetworkDataSource {
+    fun provideWorkoutNetworkDataSource( workoutFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.WorkoutFirestoreService) : WorkoutNetworkDataSource {
         return WorkoutNetworkDataSourceImpl(workoutFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseNetworkDataSource( exerciseFirestoreService : ExerciseFirestoreService ) : ExerciseNetworkDataSource {
+    fun provideExerciseNetworkDataSource( exerciseFirestoreService : com.mikolove.allmightworkout.firebase.abstraction.ExerciseFirestoreService) : ExerciseNetworkDataSource {
         return ExerciseNetworkDateSourceImpl(exerciseFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseSetNetworkDataSource( exerciseSetFirestoreService: ExerciseSetFirestoreService) : ExerciseSetNetworkDataSource {
+    fun provideExerciseSetNetworkDataSource( exerciseSetFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.ExerciseSetFirestoreService) : ExerciseSetNetworkDataSource {
         return ExerciseSetNetworkDataSourceImpl(exerciseSetFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryWorkoutNetworkDataSource ( historyWorkoutFirestoreService : HistoryWorkoutFirestoreService) : HistoryWorkoutNetworkDataSource {
+    fun provideHistoryWorkoutNetworkDataSource ( historyWorkoutFirestoreService : com.mikolove.allmightworkout.firebase.abstraction.HistoryWorkoutFirestoreService) : HistoryWorkoutNetworkDataSource {
         return HistoryWorkoutNetworkDataSourceImpl(historyWorkoutFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseNetworkDataSource ( historyExerciseFirestoreService : HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource {
+    fun provideHistoryExerciseNetworkDataSource ( historyExerciseFirestoreService : com.mikolove.allmightworkout.firebase.abstraction.HistoryExerciseFirestoreService) : HistoryExerciseNetworkDataSource {
         return HistoryExerciseNetworkDataSourceImpl(historyExerciseFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideHistoryExerciseSetNetworkDataSource ( historyExerciseSetFirestoreService : HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource {
+    fun provideHistoryExerciseSetNetworkDataSource ( historyExerciseSetFirestoreService : com.mikolove.allmightworkout.firebase.abstraction.HistoryExerciseSetFirestoreService) : HistoryExerciseSetNetworkDataSource {
         return HistoryExerciseSetNetworkDataSourceImpl(historyExerciseSetFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideUserNetworkDataSource( userNetworkFireStoreService: UserFirestoreService ) : UserNetworkDataSource {
+    fun provideUserNetworkDataSource( userNetworkFireStoreService: com.mikolove.allmightworkout.firebase.abstraction.UserFirestoreService) : UserNetworkDataSource {
         return UserNetworkDataSourceImpl(userNetworkFireStoreService)
     }
 }

@@ -1,16 +1,14 @@
 package com.mikolove.core.domain.workouttype
 
-import android.os.Parcelable
 import com.mikolove.core.domain.bodypart.BodyPart
-import kotlinx.parcelize.Parcelize
 import java.util.Locale
+import java.util.UUID
 
-@Parcelize
 data class WorkoutType(
-    var idWorkoutType: String,
+    var idWorkoutType: String = UUID.randomUUID().toString(),
     var name: String,
-    var bodyParts : List<BodyPart>?
-) : Parcelable{
+    var bodyParts : List<BodyPart> = listOf()
+){
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -28,7 +26,7 @@ data class WorkoutType(
     override fun hashCode(): Int {
         var result = idWorkoutType.hashCode()
         result = 31 * result + name.hashCode()
-        result = 31 * result + (bodyParts?.hashCode() ?: 0)
+        result = 31 * result + (bodyParts.hashCode())
         return result
     }
 

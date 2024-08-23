@@ -1,27 +1,28 @@
 package com.mikolove.core.domain.workout
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-@Parcelize
-data class Workout(
-    var idWorkout: String,
-    var name: String,
-    var exercises: List<Exercise>?,
-    var isActive: Boolean,
-    var exerciseIdsUpdatedAt : String?,
-    var startedAt: String?,
-    var endedAt: String?,
-    var groups: List<Group>?,
-    var createdAt: String,
-    var updatedAt: String
-) : Parcelable{
+import com.mikolove.core.domain.exercise.Exercise
+import java.time.ZonedDateTime
+import java.util.UUID
 
-    fun start(date : String){
-        startedAt = date
+data class Workout(
+    var idWorkout: String = UUID.randomUUID().toString(),
+    var name: String,
+    var exercises: List<Exercise> = listOf(),
+    var isActive: Boolean = true,
+    var exerciseIdsUpdatedAt : String? = null,
+    var startedAt: ZonedDateTime? = null,
+    var endedAt: ZonedDateTime? = null,
+    var groups: List<Group> = listOf(),
+    var createdAt: ZonedDateTime = ZonedDateTime.now(),
+    var updatedAt: ZonedDateTime = ZonedDateTime.now()
+) {
+
+    fun start(){
+        startedAt = ZonedDateTime.now()
     }
 
-    fun stop(date : String){
-        endedAt = date
+    fun stop(){
+        endedAt = ZonedDateTime.now()
     }
 
 
@@ -29,10 +30,10 @@ data class Workout(
     override fun hashCode(): Int {
         var result = idWorkout.hashCode()
         result = 31 * result + name.hashCode()
-        result = 31 * result + (exercises?.hashCode() ?: 0)
+        result = 31 * result + (exercises.hashCode())
         result = 31 * result + isActive.hashCode()
         result = 31 * result + (exerciseIdsUpdatedAt?.hashCode() ?: 0)
-        result = 31 * result + (groups?.hashCode() ?: 0)
+        result = 31 * result + (groups.hashCode())
         result = 31 * result + (startedAt?.hashCode() ?: 0)
         result = 31 * result + (endedAt?.hashCode() ?: 0)
         result = 31 * result + createdAt.hashCode()
