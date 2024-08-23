@@ -1,9 +1,9 @@
 package com.mikolove.allmightworkout.firebase.mappers
 
 import com.mikolove.allmightworkout.firebase.model.ExerciseNetworkEntity
+import com.mikolove.allmightworkout.util.DateUtil
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseType
-import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.domain.util.EntityMapper
 
 class ExerciseNetworkMapper
