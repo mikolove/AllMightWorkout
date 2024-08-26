@@ -8,7 +8,7 @@ data class ExerciseNetworkEntity(
     var idExercise: String,
     var name: String,
     var sets: List<ExerciseSetNetworkEntity>?,
-    var bodyPart: BodyPartExerciseNetworkEntity?,
+    var bodyPart: List<BodyPartExerciseNetworkEntity>?,
     var exerciseType: String,
     //Boolean prefixed with is
     @field:JvmField

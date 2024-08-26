@@ -1,11 +1,12 @@
 package com.mikolove.allmightworkout.firebase.implementation
 
 import com.google.firebase.auth.FirebaseAuth
+import com.mikolove.allmightworkout.firebase.abstraction.AuthFirestoreService
 
 class AuthFirestoreServiceImpl
 constructor(
     private val firebaseAuth: FirebaseAuth
-) : com.mikolove.allmightworkout.firebase.abstraction.AuthFirestoreService {
+) : AuthFirestoreService {
 
     override fun isUserAuthenticated()  = firebaseAuth.currentUser != null
 

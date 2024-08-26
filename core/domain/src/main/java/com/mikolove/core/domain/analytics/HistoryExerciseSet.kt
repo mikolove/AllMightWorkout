@@ -1,5 +1,6 @@
 package com.mikolove.core.domain.analytics
 
+import java.time.ZonedDateTime
 import java.util.UUID
 
 data class HistoryExerciseSet(
@@ -8,9 +9,9 @@ data class HistoryExerciseSet(
     var weight: Int,
     var time: Int,
     var restTime: Int,
-    var startedAt: String,
-    var endedAt: String,
-    var createdAt: String,
+    var startedAt: ZonedDateTime,
+    var endedAt: ZonedDateTime,
+    var createdAt: ZonedDateTime,
 ) {
 
     override fun equals(other: Any?): Boolean {

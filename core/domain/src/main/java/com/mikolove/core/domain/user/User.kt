@@ -8,7 +8,7 @@ data class User(
     var idUser : String,
     var name : String? = null,
     var email : String? = null,
-    var workouts : List<Workout>? = null,
+    var workouts : List<Workout> = listOf(),
     var createdAt: ZonedDateTime,
     var updatedAt : ZonedDateTime
 ){

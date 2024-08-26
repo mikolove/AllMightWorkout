@@ -1,13 +1,13 @@
 package com.mikolove.allmightworkout.firebase.mappers
 
 import com.mikolove.allmightworkout.firebase.model.ExerciseSetNetworkEntity
+import com.mikolove.allmightworkout.util.toFirebaseTimestamp
+import com.mikolove.allmightworkout.util.toZoneDateTime
 import com.mikolove.core.domain.exercise.ExerciseSet
-import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.domain.util.EntityMapper
 
 class ExerciseSetNetworkMapper
 constructor(
-    private val dateUtil: DateUtil
 ) : EntityMapper<ExerciseSetNetworkEntity, ExerciseSet> {
 
     override fun mapFromEntity(entity: ExerciseSetNetworkEntity): ExerciseSet {
@@ -20,8 +20,8 @@ constructor(
             order = entity.order,
             startedAt = null,
             endedAt = null,
-            createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
-            updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt)
+            createdAt = entity.createdAt.toZoneDateTime(),
+            updatedAt = entity.updatedAt.toZoneDateTime()
         )
     }
 
@@ -33,8 +33,8 @@ constructor(
             time = domainModel.time,
             restTime = domainModel.restTime,
             order = domainModel.order,
-            createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
+            createdAt = domainModel.createdAt.toFirebaseTimestamp(),
+            updatedAt = domainModel.updatedAt.toFirebaseTimestamp()
         )
     }
 }

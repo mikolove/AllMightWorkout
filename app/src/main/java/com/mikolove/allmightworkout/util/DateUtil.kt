@@ -4,7 +4,9 @@ import com.google.firebase.Timestamp
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Date
 
+//Firebase Domain Model
 fun ZonedDateTime.toFirebaseTimestamp() : Timestamp{
     return Timestamp(this.toInstant())
 }

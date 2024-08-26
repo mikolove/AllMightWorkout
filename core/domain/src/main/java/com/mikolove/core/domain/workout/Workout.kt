@@ -9,7 +9,7 @@ data class Workout(
     var name: String,
     var exercises: List<Exercise> = listOf(),
     var isActive: Boolean = true,
-    var exerciseIdsUpdatedAt : String? = null,
+    var exerciseIdsUpdatedAt : ZonedDateTime? = null,
     var startedAt: ZonedDateTime? = null,
     var endedAt: ZonedDateTime? = null,
     var groups: List<Group> = listOf(),

@@ -1,21 +1,20 @@
 package com.mikolove.allmightworkout.firebase.mappers
 
 import com.mikolove.allmightworkout.firebase.model.GroupNetworkEntity
-import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.allmightworkout.util.toFirebaseTimestamp
+import com.mikolove.allmightworkout.util.toZoneDateTime
 import com.mikolove.core.domain.util.EntityMapper
 import com.mikolove.core.domain.workout.Group
 
-class GroupNetworkMapper(
-    private val dateUtil: DateUtil
-) : EntityMapper<GroupNetworkEntity, Group> {
+class GroupNetworkMapper : EntityMapper<GroupNetworkEntity, Group> {
 
     override fun mapFromEntity(entity: GroupNetworkEntity): Group {
         return Group(
             idGroup = entity.idWorkoutGroup,
             name = entity.name,
             workouts = listOf(),
-            createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
-            updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt),
+            createdAt = entity.createdAt.toZoneDateTime(),
+            updatedAt = entity.updatedAt.toZoneDateTime(),
         )
     }
 
@@ -23,8 +22,8 @@ class GroupNetworkMapper(
         return GroupNetworkEntity(
             idWorkoutGroup = domainModel.idGroup,
             name = domainModel.name,
-            createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
+            createdAt = domainModel.createdAt.toFirebaseTimestamp(),
+            updatedAt = domainModel.updatedAt.toFirebaseTimestamp()
         )
     }
 

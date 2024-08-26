@@ -13,7 +13,6 @@ data class HistoryExerciseSetNetworkEntity(
     var startedAt: Timestamp,
     var endedAt: Timestamp,
     var createdAt: Timestamp,
-    var updatedAt: Timestamp
 ) {
 
     constructor() : this(
@@ -22,7 +21,6 @@ data class HistoryExerciseSetNetworkEntity(
         0,
         0,
         0,
-        Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),

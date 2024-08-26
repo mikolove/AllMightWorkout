@@ -7,22 +7,20 @@ data class HistoryExerciseNetworkEntity(
     @DocumentId
     var idHistoryExercise: String,
     var name: String,
-    var bodyPart: String,
+    var bodyPart: List<String>,
     var workoutType: String,
     var exerciseType: String,
     var startedAt: Timestamp,
     var endedAt: Timestamp,
-    var createdAt: Timestamp,
-    var updatedAt: Timestamp
+    var createdAt: Timestamp
 ) {
 
     constructor() : this(
         "",
         "",
+        listOf(),
         "",
         "",
-        "",
-        Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),

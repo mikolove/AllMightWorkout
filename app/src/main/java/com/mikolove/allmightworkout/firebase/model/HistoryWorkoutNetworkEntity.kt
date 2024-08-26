@@ -10,13 +10,11 @@ data class HistoryWorkoutNetworkEntity(
     var startedAt: Timestamp,
     var endedAt: Timestamp,
     var createdAt: Timestamp,
-    var updatedAt: Timestamp
 ) {
 
     constructor() : this(
         "",
         "",
-        Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),

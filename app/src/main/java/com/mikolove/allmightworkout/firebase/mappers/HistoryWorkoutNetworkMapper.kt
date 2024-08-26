@@ -1,13 +1,13 @@
 package com.mikolove.allmightworkout.firebase.mappers
 
 import com.mikolove.allmightworkout.firebase.model.HistoryWorkoutNetworkEntity
+import com.mikolove.allmightworkout.util.toFirebaseTimestamp
+import com.mikolove.allmightworkout.util.toZoneDateTime
 import com.mikolove.core.domain.analytics.HistoryWorkout
-import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.domain.util.EntityMapper
 
 class HistoryWorkoutNetworkMapper
 constructor(
-    private val dateUtil: DateUtil
 ) : EntityMapper<HistoryWorkoutNetworkEntity, HistoryWorkout> {
 
     override fun mapFromEntity(entity: HistoryWorkoutNetworkEntity): HistoryWorkout {
@@ -15,11 +15,10 @@ constructor(
         return HistoryWorkout(
             idHistoryWorkout = entity.idHistoryWorkout,
             name = entity.name,
-            historyExercises = null,
-            startedAt = dateUtil.convertFirebaseTimestampToStringData(entity.startedAt),
-            endedAt = dateUtil.convertFirebaseTimestampToStringData(entity.endedAt),
-            createdAt = dateUtil.convertFirebaseTimestampToStringData(entity.createdAt),
-            updatedAt = dateUtil.convertFirebaseTimestampToStringData(entity.updatedAt)
+            historyExercises = listOf(),
+            startedAt = entity.startedAt.toZoneDateTime(),
+            endedAt = entity.endedAt.toZoneDateTime(),
+            createdAt = entity.createdAt.toZoneDateTime(),
         )
     }
 
@@ -27,10 +26,9 @@ constructor(
         return HistoryWorkoutNetworkEntity(
             idHistoryWorkout = domainModel.idHistoryWorkout,
             name = domainModel.name,
-            startedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.startedAt),
-            endedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.endedAt),
-            createdAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToFirebaseTimestamp(domainModel.updatedAt)
-        )
+            startedAt = domainModel.startedAt.toFirebaseTimestamp(),
+            endedAt = domainModel.endedAt.toFirebaseTimestamp(),
+            createdAt = domainModel.createdAt.toFirebaseTimestamp(),
+            )
     }
 }

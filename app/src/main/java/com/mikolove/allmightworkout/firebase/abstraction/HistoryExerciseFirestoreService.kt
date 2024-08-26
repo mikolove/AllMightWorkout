@@ -6,8 +6,8 @@ interface HistoryExerciseFirestoreService {
 
     suspend fun insertHistoryExercise(historyExercise: HistoryExercise, idHistoryWorkout: String)
 
-    suspend fun getHistoryExerciseByHistoryWorkoutId(workoutId: String) : List<HistoryExercise>
+    suspend fun getHistoryExercisesById(idHistoryWorkout: String) : List<HistoryExercise>
 
-    suspend fun getHistoryExerciseById(primaryKey: String, idHistoryWorkout: String) : HistoryExercise?
+    suspend fun getHistoryExerciseById(idHistoryExercise: String, idHistoryWorkout: String) : HistoryExercise?
 
 }
