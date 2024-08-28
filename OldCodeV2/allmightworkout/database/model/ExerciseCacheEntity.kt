@@ -55,3 +55,47 @@ data class ExerciseCacheEntity(
 
     }
 }
+
+data class ExerciseWithSetsCacheEntity(
+    @Embedded
+    val exerciseCacheEntity : ExerciseCacheEntity,
+
+    @Relation(
+        entity = BodyPartCacheEntity::class,
+        parentColumn = "fk_id_body_part",
+        entityColumn = "id_body_part"
+    )
+    val bodyPartCacheEntity : BodyPartCacheEntity?,
+
+    @Relation(
+        entity = ExerciseSetCacheEntity::class,
+        parentColumn = "id_exercise",
+        entityColumn = "fk_id_exercise")
+    val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>?
+)
+
+/*
+data class ExerciseWithWorkoutsCacheEntity(
+
+    @Embedded
+    val exerciseCacheEntity: ExerciseCacheEntity,
+
+    @Relation(
+        parentColumn = "fk_id_body_part",
+        entityColumn = "id_body_part"
+    )
+    val bodyPartCacheEntity : BodyPartCacheEntity,
+
+    @Relation(
+        parentColumn = "id_exercise",
+        entityColumn = "fk_id_exercise")
+    val listOfExerciseSetCacheEntity : List<ExerciseSetCacheEntity>,
+
+    @Relation(
+        parentColumn = "id_exercise",
+        entityColumn = "id_exercise",
+        associateBy = Junction(WorkoutExerciseCacheEntity::class)
+    )
+    val listOfWorkoutsCacheEntity : List<WorkoutCacheEntity>
+)
+*/
