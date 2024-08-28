@@ -1,6 +1,6 @@
 package com.mikolove.core.interactors.common
 
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
 
 class GetBodyPartsByWorkoutType
     (val bodyPartCacheDataSource: BodyPartCacheDataSource) {

@@ -1,11 +1,10 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.analytics.HistoryWorkout

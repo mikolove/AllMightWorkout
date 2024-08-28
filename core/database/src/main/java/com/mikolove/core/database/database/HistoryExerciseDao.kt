@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryExerciseWithSetsCacheEntity
+import com.mikolove.core.database.model.HistoryExerciseCacheEntity
+import com.mikolove.core.database.model.HistoryExerciseWithSetsCacheEntity
 
 @Dao
 interface HistoryExerciseDao {

@@ -1,9 +1,9 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.workout.GroupCacheDataSource
+import com.mikolove.core.data.workout.abstraction.GroupCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.domain.workout.GroupNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.GroupNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Group

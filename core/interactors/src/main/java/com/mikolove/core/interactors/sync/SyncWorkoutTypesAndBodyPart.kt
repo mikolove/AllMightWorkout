@@ -1,10 +1,10 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.bodypart.BodyPart

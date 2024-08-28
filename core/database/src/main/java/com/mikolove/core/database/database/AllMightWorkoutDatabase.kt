@@ -3,8 +3,8 @@ package com.mikolove.core.database.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mikolove.allmightworkout.framework.datasource.cache.model.*
-import com.mikolove.allmightworkout.framework.datasource.cache.util.DateConverter
+import com.mikolove.core.database.model.*
+import com.mikolove.core.database.util.DateConverter
 
 @Database(entities = [
     UserCacheEntity::class,

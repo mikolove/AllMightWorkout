@@ -3,9 +3,9 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_EXERCISESET_EXCEPTION
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.exercise.UpdateExerciseSet.Companion.UPDATE_EXERCISE_SET_FAILED
@@ -13,7 +13,6 @@ import com.mikolove.core.interactors.exercise.UpdateExerciseSet.Companion.UPDATE
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.interactors.exercise.UpdateExerciseSet
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

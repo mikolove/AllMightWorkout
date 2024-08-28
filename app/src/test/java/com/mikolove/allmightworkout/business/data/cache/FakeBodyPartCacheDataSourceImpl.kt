@@ -1,9 +1,10 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.database.database.BODYPART_PAGINATION_PAGE_SIZE
 import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.workouttype.WorkoutType
-import com.mikolove.allmightworkout.framework.datasource.cache.database.BODYPART_PAGINATION_PAGE_SIZE
+
 
 
 const val FORCE_NEW_BODYPART_EXCEPTION = "FORCE_NEW_BODYPART_EXCEPTION"

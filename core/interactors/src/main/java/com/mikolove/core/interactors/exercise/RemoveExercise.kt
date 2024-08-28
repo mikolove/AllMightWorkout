@@ -1,6 +1,6 @@
 package com.mikolove.core.interactors.exercise
 
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
 
 class RemoveExercise<ViewState>(

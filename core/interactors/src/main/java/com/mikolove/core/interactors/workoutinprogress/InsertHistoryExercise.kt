@@ -1,6 +1,6 @@
 package com.mikolove.core.interactors.workoutinprogress
 
-import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 
 class InsertHistoryExercise(

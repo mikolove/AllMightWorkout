@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_WORKOUTTYPE_EXCEPTION
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.common.GetWorkoutTypes.Companion.GET_WORKOUTTYPES_NO_MATCHING_RESULTS

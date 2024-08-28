@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.history
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_HISTORY_WORKOUT_BY_ID_EXCEPTION
-import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.analytics.GetHistoryWorkoutDetail.Companion.GET_HISTORY_WORKOUT_DETAIL_SUCCESS

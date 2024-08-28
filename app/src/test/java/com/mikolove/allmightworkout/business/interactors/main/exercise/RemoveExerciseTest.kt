@@ -2,9 +2,9 @@ package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_EXERCISE_EXCEPTION
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.DataState
@@ -13,7 +13,6 @@ import com.mikolove.core.interactors.exercise.RemoveExercise.Companion.DELETE_EX
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseViewState
-import com.mikolove.core.interactors.exercise.RemoveExercise
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

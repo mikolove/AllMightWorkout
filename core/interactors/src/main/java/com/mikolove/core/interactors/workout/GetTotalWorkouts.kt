@@ -1,7 +1,7 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.state.*
 import kotlinx.coroutines.Dispatchers.IO
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class GetTotalWorkouts(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
 
-) {
+    ) {
 
     fun execute(
         idUser : String

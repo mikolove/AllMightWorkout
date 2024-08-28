@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network
 
-import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeNetworkDataSource
 import com.mikolove.core.domain.workouttype.WorkoutType
 
 class FakeWorkoutTypeNetworkDataSourceImpl(

@@ -1,7 +1,7 @@
 package com.mikolove.core.interactors.common
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_PAGINATION_PAGE_SIZE

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mikolove.allmightworkout.framework.datasource.cache.model.UserCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.UserWithWorkoutAndExerciseCacheEntity
+import com.mikolove.core.database.model.UserCacheEntity
+import com.mikolove.core.database.model.UserWithWorkoutAndExerciseCacheEntity
 
 @Dao
 interface UserDao {

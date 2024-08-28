@@ -2,8 +2,8 @@ package com.mikolove.allmightworkout.business.interactors.main.workout
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_WORKOUT_EXCEPTION
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
-import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
 import com.mikolove.core.domain.workout.WorkoutFactory
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.workout.UpdateWorkout.Companion.UPDATE_WORKOUT_FAILED
@@ -11,7 +11,6 @@ import com.mikolove.core.interactors.workout.UpdateWorkout.Companion.UPDATE_WORK
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
-import com.mikolove.core.interactors.workout.UpdateWorkout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.HistoryWorkoutWithExercisesCacheEntity
+import com.mikolove.core.database.model.HistoryWorkoutCacheEntity
+import com.mikolove.core.database.model.HistoryWorkoutWithExercisesCacheEntity
 
 const val HISTORY_WORKOUT_ORDER_ASC: String = ""
 const val HISTORY_WORKOUT_ORDER_DESC: String = "-"

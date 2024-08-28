@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.allmightworkout.framework.datasource.cache.database.WORKOUTTYPE_PAGINATION_PAGE_SIZE
 

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeWithBodyPartCacheEntity
+import com.mikolove.core.database.model.WorkoutTypeCacheEntity
+import com.mikolove.core.database.model.WorkoutTypeWithBodyPartCacheEntity
 
 const val WORKOUTTYPE_ORDER_ASC: String = ""
 const val WORKOUTTYPE_ORDER_DESC: String = "-"

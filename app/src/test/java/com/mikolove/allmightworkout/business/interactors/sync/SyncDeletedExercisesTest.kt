@@ -1,7 +1,7 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.allmightworkout.di.DependencyContainer
 import kotlinx.coroutines.runBlocking

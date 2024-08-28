@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.common.GetTotalBodyPartsByWorkoutType.Companion.GET_TOTAL_BODYPART_BY_WORKOUTTYPE_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

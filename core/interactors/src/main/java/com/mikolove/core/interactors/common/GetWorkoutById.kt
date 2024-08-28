@@ -1,7 +1,7 @@
 package com.mikolove.core.interactors.common
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.state.DataState

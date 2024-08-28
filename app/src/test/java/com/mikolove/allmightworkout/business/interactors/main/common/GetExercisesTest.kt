@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_EXERCISES_EXCEPTION
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.state.DataState

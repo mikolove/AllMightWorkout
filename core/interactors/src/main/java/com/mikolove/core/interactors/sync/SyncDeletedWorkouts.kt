@@ -1,8 +1,8 @@
 package com.mikolove.core.interactors.sync
 
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout

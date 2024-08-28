@@ -1,6 +1,5 @@
 package com.mikolove.allmightworkout.business.data.network
 
-import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
 import com.mikolove.core.domain.analytics.HistoryWorkout
 import com.mikolove.core.domain.util.DateUtil
 import kotlin.collections.ArrayList

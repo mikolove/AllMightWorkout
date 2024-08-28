@@ -2,28 +2,28 @@ package com.mikolove.allmightworkout.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mikolove.core.data.exercise.abstraction.ExerciseService
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.network.abstraction.*
 import com.mikolove.core.network.implementation.*
 import com.mikolove.core.network.mappers.*
-import com.mikolove.core.data.analytics.HistoryExerciseNetworkDataSourceImpl
-import com.mikolove.core.data.analytics.HistoryExerciseSetNetworkDataSourceImpl
-import com.mikolove.core.data.analytics.HistoryWorkoutNetworkDataSourceImpl
-import com.mikolove.core.data.exercise.ExerciseNetworkDateSourceImpl
-import com.mikolove.core.data.exercise.ExerciseSetNetworkDataSourceImpl
-import com.mikolove.core.data.user.UserNetworkDataSourceImpl
-import com.mikolove.core.data.workout.GroupNetworkDataSourceImpl
-import com.mikolove.core.data.workout.WorkoutNetworkDataSourceImpl
-import com.mikolove.core.data.workouttype.WorkoutTypeNetworkDataSourceImpl
-import com.mikolove.core.domain.analytics.HistoryExerciseNetworkDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseSetNetworkDataSource
-import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
-import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
-import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
-import com.mikolove.core.domain.user.UserNetworkDataSource
-import com.mikolove.core.domain.workout.GroupNetworkDataSource
-import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
+import com.mikolove.core.data.exercise.implementation.ExerciseNetworkDateSourceImpl
+import com.mikolove.core.data.exercise.implementation.ExerciseSetNetworkDataSourceImpl
+import com.mikolove.core.data.user.implementation.UserNetworkDataSourceImpl
+import com.mikolove.core.data.workout.implementation.GroupNetworkDataSourceImpl
+import com.mikolove.core.data.workout.implementation.WorkoutNetworkDataSourceImpl
+import com.mikolove.core.data.workouttype.implementation.WorkoutTypeNetworkDataSourceImpl
+import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetService
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeNetworkService
+import com.mikolove.core.data.user.abstraction.UserService
+import com.mikolove.core.data.user.abstraction.UserNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.GroupFirestoreService
+import com.mikolove.core.data.workout.abstraction.WorkoutFirestoreService
+import com.mikolove.core.data.workout.abstraction.GroupNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -115,7 +115,7 @@ object NetworkModule {
                                      workoutNetworkMapper: WorkoutNetworkMapper,
                                      exerciseNetworkMapper: ExerciseNetworkMapper,
                                      dateUtil: DateUtil
-    ) : com.mikolove.allmightworkout.firebase.abstraction.UserFirestoreService {
+    ) : UserService {
         return UserFirestoreServiceImpl(
             firebaseAuth,
             firestore,
@@ -128,14 +128,14 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil) : com.mikolove.allmightworkout.firebase.abstraction.WorkoutFirestoreService {
+    fun provideWorkoutFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, workoutNetworkMapper : WorkoutNetworkMapper, exerciseNetworkMapper : ExerciseNetworkMapper, dateUtil: DateUtil) : WorkoutFirestoreService {
         return WorkoutFirestoreServiceImpl(firebaseAuth,firestore  ,workoutNetworkMapper  ,exerciseNetworkMapper, dateUtil )
     }
 
     @Singleton
     @Provides
-    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : com.mikolove.allmightworkout.firebase.abstraction.ExerciseFirestoreService {
-        return com.mikolove.allmightworkout.firebase.implementation.ExerciseFirestoreServiceImpl(
+    fun provideExerciseFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore, exerciseNetworkMapper: ExerciseNetworkMapper, exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseService {
+        return com.mikolove.allmightworkout.firebase.implementation.ExerciseFirestoreService(
             firebaseAuth,
             firestore,
             exerciseNetworkMapper,
@@ -147,8 +147,8 @@ object NetworkModule {
     @Provides
     fun provideExerciseSetFirestoreService( firebaseAuth : FirebaseAuth, firestore : FirebaseFirestore,
                                             exerciseNetworkMapper: ExerciseNetworkMapper,
-                                            exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : com.mikolove.allmightworkout.firebase.abstraction.ExerciseSetFirestoreService {
-        return com.mikolove.allmightworkout.firebase.implementation.ExerciseSetFirestoreServiceImpl(
+                                            exerciseSetNetworkMapper: ExerciseSetNetworkMapper ) : ExerciseSetService {
+        return com.mikolove.allmightworkout.firebase.implementation.ExerciseFirestoreService(
             firebaseAuth,
             firestore,
             exerciseNetworkMapper,
@@ -158,7 +158,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper, bodyPartNetworkMapper: BodyPartNetworkMapper) : com.mikolove.allmightworkout.firebase.abstraction.WorkoutTypeFirestoreService {
+    fun provideWorkoutTypeFirestoreService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore, workoutTypeNetworkMapper: WorkoutTypeNetworkMapper, bodyPartNetworkMapper: BodyPartNetworkMapper) : WorkoutTypeNetworkService {
         return WorkoutTypeFirestoreServiceImpl(firebaseAuth,firestore,workoutTypeNetworkMapper,bodyPartNetworkMapper)
     }
 
@@ -192,8 +192,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGroupFirestoreService(firebaseAuth: FirebaseAuth, firestore:FirebaseFirestore, groupNetworkMapper: GroupNetworkMapper, dateUtil: DateUtil) : com.mikolove.allmightworkout.firebase.abstraction.GroupFirestoreService {
-        return com.mikolove.allmightworkout.firebase.implementation.GroupFirestoreServiceImpl(
+    fun provideGroupFirestoreService(firebaseAuth: FirebaseAuth, firestore:FirebaseFirestore, groupNetworkMapper: GroupNetworkMapper, dateUtil: DateUtil) : GroupFirestoreService {
+        return com.mikolove.allmightworkout.firebase.implementation.GroupFirestoreService(
             firebaseAuth,
             firestore,
             groupNetworkMapper,
@@ -207,31 +207,31 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGroupNetworkDataSource(groupFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.GroupFirestoreService) : GroupNetworkDataSource {
+    fun provideGroupNetworkDataSource(groupFirestoreService: GroupFirestoreService) : GroupNetworkDataSource {
         return GroupNetworkDataSourceImpl(groupFirestoreService)
     }
     @Singleton
     @Provides
-    fun provideWorkoutTypeNetworkDataSource( workoutTypeFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.WorkoutTypeFirestoreService) : WorkoutTypeNetworkDataSource {
-        return WorkoutTypeNetworkDataSourceImpl(workoutTypeFirestoreService)
+    fun provideWorkoutTypeNetworkDataSource(workoutTypeNetworkService: WorkoutTypeNetworkService) : WorkoutTypeNetworkDataSource {
+        return WorkoutTypeNetworkDataSourceImpl(workoutTypeNetworkService)
     }
 
     @Singleton
     @Provides
-    fun provideWorkoutNetworkDataSource( workoutFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.WorkoutFirestoreService) : WorkoutNetworkDataSource {
+    fun provideWorkoutNetworkDataSource( workoutFirestoreService: WorkoutFirestoreService) : WorkoutNetworkDataSource {
         return WorkoutNetworkDataSourceImpl(workoutFirestoreService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseNetworkDataSource( exerciseFirestoreService : com.mikolove.allmightworkout.firebase.abstraction.ExerciseFirestoreService) : ExerciseNetworkDataSource {
-        return ExerciseNetworkDateSourceImpl(exerciseFirestoreService)
+    fun provideExerciseNetworkDataSource(exerciseService : ExerciseService) : ExerciseNetworkDataSource {
+        return ExerciseNetworkDateSourceImpl(exerciseService)
     }
 
     @Singleton
     @Provides
-    fun provideExerciseSetNetworkDataSource( exerciseSetFirestoreService: com.mikolove.allmightworkout.firebase.abstraction.ExerciseSetFirestoreService) : ExerciseSetNetworkDataSource {
-        return ExerciseSetNetworkDataSourceImpl(exerciseSetFirestoreService)
+    fun provideExerciseSetNetworkDataSource(exerciseSetService: ExerciseSetService) : ExerciseSetNetworkDataSource {
+        return ExerciseSetNetworkDataSourceImpl(exerciseSetService)
     }
 
     @Singleton
@@ -254,7 +254,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUserNetworkDataSource( userNetworkFireStoreService: com.mikolove.allmightworkout.firebase.abstraction.UserFirestoreService) : UserNetworkDataSource {
+    fun provideUserNetworkDataSource( userNetworkFireStoreService: UserService) : UserNetworkDataSource {
         return UserNetworkDataSourceImpl(userNetworkFireStoreService)
     }
 }

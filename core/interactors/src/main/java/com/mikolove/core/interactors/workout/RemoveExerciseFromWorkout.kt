@@ -1,10 +1,10 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
-import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

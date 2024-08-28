@@ -3,9 +3,9 @@ package com.mikolove.allmightworkout.business.interactors.main.workoutinprogress
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_HISTORY_EXERCISE_EXCEPTION
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.workoutinprogress.InsertHistoryExercise.Companion.INSERT_HISTORY_EXERCISE_FAILED

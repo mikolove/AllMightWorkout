@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GET_WORKOUT_BY_ID_EXCEPTION
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.common.GetWorkoutById.Companion.GET_WORKOUT_BY_ID_SUCCESS

@@ -1,13 +1,12 @@
 package com.mikolove.core.database.database
 
 import androidx.room.Dao
-import androidx.room.Ignore
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseCacheEntity
-import com.mikolove.allmightworkout.framework.datasource.cache.model.ExerciseWithSetsCacheEntity
-import java.util.*
+import com.mikolove.core.database.model.ExerciseCacheEntity
+import com.mikolove.core.database.model.ExerciseWithSetsCacheEntity
+import java.util.Date
 
 
 const val EXERCISE_ORDER_ASC: String = ""

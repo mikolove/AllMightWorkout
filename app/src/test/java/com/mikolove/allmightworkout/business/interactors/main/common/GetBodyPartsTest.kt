@@ -2,7 +2,7 @@ package com.mikolove.allmightworkout.business.interactors.main.common
 
 import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_SEARCH_BODYPART_EXCEPTION
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.common.GetBodyParts.Companion.GET_BODYPARTS_NO_MATCHING_RESULTS

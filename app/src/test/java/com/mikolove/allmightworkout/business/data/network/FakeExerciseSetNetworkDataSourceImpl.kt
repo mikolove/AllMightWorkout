@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network
 
-import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseSet
 

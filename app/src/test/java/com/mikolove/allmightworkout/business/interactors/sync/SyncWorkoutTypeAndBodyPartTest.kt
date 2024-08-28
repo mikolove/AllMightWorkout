@@ -1,8 +1,8 @@
 package com.mikolove.allmightworkout.business.interactors.sync
 
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeNetworkDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeNetworkDataSource
 import com.mikolove.core.domain.bodypart.BodyPartFactory
 import com.mikolove.core.domain.workouttype.WorkoutTypeFactory
 import com.mikolove.allmightworkout.di.DependencyContainer

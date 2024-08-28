@@ -4,11 +4,11 @@ import com.mikolove.core.domain.cache.CacheErrors
 import com.mikolove.allmightworkout.business.data.cache.FORCE_GENERAL_FAILURE
 import com.mikolove.allmightworkout.business.data.cache.FORCE_NEW_ADD_EXERCISE_WORKOUT_EXCEPTION
 import com.mikolove.allmightworkout.business.data.cache.FORCE_UPDATE_WORKOUT_EXERCISE_IDS_EXCEPTION
-import com.mikolove.core.domain.bodypart.BodyPartCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.workout.WorkoutCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseNetworkDataSource
-import com.mikolove.core.domain.workout.WorkoutNetworkDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.DataState
@@ -19,7 +19,6 @@ import com.mikolove.core.interactors.workout.AddExerciseToWorkout.Companion.INSE
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutStateEvent.*
 import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutViewState
-import com.mikolove.core.interactors.workout.AddExerciseToWorkout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking

@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.cache
 
-import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.util.DateUtil

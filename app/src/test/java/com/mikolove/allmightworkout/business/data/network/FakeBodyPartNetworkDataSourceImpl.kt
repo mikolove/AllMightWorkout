@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.data.network
 
-import com.mikolove.core.domain.bodypart.BodyPartNetworkDataSource
+import com.mikolove.core.data.bodypart.abstraction.BodyPartNetworkDataSource
 import com.mikolove.core.domain.bodypart.BodyPart
 
 class FakeBodyPartNetworkDataSourceImpl(

@@ -1,16 +1,15 @@
 package com.mikolove.allmightworkout.business.interactors.main.exercise
 
 import com.mikolove.allmightworkout.business.data.cache.FORCE_DELETE_EXERCISESET_EXCEPTION
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.ExerciseSetNetworkDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.util.DateUtil
 import com.mikolove.core.interactors.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_ERRORS
 import com.mikolove.core.interactors.exercise.RemoveMultipleExerciseSet.Companion.DELETE_EXERCISE_SETS_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer
 import com.mikolove.allmightworkout.framework.presentation.main.exercise.state.ExerciseStateEvent.*
-import com.mikolove.core.interactors.exercise.RemoveMultipleExerciseSet
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach

@@ -1,6 +1,6 @@
 package com.mikolove.core.interactors.common
 
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 
 class GetTotalExercises(
     val exerciseCacheDataSource: ExerciseCacheDataSource

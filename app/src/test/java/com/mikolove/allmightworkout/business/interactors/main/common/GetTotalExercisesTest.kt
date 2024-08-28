@@ -1,6 +1,6 @@
 package com.mikolove.allmightworkout.business.interactors.main.common
 
-import com.mikolove.core.domain.exercise.ExerciseCacheDataSource
+import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.interactors.common.GetTotalExercises.Companion.GET_TOTAL_EXERCISES_SUCCESS
 import com.mikolove.allmightworkout.di.DependencyContainer

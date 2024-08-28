@@ -1,13 +1,10 @@
 package com.mikolove.core.interactors.workoutinprogress
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.domain.analytics.HistoryExerciseCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseSetCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryWorkoutCacheDataSource
-import com.mikolove.core.domain.workouttype.WorkoutTypeCacheDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseNetworkDataSource
-import com.mikolove.core.domain.analytics.HistoryExerciseSetNetworkDataSource
-import com.mikolove.core.domain.analytics.HistoryWorkoutNetworkDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.data.analytics.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.allmightworkout.business.domain.model.*
