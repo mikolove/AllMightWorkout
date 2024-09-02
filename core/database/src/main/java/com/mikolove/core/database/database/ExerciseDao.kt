@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.mikolove.core.database.model.ExerciseCacheEntity
 import com.mikolove.core.database.model.ExerciseWithSetsCacheEntity
+import com.mikolove.core.domain.exercise.Exercise
 import java.util.Date
 
 
@@ -51,7 +52,7 @@ interface ExerciseDao{
 
     @Transaction
     @Query("SELECT * FROM exercises WHERE id_exercise = :primaryKey")
-    suspend fun getExerciseById(primaryKey: String) : ExerciseWithSetsCacheEntity?
+    suspend fun getExerciseById(primaryKey: String) : ExerciseCacheEntity?
 
     @Query("SELECT count(*) FROM exercises WHERE fk_id_user = :idUser")
     suspend fun getTotalExercises(idUser : String) : Int
@@ -67,12 +68,12 @@ interface ExerciseDao{
             exercises.fk_id_user,
             exercises.created_at,
             exercises.updated_at
-        FROM exercises, workouts, workouts_exercises 
-        WHERE exercises.id_exercise = workouts_exercises.id_exercise
-        AND workouts_exercises.id_workout = workouts.id_workout
+        FROM exercises, workouts, exercises_sets 
+        WHERE exercises.id_exercise = exercises_sets.id_exercise
+        AND exercises_sets.id_workout = workouts.id_workout
         AND workouts.id_workout = :idWorkout
     """)
-    suspend fun getExercisesByWorkout(idWorkout: String): List<ExerciseWithSetsCacheEntity>?
+    suspend fun getExercisesByWorkout(idWorkout: String): List<ExerciseCacheEntity>?
 
     @Transaction
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
@@ -80,7 +81,7 @@ interface ExerciseDao{
 
     @Transaction
     @Query("SELECT * FROM exercises WHERE id_exercise = :idUser")
-    suspend fun getExercises(idUser : String) : List<ExerciseWithSetsCacheEntity>
+    suspend fun getExercises(idUser : String) : List<ExerciseCacheEntity>
 
     @Transaction
     @Query("""

@@ -1,13 +1,10 @@
 package com.mikolove.core.database.mappers
 
+import com.mikolove.core.database.model.BodyPartCacheEntity
 import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.BodyPartCacheEntity
-import javax.inject.Inject
 
-class BodyPartCacheMapper
-@Inject
-constructor() : EntityMapper<BodyPartCacheEntity, BodyPart> {
+class BodyPartCacheMapper  : EntityMapper<BodyPartCacheEntity, BodyPart> {
 
     override fun mapFromEntity(entity: BodyPartCacheEntity): BodyPart {
         return BodyPart(

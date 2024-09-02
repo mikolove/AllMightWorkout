@@ -57,7 +57,7 @@ data class WorkoutWithExercisesCacheEntity(
         entity = ExerciseCacheEntity::class,
         parentColumn = "id_workout",
         entityColumn = "id_exercise",
-        associateBy = Junction(WorkoutExerciseCacheEntity::class)
+        associateBy = Junction(ExerciseSetCacheEntity::class)
     )
     val listOfExerciseCacheEntity : List<ExerciseWithSetsCacheEntity>?,
 

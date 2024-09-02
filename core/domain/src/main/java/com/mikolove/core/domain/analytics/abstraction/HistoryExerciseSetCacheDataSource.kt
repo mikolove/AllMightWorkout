@@ -9,7 +9,4 @@ interface HistoryExerciseSetCacheDataSource {
     suspend fun getHistoryExerciseSetById(idHistoryExerciseSet : String) : HistoryExerciseSet?
 
     suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet>?
-
-    suspend fun getTotalHistoryExerciseSet(idHistoryExercise: String): Int
-
 }

@@ -4,7 +4,7 @@ import androidx.room.*
 import java.util.*
 
 @Entity(
-    tableName = "workouts_exercises",
+    tableName = "exercises_sets",
     primaryKeys = ["id_workout", "id_exercise","id_exercise_set"],
     foreignKeys = arrayOf(
         ForeignKey(
@@ -21,7 +21,7 @@ import java.util.*
         )
     )
 )
-data class WorkoutExerciseCacheEntity(
+data class ExerciseSetCacheEntity(
 
     @ColumnInfo(name = "id_workout")
     var idWorkout: String,

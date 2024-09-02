@@ -10,8 +10,6 @@ interface HistoryWorkoutCacheService {
 
     suspend fun getHistoryWorkoutById(primaryKey : String) : HistoryWorkout?
 
-    suspend fun getTotalHistoryWorkout(idUser: String) : Int
-
     suspend fun getHistoryWorkouts(idUser: String) : List<HistoryWorkout>
 
     suspend fun getHistoryWorkoutOrderByDateDESC(

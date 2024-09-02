@@ -1,6 +1,8 @@
 package com.mikolove.core.database.model
 
 import androidx.room.*
+import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.ExerciseSet
 import java.util.*
 
 @Entity(
@@ -55,3 +57,15 @@ data class ExerciseCacheEntity(
 
     }
 }
+
+data class ExerciseWithSetsCacheEntity(
+
+    @Embedded val exercise : ExerciseCacheEntity,
+
+    @Relation(
+        parentColumn ="id_exercise",
+        entityColumn = "id_exercise",
+        associateBy = Junction(ExerciseSetCacheEntity::class)
+    )
+    val sets : List<ExerciseSet>
+)

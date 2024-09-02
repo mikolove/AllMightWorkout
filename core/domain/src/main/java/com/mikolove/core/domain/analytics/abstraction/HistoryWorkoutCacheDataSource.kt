@@ -11,6 +11,4 @@ interface HistoryWorkoutCacheDataSource {
     suspend fun getHistoryWorkouts(query : String, filterAndOrder : String, page : Int, idUser : String) : List<HistoryWorkout>
 
     suspend fun getHistoryWorkoutById(historyWorkoutId : String) : HistoryWorkout?
-
-    suspend fun getTotalHistoryWorkout(idUser : String) : Int
 }

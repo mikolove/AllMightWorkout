@@ -24,5 +24,4 @@ constructor(private val historyWorkoutCacheService : HistoryWorkoutCacheService)
 
     override suspend fun getHistoryWorkoutById(historyWorkoutId: String): HistoryWorkout? = historyWorkoutCacheService.getHistoryWorkoutById(historyWorkoutId)
 
-    override suspend fun getTotalHistoryWorkout(idUser : String): Int = historyWorkoutCacheService.getTotalHistoryWorkout(idUser)
 }

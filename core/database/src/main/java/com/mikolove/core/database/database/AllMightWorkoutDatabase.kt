@@ -16,7 +16,6 @@ import com.mikolove.core.database.util.DateConverter
     HistoryWorkoutCacheEntity::class,
     HistoryExerciseCacheEntity::class,
     HistoryExerciseSetCacheEntity::class,
-    WorkoutExerciseCacheEntity::class,
     GroupCacheEntity::class,
     WorkoutGroupCacheEntity::class],
     version = 5,
@@ -32,7 +31,6 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun historyWorkoutDao() : HistoryWorkoutDao
     abstract fun historyExerciseDao() : HistoryExerciseDao
     abstract fun historyExerciseSetDao() : HistoryExerciseSetDao
-    abstract fun workoutExerciseDao() : WorkoutExerciseDao
     abstract fun workoutGroupDao() : GroupDao
     abstract fun groupWithWorkoutDao() : GroupWithWorkoutDao
 

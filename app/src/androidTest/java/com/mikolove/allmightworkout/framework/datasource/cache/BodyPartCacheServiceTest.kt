@@ -78,7 +78,7 @@ class BodyPartCacheServiceTest : BaseTest(){
 
     //    1. a_insertBodyPart_CBS
     @Test
-    fun a_insertBodyPart_CBS() = runBlocking {
+    fun a_upsertBodyPart_CBS() = runBlocking {
 
         val workoutType = createWorkoutType()
         val bodyPart = createBodyPart()

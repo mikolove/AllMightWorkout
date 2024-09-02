@@ -10,6 +10,4 @@ interface HistoryExerciseCacheService {
 
     suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExercise?
 
-    suspend fun getTotalHistoryExercise() : Int
-
 }

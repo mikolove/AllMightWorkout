@@ -9,7 +9,5 @@ interface HistoryExerciseCacheDataSource {
     suspend fun getHistoryExercisesByHistoryWorkout( idHistoryWorkout: String) : List<HistoryExercise>?
 
     suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExercise?
-
-    suspend fun getTotalHistoryExercise() : Int
-
+    
 }
