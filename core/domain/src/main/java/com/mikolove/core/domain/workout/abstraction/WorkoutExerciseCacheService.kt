@@ -2,10 +2,6 @@ package com.mikolove.core.domain.workout.abstraction
 
 interface WorkoutExerciseCacheService {
 
-    //suspend fun getExercisesFromWorkoutId(workoutId: String) : List<Exercise>?
-
-    //suspend fun getWorkoutsFromExerciseId(exerciseId: String) : List<Workout>?
-
     suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Int
 
     suspend fun addExerciseToWorkout(workoutId : String, exerciseId : String) : Long

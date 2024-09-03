@@ -27,16 +27,3 @@ data class BodyPartCacheEntity(
     var idWorkoutType : String?,
 
     ){}
-
-/*
-data class BodyPartWithWorkoutTypeCacheEntity(
-
-    @Embedded
-    val bodyPartCacheEntity : BodyPartCacheEntity,
-
-    @Relation(
-        parentColumn = "fk_id_workout_type",
-        entityColumn = "id_workout_type"
-    )
-    val workoutTypeCacheEntity : WorkoutTypeCacheEntity
-)*/

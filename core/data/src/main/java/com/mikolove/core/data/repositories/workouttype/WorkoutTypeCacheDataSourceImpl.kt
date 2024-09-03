@@ -8,24 +8,14 @@ class WorkoutTypeCacheDataSourceImpl
 constructor( private val workoutTypeDaoService : WorkoutTypeCacheService) :
     WorkoutTypeCacheDataSource {
 
-    override suspend fun insertWorkoutType(workoutType: WorkoutType): Long = workoutTypeDaoService.insertWorkoutType(workoutType)
+    override suspend fun upsertWorkoutType(workoutType: WorkoutType): Long = workoutTypeDaoService.upsertWorkoutType(workoutType)
 
-    override suspend fun updateWorkoutType(idWorkoutType: String, name: String): Int = workoutTypeDaoService.updateWorkoutType(idWorkoutType,name)
-
-    override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String?): WorkoutType? = workoutTypeDaoService.getWorkoutTypeBydBodyPartId(idBodyPart)
+    override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String): WorkoutType = workoutTypeDaoService.getWorkoutTypeBydBodyPartId(idBodyPart)
 
     override suspend fun removeWorkoutType(primaryKey: String): Int = workoutTypeDaoService.removeWorkoutType(primaryKey)
 
-    override suspend fun getWorkoutTypes(
-        query: String,
-        filterAndOrder: String,
-        page: Int
-    ): List<WorkoutType> {
-       return workoutTypeDaoService.returnOrderedQuery(query, filterAndOrder, page)
-    }
+    override suspend fun getWorkoutTypes(): List<WorkoutType> = workoutTypeDaoService.getWorkoutTypes()
 
-    override suspend fun getWorkoutTypeById(primaryKey: String): WorkoutType? = workoutTypeDaoService. getWorkoutTypeById(primaryKey)
-
-    override suspend fun getTotalWorkoutTypes(): Int = workoutTypeDaoService.getTotalWorkoutTypes()
+    override suspend fun getWorkoutTypeById(primaryKey: String): WorkoutType = workoutTypeDaoService. getWorkoutTypeById(primaryKey)
 
 }

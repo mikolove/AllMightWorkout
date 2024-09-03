@@ -4,6 +4,6 @@ import com.mikolove.core.domain.workouttype.WorkoutType
 
 interface   WorkoutTypeNetworkDataSource {
 
-    suspend fun getAllWorkoutTypes(): List<WorkoutType>
+    suspend fun getWorkoutTypes(): List<WorkoutType>
 
 }

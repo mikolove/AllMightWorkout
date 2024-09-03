@@ -76,7 +76,7 @@ class WorkoutTypeCacheServiceTest : BaseTest(){
 
     //    1. a_insertWorkoutType_CBS
     @Test
-    fun a_insertWorkoutType_CBS() = runBlocking {
+    fun a_upsertWorkoutType_CBS() = runBlocking {
 
         val workoutType = createWorkoutType()
 

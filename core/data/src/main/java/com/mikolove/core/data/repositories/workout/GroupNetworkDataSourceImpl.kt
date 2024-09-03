@@ -1,16 +1,17 @@
 package com.mikolove.core.data.repositories.workout
 
+import com.mikolove.core.domain.workout.Group
 import com.mikolove.core.domain.workout.abstraction.GroupNetworkDataSource
 import com.mikolove.core.domain.workout.abstraction.GroupNetworkService
-import com.mikolove.core.domain.workout.Group
 
 class GroupNetworkDataSourceImpl(
     private val groupNetworkService : GroupNetworkService
 ) : GroupNetworkDataSource {
-    override suspend fun getWorkoutGroups(): List<Group> = groupNetworkService.getWorkoutGroups()
 
-    override suspend fun insertWorkoutGroup(group: Group) = groupNetworkService.insertWorkoutGroup(group)
+    override suspend fun deleteGroup(idGroup: String) = groupNetworkService.deleteWorkoutGroup(idGroup)
 
-    override suspend fun updateWorkoutGroup(group: Group) = groupNetworkService.updateWorkoutGroup(group)
-    override suspend fun deleteWorkoutGroup(group: Group) = groupNetworkService.deleteWorkoutGroup(group)
+    override suspend fun getGroups(): List<Group> = groupNetworkService.getWorkoutGroups()
+
+    override suspend fun upsertGroup(group: Group) = groupNetworkService.upsertGroup(group)
+
 }

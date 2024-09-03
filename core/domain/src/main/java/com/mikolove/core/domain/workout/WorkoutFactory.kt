@@ -21,7 +21,6 @@ class WorkoutFactory{
             isActive = isActive,
             startedAt = null,
             endedAt = null,
-            exerciseIdsUpdatedAt = null,
             groups = collection,
             createdAt = zdt,
             updatedAt = zdt

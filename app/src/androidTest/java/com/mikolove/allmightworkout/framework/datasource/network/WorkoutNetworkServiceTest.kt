@@ -98,7 +98,7 @@ class WorkoutNetworkServiceTest : BaseTest() {
 
 
     @Test
-    fun a_insertWorkout_CBS() = runBlocking{
+    fun a_upsertWorkout_CBS() = runBlocking{
 
         val workout = workoutFactory.createWorkout(
             idWorkout = UUID.randomUUID().toString(),

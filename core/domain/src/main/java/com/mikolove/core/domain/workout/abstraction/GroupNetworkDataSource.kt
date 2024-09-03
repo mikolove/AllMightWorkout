@@ -4,12 +4,9 @@ import com.mikolove.core.domain.workout.Group
 
 interface GroupNetworkDataSource {
 
-    suspend fun getWorkoutGroups() : List<Group>
+    suspend fun upsertGroup(group: Group)
 
-    suspend fun insertWorkoutGroup(group: Group)
+    suspend fun deleteGroup(idGroup : String)
 
-    suspend fun updateWorkoutGroup(group: Group)
-
-    suspend fun deleteWorkoutGroup(group : Group)
-
+    suspend fun getGroups() : List<Group>
 }

@@ -9,7 +9,6 @@ data class Workout(
     var name: String,
     var exercises: List<Exercise> = listOf(),
     var isActive: Boolean = true,
-    var exerciseIdsUpdatedAt : ZonedDateTime? = null,
     var startedAt: ZonedDateTime? = null,
     var endedAt: ZonedDateTime? = null,
     var groups: List<Group> = listOf(),
@@ -32,7 +31,6 @@ data class Workout(
         result = 31 * result + name.hashCode()
         result = 31 * result + (exercises.hashCode())
         result = 31 * result + isActive.hashCode()
-        result = 31 * result + (exerciseIdsUpdatedAt?.hashCode() ?: 0)
         result = 31 * result + (groups.hashCode())
         result = 31 * result + (startedAt?.hashCode() ?: 0)
         result = 31 * result + (endedAt?.hashCode() ?: 0)
@@ -51,7 +49,6 @@ data class Workout(
         if (exercises != other.exercises) return false
         if (groups != other.groups) return false
         if (isActive != other.isActive) return false
-        if (exerciseIdsUpdatedAt != other.exerciseIdsUpdatedAt) return false
         if (startedAt != other.startedAt) return false
         if (endedAt != other.endedAt) return false
         if (createdAt != other.createdAt) return false

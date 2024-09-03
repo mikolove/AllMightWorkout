@@ -4,26 +4,10 @@ import com.mikolove.core.domain.exercise.ExerciseSet
 
 interface ExerciseSetCacheService {
 
-    suspend fun insertExerciseSet(exerciseSet: ExerciseSet, idExercise: String) : Long
+    suspend fun upsertExerciseSet(exerciseSet: ExerciseSet, idExercise: String, idWorkout: String) : Long
 
-    suspend fun updateExerciseSet(
-        primaryKey: String,
-        reps: Int,
-        weight: Int,
-        time: Int,
-        restTime: Int,
-        order: Int,
-        updatedAt: String,
-        idExercise: String
-    ) : Int
+    suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>,idExercise: String,idWorkout: String) : Int
 
-    suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>) : Int
+    suspend fun getExerciseSetByIdExercise(idExercise: String, idWorkout: String): List<ExerciseSet>
 
-    suspend fun removeExerciseSetById(primaryKey :String, idExercise: String) : Int
-
-    suspend fun getExerciseSetById(primaryKey: String, idExercise: String) : ExerciseSet?
-
-    suspend fun getExerciseSetByIdExercise(idExercise: String): List<ExerciseSet>
-
-    suspend fun getTotalExercisesSetByExercise(idExercise: String) : Int
 }

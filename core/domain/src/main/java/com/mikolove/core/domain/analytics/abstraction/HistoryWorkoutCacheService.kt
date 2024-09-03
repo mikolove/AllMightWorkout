@@ -12,34 +12,4 @@ interface HistoryWorkoutCacheService {
 
     suspend fun getHistoryWorkouts(idUser: String) : List<HistoryWorkout>
 
-    suspend fun getHistoryWorkoutOrderByDateDESC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<HistoryWorkout>
-
-    suspend fun getHistoryWorkoutOrderByDateASC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<HistoryWorkout>
-
-    suspend fun getHistoryWorkoutOrderByNameDESC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<HistoryWorkout>
-
-    suspend fun getHistoryWorkoutOrderByNameASC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<HistoryWorkout>
-
-    suspend fun returnOrderedQuery(
-        query: String,
-        filterAndOrder: String,
-        page: Int,
-        idUser: String
-    ): List<HistoryWorkout>
 }

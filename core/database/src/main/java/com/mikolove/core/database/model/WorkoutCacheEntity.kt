@@ -1,7 +1,7 @@
 package com.mikolove.core.database.model
 
 import androidx.room.*
-import java.util.*
+import java.time.ZonedDateTime
 
 @Entity(
     tableName = "workouts",
@@ -26,17 +26,14 @@ data class WorkoutCacheEntity(
     @ColumnInfo(name = "is_active")
     var isActive: Boolean,
 
-    @ColumnInfo(name = "exercise_ids_updated_at")
-    var exerciseIdsUpdatedAt: Date?,
-
     @ColumnInfo(name = "fk_id_user", index = true)
     var idUser: String? = null,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var createdAt: Date,
+    var createdAt: ZonedDateTime,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updatedAt: Date
+    var updatedAt: ZonedDateTime
 ){
 
     companion object{

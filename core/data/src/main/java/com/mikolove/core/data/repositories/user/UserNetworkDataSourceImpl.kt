@@ -8,9 +8,7 @@ class UserNetworkDataSourceImpl(
     private val userNetworkService : UserNetworkService
 ) : UserNetworkDataSource {
 
-    override suspend fun insertUser(user: User) = userNetworkService.insertUser(user)
-
-    override suspend fun updateName(name: String) = userNetworkService.updateName(name)
+    override suspend fun upsertUser(user: User) = userNetworkService.upsertUser(user)
 
     override suspend fun getUser(primaryKey: String): User? = userNetworkService.getUser(primaryKey)
 

@@ -1,8 +1,8 @@
 package com.mikolove.core.database.mappers
 
-import com.mikolove.core.domain.workouttype.WorkoutType
+import com.mikolove.core.database.model.WorkoutTypeCacheEntity
 import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeCacheEntity
+import com.mikolove.core.domain.workouttype.WorkoutType
 
 class WorkoutTypeCacheMapper
 constructor() : EntityMapper<WorkoutTypeCacheEntity, WorkoutType> {
@@ -11,7 +11,7 @@ constructor() : EntityMapper<WorkoutTypeCacheEntity, WorkoutType> {
         return WorkoutType(
             idWorkoutType = entity.idWorkoutType,
             name = entity.name,
-            bodyParts = null
+            bodyParts = listOf()
         )
     }
 

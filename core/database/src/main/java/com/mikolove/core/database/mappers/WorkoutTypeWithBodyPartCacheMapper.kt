@@ -1,9 +1,8 @@
 package com.mikolove.core.database.mappers
 
-import com.mikolove.core.domain.bodypart.BodyPart
-import com.mikolove.core.domain.workouttype.WorkoutType
+import com.mikolove.core.database.model.WorkoutTypeWithBodyPartCacheEntity
 import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutTypeWithBodyPartCacheEntity
+import com.mikolove.core.domain.workouttype.WorkoutType
 
 class WorkoutTypeWithBodyPartCacheMapper
 constructor(
@@ -13,18 +12,12 @@ constructor(
 
     override fun mapFromEntity(entity: WorkoutTypeWithBodyPartCacheEntity): WorkoutType {
 
-        var workoutType = workoutTypeCacheMapper.mapFromEntity(entity.workoutTypeCacheEntity)
-        var bodyParts : List<BodyPart>?
-        if(!entity.listOfBodyPartCacheEntity.isNullOrEmpty()){
-            bodyParts = entity.listOfBodyPartCacheEntity.let {
-                    bodyPartCacheMapper.entityListToDomainList(it)
-                }
+        val workoutType = workoutTypeCacheMapper.mapFromEntity(entity.workoutTypeCacheEntity)
+        workoutType.bodyParts = if(!entity.listOfBodyPartCacheEntity.isNullOrEmpty()){
+            bodyPartCacheMapper.entityListToDomainList(entity.listOfBodyPartCacheEntity)
         }else{
-            bodyParts = null
+            listOf()
         }
-
-        workoutType.bodyParts = bodyParts
-
         return workoutType
     }
 

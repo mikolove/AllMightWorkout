@@ -4,9 +4,7 @@ import com.mikolove.core.domain.user.User
 
 interface UserCacheDataSource {
 
-    suspend fun insertUser(user : User) : Long
-
-    suspend fun updateName(name : String,primaryKey: String) : Int
-
+    suspend fun upsertUser(user : User) : Long
+    
     suspend fun getUser(primaryKey : String) : User?
 }

@@ -4,9 +4,7 @@ import com.mikolove.core.domain.user.User
 
 interface UserNetworkDataSource {
 
-    suspend fun insertUser(user : User)
-
-    suspend fun updateName(name : String)
+    suspend fun upsertUser(user : User)
 
     suspend fun getUser(primaryKey: String) : User?
 }

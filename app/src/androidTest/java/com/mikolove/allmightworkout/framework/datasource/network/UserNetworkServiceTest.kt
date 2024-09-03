@@ -87,7 +87,7 @@ class UserNetworkServiceTest : BaseTest(){
     }
 
     @Test
-    fun a_insertUser_CBS() = runBlocking {
+    fun a_upsertUser_CBS() = runBlocking {
 
         val userId = firebaseAuth.currentUser?.uid
         if (userId!= null) {

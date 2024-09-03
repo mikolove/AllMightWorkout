@@ -1,29 +1,25 @@
 package com.mikolove.core.database.mappers
 
-import com.mikolove.core.domain.workout.Workout
-import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.database.model.WorkoutCacheEntity
 import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.WorkoutCacheEntity
+import com.mikolove.core.domain.workout.Workout
 
 class WorkoutCacheMapper
-constructor(
-    private val dateUtil: DateUtil
-)
 : EntityMapper<WorkoutCacheEntity, Workout> {
 
     override fun mapFromEntity(entity: WorkoutCacheEntity): Workout {
         return Workout(
             idWorkout = entity.idWorkout,
             name = entity.name,
-            exercises = null,
+            exercises = listOf(),
             isActive = entity.isActive,
-            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt?.let { dateUtil.convertDateToStringDate(it) },
-            groups = null,
+            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt,
+            groups = listOf(),
             startedAt = null,
             endedAt = null,
-            createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
-            updatedAt = dateUtil.convertDateToStringDate(entity.updatedAt)
-        )
+            createdAt = entity.createdAt,
+            updatedAt = entity.updatedAt)
+
     }
 
     override fun mapToEntity(domainModel: Workout): WorkoutCacheEntity {
@@ -31,9 +27,9 @@ constructor(
             idWorkout = domainModel.idWorkout,
             name = domainModel.name,
             isActive = domainModel.isActive,
-            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt?.let{ dateUtil.convertStringDateToDate(it)},
-            createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
+            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt,
+            createdAt = domainModel.createdAt,
+            updatedAt = domainModel.updatedAt
         )
     }
 

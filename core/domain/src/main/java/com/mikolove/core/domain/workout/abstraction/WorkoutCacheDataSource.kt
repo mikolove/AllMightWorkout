@@ -1,30 +1,18 @@
 package com.mikolove.core.domain.workout.abstraction
 
 import com.mikolove.core.domain.workout.Workout
+import kotlinx.coroutines.flow.Flow
 
 
 interface WorkoutCacheDataSource {
 
-    suspend fun insertWorkout(workout: Workout, idUser : String) : Long
-
-    suspend fun updateWorkout(
-        primaryKey: String,
-        name: String,
-        isActive: Boolean,
-        updatedAt: String
-    ) : Int
-
-    suspend fun removeWorkout(primaryKey:String) : Int
+    suspend fun upsertWorkout(workout: Workout, idUser : String) : Long
 
     suspend fun removeWorkouts(workouts : List<Workout>) : Int
 
-    suspend fun getExerciseIdsUpdate(idWorkout : String) : String?
+    suspend fun getWorkouts(idUser : String) : Flow<List<Workout>>
 
-    suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?) : Int
+    suspend fun getWorkoutByWorkoutType(idWorkoutType : List<String>,idUser : String) : List<Workout>
 
-    suspend fun getWorkouts(query : String, filterAndOrder : String, page : Int,idUser : String) : List<Workout>
-
-    suspend fun getWorkoutById(primaryKey : String) : Workout?
-
-    suspend fun getTotalWorkout(idUser : String) : Int
+    suspend fun getWorkoutById(primaryKey : String) : Workout
 }

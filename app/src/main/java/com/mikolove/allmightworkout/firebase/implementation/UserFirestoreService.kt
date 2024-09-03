@@ -20,7 +20,7 @@ constructor(
 )
     : UserNetworkService {
 
-    override suspend fun insertUser(user: User) {
+    override suspend fun upsertUser(user: User) {
 
         val userId = sessionStorage.get()?.userId ?: return
         val entity = userNetworkMapper.mapToEntity(user)

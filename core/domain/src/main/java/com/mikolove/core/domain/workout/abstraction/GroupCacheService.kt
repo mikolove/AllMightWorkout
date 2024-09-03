@@ -4,11 +4,11 @@ import com.mikolove.core.domain.workout.Group
 
 interface GroupCacheService {
 
-    suspend fun upsertWorkoutGroup(group : Group) : Long
+    suspend fun upsertGroup(group : Group, idUser: String) : Long
 
-    suspend fun getWorkoutGroups() : List<Group>
+    suspend fun deleteGroups(groups : List<Group>) : Int
+
+    suspend fun getGroups(idUser : String) : List<Group>
 
     suspend fun getGroup(groupId : String) : Group
-
-    suspend fun deleteWorkoutGroup(groups : Group) : Int
 }

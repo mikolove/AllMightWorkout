@@ -8,5 +8,5 @@ class WorkoutTypeNetworkDataSourceImpl
 constructor(private val workoutTypeFirestoreService : WorkoutTypeNetworkService) :
     WorkoutTypeNetworkDataSource {
 
-    override suspend fun getAllWorkoutTypes(): List<WorkoutType> = workoutTypeFirestoreService.getWorkoutTypes()
+    override suspend fun getWorkoutTypes(): List<WorkoutType> = workoutTypeFirestoreService.getWorkoutTypes()
 }

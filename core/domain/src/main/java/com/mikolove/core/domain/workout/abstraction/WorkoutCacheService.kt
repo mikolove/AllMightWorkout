@@ -1,55 +1,17 @@
 package com.mikolove.core.domain.workout.abstraction
 
 import com.mikolove.core.domain.workout.Workout
+import kotlinx.coroutines.flow.Flow
 
 interface WorkoutCacheService {
 
-    suspend fun insertWorkout(workout: Workout, idUser : String) : Long
-
-    suspend fun updateWorkout(primaryKey: String, name : String, updatedAt : String, isActive : Boolean) : Int
-
-    suspend fun removeWorkout(id :String) : Int
+    suspend fun upsertWorkout(workout: Workout, idUser : String) : Long
 
     suspend fun removeWorkouts(workouts : List<Workout>) : Int
 
-    suspend fun getExerciseIdsUpdate(idWorkout : String) : String?
+    suspend fun getWorkoutById(primaryKey : String) : Workout
 
-    suspend fun updateExerciseIdsUpdatedAt(idWorkout: String, exerciseIdsUpdatedAt: String?) : Int
+    suspend fun getWorkouts(idUser : String) : Flow<List<Workout>>
 
-    suspend fun getWorkoutById(primaryKey : String) : Workout?
-
-    suspend fun getTotalWorkout(idUser : String) : Int
-
-    suspend fun getWorkouts(idUser : String) : List<Workout>
-
-    suspend fun getWorkoutsOrderByDateDESC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<Workout>
-
-    suspend fun getWorkoutsOrderByDateASC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<Workout>
-
-    suspend fun getWorkoutsOrderByNameDESC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<Workout>
-
-    suspend fun getWorkoutsOrderByNameASC(
-        query: String,
-        page: Int,
-        idUser: String
-    ): List<Workout>
-
-    suspend fun returnOrderedQuery(
-        query: String,
-        filterAndOrder: String,
-        page: Int,
-        idUser : String
-    ): List<Workout>
+    suspend fun getWorkoutByWorkoutType(idWorkoutType : List<String>, idUser : String) : List<Workout>
 }

@@ -1,18 +1,23 @@
 package com.mikolove.core.database.util
 
 import androidx.room.TypeConverter
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
 
 class DateConverter {
 
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromZdtime(value: ZonedDateTime?): Date? {
+        return value?.let { Date.from(it.toInstant()) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun dateToZdt(date: Date?): ZonedDateTime? {
+        return ZonedDateTime.ofInstant(
+            date?.toInstant(),
+            ZoneId.systemDefault()
+        )
     }
 
 }

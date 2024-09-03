@@ -11,7 +11,7 @@ interface BodyPartCacheService {
 
     suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart>
 
-    suspend fun getBodyPartById(primaryKey: String) : BodyPart?
+    suspend fun getBodyPartById(primaryKey: String) : BodyPart
 
     suspend fun getBodyParts() : List<BodyPart>
 }
