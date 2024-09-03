@@ -5,12 +5,10 @@ import com.mikolove.allmightworkout.firebase.mappers.UserNetworkMapper
 import com.mikolove.allmightworkout.firebase.model.UserNetworkEntity
 import com.mikolove.allmightworkout.firebase.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.allmightworkout.util.cLog
-import com.mikolove.allmightworkout.util.toFirebaseTimestamp
-import com.mikolove.core.domain.user.abstraction.UserNetworkService
 import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.user.User
+import com.mikolove.core.domain.user.abstraction.UserNetworkService
 import kotlinx.coroutines.tasks.await
-import java.time.ZonedDateTime
 
 class UserFirestoreService
 constructor(
@@ -36,22 +34,6 @@ constructor(
                 cLog(it.message)
             }
             .await()
-    }
-
-    override suspend fun updateName(name: String) {
-        val userId = sessionStorage.get()?.userId ?: return
-        val updatedAt = ZonedDateTime.now().toFirebaseTimestamp()
-        firestore
-            .collection("users")
-            .document(userId)
-            .update(
-                "name",name
-                ,"updatedAt",updatedAt)
-            .addOnFailureListener {
-                cLog(it.message)
-            }
-            .await()
-
     }
 
     override suspend fun getUser(primaryKey: String): User? {

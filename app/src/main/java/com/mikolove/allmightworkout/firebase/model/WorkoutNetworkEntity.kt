@@ -7,8 +7,7 @@ data class WorkoutNetworkEntity (
     @DocumentId
     var idWorkout: String,
     var name: String,
-    var exerciseIds : List<String>?,
-    var exerciseIdsUpdatedAt : Timestamp?,
+    var exerciseIdWithSet : Map<String, List<ExerciseSetNetworkEntity>>,
     var groupIds : List<String>?,
     @field:JvmField
     var isActive: Boolean,
@@ -18,9 +17,8 @@ data class WorkoutNetworkEntity (
     constructor() : this(
         "",
         "",
-        listOf(),
+        mapOf(),
         null,
-        listOf(),
         true,
         Timestamp.now(),
         Timestamp.now()

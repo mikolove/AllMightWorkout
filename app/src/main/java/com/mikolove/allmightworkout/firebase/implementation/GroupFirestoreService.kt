@@ -34,7 +34,7 @@ constructor(
 
     }
 
-    override suspend fun insertWorkoutGroup(group: Group) {
+    override suspend fun upsertGroup(group: Group) {
         val userId = sessionStorage.get()?.userId ?: return
         val entity = groupNetworkMapper.mapToEntity(group)
         firestore
@@ -47,35 +47,15 @@ constructor(
                 cLog(it.message)
             }
             .await()
-
     }
 
-    override suspend fun updateWorkoutGroup(group: Group) {
-        val userId = sessionStorage.get()?.userId ?: return
-        val entity = groupNetworkMapper.mapToEntity(group)
-        firestore
-            .collection(USERS_COLLECTION)
-            .document(userId)
-            .collection(WORKOUT_GROUPS)
-            .document(entity.idWorkoutGroup)
-            .update(
-                "name",entity.name,
-                "updatedAt",entity.updatedAt
-            )
-            .addOnFailureListener{
-                cLog(it.message)
-            }
-            .await()
-
-    }
-
-    override suspend fun deleteWorkoutGroup(group: Group) {
+    override suspend fun deleteWorkoutGroup(idGroup: String) {
         val userId = sessionStorage.get()?.userId ?: return
         firestore
             .collection(USERS_COLLECTION)
             .document(userId)
             .collection(WORKOUT_GROUPS)
-            .document(group.idGroup)
+            .document(idGroup)
             .delete()
             .addOnFailureListener {
                 cLog(it.message)

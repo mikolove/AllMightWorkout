@@ -7,8 +7,7 @@ data class ExerciseNetworkEntity(
     @DocumentId
     var idExercise: String,
     var name: String,
-    var sets: List<ExerciseSetNetworkEntity>?,
-    var bodyPart: List<BodyPartExerciseNetworkEntity>?,
+    var bodyPart: List<BodyPartExerciseNetworkEntity>,
     var exerciseType: String,
     //Boolean prefixed with is
     @field:JvmField
@@ -20,11 +19,9 @@ data class ExerciseNetworkEntity(
         "",
         "",
         listOf(),
-        null,
         "",
         true,
         Timestamp.now(),
         Timestamp.now()
-
     )
 }
