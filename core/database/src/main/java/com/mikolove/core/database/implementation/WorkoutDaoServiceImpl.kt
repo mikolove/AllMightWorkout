@@ -39,8 +39,8 @@ constructor(
             }
     }
 
-    override suspend fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): List<Workout>? {
-        return workoutDao.getWorkoutByWorkoutType(idWorkoutType,idUser)?.let {
+    override suspend fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): List<Workout> {
+        return workoutDao.getWorkoutByWorkoutType(idWorkoutType,idUser).let {
             workoutCacheMapper.entityListToDomainList(it)
         }
     }

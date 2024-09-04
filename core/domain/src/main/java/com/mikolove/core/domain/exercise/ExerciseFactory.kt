@@ -13,7 +13,7 @@ class ExerciseFactory {
         name: String,
         sets: List<ExerciseSet> = listOf(),
         bodyPart: List<BodyPart> = listOf(),
-        exerciseType: ExerciseType,
+        exerciseType: ExerciseType = ExerciseType.REP_EXERCISE,
         isActive: Boolean = true,
     ) : Exercise {
         val zdt = ZonedDateTime.now()

@@ -5,17 +5,17 @@ import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheService
 
 class BodyPartCacheDataSourceImpl
-constructor( private val bodyPartDaoService : BodyPartCacheService) : BodyPartCacheDataSource {
+constructor( private val bodyPartCacheService : BodyPartCacheService) : BodyPartCacheDataSource {
 
-    override suspend fun upsertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartDaoService.upsertBodyPart(
+    override suspend fun upsertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartCacheService.upsertBodyPart(
         bodyParts,idWorkoutType
     )
 
-    override suspend fun removeBodyPart(primaryKey: String): Int = bodyPartDaoService.removeBodyPart(primaryKey)
+    override suspend fun removeBodyPart(primaryKey: String): Int = bodyPartCacheService.removeBodyPart(primaryKey)
 
-    override suspend fun getBodyParts(): List<BodyPart>  = bodyPartDaoService.getBodyParts()
+    override suspend fun getBodyParts(): List<BodyPart>  = bodyPartCacheService.getBodyParts()
 
-    override suspend fun getBodyPartById(primaryKey: String): BodyPart = bodyPartDaoService.getBodyPartById(primaryKey)
+    override suspend fun getBodyPartById(primaryKey: String): BodyPart = bodyPartCacheService.getBodyPartById(primaryKey)
 
-    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart> = bodyPartDaoService.getBodyPartsByWorkoutType(idWorkoutType)
+    override suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPart> = bodyPartCacheService.getBodyPartsByWorkoutType(idWorkoutType)
 }

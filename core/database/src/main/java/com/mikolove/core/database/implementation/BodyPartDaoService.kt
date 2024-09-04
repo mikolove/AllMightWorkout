@@ -27,8 +27,8 @@ constructor(
         }
     }
 
-    override suspend fun getBodyPartById(primaryKey: String): BodyPart? {
-        return bodyPartDao.getBodyPartById(primaryKey)?.let {
+    override suspend fun getBodyPartById(primaryKey: String): BodyPart {
+        return bodyPartDao.getBodyPartById(primaryKey).let {
             bodyPartCacheMapper.mapFromEntity(it)
         }
     }

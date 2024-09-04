@@ -25,7 +25,7 @@ interface BodyPartDao{
     suspend fun getBodyPartsByWorkoutType(idWorkoutType: String): List<BodyPartCacheEntity>
 
     @Query("SELECT * FROM body_parts WHERE id_body_part = :primaryKey")
-    suspend fun getBodyPartById(primaryKey: String) : BodyPartCacheEntity?
+    suspend fun getBodyPartById(primaryKey: String) : BodyPartCacheEntity
 
 
     @Query("SELECT * FROM body_parts")

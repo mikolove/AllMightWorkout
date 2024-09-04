@@ -29,5 +29,5 @@ interface WorkoutDao {
          AND e.fk_id_body_part = bp.id_body_part
          AND bp.fk_id_workout_type IN (:ids)
          AND w.fk_id_user=:idUser""")
-    suspend fun getWorkoutByWorkoutType(ids : List<String>,idUser: String) : List<WorkoutCacheEntity>?
+    suspend fun getWorkoutByWorkoutType(ids : List<String>,idUser: String) : List<WorkoutCacheEntity>
 }
