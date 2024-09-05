@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ExerciseDao{
 
     @Upsert
-    suspend fun insertExercise(exercise: ExerciseCacheEntity) : Long
+    suspend fun upsertExercise(exercise: ExerciseCacheEntity) : Long
 
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
     suspend fun removeExercises(primaryKeys: List<String>)  : Int

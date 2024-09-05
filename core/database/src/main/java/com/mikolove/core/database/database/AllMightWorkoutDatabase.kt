@@ -17,8 +17,9 @@ import com.mikolove.core.database.util.DateConverter
     HistoryExerciseCacheEntity::class,
     HistoryExerciseSetCacheEntity::class,
     GroupCacheEntity::class,
+    ExerciseBodyPartCacheEntity::class,
     WorkoutGroupCacheEntity::class],
-    version = 5,
+    version = 1,
     exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
@@ -33,6 +34,7 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun historyExerciseSetDao() : HistoryExerciseSetDao
     abstract fun workoutGroupDao() : GroupDao
     abstract fun groupWithWorkoutDao() : GroupWithWorkoutDao
+    abstract fun exerciseBodyPartDao() : ExerciseBodyPartDao
 
     companion object{
         val DATABASE_NAME : String = "allmightworkout_db"

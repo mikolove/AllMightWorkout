@@ -27,7 +27,7 @@ data class WorkoutCacheEntity(
     var isActive: Boolean,
 
     @ColumnInfo(name = "fk_id_user", index = true)
-    var idUser: String? = null,
+    var idUser: String,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt: ZonedDateTime,
@@ -62,6 +62,6 @@ data class WorkoutWithExercisesCacheEntity(
         entity = UserCacheEntity::class,
         parentColumn = "fk_id_user",
         entityColumn = "id_user" )
-    val userCacheEntity : UserCacheEntity?
+    val userCacheEntity : UserCacheEntity
 )
 

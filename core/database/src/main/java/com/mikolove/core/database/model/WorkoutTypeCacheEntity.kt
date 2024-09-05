@@ -23,6 +23,7 @@ data class WorkoutTypeWithBodyPartCacheEntity(
     val workoutTypeCacheEntity: WorkoutTypeCacheEntity,
 
     @Relation(
+        entity = BodyPartCacheEntity::class,
         parentColumn = "id_workout_type",
         entityColumn = "fk_id_workout_type"
     )

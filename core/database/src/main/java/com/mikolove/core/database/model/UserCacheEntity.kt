@@ -1,6 +1,7 @@
 package com.mikolove.core.database.model
 
 import androidx.room.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity(
@@ -19,10 +20,10 @@ data class UserCacheEntity (
     var email : String?,
 
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var createdAt : Date,
+    var createdAt : ZonedDateTime,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updatedAt : Date
+    var updatedAt : ZonedDateTime
 
     ){
 

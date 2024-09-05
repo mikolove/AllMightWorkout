@@ -1,6 +1,7 @@
 package com.mikolove.core.database.model
 
 import androidx.room.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity(
@@ -22,7 +23,7 @@ data class HistoryExerciseCacheEntity(
     var idHistoryExercise: String,
 
     @ColumnInfo(name = "fk_id_history_workout",index = true)
-    var idHistoryWorkout: String?,
+    var idHistoryWorkout: String,
 
     @ColumnInfo(name = "name")
     var name: String,
@@ -37,16 +38,16 @@ data class HistoryExerciseCacheEntity(
     var exerciseType: String,
 
     @ColumnInfo(name ="started_at")
-    var startedAt: Date,
+    var startedAt: ZonedDateTime,
 
     @ColumnInfo(name = "ended_at")
-    var endedAt: Date,
+    var endedAt: ZonedDateTime,
 
     @ColumnInfo(name = "created_at")
-    var createdAt: Date,
+    var createdAt: ZonedDateTime,
 
     @ColumnInfo(name = "updated_at")
-    var updatedAt: Date
+    var updatedAt: ZonedDateTime
 
 ) {}
 

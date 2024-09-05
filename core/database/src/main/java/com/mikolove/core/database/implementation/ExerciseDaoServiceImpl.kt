@@ -3,7 +3,6 @@ package com.mikolove.core.database.implementation
 import com.mikolove.core.database.database.ExerciseDao
 import com.mikolove.core.database.mappers.ExerciseCacheMapper
 import com.mikolove.core.database.mappers.ExerciseWithSetsCacheMapper
-import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheService
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,8 @@ constructor(
 ) : ExerciseCacheService {
 
     override suspend fun upsertExercise(exercise: Exercise, idUser: String): Long {
-        TODO("Not yet implemented")
+        val entity = exerciseCacheMapper.mapToEntity(exercise).copy(idUser = idUser)
+        return exerciseDao.upsertExercise(entity)
     }
 
     override suspend fun getExerciseById(primaryKey: String): Exercise {

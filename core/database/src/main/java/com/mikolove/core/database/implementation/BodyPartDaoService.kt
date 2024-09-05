@@ -11,9 +11,8 @@ constructor(
     private val bodyPartCacheMapper: BodyPartCacheMapper
 ) : BodyPartCacheService {
 
-    override suspend fun upsertBodyPart(bodyPart: BodyPart, idWorkoutType: String): Long {
+    override suspend fun upsertBodyPart(bodyPart: BodyPart): Long {
         val bodyPartCacheEntity = bodyPartCacheMapper.mapToEntity(bodyPart)
-        bodyPartCacheEntity.idWorkoutType = idWorkoutType
         return bodyPartDao.upsertBodyPart(bodyPartCacheEntity)
     }
 

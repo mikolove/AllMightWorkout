@@ -3,6 +3,7 @@ package com.mikolove.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import java.time.ZonedDateTime
 import java.util.Date
 
 @Entity(
@@ -31,5 +32,5 @@ data class WorkoutGroupCacheEntity(
     var idGroup : String,
 
     @ColumnInfo(name ="created_at")
-    var createdAt : Date
+    var createdAt : ZonedDateTime
 )
