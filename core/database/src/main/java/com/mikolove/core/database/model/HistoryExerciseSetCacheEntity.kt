@@ -46,8 +46,5 @@ data class HistoryExerciseSetCacheEntity(
     @ColumnInfo(name = "created_at")
     var createdAt: ZonedDateTime,
 
-    @ColumnInfo(name = "updated_at")
-    var updatedAt: ZonedDateTime
-
     ) {
 }

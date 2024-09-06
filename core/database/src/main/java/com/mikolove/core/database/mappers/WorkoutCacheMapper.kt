@@ -1,36 +1,30 @@
 package com.mikolove.core.database.mappers
 
 import com.mikolove.core.database.model.WorkoutCacheEntity
-import com.mikolove.core.domain.util.EntityMapper
+import com.mikolove.core.database.model.WorkoutWithExercisesCacheEntity
 import com.mikolove.core.domain.workout.Workout
 
-class WorkoutCacheMapper
-: EntityMapper<WorkoutCacheEntity, Workout> {
+fun WorkoutWithExercisesCacheEntity.toWorkout() : Workout{
+    return Workout(
+        idWorkout = workoutCacheEntity.idWorkout,
+        name = workoutCacheEntity.name,
+        exercises = listOfExerciseCacheEntity?.map { it.toExercise() } ?: listOf(),
+        groups = listOfGroupCacheEntity?.map { it.toGroup() } ?: listOf(),
+        isActive = workoutCacheEntity.isActive,
+        startedAt = null,
+        endedAt = null,
+        createdAt = workoutCacheEntity.createdAt,
+        updatedAt = workoutCacheEntity.updatedAt
+    )
+}
 
-    override fun mapFromEntity(entity: WorkoutCacheEntity): Workout {
-        return Workout(
-            idWorkout = entity.idWorkout,
-            name = entity.name,
-            exercises = listOf(),
-            isActive = entity.isActive,
-            exerciseIdsUpdatedAt = entity.exerciseIdsUpdatedAt,
-            groups = listOf(),
-            startedAt = null,
-            endedAt = null,
-            createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt)
-
-    }
-
-    override fun mapToEntity(domainModel: Workout): WorkoutCacheEntity {
-        return WorkoutCacheEntity(
-            idWorkout = domainModel.idWorkout,
-            name = domainModel.name,
-            isActive = domainModel.isActive,
-            exerciseIdsUpdatedAt = domainModel.exerciseIdsUpdatedAt,
-            createdAt = domainModel.createdAt,
-            updatedAt = domainModel.updatedAt
-        )
-    }
-
+fun Workout.toWorkoutCacheEntity(idUser : String) : WorkoutCacheEntity{
+    return WorkoutCacheEntity(
+        idWorkout = idWorkout,
+        name = name,
+        isActive = isActive,
+        idUser = idUser,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+    )
 }

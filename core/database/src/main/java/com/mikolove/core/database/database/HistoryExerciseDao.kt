@@ -12,16 +12,4 @@ interface HistoryExerciseDao {
 
     @Insert
     suspend fun insertHistoryExercise(historyExercise: HistoryExerciseCacheEntity) : Long
-
-    @Transaction
-    @Query("SELECT * FROM history_exercises WHERE fk_id_history_workout = :idHistoryWorkout")
-    suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExerciseWithSetsCacheEntity>?
-
-    @Transaction
-    @Query("SELECT * FROM history_exercises WHERE id_history_exercise = :primaryKey")
-    suspend fun getHistoryExerciseById(primaryKey : String) : HistoryExerciseWithSetsCacheEntity?
-
-    @Query("SELECT count(*) FROM history_exercises")
-    suspend fun getTotalHistoryExercise() : Int
-
 }

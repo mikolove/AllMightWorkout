@@ -59,6 +59,13 @@ data class WorkoutWithExercisesCacheEntity(
     val listOfExerciseCacheEntity : List<ExerciseWithSetsCacheEntity>?,
 
     @Relation(
+        entity = GroupCacheEntity::class,
+        parentColumn = "id_workout",
+        entityColumn = "id_group",
+        associateBy = Junction(WorkoutGroupCacheEntity::class))
+    val listOfGroupCacheEntity : List<GroupCacheEntity>?,
+
+    @Relation(
         entity = UserCacheEntity::class,
         parentColumn = "fk_id_user",
         entityColumn = "id_user" )

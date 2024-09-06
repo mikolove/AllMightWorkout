@@ -13,4 +13,11 @@ interface ExerciseCacheService {
     suspend fun getExercises(idUser : String) : Flow<List<Exercise>>
 
     suspend fun getExerciseById(primaryKey: String) : Exercise
+
+    suspend fun isBodyPartInExercise( idExercise: String , idBodyPart: String ) : Boolean
+
+    suspend fun addBodyPartToExercise(idExercise : String, idBodyPart : String) : Long
+
+    suspend fun removeBodyPartFromExercise(idExercise : String, idBodyPart : String) : Int
+
 }

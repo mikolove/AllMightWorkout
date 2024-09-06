@@ -29,7 +29,7 @@ data class HistoryExerciseCacheEntity(
     var name: String,
 
     @ColumnInfo(name = "body_part")
-    var bodyPart: String,
+    var bodyPart: List<String>,
 
     @ColumnInfo(name = "workout_type")
     var workoutType: String,
@@ -46,9 +46,6 @@ data class HistoryExerciseCacheEntity(
     @ColumnInfo(name = "created_at")
     var createdAt: ZonedDateTime,
 
-    @ColumnInfo(name = "updated_at")
-    var updatedAt: ZonedDateTime
-
 ) {}
 
 data class HistoryExerciseWithSetsCacheEntity(
@@ -60,6 +57,6 @@ data class HistoryExerciseWithSetsCacheEntity(
         entity = HistoryExerciseSetCacheEntity::class,
         parentColumn = "id_history_exercise",
         entityColumn = "fk_id_history_exercise")
-    val listOfHistoryExerciseSetsCacheEntity : List<HistoryExerciseSetCacheEntity>?
+    val listOfHistoryExerciseSetsCacheEntity : List<HistoryExerciseSetCacheEntity>
 )
 

@@ -7,9 +7,8 @@ import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheService
 class BodyPartCacheDataSourceImpl
 constructor( private val bodyPartCacheService : BodyPartCacheService) : BodyPartCacheDataSource {
 
-    override suspend fun upsertBodyPart(bodyParts: BodyPart, idWorkoutType: String): Long = bodyPartCacheService.upsertBodyPart(
-        bodyParts,idWorkoutType
-    )
+    override suspend fun upsertBodyPart(bodyPart: BodyPart, idWorkoutType: String): Long
+    = bodyPartCacheService.upsertBodyPart(bodyPart,idWorkoutType)
 
     override suspend fun removeBodyPart(primaryKey: String): Int = bodyPartCacheService.removeBodyPart(primaryKey)
 

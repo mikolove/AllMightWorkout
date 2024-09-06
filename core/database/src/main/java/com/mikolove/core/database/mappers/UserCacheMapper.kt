@@ -1,34 +1,36 @@
 package com.mikolove.core.database.mappers
 
+import com.mikolove.core.database.model.UserCacheEntity
+import com.mikolove.core.database.model.UserWithWorkoutAndExerciseCacheEntity
 import com.mikolove.core.domain.user.User
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.UserCacheEntity
 
-class UserCacheMapper
-constructor(
-    private val dateUtil: DateUtil
-)
-    : EntityMapper<UserCacheEntity, User> {
+fun UserCacheEntity.toUser() : User{
+    return User(
+        idUser = idUser,
+        name = name,
+        email = email,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
-    override fun mapFromEntity(entity: UserCacheEntity): User {
-        return User(
-            idUser = entity.idUser,
-            name = entity.name,
-            email = entity.email,
-            createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
-            updatedAt = dateUtil.convertDateToStringDate(entity.updatedAt)
-        )
-    }
+fun User.toUserCacheEntity() : UserCacheEntity{
+    return UserCacheEntity(
+        idUser = idUser,
+        name = name,
+        email = email,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
-    override fun mapToEntity(domainModel: User): UserCacheEntity {
-        return UserCacheEntity(
-            idUser = domainModel.idUser,
-            name = domainModel.name,
-            email = domainModel.email,
-            createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
-        )
-    }
-
+fun UserWithWorkoutAndExerciseCacheEntity.toUser() : User{
+    return User(
+        idUser = userCacheEntity.idUser,
+        name = userCacheEntity.name,
+        email = userCacheEntity.email,
+        workouts = listOfWorkoutCacheEntity?.map { it.toWorkout() } ?: listOf(),
+        createdAt = userCacheEntity.createdAt,
+        updatedAt = userCacheEntity.updatedAt
+    )
 }

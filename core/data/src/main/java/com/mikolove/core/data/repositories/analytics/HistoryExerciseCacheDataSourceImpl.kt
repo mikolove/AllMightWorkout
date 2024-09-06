@@ -15,9 +15,4 @@ constructor(private val historyExerciseCacheService : HistoryExerciseCacheServic
         historyExercise,
         idHistoryWorkout
     )
-
-    override suspend fun getHistoryExercisesByHistoryWorkout(idHistoryWorkout: String): List<HistoryExercise>? = historyExerciseCacheService.getHistoryExercisesByHistoryWorkout(idHistoryWorkout)
-
-    override suspend fun getHistoryExerciseById(primaryKey: String): HistoryExercise? = historyExerciseCacheService.getHistoryExerciseById(primaryKey)
-
 }

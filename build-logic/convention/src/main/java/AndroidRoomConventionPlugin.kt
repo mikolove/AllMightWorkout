@@ -12,6 +12,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             pluginManager.run {
                 apply("androidx.room")
                 apply("com.google.devtools.ksp")
+                apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
             extensions.configure<RoomExtension>{

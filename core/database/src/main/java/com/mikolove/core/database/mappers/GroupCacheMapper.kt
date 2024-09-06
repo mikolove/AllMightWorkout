@@ -1,34 +1,35 @@
 package com.mikolove.core.database.mappers
 
+import com.mikolove.core.database.model.GroupCacheEntity
+import com.mikolove.core.database.model.GroupsWithWorkoutsCacheEntity
 import com.mikolove.core.domain.workout.Group
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.domain.util.EntityMapper
-import com.mikolove.allmightworkout.framework.datasource.cache.model.GroupCacheEntity
 
-class GroupCacheMapper
-constructor(
-    private val dateUtil: DateUtil
-)
-    : EntityMapper<GroupCacheEntity, Group> {
+fun GroupsWithWorkoutsCacheEntity.toGroup() : Group{
+    return Group(
+        idGroup = groupCacheEntity.idGroup,
+        name = groupCacheEntity.name,
+        workouts = listOfWorkoutsCacheEntity?.map{ it.toWorkout()} ?: listOf(),
+        createdAt = groupCacheEntity.createdAt,
+        updatedAt = groupCacheEntity.updatedAt
+    )
+}
 
-    override fun mapFromEntity(entity: GroupCacheEntity): Group {
-        return Group(
-            idGroup = entity.idGroup,
-            name = entity.name,
-            workouts = null,
-            createdAt = dateUtil.convertDateToStringDate(entity.createdAt),
-            updatedAt = dateUtil.convertDateToStringDate(entity.updatedAt)
-        )
-    }
+fun GroupCacheEntity.toGroup() : Group{
+    return Group(
+        idGroup = idGroup,
+        name = name,
+        workouts = listOf(),
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
-    override fun mapToEntity(domainModel: Group): GroupCacheEntity {
-        return GroupCacheEntity(
-            idGroup = domainModel.idGroup,
-            name = domainModel.name,
-
-            createdAt = dateUtil.convertStringDateToDate(domainModel.createdAt),
-            updatedAt = dateUtil.convertStringDateToDate(domainModel.updatedAt)
-        )
-    }
-
+fun Group.toGroupCacheEntity(idUser : String) : GroupCacheEntity {
+    return GroupCacheEntity(
+        idGroup = idGroup,
+        name = name,
+        idUser = idUser,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
 }

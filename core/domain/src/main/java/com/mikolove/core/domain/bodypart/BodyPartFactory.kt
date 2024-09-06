@@ -10,12 +10,10 @@ class BodyPartFactory
     fun createBodyPart(
         idBodyPart : String = UUID.randomUUID().toString(),
         name : String,
-        workoutType : WorkoutType
     ) : BodyPart {
         return BodyPart(
             idBodyPart = idBodyPart ,
-            name = name,
-            workoutType = workoutType
+            name = name
         )
     }
 

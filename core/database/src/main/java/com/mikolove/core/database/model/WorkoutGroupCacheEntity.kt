@@ -31,6 +31,6 @@ data class WorkoutGroupCacheEntity(
     @ColumnInfo(name = "id_group", index = true)
     var idGroup : String,
 
-    @ColumnInfo(name ="created_at")
+    @ColumnInfo(name ="created_at", defaultValue = "CURRENT_TIMESTAMP")
     var createdAt : ZonedDateTime
 )

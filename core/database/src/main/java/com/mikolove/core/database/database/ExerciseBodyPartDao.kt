@@ -20,5 +20,5 @@ interface ExerciseBodyPartDao{
     suspend fun addBodyPartToExercise(exerciseBodyPartCacheEntity: ExerciseBodyPartCacheEntity) : Long
 
     @Query("DELETE FROM exercises_bodypart WHERE id_exercise = :idExercise AND id_body_part = :idBodyPart")
-    suspend fun removeBodyPartFromExercise(idExercise: String,idBodyPart: String)
+    suspend fun removeBodyPartFromExercise(idExercise: String,idBodyPart: String) : Int
 }

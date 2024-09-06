@@ -31,16 +31,6 @@ data class BodyPartCacheEntity(
     var name : String,
 
     @ColumnInfo(name = "fk_id_workout_type", index = true )
-    var idWorkoutType : String?,
+    var idWorkoutType : String,
 
     )
-
-data class BodyPartCacheEntityWithWorkoutType(
-    @Embedded val bodyPart : BodyPartCacheEntity,
-
-    @Relation(
-        entity = WorkoutTypeCacheEntity::class,
-        parentColumn = "fk_id_workout_type",
-        entityColumn = "id_workout_type")
-    val workoutTypeCacheEntity : WorkoutTypeCacheEntity
-)

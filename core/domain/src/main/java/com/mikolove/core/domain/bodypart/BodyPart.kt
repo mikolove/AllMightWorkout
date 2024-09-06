@@ -5,8 +5,7 @@ import java.util.UUID
 
 data class BodyPart(
     var idBodyPart: String = UUID.randomUUID().toString(),
-    var name: String,
-    var workoutType: WorkoutType) {
+    var name: String) {
 
     override fun toString(): String {
         return name.replaceFirstChar { it.uppercaseChar() }

@@ -19,5 +19,5 @@ interface ExerciseDao{
     suspend fun getExercises(idUser : String) : Flow<List<ExerciseCacheEntity>>
 
     @Query("SELECT * FROM exercises WHERE id_exercise = :primaryKey")
-    suspend fun getExerciseById(primaryKey: String) : ExerciseCacheEntity?
+    suspend fun getExerciseById(primaryKey: String) : ExerciseCacheEntity
 }

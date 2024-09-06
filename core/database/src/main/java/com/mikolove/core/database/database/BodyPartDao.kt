@@ -5,8 +5,6 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.mikolove.core.database.model.BodyPartCacheEntity
 
-const val BODYPART_PAGINATION_PAGE_SIZE = 30
-
 @Dao
 interface BodyPartDao{
 

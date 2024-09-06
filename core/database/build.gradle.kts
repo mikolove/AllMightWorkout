@@ -11,5 +11,5 @@ android {
 dependencies {
 
     implementation(projects.core.domain)
-
+    implementation(libs.kotlinx.serialization.json)
 }

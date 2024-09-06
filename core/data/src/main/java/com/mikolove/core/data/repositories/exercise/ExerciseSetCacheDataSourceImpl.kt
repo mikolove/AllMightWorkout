@@ -11,7 +11,7 @@ constructor( private val exerciseSetCacheService : ExerciseSetCacheService)
         exerciseSet: ExerciseSet,
         idExercise: String,
         idWorkout: String
-    ): Long = exerciseSetCacheService.upsertExerciseSet(exerciseSet,idExercise,idWorkout)
+    ): Long = exerciseSetCacheService.addExerciseSet(exerciseSet,idExercise,idWorkout)
 
     override suspend fun removeExerciseSets(
         exerciseSets: List<ExerciseSet>,

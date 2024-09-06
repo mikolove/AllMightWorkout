@@ -4,7 +4,7 @@ import com.mikolove.core.domain.exercise.ExerciseSet
 
 interface ExerciseSetCacheService {
 
-    suspend fun upsertExerciseSet(exerciseSet: ExerciseSet, idExercise: String, idWorkout: String) : Long
+    suspend fun addExerciseSet(exerciseSet: ExerciseSet, idExercise: String, idWorkout: String) : Long
 
     suspend fun removeExerciseSets(exerciseSets: List<ExerciseSet>,idExercise: String,idWorkout: String) : Int
 

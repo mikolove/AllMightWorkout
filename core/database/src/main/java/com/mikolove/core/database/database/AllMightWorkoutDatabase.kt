@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mikolove.core.database.model.*
 import com.mikolove.core.database.util.DateConverter
+import com.mikolove.core.database.util.ExerciseTypeConverter
+import com.mikolove.core.database.util.StringJsonConverter
 
 @Database(entities = [
     UserCacheEntity::class,
@@ -21,7 +23,10 @@ import com.mikolove.core.database.util.DateConverter
     WorkoutGroupCacheEntity::class],
     version = 1,
     exportSchema = false)
-@TypeConverters(DateConverter::class)
+@TypeConverters(
+    DateConverter::class,
+    ExerciseTypeConverter::class,
+    StringJsonConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun userDao() : UserDao
     abstract fun workoutDao()  : WorkoutDao
@@ -32,8 +37,8 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun historyWorkoutDao() : HistoryWorkoutDao
     abstract fun historyExerciseDao() : HistoryExerciseDao
     abstract fun historyExerciseSetDao() : HistoryExerciseSetDao
-    abstract fun workoutGroupDao() : GroupDao
-    abstract fun groupWithWorkoutDao() : GroupWithWorkoutDao
+    abstract fun groupDao() : GroupDao
+    abstract fun workoutGroupDao() : WorkoutGroupDao
     abstract fun exerciseBodyPartDao() : ExerciseBodyPartDao
 
     companion object{

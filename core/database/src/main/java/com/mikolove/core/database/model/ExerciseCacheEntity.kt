@@ -9,6 +9,7 @@ import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.mikolove.core.domain.exercise.ExerciseSet
+import com.mikolove.core.domain.exercise.ExerciseType
 import java.time.ZonedDateTime
 
 @Entity(
@@ -32,7 +33,7 @@ data class ExerciseCacheEntity(
     var name: String,
 
     @ColumnInfo(name = "exercise_type")
-    var exerciseType: String,
+    var exerciseType: ExerciseType,
 
     @ColumnInfo(name = "is_active")
     var isActive: Boolean,

@@ -7,16 +7,22 @@ import kotlinx.coroutines.flow.Flow
 
 class ExerciseCacheDataSourceImpl
 constructor(
-    private val exerciseDaoService : ExerciseCacheService,
+    private val exerciseCacheService : ExerciseCacheService,
 )
     : ExerciseCacheDataSource {
 
-    override suspend fun upsertExercise(exercise: Exercise, idUser: String): Long = exerciseDaoService.upsertExercise(exercise, idUser)
+    override suspend fun upsertExercise(exercise: Exercise, idUser: String): Long = exerciseCacheService.upsertExercise(exercise, idUser)
 
-    override suspend fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseDaoService.getExercises(idUser)
+    override suspend fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser)
 
-    override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseDaoService.removeExercises(exercises)
+    override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseCacheService.removeExercises(exercises)
 
-    override suspend fun getExerciseById(primaryKey: String): Exercise = exerciseDaoService.getExerciseById(primaryKey)
+    override suspend fun getExerciseById(primaryKey: String): Exercise = exerciseCacheService.getExerciseById(primaryKey)
+
+    override suspend fun isBodyPartInExercise(idExercise: String, idBodyPart: String): Boolean = exerciseCacheService.isBodyPartInExercise( idExercise, idBodyPart)
+
+    override suspend fun addBodyPartToExercise(idExercise: String, idBodyPart: String): Long = exerciseCacheService.addBodyPartToExercise(idExercise, idBodyPart)
+
+    override suspend fun removeBodyPartFromExercise(idExercise: String, idBodyPart: String): Int = exerciseCacheService.removeBodyPartFromExercise(idExercise, idBodyPart)
 
 }

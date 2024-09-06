@@ -10,8 +10,4 @@ constructor(private val historyExerciseSetCacheService : HistoryExerciseSetCache
 
     override suspend fun insertHistoryExerciseSet(historyExerciseSet: HistoryExerciseSet, historyExerciseId: String): Long = historyExerciseSetCacheService.insertHistoryExerciseSet(historyExerciseSet,historyExerciseId)
 
-    override suspend fun getHistoryExerciseSetById(idHistoryExerciseSet: String): HistoryExerciseSet? = historyExerciseSetCacheService.getHistoryExerciseSetById(idHistoryExerciseSet)
-
-    override suspend fun getHistoryExerciseSetsByHistoryExercise(idHistoryExercise: String): List<HistoryExerciseSet>? = historyExerciseSetCacheService.getHistoryExerciseSetsByHistoryExercise(idHistoryExercise)
-
 }

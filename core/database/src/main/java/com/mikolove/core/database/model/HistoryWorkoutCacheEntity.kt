@@ -1,6 +1,7 @@
 package com.mikolove.core.database.model
 
 import androidx.room.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity(
@@ -24,19 +25,16 @@ data class HistoryWorkoutCacheEntity(
     var name: String,
 
     @ColumnInfo(name = "fk_id_user",index = true)
-    var idUser: String? = null,
+    var idUser: String,
 
     @ColumnInfo(name ="started_at")
-    var startedAt: Date,
+    var startedAt: ZonedDateTime,
 
     @ColumnInfo(name ="ended_at")
-    var endedAt: Date,
+    var endedAt: ZonedDateTime,
 
     @ColumnInfo(name ="created_at")
-    var createdAt: Date,
-
-    @ColumnInfo(name ="updated_at")
-    var updatedAt: Date,
+    var createdAt: ZonedDateTime,
 
 ) {}
 
@@ -50,5 +48,5 @@ data class HistoryWorkoutWithExercisesCacheEntity(
         parentColumn = "id_history_workout",
         entityColumn = "fk_id_history_workout"
     )
-    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithSetsCacheEntity>?
+    val listOfHistoryExercisesCacheEntity : List<HistoryExerciseWithSetsCacheEntity>
 ){}
