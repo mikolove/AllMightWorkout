@@ -1,17 +1,17 @@
 package com.mikolove.core.interactors.sync
 
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
-import com.mikolove.core.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
+
 import kotlinx.coroutines.Dispatchers.IO
 import java.lang.Exception
 
@@ -20,7 +20,7 @@ class SyncDeletedExercises(
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource
 ) {
 
-    suspend fun execute() : DataState<SyncState> {
+/*    suspend fun execute() : DataState<SyncState> {
 
         //Get all deletedExercises from network
         val apiResult = safeApiCall(IO){
@@ -98,5 +98,5 @@ class SyncDeletedExercises(
         val SYNC_DEX_ERROR_TITLE = "Sync error"
         val SYNC_DEX_ERROR_DESCRIPTION = "Failed retrieving exercises. Check internet or try again later."
 
-    }
+    }*/
 }

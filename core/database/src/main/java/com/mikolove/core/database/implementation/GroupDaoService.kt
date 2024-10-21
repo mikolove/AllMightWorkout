@@ -14,9 +14,9 @@ class GroupDaoService(
         return groupDao.upsertGroup(group.toGroupCacheEntity(idUser))
     }
 
-    override suspend fun deleteGroups(groups: List<Group>): Int {
-        val ids = groups.mapIndexed { _, group -> group.idGroup }
-        return groupDao.deleteGroups(ids)
+    override suspend fun deleteGroups(groups: List<Group>,idUser : String): Int {
+        val groupCacheEntities = groups.map { it.toGroupCacheEntity(idUser)}
+        return groupDao.deleteGroups(groupCacheEntities)
     }
 
     override suspend fun getGroups(idUser: String): List<Group> {

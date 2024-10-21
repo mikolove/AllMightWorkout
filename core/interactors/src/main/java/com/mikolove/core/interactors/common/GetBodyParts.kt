@@ -1,6 +1,7 @@
 package com.mikolove.core.interactors.common
 
-import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
+import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
+
 
 class GetBodyParts(
      val bodyPartCacheDataSource: BodyPartCacheDataSource

@@ -8,27 +8,21 @@ import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.common.GetExercises.Companion.GET_EXERCISES_SUCCESS_END
-import com.mikolove.core.interactors.exercise.ExerciseInteractors
-import com.mikolove.core.interactors.workout.WorkoutInteractors
+
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@HiltViewModel
 class WorkoutExerciseViewModel
-@Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val workoutInteractors: com.mikolove.core.interactors.workout.WorkoutInteractors,
-    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
     ): ViewModel() {
 
+/*
     val state: MutableLiveData<WorkoutExerciseState> = MutableLiveData(WorkoutExerciseState())
 
 
@@ -74,9 +68,11 @@ constructor(
         }
     }
 
-    /*
-    Functions
     */
+/*
+    Functions
+    *//*
+
     fun search(){
         resetPage()
         onUpdateQueryExhausted(false)
@@ -134,9 +130,11 @@ constructor(
         return state.value?.query ?: return ""
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     INTERACTORS
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun getWorkoutById(idWorkout : String){
         state.value?.let { state ->
@@ -245,9 +243,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     QUEUE MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -271,5 +271,6 @@ constructor(
             }
         }
     }
+*/
 
 }

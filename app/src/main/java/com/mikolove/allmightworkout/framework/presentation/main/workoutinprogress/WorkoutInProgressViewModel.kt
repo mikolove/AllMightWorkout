@@ -8,10 +8,8 @@ import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors
+
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,20 +20,19 @@ const val WIP_ERROR_LOADING_EXERCISE = "Error loading exercise."
 const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? It will not be save."
 
 
-@HiltViewModel
 class WorkoutInProgressViewModel
-@Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val inProgressListInteractors: com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors,
     private val savedStateHandle: SavedStateHandle,
-    private val dateUtil: DateUtil
     ) : ViewModel() {
 
 
-    /*
+/*
+    */
+/*
     Observable data
-   */
+   *//*
+
     val state: MutableLiveData<WorkoutInProgressState> = MutableLiveData(WorkoutInProgressState())
 
     init {
@@ -74,9 +71,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Functions
-     */
+     *//*
+
 
     private fun updateExercise(exercise : Exercise){
         state.value?.let { state ->
@@ -121,9 +120,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Interactors
-     */
+     *//*
+
 
     private fun getWorkoutById(idWorkout: String){
         state.value?.let { state ->
@@ -169,9 +170,11 @@ constructor(
             }
         }
     }
-    /*
-    Queue managing
     */
+/*
+    Queue managing
+    *//*
+
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -197,6 +200,7 @@ constructor(
         }
     }
 
+*/
 
 
     /*

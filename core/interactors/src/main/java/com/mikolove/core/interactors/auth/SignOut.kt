@@ -4,11 +4,10 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.allmightworkout.framework.presentation.session.GoogleAuthUiClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class SignOut() {
+/*class SignOut() {
 
     fun execute(
         googleAuthUiClient: GoogleAuthUiClient
@@ -47,4 +46,4 @@ class SignOut() {
         val SIGNOUT_FAILED  = "Error during signout"
 
     }
-}
+}*/

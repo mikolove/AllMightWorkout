@@ -5,24 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.mikolove.allmightworkout.util.printLogD
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 
-@HiltViewModel
 class ExerciseSetDetailViewModel
-@Inject
 constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val dateUtil: DateUtil,
 ) : ViewModel(){
+/*
 
 
     val state : MutableLiveData<ExerciseSetDetailState> = MutableLiveData(ExerciseSetDetailState())
@@ -69,9 +64,11 @@ constructor(
         }
     }
 
-    /********************************************************************
+    */
+/********************************************************************
     Functions
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun updateLoadInitialValues(load : Boolean){
         state.value?.let { state ->
@@ -112,9 +109,11 @@ constructor(
             this.state.value = state.copy(set = updatedSet)
         }
     }
-    /********************************************************************
+    */
+/********************************************************************
     Live Data
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private val exerciseSetInteractionManager: ExerciseSetInteractionManager = ExerciseSetInteractionManager()
 
@@ -159,9 +158,11 @@ constructor(
     fun checkSetEditState() = exerciseSetInteractionManager.checkEditState()
 
 
-    /********************************************************************
+    */
+/********************************************************************
     QUEUE MANAGING
-     *********************************************************************/
+     *********************************************************************//*
+
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -188,5 +189,6 @@ constructor(
             }
         }
     }
+*/
 
 }

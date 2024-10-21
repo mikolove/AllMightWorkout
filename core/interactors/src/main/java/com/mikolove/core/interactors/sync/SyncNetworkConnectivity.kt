@@ -1,7 +1,6 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.data.network.NetworkStatus
-import com.mikolove.core.data.util.ConnectivityManagerNetworkMonitor
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -9,6 +8,7 @@ import com.mikolove.core.domain.state.UIComponentType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/*
 class SyncNetworkConnectivity(
     private val connectivityManagerNetworkMonitor: ConnectivityManagerNetworkMonitor
 ) {
@@ -48,3 +48,4 @@ class SyncNetworkConnectivity(
     }
 }
 
+*/

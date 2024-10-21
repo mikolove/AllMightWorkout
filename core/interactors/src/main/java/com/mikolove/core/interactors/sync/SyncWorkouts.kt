@@ -1,9 +1,7 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
@@ -11,7 +9,8 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import java.text.SimpleDateFormat
 
@@ -21,7 +20,7 @@ class SyncWorkouts(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
 ) {
 
-    suspend fun execute(
+    /*suspend fun execute(
         idUser: String
     ) : DataState<SyncState> {
 
@@ -69,11 +68,11 @@ class SyncWorkouts(
                         cachedWorkouts.remove(cacheWorkout)
                         updateWorkoutIfNeeded(networkWorkout,cacheWorkout)
 
-                        /*
+                        *//*
                          TODO : Update link between exercises and workout need to figure how will it work with firebase and room relational model
                          cacheWorkout.exercises?.forEach{ cacheExercise ->
                          }
-                        */
+                        *//*
 
                     }?: insertWorkoutInCache(networkWorkout, idUser = idUser )
                 }
@@ -179,5 +178,5 @@ class SyncWorkouts(
         val SYNC_W_ERROR_TITLE = "Sync error"
         val SYNC_W_ERROR_DESCRIPTION = "Failed retrieving workouts. Check internet or try again later."
 
-    }
+    }*/
 }

@@ -33,7 +33,7 @@ class WorkoutDaoService(
         return workoutDao.getWorkoutById(primaryKey).toWorkout()
     }
 
-    override suspend fun getWorkouts(idUser: String): Flow<List<Workout>> {
+    override  fun getWorkouts(idUser: String): Flow<List<Workout>> {
         return workoutDao.getWorkouts(idUser)
             .map { entities ->
                 entities.map { it.toWorkout() }

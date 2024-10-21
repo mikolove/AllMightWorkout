@@ -1,12 +1,9 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,7 +17,7 @@ class RemoveMultipleWorkouts(
     // set true if an error occurs when deleting any of the workouts from cache
     private var onDeleteError: Boolean = false
 
-    fun execute(
+ /*   fun execute(
         workouts : List<Workout>,
     ): Flow<DataState<Int>?> = flow {
 
@@ -100,6 +97,6 @@ class RemoveMultipleWorkouts(
         val DELETE_WORKOUTS_ERRORS = "Not all the workouts were deleted. Errors occurs."
         val DELETE_WORKOUTS_YOU_MUST_SELECT ="You haven't selected any workouts to delete."
         val DELETE_WORKOUTS_ARE_YOU_SURE = "Are you sure you want to delete these?"
-    }
+    }*/
 
 }

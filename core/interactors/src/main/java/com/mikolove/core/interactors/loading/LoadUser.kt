@@ -1,9 +1,9 @@
 package com.mikolove.core.interactors.loading
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.user.abstraction.UserCacheDataSource
+
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.user.abstraction.UserNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.user.User
@@ -12,7 +12,9 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.user.abstraction.UserCacheDataSource
+import com.mikolove.core.domain.user.abstraction.UserNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -34,10 +36,10 @@ class LoadUser(
     private val userCacheDataSource: UserCacheDataSource,
     private val userNetworkDataSource: UserNetworkDataSource,
     private val userFactory: UserFactory,
-    private val dateUtil: DateUtil
+
 ) {
 
-    fun execute(
+    /*fun execute(
         idUser : String,
         email : String?,
         name : String?
@@ -155,10 +157,10 @@ class LoadUser(
                     }
 
                 }
-                /*If online does not exist and cache exist ( sync problem )
+                *//*If online does not exist and cache exist ( sync problem )
                 userOnline == null && userLocal != null -> {
 
-                }*/
+                }*//*
             }
 
         }
@@ -264,5 +266,5 @@ class LoadUser(
         val LOAD_USER_GLOBLAL_ERROR_DESC = "An error occured during the initialization of the session. Please try again later"
 
 
-    }
+    }*/
 }

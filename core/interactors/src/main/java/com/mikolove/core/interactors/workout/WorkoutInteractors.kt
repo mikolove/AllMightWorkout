@@ -1,5 +1,6 @@
 package com.mikolove.core.interactors.workout
 
+/*
 import com.mikolove.allmightworkout.business.interactors.main.common.*
 
 class WorkoutInteractors(
@@ -8,7 +9,7 @@ class WorkoutInteractors(
     val getWorkoutById: GetWorkoutById,
     val getTotalWorkouts: GetTotalWorkouts,
     val getTotalExercises: GetTotalExercises,
-    val insertWorkout: InsertWorkout,
+    val upsertWorkout: UpsertWorkout,
     val updateWorkout: UpdateWorkout,
     val removeWorkout: RemoveWorkout,
     val removeMultipleWorkouts: RemoveMultipleWorkouts,
@@ -21,4 +22,4 @@ class WorkoutInteractors(
     val getWorkoutOrderAndFilter : GetWorkoutOrderAndFilter
 )
 {
-}
+}*/

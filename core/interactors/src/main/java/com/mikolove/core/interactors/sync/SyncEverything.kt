@@ -4,7 +4,6 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -22,7 +21,7 @@ constructor(
 
     private var errorOccured : Boolean = false
 
-    operator fun invoke(idUser : String) : Flow<DataState<SyncState>> = flow {
+   /* operator fun invoke(idUser : String) : Flow<DataState<SyncState>> = flow {
 
         val listOfSync = mapOf(
             0 to "workoutandbp",
@@ -107,5 +106,5 @@ constructor(
         val SYNC_EV_SUCCESS_TITLE = "Sync everything success"
         val SYNC_EV_SUCCESS_DESCRIPTION = "Everything synced go to app"
 
-    }
+    }*/
 }

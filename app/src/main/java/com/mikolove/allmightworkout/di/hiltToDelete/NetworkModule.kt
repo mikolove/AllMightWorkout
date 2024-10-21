@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import com.google.firebase.auth.FirebaseAuth
@@ -40,9 +41,11 @@ object NetworkModule {
     fun provideGroupNetworkMapper(dateUtil: DateUtil) : GroupNetworkMapper{
         return GroupNetworkMapper(dateUtil)
     }
-    /*
+    */
+/*
     Network mapper
-     */
+     *//*
+
     @Singleton
     @Provides
     fun provideBodyPartNetworkMapper() : BodyPartNetworkMapper{
@@ -104,9 +107,11 @@ object NetworkModule {
     }
 
 
-    /*
+    */
+/*
     Firestore service
-     */
+     *//*
+
 
     @Singleton
     @Provides
@@ -201,9 +206,11 @@ object NetworkModule {
         )
     }
 
-    /*
+    */
+/*
     Network data source
-     */
+     *//*
+
 
     @Singleton
     @Provides
@@ -257,4 +264,4 @@ object NetworkModule {
     fun provideUserNetworkDataSource( userNetworkFireStoreService: UserService) : UserNetworkDataSource {
         return UserNetworkDataSourceImpl(userNetworkFireStoreService)
     }
-}
+}*/

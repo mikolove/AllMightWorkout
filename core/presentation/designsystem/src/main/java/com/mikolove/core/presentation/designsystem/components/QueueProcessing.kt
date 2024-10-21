@@ -8,15 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.mikolove.core.domain.state.GenericMessageInfo
-import com.mikolove.core.domain.state.MessageType
-import com.mikolove.core.domain.state.Queue
-import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.launch
 
 
-@Composable
+/*@Composable
 fun QueueProcessing(
     name : String,
     queue: Queue<GenericMessageInfo> = Queue(mutableListOf()),
@@ -179,4 +174,4 @@ fun DisplayInfoDialog(
             }
         }
     )
-}
+}*/

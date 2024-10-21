@@ -5,26 +5,23 @@ import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors
+
 import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@HiltViewModel
 class ExerciseInProgressViewModel
-@Inject
 constructor(
-    private val inProgressListInteractors: com.mikolove.core.interactors.workoutinprogress.InProgressListInteractors,
     private val savedStateHandle: SavedStateHandle,
-    private val dateUtil: DateUtil
 ) : ViewModel(){
 
-    /*
-        Observable data
+/*
     */
+/*
+        Observable data
+    *//*
+
     val state: MutableLiveData<ExerciseInProgressState> = MutableLiveData(ExerciseInProgressState())
 
     val chronometerManager = ChronometerManager()
@@ -65,9 +62,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Functions
-     */
+     *//*
+
 
     private fun loadNextSet(){
         state.value?.exercise?.let { exercise ->
@@ -107,9 +106,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Interactors
-     */
+     *//*
+
 
     private fun getExerciseById(idExercise : String){
         state.value?.let { state ->
@@ -135,9 +136,11 @@ constructor(
         }
     }
 
-    /*
-        Queue managing
     */
+/*
+        Queue managing
+    *//*
+
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -162,5 +165,6 @@ constructor(
             }
         }
     }
+*/
 
 }

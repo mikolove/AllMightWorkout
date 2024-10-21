@@ -1,12 +1,11 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
+
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +16,7 @@ class RemoveWorkout(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource
 ) {
 
-   fun execute(
+   /*fun execute(
        workout : Workout,
     ) : Flow<DataState<Int>?> = flow {
 
@@ -74,5 +73,5 @@ class RemoveWorkout(
         val DELETE_WORKOUT_SUCCESS = "Successfully deleted workout"
         val DELETE_WORKOUT_FAILED = "Failed deleting workout"
         val DELETE_WORKOUT_ARE_YOU_SURE = "Are you sure to delete this workout ?"
-    }
+    }*/
 }

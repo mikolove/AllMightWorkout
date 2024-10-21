@@ -1,10 +1,9 @@
 package com.mikolove.core.interactors.common
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
-import com.mikolove.allmightworkout.framework.datasource.cache.database.EXERCISE_PAGINATION_PAGE_SIZE
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -17,7 +16,7 @@ class GetExercises(
     val exerciseCacheDataSource: ExerciseCacheDataSource
 ) {
 
-    fun execute(
+   /* fun execute(
         query: String,
         filterAndOrder: String,
         page: Int,
@@ -89,5 +88,5 @@ class GetExercises(
         val GET_EXERCISES_SUCCESS_END = "Successfully retrieved list of workouts. No more workouts for this search."
         val GET_EXERCISES_NO_MATCHING_RESULTS = "There are no exercises that match that query."
         val GET_EXERCISES_FAILED = "Failed to retrieve the list of exercises."
-    }
+    }*/
 }

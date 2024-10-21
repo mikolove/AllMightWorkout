@@ -14,13 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavBackStackEntry
-import com.ramcosta.composedestinations.generated.destinations.ExerciseScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.LoadingScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.WorkoutScreenDestination
-import com.ramcosta.composedestinations.spec.DestinationSpec
 
+/*
 @Composable
 fun TopBar(
     showBackButton : Boolean,
@@ -76,4 +71,4 @@ fun DestinationSpec.topBarTitle(navBackStackEntry: NavBackStackEntry?): String {
         else -> ""
         //TaskListScreenDestination -> javaClass.simpleName.removeSuffix("Destination")
     }
-}
+}*/

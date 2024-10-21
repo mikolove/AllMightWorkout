@@ -1,11 +1,8 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
-import com.mikolove.core.data.exercise.abstraction.ExerciseSetCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
-import com.mikolove.core.data.exercise.abstraction.ExerciseSetNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
@@ -14,7 +11,10 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import java.text.SimpleDateFormat
 
@@ -29,7 +29,7 @@ class SyncExercises(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
-    suspend fun execute(
+   /* suspend fun execute(
         idUser : String
     ) : DataState<SyncState> {
 
@@ -172,7 +172,7 @@ class SyncExercises(
         return response.data ?: mutableListOf()
     }
 
-    /* private suspend fun syncExercisesCacheAndNetwork(
+    *//* private suspend fun syncExercisesCacheAndNetwork(
         cachedExercises : ArrayList<Exercise>,
         cachedExerciseSets : HashMap<String,List<ExerciseSet>>
     ) = withContext(IO){
@@ -250,7 +250,7 @@ class SyncExercises(
             }
         }
 
-    }*/
+    }*//*
 
     private suspend fun updateExerciseIfNeeded(networkExercise : Exercise, cacheExercise : Exercise){
 
@@ -352,5 +352,5 @@ class SyncExercises(
         val SYNC_EX_ERROR_TITLE = "Sync error"
         val SYNC_EX_ERROR_DESCRIPTION = "Failed retrieving exercise. Check internet or try again later."
 
-    }
+    }*/
 }

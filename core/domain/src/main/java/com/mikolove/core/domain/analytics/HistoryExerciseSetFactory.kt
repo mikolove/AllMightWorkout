@@ -1,5 +1,6 @@
 package com.mikolove.core.domain.analytics
 
+import java.time.ZonedDateTime
 import java.util.UUID
 
 
@@ -11,9 +12,9 @@ class HistoryExerciseSetFactory{
         weight: Int ,
         time : Int,
         restTime : Int,
-        startedAt : String,
-        endedAt : String,
-        createdAt: String
+        startedAt : ZonedDateTime,
+        endedAt : ZonedDateTime,
+        createdAt: ZonedDateTime
     ) : HistoryExerciseSet {
         return HistoryExerciseSet(
             idHistoryExerciseSet = idHistoryExerciseSet,

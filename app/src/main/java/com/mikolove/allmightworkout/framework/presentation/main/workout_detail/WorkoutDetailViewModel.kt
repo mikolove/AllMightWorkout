@@ -4,23 +4,19 @@ import androidx.lifecycle.*
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.workout.WorkoutInteractors
+
 import com.mikolove.allmightworkout.util.printLogD
 
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@HiltViewModel
 class WorkoutDetailViewModel
-@Inject
 constructor(
-    private val workoutInteractors : com.mikolove.core.interactors.workout.WorkoutInteractors,
     private val savedStateHandle: SavedStateHandle,
 ): ViewModel(){
 
-    val state: MutableLiveData<WorkoutDetailState> = MutableLiveData(WorkoutDetailState())
+/*    val state: MutableLiveData<WorkoutDetailState> = MutableLiveData(WorkoutDetailState())
 
 
     init {
@@ -107,9 +103,9 @@ constructor(
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
     INTERACTORS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun getWorkoutById(idWorkout : String){
         state.value?.let { state ->
@@ -187,9 +183,9 @@ constructor(
             }
         }
     }
-    /********************************************************************
+    *//********************************************************************
     INTERACTIONS
-     *********************************************************************/
+     *********************************************************************//*
 
 
     fun setWorkoutInteractionNameState(state : WorkoutInteractionState){
@@ -208,9 +204,9 @@ constructor(
 
     fun isEditingIsActive() = workoutInteractionManager.isEditingIsActive()
 
-    /********************************************************************
+    *//********************************************************************
     QUEUE MANAGING
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -238,5 +234,5 @@ constructor(
                 }
             }
         }
-    }
+    }*/
 }

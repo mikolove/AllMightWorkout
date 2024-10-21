@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import android.content.SharedPreferences
@@ -115,3 +116,4 @@ annotation class SimpleDateFormatUS
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class SimpleDateFormatLocal
+*/

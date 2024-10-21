@@ -14,5 +14,5 @@ class GroupCacheDataSourceImpl(
 
     override suspend fun upsertGroup(group: Group, idUser: String): Long = groupCacheService.upsertGroup(group,idUser)
 
-    override suspend fun deleteGroups(groups: List<Group>): Int = groupCacheService.deleteGroups(groups)
+    override suspend fun deleteGroups(groups: List<Group>,idUser : String): Int = groupCacheService.deleteGroups(groups,idUser)
 }

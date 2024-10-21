@@ -12,7 +12,7 @@ interface WorkoutCacheService {
 
     suspend fun getWorkoutById(primaryKey : String) : Workout
 
-    suspend fun getWorkouts(idUser : String) : Flow<List<Workout>>
+    fun getWorkouts(idUser : String) : Flow<List<Workout>>
 
     suspend fun getWorkoutByWorkoutType(idWorkoutType : List<String>, idUser : String) : List<Workout>
 

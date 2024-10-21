@@ -1,15 +1,14 @@
 package com.mikolove.core.interactors.exercise
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -75,7 +74,7 @@ class UpdateExercise(
         updateNetwork(response?.message?.response?.message,exercise)
     }*/
 
-    fun execute(
+  /*  fun execute(
         exercise : Exercise,
     ) : Flow<DataState<Int>?> = flow{
 
@@ -105,9 +104,9 @@ class UpdateExercise(
         }
 
         val cachedExercise : Exercise? = responseExercise.data
-        /*if(cachedExercise == null){
+        *//*if(cachedExercise == null){
             return@flow
-        }*/
+        }*//*
 
         //Update the exercise values
         val cacheResultUpdateExercise = safeCacheCall(IO){
@@ -324,18 +323,18 @@ class UpdateExercise(
         }
     }
 
-/*    private suspend fun updateNetwork(response: String?, exercise: Exercise){
+*//*    private suspend fun updateNetwork(response: String?, exercise: Exercise){
         if(response.equals(UPDATE_EXERCISE_SUCCESS)){
             safeApiCall(IO){
                 exerciseNetworkDataSource.updateExercise(exercise)
             }
         }
-    }*/
+    }*//*
 
     companion object{
         val UPDATE_EXERCISE_SUCCESS = "Successfully updated exercise."
         val UPDATE_EXERCISE_SETS_FAILED  = "Failed updated exercise. Error updating sets."
         val UPDATE_EXERCISE_FAILED  = "Failed updated exercise."
-    }
+    }*/
 
 }

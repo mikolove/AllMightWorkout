@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import android.net.ConnectivityManager
@@ -149,4 +150,4 @@ object SyncModule {
             historyWorkoutNetworkDataSource = historyWorkoutNetworkDataSource
         )
     }
-}
+}*/

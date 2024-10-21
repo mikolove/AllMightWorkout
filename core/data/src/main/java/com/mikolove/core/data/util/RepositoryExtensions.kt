@@ -1,23 +1,20 @@
 package com.mikolove.core.data.util
 
-import com.mikolove.core.domain.cache.CacheConstants.CACHE_TIMEOUT
-import com.mikolove.core.domain.cache.CacheErrors.CACHE_ERROR_TIMEOUT
-import com.mikolove.core.domain.cache.CacheErrors.CACHE_ERROR_UNKNOWN
-import com.mikolove.core.domain.cache.CacheResult
-import com.mikolove.core.domain.network.ApiResult
-import com.mikolove.core.domain.network.NetworkConstants.NETWORK_TIMEOUT
-import com.mikolove.core.domain.network.NetworkErrors.NETWORK_ERROR_TIMEOUT
-import com.mikolove.core.domain.network.NetworkErrors.NETWORK_ERROR_UNKNOWN
-import com.mikolove.core.data.util.GenericErrors.ERROR_UNKNOWN
-import kotlinx.coroutines.*
-import retrofit2.HttpException
-import java.io.IOException
+import android.database.sqlite.SQLiteException
+import android.database.sqlite.SQLiteFullException
+import com.mikolove.core.domain.util.DataError
+import com.mikolove.core.domain.util.DataError.Local.DISK_FULL
+import com.mikolove.core.domain.util.DataError.Local.EXECUTION_ERROR
+import com.mikolove.core.domain.util.DataError.Local.UNKNOWN
+import com.mikolove.core.domain.util.Result
+import kotlinx.coroutines.CancellationException
+import java.nio.channels.UnresolvedAddressException
 
 /**
  * Reference: https://medium.com/@douglas.iacovelli/how-to-handle-errors-with-retrofit-and-coroutines-33e7492a912
  */
 
-suspend fun <T> safeApiCall(
+/*suspend fun <T> safeApiCall(
     dispatcher: CoroutineDispatcher,
     apiCall: suspend () -> T?
 ): ApiResult<T?> {
@@ -56,7 +53,16 @@ suspend fun <T> safeApiCall(
     }
 }
 
-suspend fun <T> safeCacheCall(
+private fun convertErrorBody(throwable: HttpException): String? {
+    return try {
+        throwable.response()?.errorBody()?.string()
+    } catch (exception: Exception) {
+        ERROR_UNKNOWN
+    }
+}
+*/
+
+/*suspend fun <T> safeCacheCall(
     dispatcher: CoroutineDispatcher,
     cacheCall: suspend () -> T?
 ): CacheResult<T?> {
@@ -87,4 +93,40 @@ private fun convertErrorBody(throwable: HttpException): String? {
     } catch (exception: Exception) {
         ERROR_UNKNOWN
     }
+}*/
+
+suspend fun <T> safeCacheCall(
+    cacheCall: suspend () -> T
+): Result<T, com.mikolove.core.domain.util.Error> {
+    return try {
+        Result.Success(cacheCall.invoke())
+    } catch (exception : Exception) {
+        when (exception) {
+            is SQLiteFullException ->{
+                Result.Error(DISK_FULL)
+            }
+            is SQLiteException ->{
+                Result.Error(EXECUTION_ERROR)
+            }
+            else ->{
+                Result.Error(UNKNOWN)
+            }
+        }
+    }
+}
+
+suspend fun <T> safeApiCall(
+    apiCall: suspend () -> T
+): Result<T, DataError.Network> {
+    val response =  try {
+        Result.Success(apiCall.invoke())
+    }  catch(e: UnresolvedAddressException) {
+        e.printStackTrace()
+        return Result.Error(DataError.Network.NO_INTERNET)
+    } catch(e: Exception) {
+        if(e is CancellationException) throw e
+        e.printStackTrace()
+        return Result.Error(DataError.Network.UNKNOWN)
+    }
+    return response
 }

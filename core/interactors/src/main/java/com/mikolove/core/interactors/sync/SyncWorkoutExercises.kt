@@ -1,21 +1,20 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseNetworkDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.Exercise
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.allmightworkout.util.printLogD
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -24,7 +23,6 @@ class SyncWorkoutExercises(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
-    private val dateUtil: DateUtil
 ) {
 
     /*
@@ -34,7 +32,7 @@ class SyncWorkoutExercises(
 
      */
 
-    suspend fun execute(
+  /*  suspend fun execute(
         idUser : String,
     ) : DataState<SyncState> {
 
@@ -330,5 +328,5 @@ class SyncWorkoutExercises(
         val SYNC_WE_ERROR_DESCRIPTION = "Failed retrieving workouts. Check internet or try again later."
 
     }
-
+*/
 }

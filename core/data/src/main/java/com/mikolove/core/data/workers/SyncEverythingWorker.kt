@@ -1,19 +1,16 @@
 package com.mikolove.core.data.workers
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.interactors.sync.SyncInteractors
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 
 
-@HiltWorker
+
+/*@HiltWorker
 class SyncEverythingWorker @AssistedInject constructor(
     private val syncInteractors: SyncInteractors,
     @Assisted appContext : Context,
@@ -80,4 +77,4 @@ class SyncEverythingWorker @AssistedInject constructor(
         } ?: return Result.failure()
 
     }
-}
+}*/

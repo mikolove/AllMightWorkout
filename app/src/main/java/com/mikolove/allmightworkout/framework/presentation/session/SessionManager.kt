@@ -1,24 +1,6 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.workDataOf
-import com.mikolove.core.domain.user.User
-import com.mikolove.core.interactors.session.SessionInteractors
-import com.mikolove.core.interactors.sync.SyncEverything
-import com.mikolove.core.data.workers.SyncEverythingWorker
-import com.mikolove.allmightworkout.util.printLogD
-import com.mikolove.allmightworkout.util.GoogleAuthUiClient
-import com.mikolove.core.domain.state.GenericMessageInfo
-import com.mikolove.core.domain.state.MessageType
-import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,9 +9,10 @@ class SessionManager
 @Inject
 constructor(
     private val workManager: WorkManager,
-    private val sessionInteractors : com.mikolove.core.interactors.session.SessionInteractors,
+    //private val sessionInteractors : com.mikolove.core.interactors.session.SessionInteractors,
 ){
 
+/*
     private val sessionScope = CoroutineScope(Main)
 
     private val _state = MutableStateFlow(SessionState())
@@ -64,9 +47,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Fun
-     */
+     *//*
+
     fun getUser() : User? = _state.value.user
     fun getUserId() : String? = _state.value.user?.idUser
 
@@ -168,9 +153,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Queue managing
-     */
+     *//*
+
 
     private fun removeHeadFromQueue(){
         _state.value.let { state ->
@@ -201,5 +188,6 @@ constructor(
             }
         }
     }
+*/
 
 }

@@ -1,23 +1,23 @@
 package com.mikolove.core.database.util
 
 import androidx.room.TypeConverter
-import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.time.format.DateTimeFormatter
+
 
 class DateConverter {
 
+    //'2011-12-03T10:15:30+01:00[Europe/Paris]'
+    private val formatter = DateTimeFormatter.ISO_DATE_TIME
+
     @TypeConverter
-    fun fromZdtime(value: ZonedDateTime?): Date? {
-        return value?.let { Date.from(it.toInstant()) }
+    fun fromZonedDatetime(value: ZonedDateTime?): String? {
+        return formatter.format(value)
     }
 
     @TypeConverter
-    fun dateToZdt(date: Date?): ZonedDateTime? {
-        return ZonedDateTime.ofInstant(
-            date?.toInstant(),
-            ZoneId.systemDefault()
-        )
+    fun dateToZonedDateTime(date: String?): ZonedDateTime? {
+        return ZonedDateTime.parse(date,formatter)
     }
 
 }

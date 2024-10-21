@@ -2,40 +2,26 @@ package com.mikolove.auth.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
-import com.mikolove.core.domain.user.User
-import com.mikolove.core.domain.user.UserFactory
+import com.mikolove.auth.presentation.LoadingEvents.*
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.loading.LoadingInteractors
-import com.mikolove.auth.presentation.LoadingEvents.*
-import com.mikolove.allmightworkout.framework.presentation.session.SessionEvents
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import com.mikolove.allmightworkout.framework.presentation.session.SessionState
-import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.mikolove.core.domain.user.User
+import com.mikolove.core.domain.user.UserFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-@HiltViewModel
 class LoadingViewModel
-@Inject
 constructor(
-    private val sessionManager: SessionManager,
-    private val loadingInteractors: com.mikolove.core.interactors.loading.LoadingInteractors,
     private val userFactory: UserFactory
 ) : ViewModel() {
-
+/*
     private val _state = MutableStateFlow(LoadingState())
     val state : StateFlow<LoadingState> = _state
 
-    private val _sessionManagerState = sessionManager.state
-    val sessionManagerState : StateFlow<SessionState> = _sessionManagerState
 
     fun onTriggerEvent(event : LoadingEvents){
         when(event){
@@ -166,5 +152,5 @@ constructor(
         }
     }
 
-
+*/
 }

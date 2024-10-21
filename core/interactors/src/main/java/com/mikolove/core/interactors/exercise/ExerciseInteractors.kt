@@ -1,5 +1,6 @@
 package com.mikolove.core.interactors.exercise
 
+/*
 import com.mikolove.allmightworkout.business.interactors.main.common.*
 
 class ExerciseInteractors(
@@ -25,4 +26,4 @@ class ExerciseInteractors(
     val getTotalBodyPartsByWorkoutType: GetTotalBodyPartsByWorkoutType,
     val getExerciseOrderAndFilter : GetExerciseOrderAndFilter
 ) {
-}
+}*/

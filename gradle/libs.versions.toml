@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.6.0"
 androidTools = "31.2.2"
 coreSplashscreen = "1.0.1"
 coilCompose = "2.6.0"
@@ -9,6 +9,7 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+koin="4.0.0"
 lifecycleRuntimeKtx = "2.8.4"
 activityCompose = "1.9.0"
 composeBom = "2024.02.02"
@@ -18,7 +19,7 @@ navigationCompose = "2.8.0-beta07"
 securityCryptoKtx = "1.1.0-alpha06"
 timber = "5.0.1"
 ksp = "1.9.22-1.0.17"
-hiltGradlePlugin = "2.51.1"
+#hiltGradlePlugin = "2.51.1"
 room = "2.6.1"
 appcompat = "1.6.1"
 material = "1.12.0"
@@ -32,8 +33,8 @@ firebaseAuthUi = "8.0.2"
 firebaseCrashlytics = "2.9.9"
 firebasePerfPlugin = "1.4.2"
 composeDestination = "2.0.0-beta11"
-hilt = "2.50"
-hiltJetpack = "1.2.0"
+#hilt = "2.50"
+#hiltJetpack = "1.2.0"
 retrofit = "2.11.0"
 datastore = "1.0.0"
 multidex ="2.0.1"
@@ -44,8 +45,8 @@ serialization = "1.6.3"
 projectApplicationId = "com.mikolove.allmightworkout"
 projectVersionName = "1.0"
 projectMinSdkVersion = "26"
-projectTargetSdkVersion = "34"
-projectCompileSdkVersion = "34"
+projectTargetSdkVersion = "35"
+projectCompileSdkVersion = "35"
 projectVersionCode = "1"
 
 [libraries]
@@ -79,12 +80,17 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts" }
 
-dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-dagger-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltJetpack" }
-dagger-hilt-workmanager = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltJetpack" }
-dagger-hilt-jetpack-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltJetpack" }
-dagger-hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+koin-android-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+
+#dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+#dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+#dagger-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltJetpack" }
+#dagger-hilt-workmanager = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltJetpack" }
+#dagger-hilt-jetpack-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltJetpack" }
+#dagger-hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
@@ -120,12 +126,12 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 kapt-gradlePlugin = { group = "org.jetbrains.kotlin.kapt", name = "org.jetbrains.kotlin.kapt.gradle.plugin", version.ref = "kotlin" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
-hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltGradlePlugin" }
+#hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltGradlePlugin" }
 firebase-crashlytics-gradlePlugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlytics" }
 firebase-performance-gradlePlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerfPlugin" }
 
 [plugins]
-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+#dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-gms-google-services = {id = "com.google.gms.google-services", version.ref = "googleServices"}
@@ -146,7 +152,7 @@ allmightworkout-android-library-compose = {id ="allmightworkout.android.library.
 allmightworkout-android-feature-ui = {id ="allmightworkout.android.feature.ui", version = "unspecified"}
 allmightworkout-android-room = {id ="allmightworkout.android.room", version = "unspecified"}
 allmightworkout-jvm-library = {id ="allmightworkout.jvm.library", version = "unspecified"}
-allmightworkout-android-hilt = {id ="allmightworkout.android.hilt", version = "unspecified"}
+#allmightworkout-android-hilt = {id ="allmightworkout.android.hilt", version = "unspecified"}
 allmightworkout-android-application-firebase = {id ="allmightworkout.android.application.firebase", version = "unspecified"}
 
 [bundles]
@@ -159,6 +165,10 @@ compose = [
     "androidx-compose-ui-graphics",
     "androidx-compose-ui-tooling-preview"
 ]
+
+koin = ["koin-core","koin-android","koin-android-workmanager"]
+koin-compose = ["koin-core","koin-android","koin-android-workmanager","koin-androidx-compose"]
+
 compose-debug = [
     "androidx-compose-ui-tooling",
     "androidx-compose-ui-test-manifest"

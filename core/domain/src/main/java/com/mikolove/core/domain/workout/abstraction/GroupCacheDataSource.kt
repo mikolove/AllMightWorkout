@@ -10,5 +10,5 @@ interface GroupCacheDataSource {
 
     suspend fun upsertGroup(group : Group, idUser: String) : Long
 
-    suspend fun deleteGroups(groups : List<Group>) : Int
+    suspend fun deleteGroups(groups : List<Group>,idUser : String) : Int
 }

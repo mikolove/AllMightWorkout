@@ -2,26 +2,18 @@ package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import com.mikolove.core.domain.util.DateUtil
-import com.mikolove.core.interactors.exercise.ExerciseInteractors
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 const val EXERCISE_INCOMPLETE = "Exercise is incomplete, please fill the form values."
 const val INSERT_EXERCISE_ERROR_NO_NAME = "You must set a name to create an exercise."
 
-@HiltViewModel
 class ExerciseViewModel
-@Inject
 constructor(
-    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences,
     private val exerciseFactory: ExerciseFactory,
     private val exerciseSetFactory: ExerciseSetFactory,
-    private val dateUtil: DateUtil
 ) : ViewModel() /*: BaseViewModel<ExerciseViewState>()*/
 {
 

@@ -1,19 +1,18 @@
 package com.mikolove.core.interactors.exercise
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.exercise.ExerciseType
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -32,7 +31,7 @@ class InsertExercise(
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 
-    fun execute(
+  /*  fun execute(
         idExercise: String? = null,
         name: String,
         sets: List<ExerciseSet>?,
@@ -253,5 +252,5 @@ class InsertExercise(
         val INSERT_EXERCISE_SUCCESS = "Successfully inserted new exercise."
         val INSERT_EXERCISE_FAILED  = "Failed inserting new exercise. Error during exercise insertion"
         val INSERT_EXERCISE_SETS_FAILED  = "Failed inserting new exercise. Error during set insertion"
-    }
+    }*/
 }

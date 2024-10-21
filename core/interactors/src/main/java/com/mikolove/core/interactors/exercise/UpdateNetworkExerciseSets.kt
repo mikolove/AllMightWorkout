@@ -1,6 +1,7 @@
 package com.mikolove.core.interactors.exercise
 
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
+
 
 class UpdateNetworkExerciseSets(
     private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource

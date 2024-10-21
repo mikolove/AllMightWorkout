@@ -13,7 +13,7 @@ constructor(
 ) : WorkoutCacheDataSource {
     override suspend fun upsertWorkout(workout: Workout, idUser : String ): Long = workoutCacheService.upsertWorkout(workout,idUser)
 
-    override suspend fun getWorkouts(idUser: String): Flow<List<Workout>> = workoutCacheService.getWorkouts(idUser)
+    override fun getWorkouts(idUser: String): Flow<List<Workout>> = workoutCacheService.getWorkouts(idUser)
 
     override suspend fun removeWorkouts(workouts: List<Workout>): Int = workoutCacheService.removeWorkouts(workouts)
 

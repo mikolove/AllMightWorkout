@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import com.mikolove.core.domain.util.DateUtil
@@ -35,9 +36,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CacheModule {
 
-    /*
+    */
+/*
         DAO
-     */
+     *//*
+
 
     @Provides
     @Singleton
@@ -106,9 +109,11 @@ object CacheModule {
     }
 
 
-    /*
+    */
+/*
         Cache Mapper
-     */
+     *//*
+
 
     @Singleton
     @Provides
@@ -207,9 +212,11 @@ object CacheModule {
             dateUtil = dateUtil
         )
     }
-    /*
+    */
+/*
         Dao service
-     */
+     *//*
+
 
     @Singleton
     @Provides
@@ -276,9 +283,11 @@ object CacheModule {
         return HistoryExerciseSetDaoServiceImpl(historyExerciseSetDao  ,historyExerciseSetCacheMapper)
     }
 
-    /*
+    */
+/*
         Data Source
-     */
+     *//*
+
 
     @Singleton
     @Provides
@@ -337,4 +346,4 @@ object CacheModule {
     fun provideWorkoutGroupCacheDataSource(groupDaoService : GroupDaoService) : GroupCacheDataSource {
         return GroupCacheDataSourceImpl(groupDaoService)
     }
-}
+}*/

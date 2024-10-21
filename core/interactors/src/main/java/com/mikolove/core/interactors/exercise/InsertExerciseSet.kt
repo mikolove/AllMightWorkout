@@ -1,14 +1,13 @@
 package com.mikolove.core.interactors.exercise
 
 
-import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
+import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -24,7 +23,7 @@ class InsertExerciseSet(
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 
-    fun execute(
+   /* fun execute(
         idExerciseSet : String? = null,
         reps : Int,
         weight : Int,
@@ -98,5 +97,5 @@ class InsertExerciseSet(
     companion object{
         val INSERT_EXERCISE_SET_SUCCESS = "Successfully inserted new exercise set."
         val INSERT_EXERCISE_SET_FAILED  = "Failed inserting new exercise set."
-    }
+    }*/
 }

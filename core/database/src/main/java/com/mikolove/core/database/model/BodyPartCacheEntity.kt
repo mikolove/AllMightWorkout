@@ -13,12 +13,6 @@ import com.mikolove.core.domain.workout.Workout
             childColumns = arrayOf("fk_id_workout_type"),
             onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = ExerciseBodyPartCacheEntity::class,
-            parentColumns = arrayOf("id_body_part"),
-            childColumns = arrayOf("id_body_part"),
-            onDelete = ForeignKey.CASCADE
-        )
     )
 )
 data class BodyPartCacheEntity(

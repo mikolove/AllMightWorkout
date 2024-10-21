@@ -1,8 +1,7 @@
 package com.mikolove.core.interactors.sync
 
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
@@ -10,6 +9,8 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import java.lang.Exception
 
@@ -19,7 +20,7 @@ class SyncDeletedWorkouts(
 ) {
 
 
-    suspend fun execute() : DataState<SyncState> {
+  /*  suspend fun execute() : DataState<SyncState> {
 
         //Get all deletedWorkouts from network
         val apiResult = safeApiCall(Dispatchers.IO){
@@ -95,5 +96,5 @@ class SyncDeletedWorkouts(
         val SYNC_DW_ERROR_TITLE = "Sync error"
         val SYNC_DW_ERROR_DESCRIPTION = "Failed retrieving workouts. Check internet or try again later."
 
-    }
+    }*/
 }

@@ -1,12 +1,11 @@
 package com.mikolove.auth.presentation
 
-import com.google.firebase.auth.FirebaseUser
 import com.mikolove.core.domain.user.User
 import com.mikolove.core.domain.state.DataState
 
 sealed class LoadingEvents {
 
-    data class SignInResult(val dataState : DataState<FirebaseUser>) : LoadingEvents()
+   // data class SignInResult(val dataState : DataState<FirebaseUser>) : LoadingEvents()
     
     data class LoadStep(val loadingStep: LoadingStep) : LoadingEvents()
 

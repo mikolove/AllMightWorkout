@@ -1,13 +1,14 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.core.data.analytics.abstraction.HistoryExerciseSetCacheDataSource
-import com.mikolove.core.data.analytics.abstraction.HistoryWorkoutCacheDataSource
+
 import com.mikolove.core.domain.network.ApiResponseHandler
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.analytics.HistoryWorkout
+import com.mikolove.core.domain.analytics.abstraction.HistoryExerciseCacheDataSource
+import com.mikolove.core.domain.analytics.abstraction.HistoryExerciseSetCacheDataSource
+import com.mikolove.core.domain.analytics.abstraction.HistoryWorkoutCacheDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -27,10 +28,9 @@ class SyncHistory(
     private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
     private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
-    private val historyWorkoutNetworkDataSource: HistoryWorkoutNetworkDataSource
 ) {
 
-    suspend fun execute(
+    /*suspend fun execute(
         idUser : String
     ) : DataState<SyncState> {
 
@@ -156,6 +156,6 @@ class SyncHistory(
         val SYNC_HIS_ERROR_TITLE = "Sync error"
         val SYNC_HIS_ERROR_DESCRIPTION = "Failed retrieving history. Check internet or try again later."
 
-    }
+    }*/
 
 }

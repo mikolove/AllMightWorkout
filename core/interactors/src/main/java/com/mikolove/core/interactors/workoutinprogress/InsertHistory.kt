@@ -1,14 +1,9 @@
 package com.mikolove.core.interactors.workoutinprogress
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.analytics.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.core.data.analytics.abstraction.HistoryExerciseSetCacheDataSource
-import com.mikolove.core.data.analytics.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.allmightworkout.business.domain.state.*
 import com.mikolove.core.domain.analytics.HistoryExercise
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
 import com.mikolove.core.domain.analytics.HistoryExerciseSet
@@ -29,6 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
+/*
 class InsertHistory(
     private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
@@ -302,4 +298,4 @@ class InsertHistory(
         const val INSERT_HISTORY_SUCCESS = "Successfully inserted history."
         const val INSERT_HISTORY_FAILED  = "Failed inserting history."
     }
-}
+}*/

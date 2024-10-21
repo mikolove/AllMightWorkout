@@ -1,10 +1,11 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,10 +15,9 @@ class RemoveExerciseFromWorkout(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
-    private val dateUtil: DateUtil
 ) {
 
-    fun execute(
+ /*   fun execute(
         idExercise : String,
         idWorkout: String,
     ) : Flow<DataState<Int>?> = flow {
@@ -112,5 +112,5 @@ class RemoveExerciseFromWorkout(
         val REMOVE_WORKOUT_EXERCISE_ARE_YOU_SURE  = "Are you sure to remove this exercise from workout ?"
         val REMOVE_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."
         val REMOVE_WORKOUT_EXERCISE_FAILED  = "Failed deleting exercise from workout."
-    }
+    }*/
 }

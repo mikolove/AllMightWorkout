@@ -1,7 +1,7 @@
 package com.mikolove.core.interactors.sync
 
 class SyncInteractors(
-    val syncNetworkConnectivity: SyncNetworkConnectivity,
+    //val syncNetworkConnectivity: SyncNetworkConnectivity,
     val syncWorkoutTypesAndBodyPart: SyncWorkoutTypesAndBodyPart,
     val syncDeletedExerciseSets: SyncDeletedExerciseSets,
     val syncDeletedExercises: SyncDeletedExercises,

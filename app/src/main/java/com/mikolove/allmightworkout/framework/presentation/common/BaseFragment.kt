@@ -11,18 +11,13 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.mikolove.allmightworkout.framework.presentation.UIController
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-@AndroidEntryPoint
 abstract class BaseFragment
 constructor(
     private @LayoutRes val layoutRes: Int
 ): Fragment() {
-
-    @Inject
-    lateinit var sessionManager: SessionManager
 
     lateinit var uiController: UIController
 

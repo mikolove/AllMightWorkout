@@ -1,39 +1,26 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
-import androidx.lifecycle.*
-import com.mikolove.allmightworkout.business.domain.model.*
-import com.mikolove.core.domain.state.GenericMessageInfo
-import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.exercise.ExerciseInteractors
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import com.mikolove.allmightworkout.util.printLogD
-import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.ExerciseFactory
-import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
-import com.mikolove.core.domain.exercise.ExerciseType
-import com.mikolove.core.domain.workouttype.WorkoutType
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 const val EXERCISE_DETAIL_EXIT_DIALOG_TITLE = "Exit exercise edition"
 const val EXERCISE_DETAIL_EXIT_DIALOG_CONTENT = "Modification are not saved. Are you sure to quit ? work will be lost."
 
-@HiltViewModel
 class ExerciseDetailViewModel
 @Inject
 constructor(
     private val sessionManager : SessionManager,
     private val exerciseFactory: ExerciseFactory,
     private val exerciseSetFactory: ExerciseSetFactory,
-    private val exerciseInteractors : com.mikolove.core.interactors.exercise.ExerciseInteractors,
+    //private val exerciseInteractors : com.mikolove.core.interactors.exercise.ExerciseInteractors,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel()
 {
-    val state : MutableLiveData<ExerciseDetailState> = MutableLiveData(ExerciseDetailState())
+  /*  val state : MutableLiveData<ExerciseDetailState> = MutableLiveData(ExerciseDetailState())
 
     init {
 
@@ -111,9 +98,9 @@ constructor(
 
 
 
-    /********************************************************************
+    *//********************************************************************
     INTERACTORS
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun addSet(){
         state.value?.let { state ->
@@ -381,9 +368,9 @@ constructor(
     }
 
 
-    /********************************************************************
+    *//********************************************************************
     INTERACTIONS EXERCISE & SET STATE
-     *********************************************************************/
+     *********************************************************************//*
 
     private val exerciseInteractionManager: ExerciseInteractionManager = ExerciseInteractionManager()
 
@@ -440,9 +427,9 @@ constructor(
     fun isEditingExerciseType() = exerciseInteractionManager.isEditingExerciseType()
 
 
-    /********************************************************************
+    *//********************************************************************
     QUEUE MANAGING
-     *********************************************************************/
+     *********************************************************************//*
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -468,5 +455,5 @@ constructor(
             }
         }
     }
-
+*/
 }

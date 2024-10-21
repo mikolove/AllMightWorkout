@@ -1,20 +1,19 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.bodypart.abstraction.BodyPartCacheDataSource
-import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeNetworkDataSource
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.bodypart.BodyPart
+import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.interactors.sync.SyncEverything.Companion.SYNC_GERROR_DESCRIPTION
-import com.mikolove.core.interactors.sync.SyncEverything.Companion.SYNC_GERROR_TITLE
+import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeCacheDataSource
+import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers.IO
 
 /*
@@ -32,7 +31,7 @@ class SyncWorkoutTypesAndBodyPart(
 ) {
 
 
-    suspend fun execute() : DataState<SyncState> {
+   /* suspend fun execute() : DataState<SyncState> {
 
         val networkWorkoutTypes = getNetworkWorkoutTypes().data ?: listOf()
         val cachedWorkoutTypes = getCachedWorkoutTypes().data ?: listOf()
@@ -178,5 +177,5 @@ class SyncWorkoutTypesAndBodyPart(
         val SYNC_WKT_BDP_ERROR_DESCRIPTION = "Failed retrieving workouts types and body parts. Check internet or try again later."
 
 
-    }
+    }*/
 }

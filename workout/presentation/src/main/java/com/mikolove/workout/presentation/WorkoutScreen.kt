@@ -37,27 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
+
 import com.mikolove.core.domain.workout.Workout
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.ExternalModuleGraph
-import com.ramcosta.composedestinations.annotation.NavGraph
-import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.annotation.parameters.CodeGenVisibility
 
-@NavGraph<ExternalModuleGraph>
-internal annotation class WorkoutGraph
 
-object WorkoutNavGraphs
-
-@Destination<WorkoutGraph>(
-    start = true,
-    navArgs = WorkoutNavGraphs::class,
-    visibility = CodeGenVisibility.INTERNAL
-)
-@Composable
+/*@Composable
 fun WorkoutScreen(
     navController: NavController,
 ){
@@ -288,4 +274,4 @@ fun WorkoutScreen(){
 
     WorkoutScreenContent(
         state = FakeData.getWokoutListState()) {}
-}
+}*/

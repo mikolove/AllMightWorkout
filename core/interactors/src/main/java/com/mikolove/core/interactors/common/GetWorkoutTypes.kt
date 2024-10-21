@@ -1,13 +1,13 @@
 package com.mikolove.core.interactors.common
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeCacheDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +16,7 @@ class GetWorkoutTypes(
     val workoutTypeCacheDataSource: WorkoutTypeCacheDataSource
 ) {
 
-    fun execute(
+   /* fun execute(
         query : String,
         filterAndOrder : String,
         page : Int,
@@ -66,5 +66,5 @@ class GetWorkoutTypes(
         val GET_WORKOUTTYPES_SUCCESS = "Successfully retrieved list of workoutTypes."
         val GET_WORKOUTTYPES_NO_MATCHING_RESULTS = "There are no workoutTypes that match that query."
         val GET_WORKOUTTYPES_FAILED = "Failed to retrieve the list of workoutTypes."
-    }
+    }*/
 }

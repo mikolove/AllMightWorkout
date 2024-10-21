@@ -1,36 +1,16 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.mikolove.core.data.datastore.AppDataStore
-import com.mikolove.core.domain.exercise.Exercise
-import com.mikolove.core.domain.state.GenericMessageInfo
-import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.common.GetExercises
-import com.mikolove.core.interactors.exercise.ExerciseInteractors
-import com.mikolove.core.interactors.exercise.RemoveMultipleExercises
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys
-import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
 import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import com.mikolove.allmightworkout.util.printLogD
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import com.mikolove.core.data.datastore.AppDataStore
 
-@HiltViewModel
 class ExerciseListViewModel
-@Inject
 constructor(
     private val sessionManager: SessionManager,
-    private val exerciseInteractors: com.mikolove.core.interactors.exercise.ExerciseInteractors,
+
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
+/*
 
     val state: MutableLiveData<ExerciseListState> = MutableLiveData(ExerciseListState())
 
@@ -85,9 +65,11 @@ constructor(
     }
 
 
-    /*
+    */
+/*
       Functions
-   */
+   *//*
+
     private fun search(){
         resetPage()
         onUpdateQueryExhausted(false)
@@ -142,9 +124,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
     Getters & Setters
- */
+ *//*
+
 
     fun getSearchQuery(): String {
         return state.value?.query ?: return ""
@@ -176,9 +160,11 @@ constructor(
         return state.value?.searchActive ?: return false
     }
 
-    /*
-       Interactors
     */
+/*
+       Interactors
+    *//*
+
 
     private fun getOrderAndFilter(){
         state.value?.let { state ->
@@ -259,9 +245,11 @@ constructor(
         }
     }
 
-    /*
+    */
+/*
         Queue managing
-     */
+     *//*
+
 
     private fun removeHeadFromQueue(){
         state.value?.let { state ->
@@ -291,4 +279,5 @@ constructor(
         }
     }
 
+*/
 }

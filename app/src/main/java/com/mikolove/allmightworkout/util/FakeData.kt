@@ -1,10 +1,12 @@
 package com.mikolove.allmightworkout.util
 
+import androidx.lifecycle.liveData
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.workout.presentation.WorkoutCollection
 import com.mikolove.workout.presentation.WorkoutTypeFilter
 import com.mikolove.workout.presentation.WorkoutListState
+import java.time.ZonedDateTime
 import java.util.UUID
 
 /*
@@ -16,13 +18,13 @@ object FakeData{
 }
 
 private val workoutType1 : WorkoutType = WorkoutType(
-    idWorkoutType = "Abs", name = "Abs",bodyParts = null
+    idWorkoutType = "Abs", name = "Abs",bodyParts = listOf()
 )
 private val workoutType2 : WorkoutType = WorkoutType(
-    idWorkoutType = "Chest", name = "Abs",bodyParts = null
+    idWorkoutType = "Chest", name = "Abs",bodyParts = listOf()
 )
 private val workoutType3 : WorkoutType = WorkoutType(
-    idWorkoutType = "Leg", name = "Leg",bodyParts = null
+    idWorkoutType = "Leg", name = "Leg",bodyParts = listOf()
 )
 
 private val workoutTypeFilter1 = WorkoutTypeFilter(
@@ -43,11 +45,11 @@ private val workoutTypeFilter3 = WorkoutTypeFilter(
 
 
 private val workouts : List<Workout> = listOf(
-    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 1",exercises = null,isActive = true,exerciseIdsUpdatedAt = null,startedAt = null,endedAt = null,groups = null,createdAt="01-02-2024 00:00:00",updatedAt="01-02-2024 00:00:00"),
-    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 2",exercises = null,isActive = true,exerciseIdsUpdatedAt = null,startedAt = null,endedAt = null,groups = null,createdAt="01-02-2024 00:00:00",updatedAt="01-02-2024 00:00:00"),
-    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 3",exercises = null,isActive = true,exerciseIdsUpdatedAt = null,startedAt = null,endedAt = null,groups = null,createdAt="01-02-2024 00:00:00",updatedAt="01-02-2024 00:00:00"),
-    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 4",exercises = null,isActive = true,exerciseIdsUpdatedAt = null,startedAt = null,endedAt = null,groups = null,createdAt="01-02-2024 00:00:00",updatedAt="01-02-2024 00:00:00"),
-    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 5",exercises = null,isActive = true,exerciseIdsUpdatedAt = null,startedAt = null,endedAt = null,groups = null,createdAt="01-02-2024 00:00:00",updatedAt="01-02-2024 00:00:00"),
+    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 1",exercises = listOf(),isActive = true,startedAt = null,endedAt = null,groups = listOf(),createdAt= ZonedDateTime.now(),updatedAt=ZonedDateTime.now()),
+    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 2",exercises = listOf(),isActive = true,startedAt = null,endedAt = null,groups = listOf(),createdAt= ZonedDateTime.now(),updatedAt=ZonedDateTime.now()),
+    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 3",exercises = listOf(),isActive = true,startedAt = null,endedAt = null,groups = listOf(),createdAt= ZonedDateTime.now(),updatedAt=ZonedDateTime.now()),
+    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 4",exercises = listOf(),isActive = true,startedAt = null,endedAt = null,groups = listOf(),createdAt= ZonedDateTime.now(),updatedAt=ZonedDateTime.now()),
+    Workout(idWorkout = UUID.randomUUID().toString(),name="Workout Name 5",exercises = listOf(),isActive = true,startedAt = null,endedAt = null,groups = listOf(),createdAt= ZonedDateTime.now(),updatedAt=ZonedDateTime.now()),
 )
 
 

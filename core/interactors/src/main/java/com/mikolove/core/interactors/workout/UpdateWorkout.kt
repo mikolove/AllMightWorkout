@@ -1,12 +1,10 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +15,7 @@ class UpdateWorkout(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
 ) {
 
-    fun execute(
+/*    fun execute(
         workout : Workout,
     ): Flow<DataState<Int>?> = flow {
 
@@ -78,5 +76,5 @@ class UpdateWorkout(
     companion object{
         val UPDATE_WORKOUT_SUCCESS = "Successfully updated workout."
         val UPDATE_WORKOUT_FAILED  = "Failed updated workout."
-    }
+    }*/
 }

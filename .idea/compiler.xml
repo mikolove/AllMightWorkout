@@ -20,6 +20,9 @@
       <module name="AllMightWorkout.exercise.presentation" target="19" />
       <module name="AllMightWorkout.workout.data" target="19" />
       <module name="AllMightWorkout.workout.presentation" target="19" />
+      <module name="AndroidStudioProjects.AllMightWorkout.auth.presentation" target="19" />
+      <module name="AndroidStudioProjects.AllMightWorkout.core.database" target="19" />
+      <module name="AndroidStudioProjects.AllMightWorkout.workout.data" target="19" />
       <module name="build-logic.convention" target="19" />
       <module name="build-logic.convention.main" target="19" />
       <module name="build-logic.convention.test" target="19" />

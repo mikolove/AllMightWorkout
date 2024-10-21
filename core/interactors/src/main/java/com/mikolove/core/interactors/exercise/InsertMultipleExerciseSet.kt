@@ -1,12 +1,12 @@
 package com.mikolove.core.interactors.exercise
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.ExerciseSet
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
@@ -21,7 +21,7 @@ class InsertMultipleExerciseSet(
 ) {
 
     // set true if an error occurs when adding any of the sets
-    private var onAddError: Boolean = false
+/*    private var onAddError: Boolean = false
 
     fun execute(
         sets : List<ExerciseSet>,
@@ -103,5 +103,5 @@ class InsertMultipleExerciseSet(
     companion object{
         val ADD_EXERCISE_SETS_SUCCESS = "Successfully added exercise sets."
         val ADD_EXERCISE_SETS_ERRORS = "Not all the exercise set were added. Errors occurs."
-    }
+    }*/
 }

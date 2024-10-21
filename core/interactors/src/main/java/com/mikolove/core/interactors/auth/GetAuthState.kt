@@ -1,7 +1,6 @@
 package com.mikolove.core.interactors.auth
 
-import com.google.firebase.auth.FirebaseAuth
-import com.mikolove.core.domain.user.User
+/*import com.mikolove.core.domain.user.User
 import com.mikolove.core.domain.user.UserFactory
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
@@ -67,4 +66,4 @@ class GetAuthState(
         val GETAUTHSTATE_DISCONNECTED = "Disconnected"
 
     }
-}
+}*/

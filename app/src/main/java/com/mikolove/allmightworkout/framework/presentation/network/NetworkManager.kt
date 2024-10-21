@@ -3,7 +3,6 @@ package com.mikolove.allmightworkout.framework.presentation.network
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.sync.SyncNetworkConnectivity
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,12 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+/*
 class NetworkManager
-@Inject
 constructor(
     private val syncNetworkConnectivity: com.mikolove.core.interactors.sync.SyncNetworkConnectivity
 ){
@@ -90,4 +86,4 @@ constructor(
         }
     }
 
-}
+}*/

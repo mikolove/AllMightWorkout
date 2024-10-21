@@ -1,14 +1,11 @@
 package com.mikolove.core.interactors.workout
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.exercise.abstraction.ExerciseCacheDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseNetworkDataSource
-import com.mikolove.core.data.workout.abstraction.WorkoutNetworkDataSource
-import com.mikolove.allmightworkout.business.data.util.safeApiCall
-import com.mikolove.allmightworkout.business.data.util.safeCacheCall
-import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.domain.util.DateUtil
+import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,10 +15,10 @@ class AddExerciseToWorkout(
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
-    private val dateUtil: DateUtil
+
 ) {
 
-    fun execute(
+  /*  fun execute(
         idWorkout : String,
         idExercise : String
     ) : Flow<DataState<Long>?> = flow {
@@ -120,6 +117,6 @@ class AddExerciseToWorkout(
         val INSERT_WORKOUT_EXERCISE_SUCCESS  = "Successfully inserted added exercise to workout."
         val INSERT_WORKOUT_EXERCISE_UPDATE_FAILED  = "Failed to update last insert exerciseIds."
         val INSERT_WORKOUT_EXERCISE_FAILED  = "Failed adding exercise to workout."
-    }
+    }*/
 
 }

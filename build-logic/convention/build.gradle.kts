@@ -13,7 +13,7 @@ dependencies{
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.kapt.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
-    compileOnly(libs.hilt.gradlePlugin)
+    //compileOnly(libs.hilt.gradlePlugin)
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.firebase.performance.gradlePlugin)
 }
@@ -48,10 +48,10 @@ gradlePlugin{
             id ="allmightworkout.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
-        register("androidHilt"){
+        /*register("androidHilt"){
             id ="allmightworkout.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
-        }
+        }*/
         register("androidApplicationFirebase"){
             id ="allmightworkout.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"

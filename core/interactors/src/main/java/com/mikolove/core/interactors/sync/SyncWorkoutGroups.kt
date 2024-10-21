@@ -1,9 +1,9 @@
 package com.mikolove.core.interactors.sync
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.GroupCacheDataSource
+
 import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.workout.abstraction.GroupNetworkDataSource
+
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Group
@@ -11,16 +11,18 @@ import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
-import com.mikolove.core.domain.util.DateUtil
+import com.mikolove.core.domain.workout.abstraction.GroupCacheDataSource
+import com.mikolove.core.domain.workout.abstraction.GroupNetworkDataSource
+
 import kotlinx.coroutines.Dispatchers.IO
 
 class SyncWorkoutGroups(
     private val groupCacheDataSource: GroupCacheDataSource,
     private val groupNetworkDataSource: GroupNetworkDataSource,
-    private val dateUtil: DateUtil
+
     ) {
 
-    suspend fun execute() : DataState<SyncState> {
+/*    suspend fun execute() : DataState<SyncState> {
 
         val networkGroupsCall = safeApiCall(IO){
             groupNetworkDataSource.getWorkoutGroups()
@@ -124,5 +126,5 @@ class SyncWorkoutGroups(
         val SYNC_WKG_ERROR_DESCRIPTION = "Failed retrieving workouts groups. Check internet or try again later."
 
 
-    }
+    }*/
 }

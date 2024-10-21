@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.allmightworkout.android.library)
-    alias(libs.plugins.allmightworkout.android.hilt)
 }
 
 android {
@@ -16,4 +15,5 @@ dependencies {
     implementation(projects.exercise.domain)
 
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.bundles.koin)
 }

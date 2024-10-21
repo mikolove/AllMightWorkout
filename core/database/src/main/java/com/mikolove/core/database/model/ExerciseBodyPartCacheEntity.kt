@@ -3,10 +3,12 @@ package com.mikolove.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 
 @Entity(
     tableName = "exercises_bodypart",
     primaryKeys = ["id_exercise","id_body_part"],
+    indices = [Index(value = ["id_exercise","id_body_part"], unique = true)],
     foreignKeys = arrayOf(
         ForeignKey(
             entity = ExerciseCacheEntity::class,
@@ -24,9 +26,9 @@ import androidx.room.ForeignKey
 )
 data class ExerciseBodyPartCacheEntity (
 
-    @ColumnInfo(name="id_exercise")
-    var idExercise : String,
+    @ColumnInfo(name="id_exercise",index = true)
+    val idExercise : String,
 
-    @ColumnInfo(name="id_body_part")
-    var idBodyPart : String
+    @ColumnInfo(name="id_body_part", index = true)
+    val idBodyPart : String
 )

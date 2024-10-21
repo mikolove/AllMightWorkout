@@ -1,10 +1,10 @@
 package com.mikolove.core.domain.cache
 
 import com.mikolove.core.domain.cache.CacheErrors.CACHE_DATA_NULL
-import com.mikolove.allmightworkout.business.domain.state.DataState
-import com.mikolove.allmightworkout.business.domain.state.GenericMessageInfo
-import com.mikolove.allmightworkout.business.domain.state.MessageType
-import com.mikolove.allmightworkout.business.domain.state.UIComponentType
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 
 
 //T - result type of handle success expected to be contained in datastate

@@ -8,14 +8,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavHostController
-import com.ramcosta.composedestinations.spec.DestinationSpec
-import com.ramcosta.composedestinations.spec.Route
-import com.ramcosta.composedestinations.utils.currentDestinationAsState
-import com.ramcosta.composedestinations.utils.startDestination
 
-
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RestrictedApi")
 @Composable
@@ -47,4 +41,4 @@ fun BaseScaffold(
 private fun Collection<NavBackStackEntry>.print(prefix: String = "stack") {
     val stack = map { it.destination.route }.toTypedArray().contentToString()
     println("$prefix = $stack")
-}
+}*/

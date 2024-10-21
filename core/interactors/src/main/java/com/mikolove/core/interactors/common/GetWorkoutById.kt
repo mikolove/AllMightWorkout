@@ -1,13 +1,13 @@
 package com.mikolove.core.interactors.common
 
 import com.mikolove.core.domain.cache.CacheResponseHandler
-import com.mikolove.core.data.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType
 import com.mikolove.core.domain.state.UIComponentType
+import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
 
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class GetWorkoutById(
     val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
-    fun execute(
+  /*  fun execute(
         idWorkout : String,
     ) : Flow<DataState<Workout>?> =  flow {
 
@@ -43,7 +43,7 @@ class GetWorkoutById(
             }
         }.getResult()
 
-        /*if(response?.data == null){
+        *//*if(response?.data == null){
             emit(DataState.error(
                 message = GenericMessageInfo.Builder()
                     .id("GetWorkoutById.Error")
@@ -52,10 +52,10 @@ class GetWorkoutById(
                     .messageType(MessageType.Error)
                     .uiComponentType(UIComponentType.Toast))
             )
-        }else{}*/
+        }else{}*//*
         emit(response)
 
-    }
+    }*/
 
     companion object{
         val GET_WORKOUT_BY_ID_SUCCESS = "Successfully retrieved workout by id."

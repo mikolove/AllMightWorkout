@@ -11,10 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import com.mikolove.allmightworkout.R
 
-enum class NavigationBarItem(
+
+/*enum class NavigationBarItem(
     val icon: ImageVector,
     @StringRes val label: Int
 ) {
@@ -66,4 +65,4 @@ fun BottomBar(
         }
     }
 }
-
+*/

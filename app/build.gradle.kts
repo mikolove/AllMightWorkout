@@ -3,7 +3,7 @@ plugins {
    //     id ("org.jetbrains.kotlin.android")
     //alias(libs.plugins.allmightworkout.android.application)
     alias(libs.plugins.allmightworkout.android.application.compose)
-    alias(libs.plugins.allmightworkout.android.hilt)
+    //alias(libs.plugins.allmightworkout.android.hilt)
     alias(libs.plugins.allmightworkout.android.room)
     alias(libs.plugins.allmightworkout.android.application.firebase)
     alias(libs.plugins.kotlin.serialization)
@@ -284,9 +284,9 @@ dependencies {
 
 }
 
-kapt {
+/*kapt {
     correctErrorTypes = true
-}
+}*/
 
 /*
 repositories {

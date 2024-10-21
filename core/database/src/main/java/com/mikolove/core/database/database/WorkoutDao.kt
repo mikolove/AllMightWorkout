@@ -23,7 +23,7 @@ interface WorkoutDao {
 
     @Transaction
     @Query("SELECT * FROM workouts WHERE fk_id_user = :idUser")
-    suspend fun getWorkouts(idUser: String) : Flow<List<WorkoutWithExercisesCacheEntity>>
+    fun getWorkouts(idUser: String) : Flow<List<WorkoutWithExercisesCacheEntity>>
 
     @Transaction
     @Query("""SELECT w.id_workout, w.name, w.is_active, w.fk_id_user, w.created_at, w.updated_at

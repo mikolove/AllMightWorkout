@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import android.net.ConnectivityManager
@@ -69,7 +70,7 @@ object InteractorsModule {
             getTotalExercises = com.mikolove.core.interactors.common.GetTotalExercises(
                 exerciseCacheDataSource
             ),
-            insertWorkout = com.mikolove.core.interactors.workout.InsertWorkout(
+            upsertWorkout = com.mikolove.core.interactors.workout.UpsertWorkout(
                 workoutCacheDataSource,
                 workoutNetworkDataSource,
                 workoutFactory
@@ -372,4 +373,4 @@ object InteractorsModule {
             )
         )
     }
-}
+}*/

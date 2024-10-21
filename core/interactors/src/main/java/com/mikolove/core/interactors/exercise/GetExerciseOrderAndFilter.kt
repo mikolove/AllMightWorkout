@@ -1,6 +1,7 @@
 package com.mikolove.core.interactors.exercise
 
 
+/*
 import com.mikolove.core.data.datastore.AppDataStore
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
@@ -47,4 +48,4 @@ class GetExerciseOrderAndFilter(private val appDataStoreManager : AppDataStore
         val GET_EXERCISE_FILTER_AND_ORDER_SUCCESS = "Filter and order successfully retrieved from datastore."
         val GET_EXERCISE_FILTER_AND_ORDER_FAILED = "Error loading filter and order from datastore."
     }
-}
+}*/

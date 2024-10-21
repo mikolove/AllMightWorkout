@@ -1,3 +1,4 @@
+package com.mikolove.allmightworkout.di.hiltToDelete/*
 package com.mikolove.allmightworkout.di
 
 import android.content.Context
@@ -53,9 +54,11 @@ object ProductionModule {
         return FirebaseAuth.getInstance()
     }
 
-    /*
+    */
+/*
         Unused
-     */
+     *//*
+
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences{
@@ -81,3 +84,4 @@ object ProductionModule {
         return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 }
+*/

@@ -3,35 +3,19 @@ package com.mikolove.workout.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mikolove.core.data.datastore.AppDataStore
 import com.mikolove.core.domain.workout.Workout
-import com.mikolove.allmightworkout.business.domain.state.*
-import com.mikolove.allmightworkout.business.interactors.main.workout.*
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_FILTER
-import com.mikolove.allmightworkout.framework.presentation.common.DataStoreKeys.Companion.WORKOUT_ORDER
-import com.mikolove.allmightworkout.framework.presentation.common.ListInteractionManager
-import com.mikolove.allmightworkout.framework.presentation.common.ListToolbarState
-import com.mikolove.allmightworkout.framework.presentation.main.workout_list.WorkoutListEvents.*
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
-import com.mikolove.allmightworkout.framework.presentation.session.SessionState
-import com.mikolove.allmightworkout.util.printLogD
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
-import com.mikolove.core.interactors.workout.WorkoutInteractors
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class WorkoutListViewModel
-@Inject
+
+/*class WorkoutListViewModel
 constructor(
-    private val sessionManager: SessionManager,
     private val workoutInteractors: com.mikolove.core.interactors.workout.WorkoutInteractors,
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
@@ -365,4 +349,4 @@ constructor(
         }
     }
 
-}
+}*/

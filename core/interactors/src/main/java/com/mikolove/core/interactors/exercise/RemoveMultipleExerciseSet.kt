@@ -1,7 +1,8 @@
 package com.mikolove.core.interactors.exercise
 
-import com.mikolove.allmightworkout.business.data.cache.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.allmightworkout.business.data.network.abstraction.ExerciseSetNetworkDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
+
 
 class RemoveMultipleExerciseSet(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,

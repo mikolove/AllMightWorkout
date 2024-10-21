@@ -17,7 +17,7 @@ interface GroupDao {
 
     @Delete
     //suspend fun deleteGroups(vararg workoutGroups: GroupCacheEntity) : Int
-    suspend fun deleteGroups(ids : List<String>) : Int
+    suspend fun deleteGroups(ids : List<GroupCacheEntity>) : Int
 
     @Transaction
     @Query(" SELECT * FROM groups WHERE fk_id_user = :idUser ORDER BY name ASC")

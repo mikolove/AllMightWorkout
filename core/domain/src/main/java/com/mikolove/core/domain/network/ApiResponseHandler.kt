@@ -2,7 +2,10 @@ package com.mikolove.core.domain.network
 
 import com.mikolove.core.domain.network.NetworkErrors.NETWORK_DATA_NULL
 import com.mikolove.core.domain.network.NetworkErrors.NETWORK_ERROR
-import com.mikolove.allmightworkout.business.domain.state.*
+import com.mikolove.core.domain.state.DataState
+import com.mikolove.core.domain.state.GenericMessageInfo
+import com.mikolove.core.domain.state.MessageType
+import com.mikolove.core.domain.state.UIComponentType
 
 abstract class ApiResponseHandler <ViewState, Data>(
     private val response: ApiResult<Data?>
