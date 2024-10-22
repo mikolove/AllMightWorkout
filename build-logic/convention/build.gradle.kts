@@ -56,6 +56,11 @@ gradlePlugin{
             id ="allmightworkout.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
+        register("androidLibraryFirebase"){
+            id ="allmightworkout.android.library.firebase"
+            implementationClass = "AndroidLibraryFirebaseConventionPlugin"
+        }
+
 
     }
 }

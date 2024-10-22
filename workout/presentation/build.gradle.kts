@@ -4,12 +4,6 @@ plugins {
 
 android {
     namespace = "com.mikolove.workout.presentation"
-
-    ksp{
-        arg("compose-destinations.moduleName", "workout")
-        arg("compose-destinations.mode", "destinations")
-    }
-
 }
 
 

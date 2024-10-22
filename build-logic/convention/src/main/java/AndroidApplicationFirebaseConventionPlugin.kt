@@ -12,11 +12,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 apply("com.google.firebase.firebase-perf")
                 apply("com.google.firebase.crashlytics")
             }
-
-
-            //val extension = extensions.getByType<ApplicationExtension>()
-            //configureFirebase(extension)
-
+            
             dependencies{
                 val bom = libs.findLibrary("firebase-bom").get()
                 "implementation"(platform(bom))
@@ -24,8 +20,6 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("firebase-analytics").get())
                 "implementation"(libs.findLibrary("firebase-performance").get())
                 "implementation"(libs.findLibrary("firebase-crashlytics").get())
-                "implementation"(libs.findLibrary("firebase-auth-ktx").get())
-                "implementation"(libs.findLibrary("firebase-firestore-ktx").get())
             }
         }
     }

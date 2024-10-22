@@ -154,6 +154,7 @@ allmightworkout-android-room = {id ="allmightworkout.android.room", version = "u
 allmightworkout-jvm-library = {id ="allmightworkout.jvm.library", version = "unspecified"}
 #allmightworkout-android-hilt = {id ="allmightworkout.android.hilt", version = "unspecified"}
 allmightworkout-android-application-firebase = {id ="allmightworkout.android.application.firebase", version = "unspecified"}
+allmightworkout-android-library-firebase = {id ="allmightworkout.android.library.firebase", version = "unspecified"}
 
 [bundles]
 compose = [
