@@ -7,6 +7,7 @@ data class HistoryWorkoutNetworkEntity(
     @DocumentId
     var idHistoryWorkout: String,
     var name: String,
+    var historyExercises: List<HistoryExerciseNetworkEntity>,
     var startedAt: Timestamp,
     var endedAt: Timestamp,
     var createdAt: Timestamp,
@@ -15,6 +16,7 @@ data class HistoryWorkoutNetworkEntity(
     constructor() : this(
         "",
         "",
+        listOf(),
         Timestamp.now(),
         Timestamp.now(),
         Timestamp.now(),

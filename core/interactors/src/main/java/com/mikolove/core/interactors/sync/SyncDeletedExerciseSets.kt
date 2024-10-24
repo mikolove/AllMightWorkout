@@ -5,7 +5,6 @@ import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType

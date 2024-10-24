@@ -12,7 +12,6 @@ import com.mikolove.core.domain.exercise.ExerciseType
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType

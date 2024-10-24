@@ -1,10 +1,10 @@
 package com.mikolove.core.interactors.workoutinprogress
 
 import com.mikolove.core.domain.analytics.HistoryWorkoutFactory
-import com.mikolove.core.domain.analytics.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 
 class InsertHistoryWorkout(
-    private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
+    private val analyticsCacheDataSource: AnalyticsCacheDataSource,
     private val historyWorkoutFactory : HistoryWorkoutFactory
 ) {
 

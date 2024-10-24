@@ -7,8 +7,8 @@ import com.mikolove.core.domain.workout.Group
 import com.mikolove.core.network.firebase.mappers.toGroup
 import com.mikolove.core.network.firebase.mappers.toGroupNetworkEntity
 import com.mikolove.core.network.firebase.model.GroupNetworkEntity
-import com.mikolove.core.network.firebase.util.FirestoreConstants.USERS_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.WORKOUT_GROUPS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.USERS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.WORKOUT_GROUPS_COLLECTION
 import kotlinx.coroutines.tasks.await
 
 class GroupFirestoreService

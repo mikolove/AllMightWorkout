@@ -14,7 +14,6 @@ import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import kotlinx.coroutines.Dispatchers.IO
 import java.text.SimpleDateFormat
 

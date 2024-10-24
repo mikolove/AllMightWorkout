@@ -1,10 +1,10 @@
 package com.mikolove.core.interactors.analytics
 
-import com.mikolove.core.domain.analytics.abstraction.HistoryWorkoutCacheDataSource
+import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 
 
 class GetHistoryWorkouts(
-    private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource
+    private val analyticsCacheDataSource: AnalyticsCacheDataSource
 ) {
 
    /* fun getHistoryWorkouts(

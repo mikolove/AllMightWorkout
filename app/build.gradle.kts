@@ -145,6 +145,7 @@ dependencies {
 //    implementation(libs.dagger.hilt.workmanager)
 //    kapt(libs.dagger.hilt.compiler)
 //    kapt(libs.dagger.hilt.jetpack.compiler)
+    implementation(libs.bundles.koin)
 
     //Jetpack tools
     //implementation(Dependencies.hilt_jetpack_navigation)

@@ -8,11 +8,11 @@ import com.mikolove.core.network.firebase.mappers.toBodyPart
 import com.mikolove.core.network.firebase.mappers.toWorkoutType
 import com.mikolove.core.network.firebase.model.BodyPartNetworkEntity
 import com.mikolove.core.network.firebase.model.WorkoutTypeNetworkEntity
-import com.mikolove.core.network.firebase.util.FirestoreConstants.BODYPART_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.WORKOUT_TYPE_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.BODYPART_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.WORKOUT_TYPE_COLLECTION
 import kotlinx.coroutines.tasks.await
 
-class WorkoutTypeFirestoreNetworkService
+class WorkoutTypeFirestoreService
 constructor(
     private val sessionStorage: SessionStorage,
     private val firestore : FirebaseFirestore,

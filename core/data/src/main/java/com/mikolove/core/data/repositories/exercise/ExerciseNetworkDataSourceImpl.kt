@@ -4,7 +4,7 @@ import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkService
 
-class ExerciseNetworkDateSourceImpl
+class ExerciseNetworkDataSourceImpl
 constructor( private val exerciseNetworkService : ExerciseNetworkService)
     : ExerciseNetworkDataSource {
 

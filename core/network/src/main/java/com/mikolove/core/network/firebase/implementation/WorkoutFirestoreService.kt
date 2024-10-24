@@ -4,9 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.Exercise
-import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.workout.Group
-import com.mikolove.core.domain.workout.GroupFactory
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkService
 import com.mikolove.core.network.firebase.mappers.toBodyPart
@@ -18,11 +16,11 @@ import com.mikolove.core.network.firebase.model.BodyPartNetworkEntity
 import com.mikolove.core.network.firebase.model.ExerciseNetworkEntity
 import com.mikolove.core.network.firebase.model.GroupNetworkEntity
 import com.mikolove.core.network.firebase.model.WorkoutNetworkEntity
-import com.mikolove.core.network.firebase.util.FirestoreConstants.BODYPART_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.EXERCISES_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.USERS_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.WORKOUTS_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.WORKOUT_GROUPS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.BODYPART_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.EXERCISES_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.USERS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.WORKOUTS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.WORKOUT_GROUPS_COLLECTION
 import kotlinx.coroutines.tasks.await
 
 class WorkoutFirestoreService

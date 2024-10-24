@@ -10,9 +10,9 @@ import com.mikolove.core.network.firebase.mappers.toExercise
 import com.mikolove.core.network.firebase.mappers.toExerciseNetworkEntity
 import com.mikolove.core.network.firebase.model.BodyPartNetworkEntity
 import com.mikolove.core.network.firebase.model.ExerciseNetworkEntity
-import com.mikolove.core.network.firebase.util.FirestoreConstants.BODYPART_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.EXERCISES_COLLECTION
-import com.mikolove.core.network.firebase.util.FirestoreConstants.USERS_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.BODYPART_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.EXERCISES_COLLECTION
+import com.mikolove.core.network.util.FirestoreConstants.USERS_COLLECTION
 import kotlinx.coroutines.tasks.await
 
 class ExerciseFirestoreService

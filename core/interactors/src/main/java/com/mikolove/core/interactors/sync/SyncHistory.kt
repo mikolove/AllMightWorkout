@@ -1,20 +1,6 @@
 package com.mikolove.core.interactors.sync
 
-import com.mikolove.core.domain.cache.CacheResponseHandler
-
-import com.mikolove.core.domain.network.ApiResponseHandler
-import com.mikolove.core.data.util.safeApiCall
-import com.mikolove.core.data.util.safeCacheCall
-import com.mikolove.core.domain.analytics.HistoryWorkout
-import com.mikolove.core.domain.analytics.abstraction.HistoryExerciseCacheDataSource
-import com.mikolove.core.domain.analytics.abstraction.HistoryExerciseSetCacheDataSource
-import com.mikolove.core.domain.analytics.abstraction.HistoryWorkoutCacheDataSource
-import com.mikolove.core.domain.state.DataState
-import com.mikolove.core.domain.state.GenericMessageInfo
-import com.mikolove.core.domain.state.MessageType
-import com.mikolove.core.domain.state.UIComponentType
-import kotlinx.coroutines.Dispatchers.IO
-import java.lang.Exception
+import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 
 /*
     Get last historyWorkout from cache ( XX last )
@@ -25,7 +11,7 @@ import java.lang.Exception
  */
 
 class SyncHistory(
-    private val historyWorkoutCacheDataSource: HistoryWorkoutCacheDataSource,
+    private val analyticsCacheDataSource: AnalyticsCacheDataSource,
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
     private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
 ) {

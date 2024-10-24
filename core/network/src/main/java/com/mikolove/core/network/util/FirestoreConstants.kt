@@ -1,4 +1,4 @@
-package com.mikolove.core.network.firebase.util
+package com.mikolove.core.network.util
 
 object FirestoreConstants {
 

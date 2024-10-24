@@ -7,7 +7,6 @@ import com.mikolove.core.domain.cache.CacheResponseHandler
 import com.mikolove.core.domain.exercise.ExerciseSet
 import com.mikolove.core.domain.exercise.ExerciseSetFactory
 import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
-import com.mikolove.core.domain.exercise.abstraction.ExerciseSetNetworkDataSource
 import com.mikolove.core.domain.state.DataState
 import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.MessageType

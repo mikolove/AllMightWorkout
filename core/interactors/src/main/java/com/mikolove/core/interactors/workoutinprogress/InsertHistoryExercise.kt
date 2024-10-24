@@ -1,7 +1,6 @@
 package com.mikolove.core.interactors.workoutinprogress
 
 import com.mikolove.core.domain.analytics.HistoryExerciseFactory
-import com.mikolove.core.domain.analytics.abstraction.HistoryExerciseCacheDataSource
 
 class InsertHistoryExercise(
     private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,

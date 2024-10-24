@@ -34,14 +34,9 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract fun exerciseSetDao() : ExerciseSetDao
     abstract fun bodyPartDao() : BodyPartDao
     abstract fun workoutTypeDao() : WorkoutTypeDao
-    abstract fun historyWorkoutDao() : HistoryWorkoutDao
-    abstract fun historyExerciseDao() : HistoryExerciseDao
-    abstract fun historyExerciseSetDao() : HistoryExerciseSetDao
+    abstract fun analyticsDao() : AnalyticsDao
     abstract fun groupDao() : GroupDao
     abstract fun workoutGroupDao() : WorkoutGroupDao
     abstract fun exerciseBodyPartDao() : ExerciseBodyPartDao
 
-    companion object{
-        val DATABASE_NAME : String = "allmightworkout_db"
-    }
 }

@@ -11,7 +11,7 @@ dependencies{
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.kapt.gradlePlugin)
+    //compileOnly(libs.kapt.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
     //compileOnly(libs.hilt.gradlePlugin)
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
