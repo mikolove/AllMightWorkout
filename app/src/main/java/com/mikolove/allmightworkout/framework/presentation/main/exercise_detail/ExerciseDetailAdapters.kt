@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import android.content.Context
@@ -131,4 +132,4 @@ class ExerciseTypeAdapter(
         this.exerciseTypes = exerciseTypes
         notifyDataSetChanged()
     }
-}
+}*/

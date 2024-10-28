@@ -1,0 +1,122 @@
+<resources>
+
+    <string name="app_name">All Might Workout</string>
+
+    <string name="web_client_id">1086211893348-rher580u42hhh9lem27j3358tlb5f4ks.apps.googleusercontent.com</string>
+
+    <!-- test words -->
+    <string name="test_workout_item_transition_name">test_workout_item_transition_name_%1$s</string>
+    <string name="test_workout_item_detail_transition_name">test_workout_item_detail_transition_name</string>
+
+    <string name="test_exercise_item_transition_name">test_exercise_item_transition_name_%1$s</string>
+    <string name="test_exercise_item_detail_transition_name">test_exercise_item_detail_transition_name</string>
+
+    <!-- AddExerciseToWorkout Fragment-->
+    <string name="add_exercise_to_workout_chip_all">all</string>
+    <string name="add_exercise_to_workout_chip_selected">%1$d Selected</string>
+
+    <!-- WorkoutInProgress Fragment-->
+    <string name="wip_fragment_title">Workout in progress</string>
+    <string name="wip_started_at">Started at : %1$s</string>
+
+    <!-- WorkoutInProgress Fragment-->
+    <string name="eip_fragment_title">Exercise in progress</string>
+
+
+    <!-- Menu words -->
+    <string name="menu_filter">Filter</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_create">Create</string>
+    <string name="menu_update">Update</string>
+    <string name="menu_delete">Delete</string>
+
+    <!-- Global words -->
+    <string name="text_error">Error</string>
+    <string name="text_success">Success</string>
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_info">Info</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_undo">Undo</string>
+    <string name="text_save">Save</string>
+    <string name="text_note_save">Not save</string>
+
+
+    <!-- Search toolbar -->
+    <string name="search_toolbar_search">Search</string>
+    <string name="menu_search_workout_hint">Search workout...</string>
+
+    <!-- Home Fragment -->
+    <string name="app_bar_title_default">Default</string>
+    <string name="fragment_home_tab_layout_history">History</string>
+    <string name="fragment_home_tab_layout_workout">Workouts</string>
+    <string name="fragment_home_tab_layout_exercise">Exercises</string>
+
+    <!-- History Fragment -->
+    <string name="fragment_history_title">History</string>
+
+    <!-- ChooseWorkout Fragment -->
+    <string name="fragment_choose_workout_title">Workouts</string>
+    <string name="fragment_choose_workout_no_workout">No workouts found that match the searching query. Add some workouts or change the filters.</string>
+    <string name="fragment_choose_workout_add_content_description">Add Workout</string>
+    <string name="fragment_choose_workout_add_name">Enter a name for the new workout</string>
+
+    <!-- ChooseExercise Fragment -->
+    <string name="fragment_choose_exercise_title">Exercises</string>
+    <string name="fragment_choose_exercise_no_exercise">No exercises found that match the searching query. Add some exercises or change the filters.</string>
+    <string name="fragment_choose_exercise_add_content_description">Add Exercise</string>
+    <string name="fragment_choose_exercise_add_name">Enter a name for the new exercise</string>
+
+
+    <!-- ManageWorkout Fragment -->
+    <string name="fragment_manage_workout_text_title">Manage workout</string>
+    <string name="fragment_manage_workout_text_name">Workout name</string>
+    <string name="fragment_manage_workout_text_is_active">Is active</string>
+    <string name="fragment_manage_workout_text_exercises">List of exercises in :</string>
+    <string name="fragment_manage_workout_text_manage_exercises">Manage exercises</string>
+    <string name="fragment_manage_workout_text_no_exercises">This workout contains no exercises.</string>
+
+
+    <!-- Exercise detail Fragment -->
+    <string name="fragment_exercise_detail_title">Manage exercise</string>
+    <string name="fragment_exercise_set_detail_title">Manage set</string>
+
+    <string name="fragment_exercise_detail_label_name">Name</string>
+    <string name="fragment_exercise_detail_label_workout_type">Workout type</string>
+    <string name="fragment_exercise_detail_label_body_part">Body part</string>
+    <string name="fragment_exercise_detail_label_exercise_type">Exercise type</string>
+
+    <string name="fragment_exercise_detail_label_isactive">Is Active</string>
+    <string name="fragment_exercise_detail_text_is_active">Is active</string>
+    <string name="fragment_exercise_detail_text_exercises">List of exercises in :</string>
+    <string name="fragment_exercise_detail_text_manage_exercises">Manage exercises</string>
+
+    <string name="fragment_exercise_detail_error_name">Name cannot be empty.</string>
+    <string name="fragment_exercise_detail_error_workout_type">Workout type must be set</string>
+    <string name="fragment_exercise_detail_error_body_part">Body part must be set</string>
+    <string name="fragment_exercise_detail_error_exercise_type">Exercise type must be set</string>
+
+
+    <!-- Item workout -->
+    <string name="item_set_text_rep">Repetition</string>
+    <string name="item_set_text_time">Time</string>
+    <string name="item_set_text_rest">Rest time</string>
+    <string name="item_set_text_weight">Weight</string>
+
+
+    <!-- Item workout -->
+    <string name="item_workout_text_exercises">Exercises</string>
+    <string name="item_workout_text_created_at">Created at</string>
+
+    <!-- Filter Options -->
+    <string name="filter_options">Filter options</string>
+    <string name="filter_asc">ASC</string>
+    <string name="filter_desc">DESC</string>
+    <string name="filter_title">Name</string>
+    <string name="filter_date">Created at</string>
+    <string name="filter_title_or_date">Filter by title or date</string>
+    <string name="filter_asc_desc">Ascending or descending order</string>
+    <string name="text_Apply">Apply</string>
+
+</resources>

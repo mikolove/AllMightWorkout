@@ -2,7 +2,6 @@ package com.mikolove.core.interactors.exercise
 
 
 class UpdateNetworkExerciseSets(
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 /*
     fun updateNetworkExerciseSets(

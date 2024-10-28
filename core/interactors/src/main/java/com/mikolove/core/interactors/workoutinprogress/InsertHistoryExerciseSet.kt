@@ -3,7 +3,6 @@ package com.mikolove.core.interactors.workoutinprogress
 import com.mikolove.core.domain.analytics.HistoryExerciseSetFactory
 
 class InsertHistoryExerciseSet(
-    private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
     private val historyExerciseSetFactory: HistoryExerciseSetFactory
 ) {
 

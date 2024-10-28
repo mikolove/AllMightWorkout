@@ -4,8 +4,7 @@ import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
 
 
 class RemoveMultipleExerciseSet(
-    private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
+    private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource
 ) {
 
    /* private var onDeleteError : Boolean = false

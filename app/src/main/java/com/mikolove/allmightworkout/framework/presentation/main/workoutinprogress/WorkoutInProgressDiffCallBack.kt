@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workoutinprogress
 
 import androidx.recyclerview.widget.DiffUtil
@@ -17,4 +18,4 @@ class WorkoutInProgressDiffCallBack (private val oldList : List<Exercise>, priva
         return oldList[oldItemPosition] == newList[newItemPosition]
     }
 
-}
+}*/

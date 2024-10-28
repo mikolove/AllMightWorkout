@@ -12,8 +12,6 @@ import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 
 class SyncHistory(
     private val analyticsCacheDataSource: AnalyticsCacheDataSource,
-    private val historyExerciseCacheDataSource: HistoryExerciseCacheDataSource,
-    private val historyExerciseSetCacheDataSource: HistoryExerciseSetCacheDataSource,
 ) {
 
     /*suspend fun execute(

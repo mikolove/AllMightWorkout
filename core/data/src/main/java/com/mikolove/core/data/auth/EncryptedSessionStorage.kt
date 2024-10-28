@@ -1,8 +1,8 @@
 package com.mikolove.core.data.auth
 
 import android.content.SharedPreferences
-import com.mikolove.core.domain.AuthInfo
-import com.mikolove.core.domain.SessionStorage
+import com.mikolove.core.domain.auth.AuthInfo
+import com.mikolove.core.domain.auth.SessionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString

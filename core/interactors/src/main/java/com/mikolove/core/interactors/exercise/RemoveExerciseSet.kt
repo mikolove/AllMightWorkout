@@ -4,7 +4,6 @@ import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
 
 class RemoveExerciseSet(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
   /*  fun removeExerciseSet(

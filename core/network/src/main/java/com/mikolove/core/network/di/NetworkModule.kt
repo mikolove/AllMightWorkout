@@ -26,6 +26,7 @@ val networkModule = module {
 
     single {
         FirebaseAuth.getInstance()
+            .
     }
 
     singleOf(::AnalyticsFirestoreService).bind<AnalyticsNetworkService>()

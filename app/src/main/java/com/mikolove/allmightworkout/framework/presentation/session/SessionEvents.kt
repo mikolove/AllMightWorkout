@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.session
 
 import androidx.work.WorkInfo
@@ -16,4 +17,4 @@ sealed class SessionEvents {
     data class Signout(val googleAuthUiClient: GoogleAuthUiClient) : SessionEvents()
 
     object OnRemoveHeadFromQueue: SessionEvents()
-}
+}*/

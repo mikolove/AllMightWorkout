@@ -25,7 +25,6 @@ class SyncExercises(
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
    /* suspend fun execute(

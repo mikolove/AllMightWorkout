@@ -5,4 +5,7 @@
     <string name="home_menu_title">Home</string>
     <string name="workout_menu_title">Workout</string>
     <string name="exercise_menu_title">Exercise</string>
+    <string name="show_password">show password</string>
+    <string name="hide_password">hide password</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 </resources>

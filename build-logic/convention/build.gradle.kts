@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.ir.backend.js.compile
-
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     `kotlin-dsl`
@@ -11,9 +9,7 @@ dependencies{
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-    //compileOnly(libs.kapt.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
-    //compileOnly(libs.hilt.gradlePlugin)
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.firebase.performance.gradlePlugin)
 }
@@ -48,10 +44,6 @@ gradlePlugin{
             id ="allmightworkout.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
-        /*register("androidHilt"){
-            id ="allmightworkout.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
-        }*/
         register("androidApplicationFirebase"){
             id ="allmightworkout.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
@@ -60,7 +52,5 @@ gradlePlugin{
             id ="allmightworkout.android.library.firebase"
             implementationClass = "AndroidLibraryFirebaseConventionPlugin"
         }
-
-
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.common
 
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -46,4 +47,4 @@ constructor(
 interface ItemTouchHelperAdapter{
 
     fun onItemSwiped(position: Int)
-}
+}*/

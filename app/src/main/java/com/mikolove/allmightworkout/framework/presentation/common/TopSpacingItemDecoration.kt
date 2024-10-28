@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.common
 
 import android.graphics.Rect
@@ -13,11 +14,13 @@ class TopSpacingItemDecoration(private val padding: Int) : RecyclerView.ItemDeco
         outRect.top = padding
 
         //Set padding to last item - may change value
+*/
 /*        parent.adapter?.let {
             if (parent.getChildAdapterPosition(view) == ( it.getItemCount().minus(1)) ) {
                 outRect.bottom = 10*padding
             }
-        }*/
+        }*//*
+
     }
 
-}
+}*/

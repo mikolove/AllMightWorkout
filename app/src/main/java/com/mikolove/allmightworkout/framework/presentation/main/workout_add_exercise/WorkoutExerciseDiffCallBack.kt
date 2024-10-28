@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.workout_add_exercise
 
 import androidx.recyclerview.widget.DiffUtil
@@ -28,4 +29,4 @@ class WorkoutExerciseDiffCallBack(private val oldList : List<WorkoutExercise>, p
             newItem
         )
     }
-}
+}*/

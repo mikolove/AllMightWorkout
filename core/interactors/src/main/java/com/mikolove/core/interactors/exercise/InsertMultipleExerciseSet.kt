@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class InsertMultipleExerciseSet(
-    private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
     // set true if an error occurs when adding any of the sets

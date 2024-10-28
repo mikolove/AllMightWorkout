@@ -5,7 +5,6 @@ import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
 
 class UpdateExerciseSet(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
 

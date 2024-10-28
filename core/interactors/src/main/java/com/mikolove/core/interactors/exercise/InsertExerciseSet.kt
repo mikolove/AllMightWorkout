@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 
 class InsertExerciseSet(
-    private val exerciseSetCacheDataSource : ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 

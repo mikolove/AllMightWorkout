@@ -25,8 +25,6 @@ class InsertExercise(
     private val exerciseCacheDataSource: ExerciseCacheDataSource,
     private val exerciseNetworkDataSource: ExerciseNetworkDataSource,
     private val exerciseFactory: ExerciseFactory,
-    private val exerciseSetCacheDataSource : ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource,
     private val exerciseSetFactory : ExerciseSetFactory
 ) {
 

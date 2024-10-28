@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_to_amw">Welcome to All Might Workout App.</string>
+    <string name="amw_description">Track your workouts. Please sign in or sign up to continue.</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="create_account">Create account</string>
+    <string name="already_have_an_account">Already have an account ?</string>
+    <string name="example_email">example@email.com</string>
+    <string name="email">Email</string>
+    <string name="must_be_a_valid_email">Must be a valid email</string>
+    <string name="password">password</string>
+    <string name="register">Register</string>
+    <string name="register_with_google">Register with Google</string>
+    <string name="or_continue_with">or</string>
+</resources>

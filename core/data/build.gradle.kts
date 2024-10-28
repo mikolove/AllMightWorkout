@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.androidx.work)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.koin)
 
 }

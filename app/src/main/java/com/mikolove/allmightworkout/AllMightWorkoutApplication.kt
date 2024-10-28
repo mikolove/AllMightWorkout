@@ -2,11 +2,11 @@ package com.mikolove.allmightworkout
 
 import android.app.Application
 import com.mikolove.allmightworkout.di.appModule
+import com.mikolove.auth.presentation.di.authModule
 import com.mikolove.core.data.di.coreDataModule
 import com.mikolove.core.database.di.databaseModule
 import com.mikolove.core.network.di.networkModule
 import kotlinx.coroutines.CoroutineScope
-
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,12 +24,13 @@ class AllMightWorkoutApplication : Application(){
         startKoin {
             androidLogger()
             androidContext(this@AllMightWorkoutApplication)
-            //workManagerFactory()
+            workManagerFactory()
             modules(
                 appModule,
                 coreDataModule,
                 databaseModule,
-                networkModule
+                networkModule,
+                authModule,
             )
 
         }

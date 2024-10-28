@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.util
 
 import android.content.Intent
@@ -99,4 +100,4 @@ class GoogleAuthUiClient(
             .setAutoSelectEnabled(false)
             .build()
     }
-}
+}*/

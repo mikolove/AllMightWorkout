@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.history
 
 import android.os.Bundle
@@ -12,4 +13,4 @@ class HistoryDetailFragment(): BaseFragment(R.layout.fragment_base){
         super.onViewCreated(view, savedInstanceState)
     }
 
-}
+}*/

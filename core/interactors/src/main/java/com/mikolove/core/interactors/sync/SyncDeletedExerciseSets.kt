@@ -16,7 +16,6 @@ import java.lang.Exception
 //TODO : don't call it FireStore has changed
 class SyncDeletedExerciseSets(
     private val exerciseSetCacheDataSource: ExerciseSetCacheDataSource,
-    private val exerciseSetNetworkDataSource: ExerciseSetNetworkDataSource
 ) {
 
 

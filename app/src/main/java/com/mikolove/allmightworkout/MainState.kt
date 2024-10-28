@@ -6,13 +6,10 @@ import com.mikolove.core.domain.state.Queue
 
 data class MainState(
 
-    val isLoading : Boolean = false,
-
-    val firstLaunch : Boolean = false,
+    val isWorkoutTypesChecked : Boolean = false,
 
     val isLoggedIn : Boolean = false,
 
-    val networkStatus : NetworkStatus = NetworkStatus.UNAVAILABLE,
+    val isCheckingAuth : Boolean = false,
 
-    val queue : Queue<GenericMessageInfo> = Queue(mutableListOf())
 )

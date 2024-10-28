@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_detail
 
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +20,7 @@ class ExerciseSetDiffCallBack(
         return oldList[oldItemPosition] == newList[newItemPosition]
     }
 
+*/
 /*    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
         //return super.getChangePayload(oldItemPosition, newItemPosition)
         val oldItem = oldList[oldItemPosition]
@@ -28,5 +30,6 @@ class ExerciseSetDiffCallBack(
             oldItem,
             newItem
         )
-    }*/
-}
+    }*//*
+
+}*/

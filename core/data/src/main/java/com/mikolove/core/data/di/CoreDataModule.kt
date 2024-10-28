@@ -1,16 +1,16 @@
 package com.mikolove.core.data.di
 
-import com.mikolove.core.data.repositories.analytics.AnalyticsCacheDataSourceImpl
-import com.mikolove.core.data.repositories.analytics.AnalyticsNetworkDataSourceImpl
-import com.mikolove.core.data.repositories.bodypart.BodyPartCacheDataSourceImpl
-import com.mikolove.core.data.repositories.exercise.ExerciseCacheDataSourceImpl
-import com.mikolove.core.data.repositories.exercise.ExerciseSetCacheDataSourceImpl
-import com.mikolove.core.data.repositories.exercise.ExerciseNetworkDataSourceImpl
-import com.mikolove.core.data.repositories.user.UserCacheDataSourceImpl
-import com.mikolove.core.data.repositories.user.UserNetworkDataSourceImpl
-import com.mikolove.core.data.repositories.workout.GroupCacheDataSourceImpl
-import com.mikolove.core.data.repositories.workout.WorkoutCacheDataSourceImpl
-import com.mikolove.core.data.repositories.workouttype.WorkoutTypeCacheDataSourceImpl
+import com.mikolove.core.data.datasource.analytics.AnalyticsCacheDataSourceImpl
+import com.mikolove.core.data.datasource.analytics.AnalyticsNetworkDataSourceImpl
+import com.mikolove.core.data.datasource.bodypart.BodyPartCacheDataSourceImpl
+import com.mikolove.core.data.datasource.exercise.ExerciseCacheDataSourceImpl
+import com.mikolove.core.data.datasource.exercise.ExerciseSetCacheDataSourceImpl
+import com.mikolove.core.data.datasource.exercise.ExerciseNetworkDataSourceImpl
+import com.mikolove.core.data.datasource.user.UserCacheDataSourceImpl
+import com.mikolove.core.data.datasource.user.UserNetworkDataSourceImpl
+import com.mikolove.core.data.datasource.workout.GroupCacheDataSourceImpl
+import com.mikolove.core.data.datasource.workout.WorkoutCacheDataSourceImpl
+import com.mikolove.core.data.datasource.workouttype.WorkoutTypeCacheDataSourceImpl
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsNetworkDataSource
 import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource

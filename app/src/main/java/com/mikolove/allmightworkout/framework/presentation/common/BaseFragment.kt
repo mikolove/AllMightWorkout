@@ -1,3 +1,4 @@
+/*
 package com.mikolove.allmightworkout.framework.presentation.common
 
 import android.content.Context
@@ -46,7 +47,8 @@ constructor(
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-  /*      printLogD("BaseFragment","OnAttach")
+  */
+/*      printLogD("BaseFragment","OnAttach")
         activity?.let {
             if(it is MainActivity){
                 try {
@@ -55,7 +57,8 @@ constructor(
                     e.printStackTrace()
                 }
             }
-        }*/
+        }*//*
+
     }
 
     fun displayAppBar(){
@@ -72,7 +75,10 @@ constructor(
 
     fun loadFabController(){
         //COMMENTED LETS GO COMPOSE
-        /*printLogD("BaseFragment","LoadFabController")
-        uiController.loadFabController(null)*/
+        */
+/*printLogD("BaseFragment","LoadFabController")
+        uiController.loadFabController(null)*//*
+
     }
 }
+*/
