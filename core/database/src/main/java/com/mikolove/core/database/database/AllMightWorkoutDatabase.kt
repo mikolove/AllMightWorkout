@@ -28,15 +28,15 @@ import com.mikolove.core.database.util.StringJsonConverter
     ExerciseTypeConverter::class,
     StringJsonConverter::class)
 abstract class AllMightWorkoutDatabase : RoomDatabase(){
-    abstract fun userDao() : UserDao
-    abstract fun workoutDao()  : WorkoutDao
-    abstract fun exerciseDao() : ExerciseDao
-    abstract fun exerciseSetDao() : ExerciseSetDao
-    abstract fun bodyPartDao() : BodyPartDao
-    abstract fun workoutTypeDao() : WorkoutTypeDao
-    abstract fun analyticsDao() : AnalyticsDao
-    abstract fun groupDao() : GroupDao
-    abstract fun workoutGroupDao() : WorkoutGroupDao
-    abstract fun exerciseBodyPartDao() : ExerciseBodyPartDao
+    abstract val userDao : UserDao
+    abstract val workoutDao  : WorkoutDao
+    abstract val exerciseDao : ExerciseDao
+    abstract val exerciseSetDao : ExerciseSetDao
+    abstract val bodyPartDao : BodyPartDao
+    abstract val workoutTypeDao : WorkoutTypeDao
+    abstract val analyticsDao : AnalyticsDao
+    abstract val groupDao : GroupDao
+    abstract val workoutGroupDao  : WorkoutGroupDao
+    abstract val exerciseBodyPartDao: ExerciseBodyPartDao
 
 }

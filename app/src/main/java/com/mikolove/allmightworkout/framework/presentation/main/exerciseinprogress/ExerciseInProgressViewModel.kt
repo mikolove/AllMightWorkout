@@ -9,7 +9,6 @@ import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 import com.mikolove.allmightworkout.util.printLogD
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 class ExerciseInProgressViewModel
 constructor(

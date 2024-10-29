@@ -1,6 +1,9 @@
 package com.mikolove.allmightworkout
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.mikolove.auth.presentation.intro.IntroScreenRoot
 import com.mikolove.auth.presentation.register.RegisterScreenRoot
+import com.mikolove.core.presentation.designsystem.components.AmwActionButton
 
 @Composable
 fun NavigationRoot(
@@ -40,6 +44,8 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
         }
         composable(route = "signup") {
             RegisterScreenRoot(
+                {},
+                {}
            /*     onSignInClick = {
                     navController.navigate("login") {
                         popUpTo("register") {
@@ -57,4 +63,13 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     }
 }
 
-private fun NavGraphBuilder.homeGraph(navController: NavHostController) {}
+private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
+    navigation(
+        startDestination = "welcome",
+        route ="home"
+    ){
+        composable(route = "welcome") {
+            Text("THIS IS HOME")
+        }
+    }
+}

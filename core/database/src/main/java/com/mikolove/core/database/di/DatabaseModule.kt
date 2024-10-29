@@ -27,19 +27,19 @@ val databaseModule = module {
             androidApplication(),
             AllMightWorkoutDatabase::class.java,
             "amworkout.db"
-        )
+        ).build()
     }
 
-    single { get<AllMightWorkoutDatabase>().userDao() }
-    single { get<AllMightWorkoutDatabase>().workoutDao() }
-    single { get<AllMightWorkoutDatabase>().exerciseDao() }
-    single { get<AllMightWorkoutDatabase>().exerciseSetDao() }
-    single { get<AllMightWorkoutDatabase>().bodyPartDao() }
-    single { get<AllMightWorkoutDatabase>().workoutTypeDao() }
-    single { get<AllMightWorkoutDatabase>().analyticsDao() }
-    single { get<AllMightWorkoutDatabase>().groupDao() }
-    single { get<AllMightWorkoutDatabase>().workoutGroupDao() }
-    single { get<AllMightWorkoutDatabase>().exerciseBodyPartDao() }
+    single { get<AllMightWorkoutDatabase>().userDao }
+    single { get<AllMightWorkoutDatabase>().workoutDao }
+    single { get<AllMightWorkoutDatabase>().exerciseDao }
+    single { get<AllMightWorkoutDatabase>().exerciseSetDao }
+    single { get<AllMightWorkoutDatabase>().bodyPartDao }
+    single { get<AllMightWorkoutDatabase>().workoutTypeDao }
+    single { get<AllMightWorkoutDatabase>().analyticsDao }
+    single { get<AllMightWorkoutDatabase>().groupDao }
+    single { get<AllMightWorkoutDatabase>().workoutGroupDao }
+    single { get<AllMightWorkoutDatabase>().exerciseBodyPartDao }
 
     singleOf(::BodyPartDaoService).bind<BodyPartCacheService>()
     singleOf(::WorkoutTypeDaoService).bind<WorkoutTypeCacheService>()

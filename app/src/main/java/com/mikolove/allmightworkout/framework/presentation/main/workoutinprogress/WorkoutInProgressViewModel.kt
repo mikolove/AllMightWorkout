@@ -9,10 +9,9 @@ import com.mikolove.core.domain.state.GenericMessageInfo
 import com.mikolove.core.domain.state.UIComponentType
 import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
+
 
 
 const val WIP_ARE_YOU_SURE_STOP_EXERCISE = "Are you sure to stop this workout ? You can save it in it's current state or not."
@@ -20,6 +19,7 @@ const val WIP_ERROR_LOADING_EXERCISE = "Error loading exercise."
 const val WIP_ARE_YOU_SURE_QUIT_NO_SAVE = "Are you sure to quit this workout ? It will not be save."
 
 
+/*
 class WorkoutInProgressViewModel
 constructor(
     private val sessionManager: SessionManager,
@@ -27,11 +27,16 @@ constructor(
     ) : ViewModel() {
 
 
+*/
 /*
-    */
+    *//*
+
+*/
 /*
     Observable data
    *//*
+*/
+/*
 
     val state: MutableLiveData<WorkoutInProgressState> = MutableLiveData(WorkoutInProgressState())
 
@@ -71,10 +76,14 @@ constructor(
         }
     }
 
-    */
+    *//*
+
+*/
 /*
         Functions
      *//*
+*/
+/*
 
 
     private fun updateExercise(exercise : Exercise){
@@ -120,10 +129,14 @@ constructor(
         }
     }
 
-    */
+    *//*
+
+*/
 /*
         Interactors
      *//*
+*/
+/*
 
 
     private fun getWorkoutById(idWorkout: String){
@@ -170,10 +183,14 @@ constructor(
             }
         }
     }
-    */
+    *//*
+
+*/
 /*
     Queue managing
     *//*
+*/
+/*
 
 
     private fun removeHeadFromQueue(){
@@ -200,14 +217,18 @@ constructor(
         }
     }
 
-*/
+*//*
 
 
-    /*
+
+    */
+/*
 
     Workout In Progress
-    */
+    *//*
 
+
+*/
 /*
     fun getWorkout() : Workout? = getCurrentViewStateOrNew().workout ?: null
     fun getExerciseList() : List<Exercise> = getCurrentViewStateOrNew().exerciseList ?: ArrayList()
@@ -320,6 +341,7 @@ constructor(
         )
         setStateEvent(InsertHistoryEvent(workout = updateWorkout))
     }
-*/
+*//*
 
-}
+
+}*/

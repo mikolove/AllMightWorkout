@@ -1,5 +1,7 @@
 package com.mikolove.auth.presentation.register
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -26,21 +30,52 @@ import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.CheckIcon
 import com.mikolove.core.presentation.designsystem.EmailIcon
 import com.mikolove.core.presentation.designsystem.components.AmwActionButton
-import com.mikolove.core.presentation.designsystem.components.AmwActionButtonSiginWithGoogle
 import com.mikolove.core.presentation.designsystem.components.AmwPasswordTextField
 import com.mikolove.core.presentation.designsystem.components.AmwTextField
 import com.mikolove.core.presentation.designsystem.components.AuthBackground
+import com.mikolove.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @Composable
 fun RegisterScreenRoot(
+    onSignInClick: () -> Unit,
+    onSuccessfulRegistration: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
 
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            is RegisterEvent.Error -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            RegisterEvent.RegistrationSuccess -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    R.string.registration_successful,
+                    Toast.LENGTH_LONG
+                ).show()
+                onSuccessfulRegistration()
+            }
+        }
+    }
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
-
+        onAction = { action ->
+            when(action){
+                RegisterAction.OnSignInClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 
 }
@@ -54,7 +89,8 @@ private fun RegisterScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center
         ){
 
             Text(
@@ -115,9 +151,12 @@ private fun RegisterScreen(
             AmwActionButton(
                 text = stringResource(id = R.string.register),
                 isLoading = state.isRegistering,
-                onClick = { onAction(RegisterAction.OnSignUpClick) },
                 enabled = state.canRegister,
-                modifier = Modifier.fillMaxWidth())
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    onAction(RegisterAction.OnSignUpClick)
+                }
+            )
 
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -133,10 +172,12 @@ private fun RegisterScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             AmwActionButtonSiginWithGoogle(
-                isLoading = state.isRegistering,
-                onClick = { onAction(RegisterAction.OnSignUpClick) },
-                enabled = state.canRegister,
-                modifier = Modifier.fillMaxWidth()
+                isLoading = state.isRegisteringGoogle,
+                enabled = state.canRegisterGoogle,
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                   onAction(RegisterAction.OnSignUpWithGoogleClick)
+                }
             )
         }
     }

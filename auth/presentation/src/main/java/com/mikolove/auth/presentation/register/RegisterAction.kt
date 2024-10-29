@@ -6,5 +6,7 @@ sealed interface RegisterAction {
 
     data object OnSignUpClick : RegisterAction
 
+    data object OnSignUpWithGoogleClick : RegisterAction
+
     data object OnTogglePasswordVisibilityClick : RegisterAction
 }

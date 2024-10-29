@@ -14,4 +14,7 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.data)
     implementation(projects.auth.domain)
+
+    // Timber
+    implementation(libs.timber)
 }

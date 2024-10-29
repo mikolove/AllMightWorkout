@@ -72,19 +72,21 @@ fun AmwActionButton(
                 .padding(vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(15.dp)
-                    .alpha(if (isLoading) 1f else 0f),
-                strokeWidth = 1.5.dp,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-            Text(
-                text = text,
-                modifier = Modifier
-                    .alpha(if(isLoading) 0f else 1f),
-                fontWeight = FontWeight.Medium
-            )
+            if(isLoading){
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(15.dp),
+                    strokeWidth = 1.5.dp,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }else{
+                Text(
+                    text = text,
+                    modifier = Modifier,
+                    fontWeight = FontWeight.Medium
+                )
+
+            }
         }
     }
 }
@@ -117,19 +119,21 @@ fun AmwOutlinedActionButton(
                 .padding(vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(15.dp)
-                    .alpha(if (isLoading) 1f else 0f),
-                strokeWidth = 1.5.dp,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = text,
-                modifier = Modifier
-                    .alpha(if(isLoading) 0f else 1f),
-                fontWeight = FontWeight.Medium
-            )
+            if(isLoading){
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(15.dp),
+                    strokeWidth = 1.5.dp,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }else{
+                Text(
+                    text = text,
+                    modifier = Modifier,
+                    fontWeight = FontWeight.Medium
+                )
+
+            }
         }
     }
 }
@@ -167,80 +171,28 @@ fun AmwActionButtonIcon(
                 imageVector = imageVector,
                 contentDescription = null,
             )
+            if(isLoading){
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(15.dp),
+                    strokeWidth = 1.5.dp,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }else{
+                Text(
+                    text = text,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium)
 
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(15.dp)
-                    .alpha(if (isLoading) 1f else 0f),
-                strokeWidth = 1.5.dp,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-
-            Text(
-                text = text,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .alpha(if(isLoading) 0f else 1f),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium)
-
+            }
         }
     }
 }
 
-@Composable
-fun AmwActionButtonSiginWithGoogle(
-    isLoading: Boolean,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) {
 
-    Button(
-        onClick = onClick,
-        enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContainerColor = MaterialTheme.colorScheme.secondary,
-            disabledContentColor = MaterialTheme.colorScheme.onSecondary
-        ),
-        shape = RoundedCornerShape(100f),
-        modifier = modifier
-            .height(IntrinsicSize.Min)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.CenterStart
-        ) {
-
-            Image(
-                contentScale = ContentScale.Fit,
-                painter = painterResource(id = R.drawable.android_light_rd_na),
-                contentDescription = "Continue with google")
-
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(15.dp)
-                    .alpha(if (isLoading) 1f else 0f),
-                strokeWidth = 1.5.dp,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-
-            Text(
-                text = stringResource(id = R.string.sign_in_with_google),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .alpha(if(isLoading) 0f else 1f),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium)
-
-        }
-    }
-}
 
 @Preview
 @Composable
@@ -273,19 +225,9 @@ private fun AmwButtonIconPreview() {
         AmwActionButtonIcon(
             text = "Test preview text",
             imageVector = EyeIcon,
-            isLoading = false,
+            isLoading = true,
             onClick = {}
         )
     }
 }
 
-@Preview
-@Composable
-private fun AmwButtonSiginWithGooglePreview() {
-    AmwTheme {
-        AmwActionButtonSiginWithGoogle(
-            isLoading = false,
-            onClick = {}
-        )
-    }
-}

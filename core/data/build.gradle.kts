@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.allmightworkout.android.library)
+    alias(libs.plugins.allmightworkout.android.library.firebase)
 }
 
 android {

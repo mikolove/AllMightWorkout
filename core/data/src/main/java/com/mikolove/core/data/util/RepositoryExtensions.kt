@@ -97,7 +97,7 @@ private fun convertErrorBody(throwable: HttpException): String? {
 
 suspend fun <T> safeCacheCall(
     cacheCall: suspend () -> T
-): Result<T, com.mikolove.core.domain.util.Error> {
+): Result<T,DataError.Local> {
     return try {
         Result.Success(cacheCall.invoke())
     } catch (exception : Exception) {

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.allmightworkout.android.application.compose)
     alias(libs.plugins.allmightworkout.android.application.firebase)
+    alias(libs.plugins.allmightworkout.android.library.firebase)
 }
 
 
@@ -67,6 +68,8 @@ dependencies {
     //Leakcanary
     debugImplementation(libs.squareup.leakcanary)
 
+    // Timber
+    implementation(libs.timber)
 
     //JUNIT Test
     testImplementation(libs.junit)

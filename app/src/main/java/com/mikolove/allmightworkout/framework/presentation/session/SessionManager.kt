@@ -1,17 +1,16 @@
 package com.mikolove.allmightworkout.framework.presentation.session
 
 import androidx.work.WorkManager
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+
+/*
 class SessionManager
-@Inject
 constructor(
     private val workManager: WorkManager,
     //private val sessionInteractors : com.mikolove.core.interactors.session.SessionInteractors,
 ){
 
+*/
 /*
     private val sessionScope = CoroutineScope(Main)
 
@@ -47,10 +46,14 @@ constructor(
         }
     }
 
-    */
+    *//*
+
+*/
 /*
         Fun
      *//*
+*/
+/*
 
     fun getUser() : User? = _state.value.user
     fun getUserId() : String? = _state.value.user?.idUser
@@ -153,10 +156,14 @@ constructor(
         }
     }
 
-    */
+    *//*
+
+*/
 /*
         Queue managing
      *//*
+*/
+/*
 
 
     private fun removeHeadFromQueue(){
@@ -188,6 +195,7 @@ constructor(
             }
         }
     }
-*/
+*//*
 
-}
+
+}*/

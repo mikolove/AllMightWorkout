@@ -1,5 +1,7 @@
 package com.mikolove.core.data.di
 
+import com.mikolove.core.data.auth.EncryptedSessionStorage
+import com.mikolove.core.data.auth.FirebaseSessionManager
 import com.mikolove.core.data.datasource.analytics.AnalyticsCacheDataSourceImpl
 import com.mikolove.core.data.datasource.analytics.AnalyticsNetworkDataSourceImpl
 import com.mikolove.core.data.datasource.bodypart.BodyPartCacheDataSourceImpl
@@ -13,6 +15,8 @@ import com.mikolove.core.data.datasource.workout.WorkoutCacheDataSourceImpl
 import com.mikolove.core.data.datasource.workouttype.WorkoutTypeCacheDataSourceImpl
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsNetworkDataSource
+import com.mikolove.core.domain.auth.SessionManager
+import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
@@ -28,6 +32,9 @@ import org.koin.dsl.module
 
 val coreDataModule = module {
 
+    singleOf(::EncryptedSessionStorage).bind<SessionStorage>()
+
+    singleOf(::FirebaseSessionManager).bind<SessionManager>()
 
     singleOf(::AnalyticsCacheDataSourceImpl).bind<AnalyticsCacheDataSource>()
     singleOf(::AnalyticsNetworkDataSourceImpl).bind<AnalyticsNetworkDataSource>()

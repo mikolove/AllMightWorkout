@@ -1,16 +1,15 @@
 package com.mikolove.allmightworkout.framework.presentation.main.exercise_list
 
 import androidx.lifecycle.ViewModel
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import com.mikolove.core.data.datastore.AppDataStore
 
-class ExerciseListViewModel
+/*class ExerciseListViewModel
 constructor(
     private val sessionManager: SessionManager,
 
     private val appDataStoreManager: AppDataStore,
 ) : ViewModel() {
-/*
+
 
     val state: MutableLiveData<ExerciseListState> = MutableLiveData(ExerciseListState())
 
@@ -279,5 +278,5 @@ constructor(
         }
     }
 
-*/
-}
+
+}*/

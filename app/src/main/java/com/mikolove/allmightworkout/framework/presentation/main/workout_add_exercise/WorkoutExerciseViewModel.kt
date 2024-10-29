@@ -11,18 +11,17 @@ import com.mikolove.core.domain.state.doesMessageAlreadyExistInQueue
 
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseFilterOptions
 import com.mikolove.allmightworkout.framework.presentation.main.exercise_list.ExerciseOrderOptions
-import com.mikolove.allmightworkout.framework.presentation.session.SessionManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
+
+/*
 class WorkoutExerciseViewModel
 constructor(
     private val sessionManager: SessionManager,
     private val savedStateHandle: SavedStateHandle,
     ): ViewModel() {
 
-/*
     val state: MutableLiveData<WorkoutExerciseState> = MutableLiveData(WorkoutExerciseState())
 
 
@@ -271,6 +270,6 @@ constructor(
             }
         }
     }
-*/
 
-}
+
+}*/
