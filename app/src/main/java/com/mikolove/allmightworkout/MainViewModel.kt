@@ -13,6 +13,7 @@ import com.mikolove.core.domain.util.Result
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainViewModel(
     private val sessionManager: SessionManager,
@@ -36,6 +37,7 @@ class MainViewModel(
 
         //Firebase continuous check auth
         sessionManager.isAuthenticated().onEach { result ->
+            Timber.d("FIREBASE STATUS CHANGED")
             when(result){
                 is Result.Error -> {
                 }
@@ -58,6 +60,7 @@ class MainViewModel(
                         is Result.Error -> {
                         }
                         is Result.Success -> {
+
                         }
                     }
                 }

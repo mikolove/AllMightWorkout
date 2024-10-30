@@ -1,6 +1,9 @@
 package com.mikolove.allmightworkout
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,20 +13,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.mikolove.auth.presentation.intro.IntroScreenRoot
+import com.mikolove.auth.presentation.login.LoginScreenRoot
 import com.mikolove.auth.presentation.register.RegisterScreenRoot
 import com.mikolove.core.presentation.designsystem.components.AmwActionButton
+import kotlin.math.log
 
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
     isLoggedIn: Boolean,
+    logout: () -> Unit
 ) {
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn) "home" else "auth"
     ) {
         authGraph(navController)
-        homeGraph(navController)
+        homeGraph(navController, logout)
     }
 }
 
@@ -44,32 +50,65 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
         }
         composable(route = "signup") {
             RegisterScreenRoot(
-                {},
-                {}
-           /*     onSignInClick = {
-                    navController.navigate("login") {
-                        popUpTo("register") {
+                onSuccessfulRegistration = {
+                    navController.navigate("signin")
+                },
+                onSignInClick = {
+                    navController.navigate("signin") {
+                        popUpTo("signup") {
                             inclusive = true
                             saveState = true
                         }
                         restoreState = true
                     }
                 },
-                onSuccessfulRegistration = {
-                    navController.navigate("login")
-                }*/
+
+            )
+        }
+
+        composable(route = "signin"){
+            LoginScreenRoot(
+                onLoginSuccess = {
+                    navController.navigate("home") {
+                        popUpTo("auth") {
+                            inclusive = true
+                        }
+                    }
+                },
+                onSignUpClick = {
+                    navController.navigate("signup") {
+                        popUpTo("signin") {
+                            inclusive = true
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
+                },
             )
         }
     }
 }
 
-private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
+private fun NavGraphBuilder.homeGraph(navController: NavHostController, logout: () -> Unit) {
     navigation(
         startDestination = "welcome",
         route ="home"
     ){
         composable(route = "welcome") {
-            Text("THIS IS HOME")
+            Column(
+                modifier = Modifier.fillMaxSize()                 ,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text("THIS IS HOME")
+                AmwActionButton(
+                    text = "Logout",
+                    isLoading = false,
+                    enabled = true,
+                    onClick = {
+                        logout()
+                    }
+                )
+            }
         }
     }
 }

@@ -32,16 +32,12 @@ constructor(
 
     override suspend fun getUser(primaryKey: String): User? {
 
-        val userId = sessionStorage.get()?.userId ?: return null
-
         val user = firestore
-            .collection(USERS_COLLECTION)
-            .document(primaryKey)
-            .get()
-            .await()
-            .toObject(UserNetworkEntity::class.java)?.let {
-                it.toUser()
-            }
+                .collection(USERS_COLLECTION)
+                .document(primaryKey)
+                .get()
+                .await()
+                .toObject(UserNetworkEntity::class.java)?.toUser()
 
         return user
     }

@@ -1,6 +1,7 @@
 package com.mikolove.auth.presentation.register
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -25,7 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mikolove.auth.presentation.AmwAccountManager
 import com.mikolove.auth.presentation.R
+import com.mikolove.auth.presentation.component.AmwActionButtonSiginWithGoogle
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.CheckIcon
 import com.mikolove.core.presentation.designsystem.EmailIcon
@@ -34,8 +40,8 @@ import com.mikolove.core.presentation.designsystem.components.AmwPasswordTextFie
 import com.mikolove.core.presentation.designsystem.components.AmwTextField
 import com.mikolove.core.presentation.designsystem.components.AuthBackground
 import com.mikolove.core.presentation.ui.ObserveAsEvents
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun RegisterScreenRoot(
@@ -44,8 +50,14 @@ fun RegisterScreenRoot(
     viewModel: RegisterViewModel = koinViewModel()
 ) {
 
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val accountManager = remember {
+        AmwAccountManager(context as ComponentActivity)
+    }
+
     val keyboardController = LocalSoftwareKeyboardController.current
+
     ObserveAsEvents(viewModel.events) { event ->
         when(event) {
             is RegisterEvent.Error -> {
@@ -56,17 +68,26 @@ fun RegisterScreenRoot(
                     Toast.LENGTH_LONG
                 ).show()
             }
-            RegisterEvent.RegistrationSuccess -> {
+
+            RegisterEvent.AskForSaveCredential -> {
                 keyboardController?.hide()
-                Toast.makeText(
-                    context,
-                    R.string.registration_successful,
-                    Toast.LENGTH_LONG
-                ).show()
+
+                scope.launch {
+                    val result = accountManager.saveCredential(
+                        username = viewModel.state.email.text.toString(),
+                        password = viewModel.state.password.text.toString()
+                    )
+                    viewModel.onAction(RegisterAction.OnSaveCredentialClick(result))
+                }
+
+            }
+
+            is RegisterEvent.RegistrationSuccess -> {
                 onSuccessfulRegistration()
             }
         }
     }
+
     RegisterScreen(
         state = viewModel.state,
         onAction = { action ->
@@ -90,7 +111,7 @@ private fun RegisterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         ){
 
             Text(
@@ -113,12 +134,12 @@ private fun RegisterScreen(
                             ),
                             linkInteractionListener = { onAction(RegisterAction.OnSignInClick)}
                         ),
-                        block = { append("Sign in") }
+                        block = { append(stringResource(id = R.string.sign_in)) }
                     )
                 }
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             AmwTextField(
                 state = state.email,
@@ -133,8 +154,6 @@ private fun RegisterScreen(
                 keyboardType = KeyboardType.Email
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             AmwPasswordTextField(
                 state = state.password,
                 isPasswordVisible = state.isPasswordVisible,
@@ -146,8 +165,6 @@ private fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
-
             AmwActionButton(
                 text = stringResource(id = R.string.register),
                 isLoading = state.isRegistering,
@@ -158,18 +175,13 @@ private fun RegisterScreen(
                 }
             )
 
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Text(
+            /*Text(
                 text = stringResource(R.string.or_continue_with),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
 
             AmwActionButtonSiginWithGoogle(
                 isLoading = state.isRegisteringGoogle,
@@ -178,7 +190,7 @@ private fun RegisterScreen(
                 onClick = {
                    onAction(RegisterAction.OnSignUpWithGoogleClick)
                 }
-            )
+            )*/
         }
     }
 

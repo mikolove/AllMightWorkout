@@ -13,4 +13,6 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
 }

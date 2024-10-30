@@ -40,6 +40,7 @@ datastore = "1.0.0"
 multidex ="2.0.1"
 leakcanary ="3.0-alpha-8"
 serialization = "1.6.3"
+credentials = "1.5.0-alpha06"
 
 # Project versions
 projectApplicationId = "com.mikolove.allmightworkout"
@@ -118,6 +119,10 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+androidx-credentials-play-services =  { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
+
 
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }

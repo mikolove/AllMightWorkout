@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.mikolove.core.presentation.designsystem.AmwTheme
-import com.mikolove.core.presentation.designsystem.components.AmwActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity(){
@@ -30,7 +29,15 @@ class MainActivity : ComponentActivity(){
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if(!viewModel.state.isCheckingAuth) {
+                    if(!viewModel.state.isCheckingAuth){
+                        val navController = rememberNavController()
+                        NavigationRoot(
+                            navController = navController,
+                            isLoggedIn = viewModel.state.isLoggedIn,
+                            logout = {viewModel.logout()}
+                        )
+                    }
+                    /*if(!viewModel.state.isCheckingAuth) {
                         if(viewModel.state.isLoggedIn){
 
                             AmwActionButton(
@@ -49,7 +56,7 @@ class MainActivity : ComponentActivity(){
                             )
 
                         }
-                    }
+                    }*/
                 }
 
             }

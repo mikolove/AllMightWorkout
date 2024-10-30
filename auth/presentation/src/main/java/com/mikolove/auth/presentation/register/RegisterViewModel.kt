@@ -7,8 +7,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mikolove.auth.domain.AuthRepository
+import com.mikolove.auth.domain.CredentialError
 import com.mikolove.auth.domain.UserDataValidator
+import com.mikolove.auth.presentation.R
+import com.mikolove.core.domain.util.EmptyResult
 import com.mikolove.core.domain.util.Result
+import com.mikolove.core.presentation.ui.UiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -64,24 +68,47 @@ class RegisterViewModel(
                 )
             }
             RegisterAction.OnSignUpWithGoogleClick -> {}
+            is RegisterAction.OnSaveCredentialClick -> { onSaveCredential(action.result) }
+        }
+    }
+
+    private fun onSaveCredential( result: EmptyResult<CredentialError>) {
+        viewModelScope.launch {
+            when(result){
+                is Result.Error -> {
+                    if(result.error == CredentialError.CREATE_EXCEPTION){
+                        eventChannel.send(RegisterEvent.Error(UiText.StringResource(R.string.could_not_save_credential)))
+                    }
+                }
+                is Result.Success -> {
+                    eventChannel.trySend(RegisterEvent.RegistrationSuccess)
+                }
+            }
         }
     }
 
     private fun register() {
         viewModelScope.launch {
-            state = state.copy(isRegistering = true, canRegister = false)
+            state = state.copy(
+                isRegistering = true,
+                canRegister = false,
+                canRegisterGoogle = false)
             val result = authRepository
                 .signUp(
                     email = state.email.text.toString().trim(),
                     password = state.password.text.toString().trim())
 
-            state =state.copy(isRegistering = false, canRegister = true)
+            state =state.copy(
+                isRegistering = false,
+                canRegister = true,
+                canRegisterGoogle = true)
+
             when(result){
                 is Result.Error -> {
-                    eventChannel.send(RegisterEvent.RegistrationSuccess)
+                    //eventChannel.send(RegisterEvent.Error(result.error.asString()))
                 }
                 is Result.Success -> {
-                    eventChannel.send(RegisterEvent.RegistrationSuccess)
+                    eventChannel.send(RegisterEvent.AskForSaveCredential)
                 }
             }
         }

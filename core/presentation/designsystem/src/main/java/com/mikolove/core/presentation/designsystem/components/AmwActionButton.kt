@@ -201,7 +201,8 @@ private fun AmwActionButtonPreview() {
         AmwActionButton(
             text = "Login",
             isLoading = false,
-            onClick = {}
+            onClick = {},
+            enabled = false
         )
     }
 }
@@ -213,7 +214,7 @@ private fun AmwOutlinedActionButtonPreview() {
         AmwOutlinedActionButton(
             text = "Login",
             isLoading = false,
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -226,6 +227,7 @@ private fun AmwButtonIconPreview() {
             text = "Test preview text",
             imageVector = EyeIcon,
             isLoading = true,
+            enabled = false,
             onClick = {}
         )
     }
