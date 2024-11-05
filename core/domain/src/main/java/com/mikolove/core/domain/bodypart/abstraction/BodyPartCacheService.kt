@@ -5,7 +5,7 @@ import com.mikolove.core.domain.bodypart.BodyPart
 
 interface BodyPartCacheService {
 
-    suspend fun upsertBodyPart(bodyPart: BodyPart, idWorkoutType: String) : Long
+    suspend fun upsertBodyPart(bodyPart: List<BodyPart>, idWorkoutType: String) : LongArray
 
     suspend fun removeBodyPart(primaryKey: String) : Int
 

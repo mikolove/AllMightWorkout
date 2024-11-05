@@ -13,6 +13,7 @@ import com.mikolove.core.data.datasource.user.UserNetworkDataSourceImpl
 import com.mikolove.core.data.datasource.workout.GroupCacheDataSourceImpl
 import com.mikolove.core.data.datasource.workout.WorkoutCacheDataSourceImpl
 import com.mikolove.core.data.datasource.workouttype.WorkoutTypeCacheDataSourceImpl
+import com.mikolove.core.data.repositories.LoadingRepositoryImpl
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsNetworkDataSource
 import com.mikolove.core.domain.auth.SessionManager
@@ -21,6 +22,7 @@ import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseNetworkDataSource
 import com.mikolove.core.domain.exercise.abstraction.ExerciseSetCacheDataSource
+import com.mikolove.core.domain.loading.LoadingRepository
 import com.mikolove.core.domain.user.abstraction.UserCacheDataSource
 import com.mikolove.core.domain.user.abstraction.UserNetworkDataSource
 import com.mikolove.core.domain.workout.abstraction.GroupCacheDataSource
@@ -48,4 +50,5 @@ val coreDataModule = module {
     singleOf(::WorkoutCacheDataSourceImpl).bind<WorkoutCacheDataSource>()
     singleOf(::WorkoutTypeCacheDataSourceImpl).bind<WorkoutTypeCacheDataSource>()
 
+    singleOf(::LoadingRepositoryImpl).bind<LoadingRepository>()
 }

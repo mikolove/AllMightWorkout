@@ -15,4 +15,6 @@ val authDataModule = module {
     }
     singleOf(::UserDataValidator)
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
+
+
 }

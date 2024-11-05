@@ -1,8 +1,8 @@
 package com.mikolove.auth.domain
 
-import com.mikolove.core.domain.util.Error
+import com.mikolove.core.domain.util.DataError
 
-enum class CredentialError : Error{
+enum class CredentialError : DataError{
     CREATE_CANCELATION,
     CREATE_EXCEPTION,
     GET_CANCELATION,

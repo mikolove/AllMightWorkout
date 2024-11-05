@@ -3,6 +3,7 @@ package com.mikolove.auth.presentation
 import android.app.Activity
 import com.mikolove.auth.domain.CredentialError
 import com.mikolove.auth.domain.CredentialInfo
+import com.mikolove.core.domain.util.DataError
 import com.mikolove.core.domain.util.EmptyResult
 import com.mikolove.core.domain.util.Result
 
@@ -12,7 +13,7 @@ class AmwAccountManager(
     private val credentialManager =
         androidx.credentials.CredentialManager.Companion.create(activity)
 
-    suspend fun saveCredential(username: String, password: String): EmptyResult<CredentialError> {
+    suspend fun saveCredential(username: String, password: String): EmptyResult<DataError> {
         return try {
             credentialManager.createCredential(
                 context = activity,
@@ -31,7 +32,7 @@ class AmwAccountManager(
         }
     }
 
-    suspend fun loadCredential(): Result<CredentialInfo, CredentialError> {
+    suspend fun loadCredential(): Result<CredentialInfo, DataError> {
         return try {
             val credentialResponse = credentialManager.getCredential(
                 context = activity,

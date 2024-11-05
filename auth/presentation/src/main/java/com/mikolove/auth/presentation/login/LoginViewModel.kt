@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.mikolove.auth.domain.AuthRepository
 import com.mikolove.auth.domain.UserDataValidator
 import com.mikolove.core.domain.util.Result
+import com.mikolove.core.presentation.ui.asErrorUiText
 import com.mikolove.core.presentation.ui.asUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -43,7 +44,6 @@ class LoginViewModel(
         when(action){
             LoginAction.OnSignInClick -> { login() }
             LoginAction.OnTogglePasswordVisibility -> {
-                Timber.d("VM VISIBLE")
                 state = state.copy(
                     isPasswordVisible = !state.isPasswordVisible
                 )
@@ -64,8 +64,6 @@ class LoginViewModel(
     }
 
     private fun login(){
-        Timber.d("LOGIN LAUNCH")
-
         viewModelScope.launch {
             state = state.copy(isLoggingIn = true)
 
@@ -78,7 +76,7 @@ class LoginViewModel(
 
             when(result){
                 is Result.Error -> {
-                    eventChannel.send(LoginEvent.Error(result.error.asUiText()))
+                    eventChannel.send(LoginEvent.Error(result.asErrorUiText()))
                 }
                 is Result.Success -> {
                     eventChannel.send(LoginEvent.LoginSuccess)

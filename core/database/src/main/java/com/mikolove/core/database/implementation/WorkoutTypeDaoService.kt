@@ -3,6 +3,7 @@ package com.mikolove.core.database.implementation
 import com.mikolove.core.database.database.WorkoutTypeDao
 import com.mikolove.core.database.mappers.toWorkoutType
 import com.mikolove.core.database.mappers.toWorkoutTypeCacheEntity
+import com.mikolove.core.database.mappers.toWorkoutTypeWithBodyPartCacheEntity
 import com.mikolove.core.domain.workouttype.WorkoutType
 import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeCacheService
 
@@ -10,8 +11,8 @@ class WorkoutTypeDaoService(
     private val workoutTypeDao : WorkoutTypeDao,
 ) : WorkoutTypeCacheService {
 
-    override suspend fun upsertWorkoutType(workoutTypes: WorkoutType): Long {
-        return workoutTypeDao.upsertWorkoutType(workoutTypes.toWorkoutTypeCacheEntity())
+    override suspend fun upsertWorkoutType(workoutTypes: List<WorkoutType>): LongArray {
+        return workoutTypeDao.upsertWorkoutType(workoutTypes.map { it.toWorkoutTypeCacheEntity() })
     }
 
     override suspend fun removeWorkoutType(primaryKey: String): Int {

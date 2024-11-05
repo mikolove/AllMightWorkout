@@ -10,9 +10,13 @@ import com.mikolove.auth.domain.AuthRepository
 import com.mikolove.auth.domain.CredentialError
 import com.mikolove.auth.domain.UserDataValidator
 import com.mikolove.auth.presentation.R
+import com.mikolove.auth.presentation.asUiText
+import com.mikolove.core.domain.util.DataError
 import com.mikolove.core.domain.util.EmptyResult
 import com.mikolove.core.domain.util.Result
 import com.mikolove.core.presentation.ui.UiText
+import com.mikolove.core.presentation.ui.asErrorUiText
+import com.mikolove.core.presentation.ui.asUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -72,13 +76,11 @@ class RegisterViewModel(
         }
     }
 
-    private fun onSaveCredential( result: EmptyResult<CredentialError>) {
+    private fun onSaveCredential( result: EmptyResult<DataError>) {
         viewModelScope.launch {
             when(result){
                 is Result.Error -> {
-                    if(result.error == CredentialError.CREATE_EXCEPTION){
-                        eventChannel.send(RegisterEvent.Error(UiText.StringResource(R.string.could_not_save_credential)))
-                    }
+                    eventChannel.send(RegisterEvent.Error(result.asErrorUiText()))
                 }
                 is Result.Success -> {
                     eventChannel.trySend(RegisterEvent.RegistrationSuccess)
@@ -105,7 +107,7 @@ class RegisterViewModel(
 
             when(result){
                 is Result.Error -> {
-                    //eventChannel.send(RegisterEvent.Error(result.error.asString()))
+                    eventChannel.send(RegisterEvent.Error(result.asErrorUiText()))
                 }
                 is Result.Success -> {
                     eventChannel.send(RegisterEvent.AskForSaveCredential)

@@ -8,7 +8,7 @@ class WorkoutTypeCacheDataSourceImpl
 constructor( private val workoutTypeDaoService : WorkoutTypeCacheService) :
     WorkoutTypeCacheDataSource {
 
-    override suspend fun upsertWorkoutType(workoutType: WorkoutType): Long = workoutTypeDaoService.upsertWorkoutType(workoutType)
+    override suspend fun upsertWorkoutType(workoutType: List<WorkoutType>): LongArray = workoutTypeDaoService.upsertWorkoutType(workoutType)
 
     override suspend fun getWorkoutTypeBydBodyPartId(idBodyPart: String): WorkoutType = workoutTypeDaoService.getWorkoutTypeBydBodyPartId(idBodyPart)
 

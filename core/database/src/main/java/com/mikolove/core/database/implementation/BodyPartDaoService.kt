@@ -10,8 +10,8 @@ class BodyPartDaoService(
     private val bodyPartDao : BodyPartDao,
 ) : BodyPartCacheService {
 
-    override suspend fun upsertBodyPart(bodyPart: BodyPart,idWorkoutType: String): Long {
-        return bodyPartDao.upsertBodyPart(bodyPart.toBodyPartCacheEntity(idWorkoutType))
+    override suspend fun upsertBodyPart(bodyPart: List<BodyPart>,idWorkoutType: String): LongArray {
+        return bodyPartDao.upsertBodyPart(bodyPart.map { it.toBodyPartCacheEntity(idWorkoutType) })
     }
 
     override suspend fun removeBodyPart(primaryKey: String): Int {

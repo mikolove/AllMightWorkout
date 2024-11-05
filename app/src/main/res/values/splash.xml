@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#284085</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_mhalogo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/baseline_android_24</item>
         <item name="postSplashScreenTheme">@style/Theme.Amw</item>
     </style>
 </resources>

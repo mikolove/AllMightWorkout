@@ -9,7 +9,6 @@ class AndroidFeatureUiConventionPlugin : Plugin<Project> {
         target.run{
             pluginManager.run {
                 apply("allmightworkout.android.library.compose")
-                //apply("allmightworkout.android.hilt")
             }
 
             dependencies{

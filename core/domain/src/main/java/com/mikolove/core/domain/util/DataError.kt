@@ -1,6 +1,6 @@
 package com.mikolove.core.domain.util
 
-sealed interface DataError: Error {
+interface DataError: Error {
     enum class Network: DataError {
         REQUEST_TIMEOUT,
         NO_INTERNET,

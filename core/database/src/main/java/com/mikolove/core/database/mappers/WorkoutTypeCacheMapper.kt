@@ -18,3 +18,10 @@ fun WorkoutType.toWorkoutTypeCacheEntity() : WorkoutTypeCacheEntity{
         name = name
     )
 }
+
+fun WorkoutType.toWorkoutTypeWithBodyPartCacheEntity() : WorkoutTypeWithBodyPartCacheEntity{
+    return WorkoutTypeWithBodyPartCacheEntity(
+        workoutTypeCacheEntity = this.toWorkoutTypeCacheEntity(),
+        listOfBodyPartCacheEntity = this.bodyParts.map { it.toBodyPartCacheEntity(this.idWorkoutType) }
+    )
+}

@@ -10,7 +10,6 @@ import org.gradle.kotlin.dsl.configure
 internal fun Project.configureFirebase(extension: ApplicationExtension) {
     extension.buildTypes {
         getByName("debug") {
-            //configureAppDistribution()
             configureCrashlytics()
         }
     }
@@ -21,9 +20,3 @@ private fun ApplicationBuildType.configureCrashlytics() {
         mappingFileUploadEnabled = false
     }
 }
-
-/*private fun ApplicationBuildType.configureAppDistribution() {
-    configure<AppDistributionExtension> {
-        releaseNotes = "My build-tools release notes"
-    }
-}*/

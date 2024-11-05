@@ -1,6 +1,8 @@
 package com.mikolove.auth.data
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.rpc.context.AttributeContext.Auth
+import com.mikolove.auth.domain.AuthError
 import com.mikolove.auth.domain.AuthRepository
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
@@ -15,7 +17,7 @@ import com.mikolove.core.domain.util.Result
 import com.mikolove.core.domain.util.asEmptyDataResult
 import kotlinx.coroutines.tasks.await
 
-data class AuthRepositoryImpl(
+class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val userCacheDataSource: UserCacheDataSource,
     private val userNetworkDataSource : UserNetworkDataSource,
@@ -24,6 +26,7 @@ data class AuthRepositoryImpl(
 
     override suspend fun signIn(email: String, password: String): EmptyResult<DataError> {
 
+        //Check if user exist in firebase User base
         val resultNetwork = safeApiCall {
             auth.signInWithEmailAndPassword(email, password).await()
         }
@@ -35,23 +38,62 @@ data class AuthRepositoryImpl(
 
         val userCreated = resultNetwork.data.user
 
+        //Yes continue
         if(userCreated != null){
 
+            //Check if user exist in firestore DB
+            var userInNetwork = safeApiCall {
+                userNetworkDataSource.getUser(userCreated.uid)
+            }
+            //if user does not exist in network db create it
+            if( userInNetwork is Result.Success){
+                if(userInNetwork.data == null){
+                    safeApiCall {
+                        userNetworkDataSource.upsertUser(
+                            User.create(
+                                idUser = userCreated.uid,
+                                email = userCreated.email,
+                                name = userCreated.displayName
+                            )
+                        )
+                    }
+                }
+            }
+
             //Check data in cache
-            val userInCache = safeCacheCall {
+            var userInCache = safeCacheCall {
                 userCacheDataSource.getUser(userCreated.uid)
             }
 
-            //Check data in network
-            val userInNetwork = safeApiCall {
+            //If user does not exist in cache create it
+            if(userInCache is Result.Success){
+                if(userInCache.data === null){
+                    safeCacheCall {
+                        userCacheDataSource.upsertUser(
+                            User.create(
+                                idUser = userCreated.uid,
+                                email = userCreated.email,
+                                name = userCreated.displayName
+                            )
+                        )
+                    }
+                }
+            }
+
+            //Check if user exist in firestore DB
+            userInNetwork = safeApiCall {
                 userNetworkDataSource.getUser(userCreated.uid)
             }
 
-            if(userInCache is Result.Success && userInNetwork is Result.Success){
+            userInCache = safeCacheCall {
+                userCacheDataSource.getUser(userCreated.uid)
+            }
 
-                if(userInCache.data == null || userInNetwork.data == null){
+            if( userInNetwork is Result.Success && userInCache is Result.Success){
+
+                if(userInNetwork.data == null || userInCache.data == null){
                     sessionStorage.set(null)
-                    return Result.Error(DataError.Network.UNKNOWN)
+                    return Result.Error(AuthError.USER_NOT_EXIST)
                 }
 
                 //Save auth info
@@ -64,12 +106,12 @@ data class AuthRepositoryImpl(
             }else{
                 //Could not login
                 sessionStorage.set(null)
-                return Result.Error(DataError.Network.UNKNOWN)
+                return Result.Error(AuthError.CHECKING_USER)
             }
         }else{
             //Need custom auth error
             sessionStorage.set(null)
-            return Result.Error(DataError.Network.UNKNOWN)
+            return Result.Error(AuthError.NO_FIREBASE_USER)
         }
     }
 
@@ -111,11 +153,11 @@ data class AuthRepositoryImpl(
             if(insertResult is Result.Success && saveNetwork is Result.Success){
                 return Result.Success(Unit)
             }else{
-                return insertResult.asEmptyDataResult()
+                return Result.Error(AuthError.SAVING_USER)
             }
 
         }else{
-            return Result.Error(DataError.Network.UNKNOWN)
+            return Result.Error(AuthError.NO_FIREBASE_USER)
         }
 
     }

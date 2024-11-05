@@ -20,14 +20,6 @@ import org.koin.dsl.module
 
 val networkModule = module {
 
-    single {
-        FirebaseFirestore.getInstance()
-    }
-
-    single {
-        FirebaseAuth.getInstance()
-    }
-
     singleOf(::AnalyticsFirestoreService).bind<AnalyticsNetworkService>()
     singleOf(::ExerciseFirestoreService).bind<ExerciseNetworkService>()
     singleOf(::GroupFirestoreService).bind<GroupNetworkService>()

@@ -19,4 +19,13 @@
     <string name="dont_have_an_account">Don\'t have an account ?</string>
     <string name="could_not_save_credential">An error occured. Could not saved credential.</string>
     <string name="youre_logged_in">Logged in.</string>
+    <string name="auth_error_no_firebase_user">Could not retrieve user from firebase server.</string>
+    <string name="auth_error_saving_user">Could not save and synchronize user.</string>
+    <string name="auth_error_user_not_exist">User is not fully synchronized.</string>
+    <string name="auth_error_checking_user">An error occured during checking user.</string>
+    <string name="credential_create_exception">Could not create credential.</string>
+    <string name="credential_create_cancelation">Create credential has been cancelled.</string>
+    <string name="credential_get_cancelation">Getting credential has been cancelled.</string>
+    <string name="credential_get_exception">An error occured retrieving credentials.</string>
+    <string name="credential_not_exist">No credential exist those email/password.</string>
 </resources>

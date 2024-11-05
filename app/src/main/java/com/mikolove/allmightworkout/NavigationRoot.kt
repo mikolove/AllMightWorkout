@@ -22,14 +22,15 @@ import kotlin.math.log
 fun NavigationRoot(
     navController: NavHostController,
     isLoggedIn: Boolean,
-    logout: () -> Unit
+    onLogout: () -> Unit
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) "home" else "auth"
+        startDestination = if (isLoggedIn) "home" else "auth",
+
     ) {
         authGraph(navController)
-        homeGraph(navController, logout)
+        homeGraph(navController,onLogout)
     }
 }
 
@@ -89,7 +90,8 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     }
 }
 
-private fun NavGraphBuilder.homeGraph(navController: NavHostController, logout: () -> Unit) {
+private fun NavGraphBuilder.homeGraph(navController: NavHostController,    onLogout: () -> Unit
+) {
     navigation(
         startDestination = "welcome",
         route ="home"
@@ -105,7 +107,7 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController, logout: 
                     isLoading = false,
                     enabled = true,
                     onClick = {
-                        logout()
+                        onLogout()
                     }
                 )
             }

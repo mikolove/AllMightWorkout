@@ -4,7 +4,7 @@ import com.mikolove.core.domain.workouttype.WorkoutType
 
 interface WorkoutTypeCacheDataSource {
 
-    suspend fun upsertWorkoutType(workoutType: WorkoutType) : Long
+    suspend fun upsertWorkoutType(workoutType: List<WorkoutType>) : LongArray
 
     suspend fun removeWorkoutType(primaryKey: String) : Int
 

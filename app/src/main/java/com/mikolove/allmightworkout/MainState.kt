@@ -12,4 +12,5 @@ data class MainState(
 
     val isCheckingAuth : Boolean = false,
 
+    val isLoadingData : Boolean = false
 )

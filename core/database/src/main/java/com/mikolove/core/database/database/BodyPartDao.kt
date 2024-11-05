@@ -9,7 +9,7 @@ import com.mikolove.core.database.model.BodyPartCacheEntity
 interface BodyPartDao{
 
     @Upsert
-    suspend fun upsertBodyPart(bodyPart: BodyPartCacheEntity) : Long
+    suspend fun upsertBodyPart(bodyPart: List<BodyPartCacheEntity>) : LongArray
 
     @Query("DELETE FROM body_parts WHERE id_body_part = :primaryKey")
     suspend fun removeBodyPart(primaryKey: String) : Int

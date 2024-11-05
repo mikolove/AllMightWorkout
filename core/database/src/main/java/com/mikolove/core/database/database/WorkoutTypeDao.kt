@@ -11,7 +11,7 @@ import com.mikolove.core.database.model.WorkoutTypeWithBodyPartCacheEntity
 interface WorkoutTypeDao{
 
     @Upsert
-    suspend fun upsertWorkoutType(workoutTypes: WorkoutTypeCacheEntity) : Long
+    suspend fun upsertWorkoutType(workoutTypes: List<WorkoutTypeCacheEntity>) : LongArray
 
     @Query("DELETE FROM workout_types WHERE id_workout_type = :primaryKey")
     suspend fun removeWorkoutType(primaryKey: String) : Int
