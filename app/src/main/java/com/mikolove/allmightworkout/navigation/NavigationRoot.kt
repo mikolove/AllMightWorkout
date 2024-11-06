@@ -1,9 +1,8 @@
-package com.mikolove.allmightworkout
+package com.mikolove.allmightworkout.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +15,6 @@ import com.mikolove.auth.presentation.intro.IntroScreenRoot
 import com.mikolove.auth.presentation.login.LoginScreenRoot
 import com.mikolove.auth.presentation.register.RegisterScreenRoot
 import com.mikolove.core.presentation.designsystem.components.AmwActionButton
-import kotlin.math.log
 
 @Composable
 fun NavigationRoot(
@@ -29,11 +27,12 @@ fun NavigationRoot(
         startDestination = if (isLoggedIn) "home" else "auth",
 
     ) {
-        authGraph(navController)
-        homeGraph(navController,onLogout)
+        authsGraph(navController)
+        analyticsGraph(navController,onLogout)
     }
 }
 
+/*
 private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     navigation(
         startDestination = "intro",
@@ -113,4 +112,4 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController,    onLog
             }
         }
     }
-}
+}*/
