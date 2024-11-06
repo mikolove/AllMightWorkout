@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.rememberNavController
+import com.mikolove.allmightworkout.navigation.AuthRoute
+import com.mikolove.allmightworkout.presentation.AmwAppRoot
+import com.mikolove.allmightworkout.presentation.rememberAmwAppState
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,23 +25,30 @@ class MainActivity : ComponentActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().apply{
-            setKeepOnScreenCondition{
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
                 viewModel.state.isCheckingAuth && viewModel.state.isLoadingData
             }
         }
-        setContent{
+
+        enableEdgeToEdge()
+
+        setContent {
+
+            val appState = rememberAmwAppState()
+
             AmwTheme {
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    val navController = rememberNavController()
                     val context = LocalContext.current
 
                     ObserveAsEvents(viewModel.events) { event ->
-                        when(event){
+                        when (event) {
                             is MainEvent.Error -> {
                                 Toast.makeText(
                                     context,
@@ -46,28 +56,25 @@ class MainActivity : ComponentActivity(){
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+
                             MainEvent.Logout -> {
-                                navController.navigate("auth"){
-                                    popUpTo("home"){
-                                        inclusive = true
-                                    }
-                                }
+                                appState.navController.navigate(AuthRoute)
                             }
+
                         }
                     }
 
-                    if(!viewModel.state.isCheckingAuth){
-                        NavigationRoot(
-                            navController = navController,
+                    if (!viewModel.state.isCheckingAuth) {
+                        AmwAppRoot(
+                            appState = appState,
+                            modifier = Modifier,
                             isLoggedIn = viewModel.state.isLoggedIn,
-                            onLogout = {viewModel.logout()}
+                            onLogout = { viewModel.logout() }
                         )
                     }
-
                 }
-
             }
         }
     }
-
 }
+

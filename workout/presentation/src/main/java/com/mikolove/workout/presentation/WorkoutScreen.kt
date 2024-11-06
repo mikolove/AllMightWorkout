@@ -43,6 +43,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mikolove.core.domain.workout.Workout
 
 
+@Composable
+fun WorkoutScreenRoot(){
+    WorkoutScreen()
+}
+
+@Composable
+fun WorkoutScreen(){
+    Text(text = "Workout screen")
+}
+
+
 /*@Composable
 fun WorkoutScreen(
     navController: NavController,

@@ -40,9 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mikolove.core.presentation.designsystem.AmwTheme
-import com.mikolove.core.presentation.designsystem.ContinueWithGoogleIcon
 import com.mikolove.core.presentation.designsystem.EyeIcon
-import com.mikolove.core.presentation.designsystem.R
 
 
 @Composable

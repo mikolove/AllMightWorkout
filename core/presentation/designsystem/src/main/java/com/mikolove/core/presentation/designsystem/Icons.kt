@@ -35,7 +35,3 @@ val EyeIcon : ImageVector
 val EyeCloseIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.round_disabled_visible_24)
-
-val ContinueWithGoogleIcon : ImageVector
-    @Composable
-    get() = ImageVector.vectorResource(id = R.drawable.android_light_rd_na)

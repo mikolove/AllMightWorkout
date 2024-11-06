@@ -4,11 +4,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ExerciseScreen(){
-    ExerciseScreenContent()
+fun ExerciseScreenRoot(){
+    ExerciseScreen()
 }
 
 @Composable
-fun ExerciseScreenContent(){
+fun ExerciseScreen(){
     Text(text = "Exercise screen")
 }
