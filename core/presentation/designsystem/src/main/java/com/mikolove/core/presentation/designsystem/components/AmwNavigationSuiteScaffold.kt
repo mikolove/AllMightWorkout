@@ -1,4 +1,4 @@
-package com.mikolove.allmightworkout.presentation
+package com.mikolove.core.presentation.designsystem.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults

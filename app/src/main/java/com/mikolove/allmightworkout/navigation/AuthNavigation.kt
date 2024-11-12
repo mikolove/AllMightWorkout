@@ -19,7 +19,7 @@ import kotlinx.serialization.Serializable
 @Serializable object RegisterRoute
 
 fun NavController.navigateToAuth(navOptions: NavOptions) =
-    navigate(IntroRoute, navOptions)
+    navigate(AuthRoute, navOptions)
 
 fun NavGraphBuilder.authsGraph(
     navController: NavHostController,
@@ -40,7 +40,7 @@ fun NavGraphBuilder.authsGraph(
         composable<LoginRoute>{
             LoginScreenRoot(
                 onLoginSuccess = {
-                    navController.navigate(AnalyticsRoute) {
+                    navController.navigate(HomeRoute) {
                         popUpTo(AuthRoute) {
                             inclusive = true
                         }

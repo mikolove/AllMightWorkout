@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -16,6 +17,7 @@ import com.mikolove.allmightworkout.navigation.navigateToExercise
 import com.mikolove.allmightworkout.navigation.navigateToHome
 import com.mikolove.allmightworkout.navigation.navigateToWorkout
 import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 
 @Composable
 fun rememberAmwAppState(
@@ -47,7 +49,7 @@ class AmwAppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() {
             return TopLevelDestination.entries.firstOrNull { topLevelDestination ->
-                currentDestination?.hasRoute(route = topLevelDestination.route) ?: false
+                currentDestination?.hasRoute(route = topLevelDestination.route) == true
             }
         }
 

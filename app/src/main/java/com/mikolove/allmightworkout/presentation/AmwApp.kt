@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.mikolove.allmightworkout.presentation
 
 import androidx.compose.foundation.layout.Box
@@ -10,10 +12,12 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -23,9 +27,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.mikolove.allmightworkout.R
+import com.mikolove.allmightworkout.navigation.AnalyticsRoute
 import com.mikolove.allmightworkout.navigation.AuthRoute
 import com.mikolove.allmightworkout.navigation.HomeRoute
 import com.mikolove.allmightworkout.navigation.NavigationRoot
+import com.mikolove.core.presentation.designsystem.MenuMoreIcon
+import com.mikolove.core.presentation.designsystem.SearchIcon
+import com.mikolove.core.presentation.designsystem.components.AmwNavigationSuiteScaffold
+import com.mikolove.core.presentation.designsystem.components.AmwTopAppBar
+import com.mikolove.core.presentation.ui.UiText
+import timber.log.Timber
 import kotlin.reflect.KClass
 
 
@@ -72,7 +84,7 @@ fun AmwApp(
         navigationSuiteItems = {
             appState.topLevelDestinations.forEach { destination ->
                 val selected = currentDestination
-                    .isRouteInHierarchy(destination.route)
+                    .isRouteInHierarchy(destination.baseRoute)
                 item(
                     selected = selected,
                     onClick = { appState.navigateToTopLevelDestination(destination) },
@@ -92,7 +104,7 @@ fun AmwApp(
                 )
             }
         },
-        shouldHideBottomBar = appState.currentDestination.isRouteInHierarchy(AuthRoute::class),
+        shouldHideBottomBar = currentDestination.isRouteInHierarchy(AuthRoute::class),
         windowAdaptiveInfo = windowAdaptiveInfo,
 
         ) {
@@ -116,6 +128,25 @@ fun AmwApp(
                 val destination = appState.currentTopLevelDestination
                 var shouldShowTopAppBar = false
 
+                Timber.d("AmwApp current Destination ${destination}")
+
+                if(destination != null){
+                    shouldShowTopAppBar = true
+                    AmwTopAppBar(
+                        titleRes = stringResource(destination.titleTextId),
+                        navigationIcon = SearchIcon,
+                        navigationIconContentDescription = stringResource(id = R.string.search_icon_content_description),
+                        actionIcon = MenuMoreIcon,
+                        actionIconContentDescription = stringResource(id = R.string.action_icon_content_description),
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = Color.Transparent,
+                        ),
+                        onActionClick = { },
+                        onNavigationClick = {  },
+                    )
+
+                }
+
                 Box(
                     // Workaround for https://issuetracker.google.com/338478720
                     modifier = Modifier.consumeWindowInsets(
@@ -127,7 +158,7 @@ fun AmwApp(
                     ),
                 ) {
                     NavigationRoot(
-                        navController = appState.navController,
+                        appState = appState,
                         route = if(isLoggedIn) HomeRoute else AuthRoute,
                     )
                 }

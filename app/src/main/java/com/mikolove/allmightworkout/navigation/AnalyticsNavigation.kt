@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.mikolove.analytics.presentation.HomeScreen
 import com.mikolove.analytics.presentation.HomeScreenRoot
 import kotlinx.serialization.Serializable
 

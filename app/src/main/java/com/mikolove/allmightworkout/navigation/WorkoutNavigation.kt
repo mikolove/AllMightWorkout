@@ -9,13 +9,13 @@ import com.mikolove.workout.presentation.WorkoutScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable
-object WorkoutsRoute
-
-@Serializable
 object WorkoutListRoute
 
+@Serializable
+object WorkoutsRoute
+
 fun NavController.navigateToWorkout(navOptions: NavOptions) =
-    navigate(WorkoutsRoute, navOptions)
+    navigate(WorkoutListRoute, navOptions)
 
 fun NavGraphBuilder.workoutsGraph(
     navController: NavController,

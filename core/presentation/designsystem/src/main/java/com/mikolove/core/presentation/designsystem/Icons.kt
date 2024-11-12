@@ -35,3 +35,12 @@ val EyeIcon : ImageVector
 val EyeCloseIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.round_disabled_visible_24)
+
+val SearchIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_search_24)
+
+val MenuMoreIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_more_vert_24)
+

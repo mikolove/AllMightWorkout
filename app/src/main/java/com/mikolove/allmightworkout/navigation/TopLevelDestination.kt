@@ -39,6 +39,7 @@ enum class TopLevelDestination(
     @StringRes val iconTextId: Int,
     @StringRes val titleTextId: Int,
     val route: KClass<*>,
+    val baseRoute: KClass<*> = route,
 ) {
     HOME(
         selectedIcon = Icons.Filled.Home,
@@ -46,19 +47,23 @@ enum class TopLevelDestination(
         iconTextId = R.string.home_title,
         titleTextId = R.string.home_title,
         route = AnalyticsRoute::class,
+        baseRoute = HomeRoute::class,
+
     ),
     WORKOUTS(
         selectedIcon = Icons.Filled.SportsScore,
         unselectedIcon = Icons.Outlined.SportsScore,
         iconTextId = R.string.workouts_title,
         titleTextId = R.string.workouts_title,
-        route = WorkoutsRoute::class,
+        route = WorkoutListRoute::class,
+        baseRoute = WorkoutsRoute::class,
     ),
     EXERCISES(
         selectedIcon = Icons.Filled.LibraryAdd,
         unselectedIcon = Icons.Outlined.LibraryAdd,
         iconTextId = R.string.exercises_title,
         titleTextId = R.string.exercises_title,
-        route = ExercisesRoute::class ,
+        route = ExerciseListRoute::class ,
+        baseRoute = ExercisesRoute::class ,
     ),
 }
