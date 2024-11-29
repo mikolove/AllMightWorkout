@@ -14,6 +14,7 @@ import com.mikolove.core.data.datasource.workout.GroupCacheDataSourceImpl
 import com.mikolove.core.data.datasource.workout.WorkoutCacheDataSourceImpl
 import com.mikolove.core.data.datasource.workouttype.WorkoutTypeCacheDataSourceImpl
 import com.mikolove.core.data.repositories.LoadingRepositoryImpl
+import com.mikolove.core.data.repositories.WorkoutTypeRepositoryImpl
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsCacheDataSource
 import com.mikolove.core.domain.analytics.abstraction.AnalyticsNetworkDataSource
 import com.mikolove.core.domain.auth.SessionManager
@@ -27,6 +28,7 @@ import com.mikolove.core.domain.user.abstraction.UserCacheDataSource
 import com.mikolove.core.domain.user.abstraction.UserNetworkDataSource
 import com.mikolove.core.domain.workout.abstraction.GroupCacheDataSource
 import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
+import com.mikolove.core.domain.workouttype.WorkoutTypeRepository
 import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeCacheDataSource
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -51,4 +53,5 @@ val coreDataModule = module {
     singleOf(::WorkoutTypeCacheDataSourceImpl).bind<WorkoutTypeCacheDataSource>()
 
     singleOf(::LoadingRepositoryImpl).bind<LoadingRepository>()
+    singleOf(::WorkoutTypeRepositoryImpl).bind<WorkoutTypeRepository>()
 }

@@ -4,6 +4,12 @@ import com.mikolove.core.domain.bodypart.BodyPart
 import java.time.ZonedDateTime
 import java.util.UUID
 
+/*
+ Peu etre
+ CECI NE PEU RESTER COMME CA. LES SETS SONT LIE AU EXERCISE ET AU WORKOUT POUR POUVOIR CREER DES EXO INDEPENDANT ET PAS RE MULTIPLIE
+RESULTAT ce modele n est plus correct faut modifié ca
+*/
+
 data class Exercise(
     var idExercise: String = UUID.randomUUID().toString(),
     var name: String,

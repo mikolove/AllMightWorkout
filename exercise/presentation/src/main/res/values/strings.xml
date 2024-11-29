@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_icon_content_description">Search</string>
+    <string name="action_icon_content_description">Action</string>
+    <string name="exercise_title">Exercise</string>
+    <string name="add_exercise">Add exercise</string>
+    <string name="chip_filter_all">All</string>
+    <string name="exercise_filter_title">Filters</string>
+    <string name="created_at">Created at</string>
+</resources>

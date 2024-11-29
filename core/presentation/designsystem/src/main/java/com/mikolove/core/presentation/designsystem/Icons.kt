@@ -44,3 +44,7 @@ val MenuMoreIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.baseline_more_vert_24)
 
+val BodyPartIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_accessibility_new_24)
+
