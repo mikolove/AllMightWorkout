@@ -92,19 +92,10 @@ fun DateSection(
     ){
 
         Text(
-            text = stringResource(R.string.created_at),
+            text = stringResource(R.string.created_at).plus(" $createdAt"),
             fontSize = MaterialTheme.typography.bodySmall.fontSize,
             fontStyle = FontStyle.Italic,
         )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = createdAt,
-            fontSize = MaterialTheme.typography.bodySmall.fontSize,
-            fontStyle = FontStyle.Italic,
-        )
-
     }
 }
 
@@ -116,7 +107,7 @@ fun ExerciseCardItemPreview(){
             ExerciseUi(
                 "id065181",
                 name = "Exercise Name",
-                sets = emptyList(),
+                //sets = emptyList(),
                 bodyPart = listOf(
                     BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
                     BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),

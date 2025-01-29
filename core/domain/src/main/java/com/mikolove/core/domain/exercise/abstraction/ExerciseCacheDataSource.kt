@@ -10,7 +10,7 @@ interface ExerciseCacheDataSource {
 
     suspend fun removeExercises(exercises: List<Exercise>)  : Int
 
-    suspend fun getExercises(idUser : String) : Flow<List<Exercise>>
+    fun getExercises(idUser : String) : Flow<List<Exercise>>
 
     suspend fun getExerciseById(primaryKey: String) : Exercise
 

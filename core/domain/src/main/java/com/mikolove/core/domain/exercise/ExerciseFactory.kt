@@ -11,7 +11,7 @@ class ExerciseFactory {
     fun createExercise(
         idExercise: String = UUID.randomUUID().toString(),
         name: String,
-        sets: List<ExerciseSet> = listOf(),
+        //sets: List<ExerciseSet> = listOf(),
         bodyPart: List<BodyPart> = listOf(),
         exerciseType: ExerciseType = ExerciseType.REP_EXERCISE,
         isActive: Boolean = true,
@@ -20,8 +20,8 @@ class ExerciseFactory {
         return Exercise(
             idExercise = idExercise,
             name = name ,
-            sets =  sets ,
-            bodyPart = bodyPart,
+            //sets =  sets ,
+            bodyParts = bodyPart,
             exerciseType = exerciseType,
             isActive = isActive,
             startedAt = null,

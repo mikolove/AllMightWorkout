@@ -13,8 +13,8 @@ RESULTAT ce modele n est plus correct faut modifié ca
 data class Exercise(
     var idExercise: String = UUID.randomUUID().toString(),
     var name: String,
-    var sets: List<ExerciseSet> = listOf(),
-    var bodyPart: List<BodyPart> = listOf(),
+    //var sets: List<ExerciseSet> = listOf(),
+    var bodyParts: List<BodyPart> = listOf(),
     var exerciseType: ExerciseType,
     var isActive: Boolean = true,
     var startedAt: ZonedDateTime? = null,
@@ -39,8 +39,8 @@ data class Exercise(
 
         if (idExercise != other.idExercise) return false
         if (name != other.name) return false
-        if (sets != other.sets) return false
-        if (bodyPart != other.bodyPart) return false
+        //if (sets != other.sets) return false
+        if (bodyParts != other.bodyParts) return false
         if (exerciseType != other.exerciseType) return false
         if (isActive != other.isActive) return false
         if (startedAt != other.startedAt) return false
@@ -53,8 +53,8 @@ data class Exercise(
     override fun hashCode(): Int {
         var result = idExercise.hashCode()
         result = 31 * result + name.hashCode()
-        result = 31 * result + sets.hashCode()
-        result = 31 * result + (bodyPart.hashCode())
+        //result = 31 * result + sets.hashCode()
+        result = 31 * result + (bodyParts.hashCode())
         result = 31 * result + exerciseType.hashCode()
         result = 31 * result + isActive.hashCode()
         result = 31 * result + (startedAt?.hashCode() ?: 0)

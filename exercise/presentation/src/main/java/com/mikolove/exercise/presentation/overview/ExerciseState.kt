@@ -1,9 +1,9 @@
 package com.mikolove.exercise.presentation.overview
 
 import com.mikolove.core.presentation.ui.model.WorkoutTypeUi
-import com.mikolove.exercise.presentation.model.ExerciseCategoryUi
+import com.mikolove.exercise.presentation.model.ExerciseUi
 
 data class ExerciseState(
     val workoutTypes : List<WorkoutTypeUi> = emptyList(),
-    val exerciseCategories : List<ExerciseCategoryUi> = emptyList()
+    val exercises : List<ExerciseUi> = emptyList()
 )

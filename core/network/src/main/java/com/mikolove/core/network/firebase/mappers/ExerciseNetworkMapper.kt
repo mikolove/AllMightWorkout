@@ -13,8 +13,8 @@ fun ExerciseNetworkEntity.toExercise(bodyParts : List<BodyPart>): Exercise {
         name = this.name,
         exerciseType = ExerciseType.valueOf(this.exerciseType),
         isActive = this.isActive,
-        bodyPart = bodyParts,
-        sets = this.sets.map { it.toExerciseSet() },
+        bodyParts = bodyParts,
+        //sets = this.sets.map { it.toExerciseSet() },
         createdAt = this.createdAt.toZoneDateTime(),
         updatedAt = this.updatedAt.toZoneDateTime()
     )
@@ -24,8 +24,8 @@ fun Exercise.toExerciseNetworkEntity(): ExerciseNetworkEntity {
     return ExerciseNetworkEntity(
         idExercise = this.idExercise,
         name = this.name,
-        bodyPartIds = this.bodyPart.mapIndexed{_, bodyPart -> bodyPart.idBodyPart},
-        sets = this.sets.map { it.toExerciseSetNetworkEntity() },
+        bodyPartIds = this.bodyParts.mapIndexed{ _, bodyPart -> bodyPart.idBodyPart},
+        //sets = this.sets.map { it.toExerciseSetNetworkEntity() },
         exerciseType = this.exerciseType.name,
         isActive = this.isActive,
         createdAt = this.createdAt.toFirebaseTimestamp(),

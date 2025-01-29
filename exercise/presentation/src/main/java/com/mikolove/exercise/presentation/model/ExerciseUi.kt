@@ -5,7 +5,7 @@ import com.mikolove.core.presentation.ui.model.BodyPartUi
 data class ExerciseUi(
     val idExercise : String,
     val name : String,
-    val sets : List<ExerciseSetUi>,
+    //val sets : List<ExerciseSetUi>,
     val bodyPart: List<BodyPartUi>,
     val exerciseType : String,
     val isActive : Boolean,

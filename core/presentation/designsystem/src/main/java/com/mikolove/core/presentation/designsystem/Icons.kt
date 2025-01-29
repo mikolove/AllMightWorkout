@@ -48,3 +48,10 @@ val BodyPartIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.baseline_accessibility_new_24)
 
+val DropDownIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_arrow_drop_down_24)
+
+val DropUpIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_arrow_drop_up_24)

@@ -141,7 +141,8 @@ fun AmwTextField(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                     alpha = 0.4f
                                 ),
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+
                             )
                         }
                         innerBox()

@@ -11,8 +11,8 @@ fun Exercise.toExerciseUi() : ExerciseUi {
     return ExerciseUi(
         idExercise = this.idExercise,
         name = this.name,
-        sets = this.sets.map { it.toExerciseSetUi() },
-        bodyPart = this.bodyPart.map { it.toBodyPartUi() },
+        //sets = this.sets.map { it.toExerciseSetUi() },
+        bodyPart = this.bodyParts.map { it.toBodyPartUi() },
         exerciseType = this.exerciseType.name,
         isActive = this.isActive,
         createdAt = this.createdAt.toUi(),

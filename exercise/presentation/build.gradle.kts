@@ -8,6 +8,10 @@ android {
 }
 
 dependencies {
+
     implementation(projects.core.domain)
     implementation(projects.exercise.domain)
+
+    // Timber
+    implementation(libs.timber)
 }

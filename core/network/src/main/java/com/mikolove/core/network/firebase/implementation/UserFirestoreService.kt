@@ -19,13 +19,11 @@ constructor(
 
     override suspend fun upsertUser(user: User) {
 
-        val userId = sessionStorage.get()?.userId ?: return
-
         val entity = user.toUserNetworkEntity()
 
         firestore
             .collection(USERS_COLLECTION)
-            .document(userId)
+            .document(entity.idUser)
             .set(entity)
             .await()
     }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
 
-    fun getExercises(): Flow<List<Exercise>>
+    fun getExercises(userId :String): Flow<List<Exercise>>
 
     suspend fun fetchExercises(): EmptyResult<DataError>
 

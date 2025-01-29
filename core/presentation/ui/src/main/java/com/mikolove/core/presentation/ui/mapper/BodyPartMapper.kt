@@ -9,3 +9,10 @@ fun BodyPart.toBodyPartUi() : BodyPartUi {
         name = this.name
     )
 }
+
+fun BodyPartUi.toBodyPart() : BodyPart {
+    return BodyPart(
+        idBodyPart = this.idBodyPart,
+        name = this.name
+    )
+}

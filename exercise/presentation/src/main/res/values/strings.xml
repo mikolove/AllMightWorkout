@@ -7,4 +7,16 @@
     <string name="chip_filter_all">All</string>
     <string name="exercise_filter_title">Filters</string>
     <string name="created_at">Created at</string>
+    <string name="exercise_detail_title">Exercise detail</string>
+    <string name="back_icon_content_description">Back</string>
+    <string name="exercise_name_hint">Type name</string>
+    <string name="exercise_name_title">Name</string>
+    <string name="exercise_name_error">Must be a valid name</string>
+    <string name="exercise_workouttypes_title">Workout types</string>
+    <string name="exercise_type_hint">Select one</string>
+    <string name="exercise_type_title">Exercise types</string>
+    <string name="error_must_select">You must select one</string>
+    <string name="exercise_wkt_title">Workout types</string>
+    <string name="update_exercise">Update exercise</string>
+    <string name="insert_exercise">Insert exercise</string>
 </resources>

@@ -1,28 +1,20 @@
 @file:OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class, ExperimentalFoundationApi::class,
+    ExperimentalLayoutApi::class,
 )
 
 package com.mikolove.exercise.presentation.overview
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -42,13 +34,13 @@ import com.mikolove.core.presentation.designsystem.components.AmwFloatingButton
 import com.mikolove.core.presentation.designsystem.components.AmwScaffold
 import com.mikolove.core.presentation.designsystem.components.AmwTopAppBar
 import com.mikolove.exercise.presentation.R
-import com.mikolove.exercise.presentation.model.ExerciseCategoryUi
-import com.mikolove.exercise.presentation.model.ExerciseUi
 import com.mikolove.exercise.presentation.overview.component.ExerciseCardItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExerciseScreenRoot(
+    onAddExerciseClick : () -> Unit,
+    onExerciseClick : (String) -> Unit,
     viewModel: ExerciseViewModel = koinViewModel()
 ) {
 
@@ -56,6 +48,12 @@ fun ExerciseScreenRoot(
         state = viewModel.state,
         onAction = { action ->
             when(action){
+                is ExerciseAction.onExerciseClick ->{
+                    onExerciseClick(action.exerciseId)
+                }
+                is ExerciseAction.onAddExerciseClick ->{
+                    onAddExerciseClick()
+                }
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -81,13 +79,15 @@ private fun ExerciseScreen(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent,
                 ),
-                onActionClick = { },
+                onActionClick = {},
                 onNavigationClick = { },
             )
         },
         floatingActionButton = {
             AmwFloatingButton(
-                onClick = { },
+                onClick = {
+                    onAction(ExerciseAction.onAddExerciseClick)
+                },
                 enabled = true,
                 title = stringResource(R.string.add_exercise)
             )
@@ -120,12 +120,18 @@ private fun ExerciseScreen(
             ) {
                 AmwChip(
                     title = stringResource(R.string.chip_filter_all),
-                    selected = state.workoutTypes.any { !it.enabled }
+                    selected = state.workoutTypes.all { !it.selected },
+                    onClick = {
+                        onAction(ExerciseAction.onChipClick(null))
+                    }
                 )
                 state.workoutTypes.forEach { workoutTypeUi ->
                     AmwChip(
                         title = workoutTypeUi.name,
-                        selected = workoutTypeUi.enabled
+                        selected = workoutTypeUi.selected,
+                        onClick = {
+                            onAction(ExerciseAction.onChipClick(workoutTypeUi.idWorkoutType))
+                        }
                     )
                 }
             }
@@ -135,10 +141,12 @@ private fun ExerciseScreen(
                 verticalItemSpacing = 4.dp,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 content = {
-                    items(state.exerciseCategories.flatMap { it.exercises }) { exerciseUi ->
+                    items(state.exercises) { exerciseUi ->
                         ExerciseCardItem(
                             exerciseUi = exerciseUi,
-                            onCardItemClick = { }
+                            onCardItemClick = {
+                                onAction(ExerciseAction.onExerciseClick(exerciseUi.idExercise))
+                            }
                         )
                     }
                 },
@@ -154,8 +162,9 @@ private fun ExerciseScreen(
 private fun ExerciseScreenPreview() {
     AmwTheme {
         ExerciseScreen(
-            state = ExerciseState(
-                exerciseCategories = listOf(
+            state = ExerciseState()
+            /*ExerciseState(
+                exercises = listOf(
                     ExerciseCategoryUi(
                         idWorkoutType = "1",
                         name = "Category 1",
@@ -209,7 +218,7 @@ private fun ExerciseScreenPreview() {
                         )
                     )
                 )
-            ),
+            )*/,
             onAction = {}
         )
     }

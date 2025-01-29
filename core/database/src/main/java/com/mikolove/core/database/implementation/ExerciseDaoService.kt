@@ -28,7 +28,7 @@ class ExerciseDaoService(
         return exerciseDao.removeExercises(ids)
     }
 
-    override suspend fun getExercises(idUser: String): Flow<List<Exercise>> {
+    override fun getExercises(idUser: String): Flow<List<Exercise>> {
         return exerciseDao.getExercises(idUser).map{ entities ->
             entities.map{ it.toExercise()}
         }

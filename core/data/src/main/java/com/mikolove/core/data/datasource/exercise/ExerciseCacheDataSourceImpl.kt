@@ -13,7 +13,7 @@ constructor(
 
     override suspend fun upsertExercise(exercise: Exercise, idUser: String): Long = exerciseCacheService.upsertExercise(exercise, idUser)
 
-    override suspend fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser)
+    override fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser)
 
     override suspend fun removeExercises(exercises: List<Exercise>): Int = exerciseCacheService.removeExercises(exercises)
 

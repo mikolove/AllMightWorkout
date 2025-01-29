@@ -1,7 +1,6 @@
 package com.mikolove.auth.data
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.rpc.context.AttributeContext.Auth
 import com.mikolove.auth.domain.AuthError
 import com.mikolove.auth.domain.AuthRepository
 import com.mikolove.core.data.util.safeApiCall

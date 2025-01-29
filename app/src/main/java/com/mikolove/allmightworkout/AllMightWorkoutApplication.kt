@@ -7,6 +7,7 @@ import com.mikolove.auth.presentation.di.authViewModule
 import com.mikolove.core.data.di.coreDataModule
 import com.mikolove.core.database.di.databaseModule
 import com.mikolove.core.network.di.networkModule
+import com.mikolove.exercise.data.di.exerciseDataModule
 import com.mikolove.exercise.presentation.di.exerciseViewModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -40,6 +41,7 @@ class AllMightWorkoutApplication : Application(){
                 networkModule,
                 authDataModule,
                 authViewModule,
+                exerciseDataModule,
                 exerciseViewModule
             )
 
