@@ -8,7 +8,11 @@ interface ExerciseCacheService {
 
     suspend fun upsertExercise(exercise: Exercise, idUser : String) : Long
 
-    suspend fun removeExercises(exercises: List<Exercise>)  : Int
+    suspend fun upsertExercises(exercises: List<Exercise>, idUser : String) : List<Long>
+
+    suspend fun removeExercise(exerciseId: String)  : Int
+
+    suspend fun removeExercises(exerciseIds: List<String>)  : List<Int>
 
     fun getExercises(idUser : String) : Flow<List<Exercise>>
 

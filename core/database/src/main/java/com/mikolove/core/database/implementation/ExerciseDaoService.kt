@@ -19,13 +19,21 @@ class ExerciseDaoService(
         return exerciseDao.upsertExercise(exercise.toExerciseCacheEntity(idUser))
     }
 
+    override suspend fun upsertExercises(exercises: List<Exercise>, idUser: String): List<Long> {
+        return exerciseDao.upsertExercises(exercises.map { it.toExerciseCacheEntity(idUser) })
+    }
+
     override suspend fun getExerciseById(primaryKey: String): Exercise {
         return exerciseDao.getExerciseById(primaryKey).toExercise()
     }
 
-    override suspend fun removeExercises(exercises: List<Exercise>): Int {
-        val ids = exercises.mapIndexed { _, exercise -> exercise.idExercise }
-        return exerciseDao.removeExercises(ids)
+    override suspend fun removeExercises(exerciseIds : List<String>): List<Int> {
+        //val ids = exercises.mapIndexed { _, exercise -> exercise.idExercise }
+        return exerciseDao.removeExercises(exerciseIds)
+    }
+
+    override suspend fun removeExercise(exerciseId: String): Int {
+        return exerciseDao.removeExercise(exerciseId)
     }
 
     override fun getExercises(idUser: String): Flow<List<Exercise>> {

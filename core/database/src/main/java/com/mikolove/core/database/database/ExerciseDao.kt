@@ -12,8 +12,14 @@ interface ExerciseDao{
     @Upsert
     suspend fun upsertExercise(exercise: ExerciseCacheEntity) : Long
 
+    @Upsert
+    suspend fun upsertExercises(exercise: List<ExerciseCacheEntity>) : List<Long>
+
+    @Query("DELETE FROM exercises WHERE id_exercise = :primaryKey")
+    suspend fun removeExercise(primaryKey: String)  : Int
+
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
-    suspend fun removeExercises(primaryKeys: List<String>)  : Int
+    suspend fun removeExercises(primaryKeys: List<String>)  : List<Int>
 
     @Query("SELECT * FROM exercises WHERE id_exercise = :idUser")
     fun getExercises(idUser : String) : Flow<List<ExerciseCacheEntity>>

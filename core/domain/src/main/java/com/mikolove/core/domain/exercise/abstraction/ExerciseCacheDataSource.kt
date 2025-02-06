@@ -8,7 +8,11 @@ interface ExerciseCacheDataSource {
 
     suspend fun upsertExercise(exercise: Exercise, idUser : String) : Long
 
-    suspend fun removeExercises(exercises: List<Exercise>)  : Int
+    suspend fun upsertExercises(exercises: List<Exercise>, idUser : String) : List<Long>
+
+    suspend fun removeExercise( primaryKey: String)  : Int
+
+    suspend fun removeExercises(primaryKeys: List<String>)  : List<Int>
 
     fun getExercises(idUser : String) : Flow<List<Exercise>>
 

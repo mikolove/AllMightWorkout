@@ -12,7 +12,7 @@ class ExerciseFactory {
         idExercise: String = UUID.randomUUID().toString(),
         name: String,
         //sets: List<ExerciseSet> = listOf(),
-        bodyPart: List<BodyPart> = listOf(),
+        bodyParts: List<BodyPart> = listOf(),
         exerciseType: ExerciseType = ExerciseType.REP_EXERCISE,
         isActive: Boolean = true,
     ) : Exercise {
@@ -21,7 +21,7 @@ class ExerciseFactory {
             idExercise = idExercise,
             name = name ,
             //sets =  sets ,
-            bodyParts = bodyPart,
+            bodyParts = bodyParts,
             exerciseType = exerciseType,
             isActive = isActive,
             startedAt = null,

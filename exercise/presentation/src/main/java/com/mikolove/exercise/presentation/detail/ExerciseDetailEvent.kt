@@ -1,3 +1,11 @@
 package com.mikolove.exercise.presentation.detail
 
-sealed interface ExerciseDetailEvent
+import com.mikolove.core.presentation.ui.UiText
+
+sealed interface ExerciseDetailEvent{
+
+    data class Error(val error : UiText) : ExerciseDetailEvent
+
+    data object ExerciseSaved : ExerciseDetailEvent
+
+}
