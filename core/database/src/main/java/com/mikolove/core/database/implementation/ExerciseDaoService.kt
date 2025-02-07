@@ -2,9 +2,11 @@ package com.mikolove.core.database.implementation
 
 import com.mikolove.core.database.database.ExerciseBodyPartDao
 import com.mikolove.core.database.database.ExerciseDao
+import com.mikolove.core.database.mappers.toBodyPartCacheEntity
 import com.mikolove.core.database.mappers.toExercise
 import com.mikolove.core.database.mappers.toExerciseCacheEntity
 import com.mikolove.core.database.model.ExerciseBodyPartCacheEntity
+import com.mikolove.core.domain.bodypart.BodyPart
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.abstraction.ExerciseCacheService
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +29,7 @@ class ExerciseDaoService(
         return exerciseDao.getExerciseById(primaryKey).toExercise()
     }
 
-    override suspend fun removeExercises(exerciseIds : List<String>): List<Int> {
+    override suspend fun removeExercises(exerciseIds : List<String>): Int {
         //val ids = exercises.mapIndexed { _, exercise -> exercise.idExercise }
         return exerciseDao.removeExercises(exerciseIds)
     }
@@ -46,7 +48,7 @@ class ExerciseDaoService(
         return exerciseBodyPartDao.isBodyPartInExercise(idExercise, idBodyPart) > 0
     }
 
-    override suspend fun addBodyPartToExercise(idExercise: String, idBodyPart: String): Long {
+/*    override suspend fun addBodyPartToExercise(idExercise: String, idBodyPart: String): Long {
         return  exerciseBodyPartDao.addBodyPartToExercise(
             ExerciseBodyPartCacheEntity(
                 idExercise = idExercise,
@@ -55,7 +57,20 @@ class ExerciseDaoService(
         )
     }
 
-    override suspend fun removeBodyPartFromExercise(idExercise: String, idBodyPart: String): Int {
-        return  exerciseBodyPartDao.removeBodyPartFromExercise(idExercise,idBodyPart)
+    override suspend fun removeBodyPartsFromExercise(idExercise: String): Int {
+        return  exerciseBodyPartDao.removeBodyPartsFromExercise(idExercise)
+    }*/
+
+    override suspend fun insertBodyPartsAndClean(idExercise: String, bodyParts: List<BodyPart>) {
+        exerciseBodyPartDao.insertBodyPartsAndCleanInTransaction(
+            idExercise,
+            bodyParts.map {
+                ExerciseBodyPartCacheEntity(
+                    idExercise = idExercise,
+                    idBodyPart = it.idBodyPart
+                )
+            }
+        )
     }
+
 }

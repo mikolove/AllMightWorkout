@@ -48,11 +48,21 @@ class OfflineFirstExerciseRepository(
     }
 
     override suspend fun upsertExercise(exercise: Exercise,userId : String): EmptyResult<DataError> {
-        val cacheResult = safeCacheCall {
+        val exerciseCacheResult = safeCacheCall {
             exerciseCacheDataSource.upsertExercise(exercise,userId)
         }
-        if(cacheResult !is Result.Success){
-            return cacheResult.asEmptyDataResult()
+        if(exerciseCacheResult !is Result.Success){
+            return exerciseCacheResult.asEmptyDataResult()
+        }
+
+        val bodyPartsCacheResult = safeCacheCall {
+            exerciseCacheDataSource.insertBodyPartsAndClean(
+                exercise.idExercise,
+                exercise.bodyParts
+            )
+        }
+        if(bodyPartsCacheResult !is Result.Success){
+            return bodyPartsCacheResult.asEmptyDataResult()
         }
 
         val networkResult = safeApiCall {

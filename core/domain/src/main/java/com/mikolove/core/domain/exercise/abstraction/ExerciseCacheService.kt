@@ -12,7 +12,7 @@ interface ExerciseCacheService {
 
     suspend fun removeExercise(exerciseId: String)  : Int
 
-    suspend fun removeExercises(exerciseIds: List<String>)  : List<Int>
+    suspend fun removeExercises(exerciseIds: List<String>)  : Int
 
     fun getExercises(idUser : String) : Flow<List<Exercise>>
 
@@ -20,8 +20,10 @@ interface ExerciseCacheService {
 
     suspend fun isBodyPartInExercise( idExercise: String , idBodyPart: String ) : Boolean
 
-    suspend fun addBodyPartToExercise(idExercise : String, idBodyPart : String) : Long
+    //suspend fun addBodyPartToExercise(idExercise : String, idBodyPart : String) : Long
 
-    suspend fun removeBodyPartFromExercise(idExercise : String, idBodyPart : String) : Int
+    //suspend fun removeBodyPartsFromExercise(idExercise : String) : Int
+
+    suspend fun insertBodyPartsAndClean(idExercise: String, bodyParts: List<BodyPart>)
 
 }

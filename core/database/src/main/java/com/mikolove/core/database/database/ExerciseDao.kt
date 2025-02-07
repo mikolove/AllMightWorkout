@@ -19,7 +19,7 @@ interface ExerciseDao{
     suspend fun removeExercise(primaryKey: String)  : Int
 
     @Query("DELETE FROM exercises WHERE id_exercise IN (:primaryKeys)")
-    suspend fun removeExercises(primaryKeys: List<String>)  : List<Int>
+    suspend fun removeExercises(primaryKeys: List<String>)  : Int
 
     @Query("SELECT * FROM exercises WHERE id_exercise = :idUser")
     fun getExercises(idUser : String) : Flow<List<ExerciseCacheEntity>>

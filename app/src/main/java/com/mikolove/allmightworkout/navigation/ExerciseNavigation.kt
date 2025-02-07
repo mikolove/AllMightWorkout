@@ -32,7 +32,14 @@ fun NavGraphBuilder.exercisesGraph(
         }
 
         composable<ExerciseAddRoute>{
-            ExerciseDetailScreenRoot()
+            ExerciseDetailScreenRoot(
+                onBack = {
+                    navController.navigateUp()
+                },
+                onFinish = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

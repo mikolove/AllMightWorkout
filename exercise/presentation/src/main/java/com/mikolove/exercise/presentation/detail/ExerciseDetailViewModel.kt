@@ -151,6 +151,7 @@ class ExerciseDetailViewModel(
             is ExerciseDetailAction.onUpsertClick -> {
                 upsertExercise()
             }
+            else -> Unit
         }
     }
 

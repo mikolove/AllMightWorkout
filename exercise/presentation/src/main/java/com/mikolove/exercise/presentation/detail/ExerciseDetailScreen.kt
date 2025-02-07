@@ -2,6 +2,7 @@
 
 package com.mikolove.exercise.presentation.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -16,6 +17,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,21 +31,46 @@ import com.mikolove.core.presentation.designsystem.components.AmwFloatingButton
 import com.mikolove.core.presentation.designsystem.components.AmwScaffold
 import com.mikolove.core.presentation.designsystem.components.AmwTextField
 import com.mikolove.core.presentation.designsystem.components.AmwTopAppBar
+import com.mikolove.core.presentation.ui.ObserveAsEvents
 import com.mikolove.core.presentation.ui.model.BodyPartUi
 import com.mikolove.core.presentation.ui.model.WorkoutTypeUi
 import com.mikolove.core.presentation.ui.model.getNames
 import com.mikolove.exercise.presentation.R
-import com.mikolove.exercise.presentation.overview.ExerciseAction
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExerciseDetailScreenRoot(
+    onFinish : () -> Unit,
+    onBack : () -> Unit,
     viewModel: ExerciseDetailViewModel = koinViewModel()
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when(event) {
+            is ExerciseDetailEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            is ExerciseDetailEvent.ExerciseSaved -> onFinish()
+        }
+    }
+
     if(viewModel.state.isDataLoaded) {
         ExerciseDetailScreen(
             state = viewModel.state,
-            onAction = viewModel::onAction
+            onAction = { action ->
+                when(action) {
+                    is ExerciseDetailAction.onBackClick->{
+                        //Maybe add processing blocker
+                        onBack()
+                    }
+                    else -> Unit
+                }
+                viewModel.onAction(action)
+            }
         )
     }
 }
@@ -65,8 +92,11 @@ private fun ExerciseDetailScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                 ),
+
                 onActionClick = {},
-                onNavigationClick = { },
+                onNavigationClick = {
+                    onAction(ExerciseDetailAction.onBackClick)
+                },
             )
         },
         floatingActionButton = {

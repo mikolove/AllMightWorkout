@@ -8,6 +8,7 @@ import com.mikolove.core.domain.util.DataError.Local.EXECUTION_ERROR
 import com.mikolove.core.domain.util.DataError.Local.UNKNOWN
 import com.mikolove.core.domain.util.Result
 import kotlinx.coroutines.CancellationException
+import timber.log.Timber
 import java.nio.channels.UnresolvedAddressException
 
 /**
@@ -101,6 +102,8 @@ suspend fun <T> safeCacheCall(
     return try {
         Result.Success(cacheCall.invoke())
     } catch (exception : Exception) {
+        val stackTrace =exception.printStackTrace()
+        Timber.tag(stackTrace.javaClass.name).d(exception)
         when (exception) {
             is SQLiteFullException ->{
                 Result.Error(DISK_FULL)
@@ -121,11 +124,13 @@ suspend fun <T> safeApiCall(
     val response =  try {
         Result.Success(apiCall.invoke())
     }  catch(e: UnresolvedAddressException) {
-        e.printStackTrace()
+        val stackTrace =e.printStackTrace()
+        Timber.tag(stackTrace.javaClass.name).d(e)
         return Result.Error(DataError.Network.NO_INTERNET)
     } catch(e: Exception) {
         if(e is CancellationException) throw e
-        e.printStackTrace()
+        val stackTrace =e.printStackTrace()
+        Timber.tag(stackTrace.javaClass.name).d(e)
         return Result.Error(DataError.Network.UNKNOWN)
     }
     return response
