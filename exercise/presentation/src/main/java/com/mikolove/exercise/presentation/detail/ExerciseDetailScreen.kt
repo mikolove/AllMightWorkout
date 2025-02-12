@@ -42,6 +42,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ExerciseDetailScreenRoot(
     onFinish : () -> Unit,
     onBack : () -> Unit,
+
     viewModel: ExerciseDetailViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
@@ -105,7 +106,7 @@ private fun ExerciseDetailScreen(
                     onAction(ExerciseDetailAction.onUpsertClick)
                 },
                 enabled = state.isExerciseValid,
-                title = if(state.hasExerciseChanged)
+                title = if(state.exerciseId.isNotBlank())
                     stringResource(R.string.update_exercise)
                 else
                     stringResource(R.string.insert_exercise)
@@ -163,6 +164,7 @@ private fun ExerciseDetailScreen(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+
                     state.bodyParts.forEach { bodyPartUi ->
                         AmwChip(
                             title = bodyPartUi.name,

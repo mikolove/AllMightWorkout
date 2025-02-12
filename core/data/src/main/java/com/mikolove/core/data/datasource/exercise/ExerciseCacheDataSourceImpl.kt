@@ -18,6 +18,8 @@ constructor(
 
     override fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser)
 
+    override fun getExercisesByWorkoutTypes(workoutTypes: List<String>, idUser: String): Flow<List<Exercise>> = exerciseCacheService.getExercisesByWorkoutTypes(workoutTypes, idUser)
+
     override suspend fun removeExercise(primaryKey: String): Int = exerciseCacheService.removeExercise(primaryKey)
 
     override suspend fun removeExercises(primaryKeys: List<String>): Int = exerciseCacheService.removeExercises(primaryKeys)

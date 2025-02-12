@@ -10,6 +10,7 @@ interface DataError: Error {
     }
 
     enum class Local: DataError {
+        NO_USER_FOUND,
         UNKNOWN,
         EXECUTION_ERROR,
         DISK_FULL,

@@ -17,4 +17,5 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.bundles.koin)
+    implementation(libs.timber)
 }

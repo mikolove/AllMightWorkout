@@ -26,6 +26,8 @@ import androidx.compose.material.icons.outlined.LibraryAdd
 import androidx.compose.material.icons.outlined.SportsScore
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mikolove.allmightworkout.R
+import com.mikolove.exercise.presentation.navigation.ExerciseListRoute
+import com.mikolove.exercise.presentation.navigation.ExercisesRoute
 import kotlin.reflect.KClass
 
 /**

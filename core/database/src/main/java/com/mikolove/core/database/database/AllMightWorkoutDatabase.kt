@@ -20,7 +20,10 @@ import com.mikolove.core.database.util.StringJsonConverter
     HistoryExerciseSetCacheEntity::class,
     GroupCacheEntity::class,
     ExerciseBodyPartCacheEntity::class,
-    WorkoutGroupCacheEntity::class],
+    WorkoutGroupCacheEntity::class,
+    ExercisePendingSyncEntity::class,
+    DeletedExerciseSyncEntity::class
+],
     version = 1,
     exportSchema = false)
 @TypeConverters(
@@ -38,5 +41,6 @@ abstract class AllMightWorkoutDatabase : RoomDatabase(){
     abstract val groupDao : GroupDao
     abstract val workoutGroupDao  : WorkoutGroupDao
     abstract val exerciseBodyPartDao: ExerciseBodyPartDao
+    abstract val exercisePendingSyncDao : ExercisePendingSyncDao
 
 }

@@ -2,9 +2,7 @@ package com.mikolove.exercise.presentation.overview
 
 sealed interface ExerciseAction{
 
-    data class onExerciseClick(val exerciseId : String) : ExerciseAction
-
-    data object onAddExerciseClick : ExerciseAction
+    data class onUpsertExerciseClick(val exerciseId : String) : ExerciseAction
 
     data object onSearchClick : ExerciseAction
 

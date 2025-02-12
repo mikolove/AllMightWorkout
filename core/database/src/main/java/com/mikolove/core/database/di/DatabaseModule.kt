@@ -40,6 +40,7 @@ val databaseModule = module {
     single { get<AllMightWorkoutDatabase>().groupDao }
     single { get<AllMightWorkoutDatabase>().workoutGroupDao }
     single { get<AllMightWorkoutDatabase>().exerciseBodyPartDao }
+    single { get<AllMightWorkoutDatabase>().exercisePendingSyncDao }
 
     singleOf(::BodyPartDaoService).bind<BodyPartCacheService>()
     singleOf(::WorkoutTypeDaoService).bind<WorkoutTypeCacheService>()

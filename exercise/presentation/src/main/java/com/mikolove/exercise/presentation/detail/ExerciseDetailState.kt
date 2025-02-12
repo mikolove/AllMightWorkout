@@ -9,9 +9,7 @@ import com.mikolove.core.presentation.ui.model.ExerciseTypeUi
 import com.mikolove.core.presentation.ui.model.WorkoutTypeUi
 
 data class ExerciseDetailState(
-    val isDataLoaded : Boolean = false,
-    val exerciseId : String? = null,
-
+    val exerciseId : String = "",
     val workoutTypes : List<WorkoutTypeUi> = emptyList(),
     val bodyParts : List<BodyPartUi> = emptyList(),
     val exerciseTypes : List<ExerciseTypeUi> = emptyList(),
@@ -22,6 +20,6 @@ data class ExerciseDetailState(
     val exerciseTypeSelected : TextFieldState = TextFieldState(),
     val isActiveSelected : Boolean = true,
 
+    val isDataLoaded : Boolean = false,
     val isExerciseValid: Boolean = false,
-    val hasExerciseChanged : Boolean = false
 )

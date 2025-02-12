@@ -1,6 +1,7 @@
 package com.mikolove.core.database.mappers
 
 import com.mikolove.core.database.model.ExerciseCacheEntity
+import com.mikolove.core.database.model.ExerciseWithBodyPartsCacheEntity
 import com.mikolove.core.database.model.ExerciseWithSetsCacheEntity
 import com.mikolove.core.domain.exercise.Exercise
 
@@ -41,5 +42,19 @@ fun ExerciseWithSetsCacheEntity.toExercise() : Exercise{
         endedAt = null,
         createdAt = exercise.createdAt,
         updatedAt = exercise.updatedAt
+    )
+}
+
+fun ExerciseWithBodyPartsCacheEntity.toExercise() : Exercise{
+    return Exercise(
+            idExercise = exercise.idExercise,
+            name = exercise.name,
+            exerciseType = exercise.exerciseType,
+            bodyParts = listOfBodyPartsCacheEntity.map { it.toBodyPart()} ?: listOf() ,
+            isActive = exercise.isActive,
+            startedAt = null,
+            endedAt = null,
+            createdAt = exercise.createdAt,
+            updatedAt = exercise.updatedAt
     )
 }

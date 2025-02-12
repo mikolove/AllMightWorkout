@@ -39,8 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExerciseScreenRoot(
-    onAddExerciseClick : () -> Unit,
-    onExerciseClick : (String) -> Unit,
+    onUpsertExerciseClick : (String) -> Unit,
     viewModel: ExerciseViewModel = koinViewModel()
 ) {
 
@@ -48,11 +47,8 @@ fun ExerciseScreenRoot(
         state = viewModel.state,
         onAction = { action ->
             when(action){
-                is ExerciseAction.onExerciseClick ->{
-                    onExerciseClick(action.exerciseId)
-                }
-                is ExerciseAction.onAddExerciseClick ->{
-                    onAddExerciseClick()
+                is ExerciseAction.onUpsertExerciseClick ->{
+                    onUpsertExerciseClick(action.exerciseId)
                 }
                 else -> Unit
             }
@@ -86,7 +82,7 @@ private fun ExerciseScreen(
         floatingActionButton = {
             AmwFloatingButton(
                 onClick = {
-                    onAction(ExerciseAction.onAddExerciseClick)
+                    onAction(ExerciseAction.onUpsertExerciseClick(""))
                 },
                 enabled = true,
                 title = stringResource(R.string.add_exercise)
@@ -145,7 +141,7 @@ private fun ExerciseScreen(
                         ExerciseCardItem(
                             exerciseUi = exerciseUi,
                             onCardItemClick = {
-                                onAction(ExerciseAction.onExerciseClick(exerciseUi.idExercise))
+                                onAction(ExerciseAction.onUpsertExerciseClick(exerciseUi.idExercise))
                             }
                         )
                     }

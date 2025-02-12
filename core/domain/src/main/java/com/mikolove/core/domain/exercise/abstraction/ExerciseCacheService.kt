@@ -16,6 +16,8 @@ interface ExerciseCacheService {
 
     fun getExercises(idUser : String) : Flow<List<Exercise>>
 
+    fun getExercisesByWorkoutTypes(workoutTypes : List<String>, idUser : String) : Flow<List<Exercise>>
+
     suspend fun getExerciseById(primaryKey: String) : Exercise
 
     suspend fun isBodyPartInExercise( idExercise: String , idBodyPart: String ) : Boolean

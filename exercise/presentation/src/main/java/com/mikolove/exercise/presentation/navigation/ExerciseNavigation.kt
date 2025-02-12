@@ -1,8 +1,9 @@
-package com.mikolove.allmightworkout.navigation
+package com.mikolove.exercise.presentation.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.mikolove.exercise.presentation.detail.ExerciseDetailScreenRoot
@@ -12,7 +13,13 @@ import kotlinx.serialization.Serializable
 @Serializable object ExercisesRoute
 
 @Serializable object ExerciseListRoute
-@Serializable object ExerciseAddRoute
+@Serializable data class ExerciseDetailRoute(val id : String)
+
+fun NavController.navigateToExerciseDetail(idExercise : String, navOptions: NavOptionsBuilder.() -> Unit = {}){
+    navigate(route = ExerciseDetailRoute(idExercise)){
+        navOptions
+    }
+}
 
 fun NavController.navigateToExercise(navOptions: NavOptions) =
     navigate(ExerciseListRoute, navOptions)
@@ -24,14 +31,13 @@ fun NavGraphBuilder.exercisesGraph(
 
         composable<ExerciseListRoute>{
             ExerciseScreenRoot(
-                onAddExerciseClick = {
-                    navController.navigate(ExerciseAddRoute)
+                onUpsertExerciseClick = {
+                    navController.navigateToExerciseDetail(it)
                 },
-                onExerciseClick = {}
             )
         }
 
-        composable<ExerciseAddRoute>{
+        composable<ExerciseDetailRoute>{
             ExerciseDetailScreenRoot(
                 onBack = {
                     navController.navigateUp()
@@ -41,5 +47,6 @@ fun NavGraphBuilder.exercisesGraph(
                 }
             )
         }
+
     }
 }

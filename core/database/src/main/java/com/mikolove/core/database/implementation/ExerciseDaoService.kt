@@ -44,6 +44,15 @@ class ExerciseDaoService(
         }
     }
 
+    override fun getExercisesByWorkoutTypes(
+        workoutTypes: List<String>,
+        idUser: String
+    ): Flow<List<Exercise>> {
+        return exerciseDao.getExercisesByWorkoutTypes(workoutTypes,idUser).map { entities ->
+            entities.map { it.toExercise() }
+        }
+    }
+
     override suspend fun isBodyPartInExercise(idExercise: String, idBodyPart: String): Boolean {
         return exerciseBodyPartDao.isBodyPartInExercise(idExercise, idBodyPart) > 0
     }

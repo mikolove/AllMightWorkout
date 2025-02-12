@@ -57,6 +57,18 @@ data class ExerciseCacheEntity(
     }
 }
 
+data class ExerciseWithBodyPartsCacheEntity(
+    @Embedded val exercise : ExerciseCacheEntity,
+
+    @Relation(
+        entity = BodyPartCacheEntity::class,
+        parentColumn = "id_exercise",
+        entityColumn = "id_body_part",
+        associateBy = Junction(ExerciseBodyPartCacheEntity::class)
+    )
+    val listOfBodyPartsCacheEntity : List<BodyPartCacheEntity>
+)
+
 data class ExerciseWithSetsCacheEntity(
 
     @Embedded val exercise : ExerciseCacheEntity,
@@ -75,5 +87,5 @@ data class ExerciseWithSetsCacheEntity(
         entityColumn = "id_body_part",
         associateBy = Junction(ExerciseBodyPartCacheEntity::class)
     )
-    val listOfBodyPartsCacheEntity : List<BodyPartCacheEntity>?
+    val listOfBodyPartsCacheEntity : List<BodyPartCacheEntity>
 )

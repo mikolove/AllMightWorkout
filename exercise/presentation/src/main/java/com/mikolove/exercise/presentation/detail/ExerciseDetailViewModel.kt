@@ -6,8 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.toMutableStateList
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.exercise.ExerciseFactory
 import com.mikolove.core.domain.exercise.ExerciseType
@@ -19,6 +21,7 @@ import com.mikolove.core.presentation.ui.mapper.toBodyPartUi
 import com.mikolove.core.presentation.ui.mapper.toExerciseTypeUi
 import com.mikolove.core.presentation.ui.mapper.toWorkoutTypeUI
 import com.mikolove.exercise.domain.ExerciseRepository
+import com.mikolove.exercise.presentation.navigation.ExerciseDetailRoute
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -26,22 +29,22 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ExerciseDetailViewModel(
+    val savedStateHandle: SavedStateHandle,
     private val workoutTypeRepository: WorkoutTypeRepository,
     private val offlineFirstExerciseRepository: ExerciseRepository,
     private val sessionStorage: SessionStorage
 ) : ViewModel(){
 
-    var state by mutableStateOf(ExerciseDetailState())
+
+    var state by mutableStateOf(ExerciseDetailState(exerciseId = savedStateHandle.toRoute<ExerciseDetailRoute>().id))
         private set
 
     private val eventChannel = Channel<ExerciseDetailEvent>()
     val events = eventChannel.receiveAsFlow()
 
     init {
-
 
         viewModelScope.launch {
 
@@ -66,38 +69,56 @@ class ExerciseDetailViewModel(
                 resultExercisesTypes.isNotEmpty()
             ) {
                 //Load exercise if exist
-                state.exerciseId?.let{
+                if(state.exerciseId.isNotEmpty()){
                     viewModelScope.launch {
-                        val cacheResult = offlineFirstExerciseRepository.getExercise(it)
-                        if(cacheResult !is Result.Success){
-                            //Error loading return to previous page
-                        }else{
-                            //Initialize fields
-                            val name = cacheResult.data.name
-                            val bodyPartsSelected = cacheResult.data.bodyParts.map { it.toBodyPartUi() }
-                            val workoutTypeSelected = state.workoutTypes.find { it.listBodyPart.containsAll(bodyPartsSelected) }
+                        val cacheResult = offlineFirstExerciseRepository.getExercise(state.exerciseId)
+                        when(cacheResult){
+                            is Result.Error -> {
+                                eventChannel.send(ExerciseDetailEvent.Error(cacheResult.error.asUiText()))
+                            }
+                            is Result.Success -> {
 
-                            workoutTypeSelected?.let {
-                                state.nameSelected.edit { append(name) }
-                                state.workoutTypeSelected.edit {
-                                    append(it.name)
+                                val exercise = cacheResult.data
+
+                                //Initialize fields
+                                val bodyPartsSelected = exercise.bodyParts.map { it.toBodyPartUi() }
+                                val workoutTypeSelected = resultWorkoutTypes.find { it.listBodyPart.containsAll(bodyPartsSelected) }
+
+                                workoutTypeSelected?.let {
+
+                                    //TextField
+                                    state.nameSelected.edit { append(exercise.name) }
+                                    state.exerciseTypeSelected.edit { append(exercise.exerciseType.type) }
+                                    state.workoutTypeSelected.edit { append(it.name) }
+
+                                    //State
+                                    val bodyPartsUi = it.listBodyPart.map {  bp ->
+                                        if(bp in bodyPartsSelected) {
+                                            bp.copy(selected = true)
+                                        }else{
+                                            bp
+                                        }
+                                    }
+                                    val workoutTypesUi = resultWorkoutTypes.map { wk ->
+                                        if(wk.idWorkoutType == workoutTypeSelected.idWorkoutType){
+                                            wk.copy(selected = true)
+                                        }else{
+                                            wk
+                                        } }
+
+                                    state = state.copy(
+                                        bodyParts = bodyPartsUi,
+                                        workoutTypes = workoutTypesUi,
+                                        bodyPartsSelected =  bodyPartsUi.filter { it.selected }.map { it.toBodyPart() }.toMutableStateList(),
+                                        exerciseTypes = resultExercisesTypes,
+                                        isActiveSelected = exercise.isActive,
+                                        isDataLoaded = true
+                                    )
                                 }
-                                val bodyPartsUi = it.listBodyPart.map {  bp ->
-                                    val isSelected = bodyPartsSelected.any { it.idBodyPart == bp.idBodyPart }
-                                    bp.copy(selected = isSelected)
-                                }
-                                state = state.copy(
-                                    bodyParts = bodyPartsUi,
-                                    bodyPartsSelected =  bodyPartsUi.filter { it.selected }.map { it.toBodyPart() }.toMutableStateList(),
-                                    workoutTypes = resultWorkoutTypes,
-                                    exerciseTypes = resultExercisesTypes,
-                                    isActiveSelected = cacheResult.data.isActive,
-                                    isDataLoaded = true
-                                )
                             }
                         }
                     }
-                } ?: run {
+                } else {
                     state = state.copy(
                         workoutTypes = resultWorkoutTypes,
                         exerciseTypes = resultExercisesTypes,
@@ -108,18 +129,27 @@ class ExerciseDetailViewModel(
             }
         }
 
-
-
-        //Listen to TextFieldState
         snapshotFlow { state.workoutTypeSelected.text }
             .map { workoutType ->
                 if(state.isDataLoaded){
                     val workoutTypeSelected = state.workoutTypes.find { it.name.equals(workoutType.toString(),true)}
-                    val bodyPartsUi = workoutTypeSelected?.listBodyPart ?: emptyList()
-                    state = state.copy(
-                        bodyParts =bodyPartsUi,
-                        bodyPartsSelected = mutableStateListOf()
-                    )
+                    workoutTypeSelected?.let { wts ->
+                        if(!wts.selected){
+                            val workoutTypesUi = state.workoutTypes.map {
+                                if(it.idWorkoutType == wts.idWorkoutType){
+                                    wts.copy(selected = true)
+                                }else{
+                                    it
+                                }
+                            }
+                            val bodyPartsUi = wts.listBodyPart
+                            state = state.copy(
+                                workoutTypes = workoutTypesUi,
+                                bodyParts =bodyPartsUi,
+                                bodyPartsSelected = mutableStateListOf()
+                            )
+                        }
+                    }
                 }
             }
             .launchIn(viewModelScope)
@@ -129,15 +159,13 @@ class ExerciseDetailViewModel(
             snapshotFlow { state.nameSelected.text },
             snapshotFlow { state.bodyPartsSelected.toList()},
             snapshotFlow { state.workoutTypeSelected.text},
-            snapshotFlow { state.exerciseTypeSelected.text }){
-                                                             name, bodyParts,workoutType, exerciseType ->
+            snapshotFlow { state.exerciseTypeSelected.text }){ name, bodyParts,workoutType, exerciseType ->
             if(state.isDataLoaded){
                 state = if(name.isNotBlank() && bodyParts.isNotEmpty() && exerciseType.isNotEmpty() && workoutType.isNotEmpty()){
                     state.copy(isExerciseValid = true)
                 }else{
                     state.copy(isExerciseValid = false)
                 }
-                Timber.d("State of Exercise update $name $bodyParts $exerciseType Valid : ${state.isExerciseValid}")
             }
         }.launchIn(viewModelScope)
     }
@@ -185,11 +213,12 @@ class ExerciseDetailViewModel(
                 isActive = state.isActiveSelected
             )
 
-        state.exerciseId?.let { exercise.idExercise = it }
+        if(state.exerciseId.isNotBlank()){
+            exercise.idExercise = state.exerciseId
+        }
 
         viewModelScope.launch {
-            val userId = sessionStorage.get()?.userId ?: ""
-            when(val result = offlineFirstExerciseRepository.upsertExercise(exercise, userId)){
+            when(val result = offlineFirstExerciseRepository.upsertExercise(exercise)){
                 is Result.Error -> {
                     eventChannel.send(ExerciseDetailEvent.Error(result.error.asUiText()))
                 }
