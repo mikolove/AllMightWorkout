@@ -19,4 +19,6 @@
     <string name="exercise_wkt_title">Workout types</string>
     <string name="update_exercise">Update exercise</string>
     <string name="insert_exercise">Insert exercise</string>
+    <string name="exercise_search_hint">Search exercises...</string>
+    <string name="no_exercise_matches">No matches founds.</string>
 </resources>

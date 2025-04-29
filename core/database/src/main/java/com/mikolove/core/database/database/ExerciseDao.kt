@@ -24,8 +24,8 @@ interface ExerciseDao{
     suspend fun removeExercises(primaryKeys: List<String>)  : Int
 
     @Transaction
-    @Query("SELECT * FROM exercises WHERE fk_id_user = :idUser")
-    fun getExercises(idUser : String) : Flow<List<ExerciseWithBodyPartsCacheEntity>>
+    @Query("SELECT * FROM exercises WHERE fk_id_user = :idUser AND name LIKE '%' || :name || '%'")
+    fun getExercises(idUser : String,name : String) : Flow<List<ExerciseWithBodyPartsCacheEntity>>
 
     @Transaction
     @Query("SELECT e.id_exercise,e.name,e.exercise_type,e.is_active,e.fk_id_user,e.created_at,e.updated_at,bp.id_body_part,bp.name,bp.fk_id_workout_type " +

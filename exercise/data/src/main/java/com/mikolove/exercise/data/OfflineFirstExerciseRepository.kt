@@ -40,9 +40,9 @@ class OfflineFirstExerciseRepository(
         }.map { it }
     }
 
-    override fun getExercises(): Flow<List<Exercise>> = flow {
+    override fun getExercises(searchQuery : String): Flow<List<Exercise>> = flow {
         val userId = sessionStorage.get()?.userId ?: return@flow
-        emitAll(exerciseCacheDataSource.getExercises(userId))
+        emitAll(exerciseCacheDataSource.getExercises(userId,searchQuery))
     }
 
     override fun getExercisesByWorkoutTypes(workoutTypes: List<String>): Flow<List<Exercise>> = flow {
@@ -88,17 +88,22 @@ class OfflineFirstExerciseRepository(
             return bodyPartsCacheResult.asEmptyDataResult()
         }
 
+        Timber.d("JUST BEFORE NETWORK RESULT")
+
         val networkResult = safeApiCall {
             exerciseNetworkDataSource.upsertExercise(exercise)
         }
 
+        Timber.d("NETWORK RESULT $networkResult")
+
         return when (networkResult) {
             is Result.Error -> {
-                applicationScope.launch {
+                Timber.d("Launch schedule with $exercise")
+                /*applicationScope.launch {
                     syncExerciseScheduler.scheduleSync(
                         type =SyncExerciseScheduler.SyncType.CreateExercise(exercise =exercise)
                     )
-                }.join()
+                }.join()*/
                 Result.Success(Unit)
             }
 
@@ -127,11 +132,11 @@ class OfflineFirstExerciseRepository(
         }.await()
 
         if(remoteResult is Result.Error){
-            applicationScope.launch {
+            /*applicationScope.launch {
                 syncExerciseScheduler.scheduleSync(
                     type = SyncExerciseScheduler.SyncType.DeleteExercise(exerciseId = exerciseId)
                 )
-            }.join()
+            }.join()*/
         }
 
     }
@@ -164,9 +169,9 @@ class OfflineFirstExerciseRepository(
                         }) {
                             is Result.Error -> Unit
                             is Result.Success -> {
-                                applicationScope.launch {
+                                /*applicationScope.launch {
                                     exercisePendingSyncDao.deleteExercisePendingSyncEntity(it.idExercise)
-                                }.join()
+                                }.join()*/
                             }
                         }
                     }
@@ -180,9 +185,9 @@ class OfflineFirstExerciseRepository(
                         }) {
                             is Result.Error -> Unit
                             is Result.Success -> {
-                                applicationScope.launch {
+                               /* applicationScope.launch {
                                     exercisePendingSyncDao.deleteDeletedExerciseSyncEntity(it.idExercise)
-                                }.join()
+                                }.join()*/
                             }
                         }
                     }

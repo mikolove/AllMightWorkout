@@ -11,10 +11,10 @@ class AndroidLibraryFirebaseConventionPlugin : Plugin<Project> {
 
             dependencies{
                 val bom = libs.findLibrary("firebase-bom").get()
-                "implementation"(platform(bom))
+                "api"(platform(bom))
 
-                "implementation"(libs.findLibrary("firebase-auth-ktx").get())
-                "implementation"(libs.findLibrary("firebase-firestore-ktx").get())
+                "api"(libs.findLibrary("firebase-auth-ktx").get())
+                "api"(libs.findLibrary("firebase-firestore-ktx").get())
             }
         }
     }

@@ -38,8 +38,8 @@ class ExerciseDaoService(
         return exerciseDao.removeExercise(exerciseId)
     }
 
-    override fun getExercises(idUser: String): Flow<List<Exercise>> {
-        return exerciseDao.getExercises(idUser).map{ entities ->
+    override fun getExercises(idUser: String,searchQuery: String): Flow<List<Exercise>> {
+        return exerciseDao.getExercises(idUser,searchQuery).map{ entities ->
             entities.map{ it.toExercise()}
         }
     }

@@ -20,8 +20,6 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
 
             dependencies{
 
-                "implementation"(libs.findLibrary("android.gms.google.gcm").get())
-
                 val bom = libs.findLibrary("firebase-bom").get()
                 add("implementation", platform(bom))
                 "implementation"(libs.findLibrary("firebase.analytics").get())

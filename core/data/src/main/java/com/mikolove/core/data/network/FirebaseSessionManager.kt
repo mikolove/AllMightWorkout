@@ -1,4 +1,4 @@
-package com.mikolove.core.data.auth
+package com.mikolove.core.data.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.core.domain.auth.SessionManager
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 
 data class FirebaseSessionManager(
     private val firebaseAuth: FirebaseAuth,
-)  : SessionManager{
+)  : SessionManager {
 
     override  fun isAuthenticated(): Flow<Result<String, DataError>> = callbackFlow {
 

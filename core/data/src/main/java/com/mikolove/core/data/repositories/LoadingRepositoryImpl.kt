@@ -1,5 +1,6 @@
 package com.mikolove.core.data.repositories
 
+import com.google.firebase.auth.FirebaseAuth
 import com.mikolove.core.data.util.safeApiCall
 import com.mikolove.core.data.util.safeCacheCall
 import com.mikolove.core.domain.bodypart.abstraction.BodyPartCacheDataSource
@@ -11,6 +12,7 @@ import com.mikolove.core.domain.util.Result
 import com.mikolove.core.domain.util.asEmptyDataResult
 import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeCacheDataSource
 import com.mikolove.core.domain.workouttype.abstraction.WorkoutTypeNetworkService
+import timber.log.Timber
 
 class LoadingRepositoryImpl(
     private val workoutTypeNetworkService: WorkoutTypeNetworkService,
@@ -22,7 +24,7 @@ class LoadingRepositoryImpl(
         val networkResult = safeApiCall {
             workoutTypeNetworkService.getWorkoutTypes()
         }
-
+        Timber.d("networkResult: $networkResult")
         if(networkResult !is Result.Success){
             return networkResult.asEmptyDataResult()
         } else{

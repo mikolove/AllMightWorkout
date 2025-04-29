@@ -25,6 +25,7 @@ fun AmwTopAppBar(
     navigationIconContentDescription: String,
     actionIcon: ImageVector,
     actionIconContentDescription: String,
+    actionIconEnabled : Boolean = false,
     modifier: Modifier = Modifier,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
     onNavigationClick: () -> Unit = {},
@@ -42,12 +43,14 @@ fun AmwTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onActionClick) {
-                Icon(
-                    imageVector = actionIcon,
-                    contentDescription = actionIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
+            if(actionIconEnabled){
+                IconButton(onClick = onActionClick) {
+                    Icon(
+                        imageVector = actionIcon,
+                        contentDescription = actionIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         colors = colors,
@@ -66,6 +69,7 @@ private fun AmwTopAppBarPreview() {
             navigationIconContentDescription = "Navigation icon",
             actionIcon = MenuMoreIcon,
             actionIconContentDescription = "Action icon",
+            actionIconEnabled = true
         )
     }
 }

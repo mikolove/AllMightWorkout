@@ -16,7 +16,7 @@ constructor(
 
     override suspend fun upsertExercises(exercises: List<Exercise>, idUser: String): List<Long> = exerciseCacheService.upsertExercises(exercises,idUser)
 
-    override fun getExercises(idUser: String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser)
+    override fun getExercises(idUser: String, searchQuery : String) : Flow<List<Exercise>> = exerciseCacheService.getExercises(idUser,searchQuery)
 
     override fun getExercisesByWorkoutTypes(workoutTypes: List<String>, idUser: String): Flow<List<Exercise>> = exerciseCacheService.getExercisesByWorkoutTypes(workoutTypes, idUser)
 

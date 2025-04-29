@@ -3,10 +3,18 @@ package com.mikolove.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "exercise_pending_syncs",
+    foreignKeys = arrayOf(
+        ForeignKey(
+            entity = UserCacheEntity::class,
+            parentColumns = arrayOf("id_user"),
+            childColumns = arrayOf("id_user")
+        )
+    )
     )
 data class ExercisePendingSyncEntity(
     @Embedded val exercise : ExerciseCacheEntity,

@@ -14,7 +14,7 @@ interface ExerciseCacheService {
 
     suspend fun removeExercises(exerciseIds: List<String>)  : Int
 
-    fun getExercises(idUser : String) : Flow<List<Exercise>>
+    fun getExercises(idUser : String, searchQuery : String) : Flow<List<Exercise>>
 
     fun getExercisesByWorkoutTypes(workoutTypes : List<String>, idUser : String) : Flow<List<Exercise>>
 

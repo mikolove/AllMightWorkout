@@ -14,5 +14,6 @@ fun WorkoutTypeNetworkEntity.toWorkoutType() : WorkoutType{
         return WorkoutType(
             idWorkoutType = this.idWorkoutType,
             name = this.name,
+            bodyParts = this.bodyParts.map { it.toBodyPart() }
         )
 }

@@ -179,6 +179,13 @@ class ExerciseDetailViewModel(
             is ExerciseDetailAction.onUpsertClick -> {
                 upsertExercise()
             }
+
+            is ExerciseDetailAction.onDeleteClick -> {
+                viewModelScope.launch {
+                    offlineFirstExerciseRepository.deleteExercise(action.exerciseId)
+                    eventChannel.send(ExerciseDetailEvent.ExerciseDeleted)
+                }
+            }
             else -> Unit
         }
     }

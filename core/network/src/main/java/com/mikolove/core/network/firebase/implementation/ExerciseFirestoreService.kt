@@ -14,6 +14,7 @@ import com.mikolove.core.network.util.FirestoreConstants.BODYPART_COLLECTION
 import com.mikolove.core.network.util.FirestoreConstants.EXERCISES_COLLECTION
 import com.mikolove.core.network.util.FirestoreConstants.USERS_COLLECTION
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 
 class ExerciseFirestoreService
 constructor(
@@ -27,13 +28,13 @@ constructor(
         val userId = sessionStorage.get()?.userId ?: return
         val entity = exercise.toExerciseNetworkEntity()
 
-        firestore
+        val result = firestore
             .collection(USERS_COLLECTION)
             .document(userId)
             .collection(EXERCISES_COLLECTION)
             .document(entity.idExercise)
             .set(entity)
-            .await()
+            //.await()
     }
 
     override suspend fun removeExercise(primaryKey: String) {
@@ -44,7 +45,7 @@ constructor(
             .collection(EXERCISES_COLLECTION)
             .document(primaryKey)
             .delete()
-            .await()
+            //.await()
 
     }
 

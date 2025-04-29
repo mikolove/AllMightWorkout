@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
 
-    fun getExercises(): Flow<List<Exercise>>
+    fun getExercises(searchQuery : String): Flow<List<Exercise>>
 
     fun getExercisesByWorkoutTypes(workoutTypes : List<String>) : Flow<List<Exercise>>
 

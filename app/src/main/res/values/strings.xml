@@ -6,4 +6,6 @@
     <string name="exercises_title">Exercises</string>
     <string name="search_icon_content_description">search\n\n</string>
     <string name="action_icon_content_description">search</string>
+    <string name="first_loading_error_title">An error has occured</string>
+    <string name="first_loading_error_message">Something went wrong with the first loading of the app. Please check your internet connection and restart the app.</string>
 </resources>

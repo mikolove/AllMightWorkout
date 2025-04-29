@@ -8,4 +8,6 @@ sealed interface ExerciseDetailEvent{
 
     data object ExerciseSaved : ExerciseDetailEvent
 
+    data object ExerciseDeleted : ExerciseDetailEvent
+
 }

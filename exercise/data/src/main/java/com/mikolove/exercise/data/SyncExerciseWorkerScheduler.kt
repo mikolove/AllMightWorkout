@@ -16,10 +16,12 @@ import com.mikolove.core.database.model.DeletedExerciseSyncEntity
 import com.mikolove.core.database.model.ExercisePendingSyncEntity
 import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.exercise.Exercise
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
@@ -48,15 +50,16 @@ class SyncExerciseWorkerScheduler (
     }
 
     private suspend fun scheduleFetchExerciseWorker(interval : Duration){
-        val isSyncScheduled = withContext(Dispatchers.IO) {
-            workManager
-                .getWorkInfosByTag("fe_sync_work")
-                .get()
-                .isNotEmpty()
+
+        val isSyncScheduled = withContext(Dispatchers.IO){
+            val result = workManager.getWorkInfosByTag("fe_sync_work").get()
+            result.isNotEmpty()
         }
+
         if(isSyncScheduled) {
             return
         }
+
         val workRequest = PeriodicWorkRequestBuilder<FetchExerciseWorker>(
             repeatInterval = interval.toJavaDuration()
         )
@@ -82,6 +85,7 @@ class SyncExerciseWorkerScheduler (
     }
 
     private suspend fun scheduleCreateExerciseWorker(exercise : Exercise){
+        Timber.d("Create exercise worker start")
         val userId = sessionStorage.get()?.userId ?: return
 
         val pendingExercise = ExercisePendingSyncEntity(
@@ -91,6 +95,8 @@ class SyncExerciseWorkerScheduler (
         )
 
         pendingSyncDao.upsertExercisePendingSyncEntity(pendingExercise)
+
+        Timber.d("pendingSync executed for $pendingExercise")
 
         val workRequest = OneTimeWorkRequestBuilder<CreateExerciseWorker>()
             .addTag("ce_sync_work")

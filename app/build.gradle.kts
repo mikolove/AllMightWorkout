@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.allmightworkout.android.application.compose)
     alias(libs.plugins.allmightworkout.android.application.firebase)
-    alias(libs.plugins.allmightworkout.android.library.firebase)
+    //alias(libs.plugins.allmightworkout.android.library.firebase)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -63,6 +63,7 @@ dependencies {
 
     //WorkManager
     implementation(libs.androidx.work)
+
 
     //implementation(libs.annotation)
 

@@ -55,3 +55,11 @@ val DropDownIcon : ImageVector
 val DropUpIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.baseline_arrow_drop_up_24)
+
+val DeleteIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_delete_24)
+
+val CloseIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_close_24)

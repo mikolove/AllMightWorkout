@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.BackIcon
+import com.mikolove.core.presentation.designsystem.DeleteIcon
 import com.mikolove.core.presentation.designsystem.MenuMoreIcon
 import com.mikolove.core.presentation.designsystem.components.AmwChip
 import com.mikolove.core.presentation.designsystem.components.AmwDropDownTextField
@@ -42,7 +43,6 @@ import org.koin.androidx.compose.koinViewModel
 fun ExerciseDetailScreenRoot(
     onFinish : () -> Unit,
     onBack : () -> Unit,
-
     viewModel: ExerciseDetailViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
@@ -55,7 +55,8 @@ fun ExerciseDetailScreenRoot(
                     Toast.LENGTH_LONG
                 ).show()
             }
-            is ExerciseDetailEvent.ExerciseSaved -> onFinish()
+            is ExerciseDetailEvent.ExerciseSaved,
+                 ExerciseDetailEvent.ExerciseDeleted-> onFinish()
         }
     }
 
@@ -76,6 +77,7 @@ fun ExerciseDetailScreenRoot(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ExerciseDetailScreen(
     state: ExerciseDetailState,
@@ -88,13 +90,15 @@ private fun ExerciseDetailScreen(
                 titleRes = stringResource(id = R.string.exercise_detail_title),
                 navigationIcon = BackIcon,
                 navigationIconContentDescription = stringResource(id = R.string.back_icon_content_description),
-                actionIcon = MenuMoreIcon,
+                actionIcon = DeleteIcon,
+                actionIconEnabled =  state.exerciseId.isNotBlank(),
                 actionIconContentDescription = stringResource(id = R.string.action_icon_content_description),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                 ),
-
-                onActionClick = {},
+                onActionClick = {
+                        onAction(ExerciseDetailAction.onDeleteClick(state.exerciseId))
+                },
                 onNavigationClick = {
                     onAction(ExerciseDetailAction.onBackClick)
                 },

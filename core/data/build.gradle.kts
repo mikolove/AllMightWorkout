@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.allmightworkout.android.library)
-    alias(libs.plugins.allmightworkout.android.library.firebase)
+    //alias(libs.plugins.allmightworkout.android.library.firebase)
 }
 
 android {
@@ -11,11 +11,11 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.database)
-    implementation(libs.kotlinx.coroutines.core)
+    api(projects.core.network)
 
-    implementation(libs.androidx.work)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.bundles.koin)
     implementation(libs.timber)
-
 }

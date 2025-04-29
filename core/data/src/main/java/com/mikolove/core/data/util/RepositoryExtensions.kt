@@ -8,6 +8,8 @@ import com.mikolove.core.domain.util.DataError.Local.EXECUTION_ERROR
 import com.mikolove.core.domain.util.DataError.Local.UNKNOWN
 import com.mikolove.core.domain.util.Result
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.time.withTimeout
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import java.nio.channels.UnresolvedAddressException
 
@@ -103,7 +105,7 @@ suspend fun <T> safeCacheCall(
         Result.Success(cacheCall.invoke())
     } catch (exception : Exception) {
         val stackTrace =exception.printStackTrace()
-        Timber.tag(stackTrace.javaClass.name).d(exception)
+        Timber.d(stackTrace.javaClass.name+" ${exception.message}")
         when (exception) {
             is SQLiteFullException ->{
                 Result.Error(DISK_FULL)
@@ -118,19 +120,27 @@ suspend fun <T> safeCacheCall(
     }
 }
 
+//We gonna use FirebaseFirestore LOCAL CACHE AND AUTO UPDATE
+//those checks need to change
 suspend fun <T> safeApiCall(
     apiCall: suspend () -> T
 ): Result<T, DataError.Network> {
     val response =  try {
-        Result.Success(apiCall.invoke())
+        Timber.d("Launch Safe API CALL")
+        withTimeout(2000L){
+            Result.Success(apiCall.invoke())
+        }
+
     }  catch(e: UnresolvedAddressException) {
+        Timber.d("CATCHING ERROR UNRESOLVED")
         val stackTrace =e.printStackTrace()
-        Timber.tag(stackTrace.javaClass.name).d(e)
+        Timber.d(stackTrace.javaClass.name+" ${e.message}")
         return Result.Error(DataError.Network.NO_INTERNET)
     } catch(e: Exception) {
+        Timber.d("CATCHING EXCEPTION")
         if(e is CancellationException) throw e
         val stackTrace =e.printStackTrace()
-        Timber.tag(stackTrace.javaClass.name).d(e)
+        Timber.d(stackTrace.javaClass.name+" ${e.message}")
         return Result.Error(DataError.Network.UNKNOWN)
     }
     return response

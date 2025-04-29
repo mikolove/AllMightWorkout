@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.MenuMoreIcon
 import com.mikolove.core.presentation.designsystem.SearchIcon
@@ -34,11 +35,13 @@ import com.mikolove.core.presentation.designsystem.components.AmwFloatingButton
 import com.mikolove.core.presentation.designsystem.components.AmwScaffold
 import com.mikolove.core.presentation.designsystem.components.AmwTopAppBar
 import com.mikolove.exercise.presentation.R
+import com.mikolove.exercise.presentation.navigation.ExerciseListRoute
 import com.mikolove.exercise.presentation.overview.component.ExerciseCardItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExerciseScreenRoot(
+    onSearchClick : () -> Unit,
     onUpsertExerciseClick : (String) -> Unit,
     viewModel: ExerciseViewModel = koinViewModel()
 ) {
@@ -50,6 +53,7 @@ fun ExerciseScreenRoot(
                 is ExerciseAction.onUpsertExerciseClick ->{
                     onUpsertExerciseClick(action.exerciseId)
                 }
+                is ExerciseAction.onSearchClick -> onSearchClick()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -76,7 +80,7 @@ private fun ExerciseScreen(
                     containerColor = Color.Transparent,
                 ),
                 onActionClick = {},
-                onNavigationClick = { },
+                onNavigationClick = { onAction(ExerciseAction.onSearchClick) },
             )
         },
         floatingActionButton = {
