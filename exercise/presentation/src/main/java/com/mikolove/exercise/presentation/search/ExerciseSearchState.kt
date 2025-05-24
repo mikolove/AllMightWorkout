@@ -1,7 +1,7 @@
 package com.mikolove.exercise.presentation.search
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.mikolove.exercise.presentation.model.ExerciseUi
+import com.mikolove.core.presentation.ui.model.ExerciseUi
 
 data class ExerciseSearchState(
 

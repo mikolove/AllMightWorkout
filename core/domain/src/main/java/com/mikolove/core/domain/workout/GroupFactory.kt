@@ -15,8 +15,6 @@ class GroupFactory{
             idGroup = idGroup,
             name = name,
             workouts = workouts,
-            createdAt = zdt,
-            updatedAt = zdt
         )
     }
 }

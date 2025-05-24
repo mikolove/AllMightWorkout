@@ -13,11 +13,21 @@ constructor(
 ) : WorkoutCacheDataSource {
     override suspend fun upsertWorkout(workout: Workout, idUser : String ): Long = workoutCacheService.upsertWorkout(workout,idUser)
 
-    override fun getWorkouts(idUser: String): Flow<List<Workout>> = workoutCacheService.getWorkouts(idUser)
+    override suspend fun upsertWorkouts(workouts: List<Workout>, idUser: String): List<Long>  = workoutCacheService.upsertWorkouts(workouts,idUser)
 
-    override suspend fun removeWorkouts(workouts: List<Workout>): Int = workoutCacheService.removeWorkouts(workouts)
+    override fun getWorkouts(idUser: String,searchQuery: String): Flow<List<Workout>> = workoutCacheService.getWorkouts(idUser,searchQuery)
 
-    override suspend fun getWorkoutByWorkoutType(idWorkoutType: List<String>,idUser: String): List<Workout> =workoutCacheService.getWorkoutByWorkoutType(idWorkoutType,idUser)
+    override suspend fun removeWorkouts(workoutIds : List<String>): Int = workoutCacheService.removeWorkouts(workoutIds)
+
+    override suspend fun removeWorkout(workoutId: String): Int  = workoutCacheService.removeWorkout(workoutId)
+
+    override suspend fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): Flow<List<Workout>> =workoutCacheService.getWorkoutByWorkoutType(idWorkoutType,idUser)
+
+    override suspend fun getWorkoutByWorkoutTypeByGroup(
+        idWorkoutType: List<String>,
+        idGroup: List<String>,
+        idUser: String
+    ): Flow<List<Workout>>  = workoutCacheService.getWorkoutByWorkoutTypeByGroup(idWorkoutType,idGroup,idUser)
 
     override suspend fun getWorkoutById(primaryKey: String): Workout = workoutCacheService.getWorkoutById(primaryKey)
 

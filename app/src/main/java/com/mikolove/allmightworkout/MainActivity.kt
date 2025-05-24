@@ -26,6 +26,7 @@ import com.mikolove.allmightworkout.presentation.rememberAmwAppState
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.components.Background
 import com.mikolove.core.presentation.ui.ObserveAsEvents
+import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -50,43 +51,46 @@ class MainActivity : ComponentActivity(){
 
             AmwTheme {
 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                KoinAndroidContext{
 
-                    val context = LocalContext.current
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
 
-                    ObserveAsEvents(viewModel.events) { event ->
-                        when (event) {
-                            is MainEvent.Error -> {
-                                Toast.makeText(
-                                    context,
-                                    event.error.asString(context),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                        val context = LocalContext.current
 
-                            MainEvent.Logout -> {
-                                if ( !viewModel.state.isLoadingData && viewModel.state.isWorkoutTypesChecked) {
-                                    appState.navController.navigate(AuthRoute)
+                        ObserveAsEvents(viewModel.events) { event ->
+                            when (event) {
+                                is MainEvent.Error -> {
+                                    Toast.makeText(
+                                        context,
+                                        event.error.asString(context),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+
+                                MainEvent.Logout -> {
+                                    if ( !viewModel.state.isLoadingData && viewModel.state.isWorkoutTypesChecked) {
+                                        appState.navController.navigate(AuthRoute)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if (!viewModel.state.isLoadingData &&
-                        viewModel.state.isWorkoutTypesChecked) {
+                        if (!viewModel.state.isLoadingData &&
+                            viewModel.state.isWorkoutTypesChecked) {
 
-                        AmwAppRoot(
-                            appState = appState,
-                            modifier = Modifier,
-                            isLoggedIn = viewModel.state.isLoggedIn,
-                            onLogout = { viewModel.logout() }
-                        )
+                            AmwAppRoot(
+                                appState = appState,
+                                modifier = Modifier,
+                                isLoggedIn = viewModel.state.isLoggedIn,
+                                onLogout = { viewModel.logout() }
+                            )
 
-                    }else{
-                        ReloadScreen()
+                        }else{
+                            ReloadScreen()
+                        }
                     }
                 }
             }

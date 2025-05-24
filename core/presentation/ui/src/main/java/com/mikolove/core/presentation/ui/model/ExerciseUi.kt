@@ -1,6 +1,4 @@
-package com.mikolove.exercise.presentation.model
-
-import com.mikolove.core.presentation.ui.model.BodyPartUi
+package com.mikolove.core.presentation.ui.model
 
 data class ExerciseUi(
     val idExercise : String,

@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.3"
-androidTools = "31.9.2"
+androidTools = "31.10.0"
 coreSplashscreen = "1.0.1"
 coilCompose = "2.7.0"
 desugar_jdk_libs = "2.1.5"
@@ -10,12 +10,12 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 koin="4.0.0"
-lifecycleRuntimeKtx = "2.8.7"
+lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.04.01"
+composeBom = "2025.05.00"
 composeCompiler = "1.5.9"
 materialIconsExtended = "1.7.8"
-navigationCompose = "2.8.9"
+navigationCompose = "2.9.0"
 securityCryptoKtx = "1.1.0-alpha07"
 timber = "5.0.1"
 ksp = "2.1.0-1.0.29"
@@ -30,7 +30,7 @@ annotation = "1.9.1"
 concurrent = "1.2.0"
 
 googleServices = "4.4.2"
-firebaseBom = "33.12.0"
+firebaseBom = "33.13.0"
 firebaseCrashlytics = "3.0.3"
 firebasePerfPlugin = "1.4.2"
 
@@ -40,7 +40,7 @@ composeDestination = "2.0.0-beta11"
 #hilt = "2.50"
 #hiltJetpack = "1.2.0"
 retrofit = "2.11.0"
-datastore = "1.1.5"
+datastore = "1.1.6"
 multidex ="2.0.1"
 leakcanary ="3.0-alpha-8"
 serialization = "1.8.0"
@@ -190,7 +190,7 @@ compose = [
     "androidx-navigation-compose"
 ]
 
-koin = ["koin-core","koin-android","koin-android-workmanager"]
+koin = ["koin-core","koin-android","koin-android-workmanager","koin-androidx-compose"]
 koin-compose = ["koin-core","koin-android","koin-android-workmanager","koin-androidx-compose"]
 
 compose-debug = [

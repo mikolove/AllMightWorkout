@@ -11,17 +11,14 @@ import androidx.lifecycle.viewModelScope
 import com.mikolove.core.domain.util.Result
 import com.mikolove.core.domain.workouttype.WorkoutTypeRepository
 import com.mikolove.core.presentation.ui.mapper.toWorkoutTypeUI
-import com.mikolove.core.presentation.ui.model.BodyPartUi
 import com.mikolove.exercise.domain.ExerciseRepository
-import com.mikolove.exercise.presentation.mapper.toExerciseUi
+import com.mikolove.core.presentation.ui.mapper.toExerciseUi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ExerciseViewModel(
     private val workoutTypeRepository: WorkoutTypeRepository,

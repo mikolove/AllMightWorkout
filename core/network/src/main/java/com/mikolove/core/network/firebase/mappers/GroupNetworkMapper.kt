@@ -10,15 +10,11 @@ fun GroupNetworkEntity.toGroup() : Group{
         idGroup = idWorkoutGroup,
         name = name,
         workouts = listOf(),
-        createdAt = createdAt.toZoneDateTime(),
-        updatedAt = updatedAt.toZoneDateTime()
     )
 }
 
 fun Group.toGroupNetworkEntity() : GroupNetworkEntity{
     return GroupNetworkEntity(
         idWorkoutGroup = idGroup,
-        name = name,
-        createdAt = createdAt.toFirebaseTimestamp(),
-        updatedAt = updatedAt.toFirebaseTimestamp())
+        name = name,)
 }

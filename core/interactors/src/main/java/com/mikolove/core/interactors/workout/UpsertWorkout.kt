@@ -10,7 +10,7 @@ import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 
-class
+/*class
 UpsertWorkout(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
     private val workoutNetworkDataSource: WorkoutNetworkDataSource,
@@ -47,4 +47,4 @@ UpsertWorkout(
     enum class UpsertError : Error{
         UPSERT_FAILED
     }
-}
+}*/

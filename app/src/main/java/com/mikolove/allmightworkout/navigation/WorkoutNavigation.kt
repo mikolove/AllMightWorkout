@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.mikolove.workout.presentation.WorkoutScreenRoot
+import com.mikolove.workout.presentation.overview.WorkoutScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable

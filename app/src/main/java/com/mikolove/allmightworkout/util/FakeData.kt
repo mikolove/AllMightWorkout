@@ -1,11 +1,8 @@
 package com.mikolove.allmightworkout.util
 
-import androidx.lifecycle.liveData
 import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workouttype.WorkoutType
-import com.mikolove.workout.presentation.WorkoutCollection
-import com.mikolove.workout.presentation.WorkoutTypeFilter
-import com.mikolove.workout.presentation.WorkoutListState
+import com.mikolove.workout.presentation.overview.WorkoutState
 import java.time.ZonedDateTime
 import java.util.UUID
 
@@ -13,8 +10,8 @@ import java.util.UUID
     Workout Screen
  */
 
-object FakeData{
-    fun getWokoutListState() : WorkoutListState = workoutListState
+/*object FakeData{
+    fun getWokoutListState() : WorkoutState = workoutListState
 }
 
 private val workoutType1 : WorkoutType = WorkoutType(
@@ -66,7 +63,8 @@ private val collection2 : WorkoutCollection = WorkoutCollection(
 private val workoutCollection : List<WorkoutCollection> =  listOf(collection1, collection2)
 private val workoutsFilter : List<WorkoutTypeFilter> = listOf(workoutTypeFilter1, workoutTypeFilter2, workoutTypeFilter3)
 
-private val workoutListState = WorkoutListState(
+private val workoutListState = WorkoutState(
     listWorkoutTypeFilter = workoutsFilter,
     listWorkoutCollection = workoutCollection
 )
+*/

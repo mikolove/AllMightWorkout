@@ -9,6 +9,8 @@ import com.mikolove.core.database.di.databaseModule
 import com.mikolove.core.network.di.networkModule
 import com.mikolove.exercise.data.di.exerciseDataModule
 import com.mikolove.exercise.presentation.di.exerciseViewModule
+import com.mikolove.workout.data.di.workoutDataModule
+import com.mikolove.workout.presentation.di.workoutViewModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
@@ -42,7 +44,9 @@ class AllMightWorkoutApplication : Application(){
                 authDataModule,
                 authViewModule,
                 exerciseDataModule,
-                exerciseViewModule
+                exerciseViewModule,
+                workoutDataModule,
+                workoutViewModule
             )
 
         }

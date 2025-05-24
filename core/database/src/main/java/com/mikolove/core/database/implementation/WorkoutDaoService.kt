@@ -21,27 +21,52 @@ class WorkoutDaoService(
 ) : WorkoutCacheService {
 
     override suspend fun upsertWorkout(workout: Workout, idUser : String): Long {
-        return workoutDao.insertWorkout(workout.toWorkoutCacheEntity(idUser))
+        return workoutDao.upsertWorkout(workout.toWorkoutCacheEntity(idUser))
     }
 
-    override suspend fun removeWorkouts(workouts: List<Workout>): Int {
-        val ids = workouts.mapIndexed { _, workout -> workout.idWorkout }
-        return workoutDao.removeWorkouts(ids)
+    override suspend fun upsertWorkouts(workouts: List<Workout>, idUser: String): List<Long> {
+        return workoutDao.upsertWorkouts(workouts.map { it.toWorkoutCacheEntity(idUser) })
+    }
+
+    override suspend fun removeWorkouts(workoutIds :  List<String>): Int {
+        return workoutDao.removeWorkouts(workoutIds)
+    }
+
+    override suspend fun removeWorkout(workoutId: String): Int {
+        return workoutDao.removeWorkout(workoutId)
     }
 
     override suspend fun getWorkoutById(primaryKey: String): Workout {
         return workoutDao.getWorkoutById(primaryKey).toWorkout()
     }
 
-    override  fun getWorkouts(idUser: String): Flow<List<Workout>> {
-        return workoutDao.getWorkouts(idUser)
+    override  fun getWorkouts(idUser: String,searchQuery: String): Flow<List<Workout>> {
+        return workoutDao.getWorkouts(idUser,searchQuery)
             .map { entities ->
                 entities.map { it.toWorkout() }
             }
     }
 
-    override suspend fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): List<Workout> {
-        return workoutDao.getWorkoutByWorkoutType(idWorkoutType,idUser).map { it.toWorkout() }
+    override  fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): Flow<List<Workout>> {
+        return workoutDao.getWorkoutWithExercises(idWorkoutType, idUser)
+            .map { entities ->
+                entities.map {
+                    it.toWorkout()
+                }
+            }
+    }
+
+    override  fun getWorkoutByWorkoutTypeByGroup(
+        idWorkoutType: List<String>,
+        idGroup: List<String>,
+        idUser: String
+    ): Flow<List<Workout>> {
+        return workoutDao.getWorkoutWithExercisesWithGroups(idWorkoutType,idGroup,idUser)
+            .map { entities ->
+            entities.map {
+                it.toWorkout()
+            }
+        }
     }
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Boolean {

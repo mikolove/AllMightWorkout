@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.transform
 
-class GetWorkouts(
+/*class GetWorkouts(
     private val workoutCacheDataSource: WorkoutCacheDataSource
 ) {
 
@@ -51,3 +51,4 @@ class GetWorkouts(
         val GET_WORKOUTS_NO_MATCHING_RESULTS = "There are no workouts that match that query."
     }
 }
+*/

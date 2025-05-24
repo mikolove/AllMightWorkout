@@ -7,13 +7,9 @@ data class GroupNetworkEntity (
     @DocumentId
     var idWorkoutGroup : String,
     var name : String,
-    var createdAt : Timestamp,
-    var updatedAt : Timestamp,
 ){
     constructor() : this(
         "",
         "",
-        Timestamp.now(),
-        Timestamp.now(),
     )
 }

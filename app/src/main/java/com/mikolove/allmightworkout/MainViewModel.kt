@@ -9,6 +9,8 @@ import com.mikolove.core.domain.auth.SessionManager
 import com.mikolove.core.domain.auth.SessionStorage
 import com.mikolove.core.domain.loading.LoadingRepository
 import com.mikolove.core.domain.util.Result
+import com.mikolove.core.domain.workout.GroupRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,7 +20,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val sessionManager: SessionManager,
     private val sessionStorage: SessionStorage,
-    private val loadingRepository: LoadingRepository
+    private val loadingRepository: LoadingRepository,
 ) : ViewModel(){
 
     var state by mutableStateOf(MainState())
@@ -39,16 +41,23 @@ class MainViewModel(
             state = state.copy(isCheckingAuth = false)
 
             //state = state.copy(isLoadingData = true)
-            val result = loadingRepository.loadWorkoutTypes()
-            when(result){
-                is Result.Error -> {
-                    //eventChannel.send(MainEvent.Error(result.asErrorUiText()))
+            val workoutTypes  = async{
+                loadingRepository.loadWorkoutTypes()
+            }
+
+            val groups = async{
+                loadingRepository.loadGroups()
+            }
+
+            val resultWorkoutTypes = workoutTypes.await()
+            //TODO : Check where to put this sync because u will not be registered first use but u will next time logged so ...
+            val resultGroups = groups.await()
+
+            if(resultWorkoutTypes is Result.Success){
+                    state = state.copy(isLoadingData = false, isWorkoutTypesChecked = true)
+            }else{
                     state = state.copy(isLoadingData = false, isWorkoutTypesChecked = false)
                 }
-                is Result.Success ->{
-                    state = state.copy(isLoadingData = false, isWorkoutTypesChecked = true)
-                }
-            }
         }
 
         sessionManager.isAuthenticated().onEach { result ->

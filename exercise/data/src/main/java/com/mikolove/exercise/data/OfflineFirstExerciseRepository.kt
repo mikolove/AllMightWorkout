@@ -15,13 +15,10 @@ import com.mikolove.core.domain.util.asEmptyDataResult
 import com.mikolove.core.domain.util.map
 import com.mikolove.exercise.domain.ExerciseRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class OfflineFirstExerciseRepository(
@@ -88,14 +85,12 @@ class OfflineFirstExerciseRepository(
             return bodyPartsCacheResult.asEmptyDataResult()
         }
 
-        Timber.d("JUST BEFORE NETWORK RESULT")
-
         val networkResult = safeApiCall {
             exerciseNetworkDataSource.upsertExercise(exercise)
         }
 
-        Timber.d("NETWORK RESULT $networkResult")
 
+        //Not needed but i'll leave it here Firebase Auto Sync everything
         return when (networkResult) {
             is Result.Error -> {
                 Timber.d("Launch schedule with $exercise")
@@ -119,11 +114,12 @@ class OfflineFirstExerciseRepository(
         }
 
         //Exercise created in offline mode and delete as well.
-        val isPendingSync = exercisePendingSyncDao.getExercisePendingSyncEntity(exerciseId) != null
+        //Firebase does it alone i'll leave just to personal purpose
+        /*val isPendingSync = exercisePendingSyncDao.getExercisePendingSyncEntity(exerciseId) != null
         if(isPendingSync){
             exercisePendingSyncDao.deleteExercisePendingSyncEntity(idExercise = exerciseId)
             return
-        }
+        }*/
 
         val remoteResult = applicationScope.async{
             safeApiCall {
@@ -142,7 +138,7 @@ class OfflineFirstExerciseRepository(
     }
 
     override suspend fun syncPendingExercises() {
-        withContext(Dispatchers.IO) {
+        /*withContext(Dispatchers.IO) {
             val userId = sessionStorage.get()?.userId ?: return@withContext
 
             val createdExercises = async {
@@ -169,9 +165,9 @@ class OfflineFirstExerciseRepository(
                         }) {
                             is Result.Error -> Unit
                             is Result.Success -> {
-                                /*applicationScope.launch {
+                                *//*applicationScope.launch {
                                     exercisePendingSyncDao.deleteExercisePendingSyncEntity(it.idExercise)
-                                }.join()*/
+                                }.join()*//*
                             }
                         }
                     }
@@ -185,9 +181,9 @@ class OfflineFirstExerciseRepository(
                         }) {
                             is Result.Error -> Unit
                             is Result.Success -> {
-                               /* applicationScope.launch {
+                               *//* applicationScope.launch {
                                     exercisePendingSyncDao.deleteDeletedExerciseSyncEntity(it.idExercise)
-                                }.join()*/
+                                }.join()*//*
                             }
                         }
                     }
@@ -195,6 +191,6 @@ class OfflineFirstExerciseRepository(
 
             createdJobs.forEach { it.join() }
             deletedJobs.forEach { it.join() }
-        }
+        }*/
     }
 }

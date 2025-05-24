@@ -8,13 +8,19 @@ interface WorkoutCacheService {
 
     suspend fun upsertWorkout(workout: Workout, idUser : String) : Long
 
-    suspend fun removeWorkouts(workouts : List<Workout>) : Int
+    suspend fun upsertWorkouts(workouts: List<Workout>, idUser : String) : List<Long>
+
+    suspend fun removeWorkout(workoutId : String) : Int
+
+    suspend fun removeWorkouts(workoutIds : List<String>) : Int
 
     suspend fun getWorkoutById(primaryKey : String) : Workout
 
-    fun getWorkouts(idUser : String) : Flow<List<Workout>>
+    fun getWorkouts(idUser : String,searchQuery : String) : Flow<List<Workout>>
 
-    suspend fun getWorkoutByWorkoutType(idWorkoutType : List<String>, idUser : String) : List<Workout>
+    fun getWorkoutByWorkoutType(idWorkoutType : List<String>, idUser : String) : Flow<List<Workout>>
+
+    fun getWorkoutByWorkoutTypeByGroup(idWorkoutType : List<String>, idGroup : List<String>,idUser : String) : Flow<List<Workout>>
 
     //link exercise
     suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Boolean

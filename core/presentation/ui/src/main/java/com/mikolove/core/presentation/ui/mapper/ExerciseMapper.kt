@@ -1,11 +1,10 @@
-package com.mikolove.exercise.presentation.mapper
+package com.mikolove.core.presentation.ui.mapper
 
 import com.mikolove.core.domain.exercise.Exercise
 import com.mikolove.core.domain.exercise.ExerciseSet
-import com.mikolove.core.presentation.ui.mapper.toBodyPartUi
 import com.mikolove.core.presentation.ui.util.toUi
-import com.mikolove.exercise.presentation.model.ExerciseSetUi
-import com.mikolove.exercise.presentation.model.ExerciseUi
+import com.mikolove.core.presentation.ui.model.ExerciseSetUi
+import com.mikolove.core.presentation.ui.model.ExerciseUi
 
 fun Exercise.toExerciseUi() : ExerciseUi {
     return ExerciseUi(
@@ -20,7 +19,7 @@ fun Exercise.toExerciseUi() : ExerciseUi {
     )
 }
 
-fun ExerciseSet.toExerciseSetUi() : ExerciseSetUi{
+fun ExerciseSet.toExerciseSetUi() : ExerciseSetUi {
     return ExerciseSetUi(
         idExerciseSet = this.idExerciseSet,
         reps = this.reps.toString(),

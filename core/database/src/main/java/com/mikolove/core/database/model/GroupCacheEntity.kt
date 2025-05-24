@@ -33,12 +33,6 @@ data class GroupCacheEntity (
 
     @ColumnInfo(name = "fk_id_user",index = true)
     var idUser : String,
-
-    @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    var createdAt: ZonedDateTime,
-
-    @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var updatedAt: ZonedDateTime
 )
 
 data class GroupsWithWorkoutsCacheEntity(

@@ -1,10 +1,8 @@
 package com.mikolove.exercise.presentation.overview.component
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.ui.model.BodyPartUi
 import com.mikolove.exercise.presentation.R
-import com.mikolove.exercise.presentation.model.ExerciseUi
+import com.mikolove.core.presentation.ui.model.ExerciseUi
 
 @Composable
 fun ExerciseCardItem(

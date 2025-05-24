@@ -9,8 +9,6 @@ fun GroupsWithWorkoutsCacheEntity.toGroup() : Group{
         idGroup = groupCacheEntity.idGroup,
         name = groupCacheEntity.name,
         workouts = listOfWorkoutsCacheEntity?.map{ it.toWorkout()} ?: listOf(),
-        createdAt = groupCacheEntity.createdAt,
-        updatedAt = groupCacheEntity.updatedAt
     )
 }
 
@@ -19,8 +17,6 @@ fun GroupCacheEntity.toGroup() : Group{
         idGroup = idGroup,
         name = name,
         workouts = listOf(),
-        createdAt = createdAt,
-        updatedAt = updatedAt
     )
 }
 
@@ -29,7 +25,5 @@ fun Group.toGroupCacheEntity(idUser : String) : GroupCacheEntity {
         idGroup = idGroup,
         name = name,
         idUser = idUser,
-        createdAt = createdAt,
-        updatedAt = updatedAt
     )
 }

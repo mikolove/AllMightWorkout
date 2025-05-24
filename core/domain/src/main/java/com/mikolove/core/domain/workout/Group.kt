@@ -7,6 +7,4 @@ data class Group (
     var idGroup : String = UUID.randomUUID().toString(),
     var name : String,
     var workouts : List<Workout> = listOf(),
-    var createdAt: ZonedDateTime,
-    var updatedAt: ZonedDateTime
 )

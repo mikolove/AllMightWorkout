@@ -1,4 +1,4 @@
-package com.mikolove.exercise.presentation.model
+package com.mikolove.core.presentation.ui.model
 
 data class ExerciseCategoryUi(
     val idWorkoutType : String,

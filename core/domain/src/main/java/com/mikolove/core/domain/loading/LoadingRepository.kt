@@ -7,4 +7,5 @@ interface LoadingRepository {
 
     suspend fun loadWorkoutTypes() : EmptyResult<DataError>
 
+    suspend fun loadGroups() : EmptyResult<DataError>
 }

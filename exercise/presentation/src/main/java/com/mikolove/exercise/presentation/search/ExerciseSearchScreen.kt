@@ -23,7 +23,7 @@ import com.mikolove.core.presentation.designsystem.BackIcon
 import com.mikolove.core.presentation.designsystem.components.AmwScaffold
 import com.mikolove.core.presentation.designsystem.components.AmwSearchAppBar
 import com.mikolove.exercise.presentation.R
-import com.mikolove.exercise.presentation.model.ExerciseUi
+import com.mikolove.core.presentation.ui.model.ExerciseUi
 import com.mikolove.exercise.presentation.overview.component.ExerciseCardItem
 import org.koin.androidx.compose.koinViewModel
 

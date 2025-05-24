@@ -1,4 +1,4 @@
-package com.mikolove.exercise.presentation.model
+package com.mikolove.core.presentation.ui.model
 
 data class ExerciseSetUi (
     val idExerciseSet : String,
