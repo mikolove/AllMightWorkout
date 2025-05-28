@@ -13,6 +13,7 @@ import com.mikolove.core.domain.workouttype.WorkoutTypeRepository
 import com.mikolove.core.presentation.ui.mapper.toWorkoutTypeUI
 import com.mikolove.exercise.domain.ExerciseRepository
 import com.mikolove.core.presentation.ui.mapper.toExerciseUi
+import com.mikolove.core.presentation.ui.mapper.toIds
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -42,16 +43,8 @@ class ExerciseViewModel(
 
         snapshotFlow { state.workoutTypes }
             .flatMapLatest {  workoutTypes ->
-                val filteredWorkoutTypes =
-                    if(workoutTypes.none { it.selected }) {
-                        workoutTypes.mapIndexed{ _,workoutType ->
-                            workoutType.idWorkoutType
-                        }
-                    }else{
-                        workoutTypes.filter { it.selected }.mapIndexed{ _,workoutType ->
-                            workoutType.idWorkoutType
-                        }
-                    }
+                val filteredWorkoutTypes = workoutTypes.toIds()
+
                 exerciseRepository.getExercisesByWorkoutTypes(filteredWorkoutTypes).onEach { exercises ->
                     val exercisesUi = exercises.map { it.toExerciseUi() }
                     state = state.copy(exercises = exercisesUi)

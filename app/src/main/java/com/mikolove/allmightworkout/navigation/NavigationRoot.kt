@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import com.mikolove.allmightworkout.presentation.AmwAppState
 import com.mikolove.exercise.presentation.navigation.exercisesGraph
+import com.mikolove.workout.presentation.navigation.workoutsGraph
 
 @Composable
 fun NavigationRoot(

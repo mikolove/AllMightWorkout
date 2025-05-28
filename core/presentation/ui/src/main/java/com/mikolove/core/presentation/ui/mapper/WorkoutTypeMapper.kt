@@ -11,3 +11,15 @@ fun WorkoutType.toWorkoutTypeUI() : WorkoutTypeUi{
         listBodyPart = this.bodyParts.map { it.toBodyPartUi() }
     )
 }
+
+fun List<WorkoutTypeUi>.toIds() : List<String>{
+    return if(this.none { it.selected }) {
+        this.mapIndexed{ _,workoutType ->
+            workoutType.idWorkoutType
+        }
+    }else{
+        this.filter { it.selected }.mapIndexed{ _,workoutType ->
+            workoutType.idWorkoutType
+        }
+    }
+}

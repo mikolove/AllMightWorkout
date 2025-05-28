@@ -14,7 +14,7 @@ import androidx.navigation.navOptions
 import com.mikolove.allmightworkout.navigation.TopLevelDestination
 import com.mikolove.exercise.presentation.navigation.navigateToExercise
 import com.mikolove.allmightworkout.navigation.navigateToHome
-import com.mikolove.allmightworkout.navigation.navigateToWorkout
+import com.mikolove.workout.presentation.navigation.navigateToWorkout
 import kotlinx.coroutines.CoroutineScope
 
 @Composable

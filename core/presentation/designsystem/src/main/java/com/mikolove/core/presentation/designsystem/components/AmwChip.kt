@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mikolove.core.presentation.designsystem.AddIcon
 import com.mikolove.core.presentation.designsystem.AmwTheme
 import com.mikolove.core.presentation.designsystem.CheckIcon
 
@@ -35,6 +36,30 @@ fun AmwChip(
         onClick = {onClick()}
     )
 }
+
+ @Composable
+ fun AmwAddChip(
+     modifier: Modifier = Modifier,
+     title : String,
+     selected : Boolean = false,
+     onClick : () -> Unit = {}
+ ){
+     FilterChip(
+         modifier = modifier,
+         selected = selected,
+         leadingIcon = null ,
+         trailingIcon = {
+             Icon(
+                 imageVector = AddIcon,
+                 contentDescription = null,
+                 modifier = Modifier.size(FilterChipDefaults.IconSize))
+         },
+         label = {
+             Text(text = title)
+         },
+         onClick = {onClick()}
+     )
+ }
 
 @Preview
 @Composable

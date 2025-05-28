@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="workout_title">Workouts</string>
+    <string name="search_icon_content_description">Search workout\n</string>
+    <string name="action_icon_content_description">More actions</string>
+    <string name="add_workout">Add workout</string>
+    <string name="workout_filter_title">Filters</string>
+    <string name="chip_filter_all">All</string>
+    <string name="workout_filter_groups_title">Groups</string>
+    <string name="chip_add_group">Add</string>
+    <string name="created_at">Created at</string>
+    <string name="exercises">exercises</string>
+</resources>

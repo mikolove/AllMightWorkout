@@ -63,3 +63,7 @@ val DeleteIcon : ImageVector
 val CloseIcon : ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.baseline_close_24)
+
+val AddIcon : ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.baseline_add_24)

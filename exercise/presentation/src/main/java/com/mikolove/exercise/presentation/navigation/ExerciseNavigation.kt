@@ -9,7 +9,6 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navOptions
 import com.mikolove.exercise.presentation.detail.ExerciseDetailScreenRoot
 import com.mikolove.exercise.presentation.overview.ExerciseScreenRoot
-import com.mikolove.exercise.presentation.search.ExerciseSearchScreen
 import com.mikolove.exercise.presentation.search.ExerciseSearchScreenRoot
 import kotlinx.serialization.Serializable
 

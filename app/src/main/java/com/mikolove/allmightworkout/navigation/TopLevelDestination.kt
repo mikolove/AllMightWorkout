@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.mikolove.allmightworkout.R
 import com.mikolove.exercise.presentation.navigation.ExerciseListRoute
 import com.mikolove.exercise.presentation.navigation.ExercisesRoute
+import com.mikolove.workout.presentation.navigation.WorkoutListRoute
+import com.mikolove.workout.presentation.navigation.WorkoutsRoute
 import kotlin.reflect.KClass
 
 /**

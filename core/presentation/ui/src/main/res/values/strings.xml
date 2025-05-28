@@ -9,4 +9,6 @@
     <string name="error_serialization">Oops, couldn\'t parse data.</string>
     <string name="error_unknown">An unknown error occurred.</string>
     <string name="error_execution">An error occured during local execution.</string>
+    <string name="exercises">exercises</string>
+    <string name="created_at">Created at</string>
 </resources>
