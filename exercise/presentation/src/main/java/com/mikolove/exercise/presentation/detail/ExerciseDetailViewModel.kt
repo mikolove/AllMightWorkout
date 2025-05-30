@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ExerciseDetailViewModel(
-    val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val workoutTypeRepository: WorkoutTypeRepository,
     private val offlineFirstExerciseRepository: ExerciseRepository,
     private val sessionStorage: SessionStorage
@@ -70,7 +70,7 @@ class ExerciseDetailViewModel(
             ) {
                 //Load exercise if exist
                 if(state.exerciseId.isNotEmpty()){
-                    viewModelScope.launch {
+                    //viewModelScope.launch {
                         val cacheResult = offlineFirstExerciseRepository.getExercise(state.exerciseId)
                         when(cacheResult){
                             is Result.Error -> {
@@ -117,7 +117,7 @@ class ExerciseDetailViewModel(
                                 }
                             }
                         }
-                    }
+                    //}
                 } else {
                     state = state.copy(
                         workoutTypes = resultWorkoutTypes,
@@ -218,7 +218,7 @@ class ExerciseDetailViewModel(
                 bodyParts = state.bodyPartsSelected.toList(),
                 exerciseType = ExerciseType.from(state.exerciseTypeSelected.text.toString()),
                 isActive = state.isActiveSelected
-            )
+            ) // Fix created AT
 
         if(state.exerciseId.isNotBlank()){
             exercise.idExercise = state.exerciseId

@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable object WorkoutListRoute
 @Serializable object WorkoutGroupRoute
 @Serializable object WorkoutSearchRoute
+@Serializable data class WorkoutUpsertRoute(val idWorkout: String)
 @Serializable data class WorkoutDetailRoute(val idWorkout: String)
 @Serializable data class WorkoutAddExerciseRoute(val idWorkout: String)
 
@@ -27,6 +28,12 @@ fun NavController.navigateToWorkoutDetail(idWorkout : String, navOptions: NavOpt
 
 fun NavController.navigateToWorkoutAddExerciseRoute(idWorkout : String, navOptions: NavOptionsBuilder.() -> Unit = {}){
     navigate(route = WorkoutAddExerciseRoute(idWorkout)){
+        navOptions
+    }
+}
+
+fun NavController.navigateToWorkoutUpsertRoute(idWorkout : String, navOptions: NavOptionsBuilder.() -> Unit = {}){
+    navigate(route = WorkoutUpsertRoute(idWorkout)){
         navOptions
     }
 }
@@ -51,13 +58,18 @@ fun NavGraphBuilder.workoutsGraph(
                     navController.navigateToWorkoutSearch(navOptions {})
                 },
                 onAddGroupClick = {
-                    navController.navigateToWorkoutGroup(navOptions { })
+                    navController.navigateToWorkoutGroup(navOptions {})
+                },
+                onWorkoutClick = {
+                    navController.navigateToWorkoutDetail(it)
                 },
                 onUpsertWorkoutClick = {
-                    navController.navigateToWorkoutDetail(it)
+                    navController.navigateToWorkoutUpsertRoute(it)
                 },
             )
         }
+
+        composable<WorkoutUpsertRoute> {  }
 
         composable<WorkoutSearchRoute> {  }
 

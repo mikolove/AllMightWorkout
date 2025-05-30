@@ -10,4 +10,11 @@
     <string name="chip_add_group">Add</string>
     <string name="created_at">Created at</string>
     <string name="exercises">exercises</string>
+    <string name="workout_name_hint">Type name</string>
+    <string name="workout_name_title">Name</string>
+    <string name="workout_name_additional_info">Must be a valid name</string>
+    <string name="workout_upsert_title">Upsert workout</string>
+    <string name="workout_group_name">Groups</string>
+    <string name="update_workout">Update workout</string>
+    <string name="workout_no_group_name">No groups defined.</string>
 </resources>

@@ -14,7 +14,6 @@ import com.mikolove.core.presentation.ui.mapper.toIds
 import com.mikolove.core.presentation.ui.mapper.toWorkoutTypeUI
 import com.mikolove.core.presentation.ui.mapper.toWorkoutUi
 import com.mikolove.workout.domain.WorkoutRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -78,10 +77,10 @@ class WorkoutViewModel (
 
     fun onAction(action: WorkoutAction){
         when(action) {
-            is WorkoutAction.onWorkoutTypeChipClick ->{
+            is WorkoutAction.OnWorkoutTypeChipClick ->{
                 switchWorkoutTypeChipState(action.chipId)
             }
-            is WorkoutAction.onGroupChipClick->{
+            is WorkoutAction.OnGroupChipClick->{
                 switchGroupChipState(action.chipId)
             }
             else -> {}

@@ -37,8 +37,8 @@ fun ExerciseSearchScreenRoot(
         state = viewModel.state,
         onAction = { action ->
             when(action){
-                is ExerciseSearchAction.onBackClick -> onBack()
-                is ExerciseSearchAction.onDetailClick -> onNavigateToExerciseDetail(action.exerciseId)
+                is ExerciseSearchAction.OnBackClick -> onBack()
+                is ExerciseSearchAction.OnDetailClick -> onNavigateToExerciseDetail(action.exerciseId)
             }
             viewModel.onAction(action)
         })
@@ -56,7 +56,7 @@ fun ExerciseSearchScreen(
                 navigationIconContentDescription = "",
                 hint = stringResource(id = R.string.exercise_search_hint),
                 searchQuery = state.searchQuerySelected,
-                onBackClick = { onAction(ExerciseSearchAction.onBackClick) }
+                onBackClick = { onAction(ExerciseSearchAction.OnBackClick) }
             )
         }
     ){ paddingValues ->
@@ -84,7 +84,7 @@ fun ExerciseSearchScreen(
                             ExerciseCardItem(
                                 exerciseUi = exerciseUi,
                                 onCardItemClick = {
-                                    onAction(ExerciseSearchAction.onDetailClick(exerciseId = exerciseUi.idExercise))
+                                    onAction(ExerciseSearchAction.OnDetailClick(exerciseId = exerciseUi.idExercise))
                                 }
                             )
                         }

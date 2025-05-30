@@ -43,17 +43,18 @@ fun WorkoutScreenRoot(
     onSearchClick : () -> Unit,
     onAddGroupClick : () -> Unit,
     onUpsertWorkoutClick : (String) -> Unit,
+    onWorkoutClick : (String) -> Unit,
     viewModel: WorkoutViewModel = koinViewModel()
 ){
     WorkoutScreen(
         state = viewModel.state,
         onAction = { action ->
             when(action){
-                is WorkoutAction.onUpsertWorkoutClick ->{
+                is WorkoutAction.OnUpsertWorkoutClick ->{
                     onUpsertWorkoutClick(action.workoutId)
                 }
-                is WorkoutAction.onSearchClick -> onSearchClick()
-                is WorkoutAction.onAddGroupClick -> onAddGroupClick()
+                is WorkoutAction.OnSearchClick -> onSearchClick()
+                is WorkoutAction.OnAddGroupClick -> onAddGroupClick()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -78,13 +79,13 @@ fun WorkoutScreen(
                     containerColor = Color.Transparent,
                 ),
                 onActionClick = {},
-                onNavigationClick = { onAction(WorkoutAction.onSearchClick) },
+                onNavigationClick = { onAction(WorkoutAction.OnSearchClick) },
             )
         },
         floatingActionButton = {
             AmwFloatingButton(
                 onClick = {
-                    onAction(WorkoutAction.onUpsertWorkoutClick(""))
+                    onAction(WorkoutAction.OnUpsertWorkoutClick(""))
                 },
                 enabled = true,
                 title = stringResource(R.string.add_workout)
@@ -121,7 +122,7 @@ fun WorkoutScreen(
                     title = stringResource(R.string.chip_filter_all),
                     selected = state.workoutTypes.all { !it.selected },
                     onClick = {
-                        onAction(WorkoutAction.onWorkoutTypeChipClick(null))
+                        onAction(WorkoutAction.OnWorkoutTypeChipClick(null))
                     }
                 )
                 state.workoutTypes.forEach { workoutTypeUi ->
@@ -129,7 +130,7 @@ fun WorkoutScreen(
                         title = workoutTypeUi.name,
                         selected = workoutTypeUi.selected,
                         onClick = {
-                            onAction(WorkoutAction.onWorkoutTypeChipClick(workoutTypeUi.idWorkoutType))
+                            onAction(WorkoutAction.OnWorkoutTypeChipClick(workoutTypeUi.idWorkoutType))
                         }
                     )
                 }
@@ -160,7 +161,7 @@ fun WorkoutScreen(
                         title = stringResource(R.string.chip_filter_all),
                         selected = state.groups.all { !it.selected },
                         onClick = {
-                            onAction(WorkoutAction.onGroupChipClick(null))
+                            onAction(WorkoutAction.OnGroupChipClick(null))
                         }
                     )
                     state.groups.forEach { groupUi ->
@@ -168,7 +169,7 @@ fun WorkoutScreen(
                             title = groupUi.name,
                             selected = groupUi.selected,
                             onClick = {
-                                onAction(WorkoutAction.onGroupChipClick(groupUi.idGroup))
+                                onAction(WorkoutAction.OnGroupChipClick(groupUi.idGroup))
                             }
                         )
                     }
@@ -179,7 +180,7 @@ fun WorkoutScreen(
                     title = stringResource(R.string.chip_add_group),
                     selected = false,
                     onClick = {
-                        onAction(WorkoutAction.onAddGroupClick)
+                        onAction(WorkoutAction.OnAddGroupClick)
                     }
                 )
 
@@ -194,7 +195,7 @@ fun WorkoutScreen(
                         WorkoutCardItem(
                             workoutUi = workoutUi,
                             onCardItemClick = {
-                                onAction(WorkoutAction.onUpsertWorkoutClick(workoutId = workoutUi.idWorkout))
+                                onAction(WorkoutAction.OnUpsertWorkoutClick(workoutId = workoutUi.idWorkout))
                             }
                         )
                     }

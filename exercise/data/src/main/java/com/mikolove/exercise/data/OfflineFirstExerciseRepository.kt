@@ -53,9 +53,23 @@ class OfflineFirstExerciseRepository(
         return when (val result = safeApiCall { exerciseNetworkDataSource.getExercises() }) {
             is Result.Error -> result.asEmptyDataResult()
             is Result.Success -> {
+
+                //Insert Exercises
                 applicationScope.async {
                     safeCacheCall {
                         exerciseCacheDataSource.upsertExercises(result.data, userId)
+                    }.asEmptyDataResult()
+                }.await()
+
+                //Insert body parts
+                applicationScope.async {
+                    safeCacheCall {
+                        result.data.forEach{ exercise ->
+                            exerciseCacheDataSource.insertBodyPartsAndClean(
+                                exercise.idExercise,
+                                exercise.bodyParts
+                            )
+                        }
                     }.asEmptyDataResult()
                 }.await()
             }
