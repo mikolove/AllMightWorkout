@@ -64,6 +64,7 @@ fun AmwPasswordTextField(
             if (title != null) {
                 Text(
                     text = title,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -74,20 +75,19 @@ fun AmwPasswordTextField(
             textObfuscationMode = if (isPasswordVisible) {
                 TextObfuscationMode.Visible
             } else TextObfuscationMode.Hidden,
-            textStyle = LocalTextStyle.current.copy(
+            /*textStyle = LocalTextStyle.current.copy(
                 color = MaterialTheme.colorScheme.onBackground
-            ),
+            ),*/
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
                 .background(
-                    if (isFocused) {
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f
-                        )
+                    color =if (isFocused) {
+                        MaterialTheme.colorScheme.onPrimary
                     } else {
-                        MaterialTheme.colorScheme.surface
-                    }
+                        Color.Transparent
+                    },
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .border(
                     width = 1.dp,
@@ -98,7 +98,7 @@ fun AmwPasswordTextField(
                     },
                     shape = RoundedCornerShape(16.dp)
                 )
-                .padding(horizontal = 12.dp)
+                .padding(top=12.dp, bottom = 12.dp)
                 .onFocusChanged {
                     isFocused = it.isFocused
                 },
@@ -117,6 +117,9 @@ fun AmwPasswordTextField(
                     Box(
                         modifier = Modifier
                             .weight(1f)
+                            .padding(
+                                start = if(isFocused){16.dp}else{0.dp},
+                                end = if(isFocused){16.dp}else{0.dp})
                     ) {
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
@@ -124,6 +127,7 @@ fun AmwPasswordTextField(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                     alpha = 0.4f
                                 ),
+                                style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
@@ -154,8 +158,8 @@ private fun AmwTextFieldPreview() {
     AmwTheme {
         AmwPasswordTextField(
             state = rememberTextFieldState(),
-            hint = "example@test.com",
-            title = "Email",
+            hint = "password",
+            title = "password",
             modifier = Modifier
                 .fillMaxWidth(),
             isPasswordVisible = false,

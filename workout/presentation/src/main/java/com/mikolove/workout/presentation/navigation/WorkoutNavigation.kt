@@ -1,5 +1,14 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package com.mikolove.workout.presentation.navigation
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -7,7 +16,9 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navOptions
+import com.mikolove.workout.presentation.detail.WorkoutDetailScreenRoot
 import com.mikolove.workout.presentation.overview.WorkoutScreenRoot
+import com.mikolove.workout.presentation.upsert.WorkoutUpsertScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable object WorkoutListRoute
@@ -49,6 +60,7 @@ fun NavController.navigateToWorkoutSearch(navOptions: NavOptions) =
 
 fun NavGraphBuilder.workoutsGraph(
     navController: NavController,
+    sharedTransitionScope: SharedTransitionScope,
 ){
     navigation<WorkoutsRoute>(startDestination = WorkoutListRoute){
 
@@ -63,17 +75,27 @@ fun NavGraphBuilder.workoutsGraph(
                 onWorkoutClick = {
                     navController.navigateToWorkoutDetail(it)
                 },
-                onUpsertWorkoutClick = {
-                    navController.navigateToWorkoutUpsertRoute(it)
-                },
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable
             )
         }
 
-        composable<WorkoutUpsertRoute> {  }
+        composable<WorkoutUpsertRoute> {
+            WorkoutUpsertScreenRoot(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
 
         composable<WorkoutSearchRoute> {  }
 
-        composable<WorkoutDetailRoute> {  }
+        composable<WorkoutDetailRoute> {
+            WorkoutDetailScreenRoot(
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable
+            )
+        }
 
         composable<WorkoutAddExerciseRoute> {  }
 

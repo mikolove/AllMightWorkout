@@ -1,5 +1,15 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package com.mikolove.core.presentation.designsystem.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -12,9 +22,13 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItemColors
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldState
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldValue
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
+import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -42,14 +56,14 @@ fun AmwNavigationSuiteScaffold(
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
     shouldHideBottomBar : Boolean,
-    content: @Composable () -> Unit,
-) {
-    val layoutType =
-        if(shouldHideBottomBar){
-            NavigationSuiteType.None
+    sharedTransitionScope: SharedTransitionScope,
+    content: @Composable () -> Unit) {
+
+  /*  val layoutType = if(shouldHideBottomBar){
+        NavigationSuiteType.None
     }else{
-            NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
-    }
+        NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
+    }*/
 
     val navigationSuiteItemColors = NavigationSuiteItemColors(
         navigationBarItemColors = NavigationBarItemDefaults.colors(
@@ -74,24 +88,39 @@ fun AmwNavigationSuiteScaffold(
         ),
     )
 
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            AmwNavigationSuiteScope(
-                navigationSuiteScope = this,
-                navigationSuiteItemColors = navigationSuiteItemColors,
-            ).run(navigationSuiteItems)
-        },
-        layoutType = layoutType,
-        containerColor = Color.Transparent,
-        navigationSuiteColors = NavigationSuiteDefaults.colors(
-            navigationBarContentColor = AmwNavigationDefaults.navigationContentColor(),
-            navigationRailContainerColor = Color.Transparent,
-        ),
-        modifier = modifier,
+    var showBottomBar = rememberNavigationSuiteScaffoldState()
 
-        ) {
-        content()
+    LaunchedEffect(shouldHideBottomBar) {
+        if(shouldHideBottomBar){
+            showBottomBar.hide()
+        }else{
+            showBottomBar.show()
+        }
     }
+
+    with(sharedTransitionScope){
+
+        NavigationSuiteScaffold(
+            navigationSuiteItems = {
+                AmwNavigationSuiteScope(
+                    navigationSuiteScope = this,
+                    navigationSuiteItemColors = navigationSuiteItemColors,
+                ).run(navigationSuiteItems)
+            },
+            layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo),//layoutType,
+            containerColor = Color.Transparent,
+            navigationSuiteColors = NavigationSuiteDefaults.colors(
+                navigationBarContentColor = AmwNavigationDefaults.navigationContentColor(),
+                navigationRailContainerColor = Color.Transparent,
+            ),
+            modifier = modifier,
+            state = showBottomBar,
+        ) {
+            content()
+        }
+    }
+
+
 }
 
 /**

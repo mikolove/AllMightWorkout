@@ -2,6 +2,9 @@
 
 package com.mikolove.allmightworkout.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -17,6 +20,7 @@ import com.mikolove.allmightworkout.navigation.AuthRoute
 import com.mikolove.allmightworkout.navigation.HomeRoute
 import com.mikolove.allmightworkout.navigation.NavigationRoot
 import com.mikolove.core.presentation.designsystem.components.AmwNavigationSuiteScaffold
+import com.mikolove.workout.presentation.navigation.WorkoutDetailRoute
 import kotlin.reflect.KClass
 
 
@@ -48,6 +52,7 @@ fun AmwAppRoot(
     )
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun AmwApp(
     modifier: Modifier = Modifier,
@@ -59,99 +64,50 @@ fun AmwApp(
 
     val currentDestination = appState.currentDestination
 
-    AmwNavigationSuiteScaffold(
-        navigationSuiteItems = {
-            appState.topLevelDestinations.forEach { destination ->
-                val selected = currentDestination
-                    .isRouteInHierarchy(destination.baseRoute)
-                item(
-                    selected = selected,
-                    onClick = { appState.navigateToTopLevelDestination(destination) },
-                    icon = {
-                        Icon(
-                            imageVector = destination.unselectedIcon,
-                            contentDescription = null,
+    SharedTransitionLayout {
+        AnimatedVisibility(
+            true,
+        ) {
+            AmwNavigationSuiteScaffold(
+                navigationSuiteItems = {
+                    appState.topLevelDestinations.forEach { destination ->
+                        val selected = currentDestination
+                            .isRouteInHierarchy(destination.baseRoute)
+                        item(
+                            selected = selected,
+                            onClick = { appState.navigateToTopLevelDestination(destination) },
+                            icon = {
+                                Icon(
+                                    imageVector = destination.unselectedIcon,
+                                    contentDescription = null,
+                                )
+                            },
+                            selectedIcon = {
+                                Icon(
+                                    imageVector = destination.selectedIcon,
+                                    contentDescription = null,
+                                )
+                            },
+                            label = { Text(stringResource(destination.iconTextId)) },
                         )
-                    },
-                    selectedIcon = {
-                        Icon(
-                            imageVector = destination.selectedIcon,
-                            contentDescription = null,
-                        )
-                    },
-                    label = { Text(stringResource(destination.iconTextId)) },
+                    }
+                },
+                shouldHideBottomBar =
+                    currentDestination.isRouteInHierarchy(AuthRoute::class) ||
+                    currentDestination.isRouteInHierarchy(WorkoutDetailRoute::class),
+                windowAdaptiveInfo = windowAdaptiveInfo,
+                sharedTransitionScope = this@SharedTransitionLayout,
+
+                ) {
+
+                NavigationRoot(
+                    appState = appState,
+                    route = if(isLoggedIn) HomeRoute else AuthRoute,
+                    sharedTransitionScope = this@SharedTransitionLayout
                 )
             }
-        },
-        shouldHideBottomBar = currentDestination.isRouteInHierarchy(AuthRoute::class),
-        windowAdaptiveInfo = windowAdaptiveInfo,
-
-        ) {
-
-        NavigationRoot(
-            appState = appState,
-            route = if(isLoggedIn) HomeRoute else AuthRoute,
-        )
-
-        /*Scaffold(
-             containerColor = Color.Transparent,
-             contentColor = MaterialTheme.colorScheme.onBackground,
-             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-         ) { padding ->
-             Column(
-                 Modifier
-                     .fillMaxSize()
-                     .padding(padding)
-                     .consumeWindowInsets(padding)
-                     .windowInsetsPadding(
-                         WindowInsets.safeDrawing.only(
-                             WindowInsetsSides.Horizontal,
-                         ),
-                     ),
-             ) {
-
-
-                 val destination = appState.currentTopLevelDestination
-                 var shouldShowTopAppBar = false
-
-                 Timber.d("AmwApp current Destination ${destination}")
-
-                 if(destination != null){
-                     shouldShowTopAppBar = true
-                     AmwTopAppBar(
-                         titleRes = stringResource(destination.titleTextId),
-                         navigationIcon = SearchIcon,
-                         navigationIconContentDescription = stringResource(id = R.string.search_icon_content_description),
-                         actionIcon = MenuMoreIcon,
-                         actionIconContentDescription = stringResource(id = R.string.action_icon_content_description),
-                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                             containerColor = Color.Transparent,
-                         ),
-                         onActionClick = { },
-                         onNavigationClick = {  },
-                     )
-
-                 }
-
-                 Box(
-                     modifier = Modifier.consumeWindowInsets(
-                         if (shouldShowTopAppBar) {
-                             WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
-                         } else {
-                             WindowInsets(0, 0, 0, 0)
-                         },
-                     ),
-                 ) {
-                     NavigationRoot(
-                         appState = appState,
-                         route = if(isLoggedIn) HomeRoute else AuthRoute,
-                     )
-                 }
-
-             }
-         }*/
+        }
     }
-
 }
 
 fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =

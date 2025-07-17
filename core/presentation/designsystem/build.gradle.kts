@@ -17,4 +17,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.material3.navigation.suite)
+    api(libs.androidx.compose.material3.adaptative)
+    api(libs.androidx.compose.material3.adaptative.layout)
+    api(libs.androidx.compose.material3.adaptative.navigation)
 }

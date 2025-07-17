@@ -8,4 +8,10 @@
     <string name="show_password">show password</string>
     <string name="hide_password">hide password</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="workout_name_hint">Enter the name of the workout</string>
+    <string name="workout_name_title">Create new workout</string>
+    <string name="workout_name_additional_info">This must be a valid name</string>
+    <string name="confirm">Confirm</string>">
+    <string name="abort">Abort</string>">
+
 </resources>

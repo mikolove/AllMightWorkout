@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
@@ -68,20 +69,21 @@ fun AmwDropDownTextField(
             if (title != null) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             if (error != null) {
                 Text(
                     text = error,
                     color = MaterialTheme.colorScheme.error,
-                    fontSize = 12.sp
+                    style = MaterialTheme.typography.titleSmall
                 )
             } else if (additionalInfo != null) {
                 Text(
                     text = additionalInfo,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }
@@ -95,19 +97,18 @@ fun AmwDropDownTextField(
             BasicTextField(
                 state = state,
                 textStyle = LocalTextStyle.current.copy(
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 lineLimits = TextFieldLineLimits.SingleLine,
                 readOnly = true,
                 modifier = Modifier
                     .background(
-                        if (isFocused) {
-                            MaterialTheme.colorScheme.primary.copy(
-                                alpha = 0.05f
-                            )
+                        color = if (isFocused) {
+                            MaterialTheme.colorScheme.onPrimary
                         } else {
-                            MaterialTheme.colorScheme.surface
-                        }
+                            Color.Transparent
+                        },
+                        shape = RoundedCornerShape(16.dp)
                     )
                     .border(
                         width = 1.dp,
@@ -116,8 +117,9 @@ fun AmwDropDownTextField(
                         } else {
                             Color.Transparent
                         },
+                        shape = RoundedCornerShape(16.dp)
                     )
-                    .padding(12.dp)
+                    .padding(top=12.dp, bottom = 12.dp)
                     .onFocusChanged {
                         isFocused = it.isFocused
                     }
@@ -134,6 +136,9 @@ fun AmwDropDownTextField(
                         Box(
                             modifier = Modifier
                                 .weight(1f)
+                                .padding(
+                                    start = if(isFocused){16.dp}else{0.dp},
+                                    end = if(isFocused){16.dp}else{0.dp})
                         ) {
                             if(state.text.isEmpty() && !isFocused) {
                                 Text(
@@ -141,6 +146,7 @@ fun AmwDropDownTextField(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                         alpha = 0.4f
                                     ),
+                                    style = MaterialTheme.typography.bodyMedium,
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
@@ -163,7 +169,8 @@ fun AmwDropDownTextField(
             )
             ExposedDropdownMenu(
                 expanded = expanded,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .exposedDropdownSize(),
                 onDismissRequest = { expanded = false},
             ) {
                 options.forEach { option ->
@@ -189,7 +196,7 @@ private fun AmwDropDownTextFieldPreview() {
         AmwDropDownTextField(
             state = rememberTextFieldState(),
             options = listOf("option1", "option2", "option3"),
-            hint = "selected",
+            hint = "Selected",
             title = "Choose one",
             additionalInfo = "Must not be empty",
             modifier = Modifier

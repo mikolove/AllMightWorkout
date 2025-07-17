@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity(){
 
             AmwTheme {
 
-                KoinAndroidContext{
 
                     Surface(
                         modifier = Modifier.fillMaxSize(),
@@ -92,7 +91,7 @@ class MainActivity : ComponentActivity(){
                             ReloadScreen()
                         }
                     }
-                }
+
             }
         }
     }

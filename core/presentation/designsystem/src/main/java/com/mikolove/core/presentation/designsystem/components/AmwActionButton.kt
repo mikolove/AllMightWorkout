@@ -81,7 +81,7 @@ fun AmwActionButton(
                 Text(
                     text = text,
                     modifier = Modifier,
-                    fontWeight = FontWeight.Medium
+                    style = MaterialTheme.typography.bodyMedium
                 )
 
             }

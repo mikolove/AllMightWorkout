@@ -31,6 +31,8 @@ constructor(
 
     override suspend fun getWorkoutById(primaryKey: String): Workout = workoutCacheService.getWorkoutById(primaryKey)
 
+    override fun getWorkout(primaryKey: String): Flow<Workout> = workoutCacheService.getWorkout(primaryKey)
+
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Boolean = workoutCacheService.isExerciseInWorkout(idWorkout,idExercise)
 
     override suspend fun addExerciseToWorkout(

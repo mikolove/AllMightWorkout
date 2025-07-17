@@ -9,7 +9,7 @@
     <string name="example_email">example@email.com</string>
     <string name="email">Email</string>
     <string name="must_be_a_valid_email">Must be a valid email</string>
-    <string name="password">password</string>
+    <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="register_with_google">Register with Google</string>
     <string name="or_continue_with">or</string>

@@ -36,7 +36,7 @@ fun AmwFloatingButton(
         Text(
             text = title,
             modifier = Modifier,
-            fontWeight = FontWeight.Medium
+            style = MaterialTheme.typography.labelLarge
         )
     }
 

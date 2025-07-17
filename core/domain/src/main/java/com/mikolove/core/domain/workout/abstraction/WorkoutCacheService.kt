@@ -18,6 +18,8 @@ interface WorkoutCacheService {
 
     fun getWorkouts(idUser : String,searchQuery : String) : Flow<List<Workout>>
 
+    fun getWorkout(workoutId: String) : Flow<Workout>
+
     fun getWorkoutByWorkoutType(idWorkoutType : List<String>, idUser : String) : Flow<List<Workout>>
 
     fun getWorkoutByWorkoutTypeByGroup(idWorkoutType : List<String>, idGroup : List<String>,idUser : String) : Flow<List<Workout>>

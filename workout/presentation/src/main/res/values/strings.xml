@@ -17,4 +17,10 @@
     <string name="workout_group_name">Groups</string>
     <string name="update_workout">Update workout</string>
     <string name="workout_no_group_name">No groups defined.</string>
+    <string name="create_workout">Create workout</string>
+    <string name="create_workout_hint">enter a valid workout name</string>
+    <string name="workout_detail_title" />
+    <string name="back_icon_content_description">Back</string>
+    <string name="wd_group_title">Groups</string>
+    <string name="wd_exercise_title">Exercises</string>
 </resources>

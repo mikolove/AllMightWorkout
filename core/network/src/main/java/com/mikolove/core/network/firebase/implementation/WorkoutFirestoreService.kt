@@ -22,6 +22,7 @@ import com.mikolove.core.network.util.FirestoreConstants.USERS_COLLECTION
 import com.mikolove.core.network.util.FirestoreConstants.WORKOUTS_COLLECTION
 import com.mikolove.core.network.util.FirestoreConstants.WORKOUT_GROUPS_COLLECTION
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 
 class WorkoutFirestoreService
 constructor(

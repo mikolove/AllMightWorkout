@@ -1,9 +1,11 @@
 package com.mikolove.core.presentation.designsystem.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +24,7 @@ fun AmwChip(
     FilterChip(
         modifier = modifier,
         selected = selected,
-        leadingIcon = if(selected){
+        trailingIcon = if(selected){
             {
                 Icon(
                     imageVector = CheckIcon,
@@ -31,7 +33,7 @@ fun AmwChip(
             }
         }else{ null } ,
         label = {
-            Text(text = title)
+            Text(text = title,style = MaterialTheme.typography.labelLarge)
         },
         onClick = {onClick()}
     )
@@ -55,7 +57,10 @@ fun AmwChip(
                  modifier = Modifier.size(FilterChipDefaults.IconSize))
          },
          label = {
-             Text(text = title)
+             Text(
+                 text = title,
+                 style = MaterialTheme.typography.labelLarge
+             )
          },
          onClick = {onClick()}
      )
@@ -67,7 +72,7 @@ fun AmwChipPreview( ){
     AmwTheme {
         AmwChip(
             modifier = Modifier,
-            "Test",
+            title = "Test",
             selected = true,
             onClick = {}
         )
@@ -80,7 +85,7 @@ fun AmwChipUnSelectedPreview(){
     AmwTheme {
         AmwChip(
             modifier = Modifier,
-            "Test",
+            title = "Test",
             selected = false,
             onClick = {}
         )

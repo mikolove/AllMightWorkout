@@ -14,7 +14,9 @@ interface WorkoutRepository {
 
     fun getWorkoutsWithExercisesWithGroups(workoutTypes : List<String>, groups : List<String>) : Flow<List<Workout>>
 
-    suspend fun getWorkout(workoutId : String) : Result<Workout,DataError>
+    suspend fun getWorkoutById(workoutId : String) : Result<Workout,DataError>
+
+    fun getWorkout(workoutId : String) : Flow<Workout>
 
     suspend fun fetchWorkouts() : EmptyResult<DataError>
 

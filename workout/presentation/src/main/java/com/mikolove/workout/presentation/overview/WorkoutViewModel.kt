@@ -8,21 +8,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mikolove.core.domain.util.Result
 import com.mikolove.core.domain.workout.GroupRepository
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workouttype.WorkoutTypeRepository
+import com.mikolove.core.presentation.ui.asUiText
 import com.mikolove.core.presentation.ui.mapper.toGroupUi
 import com.mikolove.core.presentation.ui.mapper.toIds
 import com.mikolove.core.presentation.ui.mapper.toWorkoutTypeUI
 import com.mikolove.core.presentation.ui.mapper.toWorkoutUi
 import com.mikolove.workout.domain.WorkoutRepository
+import com.mikolove.workout.presentation.upsert.WorkoutUpsertEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class WorkoutViewModel (
     private val workoutTypeRepository: WorkoutTypeRepository,
     private val groupRepository: GroupRepository,
@@ -48,32 +54,26 @@ class WorkoutViewModel (
 
         groupRepository.getGroups()
             .map { groups -> groups.map { it.toGroupUi() } }
-            .onEach{ groups ->
+            .onEach { groups ->
                 state = state.copy(groups = groups)
             }.launchIn(viewModelScope)
 
         combine(
             snapshotFlow { state.workoutTypes },
             snapshotFlow { state.groups },
-        ) {  workoutTypes, groups ->
+        ) { workoutTypes, groups ->
+
             val filteredWorkoutTypes = workoutTypes.toIds()
             val filteredGroups = groups.toIds()
 
-            if(groups.isEmpty()){
-                workoutRepository.getWorkoutsWithExercises(filteredWorkoutTypes).onEach { exercises ->
-                    val workoutsUi = exercises.map { it.toWorkoutUi() }
-                    state = state.copy(workouts = workoutsUi)
+            //Modifie Upsert WOrkout créee un pop up d'ajout et une seule page d"edition de workout c plus smooth
+            workoutRepository.getWorkoutsWithExercisesWithGroups(filteredWorkoutTypes, filteredGroups)
+                .mapLatest { workouts -> workouts.map { it.toWorkoutUi() } }
+                .collect { workouts ->
+                    state = state.copy(workouts = workouts)
                 }
-            }else{
-                workoutRepository.getWorkoutsWithExercisesWithGroups(filteredWorkoutTypes,filteredGroups).onEach { exercises ->
-                    val workoutsUi = exercises.map { it.toWorkoutUi() }
-                    state = state.copy(workouts = workoutsUi)
-                }
-            }
-        }.launchIn(viewModelScope)
-
+        } .launchIn(viewModelScope)
     }
-
 
     fun onAction(action: WorkoutAction){
         when(action) {
@@ -83,7 +83,26 @@ class WorkoutViewModel (
             is WorkoutAction.OnGroupChipClick->{
                 switchGroupChipState(action.chipId)
             }
+            is WorkoutAction.OnCreateWorkoutClick->{
+                createWorkout(action.name)
+            }
             else -> {}
+        }
+    }
+
+    private fun createWorkout(name: String) {
+        val workout = Workout(
+            name =  name.trim()
+        )
+        viewModelScope.launch {
+            when(val cacheResult = workoutRepository.upsertWorkout(workout)){
+                is Result.Error -> {
+                    eventChannel.send(WorkoutEvent.Error(cacheResult.error.asUiText()))
+                }
+                is Result.Success -> {
+                    eventChannel.send(WorkoutEvent.OnCreateWorkout(workout.idWorkout))
+                }
+            }
         }
     }
 

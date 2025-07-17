@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -27,6 +28,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -55,6 +58,9 @@ fun AmwTextField(
     var isFocused by remember {
         mutableStateOf(false)
     }
+
+    //val focusRequester = remember { FocusRequester()}
+
     Column(
         modifier = modifier
     ) {
@@ -67,29 +73,27 @@ fun AmwTextField(
             if(title != null) {
                 Text(
                     text = title,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             if(error != null) {
                 Text(
                     text = error,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.error,
-                    fontSize = 12.sp
                 )
             } else if(additionalInfo != null) {
                 Text(
                     text = additionalInfo,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
                 )
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
         BasicTextField(
             state = state,
-            textStyle = LocalTextStyle.current.copy(
-                color = MaterialTheme.colorScheme.onBackground
-            ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType
             ),
@@ -97,13 +101,12 @@ fun AmwTextField(
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
             modifier = Modifier
                 .background(
-                    if (isFocused) {
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f
-                        )
+                    color= if (isFocused) {
+                        MaterialTheme.colorScheme.onPrimary
                     } else {
-                        MaterialTheme.colorScheme.surface
-                    }
+                        Color.Transparent
+                    },
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .border(
                     width = 1.dp,
@@ -112,8 +115,9 @@ fun AmwTextField(
                     } else {
                         Color.Transparent
                     },
+                    shape = RoundedCornerShape(16.dp)
                 )
-                .padding(12.dp)
+                .padding(top=12.dp, bottom = 12.dp)
                 .onFocusChanged {
                     isFocused = it.isFocused
                 },
@@ -134,10 +138,14 @@ fun AmwTextField(
                     Box(
                         modifier = Modifier
                             .weight(1f)
+                            .padding(
+                                start = if(isFocused){16.dp}else{0.dp},
+                                end = if(isFocused){16.dp}else{0.dp})
                     ) {
                         if(state.text.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                     alpha = 0.4f
                                 ),
@@ -171,6 +179,23 @@ private fun AmwTextFieldPreview() {
             state = rememberTextFieldState(),
             startIcon = EmailIcon,
             endIcon = CheckIcon,
+            hint = "example@test.com",
+            title = "Email",
+            additionalInfo = "Must be a valid email",
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AmwTextFieldNoIconPreview() {
+    AmwTheme {
+        AmwTextField(
+            state = rememberTextFieldState(),
+            startIcon = null,
+            endIcon = null,
             hint = "example@test.com",
             title = "Email",
             additionalInfo = "Must be a valid email",

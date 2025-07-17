@@ -2,7 +2,9 @@ package com.mikolove.workout.presentation.overview
 
 sealed interface WorkoutAction{
 
-    data class OnUpsertWorkoutClick(val workoutId : String) : WorkoutAction
+    data class OnWorkoutClick(val workoutId : String) : WorkoutAction
+
+    data class OnCreateWorkoutClick(val name : String) : WorkoutAction
 
     data object OnSearchClick : WorkoutAction
 

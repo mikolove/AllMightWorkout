@@ -3,21 +3,22 @@ package com.mikolove.workout.presentation.upsert
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.mikolove.core.domain.util.Result
-import com.mikolove.core.domain.util.map
 import com.mikolove.core.domain.workout.GroupRepository
-import com.mikolove.core.domain.workout.WorkoutFactory
+import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.presentation.ui.asUiText
 import com.mikolove.core.presentation.ui.mapper.toGroup
 import com.mikolove.core.presentation.ui.mapper.toGroupUi
 import com.mikolove.workout.domain.WorkoutRepository
 import com.mikolove.workout.presentation.navigation.WorkoutUpsertRoute
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -42,37 +43,59 @@ class WorkoutUpsertViewModel(
         groupRepository.getGroups()
             .map { groups -> groups.map { it.toGroupUi() } }
             .onEach { groups ->
-                if(state.workoutId.isNotBlank()){
-                    when (val cacheWorkout = workoutRepository.getWorkout(state.workoutId)) {
+                if (state.workoutId.isNotBlank()) {
+                    when (val cacheWorkout = workoutRepository.getWorkoutById(state.workoutId)) {
                         is Result.Error -> {
                             eventChannel.send(WorkoutUpsertEvent.Error(cacheWorkout.error.asUiText()))
                         }
+
                         is Result.Success -> {
 
                             val workout = cacheWorkout.data
 
+                            state = state.copy(
+                                originalName = workout.name,
+                                originalGroups = workout.groups,
+                                originalCreatedAt = workout.createdAt
+                            )
+
                             state.nameSelected.edit { append(workout.name) }
 
-                            val listOfGroupSelected = workout.groups.map { group -> group.idGroup}
+                            val listOfGroupSelected = workout.groups.map { group -> group.idGroup }
 
-                            if(groups.isNotEmpty()){
+                            if (groups.isNotEmpty()) {
                                 val groupsUi = groups.map { groupUi ->
-                                    if(groupUi.idGroup in listOfGroupSelected ){
+                                    if (groupUi.idGroup in listOfGroupSelected) {
                                         groupUi.copy(selected = false)
-                                    }else{
+                                    } else {
                                         groupUi
-                                    }}
+                                    }
+                                }
 
                                 state = state.copy(
                                     groups = groupsUi,
-                                    groupsSelected = workout.groups.toMutableStateList())
+                                    groupsSelected = workout.groups.toMutableStateList()
+                                )
                             }
                         }
                     }
-                }else{
+                } else {
                     state = state.copy(groups = groups)
                 }
             }.launchIn(viewModelScope)
+
+        combine(
+            snapshotFlow { state.nameSelected.text },
+            snapshotFlow { state.groupsSelected.toList() }
+            ) { name, groups ->
+
+                state = if(name.isNotBlank()) {
+                    state.copy(isWorkoutValid = true)
+                }else {
+                    state.copy(isWorkoutValid = false)
+                }
+
+        }.launchIn(viewModelScope)
 
     }
 
@@ -82,10 +105,7 @@ class WorkoutUpsertViewModel(
                 switchChipState(action.chipId)
             }
             is WorkoutUpsertAction.OnUpsertClick -> {
-                if(state.workoutId.isNotBlank())
-                    updateWorkout()
-                else
-                    createWorkout()
+                upsertWorkout()
             }
             else -> Unit
         }
@@ -107,25 +127,28 @@ class WorkoutUpsertViewModel(
         )
     }
 
-    private fun createWorkout(){
+    private fun upsertWorkout(){
 
-    }
+        val workout = Workout(
+            name = state.nameSelected.text.toString().trim(),
+            groups = state.groupsSelected.toList(),
+        )
 
-    private fun updateWorkout(){
+        if(state.workoutId.isNotBlank()) {
+            workout.idWorkout = state.workoutId
+            workout.createdAt = state.originalCreatedAt
+        }
+
         viewModelScope.launch {
-
-        /*    val cacheWorkout = workoutRepository.getWorkout(state.workoutId).map { it }
+            when(val cacheResult = workoutRepository.upsertWorkout(workout)){
                 is Result.Error -> {
-                    eventChannel.send(WorkoutUpsertEvent.Error(cacheWorkout.error.asUiText()))
+                    eventChannel.send(WorkoutUpsertEvent.Error(cacheResult.error.asUiText()))
                 }
                 is Result.Success -> {
-                    val workout = cacheWorkout.data
-                    workout.name = state.nameSelected.text.toString().trim()
-                    workout.groups = state.groupsSelected.toList()
-                    workoutRepository.upsertWorkout(workout)
-                }*/
-
+                    eventChannel.send(WorkoutUpsertEvent.OnFinish(workout.idWorkout))
+                }
             }
         }
+    }
 
 }

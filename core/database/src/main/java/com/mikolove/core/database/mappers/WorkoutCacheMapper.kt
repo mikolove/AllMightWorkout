@@ -5,6 +5,19 @@ import com.mikolove.core.database.model.WorkoutWithExercisesCacheEntity
 import com.mikolove.core.database.model.WorkoutWithExercisesWithGroupsCacheEntity
 import com.mikolove.core.domain.workout.Workout
 
+fun WorkoutCacheEntity.toWorkout() : Workout{
+    return Workout(
+        idWorkout = idWorkout,
+        name = name,
+        exercises = listOf(),
+        groups = listOf(),
+        isActive = isActive,
+        startedAt = null,
+        endedAt = null,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 fun WorkoutWithExercisesCacheEntity.toWorkout() : Workout{
     return Workout(
         idWorkout = workoutCacheEntity.idWorkout,

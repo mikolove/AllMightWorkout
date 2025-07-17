@@ -1,5 +1,8 @@
 package com.mikolove.allmightworkout.navigation
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -21,6 +24,7 @@ import kotlinx.serialization.Serializable
 fun NavController.navigateToAuth(navOptions: NavOptions) =
     navigate(AuthRoute, navOptions)
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.authsGraph(
     navController: NavHostController,
 ){
@@ -33,7 +37,7 @@ fun NavGraphBuilder.authsGraph(
                 },
                 onSignInClick = {
                     navController.navigate(LoginRoute)
-                }
+                },
             )
         }
 

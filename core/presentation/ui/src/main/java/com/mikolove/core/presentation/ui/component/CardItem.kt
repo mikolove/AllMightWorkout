@@ -1,5 +1,18 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalAnimationApi::class)
+
 package com.mikolove.core.presentation.ui.component
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,38 +38,53 @@ import com.mikolove.core.presentation.ui.R
 @Composable
 fun WorkoutCardItem(
     workoutUi: WorkoutUi,
+    containerAnimationKey : String,
+    titleAnimationKey : String,
     onCardItemClick : () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ){
-    ElevatedCard(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
-        modifier = modifier
-            .padding(8.dp),
-        onClick = { onCardItemClick() }
-    ) {
+    with(sharedTransitionScope){
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 6.dp
+            ),
+            modifier = modifier
+                .padding(8.dp)
+                .sharedBounds(
+                    sharedContentState = sharedTransitionScope.rememberSharedContentState(key = "$containerAnimationKey-${workoutUi.idWorkout}"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
+                ),
+            onClick = { onCardItemClick() }
+        ) {
 
-        Text(
-            text = workoutUi.name,
-            modifier = Modifier
-                .padding(8.dp),
-            textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.typography.headlineSmall.fontSize
-        )
+            Text(
+                text = workoutUi.name,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .sharedElement(
+                        sharedContentState = sharedTransitionScope.rememberSharedContentState(key ="$titleAnimationKey-${workoutUi.idWorkout}"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+            )
 
-        ExerciseSection(
-            modifier = Modifier
-                .padding(8.dp),
-            exercises = workoutUi.exercises,
-        )
+            ExerciseSection(
+                modifier = Modifier
+                    .padding(8.dp),
+                exercises = workoutUi.exercises,
+            )
 
-        DateSection(
-            modifier = Modifier
-                .padding(8.dp),
-            createdAt = workoutUi.createdAt
-        )
+            DateSection(
+                modifier = Modifier
+                    .padding(8.dp),
+                createdAt = workoutUi.createdAt
+            )
 
+        }
     }
 }
 
@@ -73,7 +101,7 @@ fun ExerciseSection(
     ){
         Text(
             text = "${exercises.size} "+stringResource(R.string.exercises),
-            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            style = MaterialTheme.typography.bodyMedium,
             fontStyle = FontStyle.Italic,
         )
     }
@@ -93,7 +121,7 @@ fun DateSection(
 
         Text(
             text = stringResource(R.string.created_at).plus(" $createdAt"),
-            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            style = MaterialTheme.typography.bodyMedium,
             fontStyle = FontStyle.Italic,
         )
     }
@@ -109,8 +137,7 @@ fun ExerciseCardItem(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
-        modifier = modifier
-            .padding(8.dp),
+        modifier = modifier,
         onClick = { onCardItemClick() }
     ) {
 
@@ -119,7 +146,7 @@ fun ExerciseCardItem(
             modifier = Modifier
                 .padding(8.dp),
             textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.typography.headlineSmall.fontSize
+            style = MaterialTheme.typography.bodyLarge
         )
 
         BodyPartSection(
@@ -150,7 +177,7 @@ fun BodyPartSection(
     ){
         Text(
             text = bodyParts.joinToString { it.name },
-            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             fontStyle = FontStyle.Italic,
         )
     }
@@ -188,49 +215,59 @@ fun ExerciseCardItemPreview(){
 @Composable
 fun WorkoutCardItemPreview(){
     AmwTheme{
-        WorkoutCardItem(
-            workoutUi = WorkoutUi(
-                idWorkout = "id065181",
-                name = "Workout Name",
-                exercises = listOf(
-                    ExerciseUi(
-                        "id065181",
-                        name = "Exercise Name",
-                        //sets = emptyList(),
-                        bodyPart = listOf(
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "1234" , name = "Body Part 2")
+        SharedTransitionLayout {
+            AnimatedVisibility(
+                true
+            ) {
+                WorkoutCardItem(
+                    workoutUi = WorkoutUi(
+                        idWorkout = "id065181",
+                        name = "Workout Name",
+                        exercises = listOf(
+                            ExerciseUi(
+                                "id065181",
+                                name = "Exercise Name",
+                                //sets = emptyList(),
+                                bodyPart = listOf(
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "1234" , name = "Body Part 2")
+                                ),
+                                exerciseType = "Exercise Type",
+                                isActive = true,
+                                createdAt = "01/01/2024 10:00",
+                                updatedAt = "01/01/2024 10:00"
+                            ), ExerciseUi(
+                                "id065182",
+                                name = "Exercise Name",
+                                //sets = emptyList(),
+                                bodyPart = listOf(
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
+                                    BodyPartUi(idBodyPart = "1234" , name = "Body Part 2")
+                                ),
+                                exerciseType = "Exercise Type",
+                                isActive = true,
+                                createdAt = "01/01/2024 10:00",
+                                updatedAt = "01/01/2024 10:00"
+                            )
                         ),
-                        exerciseType = "Exercise Type",
                         isActive = true,
                         createdAt = "01/01/2024 10:00",
-                        updatedAt = "01/01/2024 10:00"
-                    ), ExerciseUi(
-                        "id065182",
-                        name = "Exercise Name",
-                        //sets = emptyList(),
-                        bodyPart = listOf(
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "123" , name = "Body Part 1"),
-                            BodyPartUi(idBodyPart = "1234" , name = "Body Part 2")
-                        ),
-                        exerciseType = "Exercise Type",
-                        isActive = true,
-                        createdAt = "01/01/2024 10:00",
-                        updatedAt = "01/01/2024 10:00"
-                    )
-                ),
-                isActive = true,
-                createdAt = "01/01/2024 10:00",
-                updatedAt = "01/01/2024 10:00",
-                startedAt = "01/01/2024 10:00",
-                endedAt = "01/01/2024 10:00"
-            ),
-            onCardItemClick = {},
-            modifier = Modifier
-        )
+                        updatedAt = "01/01/2024 10:00",
+                        startedAt = "01/01/2024 10:00",
+                        endedAt = "01/01/2024 10:00"
+                    ),
+                    onCardItemClick = {},
+                    modifier = Modifier,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@AnimatedVisibility,
+                    containerAnimationKey = "w-container",
+                    titleAnimationKey = "w-title"
+                )
+            }
+        }
     }
 }

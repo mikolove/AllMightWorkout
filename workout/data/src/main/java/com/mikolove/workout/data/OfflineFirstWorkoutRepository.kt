@@ -9,6 +9,7 @@ import com.mikolove.core.domain.util.Result
 import com.mikolove.core.domain.util.asEmptyDataResult
 import com.mikolove.core.domain.util.map
 import com.mikolove.core.domain.workout.Workout
+import com.mikolove.core.domain.workout.abstraction.GroupCacheDataSource
 import com.mikolove.core.domain.workout.abstraction.WorkoutCacheDataSource
 import com.mikolove.core.domain.workout.abstraction.WorkoutNetworkDataSource
 import com.mikolove.workout.domain.WorkoutRepository
@@ -17,6 +18,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 class OfflineFirstWorkoutRepository(
     private val workoutCacheDataSource: WorkoutCacheDataSource,
@@ -30,10 +32,14 @@ class OfflineFirstWorkoutRepository(
         emitAll(workoutCacheDataSource.getWorkouts(userId,searchQuery))
     }
 
-    override suspend fun getWorkout(workoutId: String): Result<Workout, DataError> {
+    override suspend fun getWorkoutById(workoutId: String): Result<Workout, DataError> {
         return safeCacheCall {
             workoutCacheDataSource.getWorkoutById(workoutId)
         }.map { it }
+    }
+
+    override fun getWorkout(workoutId: String): Flow<Workout> {
+        return workoutCacheDataSource.getWorkout(workoutId)
     }
 
     override fun getWorkoutsWithExercises(workoutTypes: List<String>): Flow<List<Workout>> = flow{
@@ -45,7 +51,14 @@ class OfflineFirstWorkoutRepository(
         workoutTypes: List<String>,
         groups: List<String>
     ): Flow<List<Workout>> = flow {
+
+        Timber.d("WTFF")
         val userId = sessionStorage.get()?.userId ?: return@flow
+
+        Timber.d("workoutTypes $workoutTypes")
+        Timber.d("idGroup $groups")
+        Timber.d("idUser $userId")
+
         emitAll(workoutCacheDataSource.getWorkoutByWorkoutTypeByGroup(
             workoutTypes,
             groups,
@@ -75,7 +88,16 @@ class OfflineFirstWorkoutRepository(
         }
         if(workoutCacheResult !is Result.Success){
             return workoutCacheResult.asEmptyDataResult()
+        }
 
+        workout.groups.forEach { group ->
+
+            val groupCacheResult = safeCacheCall {
+                workoutCacheDataSource.addWorkoutToGroup(workout.idWorkout, group.idGroup)
+            }
+            if(groupCacheResult !is Result.Success){
+                return groupCacheResult.asEmptyDataResult()
+            }
         }
 
         val networkResult = safeApiCall {

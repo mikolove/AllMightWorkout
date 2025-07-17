@@ -12,6 +12,7 @@ import com.mikolove.core.domain.workout.Workout
 import com.mikolove.core.domain.workout.abstraction.WorkoutCacheService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import java.time.ZonedDateTime
 
 class WorkoutDaoService(
@@ -40,7 +41,12 @@ class WorkoutDaoService(
         return workoutDao.getWorkoutById(primaryKey).toWorkout()
     }
 
-    override  fun getWorkouts(idUser: String,searchQuery: String): Flow<List<Workout>> {
+    override fun getWorkout(workoutId: String): Flow<Workout> {
+        return workoutDao.getWorkout(primaryKey = workoutId)
+            .map { entity -> entity.toWorkout() }
+    }
+
+    override  fun getWorkouts(idUser: String, searchQuery: String): Flow<List<Workout>> {
         return workoutDao.getWorkouts(idUser,searchQuery)
             .map { entities ->
                 entities.map { it.toWorkout() }
@@ -48,7 +54,7 @@ class WorkoutDaoService(
     }
 
     override  fun getWorkoutByWorkoutType(idWorkoutType: List<String>, idUser: String): Flow<List<Workout>> {
-        return workoutDao.getWorkoutWithExercises(idWorkoutType, idUser)
+        return workoutDao.getWorkoutsWithExercises(idWorkoutType, idUser)
             .map { entities ->
                 entities.map {
                     it.toWorkout()
@@ -61,12 +67,32 @@ class WorkoutDaoService(
         idGroup: List<String>,
         idUser: String
     ): Flow<List<Workout>> {
-        return workoutDao.getWorkoutWithExercisesWithGroups(idWorkoutType,idGroup,idUser)
-            .map { entities ->
-            entities.map {
-                it.toWorkout()
-            }
+
+        if(idGroup.isNotEmpty()){
+            return workoutDao.getWorkoutsWithExercisesWithGroups(idGroup,idUser)
+                .map { entities ->
+                    entities.map {
+                        it.toWorkout()
+                    }
+                }
+        }else if(idWorkoutType.isNotEmpty()){
+            return workoutDao.getWorkoutsWithExercisesWithGroupsWithWorkoutTypes(idWorkoutType,idGroup,idUser)
+                .map { entities ->
+                    entities.map {
+                        it.toWorkout()
+                    }
+                }
+        }else{
+            return workoutDao.getWorkoutsWithExercises(idUser)
+                .map { entities ->
+                    entities.map {
+                        it.toWorkout()
+                    }
+                }
         }
+         //TODO BUG dans la requete tu reprend d'ici getWorkoutsWithExercisesWithGroups ne fonctionne pas.
+        //IL faut se décider sois on filtre à la requete sois on filtre le resultat
+
     }
 
     override suspend fun isExerciseInWorkout(idWorkout: String, idExercise: String): Boolean {

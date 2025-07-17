@@ -16,16 +16,6 @@ data class Workout(
     var updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) {
 
-    fun start(){
-        startedAt = ZonedDateTime.now()
-    }
-
-    fun stop(){
-        endedAt = ZonedDateTime.now()
-    }
-
-
-
     override fun hashCode(): Int {
         var result = idWorkout.hashCode()
         result = 31 * result + name.hashCode()

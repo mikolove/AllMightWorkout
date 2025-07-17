@@ -24,6 +24,8 @@ interface WorkoutCacheDataSource {
 
     suspend fun getWorkoutById(primaryKey : String) : Workout
 
+    fun getWorkout(primaryKey : String) : Flow<Workout>
+
     //link exercise
     suspend fun isExerciseInWorkout( idWorkout: String , idExercise: String ) : Boolean
 
